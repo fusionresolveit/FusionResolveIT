@@ -39,11 +39,11 @@ class Devicedrive extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicedrivemodel');
+    return $this->belongsTo('\App\Models\Devicedrivemodel', 'devicedrivemodel_id');
   }
 
   public function interface(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Interfacetype');
+    return $this->belongsTo('\App\Models\Interfacetype', 'interfacetype_id');
   }
 }

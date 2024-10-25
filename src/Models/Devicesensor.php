@@ -36,6 +36,6 @@ class Devicesensor extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicesensortype');
+    return $this->belongsTo('\App\Models\Devicesensortype', 'devicesensortype_id');
   }
 }

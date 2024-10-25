@@ -28,6 +28,6 @@ class Document extends Common
 
   public function categorie(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Documentcategory');
+    return $this->belongsTo('\App\Models\Documentcategory', 'documentcategory_id');
   }
 }

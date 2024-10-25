@@ -36,6 +36,6 @@ class Devicepowersupply extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicepowersupplymodel');
+    return $this->belongsTo('\App\Models\Devicepowersupplymodel', 'devicepowersupplymodel_id');
   }
 }

@@ -36,6 +36,6 @@ class Devicenetworkcard extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicenetworkcardmodel');
+    return $this->belongsTo('\App\Models\Devicenetworkcardmodel', 'devicenetworkcardmodel_id');
   }
 }

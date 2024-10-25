@@ -31,10 +31,10 @@ class Contact extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Contacttype');
+    return $this->belongsTo('\App\Models\Contacttype', 'contacttype_id');
   }
   public function title(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Usertitle');
+    return $this->belongsTo('\App\Models\Usertitle', 'usertitle_id');
   }
 }

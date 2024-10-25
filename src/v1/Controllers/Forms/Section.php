@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Section extends \App\v1\Controllers\Common
 {
+  protected $model = '\App\Models\Forms\Section';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Forms\Section();
@@ -17,7 +19,7 @@ final class Section extends \App\v1\Controllers\Common
 
   public function showItem(Request $request, Response $response, $args): Response
   {
-    $item = new \App\Models\Forms\Section();
+    $item = \App\Models\Forms\Section::find($args['id']);
     return $this->commonShowItem($request, $response, $args, $item);
   }
 
@@ -27,7 +29,7 @@ final class Section extends \App\v1\Controllers\Common
     return $this->commonUpdateItem($request, $response, $args, $item);
   }
 
-  public function showQuestions(Request $request, Response $response, $args): Response
+  public function showSubQuestions(Request $request, Response $response, $args): Response
   {
     global $translator;
 
@@ -46,23 +48,73 @@ final class Section extends \App\v1\Controllers\Common
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/questions');
+    $rootUrl2 = rtrim($rootUrl, '/sections/' . $args['id']);
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata();
-    $viewData->addHeaderTitle('GSIT - ' . $item->getTitle(1));
-    $viewData->addHeaderMenu(\App\v1\Controllers\Menu::getMenu($request));
-    $viewData->addHeaderRootpath(\App\v1\Controllers\Toolbox::getRootPath($request));
-    $viewData->addHeaderName($item->getTitle(1));
-    $viewData->addHeaderId($myItem->id);
-    $viewData->addIconId($item->getIcon());
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('questions', $questions);
     $viewData->addData('src', 'section');
+    $viewData->addData('rootUrl2', $rootUrl2);
 
     $viewData->addTranslation('question', $translator->translatePlural('Question', 'Questions', 1));
 
     return $view->render($response, 'subitem/questions.html.twig', (array)$viewData);
+  }
+
+  public function showSubForms(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new \App\Models\Forms\Section;
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('forms')->find($args['id']);
+
+    $forms = [];
+    foreach ($myItem->forms as $form) {
+      $forms[] = [
+        'id' => $form->id,
+        'name' => $form->name,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/forms');
+    $rootUrl2 = rtrim($rootUrl, '/sections/' . $args['id']);
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('forms', $forms);
+    $viewData->addData('src', 'section');
+    $viewData->addData('rootUrl2', $rootUrl2);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+
+    return $view->render($response, 'subitem/forms.html.twig', (array)$viewData);
+  }
+
+  protected function getInformationTop($item, $request)
+  {
+    global $translator;
+
+    $myItem = $item::with('forms')->find($item->id);
+
+    $tabInfos = [];
+    foreach ($myItem->forms as $form) {
+      $tabInfos[] =
+        [
+          'key'   => 'form_' . $form->id,
+          'value' => $translator->translate('Formulaire impacté') . ' : ' . $form->name,
+          'link'  => null,
+        ];
+    }
+
+    return $tabInfos;
   }
 }

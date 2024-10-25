@@ -2804,7 +2804,7 @@ final class Tables95 extends AbstractMigration
           ->addIndex(['ipnetwork_id', 'vlan_id'], ['name' => 'link', 'unique' => true])
           ->create();
 
-    $table = $this->table('item_disk');
+    $table = $this->table('itemdisks');
     $table->addColumn('name', 'string', ['null' => true])
           ->addColumn('created_at', 'timestamp', ['null' => true])
           ->addColumn('updated_at', 'timestamp', ['null' => true])

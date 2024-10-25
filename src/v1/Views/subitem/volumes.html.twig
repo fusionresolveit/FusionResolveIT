@@ -1,0 +1,96 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui stackable cards">
+  {% for volume in data.volumes|sort((a, b) => a.volume.name|lower <=> b.volume.name|lower) %}
+    <div class="ui card">
+      <div class="content">
+        <div class="header">{{ volume.name }}</div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.auto }}</a>
+              <div class="description">
+                  {% if volume.auto == 1 %}
+                      <i class="check circle outline icon"></i>{{ volume.auto_val }}
+                  {% else %}
+                      <i class="times circle outline icon"></i>{{ volume.auto_val }}
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.device }}</a>
+              <div class="description">{{ volume.device }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.mountpoint }}</a>
+              <div class="description">{{ volume.mountpoint }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.filesystem }}</a>
+              <div class="description">{{ volume.filesystem }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.totalsize }}</a>
+              <div class="description">{{ volume.totalsize }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.freesize }}</a>
+              <div class="description">{{ volume.freesize }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.usedpercent }}</a>
+              <div class="ui progress" data-percent="{{ volume.usedpercent }}">
+                <div class="teal bar" style="width: {{ volume.usedpercent }}%;">
+                  <div class="progress">{{ volume.usedpercent }}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.encryption }}</a>
+              <div class="description">{{ volume.encryption_status_val }}</div>
+            </div>
+          </div>
+          {% if volume.encryption_status != 0 %}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.encryption_algorithm }}</a>
+              <div class="description">{{ volume.encryption_algorithm }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.encryption_tool }}</a>
+              <div class="description">{{ volume.encryption_tool }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.encryption_type }}</a>
+              <div class="description">{{ volume.encryption_type }}</div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{{ include('footer.html.twig') }}

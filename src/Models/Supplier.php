@@ -28,6 +28,6 @@ class Supplier extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Suppliertype');
+    return $this->belongsTo('\App\Models\Suppliertype', 'suppliertype_id');
   }
 }

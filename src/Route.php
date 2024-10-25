@@ -63,11 +63,16 @@ final class Route
         {
           $computerId->map(['GET'], '', \App\v1\Controllers\Computer::class . ':showItem');
           $computerId->map(['POST'], '', \App\v1\Controllers\Computer::class . ':updateItem');
-          $computerId->map(['GET'], '/operatingsystem', \App\v1\Controllers\Computer::class . ':showOperatingSystem');
 
           $computerId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Computer::class . ':showOperatingSystem');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Computer::class . ':showSubSoftwares');
+            $sub->map(['GET'], 'components', \App\v1\Controllers\Computer::class . ':showComponents');
+            $sub->map(['GET'], 'volumes', \App\v1\Controllers\Computer::class . ':showVolumes');
+            $sub->map(['GET'], 'virtualization', \App\v1\Controllers\Computer::class . ':showVirtualization');
+            $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Computer::class . ':showExternalLinks');
+            $sub->map(['GET'], 'certificates', \App\v1\Controllers\Computer::class . ':showCertificates');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Computer::class . ':showSubHistory');
           });
         });
@@ -1958,11 +1963,10 @@ final class Route
           // $formId->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':updateItem');
           $formId->group('/', function (RouteCollectorProxy $sub)
           {
-            $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Form::class . ':showSections');
-            $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Form::class . ':showQuestions');
-          //   $sub->map(['GET'], 'problem', \App\v1\Controllers\Forms\Form::class . ':showProblem');
-          //   $sub->map(['POST'], 'problem', \App\v1\Controllers\Forms\Form::class . ':postProblem');
-          //   $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Form::class . ':showHistory');
+            $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Form::class . ':showSubSections');
+            $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Form::class . ':showSubQuestions');
+            $sub->map(['GET'], 'answers', \App\v1\Controllers\Forms\Form::class . ':showSubAnswers');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Form::class . ':showSubHistory');
           });
         });
       });
@@ -1983,10 +1987,9 @@ final class Route
           // $sectionId->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':updateItem');
           $sectionId->group('/', function (RouteCollectorProxy $sub)
           {
-            $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Section::class . ':showQuestions');
-          //   $sub->map(['GET'], 'problem', \App\v1\Controllers\Forms\Section::class . ':showProblem');
-          //   $sub->map(['POST'], 'problem', \App\v1\Controllers\Forms\Section::class . ':postProblem');
-          //   $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Section::class . ':showHistory');
+            $sub->map(['GET'], 'forms', \App\v1\Controllers\Forms\Section::class . ':showSubForms');
+            $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Section::class . ':showSubQuestions');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Section::class . ':showSubHistory');
           });
         });
       });
@@ -2005,13 +2008,33 @@ final class Route
         {
           $questionId->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showItem');
           // $questionId->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':updateItem');
-          // $questionId->group('/', function (RouteCollectorProxy $sub)
-          // {
-          //   $sub->map(['GET'], 'stats', \App\v1\Controllers\Forms\Question::class . ':showStats');
-          //   $sub->map(['GET'], 'problem', \App\v1\Controllers\Forms\Question::class . ':showProblem');
-          //   $sub->map(['POST'], 'problem', \App\v1\Controllers\Forms\Question::class . ':postProblem');
-          //   $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Question::class . ':showHistory');
-          // });
+          $questionId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Question::class . ':showSubSections');
+            $sub->map(['GET'], 'forms', \App\v1\Controllers\Forms\Question::class . ':showSubForms');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Question::class . ':showSubHistory');
+          });
+        });
+      });
+      $view->group('/answers', function (RouteCollectorProxy $answers)
+      {
+        $answers->map(['GET'], '', \App\v1\Controllers\Forms\Answer::class . ':getAll');
+        // $answers->map(['POST'], '', \App\v1\Controllers\Forms\Answer::class . ':postItem');
+
+        // $answers->group("/new", function (RouteCollectorProxy $answerNew)
+        // {
+        //   $answerNew->map(['GET'], '', \App\v1\Controllers\Forms\Answer::class . ':showNewItem');
+        //   $answerNew->map(['POST'], '', \App\v1\Controllers\Forms\Answer::class . ':newItem');
+        // });
+
+        $answers->group("/{id:[0-9]+}", function (RouteCollectorProxy $answerId)
+        {
+          $answerId->map(['GET'], '', \App\v1\Controllers\Forms\Answer::class . ':showAnswer');
+          // $answerId->map(['POST'], '', \App\v1\Controllers\Forms\Answer::class . ':updateItem');
+          $answerId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Answer::class . ':showSubHistory');
+          });
         });
       });
 

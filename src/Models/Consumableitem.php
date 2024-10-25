@@ -41,7 +41,7 @@ class Consumableitem extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Consumableitemtype');
+    return $this->belongsTo('\App\Models\Consumableitemtype', 'consumableitemtype_id');
   }
 
   public function manufacturer(): BelongsTo

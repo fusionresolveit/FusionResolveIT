@@ -37,10 +37,9 @@ class Form
       [
         'id'    => 5,
         'title' => $translator->translate('Active'),
-        'type'  => 'dropdown',
+        'type'  => 'boolean',
         'name'  => 'is_active',
         'dbname'  => 'is_active',
-        'values' => self::getIsActive(),
       ],
       // [
       //   'id'    => 6,
@@ -52,18 +51,16 @@ class Form
       [
         'id'    => 7,
         'title' => $translator->translate('Child entities'),
-        'type'  => 'dropdown',
+        'type'  => 'boolean',
         'name'  => 'is_recursive',
         'dbname'  => 'is_recursive',
-        'values' => self::getIsRecursive(),
       ],
       [
         'id'    => 9,
         'title' => $translator->translate('Default form in service catalog'),
-        'type'  => 'dropdown',
+        'type'  => 'boolean',
         'name'  => 'is_homepage',
         'dbname'  => 'is_homepage',
-        'values' => self::getIsHomepage(),
       ],
       [
         'id'    => 10,
@@ -94,45 +91,6 @@ class Form
     ];
   }
 
-  public static function getIsActive()
-  {
-    global $translator;
-    return [
-      0 => [
-        'title' => $translator->translate('No'),
-      ],
-      1 => [
-        'title' => $translator->translate('Yes'),
-      ],
-    ];
-  }
-
-  public static function getIsRecursive()
-  {
-    global $translator;
-    return [
-      0 => [
-        'title' => $translator->translate('No'),
-      ],
-      1 => [
-        'title' => $translator->translate('Yes'),
-      ],
-    ];
-  }
-
-  public static function getIsHomepage()
-  {
-    global $translator;
-    return [
-      0 => [
-        'title' => $translator->translate('No'),
-      ],
-      1 => [
-        'title' => $translator->translate('Yes'),
-      ],
-    ];
-  }
-
   public static function getRelatedPages($rootUrl)
   {
     global $translator;
@@ -151,6 +109,11 @@ class Form
         'title' => $translator->translatePlural('Question', 'Questions', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/questions',
+      ],
+      [
+        'title' => $translator->translatePlural('Answer', 'Answers', 2),
+        'icon' => 'caret square down outline',
+        'link' => $rootUrl . '/answers',
       ],
       // [
       //   'title' => $translator->translatePlural('Access type', 'Access types', 2),
@@ -175,7 +138,7 @@ class Form
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
       // [
       //   'title' => $translator->translate('Boutique'),

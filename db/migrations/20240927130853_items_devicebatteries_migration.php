@@ -37,7 +37,7 @@ final class ItemsDevicebatteriesMigration extends AbstractMigration
           [
             'id'                  => $row['id'],
             'item_id'             => $row['items_id'],
-            'item_type'           => $row['itemtype'],
+            'item_type'           => 'App\\Models\\' . $row['itemtype'],
             'devicebattery_id'    => $row['devicebatteries_id'],
             'manufacturing_date'  => $row['manufacturing_date'],
             'is_dynamic'          => $row['is_dynamic'],

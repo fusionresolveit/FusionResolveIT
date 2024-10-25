@@ -47,12 +47,12 @@ class Passivedcequipment extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Passivedcequipmenttype');
+    return $this->belongsTo('\App\Models\Passivedcequipmenttype', 'passivedcequipmenttype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Passivedcequipmentmodel');
+    return $this->belongsTo('\App\Models\Passivedcequipmentmodel', 'passivedcequipmentmodel_id');
   }
 
   public function state(): BelongsTo

@@ -1,0 +1,309 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+
+
+<div class="ui stackable cards">
+  {% for firmware in data.firmwares|sort((a, b) => a.firmware.name|lower <=> b.firmware.name|lower) %}
+    <div class="ui {{ firmware.color }} card">
+      <div class="content">
+        <div class="header">{{ firmware.name }}</div>
+        <div class="meta"><span class="ui {{ firmware.color }} text">{{ translation.firmware }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ firmware.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.type }}</a>
+              <div class="description">{{ firmware.type }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.version }}</a>
+              <div class="description">{{ firmware.version }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.install_date }}</a>
+              <div class="description">{{ firmware.date }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ firmware.location }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for processor in data.processors|sort((a, b) => a.processor.name|lower <=> b.processor.name|lower) %}
+    <div class="ui {{ processor.color }} card">
+      <div class="content">
+        <div class="header">{{ processor.name }}</div>
+        <div class="meta"><span class="ui {{ processor.color }} text">{{ translation.processor }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ processor.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.frequence_mhz }}</a>
+              <div class="description">{{ processor.frequency }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.nbcores }}</a>
+              <div class="description">{{ processor.nbcores }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.nbthreads }}</a>
+              <div class="description">{{ processor.nbthreads }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for memory in data.memories|sort((a, b) => a.memory.name|lower <=> b.memory.name|lower) %}
+    <div class="ui {{ memory.color }} card">
+      <div class="content">
+        <div class="header">{{ memory.name }}</div>
+        <div class="meta"><span class="ui {{ memory.color }} text">{{ translation.memory }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ memory.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.type }}</a>
+              <div class="description">{{ memory.type }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.frequence }}</a>
+              <div class="description">{{ memory.frequence }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.size }}</a>
+              <div class="description">{{ memory.size }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.serial }}</a>
+              <div class="description">{{ memory.serial }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ memory.location }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.busID }}</a>
+              <div class="description">{{ memory.busID }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for harddrive in data.harddrives|sort((a, b) => a.harddrive.name|lower <=> b.harddrive.name|lower) %}
+    <div class="ui {{ harddrive.color }} card">
+      <div class="content">
+        <div class="header">{{ harddrive.name }}</div>
+        <div class="meta"><span class="ui {{ harddrive.color }} text">{{ translation.harddrive }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ harddrive.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.rpm }}</a>
+              <div class="description">{{ harddrive.rpm }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.cache }}</a>
+              <div class="description">{{ harddrive.cache }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.interface }}</a>
+              <div class="description">{{ harddrive.interface }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.capacity }}</a>
+              <div class="description">{{ harddrive.capacity }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ harddrive.location }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for battery in data.batteries|sort((a, b) => a.battery.name|lower <=> b.battery.name|lower) %}
+    <div class="ui {{ battery.color }} card">
+      <div class="content">
+        <div class="header">{{ battery.name }}</div>
+        <div class="meta"><span class="ui {{ battery.color }} text">{{ translation.battery }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ battery.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.type }}</a>
+              <div class="description">{{ battery.type }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.voltage_mv }}</a>
+              <div class="description">{{ battery.voltage }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.capacity_mwh }}</a>
+              <div class="description">{{ battery.capacity }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.serial }}</a>
+              <div class="description">{{ battery.serial }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ battery.location }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturing_date }}</a>
+              <div class="description">{{ battery.manufacturing_date }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for soundcard in data.soundcards|sort((a, b) => a.soundcard.name|lower <=> b.soundcard.name|lower) %}
+    <div class="ui {{ soundcard.color }} card">
+      <div class="content">
+        <div class="header">{{ soundcard.name }}</div>
+        <div class="meta"><span class="ui {{ soundcard.color }} text">{{ translation.soundcard }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ soundcard.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.type }}</a>
+              <div class="description">{{ soundcard.type }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ soundcard.location }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for controller in data.controllers|sort((a, b) => a.controller.name|lower <=> b.controller.name|lower) %}
+    <div class="ui {{ controller.color }} card">
+      <div class="content">
+        <div class="header">{{ controller.name }}</div>
+        <div class="meta"><span class="ui {{ controller.color }} text">{{ translation.controller }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ controller.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.interface }}</a>
+              <div class="description">{{ controller.interface }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ controller.location }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{{ include('footer.html.twig') }}

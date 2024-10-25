@@ -39,11 +39,11 @@ class Devicememory extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicenemorytype');
+    return $this->belongsTo('\App\Models\Devicememorytype', 'devicememorytype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicememorymodel');
+    return $this->belongsTo('\App\Models\Devicememorymodel', 'devicememorymodel_id');
   }
 }

@@ -254,12 +254,12 @@ class Computer
       [
         'title' => $translator->translatePlural('Component', 'Components', 2),
         'icon' => 'microchip',
-        'link' => '',
+        'link' => $rootUrl . '/components',
       ],
       [
         'title' => $translator->translatePlural('Volume', 'Volumes', 2),
         'icon' => 'hdd',
-        'link' => '',
+        'link' => $rootUrl . '/volumes',
       ],
       [
         'title' => $translator->translatePlural('Software', 'Software', 2),
@@ -284,7 +284,7 @@ class Computer
       [
         'title' => $translator->translate('Virtualization'),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/virtualization',
       ],
       [
         'title' => $translator->translate('Knowledge'),
@@ -299,12 +299,12 @@ class Computer
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/certificates',
       ],
       [
         'title' => $translator->translatePlural('Lock', 'Locks', 2),

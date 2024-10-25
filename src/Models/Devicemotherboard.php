@@ -36,6 +36,6 @@ class Devicemotherboard extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicemotherboardmodel');
+    return $this->belongsTo('\App\Models\Devicemotherboardmodel', 'devicemotherboardmodel_id');
   }
 }

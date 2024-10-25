@@ -107,9 +107,9 @@ final class Menu
           ],
           [
             'name' => $translator->translatePlural('Simcard', 'Simcards', 2),
-            'link' => $basePath . '/view/item_devicesimcards',
+            'link' => $basePath . '/view/itemdevicesimcards',
             'icon' => 'sim card',
-            'class' => $activePath == $basePath . '/view/item_devicesimcards' ? 'active' : '',
+            'class' => $activePath == $basePath . '/view/itemdevicesimcards' ? 'active' : '',
           ],
         ],
       ],

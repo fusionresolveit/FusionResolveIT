@@ -1,0 +1,60 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui stackable cards">
+  {% for certificate in data.certificates|sort((a, b) => a.certificate.name|lower <=> b.certificate.name|lower) %}
+    <div class="ui card">
+      <div class="content">
+        <div class="header">{{ certificate.name }}</div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.entity }}</a>
+              <div class="description">{{ certificate.entity }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.type }}</a>
+              <div class="description">{{ certificate.type }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.dns_name }}</a>
+              <div class="description">{{ certificate.dns_name }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.dns_suffix }}</a>
+              <div class="description">{{ certificate.dns_suffix }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.created_at }}</a>
+              <div class="description">{{ certificate.created_at }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.date_expiration }}</a>
+              <div class="description">{{ certificate.date_expiration }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.state }}</a>
+              <div class="description">{{ certificate.state }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{{ include('footer.html.twig') }}

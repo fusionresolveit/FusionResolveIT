@@ -38,7 +38,7 @@ final class IpaddressesMigration extends AbstractMigration
             'id'            => $row['id'],
             'entity_id'     => $row['entities_id'],
             'item_id'       => $row['items_id'],
-            'item_type'     => $row['itemtype'],
+            'item_type'     => 'App\\Models\\' . $row['itemtype'],
             'version'       => $row['version'],
             'name'          => $row['name'],
             'binary_0'      => $row['binary_0'],
@@ -47,7 +47,7 @@ final class IpaddressesMigration extends AbstractMigration
             'binary_3'      => $row['binary_3'],
             'is_dynamic'    => $row['is_dynamic'],
             'mainitem_id'   => $row['mainitems_id'],
-            'mainitem_type' => $row['mainitemtype'],
+            'mainitem_type' => 'App\\Models\\' . $row['mainitemtype'],
             'deleted_at'    => self::convertIsDeleted($row['is_deleted']),
           ]
         ];

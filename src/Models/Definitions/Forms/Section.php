@@ -36,9 +36,14 @@ class Section
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Section', 'Sections', 2),
+        'title' => $translator->translatePlural('Section', 'Sections', 1),
         'icon' => 'caret square down outline',
         'link' => $rootUrl,
+      ],
+      [
+        'title' => $translator->translatePlural('Form', 'Forms', 2),
+        'icon' => 'caret square down outline',
+        'link' => $rootUrl . '/forms',
       ],
       [
         'title' => $translator->translatePlural('Question', 'Questions', 2),
@@ -48,7 +53,7 @@ class Section
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -38,7 +38,7 @@ final class CertificatesItemsMigration extends AbstractMigration
             'id'              => $row['id'],
             'certificate_id'  => $row['certificates_id'],
             'item_id'         => $row['items_id'],
-            'item_type'       => $row['itemtype'],
+            'item_type'       => 'App\\Models\\' . $row['itemtype'],
             'created_at'      => $row['date_creation'],
             'updated_at'      => $row['date_mod'],
           ]

@@ -31,18 +31,16 @@ class Question
       [
         'id'    => 4,
         'title' => $translator->translatePlural('Mandatory field', 'Mandatory fields', 1),
-        'type'  => 'dropdown',
+        'type'  => 'boolean',
         'name'  => 'is_required',
         'dbname'  => 'is_required',
-        'values' => self::getIsRequired(),
       ],
       [
         'id'    => 5,
         'title' => $translator->translate('Show empty'),
-        'type'  => 'dropdown',
+        'type'  => 'boolean',
         'name'  => 'show_empty',
         'dbname'  => 'show_empty',
-        'values' => self::getIsRequired(),
       ],
       [
         'id'    => 6,
@@ -171,32 +169,29 @@ class Question
     ];
   }
 
-  public static function getIsRequired()
-  {
-    global $translator;
-    return [
-      0 => [
-        'title' => $translator->translate('No'),
-      ],
-      1 => [
-        'title' => $translator->translate('Yes'),
-      ],
-    ];
-  }
-
   public static function getRelatedPages($rootUrl)
   {
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Question', 'Questions', 2),
+        'title' => $translator->translatePlural('Question', 'Questions', 1),
         'icon' => 'caret square down outline',
         'link' => $rootUrl,
       ],
       [
+        'title' => $translator->translatePlural('Section', 'Sections', 2),
+        'icon' => 'caret square down outline',
+        'link' => $rootUrl . '/sections',
+      ],
+      [
+        'title' => $translator->translatePlural('Form', 'Forms', 2),
+        'icon' => 'caret square down outline',
+        'link' => $rootUrl . '/forms',
+      ],
+      [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

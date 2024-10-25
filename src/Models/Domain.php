@@ -34,7 +34,7 @@ class Domain extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Domaintype');
+    return $this->belongsTo('\App\Models\Domaintype', 'domaintype_id');
   }
 
   public function userstech(): BelongsTo

@@ -56,12 +56,12 @@ class Networkequipment extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Networkequipmenttype');
+    return $this->belongsTo('\App\Models\Networkequipmenttype', 'networkequipmenttype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Networkequipmentmodel');
+    return $this->belongsTo('\App\Models\Networkequipmentmodel', 'networkequipmentmodel_id');
   }
 
   public function state(): BelongsTo

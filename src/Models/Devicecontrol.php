@@ -39,11 +39,11 @@ class Devicecontrol extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicecontrolmodel');
+    return $this->belongsTo('\App\Models\Devicecontrolmodel', 'devicecontrolmodel_id');
   }
 
   public function interface(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Interfacetype');
+    return $this->belongsTo('\App\Models\Interfacetype', 'interfacetype_id');
   }
 }

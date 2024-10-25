@@ -14,6 +14,8 @@ class ItemDevicesimcard extends Common
   protected $titles = ['Simcard', 'Simcards'];
   protected $icon = 'sim card';
 
+  protected $table = 'item_devicesimcard';
+
   protected $appends = [
     'state',
     'location',

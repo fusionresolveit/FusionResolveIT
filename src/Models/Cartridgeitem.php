@@ -41,7 +41,7 @@ class Cartridgeitem extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Cartridgeitemtype');
+    return $this->belongsTo('\App\Models\Cartridgeitemtype', 'cartridgeitemtype_id');
   }
 
   public function manufacturer(): BelongsTo

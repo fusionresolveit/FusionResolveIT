@@ -39,11 +39,11 @@ class Devicecase extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicecasetype');
+    return $this->belongsTo('\App\Models\Devicecasetype', 'devicecasetype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicecasemodel');
+    return $this->belongsTo('\App\Models\Devicecasemodel', 'devicecasemodel_id');
   }
 }

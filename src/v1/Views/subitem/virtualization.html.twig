@@ -1,0 +1,73 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui stackable cards">
+    {% for virtualmachine in data.virtualmachines|sort((a, b) => a.virtualmachine.name|lower <=> b.virtualmachine.name|lower) %}
+      <div class="ui card">
+        <div class="content">
+          <div class="header">{{ virtualmachine.name }}</div>
+          <div class="meta">{{ virtualmachine.comment }}</div>
+        </div>
+        <div class="content">
+          <div class="ui relaxed list">
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.auto }}</a>
+                <div class="description">
+                    {% if virtualmachine.auto == 1 %}
+                        <i class="check circle outline icon"></i>{{ virtualmachine.auto_val }}
+                    {% else %}
+                        <i class="times circle outline icon"></i>{{ virtualmachine.auto_val }}
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.virtualmachinesystem }}</a>
+                <div class="description">{{ virtualmachine.virtualmachinesystem }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.virtualmachinemodel }}</a>
+                <div class="description">{{ virtualmachine.virtualmachinemodel }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.virtualmachinestate }}</a>
+                <div class="description">{{ virtualmachine.virtualmachinestate }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.uuid }}</a>
+                <div class="description">{{ virtualmachine.uuid }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.nb_proc }}</a>
+                <div class="description">{{ virtualmachine.nb_proc }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.memory }}</a>
+                <div class="description">{{ virtualmachine.memory }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.machine_host }}</a>
+                <div class="description">{{ virtualmachine.machine_host }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{{ include('footer.html.twig') }}

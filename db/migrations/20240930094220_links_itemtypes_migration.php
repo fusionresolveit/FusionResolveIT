@@ -37,7 +37,7 @@ final class LinksItemtypesMigration extends AbstractMigration
           [
             'id'        => $row['id'],
             'link_id'   => $row['links_id'],
-            'item_type' => $row['itemtype'],
+            'item_type' => 'App\\Models\\' . $row['itemtype'],
           ]
         ];
         $item->insert($data)

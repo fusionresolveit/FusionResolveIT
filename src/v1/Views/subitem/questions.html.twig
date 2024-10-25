@@ -11,7 +11,7 @@
     <tbody>
       {% for question in data.questions %}
         <tr>
-          <td><a>{{ question.name }}</a></td>
+          <td><a href="{{ data.rootUrl2 }}/questions/{{ question.id }}">{{ question.name }}</a></td>
         </tr>
       {% endfor %}
     </tbody>
@@ -32,7 +32,7 @@
         <tbody>
           {% for question in section.questions %}
             <tr>
-              <td><a>{{ question.name }}</a></td>
+              <td><a href="{{ data.rootUrl2 }}/questions/{{ question.id }}">{{ question.name }}</a></a></td>
             </tr>
           {% endfor %}
         </tbody>

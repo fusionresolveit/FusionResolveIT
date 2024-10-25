@@ -47,12 +47,12 @@ class Pdu extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Pdutype');
+    return $this->belongsTo('\App\Models\Pdutype', 'pdutype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Pdumodel');
+    return $this->belongsTo('\App\Models\Pdumodel', 'pdumodel_id');
   }
 
   public function state(): BelongsTo

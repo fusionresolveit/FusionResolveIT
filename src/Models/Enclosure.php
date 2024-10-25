@@ -44,7 +44,7 @@ class Enclosure extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Enclosuremodel');
+    return $this->belongsTo('\App\Models\Enclosuremodel', 'enclosuremodel_id');
   }
 
   public function state(): BelongsTo

@@ -39,11 +39,11 @@ class Devicegraphiccard extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicegraphicardmodel');
+    return $this->belongsTo('\App\Models\Devicegraphiccardmodel', 'devicegraphiccardmodel_id');
   }
 
   public function interface(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Interfacetype');
+    return $this->belongsTo('\App\Models\Interfacetype', 'interfacetype_id');
   }
 }

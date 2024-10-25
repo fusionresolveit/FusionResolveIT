@@ -36,6 +36,6 @@ class Devicesimcard extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicesimcardtype');
+    return $this->belongsTo('\App\Models\Devicesimcardtype', 'devicesimcardtype_id');
   }
 }

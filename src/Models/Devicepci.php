@@ -36,6 +36,6 @@ class Devicepci extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicepcimodel');
+    return $this->belongsTo('\App\Models\Devicepcimodel', 'devicepcimodel_id');
   }
 }

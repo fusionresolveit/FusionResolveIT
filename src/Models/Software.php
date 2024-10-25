@@ -58,7 +58,7 @@ class Software extends Common
 
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Softwarecategory');
+    return $this->belongsTo('\App\Models\Softwarecategory', 'softwarecategory_id');
   }
 
   public function manufacturer(): BelongsTo

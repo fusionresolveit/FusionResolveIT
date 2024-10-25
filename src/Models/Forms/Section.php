@@ -19,4 +19,9 @@ class Section extends \App\Models\Common
   {
     return $this->belongsToMany('\App\Models\Forms\Question');
   }
+
+  public function forms(): BelongsToMany
+  {
+    return $this->belongsToMany('\App\Models\Forms\Form');
+  }
 }

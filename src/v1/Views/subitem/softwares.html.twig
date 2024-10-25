@@ -13,7 +13,8 @@
       <th>Uptodate</th>
       <th>Signature</th>
     </tr>
-  </tr></thead><tbody>
+  </thead>
+  <tbody>
     {% for antivirus in data.antiviruses|sort((a, b) => a.antivirus.name|lower <=> b.antivirus.name|lower) %}
       <tr>
         <td>{{ antivirus.name }}</td>

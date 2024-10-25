@@ -14,6 +14,8 @@ class Devicefirmware extends Common
   protected $titles = ['Firmware', 'Firmware'];
   protected $icon = 'edit';
 
+  protected $table = "devicefirmwares";
+
   protected $appends = [
     'manufacturer',
     'type',
@@ -39,11 +41,11 @@ class Devicefirmware extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicefirmwaretype');
+    return $this->belongsTo('\App\Models\Devicefirmwaretype', 'devicefirmwaretype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicefirmwaremodel');
+    return $this->belongsTo('\App\Models\Devicefirmwaremodel', 'devicefirmwaremodel_id');
   }
 }

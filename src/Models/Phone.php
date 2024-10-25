@@ -59,12 +59,12 @@ class Phone extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Phonetype');
+    return $this->belongsTo('\App\Models\Phonetype', 'phonetype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Phonemodel');
+    return $this->belongsTo('\App\Models\Phonemodel', 'phonemodel_id');
   }
 
   public function phonepowersupply(): BelongsTo

@@ -38,7 +38,7 @@ final class NetworknamesMigration extends AbstractMigration
             'id'          => $row['id'],
             'entity_id'   => $row['entities_id'],
             'item_id'     => $row['items_id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'name'        => $row['name'],
             'comment'     => $row['comment'],
             'fqdn_id'     => $row['fqdns_id'],

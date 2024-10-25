@@ -1,6 +1,6 @@
 <div class="field">
   {% if item.type != 'boolean' %}
-    <label>{{ item.title }}</label>
+    <label>{{ item.title|raw }}</label>
   {% endif %}
   {% if item.type == 'input' %}
     <input type="text" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">

@@ -61,13 +61,13 @@ class Devicebattery
         'name'  => 'comment',
         'fillable' => true,
       ],
-      [
+      // [
       // 'id'    => 80,
       // 'title' => $translator->translatePlural('Entity', 'Entities', 1),
       // 'type'  => 'dropdown_remote',
       // 'name'  => 'completename',
       // 'itemtype' => '\App\Models\Entity',
-      ],
+      // ],
       [
         'id'    => 86,
         'title' => $translator->translate('Child entities'),

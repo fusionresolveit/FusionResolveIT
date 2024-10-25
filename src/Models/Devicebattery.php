@@ -36,6 +36,6 @@ class Devicebattery extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicebatterytype');
+    return $this->belongsTo('\App\Models\Devicebatterytype', 'devicebatterytype_id');
   }
 }

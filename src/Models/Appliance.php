@@ -57,7 +57,7 @@ class Appliance extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Appliancetype');
+    return $this->belongsTo('\App\Models\Appliancetype', 'appliancetype_id');
   }
 
   public function state(): BelongsTo
@@ -92,6 +92,6 @@ class Appliance extends Common
 
   public function environment(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Applianceenvironment');
+    return $this->belongsTo('\App\Models\Applianceenvironment', 'applianceenvironment_id');
   }
 }

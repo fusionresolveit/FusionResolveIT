@@ -31,7 +31,7 @@ class Contract extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Contracttype');
+    return $this->belongsTo('\App\Models\Contracttype', 'contracttype_id');
   }
 
   public function state(): BelongsTo

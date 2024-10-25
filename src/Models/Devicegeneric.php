@@ -36,6 +36,6 @@ class Devicegeneric extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicegenerictype');
+    return $this->belongsTo('\App\Models\Devicegenerictype', 'devicegenerictype_id');
   }
 }

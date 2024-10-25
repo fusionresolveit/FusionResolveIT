@@ -1,0 +1,39 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.src == 'answer' %}
+  <div style="font-weight: bold;text-align: center;font-size: 1.8em;margin: 0 0 15px;">{{ data.answers.form_name }}</div>
+
+  {% for section in data.answers.sections %}
+    <div style="background: #1B2F62;color: #FFF;text-align: center;font-weight: bold;font-size: 1.5em;margin: 0 0 10px;padding: 5px 10px;line-height: 24px;">{{ section.name }}</div>
+    <div style="background: #EEE;">
+      {% for question in section.questions %}
+      <div style="padding: 5px 15px;">
+        <div style="font-weight: bold;font-size: 1.2em;line-height: 32px;">{{ question.name }}</div>
+        <div style="text-align: justify; word-wrap: break-word;">{{ question.answer }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% if data.src == 'form' %}
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.date_creation }}</th>
+        <th>{{ translation.create_by }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for answer in data.answers %}
+        <tr>
+          <td><a href="{{ data.rootUrl2 }}/answers/{{ answer.id }}">{{ answer.created_at }}</a></td>
+          <td><a href="{{ data.rootUrl2 }}/answers/{{ answer.id }}">{{ answer.user }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{{ include('footer.html.twig') }}

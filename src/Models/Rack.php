@@ -47,12 +47,12 @@ class Rack extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Racktype');
+    return $this->belongsTo('\App\Models\Racktype', 'racktype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Rackmodel');
+    return $this->belongsTo('\App\Models\Rackmodel', 'rackmodel_id');
   }
 
   public function state(): BelongsTo

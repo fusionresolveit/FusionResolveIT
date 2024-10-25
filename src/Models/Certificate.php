@@ -23,6 +23,7 @@ class Certificate extends Common
     'userstech',
     'groupstech',
     'manufacturer',
+    'entity',
   ];
 
   protected $visible = [
@@ -34,6 +35,7 @@ class Certificate extends Common
     'userstech',
     'groupstech',
     'manufacturer',
+    'entity',
   ];
 
   protected $with = [
@@ -45,6 +47,7 @@ class Certificate extends Common
     'userstech:id,name',
     'groupstech:id,name',
     'manufacturer:id,name',
+    'entity:id,name',
   ];
 
   public function location(): BelongsTo
@@ -54,12 +57,12 @@ class Certificate extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Certificatetype');
+    return $this->belongsTo('\App\Models\Certificatetype', 'certificatetype_id');
   }
 
   public function state(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\State');
+    return $this->belongsTo('\App\Models\State', 'state_id');
   }
 
   public function user(): BelongsTo
@@ -85,5 +88,10 @@ class Certificate extends Common
   public function manufacturer(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Manufacturer');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

@@ -1,0 +1,8 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% for externallink in data.externallinks|sort((a, b) => a.externallink.name|lower <=> b.externallink.name|lower) %}
+    <p><a href="{{ externallink.link }}" {% if externallink.open_window == 1 %}target="_blank"{% endif %}>{{ externallink.generate|raw }}</a></p>
+{% endfor %}
+
+{{ include('footer.html.twig') }}

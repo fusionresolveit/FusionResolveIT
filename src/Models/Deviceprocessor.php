@@ -36,6 +36,6 @@ class Deviceprocessor extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Deviceprocessormodel');
+    return $this->belongsTo('\App\Models\Deviceprocessormodel', 'deviceprocessormodel_id');
   }
 }

@@ -56,12 +56,12 @@ class Peripheral extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Peripheraltype');
+    return $this->belongsTo('\App\Models\Peripheraltype', 'peripheraltype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Peripheralmodel');
+    return $this->belongsTo('\App\Models\Peripheralmodel', 'peripheralmodel_id');
   }
 
   public function state(): BelongsTo
@@ -91,7 +91,7 @@ class Peripheral extends Common
 
   public function groupstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group');
+    return $this->belongsTo('\App\Models\Group', 'group_id_tech');
   }
 
   public function userstech(): BelongsTo

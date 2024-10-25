@@ -37,7 +37,7 @@ final class ItemsDevicecontrolsMigration extends AbstractMigration
           [
             'id'                => $row['id'],
             'item_id'           => $row['items_id'],
-            'item_type'         => $row['itemtype'],
+            'item_type'         => 'App\\Models\\' . $row['itemtype'],
             'devicecontrol_id'  => $row['devicecontrols_id'],
             'is_dynamic'        => $row['is_dynamic'],
             'entity_id'         => $row['entities_id'],

@@ -37,7 +37,7 @@ final class ItemsDevicememoriesMigration extends AbstractMigration
           [
             'id'              => $row['id'],
             'item_id'         => $row['items_id'],
-            'item_type'       => $row['itemtype'],
+            'item_type'       => 'App\\Models\\' . $row['itemtype'],
             'devicememory_id' => $row['devicememories_id'],
             'size'            => $row['size'],
             'serial'          => $row['serial'],

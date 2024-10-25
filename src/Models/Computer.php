@@ -43,6 +43,7 @@ class Computer extends Common
     'group',
     'location',
     'autoupdatesystem',
+    'uuid',
   ];
 
   protected $with = [
@@ -59,6 +60,16 @@ class Computer extends Common
     'autoupdatesystem:id,name',
     'softwareversions:id,name',
     'operatingsystems:id,name',
+    'memories:id,name',
+    'firmwares:id,name',
+    'processors:id,name',
+    'harddrives:id,name',
+    'batteries:id,name',
+    'soundcards:id,name',
+    'controllers:id,name',
+    'volumes:id,name',
+    'virtualization:id,name',
+    'certificates:id,name',
   ];
 
   public static function boot()
@@ -86,12 +97,12 @@ class Computer extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Computertype');
+    return $this->belongsTo('\App\Models\Computertype', 'computertype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Computermodel');
+    return $this->belongsTo('\App\Models\Computermodel', 'computermodel_id');
   }
 
   public function state(): BelongsTo
@@ -163,6 +174,121 @@ class Computer extends Common
       'wincompany',
       'oscomment',
       'hostid'
+    );
+  }
+
+  public function memories(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Devicememory',
+      'item',
+      'item_devicememory'
+    )->withPivot(
+      'devicememory_id',
+      'size',
+      'serial',
+      'busID',
+      'location_id',
+    );
+  }
+
+  public function firmwares(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Devicefirmware',
+      'item',
+      'item_devicefirmware'
+    )->withPivot(
+      'devicefirmware_id',
+      'location_id',
+    );
+  }
+
+  public function processors(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Deviceprocessor',
+      'item',
+      'item_deviceprocessor'
+    )->withPivot(
+      'deviceprocessor_id',
+      'frequency',
+      'nbcores',
+      'nbthreads',
+      'location_id',
+    );
+  }
+
+  public function harddrives(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Deviceharddrive',
+      'item',
+      'item_deviceharddrive'
+    )->withPivot(
+      'deviceharddrive_id',
+      'capacity',
+      'serial',
+      'location_id',
+    );
+  }
+
+  public function batteries(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Devicebattery',
+      'item',
+      'item_devicebattery'
+    )->withPivot(
+      'devicebattery_id',
+      'manufacturing_date',
+      'serial',
+      'location_id',
+    );
+  }
+
+  public function soundcards(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Devicesoundcard',
+      'item',
+      'item_devicesoundcard'
+    )->withPivot(
+      'devicesoundcard_id',
+      'location_id',
+    );
+  }
+
+  public function controllers(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Devicecontrol',
+      'item',
+      'item_devicecontrol'
+    )->withPivot(
+      'devicecontrol_id',
+      'location_id',
+    );
+  }
+
+  public function virtualization(): HasMany
+  {
+    return $this->hasMany('App\Models\Computervirtualmachine');
+  }
+
+  public function volumes(): HasMany
+  {
+    return $this->hasMany('App\Models\Itemdisk', 'item_id');
+  }
+
+  public function certificates(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Certificate',
+      'item',
+      'certificate_item'
+    )->withPivot(
+      'certificate_id',
     );
   }
 

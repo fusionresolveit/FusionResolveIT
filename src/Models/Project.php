@@ -38,12 +38,12 @@ class Project extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Projecttype');
+    return $this->belongsTo('\App\Models\Projecttype', 'projecttype_id');
   }
 
   public function state(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Projectstate');
+    return $this->belongsTo('\App\Models\Projectstate', 'projectstate_id');
   }
 
   public function user(): BelongsTo

@@ -56,12 +56,12 @@ class Printer extends Common
 
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Printertype');
+    return $this->belongsTo('\App\Models\Printertype', 'printertype_id');
   }
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Printermodel');
+    return $this->belongsTo('\App\Models\Printermodel', 'printermodel_id');
   }
 
   public function state(): BelongsTo

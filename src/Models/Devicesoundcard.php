@@ -36,6 +36,6 @@ class Devicesoundcard extends Common
 
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicesoundcardmodel');
+    return $this->belongsTo('\App\Models\Devicesoundcardmodel', 'devicesoundcardmodel_id');
   }
 }
