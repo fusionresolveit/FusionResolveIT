@@ -13,4 +13,5 @@ class Peripheralmodel extends Common
   protected $definition = '\App\Models\Definitions\Peripheralmodel';
   protected $titles = ['Peripheral model', 'Peripheral models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

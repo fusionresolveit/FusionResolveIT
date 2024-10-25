@@ -18,18 +18,21 @@ class Domain extends Common
     'type',
     'userstech',
     'groupstech',
+    'entity',
   ];
 
   protected $visible = [
     'type',
     'userstech',
     'groupstech',
+    'entity',
   ];
 
   protected $with = [
     'type:id,name',
     'userstech:id,name',
     'groupstech:id,name',
+    'entity:id,name',
   ];
 
   public function type(): BelongsTo
@@ -45,5 +48,10 @@ class Domain extends Common
   public function groupstech(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Group', 'group_id_tech');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

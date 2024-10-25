@@ -24,6 +24,7 @@ class Appliance extends Common
     'groupstech',
     'manufacturer',
     'environment',
+    'entity',
   ];
 
   protected $visible = [
@@ -36,6 +37,7 @@ class Appliance extends Common
     'groupstech',
     'manufacturer',
     'environment',
+    'entity',
   ];
 
   protected $with = [
@@ -48,6 +50,7 @@ class Appliance extends Common
     'groupstech:id,name',
     'manufacturer:id,name',
     'environment:id,name',
+    'entity:id,name',
   ];
 
   public function location(): BelongsTo
@@ -93,5 +96,10 @@ class Appliance extends Common
   public function environment(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Applianceenvironment', 'applianceenvironment_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

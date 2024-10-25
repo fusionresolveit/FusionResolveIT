@@ -13,4 +13,21 @@ class Link extends Common
   protected $definition = '\App\Models\Definitions\Link';
   protected $titles = ['External link', 'External links'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

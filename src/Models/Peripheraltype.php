@@ -13,4 +13,5 @@ class Peripheraltype extends Common
   protected $definition = '\App\Models\Definitions\Peripheraltype';
   protected $titles = ['Peripheral type', 'Peripheral types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

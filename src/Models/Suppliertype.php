@@ -13,4 +13,5 @@ class Suppliertype extends Common
   protected $definition = '\App\Models\Definitions\Suppliertype';
   protected $titles = ['Third party type', 'Third party types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

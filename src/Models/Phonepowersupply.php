@@ -13,4 +13,5 @@ class Phonepowersupply extends Common
   protected $definition = '\App\Models\Definitions\Phonepowersupply';
   protected $titles = ['Phone power supply type', 'Phone power supply types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

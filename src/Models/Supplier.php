@@ -16,18 +16,26 @@ class Supplier extends Common
 
   protected $appends = [
     'type',
+    'entity',
   ];
 
   protected $visible = [
     'type',
+    'entity',
   ];
 
   protected $with = [
     'type:id,name',
+    'entity:id,name',
   ];
 
   public function type(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Suppliertype', 'suppliertype_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

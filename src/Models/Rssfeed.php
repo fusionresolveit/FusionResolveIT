@@ -13,6 +13,7 @@ class Rssfeed extends Common
   protected $definition = '\App\Models\Definitions\Rssfeed';
   protected $titles = ['RSS feed', 'RSS feed'];
   protected $icon = 'rss';
+  protected $hasEntityField = false;
 
   protected $appends = [
     'user',

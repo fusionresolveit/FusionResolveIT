@@ -16,18 +16,26 @@ class Networkname extends Common
 
   protected $appends = [
     'fqdn',
+    'entity',
   ];
 
   protected $visible = [
     'fqdn',
+    'entity',
   ];
 
   protected $with = [
     'fqdn:id,name',
+    'entity:id,name',
   ];
 
   public function fqdn(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Fqdn');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

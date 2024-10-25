@@ -16,18 +16,26 @@ class Document extends Common
 
   protected $appends = [
     'categorie',
+    'entity',
   ];
 
   protected $visible = [
     'categorie',
+    'entity',
   ];
 
   protected $with = [
     'categorie:id,name',
+    'entity:id,name',
   ];
 
   public function categorie(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Documentcategory', 'documentcategory_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

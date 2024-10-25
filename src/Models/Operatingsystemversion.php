@@ -13,4 +13,5 @@ class Operatingsystemversion extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystemversion';
   protected $titles = ['Version of the operating system', 'Versions of the operating systems'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

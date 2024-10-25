@@ -13,4 +13,5 @@ class Devicepowersupplymodel extends Common
   protected $definition = '\App\Models\Definitions\Devicepowersupplymodel';
   protected $titles = ['Device power supply model', 'Device power supply models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

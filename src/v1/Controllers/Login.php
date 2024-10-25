@@ -242,4 +242,71 @@ final class Login extends Common
     );
     return $service->getProvider($authsso->provider);
   }
+
+  public function logout(Request $request, Response $response, $args)
+  {
+    global $basePath;
+
+    setcookie('token', '', -1, $basePath . '/view');
+
+    header('Location: ' . $basePath);
+    exit();
+  }
+
+  public function changeProfileEntity(Request $request, Response $response, $args)
+  {
+    global $basePath;
+
+    $data = (object) $request->getParsedBody();
+    $token = new \App\v1\Controllers\Token();
+
+    $user = \App\Models\User::find($GLOBALS['user_id']);
+
+    if ($data->changeEntityRecursive == 'on')
+    {
+      $data->changeEntityRecursive = true;
+    } else {
+      $data->changeEntityRecursive = false;
+    }
+
+    // Check if the entity is associated to this profile
+    // check if the recursive is associated to the entity and profile
+    $validation = false;
+    foreach ($user->profiles()->get() as $profile)
+    {
+      if ($profile->id == $data->changeProfile)
+      {
+        if ($profile->pivot->entity_id == $data->changeEntity)
+        {
+          $validation = true;
+          if ($data->changeEntityRecursive == true && !$profile->pivot->is_recursive)
+          {
+            $data->changeEntityRecursive = false;
+          }
+          break;
+        } elseif ($profile->pivot->is_recursive) {
+          // search if $data->changeEntity is in sub
+          $profileEntity = \App\Models\Entity::find($profile->pivot->entity_id);
+          $entity = \App\Models\Entity::
+              where('id', $data->changeEntity)
+            ->where('treepath', 'LIKE', $profileEntity->treepath . '%')
+            ->first();
+          if (!is_null($entity))
+          {
+            $validation = true;
+          }
+        }
+      }
+    }
+
+    if ($validation)
+    {
+      $jwt = $token->generateJWTToken($user, $data->changeProfile, $data->changeEntity, $data->changeEntityRecursive);
+
+      setcookie('token', $jwt['token'], 0, $basePath . '/view');
+    }
+
+    header('Location: ' . $data->redirectURL);
+    exit();
+  }
 }

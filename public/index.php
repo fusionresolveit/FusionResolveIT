@@ -84,6 +84,11 @@ $app->add(new Tuupola\Middleware\JwtAuthentication([
     //                       $arguments['decoded']['jti'], 401);
     // }
     $GLOBALS['user_id'] = $arguments['decoded']['user_id'];
+    $GLOBALS['username'] = $myUser->completename;
+    $GLOBALS['profile_id'] = $arguments['decoded']['profile_id'];
+    $GLOBALS['entity_id'] = $arguments['decoded']['entity_id'];
+    $GLOBALS['entity_treepath'] = $arguments['decoded']['entity_treepath'];
+    $GLOBALS['entity_recursive'] = $arguments['decoded']['entity_recursive'];
     // Load permissions
     // $GLOBALS['permissions'] = \App\v1\Controllers\Config\Role::generatePermission(
     //   $arguments['decoded']['role_id']

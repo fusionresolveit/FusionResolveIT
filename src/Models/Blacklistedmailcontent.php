@@ -13,4 +13,5 @@ class Blacklistedmailcontent extends Common
   protected $definition = '\App\Models\Definitions\Blacklistedmailcontent';
   protected $titles = ['Blacklisted mail content', 'Blacklisted mail content'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

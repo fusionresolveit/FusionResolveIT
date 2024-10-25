@@ -13,4 +13,5 @@ class Blacklist extends Common
   protected $definition = '\App\Models\Definitions\Blacklist';
   protected $titles = ['Blacklist', 'Blacklists'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

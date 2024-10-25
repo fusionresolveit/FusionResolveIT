@@ -13,4 +13,21 @@ class Certificatetype extends Common
   protected $definition = '\App\Models\Definitions\Certificatetype';
   protected $titles = ['Certificate type', 'Certificate types'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

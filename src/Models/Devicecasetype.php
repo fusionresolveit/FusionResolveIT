@@ -13,4 +13,5 @@ class Devicecasetype extends Common
   protected $definition = '\App\Models\Definitions\Devicecasetype';
   protected $titles = ['Case type', 'Case types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

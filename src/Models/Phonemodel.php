@@ -13,4 +13,5 @@ class Phonemodel extends Common
   protected $definition = '\App\Models\Definitions\Phonemodel';
   protected $titles = ['Phone model', 'Phone models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

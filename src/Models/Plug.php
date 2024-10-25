@@ -13,4 +13,5 @@ class Plug extends Common
   protected $definition = '\App\Models\Definitions\Plug';
   protected $titles = ['Plug', 'Plugs'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

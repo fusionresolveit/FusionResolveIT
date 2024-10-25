@@ -17,16 +17,19 @@ class Contract extends Common
   protected $appends = [
     'type',
     'state',
+    'entity',
   ];
 
   protected $visible = [
     'type',
     'state',
+    'entity',
   ];
 
   protected $with = [
     'type:id,name',
     'state:id,name',
+    'entity:id,name',
   ];
 
   public function type(): BelongsTo
@@ -37,5 +40,10 @@ class Contract extends Common
   public function state(): BelongsTo
   {
     return $this->belongsTo('\App\Models\State');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

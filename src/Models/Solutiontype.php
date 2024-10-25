@@ -13,4 +13,21 @@ class Solutiontype extends Common
   protected $definition = '\App\Models\Definitions\Solutiontype';
   protected $titles = ['Solution type', 'Solution types'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

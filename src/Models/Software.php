@@ -25,6 +25,7 @@ class Software extends Common
     // 'user',
     // 'group',
     // 'location',
+    'entity',
   ];
 
   protected $visible = [
@@ -37,6 +38,7 @@ class Software extends Common
     // 'user',
     // 'group',
     // 'location',
+    'entity',
   ];
 
   protected $with = [
@@ -49,6 +51,7 @@ class Software extends Common
     // 'user:id,name',
     // 'group:id,name',
     // 'location:id,name',
+    'entity:id,name',
   ];
 
   protected $fillable = [
@@ -99,5 +102,10 @@ class Software extends Common
   public function location(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Location');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

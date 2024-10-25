@@ -13,4 +13,5 @@ class Mailcollector extends Common
   protected $definition = '\App\Models\Definitions\Mailcollector';
   protected $titles = ['Receiver', 'Receivers'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

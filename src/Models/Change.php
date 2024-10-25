@@ -18,18 +18,21 @@ class Change extends Common
     'itilcategorie',
     'usersidlastupdater',
     'usersidrecipient',
+    'entity',
   ];
 
   protected $visible = [
     'itilcategorie',
     'usersidlastupdater',
     'usersidrecipient',
+    'entity',
   ];
 
   protected $with = [
     'itilcategorie:id,name',
     'usersidlastupdater:id,name',
     'usersidrecipient:id,name',
+    'entity:id,name',
   ];
 
   public function itilcategorie(): BelongsTo
@@ -45,5 +48,10 @@ class Change extends Common
   public function usersidrecipient(): BelongsTo
   {
     return $this->belongsTo('\App\Models\User', 'user_id_recipient');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

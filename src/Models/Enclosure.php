@@ -21,6 +21,7 @@ class Enclosure extends Common
     'groupstech',
     'userstech',
     'location',
+    'entity',
   ];
 
   protected $visible = [
@@ -30,6 +31,7 @@ class Enclosure extends Common
     'groupstech',
     'userstech',
     'location',
+    'entity',
   ];
 
   protected $with = [
@@ -39,8 +41,8 @@ class Enclosure extends Common
     'groupstech:id,name',
     'userstech:id,name',
     'location:id,name',
+    'entity:id,name',
   ];
-
 
   public function model(): BelongsTo
   {
@@ -70,5 +72,10 @@ class Enclosure extends Common
   public function location(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Location');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

@@ -6,7 +6,7 @@
     <div class="row">
       <div class="height wide column">
         {% for item in data.fields %}
-          {% if item.name != 'comment' %}
+          {% if item.name != 'comment' and item.display %}
             {{ include('fields.html.twig') }}
           {% endif %}
         {% endfor %}

@@ -13,4 +13,5 @@ class Operatingsystemkernel extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystemkernel';
   protected $titles = ['Kernel', 'Kernels'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

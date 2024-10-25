@@ -13,4 +13,5 @@ class Devicecontrolmodel extends Common
   protected $definition = '\App\Models\Definitions\Devicecontrolmodel';
   protected $titles = ['Device control model', 'Device control models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

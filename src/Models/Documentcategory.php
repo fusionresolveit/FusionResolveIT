@@ -13,6 +13,7 @@ class Documentcategory extends Common
   protected $definition = '\App\Models\Definitions\Documentcategory';
   protected $titles = ['Document heading', 'Document headings'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 
   protected $appends = [
     'category',

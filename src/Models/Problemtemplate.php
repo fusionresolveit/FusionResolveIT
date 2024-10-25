@@ -11,4 +11,21 @@ class Problemtemplate extends Common
   use SoftDeletes;
 
   protected $definition = '\App\Models\Definitions\Problemtemplate';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

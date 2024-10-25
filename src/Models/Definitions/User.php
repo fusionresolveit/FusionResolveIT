@@ -434,13 +434,13 @@ class User
     return [
       [
         'title' => $translator->translatePlural('User', 'Users', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Authorization', 'Authorizations', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'user lock',
+        'link' => $rootUrl . '/authorization',
       ],
       [
         'title' => $translator->translatePlural('Group', 'Groups', 2),

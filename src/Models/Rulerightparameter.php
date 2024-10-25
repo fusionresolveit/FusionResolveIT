@@ -13,4 +13,5 @@ class Rulerightparameter extends Common
   protected $definition = '\App\Models\Definitions\Rulerightparameter';
   protected $titles = ['LDAP criterion', 'LDAP criteria'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

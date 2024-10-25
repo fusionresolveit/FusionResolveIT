@@ -13,4 +13,5 @@ class Devicedrivemodel extends Common
   protected $definition = '\App\Models\Definitions\Devicedrivemodel';
   protected $titles = ['Device drive model', 'Device drive models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

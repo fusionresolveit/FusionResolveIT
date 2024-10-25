@@ -13,4 +13,5 @@ class Contacttype extends Common
   protected $definition = '\App\Models\Definitions\Contacttype';
   protected $titles = ['Contact type', 'Contact types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

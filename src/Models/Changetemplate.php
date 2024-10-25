@@ -11,4 +11,21 @@ class Changetemplate extends Common
   use SoftDeletes;
 
   protected $definition = '\App\Models\Definitions\Changetemplate';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

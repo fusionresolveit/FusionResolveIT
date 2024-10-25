@@ -13,4 +13,5 @@ class Cartridgeitemtype extends Common
   protected $definition = '\App\Models\Definitions\Cartridgeitemtype';
   protected $titles = ['Cartridge type', 'Cartridge types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

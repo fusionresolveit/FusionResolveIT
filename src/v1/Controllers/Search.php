@@ -2,6 +2,8 @@
 
 namespace App\v1\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
+
 final class Search extends Common
 {
   public function getData($item, $uri, $page = 1, $filters = [])
@@ -11,16 +13,27 @@ final class Search extends Common
     $itemDef = $item->getDefinitions();
     $where = $this->manageFilters($itemDef, $filters);
 
+    $hasEntity = $item->isEntity();
+
     // columns
     $newItemDef = [];
     foreach ($itemDef as $field)
     {
+      if (!isset($field['display']) || !$field['display'])
+      {
+        continue;
+      }
       if (in_array($field['id'], $prefs))
       {
         $newItemDef[] = $field;
       }
       // add name field if not in preferences
       if ($field['name'] == 'name' && !in_array($field['id'], $prefs))
+      {
+        $newItemDef[] = $field;
+      }
+      // Same for entity
+      if ($GLOBALS['entity_recursive'] && $field['name'] == 'entity' && !in_array($field['id'], $prefs))
       {
         $newItemDef[] = $field;
       }
@@ -41,9 +54,22 @@ final class Search extends Common
       }
     }
 
+    if ($hasEntity)
+    {
+      $item = $item->with('entity')->whereHas('entity', function (Builder $query)
+      {
+        if ($GLOBALS['entity_recursive'])
+        {
+          $query->where('treepath', 'LIKE', $GLOBALS['entity_treepath'] . '%');
+        } else {
+          $query->where('treepath', $GLOBALS['entity_treepath']);
+        }
+      });
+    }
+
     $cnt = $item->count();
 
-    if (get_class($item) == "App\Models\Ticket")
+    if ($itemtype == "App\Models\Ticket")
     {
       $item = $item->orderBy('id', 'desc');
     }

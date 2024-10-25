@@ -17,16 +17,19 @@ class Deviceprocessor extends Common
   protected $appends = [
     'manufacturer',
     'model',
+    'entity',
   ];
 
   protected $visible = [
     'manufacturer',
     'model',
+    'entity',
   ];
 
   protected $with = [
     'manufacturer:id,name',
     'model:id,name',
+    'entity:id,name',
   ];
 
   public function manufacturer(): BelongsTo
@@ -37,5 +40,10 @@ class Deviceprocessor extends Common
   public function model(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Deviceprocessormodel', 'deviceprocessormodel_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

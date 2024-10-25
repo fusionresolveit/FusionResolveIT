@@ -19,6 +19,7 @@ class Project extends Common
     'state',
     'user',
     'group',
+    'entity',
   ];
 
   protected $visible = [
@@ -26,6 +27,7 @@ class Project extends Common
     'state',
     'user',
     'group',
+    'entity',
   ];
 
   protected $with = [
@@ -33,6 +35,7 @@ class Project extends Common
     'state:id,name',
     'user:id,name',
     'group:id,name',
+    'entity:id,name',
   ];
 
 
@@ -54,5 +57,10 @@ class Project extends Common
   public function group(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Group');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

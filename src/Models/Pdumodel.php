@@ -13,4 +13,5 @@ class Pdumodel extends Common
   protected $definition = '\App\Models\Definitions\Pdumodel';
   protected $titles = ['PDU model', 'PDU models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

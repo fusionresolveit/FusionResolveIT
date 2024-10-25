@@ -1,0 +1,77 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<form method="post" class="ui form" id="myform">
+  <div class="ui form blue segment">
+    <div class="ui internally grid">
+      <div class="row">
+        <div class="six wide column">
+          {% set item = data.form[0] %}
+          {{ include('fields.html.twig') }}
+          {% set item = data.form[1] %}
+          {{ include('fields.html.twig') }}
+        </div>
+        <div class="six wide column">
+          {% set item = data.form[2] %}
+          {{ include('fields.html.twig') }}
+        </div>
+        <div class="four wide middle aligned column">
+          <button
+            class="ui labeled icon primary button"
+            type="submit"
+            form="myform"
+          >
+            <i class="save icon"></i>
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<table class="ui blue fixed table">
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Entity</th>
+      <th>Recursive</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for profile in data.profiles %}
+      <tr>
+        <td>
+          <a href="{{ basePath }}/view/profiles/{{ profile.id }}">
+            {{ profile.name }}
+          </a>
+        </td>
+        <td>
+          <a href="{{ basePath }}/view/entities/{{ profile.entity.id }}">
+            {{ profile.entity.name }}
+          </a>
+        </td>
+        <td>
+          <div class="ui invisible read-only checkbox">
+            <input type="checkbox" id="{{ profile.id }}-{{ profile.entity.id }}" name="{{ profile.id }}-{{ profile.entity.id }}" {% if profile.is_recursive %}checked="checked"{% endif %}>
+            <label for="{{ profile.id }}-{{ profile.entity.id }}" class="image"><i class="ui blue check icon"></i></label>
+          </div>
+        </td>
+        <td>
+          <form method="post">
+            <input type="hidden" name="profile_id" value="{{ profile.id }}">
+            <input type="hidden" name="entity_id" value="{{ profile.entity.id }}">
+            <input type="hidden" name="is_recursive" value="{{ profile.is_recursive }}">
+            <button class="ui left labeled icon button" name="delete" value="delete">
+              <i class="eraser icon"></i>
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

@@ -945,68 +945,53 @@ class Profile
     return [
       [
         'title' => $translator->translatePlural('Profile', 'Profiles', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Assets'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'laptop house',
+        'link' => $rootUrl . '/assets',
       ],
       [
         'title' => $translator->translate('Assistance'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'hands helping',
+        'link' => $rootUrl . '/assistance',
       ],
       [
-        'title' => $translator->translate('Life cycles'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'title' => $translator->translatePlural('Form', 'Forms', 2),
+        'icon' => 'hands helping',
+        'link' => $rootUrl . '/forms',
       ],
       [
         'title' => $translator->translate('Management'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'block layout',
+        'link' => $rootUrl . '/management',
       ],
       [
         'title' => $translator->translate('Tools'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'toolbox',
+        'link' => $rootUrl . '/tools',
       ],
       [
         'title' => $translator->translate('Administration'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'screwdriver',
+        'link' => $rootUrl . '/administration',
       ],
       [
         'title' => $translator->translate('Setup'),
-        'icon' => 'caret square down outline',
+        'icon' => 'tools',
         'link' => '',
       ],
       [
         'title' => $translator->translatePlural('User', 'Users', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'users',
         'link' => '',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translate('Data injection'),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translate('Form Creator'),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translate('FusionInventory'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

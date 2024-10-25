@@ -16,18 +16,26 @@ class Solutiontemplate extends Common
 
   protected $appends = [
     'types',
+    'entity',
   ];
 
   protected $visible = [
     'types',
+    'entity',
   ];
 
   protected $with = [
     'types:id,name',
+    'entity:id,name',
   ];
 
   public function types(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Solutiontype');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

@@ -13,4 +13,5 @@ class Usertitle extends Common
   protected $definition = '\App\Models\Definitions\Usertitle';
   protected $titles = ['User title', 'Users titles'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

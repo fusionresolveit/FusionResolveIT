@@ -23,6 +23,7 @@ class Category extends Common
     // 'tickettemplatesIncident',
     // 'changetemplates',
     // 'problemtemplates',
+    'entity',
   ];
 
   protected $visible = [
@@ -34,6 +35,7 @@ class Category extends Common
     // 'tickettemplatesIncident',
     // 'changetemplates',
     // 'problemtemplates',
+    'entity',
   ];
 
   protected $with = [
@@ -45,6 +47,7 @@ class Category extends Common
     // 'tickettemplatesIncident:id,name',
     // 'changetemplates:id,name',
     // 'problemtemplates:id,name',
+    'entity:id,name',
   ];
 
   public function category(): BelongsTo
@@ -85,5 +88,10 @@ class Category extends Common
   public function problemtemplates(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Problemtemplate');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

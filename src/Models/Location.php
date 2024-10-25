@@ -16,18 +16,26 @@ class Location extends Common
 
   protected $appends = [
     'location',
+    'entity',
   ];
 
   protected $visible = [
     'location',
+    'entity',
   ];
 
   protected $with = [
     'location:id,name',
+    'entity:id,name',
   ];
 
   public function location(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Location');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

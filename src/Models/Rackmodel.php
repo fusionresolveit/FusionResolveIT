@@ -13,4 +13,5 @@ class Rackmodel extends Common
   protected $definition = '\App\Models\Definitions\Rackmodel';
   protected $titles = ['Rack model', 'Rack models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

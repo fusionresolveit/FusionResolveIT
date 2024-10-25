@@ -13,4 +13,21 @@ class Group extends Common
   protected $definition = '\App\Models\Definitions\Group';
   protected $titles = ['Group', 'Groups'];
   protected $icon = 'users';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

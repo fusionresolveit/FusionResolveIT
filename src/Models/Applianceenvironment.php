@@ -13,4 +13,5 @@ class Applianceenvironment extends Common
   protected $definition = '\App\Models\Definitions\Applianceenvironment';
   protected $titles = ['Appliance environment', 'Appliance environments'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

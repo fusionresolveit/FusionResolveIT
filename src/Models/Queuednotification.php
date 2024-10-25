@@ -16,18 +16,26 @@ class Queuednotification extends Common
 
   protected $appends = [
     'notificationtemplate',
+    'entity',
   ];
 
   protected $visible = [
     'notificationtemplate',
+    'entity',
   ];
 
   protected $with = [
     'notificationtemplate:id,name',
+    'entity:id,name',
   ];
 
   public function notificationtemplate(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Notificationtemplate');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

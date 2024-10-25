@@ -13,4 +13,5 @@ class Planningeventcategory extends Common
   protected $definition = '\App\Models\Definitions\Planningeventcategory';
   protected $titles = ['Event category', 'Event categories'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

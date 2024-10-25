@@ -13,4 +13,5 @@ class Projecttasktype extends Common
   protected $definition = '\App\Models\Definitions\Projecttasktype';
   protected $titles = ['Project tasks type', 'Project tasks types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

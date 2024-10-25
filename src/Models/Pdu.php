@@ -22,6 +22,7 @@ class Pdu extends Common
     'groupstech',
     'userstech',
     'location',
+    'entity',
   ];
 
   protected $visible = [
@@ -32,6 +33,7 @@ class Pdu extends Common
     'groupstech',
     'userstech',
     'location',
+    'entity',
   ];
 
   protected $with = [
@@ -42,6 +44,7 @@ class Pdu extends Common
     'groupstech:id,name',
     'userstech:id,name',
     'location:id,name',
+    'entity:id,name',
   ];
 
 
@@ -78,5 +81,10 @@ class Pdu extends Common
   public function location(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Location');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

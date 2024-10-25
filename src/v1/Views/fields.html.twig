@@ -3,7 +3,11 @@
     <label>{{ item.title|raw }}</label>
   {% endif %}
   {% if item.type == 'input' %}
-    <input type="text" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
+    {% if item.readonly is defined %}
+      {{ item.value }}
+    {% else %}
+      <input type="text" name="{{ item.name }}" value="{{ item.value }}">
+    {% endif %}
   {% endif %}
 
   {% if item.type == 'inputpassword' %}
@@ -17,7 +21,7 @@
       <div class="default text">Select value...</div>
       <div class="menu">
         {% for key, val in item.values %}
-          <div class="item" data-value="{{ key }}">
+          <div class="item {{ val.class }}" data-value="{{ key }}">
             {% if val.icon is defined %}
               {% if val.icon != '' %}
                 <i class="{{ val.color }} {{ val.icon }} icon"></i>

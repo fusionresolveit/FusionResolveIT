@@ -13,4 +13,5 @@ class Networkequipmenttype extends Common
   protected $definition = '\App\Models\Definitions\Networkequipmenttype';
   protected $titles = ['Networking equipment type', 'Networking equipment types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

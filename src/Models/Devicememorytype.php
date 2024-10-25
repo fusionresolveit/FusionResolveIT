@@ -13,4 +13,5 @@ class Devicememorytype extends Common
   protected $definition = '\App\Models\Definitions\Devicememorytype';
   protected $titles = ['Memory type', 'Memory types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

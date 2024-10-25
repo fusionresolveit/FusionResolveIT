@@ -12,6 +12,7 @@ class Log extends Model
   // protected $definition = '\App\Models\Definitions\Log';
   protected $titles = ['Historical', 'Historical'];
   protected $icon = 'history';
+  protected $hasEntityField = false;
 
   public const CREATED_AT = null;
 

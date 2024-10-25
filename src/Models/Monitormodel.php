@@ -13,4 +13,5 @@ class Monitormodel extends Common
   protected $definition = '\App\Models\Definitions\Monitormodel';
   protected $titles = ['Monitor model', 'Monitor models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

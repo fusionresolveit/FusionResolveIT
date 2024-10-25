@@ -14,6 +14,7 @@ class Authsso extends Common
   protected $definition = '\App\Models\Definitions\Authsso';
   protected $titles = ['SSO', 'SSO'];
   protected $icon = 'id card alternate';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];

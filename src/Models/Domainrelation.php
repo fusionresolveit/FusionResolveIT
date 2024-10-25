@@ -13,4 +13,21 @@ class Domainrelation extends Common
   protected $definition = '\App\Models\Definitions\Domainrelation';
   protected $titles = ['Domain relation', 'Domains relations'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

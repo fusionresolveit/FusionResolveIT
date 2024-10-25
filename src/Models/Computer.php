@@ -29,6 +29,7 @@ class Computer extends Common
     // 'group',
     // 'location',
     // 'autoupdatesystem',
+    'entity',
   ];
 
   protected $visible = [
@@ -44,6 +45,7 @@ class Computer extends Common
     'location',
     'autoupdatesystem',
     'uuid',
+    'entity',
   ];
 
   protected $with = [
@@ -70,6 +72,7 @@ class Computer extends Common
     'volumes:id,name',
     'virtualization:id,name',
     'certificates:id,name',
+    'entity:id,name',
   ];
 
   public static function boot()
@@ -295,5 +298,10 @@ class Computer extends Common
   public function antiviruses(): HasMany
   {
     return $this->hasMany('App\Models\Computerantivirus');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

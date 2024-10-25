@@ -13,4 +13,14 @@ class Entity extends Common
   protected $definition = '\App\Models\Definitions\Entity';
   protected $titles = ['Entity', 'Entities'];
   protected $icon = 'layer group';
+  protected $hasEntityField = false;
+
+  protected $appends = [
+  ];
+
+  protected $visible = [
+  ];
+
+  protected $with = [
+  ];
 }

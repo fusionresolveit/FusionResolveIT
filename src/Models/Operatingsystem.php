@@ -13,4 +13,5 @@ class Operatingsystem extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystem';
   protected $titles = ['Operating system', 'Operating systems'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

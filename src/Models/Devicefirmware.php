@@ -20,18 +20,21 @@ class Devicefirmware extends Common
     'manufacturer',
     'type',
     'model',
+    'entity',
   ];
 
   protected $visible = [
     'manufacturer',
     'type',
     'model',
+    'entity',
   ];
 
   protected $with = [
     'manufacturer:id,name',
     'type:id,name',
     'model:id,name',
+    'entity:id,name',
   ];
 
   public function manufacturer(): BelongsTo
@@ -47,5 +50,10 @@ class Devicefirmware extends Common
   public function model(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Devicefirmwaremodel', 'devicefirmwaremodel_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

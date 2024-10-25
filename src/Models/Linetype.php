@@ -13,4 +13,5 @@ class Linetype extends Common
   protected $definition = '\App\Models\Definitions\Linetype';
   protected $titles = ['Line type', 'Line types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

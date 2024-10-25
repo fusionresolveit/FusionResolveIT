@@ -13,4 +13,21 @@ class Racktype extends Common
   protected $definition = '\App\Models\Definitions\Racktype';
   protected $titles = ['Rack type', 'Rack types'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

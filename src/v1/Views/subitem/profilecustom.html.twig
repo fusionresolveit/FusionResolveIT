@@ -1,0 +1,83 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui internally celled grid">
+  <div class="row">
+    <div class="eleven wide column">
+      <div class="ui form blue segment">
+        <div class="ui blue left ribbon label" style="text-transform: capitalize;margin-bottom: 10px;">
+          Rights
+        </div>
+        <form method="post" class="ui form" id="myform">
+          <table class="ui fixed table">
+            <thead>
+              <tr><th class="five wide">Name</th>
+              <th>Read</th>
+              <th>Create</th>
+              <th>Update</th>
+              <th>Soft delete</th>
+              <th>Delete</th>
+              <th>Custom</th>
+            </tr></thead>
+            <tbody>
+              {% for right in data.rights %}
+                <tr>
+                  <td>{{ right.title}}</td>
+                  {% for name,value in right.rights %}
+                    <td>
+                      <div class="ui invisible checkbox">
+                        <input type="checkbox" id="{{ right.model }}-{{ name }}" name="{{ right.model }}-{{ name }}" {% if value %}checked="checked"{% endif %}>
+                        <label for="{{ right.model }}-{{ name }}" class="image"><i class="ui blue check icon"></i></label>
+                      </div>
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+    <div class="five wide column">
+      {% for custom in data.custom %}
+        <div class="ui form blue segment">
+          <div class="ui blue right ribbon label" style="text-transform: capitalize;margin-bottom: 10px;">
+            Custom fields - {{ custom.title }}
+          </div>
+          <form method="post" class="ui form" id="form-{{ custom.profileright_id }}">
+            <input type="hidden" name="profileright_id" value="{{ custom.profileright_id }}">
+            <table class="ui table">
+              <thead>
+                <tr><th>Name</th>
+                <th>Read</th>
+                <th>Write</th>
+              </tr></thead>
+              <tbody>
+                {% for item in custom.customs %}
+                  <tr>
+                    <td>{{ item.title }}</td>
+                    <td>
+                      <div class="ui invisible checkbox">
+                        <input type="checkbox" id="{{ custom.profileright_id }}-{{ item.name }}-read" name="{{ item.name }}-read" {% if item.read %}checked="checked"{% endif %}>
+                        <label for="{{ custom.profileright_id }}-{{ item.name }}-read" class="image"><i class="ui blue check icon"></i></label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ui invisible checkbox">
+                        <input type="checkbox" id="{{ custom.profileright_id }}-{{ item.name }}-write" name="{{ item.name }}-write" {% if item.write %}checked="checked"{% endif %}>
+                        <label for="{{ custom.profileright_id }}-{{ item.name }}-write" class="image"><i class="ui blue check icon"></i></label>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <button class="ui primary button" type="submit" name="save" value="button" form="form-{{ custom.profileright_id }}">{{ translation.savebutton }}</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{{ include('footer.html.twig') }}

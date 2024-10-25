@@ -1,4 +1,4 @@
-<div class="ui sticky" style="background-color: #ffffff">
+<div class="ui sticky pageheader">
   <div style="height: 1px"></div>
   <div class="ui {{ header.color }} dividing header">
     <div style="display: flex; justify-content: space-between;">
@@ -34,7 +34,8 @@
         <span style="float: right;">
           <a href="{{ basePath }}/view/{{ header.route }}/new">
             <button class="ui labeled icon button" type="button">
-              <i class="plus icon"></i>Nouveau
+              <i class="plus icon"></i>
+              {{ translation.newbutton }}
             </button>
           </a>
           <button
@@ -55,7 +56,8 @@
             type="submit"
             form="myform"
           >
-            <i class="save icon"></i>Nouveau
+            <i class="save icon"></i>
+            {{ translation.newbutton }}
           </button>
           <button
             class="ui labeled icon primary button"

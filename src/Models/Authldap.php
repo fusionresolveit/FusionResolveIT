@@ -14,6 +14,7 @@ class Authldap extends Common
   protected $definition = '\App\Models\Definitions\Authldap';
   protected $titles = ['LDAP', 'LDAP'];
   protected $icon = 'address book outline';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];

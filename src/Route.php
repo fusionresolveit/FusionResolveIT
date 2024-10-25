@@ -48,6 +48,9 @@ final class Route
         });
       });
 
+      $view->map(['GET'], '/logout', \App\v1\Controllers\Login::class . ':logout');
+      $view->map(['POST'], '/changeprofileentity', \App\v1\Controllers\Login::class . ':changeProfileEntity');
+
       $view->group('/computers', function (RouteCollectorProxy $computers)
       {
         $computers->map(['GET'], '', \App\v1\Controllers\Computer::class . ':getAll');
@@ -475,6 +478,13 @@ final class Route
         {
           $userId->map(['GET'], '', \App\v1\Controllers\User::class . ':showItem');
           $userId->map(['POST'], '', \App\v1\Controllers\User::class . ':updateItem');
+
+          $userId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'authorization', \App\v1\Controllers\User::class . ':showSubAuthorization');
+            $sub->map(['POST'], 'authorization', \App\v1\Controllers\User::class . ':itemSubAuthorization');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\User::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/groups', function (RouteCollectorProxy $groups)
@@ -521,6 +531,24 @@ final class Route
         {
           $profileId->map(['GET'], '', \App\v1\Controllers\Profile::class . ':showItem');
           $profileId->map(['POST'], '', \App\v1\Controllers\Profile::class . ':updateItem');
+
+          $profileId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'assets', \App\v1\Controllers\Profile::class . ':showSubAssets');
+            $sub->map(['POST'], 'assets', \App\v1\Controllers\Profile::class . ':itemSubAssets');
+            $sub->map(['GET'], 'assistance', \App\v1\Controllers\Profile::class . ':showSubAssistance');
+            $sub->map(['POST'], 'assistance', \App\v1\Controllers\Profile::class . ':itemSubAssistance');
+            $sub->map(['GET'], 'forms', \App\v1\Controllers\Profile::class . ':showSubForms');
+            $sub->map(['POST'], 'forms', \App\v1\Controllers\Profile::class . ':itemSubForms');
+            $sub->map(['GET'], 'management', \App\v1\Controllers\Profile::class . ':showSubManagement');
+            $sub->map(['POST'], 'management', \App\v1\Controllers\Profile::class . ':itemSubManagement');
+            $sub->map(['GET'], 'tools', \App\v1\Controllers\Profile::class . ':showSubTools');
+            $sub->map(['POST'], 'tools', \App\v1\Controllers\Profile::class . ':itemSubTools');
+            $sub->map(['GET'], 'administration', \App\v1\Controllers\Profile::class . ':showSubAdministration');
+            $sub->map(['POST'], 'administration', \App\v1\Controllers\Profile::class . ':itemSubAdministration');
+
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Profile::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/queuednotifications', function (RouteCollectorProxy $queuednotifications)
@@ -2037,7 +2065,6 @@ final class Route
           });
         });
       });
-
     });
   }
 }

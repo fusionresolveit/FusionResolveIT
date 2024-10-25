@@ -41,8 +41,10 @@ final class Token
     return $verify;
   }
 
-  public function generateJWTToken(\App\Models\User $user)
+  public function generateJWTToken(\App\Models\User $user, $profile_id = null, $entity_id = null, $entity_recursive = false)
   {
+    global $basePath;
+
     $firstName = $user->firstname;
     $lastName = $user->lastname;
     // $jwtid = $user->getPropertyAttribute('userjwtid');
@@ -65,6 +67,24 @@ final class Token
       // $user->properties()->updateExistingPivot($jwtidId, ['value_string' => $jti]);
     } else {
       $jti = $jwtid;
+    }
+
+    if (is_null($profile_id))
+    {
+      foreach ($user->profiles()->get() as $profile)
+      {
+        $profile_id = $profile->id;
+        $entity_id = $profile->pivot->entity_id;
+        $entity_recursive = $profile->pivot->is_recursive;
+        break;
+      }
+    }
+    $entity = \App\Models\Entity::find($entity_id);
+
+    if (is_null($profile_id) || is_null($entity_id))
+    {
+      header('Location: ' . $basePath);
+      exit();
     }
 
     $now = new DateTime();
@@ -90,8 +110,12 @@ final class Token
       'firstname'        => $firstName,
       'lastname'         => $lastName,
       'apiversion'       => "v1",
-      'entities_id'      => $user->entities_id,
-      'sub_organization' => true
+      // 'entities_id'      => $user->entities_id,
+      'sub_organization' => true,
+      'profile_id'       => $profile_id,
+      'entity_id'        => $entity_id,
+      'entity_treepath'  => $entity->treepath,
+      'entity_recursive' => $entity_recursive,
     ];
     // $configSecret = include(__DIR__ . '/../../../config/current/config.php');
     $secret = sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL);

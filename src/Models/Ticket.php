@@ -25,6 +25,7 @@ class Ticket extends Common
     'usersidlastupdater',
     'usersidrecipient',
     'category',
+    'entity',
   ];
 
   protected $visible = [
@@ -37,6 +38,7 @@ class Ticket extends Common
     'usersidlastupdater',
     'usersidrecipient',
     'category',
+    'entity',
   ];
 
   protected $with = [
@@ -50,6 +52,7 @@ class Ticket extends Common
     'usersidrecipient:id,name',
     'category:id,name',
     'location:id,name',
+    'entity:id,name',
   ];
 
   // For default values
@@ -161,6 +164,11 @@ class Ticket extends Common
     return $this->belongsToMany('\App\Models\Problem');
   }
 
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
+
   public function getFeeds($id)
   {
     global $translator;
@@ -177,8 +185,14 @@ class Ticket extends Common
       {
         $usertype = 'tech';
       }
+      $username = '';
+      if (!is_null($followup->user))
+      {
+        $username = $followup->user->completename;
+      }
+
       $feeds[] = [
-        "user"     => $followup->user->completename,
+        "user"     => $username,
         "usertype" => $usertype,
         "type"     => "followup",
         "date"     => $followup->created_at,

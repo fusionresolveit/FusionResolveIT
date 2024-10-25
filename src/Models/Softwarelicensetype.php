@@ -16,18 +16,26 @@ class Softwarelicensetype extends Common
 
   protected $appends = [
     'softwarelicensetype',
+    'entity',
   ];
 
   protected $visible = [
     'softwarelicensetype',
+    'entity',
   ];
 
   protected $with = [
     'softwarelicensetype:id,name',
+    'entity:id,name',
   ];
 
   public function softwarelicensetype(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Softwarelicensetype');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

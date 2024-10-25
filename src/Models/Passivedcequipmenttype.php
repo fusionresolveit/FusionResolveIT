@@ -13,4 +13,5 @@ class Passivedcequipmenttype extends Common
   protected $definition = '\App\Models\Definitions\Passivedcequipmenttype';
   protected $titles = ['Passive device type', 'Passive device types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

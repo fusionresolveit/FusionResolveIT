@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,11 +19,11 @@ class User extends Common
     // 'category',
     // 'title',
     // 'location',
-    // 'entity',
     // 'profile',
     // 'supervisor',
     // 'group',
     'completename',
+    'entity',
   ];
 
   protected $visible = [
@@ -79,6 +80,11 @@ class User extends Common
   public function group(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Group');
+  }
+
+  public function profiles(): BelongsToMany
+  {
+      return $this->belongsToMany('\App\Models\Profile')->withPivot('entity_id', 'is_recursive');
   }
 
   public function getCompletenameAttribute()

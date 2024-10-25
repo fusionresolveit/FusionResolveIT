@@ -18,18 +18,21 @@ class Devicegraphiccard extends Common
     'manufacturer',
     'model',
     'interface',
+    'entity',
   ];
 
   protected $visible = [
     'manufacturer',
     'model',
     'interface',
+    'entity',
   ];
 
   protected $with = [
     'manufacturer:id,name',
     'model:id,name',
     'interface:id,name',
+    'entity:id,name',
   ];
 
   public function manufacturer(): BelongsTo
@@ -45,5 +48,10 @@ class Devicegraphiccard extends Common
   public function interface(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Interfacetype', 'interfacetype_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

@@ -9,6 +9,8 @@ class Followup extends Common
 {
   use SoftDeletes;
 
+  protected $hasEntityField = false;
+
   protected $appends = [
     'user',
   ];

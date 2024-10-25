@@ -61,7 +61,6 @@ class Common
 
     $viewData->addData('fields', $item->getFormData($myItem));
 
-    $viewData->addTranslation('savebutton', $translator->translate('Save'));
     $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
 
     // Information TOP
@@ -191,7 +190,6 @@ class Common
     $viewData->addTranslation('group', $translator->translatePlural('Group', 'Groups', 1));
     $viewData->addTranslation('addfollowup', $translator->translate('Add followup'));
     $viewData->addTranslation('timespent', $translator->translate('Time spent'));
-    $viewData->addTranslation('savebutton', $translator->translate('Save'));
     $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
     $viewData->addTranslation('yes', $translator->translate('Yes'));
     $viewData->addTranslation('no', $translator->translate('No'));
@@ -262,7 +260,6 @@ class Common
     $viewData->addTranslation('group', $translator->translatePlural('Group', 'Groups', 1));
     $viewData->addTranslation('addfollowup', $translator->translate('Add followup'));
     $viewData->addTranslation('timespent', $translator->translate('Time spent'));
-    $viewData->addTranslation('savebutton', $translator->translate('Save'));
     $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
     $viewData->addTranslation('yes', $translator->translate('Yes'));
     $viewData->addTranslation('no', $translator->translate('No'));

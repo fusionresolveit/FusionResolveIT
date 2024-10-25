@@ -19,6 +19,7 @@ class Cluster extends Common
     'state',
     'userstech',
     'groupstech',
+    'entity',
   ];
 
   protected $visible = [
@@ -26,6 +27,7 @@ class Cluster extends Common
     'state',
     'userstech',
     'groupstech',
+    'entity',
   ];
 
   protected $with = [
@@ -33,6 +35,7 @@ class Cluster extends Common
     'state:id,name',
     'userstech:id,name',
     'groupstech:id,name',
+    'entity:id,name',
   ];
 
   public function type(): BelongsTo
@@ -53,5 +56,10 @@ class Cluster extends Common
   public function groupstech(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Group', 'group_id_tech');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

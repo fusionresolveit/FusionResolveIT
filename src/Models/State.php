@@ -16,18 +16,26 @@ class State extends Common
 
   protected $appends = [
     'state',
+    'entity',
   ];
 
   protected $visible = [
     'state',
+    'entity',
   ];
 
   protected $with = [
     'state:id,name',
+    'entity:id,name',
   ];
 
   public function state(): BelongsTo
   {
     return $this->belongsTo('\App\Models\State');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

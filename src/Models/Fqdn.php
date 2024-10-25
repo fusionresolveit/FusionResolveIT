@@ -13,4 +13,21 @@ class Fqdn extends Common
   protected $definition = '\App\Models\Definitions\Fqdn';
   protected $titles = ['Internet domain', 'Internet domains'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

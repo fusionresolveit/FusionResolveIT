@@ -16,18 +16,26 @@ class Followuptemplate extends Common
 
   protected $appends = [
     'source',
+    'entity',
   ];
 
   protected $visible = [
     'source',
+    'entity',
   ];
 
   protected $with = [
     'source:id,name',
+    'entity:id,name',
   ];
 
   public function source(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Requesttype');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

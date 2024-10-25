@@ -13,4 +13,5 @@ class Operatingsystemedition extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystemedition';
   protected $titles = ['Edition', 'Editions'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

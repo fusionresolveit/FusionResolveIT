@@ -4,6 +4,9 @@ namespace App\Models;
 
 class Displaypreference extends Common
 {
+
+  protected $hasEntityField = false;
+
   /**
    * Get display preference for a user for an itemtype
    *

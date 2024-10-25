@@ -13,4 +13,5 @@ class Devicegenericmodel extends Common
   protected $definition = '\App\Models\Definitions\Devicegenericmodel';
   protected $titles = ['Device generic model', 'Device generic models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

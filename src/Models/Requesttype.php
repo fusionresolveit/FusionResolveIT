@@ -13,4 +13,5 @@ class Requesttype extends Common
   protected $definition = '\App\Models\Definitions\Requesttype';
   protected $titles = ['Request source', 'Request sources'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

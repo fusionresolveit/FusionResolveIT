@@ -13,4 +13,5 @@ class Computertype extends Common
   protected $definition = '\App\Models\Definitions\Computertype';
   protected $titles = ['Computer type', 'Computer types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

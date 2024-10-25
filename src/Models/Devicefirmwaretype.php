@@ -13,4 +13,5 @@ class Devicefirmwaretype extends Common
   protected $definition = '\App\Models\Definitions\Devicefirmwaretype';
   protected $titles = ['Firmware type', 'Firmware types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -13,4 +13,21 @@ class Vlan extends Common
   protected $definition = '\App\Models\Definitions\Vlan';
   protected $titles = ['VLAN', 'VLANs'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

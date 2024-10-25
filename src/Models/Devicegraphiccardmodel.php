@@ -13,4 +13,5 @@ class Devicegraphiccardmodel extends Common
   protected $definition = '\App\Models\Definitions\Devicegraphiccardmodel';
   protected $titles = ['Device graphic card model', 'Device graphic card models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

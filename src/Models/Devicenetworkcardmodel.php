@@ -13,4 +13,5 @@ class Devicenetworkcardmodel extends Common
   protected $definition = '\App\Models\Definitions\Devicenetworkcardmodel';
   protected $titles = ['Network card model', 'Network card models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

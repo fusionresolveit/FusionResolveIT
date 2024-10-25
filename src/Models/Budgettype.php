@@ -13,4 +13,5 @@ class Budgettype extends Common
   protected $definition = '\App\Models\Definitions\Budgettype';
   protected $titles = ['Budget type', 'Budget types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

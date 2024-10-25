@@ -26,6 +26,7 @@ class Softwarelicense extends Common
     'softwareversionsUse',
     'manufacturer',
     'software',
+    'entity',
   ];
 
   protected $visible = [
@@ -40,6 +41,7 @@ class Softwarelicense extends Common
     'softwareversionsUse',
     'manufacturer',
     'software',
+    'entity',
   ];
 
   protected $with = [
@@ -54,6 +56,7 @@ class Softwarelicense extends Common
     'softwareversionsUse:id,name',
     'manufacturer:id,name',
     'software:id,name',
+    'entity:id,name',
   ];
 
   public function location(): BelongsTo
@@ -109,5 +112,10 @@ class Softwarelicense extends Common
   public function software(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Software');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

@@ -13,4 +13,5 @@ class Documenttype extends Common
   protected $definition = '\App\Models\Definitions\Documenttype';
   protected $titles = ['Document type', 'Document types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

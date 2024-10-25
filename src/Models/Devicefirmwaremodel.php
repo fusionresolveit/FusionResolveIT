@@ -13,4 +13,5 @@ class Devicefirmwaremodel extends Common
   protected $definition = '\App\Models\Definitions\Devicefirmwaremodel';
   protected $titles = ['Device firmware model', 'Device firmware models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

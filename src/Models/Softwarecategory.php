@@ -13,6 +13,7 @@ class Softwarecategory extends Common
   protected $definition = '\App\Models\Definitions\Softwarecategory';
   protected $titles = ['Software category', 'Software categories'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 
   protected $appends = [
     'category',

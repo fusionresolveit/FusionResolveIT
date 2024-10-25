@@ -13,4 +13,5 @@ class Projecttype extends Common
   protected $definition = '\App\Models\Definitions\Projecttype';
   protected $titles = ['Project type', 'Project types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

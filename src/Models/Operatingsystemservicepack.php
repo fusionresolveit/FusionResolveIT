@@ -13,4 +13,5 @@ class Operatingsystemservicepack extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystemservicepack';
   protected $titles = ['Service pack', 'Service packs'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

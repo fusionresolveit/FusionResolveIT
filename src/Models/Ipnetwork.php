@@ -13,4 +13,21 @@ class Ipnetwork extends Common
   protected $definition = '\App\Models\Definitions\Ipnetwork';
   protected $titles = ['IP network', 'IP networks'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

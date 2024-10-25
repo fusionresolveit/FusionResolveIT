@@ -13,4 +13,5 @@ class Virtualmachinetype extends Common
   protected $definition = '\App\Models\Definitions\Virtualmachinetype';
   protected $titles = ['Virtualization system', 'Virtualization systems'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -10,6 +10,7 @@ class Computerantivirus extends Common
   protected $definition = '\App\Models\Definitions\Computerantivirus';
   protected $titles = ['Antivirus', 'Antivirus'];
   protected $icon = 'virus slash';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];

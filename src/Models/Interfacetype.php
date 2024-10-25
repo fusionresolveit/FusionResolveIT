@@ -13,4 +13,5 @@ class Interfacetype extends Common
   protected $definition = '\App\Models\Definitions\Interfacetype';
   protected $titles = ['Interface type (Hard drive...)', 'Interface types (Hard drive...)'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

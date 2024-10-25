@@ -13,4 +13,5 @@ class Devicebatterytype extends Common
   protected $definition = '\App\Models\Definitions\Devicebatterytype';
   protected $titles = ['Battery type', 'Battery types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -13,4 +13,5 @@ class Phonetype extends Common
   protected $definition = '\App\Models\Definitions\Phonetype';
   protected $titles = ['Phone type', 'Phone types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

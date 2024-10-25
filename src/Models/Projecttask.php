@@ -13,4 +13,21 @@ class Projecttask extends Common
   protected $definition = '\App\Models\Definitions\Projecttask';
   protected $titles = ['Project task', 'Project tasks'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

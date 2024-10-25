@@ -13,4 +13,14 @@ class Profile extends Common
   protected $definition = '\App\Models\Definitions\Profile';
   protected $titles = ['Profile', 'Profiles'];
   protected $icon = 'user check';
+  protected $hasEntityField = false;
+
+  protected $appends = [
+  ];
+
+  protected $visible = [
+  ];
+
+  protected $with = [
+  ];
 }

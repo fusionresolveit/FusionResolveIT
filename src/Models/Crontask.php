@@ -13,4 +13,5 @@ class Crontask extends Common
   protected $definition = '\App\Models\Definitions\Crontask';
   protected $titles = ['Automatic action', 'Automatic actions'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -13,6 +13,7 @@ class Authssoscope extends Common
 {
   protected $titles = ['SSO scope', 'SSO scopes'];
   protected $icon = 'id card alternate';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];

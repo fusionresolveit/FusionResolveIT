@@ -13,4 +13,5 @@ class Devicesoundcardmodel extends Common
   protected $definition = '\App\Models\Definitions\Devicesoundcardmodel';
   protected $titles = ['Device sound card model', 'Device sound card models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -13,6 +13,7 @@ class Authssooption extends Common
 {
   protected $titles = ['SSO option', 'SSO options'];
   protected $icon = 'id card alternate';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];

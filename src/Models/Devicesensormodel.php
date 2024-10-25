@@ -13,4 +13,5 @@ class Devicesensormodel extends Common
   protected $definition = '\App\Models\Definitions\Devicesensormodel';
   protected $titles = ['Device sensor model', 'Device sensor models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

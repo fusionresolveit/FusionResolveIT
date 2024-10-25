@@ -75,7 +75,8 @@ final class Authsso extends Common
     return [
       [
         'key'   => 'callbackurl',
-        'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() . $basePath . '/view/login/sso/' . $item->callbackid . '/cb',
+        'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() . $basePath . '/view/login/sso/' .
+          $item->callbackid . '/cb',
         'link'  => null,
       ],
     ];

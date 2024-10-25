@@ -24,6 +24,7 @@ class Ticketrecurrent extends Common
     // 'usersidlastupdater',
     // 'usersidrecipient',
     // 'itilcategorie',
+    'entity',
   ];
 
   protected $visible = [
@@ -36,6 +37,7 @@ class Ticketrecurrent extends Common
     // 'usersidlastupdater',
     // 'usersidrecipient',
     // 'itilcategorie',
+    'entity',
   ];
 
   protected $with = [
@@ -48,6 +50,7 @@ class Ticketrecurrent extends Common
     // 'usersidlastupdater:id,name',
     // 'usersidrecipient:id,name',
     // 'itilcategorie:id,name',
+    'entity:id,name',
   ];
 
   // public function requester()
@@ -100,4 +103,9 @@ class Ticketrecurrent extends Common
   // {
   //   return $this->belongsTo('\App\Models\ITILCategory', 'itilcategories_id');
   // }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

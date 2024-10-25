@@ -13,4 +13,5 @@ class Networkinterface extends Common
   protected $definition = '\App\Models\Definitions\Networkinterface';
   protected $titles = ['Network interface', 'Network interfaces'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

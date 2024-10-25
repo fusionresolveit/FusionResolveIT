@@ -13,4 +13,5 @@ class Devicesimcardtype extends Common
   protected $definition = '\App\Models\Definitions\Devicesimcardtype';
   protected $titles = ['Simcard type', 'Simcard types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

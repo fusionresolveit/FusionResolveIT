@@ -13,6 +13,7 @@ class Reminder extends Common
   protected $definition = '\App\Models\Definitions\Reminder';
   protected $titles = ['Reminder', 'Reminders'];
   protected $icon = 'sticky note';
+  protected $hasEntityField = false;
 
   protected $appends = [
     'user',

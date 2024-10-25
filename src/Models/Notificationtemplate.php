@@ -13,4 +13,5 @@ class Notificationtemplate extends Common
   protected $definition = '\App\Models\Definitions\Notificationtemplate';
   protected $titles = ['Notification template', 'Notification templates'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

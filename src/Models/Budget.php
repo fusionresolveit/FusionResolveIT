@@ -17,16 +17,19 @@ class Budget extends Common
   protected $appends = [
     'location',
     'type',
+    'entity',
   ];
 
   protected $visible = [
     'location',
     'type',
+    'entity',
   ];
 
   protected $with = [
     'location:id,name',
     'type:id,name',
+    'entity:id,name',
   ];
 
   public function location(): BelongsTo
@@ -37,5 +40,10 @@ class Budget extends Common
   public function type(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Budgettype', 'budgettype_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

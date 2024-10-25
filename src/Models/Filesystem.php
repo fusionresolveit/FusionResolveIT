@@ -13,4 +13,5 @@ class Filesystem extends Common
   protected $definition = '\App\Models\Definitions\Filesystem';
   protected $titles = ['File system', 'File systems'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

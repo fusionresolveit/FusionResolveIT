@@ -13,4 +13,5 @@ class Operatingsystemarchitecture extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystemarchitecture';
   protected $titles = ['Operating system architecture', 'Operating system architectures'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

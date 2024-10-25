@@ -17,18 +17,22 @@ class Softwareversion extends Common
   ];
 
   protected $visible = [
-    'software_id'
-  ];
-
-  protected $with = [
-    'software:id,name'
+    'software_id',
+    'entity',
   ];
 
   protected $fillable = [
     'name',
     'entity_id',
-    'software_id'
+    'software_id',
+    'entity',
   ];
+
+  protected $with = [
+    'software:id,name',
+    'entity:id,name',
+  ];
+
 
   // We get all devices
   public function devices()
@@ -39,5 +43,10 @@ class Softwareversion extends Common
   public function software(): BelongsTo
   {
     return $this->belongsTo('App\Models\Software');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

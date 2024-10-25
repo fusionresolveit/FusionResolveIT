@@ -85,17 +85,35 @@ final class Computer extends Common
         $license_number = $osln;
       }
       $licenseid = '';
-      if ($oslid !== null) $licenseid = $oslid;
+      if ($oslid !== null)
+      {
+        $licenseid = $oslid;
+      }
       $installationdate = '';
-      if ($osid !== null) $installationdate = $osid;
+      if ($osid !== null)
+      {
+        $installationdate = $osid;
+      }
       $winowner = '';
-      if ($oswo !== null) $winowner = $oswo;
+      if ($oswo !== null)
+      {
+        $winowner = $oswo;
+      }
       $wincompany = '';
-      if ($oswc !== null) $wincompany = $oswc;
+      if ($oswc !== null)
+      {
+        $wincompany = $oswc;
+      }
       $oscomment = '';
-      if ($osoc !== null) $oscomment = $osoc;
+      if ($osoc !== null)
+      {
+        $oscomment = $osoc;
+      }
       $hostid = '';
-      if ($oshid !== null) $hostid = $oshid;
+      if ($oshid !== null)
+      {
+        $hostid = $oshid;
+      }
 
       $operatingsystem = [
         'id' => $os->id,
@@ -125,8 +143,6 @@ final class Computer extends Common
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
-
-    $viewData->addTranslation('savebutton', $translator->translate('Save'));
 
     $getDef = [];
     $myItemData = [];
@@ -238,14 +254,7 @@ final class Computer extends Common
     $rootUrl = rtrim($rootUrl, '/history');
 
     // form data
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata();
-    $viewData->addHeaderTitle('GSIT - ' . $item->getTitle(1));
-    $viewData->addHeaderMenu(\App\v1\Controllers\Menu::getMenu($request));
-    $viewData->addHeaderRootpath(\App\v1\Controllers\Toolbox::getRootPath($request));
-    $viewData->addHeaderName($item->getTitle(1));
-    $viewData->addHeaderId($myItem->id);
-    $viewData->addIconId($item->getIcon());
-    // $viewData->addColorId($myItem->getColor());
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 

@@ -16,18 +16,26 @@ class Businesscriticity extends Common
 
   protected $appends = [
     'category',
+    'entity',
   ];
 
   protected $visible = [
     'category',
+    'entity',
   ];
 
   protected $with = [
     'category:id,name',
+    'entity:id,name',
   ];
 
   public function category(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Businesscriticity');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

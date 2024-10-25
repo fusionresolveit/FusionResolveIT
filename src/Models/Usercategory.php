@@ -13,4 +13,5 @@ class Usercategory extends Common
   protected $definition = '\App\Models\Definitions\Usercategory';
   protected $titles = ['User category', 'User categories'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

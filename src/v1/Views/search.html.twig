@@ -1,6 +1,6 @@
 {{ include('header.html.twig') }}
 
-<div class="ui sticky" style="background-color: #ffffff">
+<div class="ui sticky pageheader">
   <div style="height: 1px"></div>
   <div class="ui blue dividing header">
     <div style="display: flex; justify-content: space-between">
@@ -16,7 +16,8 @@
           <button
             class="ui primary button labeled icon floated"
           >
-          <i class="plus icon"></i>Nouveau
+          <i class="plus icon"></i>
+          {{ translation.newbutton }}
           </button>
         </a>
       </span>

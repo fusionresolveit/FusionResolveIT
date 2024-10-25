@@ -17,16 +17,19 @@ class Devicesensor extends Common
   protected $appends = [
     'manufacturer',
     'type',
+    'entity',
   ];
 
   protected $visible = [
     'manufacturer',
     'type',
+    'entity',
   ];
 
   protected $with = [
     'manufacturer:id,name',
     'type:id,name',
+    'entity:id,name',
   ];
 
   public function manufacturer(): BelongsTo
@@ -37,5 +40,10 @@ class Devicesensor extends Common
   public function type(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Devicesensortype', 'devicesensortype_id');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

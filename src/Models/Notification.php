@@ -13,4 +13,21 @@ class Notification extends Common
   protected $definition = '\App\Models\Definitions\Notification';
   protected $titles = ['Notification', 'Notifications'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

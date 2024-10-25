@@ -13,4 +13,21 @@ class Fieldblacklist extends Common
   protected $definition = '\App\Models\Definitions\Fieldblacklist';
   protected $titles = ['Ignored value for the unicity', 'Ignored values for the unicity'];
   protected $icon = 'edit';
+
+  protected $appends = [
+    'entity',
+  ];
+
+  protected $visible = [
+    'entity',
+  ];
+
+  protected $with = [
+    'entity:id,name',
+  ];
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
 }

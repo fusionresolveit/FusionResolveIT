@@ -18,18 +18,21 @@ class Projecttasktemplate extends Common
     'state',
     'type',
     'projecttasks',
+    'entity',
   ];
 
   protected $visible = [
     'state',
     'type',
     'projecttasks',
+    'entity',
   ];
 
   protected $with = [
     'state:id,name',
     'type:id,name',
     'projecttasks:id,name',
+    'entity:id,name',
   ];
 
   public function state(): BelongsTo
@@ -45,5 +48,10 @@ class Projecttasktemplate extends Common
   public function projecttasks(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Projecttask');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

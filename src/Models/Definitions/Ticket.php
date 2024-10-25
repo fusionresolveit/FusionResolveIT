@@ -24,6 +24,15 @@ class Ticket
         'fillable' => true,
       ],
       [
+        'id'    => 80,
+        'title' => $translator->translatePlural('Entity', 'Entities', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'entity',
+        'dbname' => 'entity_id',
+        'itemtype' => '\App\Models\Entity',
+        'display' => false,
+      ],
+      [
         'id'            => 12,
         'title'         => $translator->translate('Status'),
         'type'          => 'dropdown',

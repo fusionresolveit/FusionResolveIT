@@ -13,4 +13,5 @@ class Computermodel extends Common
   protected $definition = '\App\Models\Definitions\Computermodel';
   protected $titles = ['Computer model', 'Computer models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -18,6 +18,7 @@ class Problem extends Common
     // 'category',
     // 'usersidlastupdater',
     // 'usersidrecipient',
+    'entity',
   ];
 
   protected $visible = [
@@ -28,12 +29,14 @@ class Problem extends Common
     'category',
     'usersidlastupdater',
     'usersidrecipient',
+    'entity',
   ];
 
   protected $with = [
     'category:id,name',
     'usersidlastupdater:id,name',
     'usersidrecipient:id,name',
+    'entity:id,name',
   ];
 
   public function category(): BelongsTo
@@ -49,5 +52,10 @@ class Problem extends Common
   public function usersidrecipient(): BelongsTo
   {
     return $this->belongsTo('\App\Models\User', 'user_id_recipient');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

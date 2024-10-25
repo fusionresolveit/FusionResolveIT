@@ -13,4 +13,5 @@ class Monitortype extends Common
   protected $definition = '\App\Models\Definitions\Monitortype';
   protected $titles = ['Monitor type', 'Monitor types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

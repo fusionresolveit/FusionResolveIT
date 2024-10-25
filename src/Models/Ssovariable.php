@@ -16,4 +16,5 @@ class Ssovariable extends Common
     'Fields storage of the login in the HTTP request'
   ];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

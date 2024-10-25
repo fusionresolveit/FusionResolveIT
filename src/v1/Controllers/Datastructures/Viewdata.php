@@ -19,7 +19,7 @@ class Viewdata
 
   public function __construct($item, $request)
   {
-    global $basePath;
+    global $basePath, $translator;
 
     $this->header = (object)[];
     $this->data = (object)[];
@@ -32,6 +32,9 @@ class Viewdata
 
     $this->initHeaderData($item, $request);
     $this->initInformationData();
+
+    $this->addTranslation('savebutton', $translator->translate('Save'));
+    $this->addTranslation('newbutton', $translator->translate('New'));
   }
 
   public function addData($key, $value)

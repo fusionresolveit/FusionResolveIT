@@ -13,4 +13,5 @@ class Network extends Common
   protected $definition = '\App\Models\Definitions\Network';
   protected $titles = ['Network', 'Networks'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

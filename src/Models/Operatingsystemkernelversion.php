@@ -13,6 +13,7 @@ class Operatingsystemkernelversion extends Common
   protected $definition = '\App\Models\Definitions\Operatingsystemkernelversion';
   protected $titles = ['Kernel version', 'Kernel versions'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 
   protected $appends = [
     'kernel',

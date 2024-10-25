@@ -14,6 +14,7 @@ class Common extends Model
   protected $titles = ['not defined', 'not defined'];
   protected $icon = '';
   protected $table = null;
+  protected $hasEntityField = true;
 
   public function __construct(array $attributes = [])
   {
@@ -41,6 +42,14 @@ class Common extends Model
   public static function booted()
   {
     parent::booted();
+
+    static::creating(function ($model)
+    {
+      if ($model->hasEntityField)
+      {
+        $model->entity_id = $GLOBALS['entity_id'];
+      }
+    });
 
     static::updated(function ($model)
     {
@@ -102,7 +111,15 @@ class Common extends Model
 
   public function getDropdownValues($filter = null)
   {
-    $item = $this->orderBy('name');
+    $treepath = false;
+    $item = $this;
+    if (get_class($this) == 'App\Models\Category')
+    {
+      $treepath = true;
+      $item->orderBy('treepath');
+    }
+
+    $item->orderBy('name');
     if (!is_null($filter) && !empty($filter))
     {
       $item->where('name', 'LIKE', '%' . $filter . '%');
@@ -111,6 +128,7 @@ class Common extends Model
         $item->orWhere('id', 'LIKE', '%' . $filter . '%');
       }
     }
+
     $items = $item->take(50)->get();
     $data = [];
     foreach ($items as $item)
@@ -124,9 +142,16 @@ class Common extends Model
       {
         $name .= ' - ' . $item->id;
       }
+      $class = '';
+      if ($treepath)
+      {
+        $nb = strlen($item->treepath) / 5;
+        $class = ' treelvl' . $nb;
+      }
       $data[] = [
         "name"  => $name,
-        "value" => $item->id
+        "value" => $item->id,
+        "class" => 'item' . $class,
       ];
     }
     return $data;
@@ -138,7 +163,58 @@ class Common extends Model
     {
       return [];
     }
-    return call_user_func($this->definition . '::getDefinition');
+
+    $definitions = call_user_func($this->definition . '::getDefinition');
+    if (get_class($this) == 'App\\Models\\Profileright') // || get_class($this) == 'App\\Models\\Profile')
+    {
+      return $definitions;
+    }
+    // echo $this->getModel();exit;
+    $profileright = \App\Models\Profileright::
+        where('profile_id', 4)
+      ->where('model', get_class($this))
+      ->first();
+    if (is_null($profileright))
+    {
+      return [];
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        $ids[$custom->definitionfield_id] = [
+          'read'  => $custom->read,
+          'write' => $custom->write,
+        ];
+      }
+      foreach ($definitions as &$def)
+      {
+        if (isset($ids[$def["id"]]))
+        {
+          $def['display'] = $ids[$def["id"]]['read'];
+          if (!$ids[$def["id"]]['write'])
+          {
+            $def['readonly'] = 'readonly';
+          }
+        }
+      }
+      return $definitions;
+    }
+    if ($profileright->read)
+    {
+      foreach ($definitions as &$def)
+      {
+        $def['display'] = true;
+        if (!$profileright->update)
+        {
+          $def['readonly'] = 'readonly';
+        }
+      }
+      return $definitions;
+    }
+    return [];
   }
 
   public function getRelatedPages($rootUrl)
@@ -172,8 +248,14 @@ class Common extends Model
       $def = $otherDefs;
     }
 
-    foreach ($def as &$field)
+    foreach ($def as $idx => &$field)
     {
+      // Special case for entity, must not displayed in forms
+      if ($field['name'] == 'entity')
+      {
+        unset($def[$idx]);
+        continue;
+      }
       if ($field['type'] == 'dropdown_remote')
       {
         if (is_null($myItem->{$field['name']}) || $myItem->{$field['name']} == false)
@@ -327,5 +409,14 @@ class Common extends Model
         );
       }
     }
+  }
+
+  public function isEntity()
+  {
+    if ($this->hasEntityField)
+    {
+      return true;
+    }
+    return false;
   }
 }

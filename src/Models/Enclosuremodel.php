@@ -13,4 +13,5 @@ class Enclosuremodel extends Common
   protected $definition = '\App\Models\Definitions\Enclosuremodel';
   protected $titles = ['Enclosure model', 'Enclosure models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

@@ -13,4 +13,5 @@ class Manufacturer extends Common
   protected $definition = '\App\Models\Definitions\Manufacturer';
   protected $titles = ['Manufacturer', 'Manufacturers'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

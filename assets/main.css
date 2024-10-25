@@ -1,3 +1,11 @@
+:root {
+  --darkBG: #232B32;
+}
+
+body.inverted {
+  background-color: var(--darkBG);
+}
+
 .ui.sidebar.visible ~ .pusher {
   width: calc(100% - 300px);
 }
@@ -85,4 +93,31 @@ blockquote {
 
 .event > .content {
   margin-bottom: 25px !important;
+}
+
+.pageheader {
+  background-color: #ffffff;
+}
+
+.pageheader .inverted {
+  background-color: #232b32;
+}
+
+.treelvl1 {
+}
+
+.treelvl2 {
+  margin-left: 20px !important;
+}
+
+.treelvl3 {
+  margin-left: 40px !important;
+}
+
+.treelvl4 {
+  margin-left: 60px !important;
+}
+
+.treelvl5 {
+  margin-left: 80px !important;
 }

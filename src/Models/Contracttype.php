@@ -13,4 +13,5 @@ class Contracttype extends Common
   protected $definition = '\App\Models\Definitions\Contracttype';
   protected $titles = ['Contract type', 'Contract types'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

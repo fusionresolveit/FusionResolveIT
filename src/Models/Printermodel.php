@@ -13,4 +13,5 @@ class Printermodel extends Common
   protected $definition = '\App\Models\Definitions\Printermodel';
   protected $titles = ['Printer model', 'Printer models'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 }

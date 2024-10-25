@@ -16,19 +16,27 @@ class Savedsearch extends Common
 
   protected $appends = [
     'user',
+    'entity',
   ];
 
   protected $visible = [
     'user',
+    'entity',
   ];
 
   protected $with = [
     'user:id,name',
+    'entity:id,name',
   ];
 
 
   public function user(): BelongsTo
   {
     return $this->belongsTo('\App\Models\User');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }
