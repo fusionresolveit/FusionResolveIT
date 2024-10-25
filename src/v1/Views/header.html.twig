@@ -16,9 +16,20 @@
   <div class="ui grid">
     <div class="three wide left attached column">
       <div class="ui left vertical visible menu" style="border-radius: unset;width: 300px;border-top: unset;">
-        <div class="item">
+        {# <div class="item">
           <img class="ui small centered image" src="{{ basePath }}/assets/img/logo_gsit.png">
-        </div>
+        </div> #}
+
+        <div class="item" style="display: flex;align-items: end;">
+          <span class="ui small image">
+            <img src="{{ basePath }}/assets/img/logo_gsit.png">
+          </span>
+          <span class="bottom aligned content">
+            <span class="ui blue large text">
+              {{ include('version.html.twig') }}
+            </span>
+          </span>
+        </div>          
         <div class="item">
           {{ header.username }}
           <a href="{{ basePath }}/view/logout" style="float: right">
@@ -66,79 +77,52 @@
           </div>
           <div class="menu">
             {% for subitem in item.sub %}
-              {% if subitem.display %}
-                <a class="item {{ subitem.class }}" href="{{ subitem.link }}">
-                  {{ subitem.name }}
-                  <i class="{{ subitem.icon }} icon"></i>
-                </a>
-              {% endif %}
+              <a class="item {{ subitem.class }}" href="{{ subitem.link }}">
+                {{ subitem.name }}
+                <i class="{{ subitem.icon }} icon"></i>
+              </a>
             {% endfor %}
 
-            {% set displayMore = false %}
-            {% for moreitem in item.more %}
-              {% if moreitem.display %}
-                {% set displayMore = true %}
-              {% endif %}
-            {% endfor %}
-
-            {% if item.more|length > 0 and displayMore %}
+            {% if item.more is defined and item.more|length > 0 %}
               <div class="ui dropdown item">
                 More
                 <i class="dropdown icon"></i>
                 <div class="menu">
                   {% for moreitem in item.more %}
-                    {% if moreitem.display %}
-                      <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
-                        <i class="{{ moreitem.icon }} icon"></i>
-                        {{ moreitem.name }}
-                      </a>
-                    {% endif %}
+                    <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
+                      <i class="{{ moreitem.icon }} icon"></i>
+                      {{ moreitem.name }}
+                    </a>
                   {% endfor %}
                 </div>
               </div>
             {% endif %}
-            {% set displayMore = false %}
-            {% for moreitem in item.dropdown %}
-              {% if moreitem.display %}
-                {% set displayMore = true %}
-              {% endif %}
-            {% endfor %}
 
-            {% if item.dropdown|length > 0 and displayMore %}
+            {% if item.dropdown is defined and item.dropdown|length > 0 %}
               <div class="ui dropdown item">
                 Dropdown
                 <i class="dropdown icon"></i>
                 <div class="menu">
                   {% for moreitem in item.dropdown %}
-                    {% if moreitem.display %}
-                      <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
-                        <i class="{{ moreitem.icon }} icon"></i>
-                        {{ moreitem.name }}
-                      </a>
-                    {% endif %}
+                    <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
+                      <i class="{{ moreitem.icon }} icon"></i>
+                      {{ moreitem.name }}
+                    </a>
                   {% endfor %}
                 </div>
               </div>
             {% endif %}
-            {% set displayMore = false %}
-            {% for moreitem in item.component %}
-              {% if moreitem.display %}
-                {% set displayMore = true %}
-              {% endif %}
-            {% endfor %}
 
-            {% if item.component|length > 0 and displayMore %}
+            {% if item.component is defined and item.component|length > 0 %}
               <div class="ui dropdown item">
                 Component
                 <i class="dropdown icon"></i>
                 <div class="menu">
                   {% for moreitem in item.component %}
-                    {% if moreitem.display %}
                     <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
-                        <i class="{{ moreitem.icon }} icon"></i>
-                        {{ moreitem.name }}
-                      </a>
-                    {% endif %}
+                      <i class="{{ moreitem.icon }} icon"></i>
+                      {{ moreitem.name }}
+                    </a>
                   {% endfor %}
                 </div>
               </div>

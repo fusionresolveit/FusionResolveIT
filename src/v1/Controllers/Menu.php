@@ -19,7 +19,7 @@ final class Menu
 
     $this->loadRights();
 
-    return [
+    return $this->cleanMenuByDisplay([
       [
         'name' => $translator->translate('Assets'),
         'icon' => 'laptop house',
@@ -73,8 +73,6 @@ final class Menu
             'class' => $activePath == $basePath . '/view/phones' ? 'active blue' : '',
             'display' => $this->getRightForModel('\App\Models\Phone'),
           ],
-        ],
-        'more'  => [
           [
             'name' => $translator->translatePlural('Cartridge', 'Cartridges', 2),
             'link' => $basePath . '/view/cartridgeitems',
@@ -247,8 +245,6 @@ final class Menu
             'class' => $activePath == $basePath . '/view/certificates' ? 'active blue' : '',
             'display' => $this->getRightForModel('\App\Models\Certificate'),
           ],
-        ],
-        'more' => [
           [
             'name' => $translator->translatePlural('Document', 'Documents', 2),
             'link' => $basePath . '/view/documents',
@@ -1231,7 +1227,7 @@ final class Menu
           ],
         ],
       ],
-    ];
+    ]);
   }
 
   private function loadRights()
@@ -1257,6 +1253,74 @@ final class Menu
       return true;
     }
     return false;
+  }
+
+  private function cleanMenuByDisplay($menu)
+  {
+    $newMenu = [];
+    foreach ($menu as $item)
+    {
+      $submenu = [];
+      $more = [];
+      $dropdown = [];
+      $component = [];
+      foreach ($item['sub'] as $key => $subitem)
+      {
+        if (isset($subitem['display']) && $subitem['display'])
+        {
+          if (count($submenu) >= 6)
+          {
+            $more[] = $subitem;
+          } else {
+            $submenu[] = $subitem;
+          }
+        }
+      }
+      if (isset($item['dropdown']))
+      {
+        foreach ($item['dropdown'] as $key => $subitem)
+        {
+          if (isset($subitem['display']) && $subitem['display'])
+          {
+            $dropdown[] = $subitem;
+          }
+        }
+      }
+      if (isset($item['component']))
+      {
+        foreach ($item['component'] as $key => $subitem)
+        {
+          if (isset($subitem['display']) && $subitem['display'])
+          {
+            $component[] = $subitem;
+          }
+        }
+      }
+
+
+      if (count($submenu) > 0 || count($dropdown) > 0 || count($component))
+      {
+        $catMenu = [
+          'name' => $item['name'],
+          'icon' => $item['icon'],
+          'sub'  => $submenu,
+        ];
+        if (count($more) > 0)
+        {
+          $catMenu['more'] = $more;
+        }
+        if (count($dropdown) > 0)
+        {
+          $catMenu['dropdown'] = $dropdown;
+        }
+        if (count($component) > 0)
+        {
+          $catMenu['component'] = $component;
+        }
+        $newMenu[] = $catMenu;
+      }
+    }
+    return $newMenu;
   }
 }
 
