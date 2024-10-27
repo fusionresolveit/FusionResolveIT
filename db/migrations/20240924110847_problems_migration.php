@@ -37,7 +37,7 @@ final class ProblemsMigration extends AbstractMigration
           [
             'id'                  => $row['id'],
             'name'                => $row['name'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'status'              => $row['status'],
             'content'             => Toolbox::convertHtmlToMarkdown($row['content']),
@@ -73,8 +73,10 @@ final class ProblemsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

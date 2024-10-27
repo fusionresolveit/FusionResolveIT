@@ -40,7 +40,7 @@ final class OlalevelsMigration extends AbstractMigration
             'ola_id'          => $row['olas_id'],
             'execution_time'  => $row['execution_time'],
             'is_active'       => $row['is_active'],
-            'entity_id'       => $row['entities_id'],
+            'entity_id'       => ($row['entities_id'] + 1),
             'is_recursive'    => $row['is_recursive'],
             'match'           => $row['match'],
             'uuid'            => $row['uuid'],

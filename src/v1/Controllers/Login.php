@@ -221,7 +221,8 @@ final class Login extends Common
     }
 
     $configureProviders = [
-      'redirectUri' => $uri->getScheme() . '://' . $uri->getHost() . $basePath . '/view/login/sso/' . $callbackid . '/cb',
+      'redirectUri' => $uri->getScheme() . '://' . $uri->getHost() . $basePath . '/view/login/sso/' .
+        $callbackid . '/cb',
       'provider' => [
         $authsso->provider => $dataProvider,
       ],

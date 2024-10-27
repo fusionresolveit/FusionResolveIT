@@ -39,7 +39,7 @@ final class ProjectsMigration extends AbstractMigration
             'name'                  => $row['name'],
             'code'                  => $row['code'],
             'priority'              => $row['priority'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'project_id'            => $row['projects_id'],
             'projectstate_id'       => $row['projectstates_id'],
@@ -73,8 +73,10 @@ final class ProjectsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

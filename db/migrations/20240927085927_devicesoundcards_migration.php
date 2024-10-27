@@ -40,7 +40,7 @@ final class DevicesoundcardsMigration extends AbstractMigration
             'type'                    => $row['type'],
             'comment'                 => $row['comment'],
             'manufacturer_id'         => $row['manufacturers_id'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'devicesoundcardmodel_id' => $row['devicesoundcardmodels_id'],
             'updated_at'              => $row['date_mod'],

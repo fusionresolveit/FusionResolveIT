@@ -36,7 +36,7 @@ final class PeripheralsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'name'                => $row['name'],
             'updated_at'          => $row['date_mod'],
             'contact'             => $row['contact'],
@@ -73,8 +73,10 @@ final class PeripheralsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

@@ -37,7 +37,7 @@ final class EntitiesKnowbaseitemsMigration extends AbstractMigration
           [
             'id'              => $row['id'],
             'knowbaseitem_id' => $row['knowbaseitems_id'],
-            'entity_id'       => $row['entities_id'],
+            'entity_id'       => ($row['entities_id'] + 1),
             'is_recursive'    => $row['is_recursive'],
           ]
         ];

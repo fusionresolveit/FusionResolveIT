@@ -39,7 +39,7 @@ final class QueuednotificationsMigration extends AbstractMigration
             'item_type'               => $row['itemtype'],
             'item_id'                 => $row['items_id'],
             'notificationtemplate_id' => $row['notificationtemplates_id'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'sent_try'                => $row['sent_try'],
             'created_at'              => $row['create_time'],
             'send_time'               => $row['send_time'],
@@ -69,8 +69,10 @@ final class QueuednotificationsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

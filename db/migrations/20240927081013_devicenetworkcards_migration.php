@@ -33,9 +33,18 @@ final class DevicenetworkcardsMigration extends AbstractMigration
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
-        if (is_null($row['manufacturers_id'])) $row['manufacturers_id']=0;
-        if (is_null($row['entities_id'])) $row['entities_id']=0;
-        if (is_null($row['is_recursive'])) $row['is_recursive']=0;
+        if (is_null($row['manufacturers_id']))
+        {
+          $row['manufacturers_id'] = 0;
+        }
+        if (is_null($row['entities_id']))
+        {
+          $row['entities_id'] = 0;
+        }
+        if (is_null($row['is_recursive']))
+        {
+          $row['is_recursive'] = 0;
+        }
         $data = [
           [
             'id'                        => $row['id'],
@@ -44,7 +53,7 @@ final class DevicenetworkcardsMigration extends AbstractMigration
             'comment'                   => $row['comment'],
             'manufacturer_id'           => $row['manufacturers_id'],
             'mac_default'               => $row['mac_default'],
-            'entity_id'                 => $row['entities_id'],
+            'entity_id'                 => ($row['entities_id'] + 1),
             'is_recursive'              => $row['is_recursive'],
             'devicenetworkcardmodel_id' => $row['devicenetworkcardmodels_id'],
             'updated_at'                => $row['date_mod'],

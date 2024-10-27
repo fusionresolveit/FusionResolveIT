@@ -42,7 +42,7 @@ final class DevicedrivesMigration extends AbstractMigration
             'comment'             => $row['comment'],
             'manufacturer_id'     => $row['manufacturers_id'],
             'interfacetype_id'    => $row['interfacetypes_id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'devicedrivemodel_id' => $row['devicedrivemodels_id'],
             'updated_at'          => $row['date_mod'],

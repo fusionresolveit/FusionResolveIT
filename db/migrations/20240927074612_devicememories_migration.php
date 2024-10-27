@@ -42,7 +42,7 @@ final class DevicememoriesMigration extends AbstractMigration
             'manufacturer_id'       => $row['manufacturers_id'],
             'size_default'          => $row['size_default'],
             'devicememorytype_id'   => $row['devicememorytypes_id'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'devicememorymodel_id'  => $row['devicememorymodels_id'],
             'updated_at'            => $row['date_mod'],

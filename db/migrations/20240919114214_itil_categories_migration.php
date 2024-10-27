@@ -36,7 +36,7 @@ final class ItilCategoriesMigration extends AbstractMigration
         $data = [
           [
             'id'                          => $row['id'],
-            'entity_id'                   => $row['entities_id'],
+            'entity_id'                   => ($row['entities_id'] + 1),
             'is_recursive'                => $row['is_recursive'],
             'category_id'                 => $row['itilcategories_id'],
             'name'                        => $row['name'],

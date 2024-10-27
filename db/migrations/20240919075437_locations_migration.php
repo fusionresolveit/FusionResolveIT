@@ -36,7 +36,7 @@ final class LocationsMigration extends AbstractMigration
         $data = [
           [
             'id'              => $row['id'],
-            'entity_id'       => $row['entities_id'],
+            'entity_id'       => ($row['entities_id'] + 1),
             'is_recursive'    => $row['is_recursive'],
             'name'            => $row['name'],
             'location_id'     => $row['locations_id'],

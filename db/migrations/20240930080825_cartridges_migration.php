@@ -36,7 +36,7 @@ final class CartridgesMigration extends AbstractMigration
         $data = [
           [
             'id'                => $row['id'],
-            'entity_id'         => $row['entities_id'],
+            'entity_id'         => ($row['entities_id'] + 1),
             'cartridgeitem_id'  => $row['cartridgeitems_id'],
             'printer_id'        => $row['printers_id'],
             'date_in'           => $row['date_in'],

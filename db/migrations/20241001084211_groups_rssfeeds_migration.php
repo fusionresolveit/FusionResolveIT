@@ -38,7 +38,7 @@ final class GroupsRssfeedsMigration extends AbstractMigration
             'id'            => $row['id'],
             'rssfeed_id'    => $row['rssfeeds_id'],
             'group_id'      => $row['groups_id'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
           ]
         ];

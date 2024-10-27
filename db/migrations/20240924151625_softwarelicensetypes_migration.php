@@ -44,7 +44,7 @@ final class SoftwarelicensetypesMigration extends AbstractMigration
             'level'                   => $row['level'],
             'ancestors_cache'         => $row['ancestors_cache'],
             'sons_cache'              => $row['sons_cache'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'completename'            => $row['completename'],
           ]

@@ -37,7 +37,7 @@ final class CalendarsegmentsMigration extends AbstractMigration
           [
             'id'            => $row['id'],
             'calendar_id'   => $row['calendars_id'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'day'           => $row['day'],
             'begin'         => $row['begin'],

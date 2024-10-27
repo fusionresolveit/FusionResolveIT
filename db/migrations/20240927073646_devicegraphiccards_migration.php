@@ -41,7 +41,7 @@ final class DevicegraphiccardsMigration extends AbstractMigration
             'comment'                   => $row['comment'],
             'manufacturer_id'           => $row['manufacturers_id'],
             'memory_default'            => $row['memory_default'],
-            'entity_id'                 => $row['entities_id'],
+            'entity_id'                 => ($row['entities_id'] + 1),
             'is_recursive'              => $row['is_recursive'],
             'devicegraphiccardmodel_id' => $row['devicegraphiccardmodels_id'],
             'chipset'                   => $row['chipset'],

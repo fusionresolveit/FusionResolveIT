@@ -38,7 +38,7 @@ final class DomainrecordsMigration extends AbstractMigration
             'id'                  => $row['id'],
             'name'                => $row['name'],
             'data'                => $row['data'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'domain_id'           => $row['domains_id'],
             'domainrecordtype_id' => $row['domainrecordtypes_id'],
@@ -60,8 +60,10 @@ final class DomainrecordsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

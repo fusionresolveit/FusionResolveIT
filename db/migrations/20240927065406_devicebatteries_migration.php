@@ -42,7 +42,7 @@ final class DevicebatteriesMigration extends AbstractMigration
             'voltage'               => $row['voltage'],
             'capacity'              => $row['capacity'],
             'devicebatterytype_id'  => $row['devicebatterytypes_id'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'devicebatterymodel_id' => $row['devicebatterymodels_id'],
             'updated_at'            => $row['date_mod'],

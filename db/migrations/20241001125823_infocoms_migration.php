@@ -38,7 +38,7 @@ final class InfocomsMigration extends AbstractMigration
             'id'                    => $row['id'],
             'item_id'               => $row['items_id'],
             'item_type'             => $row['itemtype'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'buy_date'              => $row['buy_date'],
             'use_date'              => $row['use_date'],

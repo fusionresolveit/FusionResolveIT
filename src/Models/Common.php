@@ -251,7 +251,7 @@ class Common extends Model
     foreach ($def as $idx => &$field)
     {
       // Special case for entity, must not displayed in forms
-      if ($field['name'] == 'entity')
+      if ($field['name'] == 'entity' && get_class($myItem) !== 'App\Models\Entity')
       {
         unset($def[$idx]);
         continue;

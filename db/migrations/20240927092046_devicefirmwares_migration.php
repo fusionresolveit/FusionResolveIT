@@ -42,7 +42,7 @@ final class DevicefirmwaresMigration extends AbstractMigration
             'date'                    => $row['date'],
             'version'                 => $row['version'],
             'devicefirmwaretype_id'   => $row['devicefirmwaretypes_id'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'devicefirmwaremodel_id'  => $row['devicefirmwaremodels_id'],
             'updated_at'              => $row['date_mod'],

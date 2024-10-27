@@ -40,7 +40,7 @@ final class LineoperatorsMigration extends AbstractMigration
             'comment'       => $row['comment'],
             'mcc'           => $row['mcc'],
             'mnc'           => $row['mnc'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'updated_at'    => $row['date_mod'],
             'created_at'    => $row['date_creation'],

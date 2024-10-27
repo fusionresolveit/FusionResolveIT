@@ -32,7 +32,8 @@ final class DocumentsItemsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_documents_items')->fetchColumn();
       $nbLoops = ceil($nbRows / 15000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_documents_items ORDER BY id LIMIT 15000 OFFSET ' . ($i * 15000));
 
         $rows = $stmt->fetchAll();
@@ -44,7 +45,7 @@ final class DocumentsItemsMigration extends AbstractMigration
             'document_id'       => $row['documents_id'],
             'item_id'           => $row['items_id'],
             'item_type'         => $row['itemtype'],
-            'entity_id'         => $row['entities_id'],
+            'entity_id'         => ($row['entities_id'] + 1),
             'is_recursive'      => $row['is_recursive'],
             'updated_at'        => $row['date_mod'],
             'user_id'           => $row['users_id'],

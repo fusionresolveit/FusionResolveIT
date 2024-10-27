@@ -36,7 +36,7 @@ final class ChangesvalidationsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'user_id'             => $row['users_id'],
             'change_id'           => $row['changes_id'],

@@ -40,7 +40,7 @@ final class DevicecasesMigration extends AbstractMigration
             'devicecasetype_id'   => $row['devicecasetypes_id'],
             'comment'             => $row['comment'],
             'manufacturer_id'     => $row['manufacturers_id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'devicecasemodel_id'  => $row['devicecasemodels_id'],
             'updated_at'          => $row['date_mod'],

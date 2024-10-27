@@ -40,7 +40,7 @@ final class DevicegenericsMigration extends AbstractMigration
             'devicegenerictype_id'  => $row['devicegenerictypes_id'],
             'comment'               => $row['comment'],
             'manufacturer_id'       => $row['manufacturers_id'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'location_id'           => $row['locations_id'],
             'state_id'              => $row['states_id'],

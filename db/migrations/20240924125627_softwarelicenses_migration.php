@@ -40,7 +40,7 @@ final class SoftwarelicensesMigration extends AbstractMigration
             'softwarelicense_id'      => $row['softwarelicenses_id'],
             'completename'            => $row['completename'],
             'level'                   => $row['level'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'number'                  => $row['number'],
             'softwarelicensetype_id'  => $row['softwarelicensetypes_id'],
@@ -79,8 +79,10 @@ final class SoftwarelicensesMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

@@ -2236,9 +2236,8 @@ final class Tables95 extends AbstractMigration
           ->addIndex(['deleted_at'])
           ->create();
 
-    $table = $this->table('entities', ['id' => false, 'primary_key' => 'id']);
-    $table->addColumn('id', 'integer', ['null' => false, 'default' => '0'])
-          ->addColumn('name', 'string', ['null' => true])
+    $table = $this->table('entities');
+    $table->addColumn('name', 'string', ['null' => true])
           ->addColumn('comment', 'text', ['null' => true])
           ->addColumn('created_at', 'timestamp', ['null' => true])
           ->addColumn('updated_at', 'timestamp', ['null' => true])
@@ -5091,7 +5090,11 @@ final class Tables95 extends AbstractMigration
           ->addColumn('end_date', 'date', ['null' => true])
           ->addColumn('actiontime', 'integer', ['null' => false, 'default' => '0'])
           ->addColumn('cost_time', 'decimal', ['null' => false, 'default' => '0.0000', 'precision' => 20, 'scale' => 4])
-          ->addColumn('cost_fixed', 'decimal', ['null' => false, 'default' => '0.0000', 'precision' => 20, 'scale' => 4])
+          ->addColumn(
+            'cost_fixed',
+            'decimal',
+            ['null' => false, 'default' => '0.0000', 'precision' => 20, 'scale' => 4]
+          )
           ->addColumn(
             'cost_material',
             'decimal',
@@ -6380,7 +6383,11 @@ final class Tables95 extends AbstractMigration
           ->addColumn('end_date', 'date', ['null' => true])
           ->addColumn('actiontime', 'integer', ['null' => false, 'default' => '0'])
           ->addColumn('cost_time', 'decimal', ['null' => false, 'default' => '0.0000', 'precision' => 20, 'scale' => 4])
-          ->addColumn('cost_fixed', 'decimal', ['null' => false, 'default' => '0.0000', 'precision' => 20, 'scale' => 4])
+          ->addColumn(
+            'cost_fixed',
+            'decimal',
+            ['null' => false, 'default' => '0.0000', 'precision' => 20, 'scale' => 4]
+          )
           ->addColumn(
             'cost_material',
             'decimal',

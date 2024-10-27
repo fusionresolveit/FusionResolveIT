@@ -32,7 +32,8 @@ final class CrontasklogsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_crontasklogs')->fetchColumn();
       $nbLoops = ceil($nbRows / 100000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_crontasklogs ORDER BY id LIMIT 100000 OFFSET ' . ($i * 100000));
         $rows = $stmt->fetchAll();
         foreach ($rows as $row)

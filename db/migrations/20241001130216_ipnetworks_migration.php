@@ -36,7 +36,7 @@ final class IpnetworksMigration extends AbstractMigration
         $data = [
           [
             'id'              => $row['id'],
-            'entity_id'       => $row['entities_id'],
+            'entity_id'       => ($row['entities_id'] + 1),
             'is_recursive'    => $row['is_recursive'],
             'ipnetwork_id'    => $row['ipnetworks_id'],
             'completename'    => $row['completename'],

@@ -40,7 +40,7 @@ final class ItemsDevicemotherboardsMigration extends AbstractMigration
             'item_type'             => $row['itemtype'],
             'devicemotherboard_id'  => $row['devicemotherboards_id'],
             'is_dynamic'            => $row['is_dynamic'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'serial'                => $row['serial'],
             'otherserial'           => $row['otherserial'],
@@ -58,8 +58,10 @@ final class ItemsDevicemotherboardsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

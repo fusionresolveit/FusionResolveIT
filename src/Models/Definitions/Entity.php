@@ -16,12 +16,107 @@ class Entity
         'fillable' => true,
       ],
       [
+        'id'    => 80,
+        'title' => $translator->translatePlural('Entity', 'Entities', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'entity',
+        'dbname' => 'entity_id',
+        'itemtype' => '\App\Models\Entity',
+        'fillable' => true,
+      ],
+      [
         'id'    => 16,
         'title' => $translator->translate('Comments'),
         'type'  => 'textarea',
         'name'  => 'comment',
         'fillable' => true,
       ],
+      [
+        'id'    => 3,
+        'title' => $translator->translate('Address'),
+        'type'  => 'textarea',
+        'name'  => 'address',
+        'fillable' => true,
+      ],
+      [
+        'id'    => 4,
+        'title' => $translator->translate('Website'),
+        'type'  => 'input',
+        'name'  => 'website',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 5,
+        'title' => $translator->translatePlural('Phone', 'Phones', 1),
+        'type'  => 'input',
+        'name'  => 'phonenumber',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 6,
+        'title' => $translator->translatePlural('Email', 'Emails', 1),
+        'type'  => 'input',
+        'name'  => 'email',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 10,
+        'title' => $translator->translate('Fax'),
+        'type'  => 'input',
+        'name'  => 'fax',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 25,
+        'title' => $translator->translate('Postal code'),
+        'type'  => 'input',
+        'name'  => 'postcode',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 11,
+        'title' => $translator->translate('City'),
+        'type'  => 'input',
+        'name'  => 'town',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 12,
+        'title' => $translator->translate('State'),
+        'type'  => 'input',
+        'name'  => 'state',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 13,
+        'title' => $translator->translate('Country'),
+        'type'  => 'input',
+        'name'  => 'country',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 67,
+        'title' => $translator->translate('Latitude'),
+        'type'  => 'input',
+        'name'  => 'latitude',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 68,
+        'title' => $translator->translate('Longitude'),
+        'type'  => 'input',
+        'name'  => 'longitude',
+        'fillable' => true,
+      ],
+      [
+        'id'                 => 69,
+        'title' => $translator->translate('Altitude'),
+        'type'  => 'input',
+        'name'  => 'altitude',
+        'fillable' => true,
+      ],
+
+
 
       /*
       $tab[] = [
@@ -47,123 +142,7 @@ class Entity
         'datatype'           => 'number'
       ];
 
-      $tab[] = [
-        'id'                 => '3',
-        'table'              => $this->getTable(),
-        'field'              => 'address',
-        'name'               => __('Address'),
-        'massiveaction'      => false,
-        'datatype'           => 'text'
-      ];
 
-      $tab[] = [
-        'id'                 => '4',
-        'table'              => $this->getTable(),
-        'field'              => 'website',
-        'name'               => __('Website'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '5',
-        'table'              => $this->getTable(),
-        'field'              => 'phonenumber',
-        'name'               => Phone::getTypeName(1),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '6',
-        'table'              => $this->getTable(),
-        'field'              => 'email',
-        'name'               => _n('Email', 'Emails', 1),
-        'datatype'           => 'email',
-        'massiveaction'      => false,
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '10',
-        'table'              => $this->getTable(),
-        'field'              => 'fax',
-        'name'               => __('Fax'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '25',
-        'table'              => $this->getTable(),
-        'field'              => 'postcode',
-        'name'               => __('Postal code'),
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '11',
-        'table'              => $this->getTable(),
-        'field'              => 'town',
-        'name'               => __('City'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '12',
-        'table'              => $this->getTable(),
-        'field'              => 'state',
-        'name'               => _x('location', 'State'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '13',
-        'table'              => $this->getTable(),
-        'field'              => 'country',
-        'name'               => __('Country'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '67',
-        'table'              => $this->getTable(),
-        'field'              => 'latitude',
-        'name'               => __('Latitude'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '68',
-        'table'              => $this->getTable(),
-        'field'              => 'longitude',
-        'name'               => __('Longitude'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
-
-      $tab[] = [
-        'id'                 => '69',
-        'table'              => $this->getTable(),
-        'field'              => 'altitude',
-        'name'               => __('Altitude'),
-        'massiveaction'      => false,
-        'datatype'           => 'string',
-        'autocomplete'       => true,
-      ];
 
       $tab[] = [
         'id'                 => '122',
@@ -694,8 +673,8 @@ class Entity
     return [
       [
         'title' => $translator->translatePlural('Entity', 'Entities', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Entity', 'Entities', 2),

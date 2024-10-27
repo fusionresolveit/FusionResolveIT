@@ -56,7 +56,7 @@ final class UsersMigration extends AbstractMigration
             'updated_at'                      => $row['date_mod'],
             'synchronized_at'                 => $row['date_sync'],
             'profile_id'                      => $row['profiles_id'],
-            'entity_id'                       => $row['entities_id'],
+            'entity_id'                       => ($row['entities_id'] + 1),
             'usertitle_id'                    => $row['usertitles_id'],
             'usercategory_id'                 => $row['usercategories_id'],
             'date_format'                     => $row['date_format'],
@@ -136,8 +136,10 @@ final class UsersMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

@@ -38,7 +38,7 @@ final class DevicesimcardsMigration extends AbstractMigration
             'id'                    => $row['id'],
             'name'                  => $row['designation'],
             'comment'               => $row['comment'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'is_recursive'          => $row['is_recursive'],
             'manufacturer_id'       => $row['manufacturers_id'],
             'voltage'               => $row['voltage'],

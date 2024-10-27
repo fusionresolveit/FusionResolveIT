@@ -41,7 +41,7 @@ final class ItemsDevicebatteriesMigration extends AbstractMigration
             'devicebattery_id'    => $row['devicebatteries_id'],
             'manufacturing_date'  => $row['manufacturing_date'],
             'is_dynamic'          => $row['is_dynamic'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'serial'              => $row['serial'],
             'otherserial'         => $row['otherserial'],
@@ -59,8 +59,10 @@ final class ItemsDevicebatteriesMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

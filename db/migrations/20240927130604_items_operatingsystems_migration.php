@@ -49,7 +49,7 @@ final class ItemsOperatingsystemsMigration extends AbstractMigration
             'updated_at'                      => $row['date_mod'],
             'created_at'                      => $row['date_creation'],
             'is_dynamic'                      => $row['is_dynamic'],
-            'entity_id'                       => $row['entities_id'],
+            'entity_id'                       => ($row['entities_id'] + 1),
             'is_recursive'                    => $row['is_recursive'],
             'deleted_at'                      => self::convertIsDeleted($row['is_deleted']),
           ]
@@ -63,8 +63,10 @@ final class ItemsOperatingsystemsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

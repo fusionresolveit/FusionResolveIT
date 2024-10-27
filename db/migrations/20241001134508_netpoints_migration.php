@@ -36,7 +36,7 @@ final class NetpointsMigration extends AbstractMigration
         $data = [
           [
             'id'          => $row['id'],
-            'entity_id'   => $row['entities_id'],
+            'entity_id'   => ($row['entities_id'] + 1),
             'location_id' => $row['locations_id'],
             'name'        => $row['name'],
             'comment'     => $row['comment'],

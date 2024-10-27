@@ -40,7 +40,7 @@ final class ItemsDevicedrivesMigration extends AbstractMigration
             'item_type'       => $row['itemtype'],
             'devicedrive_id'  => $row['devicedrives_id'],
             'is_dynamic'      => $row['is_dynamic'],
-            'entity_id'       => $row['entities_id'],
+            'entity_id'       => ($row['entities_id'] + 1),
             'is_recursive'    => $row['is_recursive'],
             'serial'          => $row['serial'],
             'busID'           => $row['busID'],
@@ -59,8 +59,10 @@ final class ItemsDevicedrivesMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

@@ -43,7 +43,7 @@ final class DeviceharddrivesMigration extends AbstractMigration
             'comment'                 => $row['comment'],
             'manufacturer_id'         => $row['manufacturers_id'],
             'capacity_default'        => $row['capacity_default'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'deviceharddrivemodel_id' => $row['deviceharddrivemodels_id'],
             'updated_at'              => $row['date_mod'],

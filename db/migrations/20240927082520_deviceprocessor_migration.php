@@ -43,7 +43,7 @@ final class DeviceprocessorMigration extends AbstractMigration
             'frequency_default'       => $row['frequency_default'],
             'nbcores_default'         => $row['nbcores_default'],
             'nbthreads_default'       => $row['nbthreads_default'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'deviceprocessormodel_id' => $row['deviceprocessormodels_id'],
             'updated_at'              => $row['date_mod'],

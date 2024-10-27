@@ -32,7 +32,8 @@ final class GroupsTicketsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_groups_tickets')->fetchColumn();
       $nbLoops = ceil($nbRows / 20000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_groups_tickets ORDER BY id LIMIT 20000 OFFSET ' . ($i * 20000));
 
         $rows = $stmt->fetchAll();

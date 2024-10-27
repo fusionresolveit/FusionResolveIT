@@ -39,7 +39,7 @@ final class ProjectTasksMigration extends AbstractMigration
             'uuid'                    => $row['uuid'],
             'name'                    => $row['name'],
             'content'                 => $row['content'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'project_id'              => $row['projects_id'],
             'projecttask_id'          => $row['projecttasks_id'],

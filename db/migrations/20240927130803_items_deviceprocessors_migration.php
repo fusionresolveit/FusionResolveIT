@@ -44,7 +44,7 @@ final class ItemsDeviceprocessorsMigration extends AbstractMigration
             'is_dynamic'          => $row['is_dynamic'],
             'nbcores'             => $row['nbcores'],
             'nbthreads'           => $row['nbthreads'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'busID'               => $row['busID'],
             'otherserial'         => $row['otherserial'],
@@ -62,8 +62,10 @@ final class ItemsDeviceprocessorsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

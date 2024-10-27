@@ -37,7 +37,7 @@ final class SlmsMigration extends AbstractMigration
           [
             'id'            => $row['id'],
             'name'          => $row['name'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'comment'       => $row['comment'],
             'calendar_id'   => $row['calendars_id'],

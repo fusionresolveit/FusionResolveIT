@@ -40,7 +40,7 @@ final class DevicemotherboardsMigration extends AbstractMigration
             'chipset'                   => $row['chipset'],
             'comment'                   => $row['comment'],
             'manufacturer_id'           => $row['manufacturers_id'],
-            'entity_id'                 => $row['entities_id'],
+            'entity_id'                 => ($row['entities_id'] + 1),
             'is_recursive'              => $row['is_recursive'],
             'devicemotherboardmodel_id' => $row['devicemotherboardmodels_id'],
             'updated_at'                => $row['date_mod'],

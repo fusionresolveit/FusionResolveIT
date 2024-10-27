@@ -35,9 +35,9 @@ final class EntitiesMigration extends AbstractMigration
       {
         $data = [
           [
-            'id'                                      => $row['id'],
+            'id'                                      => ($row['id'] + 1),
             'name'                                    => $row['name'],
-            'entity_id'                               => $row['entities_id'],
+            'entity_id'                               => ($row['entities_id'] + 1),
             'completename'                            => $row['completename'],
             'comment'                                 => $row['comment'],
             'level'                                   => $row['level'],

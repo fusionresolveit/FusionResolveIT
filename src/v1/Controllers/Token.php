@@ -41,7 +41,12 @@ final class Token
     return $verify;
   }
 
-  public function generateJWTToken(\App\Models\User $user, $profile_id = null, $entity_id = null, $entity_recursive = false)
+  public function generateJWTToken(
+    \App\Models\User $user,
+    $profile_id = null,
+    $entity_id = null,
+    $entity_recursive = false
+  )
   {
     global $basePath;
 

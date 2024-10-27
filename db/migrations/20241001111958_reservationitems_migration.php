@@ -37,7 +37,7 @@ final class ReservationitemsMigration extends AbstractMigration
           [
             'id'            => $row['id'],
             'item_type'     => $row['itemtype'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'item_id'       => $row['items_id'],
             'comment'       => $row['comment'],
@@ -54,8 +54,10 @@ final class ReservationitemsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

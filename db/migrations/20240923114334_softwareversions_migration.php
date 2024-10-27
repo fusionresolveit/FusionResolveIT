@@ -36,7 +36,7 @@ final class SoftwareversionsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'software_id'         => $row['softwares_id'],
             'state_id'            => $row['states_id'],

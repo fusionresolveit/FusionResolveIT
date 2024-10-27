@@ -36,7 +36,7 @@ final class PlanningexternaleventtemplatesMigration extends AbstractMigration
         $data = [
           [
             'id'                        => $row['id'],
-            'entity_id'                 => $row['entities_id'],
+            'entity_id'                 => ($row['entities_id'] + 1),
             'name'                      => $row['name'],
             'text'                      => $row['text'],
             'comment'                   => $row['comment'],

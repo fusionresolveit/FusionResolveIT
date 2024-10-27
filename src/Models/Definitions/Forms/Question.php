@@ -85,7 +85,8 @@ class Question
       [
         'id'    => 10,
         'title' => sprintf(
-          '%1$s <small><a href="http://php.net/manual/reference.pcre.pattern.syntax.php" target="_blank">(%2$s)</a></small>',
+          '%1$s <small><a href="http://php.net/manual/reference.pcre.pattern.syntax.php" ' .
+          'target="_blank">(%2$s)</a></small>',
           $translator->translate('Additional validation'),
           $translator->translate('Regular expression')
         ),

@@ -38,7 +38,7 @@ final class SolutiontypesMigration extends AbstractMigration
             'id'            => $row['id'],
             'name'          => $row['name'],
             'comment'       => $row['comment'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'updated_at'    => $row['date_mod'],
             'created_at'    => $row['date_creation'],

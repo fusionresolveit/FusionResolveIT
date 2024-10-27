@@ -130,25 +130,24 @@ class Mailcollector
 
 
     $tab[0]['title'] = $translator->translate('No import');
-    for ($index=1; $index<100; $index++) {
-      $tab[$index*1048576]['title'] = sprintf($translator->translate('%s Mio'), $index);
+    for ($index = 1; $index < 100; $index++) {
+      $tab[$index * 1048576]['title'] = sprintf($translator->translate('%s Mio'), $index);
     }
-
     return $tab;
- }
+  }
 
- public static function getRequesterField()
- {
-   global $translator;
-   return [
-    0 => [
-      'title' => $translator->translate('No'),
-    ],
-    1 => [
-      'title' => $translator->translate('Yes'),
-    ],
-  ];
-}
+  public static function getRequesterField()
+  {
+    global $translator;
+    return [
+      0 => [
+        'title' => $translator->translate('No'),
+      ],
+      1 => [
+        'title' => $translator->translate('Yes'),
+      ],
+    ];
+  }
 
   public static function getRelatedPages($rootUrl)
   {

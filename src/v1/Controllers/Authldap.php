@@ -31,7 +31,7 @@ final class Authldap extends Common
     return $this->commonUpdateItem($request, $response, $args, $item);
   }
 
-  static public function importUsers(\App\Models\Authldap $ldap, $login)
+  public static function importUsers(\App\Models\Authldap $ldap, $login)
   {
     $connection = new \LdapRecord\Connection([
       'hosts' => [$ldap->host],
@@ -61,7 +61,7 @@ final class Authldap extends Common
     return false;
   }
 
-  static public function tryAuth($authldapId, $userdn, $passowrd)
+  public static function tryAuth($authldapId, $userdn, $passowrd)
   {
     $authldap = \App\Models\Authldap::find($authldapId);
     if (is_null($authldap) or !$authldap->is_active)

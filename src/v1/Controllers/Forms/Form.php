@@ -45,7 +45,7 @@ final class Form extends \App\v1\Controllers\Common
         'name' => $section->name,
       ];
 
-      $item2 = new \App\Models\Forms\Section;
+      $item2 = new \App\Models\Forms\Section();
       $myItem2 = $item2::withCount('questions')->find($section->id);
       $sections[$section->id]['questions_count'] = $myItem2->questions_count;
     }
@@ -80,7 +80,7 @@ final class Form extends \App\v1\Controllers\Common
 
     $sections = [];
     foreach ($myItem->sections as $section) {
-      $item2 = new \App\Models\Forms\Section;
+      $item2 = new \App\Models\Forms\Section();
       $myItem2 = $item2::with('questions')->find($section->id);
 
       $sections[$section->id] = [];

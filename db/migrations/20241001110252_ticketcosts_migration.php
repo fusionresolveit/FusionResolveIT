@@ -46,7 +46,7 @@ final class TicketcostsMigration extends AbstractMigration
             'cost_fixed'    => $row['cost_fixed'],
             'cost_material' => $row['cost_material'],
             'budget_id'     => $row['budgets_id'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
           ]
         ];
         $item->insert($data)

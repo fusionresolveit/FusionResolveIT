@@ -243,11 +243,11 @@ class Common extends \App\v1\Controllers\Common
         //     !$definition_criterion['is_global']
         // )
         // {
-          $doactions |= $this->checkCriteria($criterion, $input);
-          if ($doactions)
-          {
-            break;
-          }
+        $doactions |= $this->checkCriteria($criterion, $input);
+        if ($doactions)
+        {
+          break;
+        }
         // }
       }
     }
@@ -310,7 +310,12 @@ class Common extends \App\v1\Controllers\Common
         {
           $value = $this->getCriteriaValue($criterion->criteria, $criterion->condition, $tmp);
 
-          $res &= \App\v1\Controllers\Rules\Criterium::match($criteria, $value, $this->criterias_results, $partial_regex_result);
+          $res &= \App\v1\Controllers\Rules\Criterium::match(
+            $criteria,
+            $value,
+            $this->criterias_results,
+            $partial_regex_result
+          );
           if (!$res)
           {
             break;
@@ -323,7 +328,12 @@ class Common extends \App\v1\Controllers\Common
         {
           $value = $this->getCriteriaValue($criterion->criteria, $criterion->condition, $crit);
 
-          $res |= \App\v1\Controllers\Rules\Criterium::match($criteria, $value, $this->criterias_results, $partial_regex_result);
+          $res |= \App\v1\Controllers\Rules\Criterium::match(
+            $criteria,
+            $value,
+            $this->criterias_results,
+            $partial_regex_result
+          );
         }
       }
     }

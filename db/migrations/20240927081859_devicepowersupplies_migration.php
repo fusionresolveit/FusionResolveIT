@@ -41,7 +41,7 @@ final class DevicepowersuppliesMigration extends AbstractMigration
             'is_atx'                    => $row['is_atx'],
             'comment'                   => $row['comment'],
             'manufacturer_id'           => $row['manufacturers_id'],
-            'entity_id'                 => $row['entities_id'],
+            'entity_id'                 => ($row['entities_id'] + 1),
             'is_recursive'              => $row['is_recursive'],
             'devicepowersupplymodel_id' => $row['devicepowersupplymodels_id'],
             'updated_at'                => $row['date_mod'],

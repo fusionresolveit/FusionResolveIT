@@ -36,7 +36,7 @@ final class ComputervirtualmachinesMigration extends AbstractMigration
         $data = [
           [
             'id'                      => $row['id'],
-            'entity_id'               => $row['entities_id'],
+            'entity_id'               => ($row['entities_id'] + 1),
             'computer_id'             => $row['computers_id'],
             'name'                    => $row['name'],
             'virtualmachinestate_id'  => $row['virtualmachinestates_id'],
@@ -61,8 +61,10 @@ final class ComputervirtualmachinesMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

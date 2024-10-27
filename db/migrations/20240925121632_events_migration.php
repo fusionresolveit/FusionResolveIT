@@ -32,7 +32,8 @@ final class EventsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_events')->fetchColumn();
       $nbLoops = ceil($nbRows / 100000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_events ORDER BY id LIMIT 100000 OFFSET ' . ($i * 100000));
 
         $rows = $stmt->fetchAll();

@@ -32,7 +32,8 @@ final class TicketsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_tickets')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_tickets ORDER BY id LIMIT 5000 OFFSET ' . ($i * 5000));
         $rows = $stmt->fetchAll();
         foreach ($rows as $row)
@@ -40,7 +41,7 @@ final class TicketsMigration extends AbstractMigration
           $data = [
             [
               'id'                          => $row['id'],
-              'entity_id'                   => $row['entities_id'],
+              'entity_id'                   => ($row['entities_id'] + 1),
               'name'                        => $row['name'],
               'date'                        => $row['date'],
               'closedate'                   => $row['closedate'],
@@ -93,8 +94,10 @@ final class TicketsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

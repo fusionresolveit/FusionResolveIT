@@ -36,7 +36,7 @@ final class ConsumablesMigration extends AbstractMigration
         $data = [
           [
             'id'                => $row['id'],
-            'entity_id'         => $row['entities_id'],
+            'entity_id'         => ($row['entities_id'] + 1),
             'consumableitem_id' => $row['consumableitems_id'],
             'date_in'           => $row['date_in'],
             'date_out'          => $row['date_out'],

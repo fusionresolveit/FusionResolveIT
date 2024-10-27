@@ -32,7 +32,8 @@ final class FollowupsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_itilfollowups')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_itilfollowups ORDER BY id LIMIT 5000 OFFSET ' . ($i * 5000));
 
         $rows = $stmt->fetchAll();
@@ -63,7 +64,8 @@ final class FollowupsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_tickettasks')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_tickettasks ORDER BY id LIMIT 5000 OFFSET ' . ($i * 5000));
 
         $rows = $stmt->fetchAll();
@@ -116,7 +118,8 @@ final class FollowupsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_changetasks')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_changetasks ORDER BY id LIMIT 5000 OFFSET ' . ($i * 5000));
 
         $rows = $stmt->fetchAll();
@@ -167,7 +170,8 @@ final class FollowupsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_problemtasks')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_problemtasks ORDER BY id LIMIT 5000 OFFSET ' . ($i * 5000));
 
         $rows = $stmt->fetchAll();

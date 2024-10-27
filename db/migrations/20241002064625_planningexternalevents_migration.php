@@ -38,7 +38,7 @@ final class PlanningexternaleventsMigration extends AbstractMigration
             'id'                                => $row['id'],
             'uuid'                              => $row['uuid'],
             'planningexternaleventtemplate_id'  => $row['planningexternaleventtemplates_id'],
-            'entity_id'                         => $row['entities_id'],
+            'entity_id'                         => ($row['entities_id'] + 1),
             'is_recursive'                      => $row['is_recursive'],
             'date'                              => $row['date'],
             'user_id'                           => $row['users_id'],

@@ -38,7 +38,7 @@ final class ProfilesUsersMigration extends AbstractMigration
             'id'                  => $row['id'],
             'user_id'             => $row['users_id'],
             'profile_id'          => $row['profiles_id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'is_dynamic'          => $row['is_dynamic'],
             'is_default_profile'  => $row['is_default_profile'],

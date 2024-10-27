@@ -4,7 +4,6 @@ namespace App\Models;
 
 class Displaypreference extends Common
 {
-
   protected $hasEntityField = false;
 
   /**

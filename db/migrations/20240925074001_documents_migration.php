@@ -32,7 +32,8 @@ final class DocumentsMigration extends AbstractMigration
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_documents')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_documents ORDER BY id LIMIT 5000 OFFSET ' . ($i * 5000));
 
         $rows = $stmt->fetchAll();
@@ -41,7 +42,7 @@ final class DocumentsMigration extends AbstractMigration
         {
           $data[] = [
             'id'                  => $row['id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'name'                => $row['name'],
             'filename'            => $row['filename'],
@@ -69,8 +70,10 @@ final class DocumentsMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

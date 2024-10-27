@@ -36,7 +36,7 @@ final class NetworkaliasesMigration extends AbstractMigration
         $data = [
           [
             'id'              => $row['id'],
-            'entity_id'       => $row['entities_id'],
+            'entity_id'       => ($row['entities_id'] + 1),
             'networkname_id'  => $row['networknames_id'],
             'name'            => $row['name'],
             'fqdn_id'         => $row['fqdns_id'],

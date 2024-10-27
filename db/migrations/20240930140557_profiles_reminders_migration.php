@@ -38,7 +38,7 @@ final class ProfilesRemindersMigration extends AbstractMigration
             'id'            => $row['id'],
             'reminder_id'   => $row['reminders_id'],
             'profile_id'    => $row['profiles_id'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
           ]
         ];

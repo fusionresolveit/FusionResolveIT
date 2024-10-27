@@ -38,7 +38,7 @@ final class AppliancesMigration extends AbstractMigration
             'id'                        => $row['id'],
             'name'                      => $row['name'],
             'comment'                   => $row['comment'],
-            'entity_id'                 => $row['entities_id'],
+            'entity_id'                 => ($row['entities_id'] + 1),
             'is_recursive'              => $row['is_recursive'],
             'appliancetype_id'          => $row['appliancetypes_id'],
             'location_id'               => $row['locations_id'],
@@ -67,8 +67,10 @@ final class AppliancesMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

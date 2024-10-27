@@ -36,7 +36,7 @@ final class ItemsDisksMigration extends AbstractMigration
         $data = [
           [
             'id'                    => $row['id'],
-            'entity_id'             => $row['entities_id'],
+            'entity_id'             => ($row['entities_id'] + 1),
             'item_type'             => 'App\\Models\\' . $row['itemtype'],
             'item_id'               => $row['items_id'],
             'name'                  => $row['name'],
@@ -64,8 +64,10 @@ final class ItemsDisksMigration extends AbstractMigration
     }
   }
 
-  public function convertIsDeleted($is_deleted) {
-    if ($is_deleted == 1) {
+  public function convertIsDeleted($is_deleted)
+  {
+    if ($is_deleted == 1)
+    {
       return date('Y-m-d H:i:s', time());
     }
 

@@ -43,7 +43,7 @@ final class ProjectcostsMigration extends AbstractMigration
             'end_date'      => $row['end_date'],
             'cost'          => $row['cost'],
             'budget_id'     => $row['budgets_id'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
           ]
         ];

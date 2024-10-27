@@ -36,7 +36,7 @@ final class RulesMigration extends AbstractMigration
         $data = [
           [
             'id'            => $row['id'],
-            'entity_id'     => $row['entities_id'],
+            'entity_id'     => ($row['entities_id'] + 1),
             'sub_type'      => $row['sub_type'],
             'ranking'       => $row['ranking'],
             'name'          => $row['name'],

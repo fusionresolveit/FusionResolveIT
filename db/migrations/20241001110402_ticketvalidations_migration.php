@@ -36,7 +36,7 @@ final class TicketvalidationsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'entity_id'           => $row['entities_id'],
+            'entity_id'           => ($row['entities_id'] + 1),
             'user_id'             => $row['users_id'],
             'ticket_id'           => $row['tickets_id'],
             'user_id_validate'    => $row['users_id_validate'],
