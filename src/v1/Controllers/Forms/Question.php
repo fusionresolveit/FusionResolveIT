@@ -74,7 +74,7 @@ final class Question extends \App\v1\Controllers\Common
 
     $forms = [];
     foreach ($myItem->sections as $section) {
-      $item2 = new \App\Models\Forms\Section;
+      $item2 = new \App\Models\Forms\Section();
       $myItem2 = $item2::with('forms')->find($section->id);
 
       foreach ($myItem2->forms as $form) {
@@ -122,7 +122,7 @@ final class Question extends \App\v1\Controllers\Common
 
     $forms = [];
     foreach ($myItem->sections as $section) {
-      $item2 = new \App\Models\Forms\Section;
+      $item2 = new \App\Models\Forms\Section();
       $myItem2 = $item2::with('forms')->find($section->id);
 
       foreach ($myItem2->forms as $form) {
@@ -137,5 +137,4 @@ final class Question extends \App\v1\Controllers\Common
 
     return $tabInfos;
   }
-
 }

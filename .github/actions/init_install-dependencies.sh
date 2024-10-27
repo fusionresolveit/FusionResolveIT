@@ -7,4 +7,4 @@ composer validate --strict
 composer check-platform-reqs;
 
 # Install dependencies
-bin/console dependencies install --composer-options="$COMPOSER_ADD_OPTS --prefer-dist --no-progress"
+# bin/console dependencies install --composer-options="$COMPOSER_ADD_OPTS --prefer-dist --no-progress"
