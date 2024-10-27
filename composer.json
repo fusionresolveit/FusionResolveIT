@@ -23,7 +23,7 @@
         "bryanjhv/slim-session": "~4.0",
         "directorytree/ldaprecord": "^3.7",
         "fico7489/laravel-pivot": "^3.0",
-        "genealabs/laravel-pivot-events": "*",
+        "genealabs/laravel-pivot-events": "~11.0",
         "guzzlehttp/guzzle": "^7.4",
         "guzzlehttp/psr7": "^1.8",
         "htmlawed/htmlawed": "^1.2",
