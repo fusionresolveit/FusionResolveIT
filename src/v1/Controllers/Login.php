@@ -127,7 +127,7 @@ final class Login extends Common
     setcookie('token', $jwt['token'], 0, $basePath . '/view');
     //, $cookie_lifetime, $cookie_path, $cookie_domain, $cookie_secure, true);
 
-    header('Location: ' . $basePath . '/view/computers');
+    header('Location: ' . $basePath . '/view/home');
     exit();
   }
 

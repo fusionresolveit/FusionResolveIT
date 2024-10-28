@@ -51,6 +51,8 @@ final class Route
       $view->map(['GET'], '/logout', \App\v1\Controllers\Login::class . ':logout');
       $view->map(['POST'], '/changeprofileentity', \App\v1\Controllers\Login::class . ':changeProfileEntity');
 
+      $view->map(['GET'], '/home', \App\v1\Controllers\Home::class . ':homepage');
+
       $view->group('/computers', function (RouteCollectorProxy $computers)
       {
         $computers->map(['GET'], '', \App\v1\Controllers\Computer::class . ':getAll');

@@ -1,0 +1,33 @@
+{{ include('header.html.twig') }}
+
+<div class="ui sticky pageheader">
+  <div style="height: 1px"></div>
+  <div class="ui blue dividing header">
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <i class="big {{ header.icon }} icon"></i>
+        <div class="content">
+          {{ header.title }}
+          <div class="sub header">{{ data.fields.paging.total }} items</div>
+        </div>
+      </div>
+      <span style="float: right;">
+        <a href="{{ header.route }}/new">
+          <button
+            class="ui primary button labeled icon floated"
+          >
+          <i class="plus icon"></i>
+          {{ translation.newbutton }}
+          </button>
+        </a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="ui secondary segment">
+
+</div>
+
+
+{{ include('footer.html.twig') }}
