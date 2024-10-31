@@ -37,7 +37,7 @@ final class ItemsClustersMigration extends AbstractMigration
           [
             'id'          => $row['id'],
             'cluster_id'  => $row['clusters_id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'item_id'     => $row['items_id'],
           ]
         ];

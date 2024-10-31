@@ -38,7 +38,7 @@ final class RegisteredidsMigration extends AbstractMigration
             'id'          => $row['id'],
             'name'        => $row['name'],
             'item_id'     => $row['items_id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'device_type' => $row['device_type'],
           ]
         ];

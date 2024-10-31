@@ -39,7 +39,7 @@ final class FieldblacklistsMigration extends AbstractMigration
             'name'          => $row['name'],
             'field'         => $row['field'],
             'value'         => $row['value'],
-            'item_type'     => $row['itemtype'],
+            'item_type'     => 'App\\Models\\' . $row['itemtype'],
             'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'comment'       => $row['comment'],

@@ -315,7 +315,7 @@ class Phone
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translatePlural('Reservation', 'Reservations', 2),
@@ -325,17 +325,17 @@ class Phone
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/appliances',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -36,7 +36,7 @@ final class VobjectsMigration extends AbstractMigration
         $data = [
           [
             'id'          => $row['id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'item_id'     => $row['items_id'],
             'data'        => $row['data'],
             'updated_at'  => $row['date_mod'],

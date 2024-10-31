@@ -167,7 +167,7 @@ final class Menu
             'link'  => $basePath . '/view/forms',
             'icon'  => 'hands helping',
             'class' => $activePath == $basePath . '/view/forms' ? 'active blue' : '',
-            'display' => $this->getRightForModel('\App\Models\Forms\form'),
+            'display' => $this->getRightForModel('\App\Models\Forms\Form'),
           ],
           [
             'name'  => $translator->translatePlural('Section', 'Sections', 2),

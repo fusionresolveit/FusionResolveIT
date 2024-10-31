@@ -14,6 +14,7 @@ class Section extends \App\Models\Common
   protected $definition = '\App\Models\Definitions\Forms\Section';
   protected $titles = ['Section', 'Sections'];
   protected $icon = 'cubes';
+  protected $hasEntityField = false;
 
   public function questions(): BelongsToMany
   {

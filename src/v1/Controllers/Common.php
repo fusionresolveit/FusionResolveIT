@@ -290,16 +290,6 @@ class Common
       ->orderBy('id', 'desc')
       ->get();
 
-// id: 1
-// item_type: App\v1\Models\User
-// item_id: 6
-// itemtype_link: Profile_User
-// linked_action: 17
-// user_name: glpi
-// updated_at: 2012-01-24 10:21:20
-// id_search_option: 0
-// old_value:
-// new_value: post-only, Root entity, D
 
     $fieldsTitle = [];
     foreach ($definitions as $def)
@@ -468,5 +458,240 @@ class Common
   protected function getInformationBottom($item, $request)
   {
     return [];
+  }
+
+
+
+  public function showSubNotes(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('notes')->find($args['id']);
+
+    $myNotes = [];
+    foreach ($myItem->notes as $note)
+    {
+      $user = '';
+      if ($note->user !== null)
+      {
+        $user = $note->user->name;
+      }
+      $user_lastupdater = '';
+      if ($note->userlastupdater !== null)
+      {
+        $user_lastupdater = $note->userlastupdater->name;
+      }
+
+      $create = sprintf($translator->translate('Create by %1$s on %2$s'), $user, $note->created_at);
+      $update = sprintf($translator->translate('Last update by %1$s on %2$s'), $user_lastupdater, $note->updated_at);
+
+      $myNotes[] = [
+        'content' => str_ireplace("\n", "<br/>", $note->content),
+        'create' => $create,
+        'update' => $update,
+        'updated_at' => $note->updated_at,
+      ];
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($myNotes, function ($a, $b)
+    {
+      return $a['updated_at'] < $b['updated_at'];
+    });
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/notes');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('notes', $myNotes);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+
+    return $view->render($response, 'subitem/notes.html.twig', (array)$viewData);
+  }
+
+  public function showSubDomains(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('domains')->find($args['id']);
+
+    $myDomains = [];
+    foreach ($myItem->domains as $domain)
+    {
+      $entity = '';
+      if ($domain->entity !== null)
+      {
+        $entity = $domain->entity->name;
+      }
+      $groupstech = '';
+      if ($domain->groupstech !== null)
+      {
+        $groupstech = $domain->groupstech->name;
+      }
+      $userstech = '';
+      if ($domain->userstech !== null)
+      {
+        $userstech = $domain->userstech->name;
+      }
+      $type = '';
+      if ($domain->type !== null)
+      {
+        $type = $domain->type->name;
+      }
+      $domainrelation = \App\Models\Domainrelation::find($domain->pivot->domainrelation_id);
+      $relation = '';
+      if ($domainrelation !== null)
+      {
+        $relation = $domainrelation->name;
+      }
+      $date_expiration = $domain->date_expiration;
+      if ($date_expiration == null)
+      {
+        $date_expiration = $translator->translate("N'expire pas");
+      }
+
+      $myDomains[] = [
+        'name'          => $domain->name,
+        'entity'        => $entity,
+        'group'         => $groupstech,
+        'user'          => $userstech,
+        'type'          => $type,
+        'relation'      => $relation,
+        'date_create'   => $domain->created_at,
+        'date_exp'      => $date_expiration,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/domains');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('domains', $myDomains);
+
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('group', $translator->translate('Group in charge'));
+    $viewData->addTranslation('user', $translator->translate('Technician in charge'));
+    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('relation', $translator->translatePlural('Domain relation', 'Domains relations', 1));
+    $viewData->addTranslation('date_create', $translator->translate('Creation date'));
+    $viewData->addTranslation('date_exp', $translator->translate('Expiration date'));
+
+    return $view->render($response, 'subitem/domains.html.twig', (array)$viewData);
+  }
+
+  public function showSubAppliances(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('appliances')->find($args['id']);
+
+    $myAppliances = [];
+    foreach ($myItem->appliances as $appliance)
+    {
+      $myAppliances[] = [
+        'name' => $appliance->name,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/appliances');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('appliances', $myAppliances);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+
+    return $view->render($response, 'subitem/appliances.html.twig', (array)$viewData);
+  }
+
+  public function showSubCertificates(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('certificates')->find($args['id']);
+
+    $myCertificates = [];
+    foreach ($myItem->certificates as $certificate)
+    {
+      $type = '';
+      if ($certificate->type !== null)
+      {
+        $type = $certificate->type->name;
+      }
+      $entity = '';
+      if ($certificate->entity !== null)
+      {
+        $entity = $certificate->entity->name;
+      }
+
+      $date_expiration = $certificate->date_expiration;
+      if ($date_expiration == null)
+      {
+        $date_expiration = $translator->translate("N'expire pas");
+      }
+      $state = '';
+      if ($certificate->state !== null)
+      {
+        $state = $certificate->state->name;
+      }
+
+
+      $myCertificates[] = [
+        'name'              => $certificate->name,
+        'entity'            => $entity,
+        'type'              => $type,
+        'dns_name'          => $certificate->dns_name,
+        'dns_suffix'        => $certificate->dns_suffix,
+        'created_at'        => $certificate->created_at,
+        'date_expiration'   => $date_expiration,
+        'state'             => $state,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/certificates');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('certificates', $myCertificates);
+
+    $viewData->addTranslation('name', 'Nom');
+    $viewData->addTranslation('entity', 'Entité');
+    $viewData->addTranslation('type', 'Type');
+    $viewData->addTranslation('dns_name', 'Nom DNS');
+    $viewData->addTranslation('dns_suffix', 'Suffixe DNS');
+    $viewData->addTranslation('created_at', 'Date de création');
+    $viewData->addTranslation('date_expiration', "Date d'expiration");
+    $viewData->addTranslation('state', 'Statut');
+
+    return $view->render($response, 'subitem/certificates.html.twig', (array)$viewData);
   }
 }

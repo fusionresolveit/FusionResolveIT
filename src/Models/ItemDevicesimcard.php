@@ -21,6 +21,7 @@ class ItemDevicesimcard extends Common
     'location',
     'user',
     'group',
+    'entity',
   ];
 
   protected $visible = [
@@ -28,6 +29,7 @@ class ItemDevicesimcard extends Common
     'location',
     'user',
     'group',
+    'entity',
   ];
 
   protected $with = [
@@ -35,6 +37,7 @@ class ItemDevicesimcard extends Common
     'location:id,name',
     'user:id,name',
     'group:id,name',
+    'entity:id,name',
   ];
 
 
@@ -56,5 +59,10 @@ class ItemDevicesimcard extends Common
   public function group(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Group');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

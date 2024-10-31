@@ -37,7 +37,7 @@ final class NotificationtemplatesMigration extends AbstractMigration
           [
             'id'          => $row['id'],
             'name'        => $row['name'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'updated_at'  => $row['date_mod'],
             'comment'     => $row['comment'],
             'css'         => $row['css'],

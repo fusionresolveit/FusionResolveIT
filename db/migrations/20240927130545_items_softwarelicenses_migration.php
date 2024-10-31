@@ -37,7 +37,7 @@ final class ItemsSoftwarelicensesMigration extends AbstractMigration
           [
             'id'                  => $row['id'],
             'item_id'             => $row['items_id'],
-            'item_type'           => $row['itemtype'],
+            'item_type'           => 'App\\Models\\' . $row['itemtype'],
             'softwarelicense_id'  => $row['softwarelicenses_id'],
             'is_dynamic'          => $row['is_dynamic'],
             'deleted_at'          => self::convertIsDeleted($row['is_deleted']),

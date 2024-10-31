@@ -40,7 +40,7 @@ final class ConsumablesMigration extends AbstractMigration
             'consumableitem_id' => $row['consumableitems_id'],
             'date_in'           => $row['date_in'],
             'date_out'          => $row['date_out'],
-            'item_type'         => $row['itemtype'],
+            'item_type'         => 'App\\Models\\' . $row['itemtype'],
             'item_id'           => $row['items_id'],
             'updated_at'        => $row['date_mod'],
             'created_at'        => $row['date_creation'],

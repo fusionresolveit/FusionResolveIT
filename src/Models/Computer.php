@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
 class Computer extends Common
@@ -46,6 +47,10 @@ class Computer extends Common
     'autoupdatesystem',
     'uuid',
     'entity',
+    'certificates',
+    'domains',
+    'appliances',
+    'notes',
   ];
 
   protected $with = [
@@ -73,6 +78,9 @@ class Computer extends Common
     'virtualization:id,name',
     'certificates:id,name',
     'entity:id,name',
+    'domains:id,name',
+    'appliances:id,name',
+    'notes:id',
   ];
 
   public static function boot()
@@ -303,5 +311,33 @@ class Computer extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function domains(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Domain',
+      'item',
+      'domain_item'
+    )->withPivot(
+      'domainrelation_id',
+    );
+  }
+
+  public function appliances(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Appliance',
+      'item',
+      'appliance_item'
+    );
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

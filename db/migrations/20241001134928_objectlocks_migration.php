@@ -36,7 +36,7 @@ final class ObjectlocksMigration extends AbstractMigration
         $data = [
           [
             'id'          => $row['id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'item_id'     => $row['items_id'],
             'user_id'     => $row['users_id'],
             'updated_at'  => $row['date_mod'],

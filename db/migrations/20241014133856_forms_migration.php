@@ -19,7 +19,7 @@ final class FormsMigration extends AbstractMigration
           ->addColumn('created_at', 'timestamp', ['null' => true])
           ->addColumn('updated_at', 'timestamp', ['null' => true])
           ->addColumn('deleted_at', 'timestamp', ['null' => true])
-          ->addColumn('entity_id', 'integer', ['null' => false, 'default' => 0])
+          ->addColumn('entity_id', 'integer', ['null' => false, 'default' => 1])
           ->addColumn('is_recursive', 'boolean', ['null' => false, 'default' => false])
           ->addColumn('icon', 'string', ['null' => false])
           ->addColumn('icon_color', 'string', ['null' => false])

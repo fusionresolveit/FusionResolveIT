@@ -1,0 +1,21 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+
+{% for note in data.notes %}
+    <div class="ui blue segment">
+        <h2 class="ui sub header">
+            <i class="sticky note outline icon"></i>
+            <div class="content">note</div>
+        </h2>
+        <div class="itilcontent">{{ note.content|raw }}</div>
+        <div class="content">
+            <span class="ui grey text">
+                {{ note.update }}<br>
+                {{ note.create }}
+            </span>
+        </div>
+    </div>
+{% endfor %}
+
+{{ include('footer.html.twig') }}

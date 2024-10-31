@@ -77,9 +77,9 @@ class User extends Common
     return $this->belongsTo('\App\Models\User', 'user_id_supervisor');
   }
 
-  public function group(): BelongsTo
+  public function group(): BelongsToMany
   {
-    return $this->belongsTo('\App\Models\Group');
+    return $this->belongsToMany('\App\Models\Group')->withPivot('group_id');
   }
 
   public function profiles(): BelongsToMany

@@ -121,7 +121,7 @@ class ItemDevicesimcard
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),

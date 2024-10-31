@@ -77,7 +77,10 @@ final class Route
             $sub->map(['GET'], 'volumes', \App\v1\Controllers\Computer::class . ':showVolumes');
             $sub->map(['GET'], 'virtualization', \App\v1\Controllers\Computer::class . ':showVirtualization');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Computer::class . ':showExternalLinks');
-            $sub->map(['GET'], 'certificates', \App\v1\Controllers\Computer::class . ':showCertificates');
+            $sub->map(['GET'], 'certificates', \App\v1\Controllers\Computer::class . ':showSubCertificates');
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Computer::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Computer::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Computer::class . ':showSubNotes');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Computer::class . ':showSubHistory');
           });
         });
@@ -98,6 +101,14 @@ final class Route
         {
           $monitorId->map(['GET'], '', \App\v1\Controllers\Monitor::class . ':showItem');
           $monitorId->map(['POST'], '', \App\v1\Controllers\Monitor::class . ':updateItem');
+
+          $monitorId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Monitor::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Monitor::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Monitor::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Monitor::class . ':showSubHistory');
+          });
         });
       });
 
@@ -116,6 +127,14 @@ final class Route
         {
           $softwareId->map(['GET'], '', \App\v1\Controllers\Software::class . ':showItem');
           $softwareId->map(['POST'], '', \App\v1\Controllers\Software::class . ':updateItem');
+
+          $softwareId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Software::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Software::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Software::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Software::class . ':showSubHistory');
+          });
         });
       });
 
@@ -134,6 +153,15 @@ final class Route
         {
           $networkequipmentId->map(['GET'], '', \App\v1\Controllers\Networkequipment::class . ':showItem');
           $networkequipmentId->map(['POST'], '', \App\v1\Controllers\Networkequipment::class . ':updateItem');
+
+          $networkequipmentId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'certificates', \App\v1\Controllers\Networkequipment::class . ':showSubCertificates');
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Networkequipment::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Networkequipment::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Networkequipment::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipment::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/peripherals', function (RouteCollectorProxy $peripherals)
@@ -144,6 +172,15 @@ final class Route
         {
           $peripheralId->map(['GET'], '', \App\v1\Controllers\Peripheral::class . ':showItem');
           $peripheralId->map(['POST'], '', \App\v1\Controllers\Peripheral::class . ':updateItem');
+
+          $peripheralId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'certificates', \App\v1\Controllers\Peripheral::class . ':showSubCertificates');
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Peripheral::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Peripheral::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Peripheral::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Peripheral::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/printers', function (RouteCollectorProxy $printers)
@@ -154,6 +191,15 @@ final class Route
         {
           $printerId->map(['GET'], '', \App\v1\Controllers\Printer::class . ':showItem');
           $printerId->map(['POST'], '', \App\v1\Controllers\Printer::class . ':updateItem');
+
+          $printerId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'certificates', \App\v1\Controllers\Printer::class . ':showSubCertificates');
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Printer::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Printer::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Printer::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Printer::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/cartridgeitems', function (RouteCollectorProxy $cartridgeitems)
@@ -164,6 +210,12 @@ final class Route
         {
           $cartridgeitemId->map(['GET'], '', \App\v1\Controllers\Cartridgeitem::class . ':showItem');
           $cartridgeitemId->map(['POST'], '', \App\v1\Controllers\Cartridgeitem::class . ':updateItem');
+
+          $cartridgeitemId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Cartridgeitem::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Cartridgeitem::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/consumableitems', function (RouteCollectorProxy $consumableitems)
@@ -174,6 +226,11 @@ final class Route
         {
           $consumableitemId->map(['GET'], '', \App\v1\Controllers\Consumableitem::class . ':showItem');
           $consumableitemId->map(['POST'], '', \App\v1\Controllers\Consumableitem::class . ':updateItem');
+          $consumableitemId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Consumableitem::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Consumableitem::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/phones', function (RouteCollectorProxy $phones)
@@ -184,6 +241,14 @@ final class Route
         {
           $phoneId->map(['GET'], '', \App\v1\Controllers\Phone::class . ':showItem');
           $phoneId->map(['POST'], '', \App\v1\Controllers\Phone::class . ':updateItem');
+
+          $phoneId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Phone::class . ':showSubDomains');
+            $sub->map(['GET'], 'appliances', \App\v1\Controllers\Phone::class . ':showSubAppliances');
+            $sub->map(['GET'], 'notes', \App\v1\Controllers\Phone::class . ':showSubNotes');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Phone::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/racks', function (RouteCollectorProxy $racks)
@@ -194,6 +259,10 @@ final class Route
         {
           $rackId->map(['GET'], '', \App\v1\Controllers\Rack::class . ':showItem');
           $rackId->map(['POST'], '', \App\v1\Controllers\Rack::class . ':updateItem');
+          $rackId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Rack::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/enclosures', function (RouteCollectorProxy $enclosures)
@@ -204,6 +273,10 @@ final class Route
         {
           $enclosureId->map(['GET'], '', \App\v1\Controllers\Enclosure::class . ':showItem');
           $enclosureId->map(['POST'], '', \App\v1\Controllers\Enclosure::class . ':updateItem');
+          $enclosureId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Enclosure::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/pdus', function (RouteCollectorProxy $pdus)
@@ -214,6 +287,10 @@ final class Route
         {
           $pduId->map(['GET'], '', \App\v1\Controllers\Pdu::class . ':showItem');
           $pduId->map(['POST'], '', \App\v1\Controllers\Pdu::class . ':updateItem');
+          $pduId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Pdu::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/passivedcequipments', function (RouteCollectorProxy $passivedcequipments)
@@ -224,6 +301,10 @@ final class Route
         {
           $passivedcequipmentId->map(['GET'], '', \App\v1\Controllers\Passivedcequipment::class . ':showItem');
           $passivedcequipmentId->map(['POST'], '', \App\v1\Controllers\Passivedcequipment::class . ':updateItem');
+          $passivedcequipmentId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Passivedcequipment::class . ':showSubHistory');
+          });
         });
       });
       $view->group('/itemdevicesimcards', function (RouteCollectorProxy $item_devicesimcards)
@@ -234,6 +315,10 @@ final class Route
         {
           $item_devicesimcardId->map(['GET'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':showItem');
           $item_devicesimcardId->map(['POST'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':updateItem');
+          $item_devicesimcardId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'history', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubHistory');
+          });
         });
       });
 

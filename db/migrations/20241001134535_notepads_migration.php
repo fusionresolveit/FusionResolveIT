@@ -36,7 +36,7 @@ final class NotepadsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'item_type'           => $row['itemtype'],
+            'item_type'           => 'App\\Models\\' . $row['itemtype'],
             'item_id'             => $row['items_id'],
             'created_at'          => $row['date'],
             'updated_at'          => $row['date_mod'],

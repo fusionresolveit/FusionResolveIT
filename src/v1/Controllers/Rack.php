@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Rack extends Common
 {
+  protected $model = '\App\Models\Rack';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Rack();

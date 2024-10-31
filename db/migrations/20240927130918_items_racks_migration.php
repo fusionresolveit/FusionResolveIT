@@ -37,7 +37,7 @@ final class ItemsRacksMigration extends AbstractMigration
           [
             'id'          => $row['id'],
             'rack_id'     => $row['racks_id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'item_id'     => $row['items_id'],
             'position'    => $row['position'],
             'orientation' => $row['orientation'],

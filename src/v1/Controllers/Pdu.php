@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Pdu extends Common
 {
+  protected $model = '\App\Models\Pdu';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Pdu();

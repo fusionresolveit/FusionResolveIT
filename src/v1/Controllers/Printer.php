@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Printer extends Common
 {
+  protected $model = '\App\Models\Printer';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Printer();

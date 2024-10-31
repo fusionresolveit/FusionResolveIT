@@ -36,7 +36,7 @@ final class ReservationitemsMigration extends AbstractMigration
         $data = [
           [
             'id'            => $row['id'],
-            'item_type'     => $row['itemtype'],
+            'item_type'     => 'App\\Models\\' . $row['itemtype'],
             'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'item_id'       => $row['items_id'],

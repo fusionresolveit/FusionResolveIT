@@ -235,40 +235,6 @@ final class Computer extends Common
     return $view->render($response, 'subitem/softwares.html.twig', (array)$viewData);
   }
 
-  public function showHistory(Request $request, Response $response, $args)
-  {
-    $item = new \App\Models\Computer();
-    $view = Twig::fromRequest($request);
-
-    $session = new \SlimSession\Helper();
-
-    // Load the item
-    $myItem = $item->find($args['id']);
-
-    $logs = \App\Models\Log::
-        where('item_type', 'App\v1\Models\Computer')
-      ->where('item_id', $myItem->id)
-      ->get();
-
-    $rootUrl = $this->getUrlWithoutQuery($request);
-    $rootUrl = rtrim($rootUrl, '/history');
-
-    // form data
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
-
-    $viewData->addData('history', $logs);
-
-    if ($session->exists('message'))
-    {
-      $viewData['message'] = $session->message;
-      $session->delete('message');
-    }
-
-    return $view->render($response, 'subitem/history.html.twig', (array)$viewData);
-  }
-
   protected function getInformationTop($item, $request)
   {
     global $translator, $basePath;
@@ -339,16 +305,6 @@ final class Computer extends Common
     return $tabInfos;
   }
 
-  protected function getInformationBottom($item, $request)
-  {
-    return [
-      // [
-      //   'key'   => '1',
-      //   'value' => 'Operating system : Windows 11 pro',
-      //   'link'  => 'free.fr',
-      // ],
-    ];
-  }
 
   public function showComponents(Request $request, Response $response, $args): Response
   {
@@ -798,74 +754,6 @@ final class Computer extends Common
     return $view->render($response, 'subitem/virtualization.html.twig', (array)$viewData);
   }
 
-  public function showCertificates(Request $request, Response $response, $args): Response
-  {
-    global $translator;
-
-    $item = new \App\Models\Computer();
-    $view = Twig::fromRequest($request);
-
-    $myItem = $item::with('certificates')->find($args['id']);
-
-    $myCertificates = [];
-    foreach ($myItem->certificates as $certificate)
-    {
-      $type = '';
-      if ($certificate->type !== null)
-      {
-        $type = $certificate->type->name;
-      }
-      $entity = '';
-      if ($certificate->entity !== null)
-      {
-        $entity = $certificate->entity->name;
-      }
-
-      $date_expiration = $certificate->date_expiration;
-      if ($date_expiration == null)
-      {
-        $date_expiration = $translator->translate("N'expire pas");
-      }
-      $state = '';
-      if ($certificate->state !== null)
-      {
-        $state = $certificate->state->name;
-      }
-
-
-      $myCertificates[] = [
-        'name'              => $certificate->name,
-        'entity'            => $entity,
-        'type'              => $type,
-        'dns_name'          => $certificate->dns_name,
-        'dns_suffix'        => $certificate->dns_suffix,
-        'created_at'        => $certificate->created_at,
-        'date_expiration'   => $date_expiration,
-        'state'             => $state,
-      ];
-    }
-
-    $rootUrl = $this->getUrlWithoutQuery($request);
-    $rootUrl = rtrim($rootUrl, '/certificates');
-
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
-
-    $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('certificates', $myCertificates);
-
-    $viewData->addTranslation('name', 'Nom');
-    $viewData->addTranslation('entity', 'Entité');
-    $viewData->addTranslation('type', 'Type');
-    $viewData->addTranslation('dns_name', 'Nom DNS');
-    $viewData->addTranslation('dns_suffix', 'Suffixe DNS');
-    $viewData->addTranslation('created_at', 'Date de création');
-    $viewData->addTranslation('date_expiration', "Date d'expiration");
-    $viewData->addTranslation('state', 'Statut');
-
-    return $view->render($response, 'subitem/certificates.html.twig', (array)$viewData);
-  }
-
   public function showExternalLinks(Request $request, Response $response, $args): Response
   {
     global $translator;
@@ -971,8 +859,6 @@ final class Computer extends Common
 
     return $view->render($response, 'subitem/externallinks.html.twig', (array)$viewData);
   }
-
-
 
   function generateLinkContents($link, $item, $replaceByBr = false)
   {

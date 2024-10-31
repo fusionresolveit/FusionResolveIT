@@ -36,7 +36,7 @@ final class CrontasksMigration extends AbstractMigration
         $data = [
           [
             'id'            => $row['id'],
-            'item_type'     => $row['itemtype'],
+            'item_type'     => 'App\\Models\\' . $row['itemtype'],
             'name'          => $row['name'],
             'frequency'     => $row['frequency'],
             'param'         => $row['param'],

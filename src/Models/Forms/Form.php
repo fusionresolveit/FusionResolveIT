@@ -15,12 +15,18 @@ class Form extends \App\Models\Common
   protected $titles = ['Form', 'Forms'];
   protected $icon = 'cubes';
 
+  protected $appends = [
+    'entity',
+  ];
+
   protected $visible = [
     'category',
+    'entity',
   ];
 
   protected $with = [
     'category:id,name',
+    'entity:id,name',
   ];
 
   public function category(): BelongsTo
@@ -31,5 +37,10 @@ class Form extends \App\Models\Common
   public function sections(): BelongsToMany
   {
     return $this->belongsToMany('\App\Models\Forms\Section');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
   }
 }

@@ -38,7 +38,7 @@ final class ComputersItemsMigration extends AbstractMigration
             'id'          => $row['id'],
             'item_id'     => $row['items_id'],
             'computer_id' => $row['computers_id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
             'is_dynamic'  => $row['is_dynamic'],
             'deleted_at'  => self::convertIsDeleted($row['is_deleted']),
           ]

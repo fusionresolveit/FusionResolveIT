@@ -36,7 +36,7 @@ final class ItemsTicketsMigration extends AbstractMigration
         $data = [
           [
             'id'        => $row['id'],
-            'item_type' => $row['itemtype'],
+            'item_type' => 'App\\Models\\' . $row['itemtype'],
             'item_id'   => $row['items_id'],
             'ticket_id' => $row['tickets_id'],
           ]

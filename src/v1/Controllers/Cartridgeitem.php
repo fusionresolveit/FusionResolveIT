@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Cartridgeitem extends Common
 {
+  protected $model = '\App\Models\Cartridgeitem';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Cartridgeitem();

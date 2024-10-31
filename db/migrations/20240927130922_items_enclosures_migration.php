@@ -37,7 +37,7 @@ final class ItemsEnclosuresMigration extends AbstractMigration
           [
             'id'            => $row['id'],
             'enclosure_id'  => $row['enclosures_id'],
-            'item_type'     => $row['itemtype'],
+            'item_type'     => 'App\\Models\\' . $row['itemtype'],
             'item_id'       => $row['items_id'],
             'position'      => $row['position'],
           ]

@@ -5,7 +5,7 @@
   {% for certificate in data.certificates|sort((a, b) => a.certificate.name|lower <=> b.certificate.name|lower) %}
     <div class="ui card">
       <div class="content">
-        <div class="header">{{ certificate.name }}</div>
+        <div class="header"><i class="scroll icon"></i>{{ certificate.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">

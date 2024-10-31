@@ -37,7 +37,7 @@ final class ChangesItemsMigration extends AbstractMigration
           [
             'id'        => $row['id'],
             'change_id' => $row['changes_id'],
-            'item_type' => $row['itemtype'],
+            'item_type' => 'App\\Models\\' . $row['itemtype'],
             'item_id'   => $row['items_id'],
           ]
         ];

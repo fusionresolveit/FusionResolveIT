@@ -26,7 +26,7 @@ final class FormsAnswersMigration extends AbstractMigration
     {
         $table = $this->table('answers');
         $table->addColumn('created_at', 'timestamp', ['null' => true])
-              ->addColumn('entity_id', 'integer', ['null' => false, 'default' => 0])
+              ->addColumn('entity_id', 'integer', ['null' => false, 'default' => 1])
               ->addColumn('form_id', 'integer', ['null' => false, 'default' => 0])
               ->addColumn('user_id', 'integer', ['null' => false, 'default' => 0])
               ->addIndex(['entity_id'])
@@ -62,7 +62,7 @@ final class FormsAnswersMigration extends AbstractMigration
                 {
                     $data = [
                         [
-                            'entity_id'         => $row['entities_id'],
+                            'entity_id'         => ($row['entities_id'] + 1),
                             'form_id'           => $row['plugin_formcreator_forms_id'],
                             'user_id'           => $row['requester_id'],
                             'created_at'        => $row['request_date'],

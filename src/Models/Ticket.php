@@ -26,6 +26,9 @@ class Ticket extends Common
     'usersidrecipient',
     'category',
     'entity',
+    'problems',
+    'changes',
+    'linkedtickets',
   ];
 
   protected $visible = [
@@ -39,6 +42,9 @@ class Ticket extends Common
     'usersidrecipient',
     'category',
     'entity',
+    'problems',
+    'changes',
+    'linkedtickets',
   ];
 
   protected $with = [
@@ -53,6 +59,9 @@ class Ticket extends Common
     'category:id,name',
     'location:id,name',
     'entity:id,name',
+    'problems:id,name',
+    'changes:id,name',
+    'linkedtickets:id,name',
   ];
 
   // For default values
@@ -162,6 +171,16 @@ class Ticket extends Common
   public function problems(): BelongsToMany
   {
     return $this->belongsToMany('\App\Models\Problem');
+  }
+
+  public function changes(): BelongsToMany
+  {
+    return $this->belongsToMany('\App\Models\Change');
+  }
+
+  public function linkedtickets(): BelongsToMany
+  {
+    return $this->belongsToMany('\App\Models\Ticket', 'ticket_ticket', 'ticket_id_1', 'ticket_id_2')->withPivot('link');
   }
 
   public function entity(): BelongsTo

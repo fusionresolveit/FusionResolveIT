@@ -38,7 +38,7 @@ final class FieldunicitiesMigration extends AbstractMigration
             'id'            => $row['id'],
             'name'          => $row['name'],
             'is_recursive'  => $row['is_recursive'],
-            'item_type'     => $row['itemtype'],
+            'item_type'     => 'App\\Models\\' . $row['itemtype'],
             'entity_id'     => ($row['entities_id'] + 1),
             'fields'        => $row['fields'],
             'is_active'     => $row['is_active'],

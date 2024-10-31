@@ -38,7 +38,7 @@ final class ContractsItemsMigration extends AbstractMigration
             'id'          => $row['id'],
             'contract_id' => $row['contracts_id'],
             'item_id'     => $row['items_id'],
-            'item_type'   => $row['itemtype'],
+            'item_type'   => 'App\\Models\\' . $row['itemtype'],
           ]
         ];
         $item->insert($data)

@@ -38,7 +38,7 @@ final class NotificationsMigration extends AbstractMigration
             'id'              => $row['id'],
             'name'            => $row['name'],
             'entity_id'       => ($row['entities_id'] + 1),
-            'item_type'       => $row['itemtype'],
+            'item_type'       => 'App\\Models\\' . $row['itemtype'],
             'event'           => $row['event'],
             'comment'         => $row['comment'],
             'is_recursive'    => $row['is_recursive'],

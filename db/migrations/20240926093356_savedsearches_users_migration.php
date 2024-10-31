@@ -37,7 +37,7 @@ final class SavedsearchesUsersMigration extends AbstractMigration
           [
             'id'              => $row['id'],
             'user_id'         => $row['users_id'],
-            'item_type'       => $row['itemtype'],
+            'item_type'       => 'App\\Models\\' . $row['itemtype'],
             'savedsearch_id'  => $row['savedsearches_id'],
           ]
         ];

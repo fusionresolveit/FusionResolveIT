@@ -31,6 +31,66 @@ final class HomeMigration extends AbstractMigration
         'column'     => 1,
         'row'        => 1,
       ]
+
+      ,
+      [
+        'module'     => 'groupstickets',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'todayincidents',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'lastproblems',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'lastknowledgeitems',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'linkedincidents',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'lastescaladedtickets',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'knowledgelink',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+      [
+        'module'     => 'forms',
+        'profile_id' => 0,
+        'user_id'    => 0,
+        'column'     => 1,
+        'row'        => 1,
+      ],
+
+
     ];
     $table->insert($data)
           ->saveData();

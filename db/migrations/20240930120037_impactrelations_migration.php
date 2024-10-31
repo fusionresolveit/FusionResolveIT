@@ -36,9 +36,9 @@ final class ImpactrelationsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'item_type_source'    => $row['itemtype_source'],
+            'item_type_source'    => 'App\\Models\\' . $row['itemtype_source'],
             'item_id_source'      => $row['items_id_source'],
-            'item_type_impacted'  => $row['itemtype_impacted'],
+            'item_type_impacted'  => 'App\\Models\\' . $row['itemtype_impacted'],
             'item_id_impacted'    => $row['items_id_impacted'],
           ]
         ];

@@ -1,0 +1,60 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui stackable cards">
+    {% for domain in data.domains|sort((a, b) => a.domain.name|lower <=> b.domain.name|lower) %}
+      <div class="ui card">
+        <div class="content">
+          <div class="header"><i class="globe icon"></i>{{ domain.name }}</div>
+        </div>
+        <div class="content">
+          <div class="ui relaxed list">
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.entity }}</a>
+                <div class="description">{{ domain.entity }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.group }}</a>
+                <div class="description">{{ domain.group }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.user }}</a>
+                <div class="description">{{ domain.user }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.type }}</a>
+                <div class="description">{{ domain.type }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.relation }}</a>
+                <div class="description">{{ domain.relation }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.date_create }}</a>
+                <div class="description">{{ domain.date_create }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.date_exp }}</a>
+                <div class="description">{{ domain.date_exp }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{{ include('footer.html.twig') }}

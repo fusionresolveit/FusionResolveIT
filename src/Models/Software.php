@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Software extends Common
@@ -39,6 +41,9 @@ class Software extends Common
     // 'group',
     // 'location',
     'entity',
+    'domains',
+    'appliances',
+    'notes',
   ];
 
   protected $with = [
@@ -52,6 +57,9 @@ class Software extends Common
     // 'group:id,name',
     // 'location:id,name',
     'entity:id,name',
+    'domains:id,name',
+    'appliances:id,name',
+    'notes:id',
   ];
 
   protected $fillable = [
@@ -107,5 +115,33 @@ class Software extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function domains(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Domain',
+      'item',
+      'domain_item'
+    )->withPivot(
+      'domainrelation_id',
+    );
+  }
+
+  public function appliances(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Appliance',
+      'item',
+      'appliance_item'
+    );
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

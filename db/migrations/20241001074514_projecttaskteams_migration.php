@@ -37,7 +37,7 @@ final class ProjecttaskteamsMigration extends AbstractMigration
           [
             'id'              => $row['id'],
             'projecttask_id'  => $row['projecttasks_id'],
-            'item_type'       => $row['itemtype'],
+            'item_type'       => 'App\\Models\\' . $row['itemtype'],
             'item_id'         => $row['items_id'],
           ]
         ];

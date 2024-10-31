@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cartridgeitem extends Common
@@ -30,6 +32,7 @@ class Cartridgeitem extends Common
     'userstech',
     'location',
     'entity',
+    'notes',
   ];
 
   protected $with = [
@@ -39,6 +42,7 @@ class Cartridgeitem extends Common
     'userstech:id,name',
     'location:id,name',
     'entity:id,name',
+    'notes:id',
   ];
 
 
@@ -70,5 +74,13 @@ class Cartridgeitem extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

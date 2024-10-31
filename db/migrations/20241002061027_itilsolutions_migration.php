@@ -36,7 +36,7 @@ final class ItilsolutionsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'item_type'           => $row['itemtype'],
+            'item_type'           => 'App\\Models\\' . $row['itemtype'],
             'item_id'             => $row['items_id'],
             'solutiontype_id'     => $row['solutiontypes_id'],
             'solutiontype_name'   => $row['solutiontype_name'],

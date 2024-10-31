@@ -36,7 +36,7 @@ final class ImpactitemsMigration extends AbstractMigration
         $data = [
           [
             'id'                => $row['id'],
-            'item_type'         => $row['itemtype'],
+            'item_type'         => 'App\\Models\\' . $row['itemtype'],
             'item_id'           => $row['items_id'],
             'parent_id'         => $row['parent_id'],
             'impactcontext_id'  => $row['impactcontexts_id'],

@@ -362,6 +362,11 @@ class Printer
         'link' => '',
       ],
       [
+        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'icon' => 'caret square down outline',
+        'link' => $rootUrl . '/notes',
+      ],
+      [
         'title' => $translator->translatePlural('Reservation', 'Reservations', 2),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -369,22 +374,22 @@ class Printer
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/certificates',
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/appliances',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

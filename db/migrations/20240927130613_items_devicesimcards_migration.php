@@ -37,7 +37,7 @@ final class ItemsDevicesimcardsMigration extends AbstractMigration
           [
             'id'                => $row['id'],
             'item_id'           => $row['items_id'],
-            'item_type'         => $row['itemtype'],
+            'item_type'         => 'App\\Models\\' . $row['itemtype'],
             'devicesimcard_id'  => $row['devicesimcards_id'],
             'is_dynamic'        => $row['is_dynamic'],
             'entity_id'         => ($row['entities_id'] + 1),

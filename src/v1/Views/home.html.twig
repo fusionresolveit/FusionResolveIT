@@ -1,6 +1,6 @@
 {{ include('header.html.twig') }}
 
-<div class="ui sticky pageheader">
+<div class="ui pageheader">
   <div style="height: 1px"></div>
   <div class="ui blue dividing header">
     <div style="display: flex; justify-content: space-between">
@@ -26,7 +26,484 @@
 </div>
 
 <div class="ui secondary segment">
+  {% for key,item in data.items %}
+    {% if key == 'mytickets' %}
+      <table class="ui blue table">
+        <caption>
+          {{ translation.mytickets }}
+        </caption>
+        <thead>
+          <tr>
+            <th>{{ translation.id }}</th>
+            <th>{{ translation.title }}</th>
+            <th>{{ translation.status }}</th>
+            <th>{{ translation.priority }}</th>
+            <th>{{ translation.date_open }}</th>
+            <th>{{ translation.date_last_modif }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key2,ticket in item.datas %}
+            <tr>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ key2 }}</a></td>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.name }}</a></td>
+              {% if ticket.status is iterable %}
+                <td class="left {% if ticket.status.color is defined %}
+                    {{ ticket.status.color }}
+                  {% endif %}
+                  {% if ticket.status.displaystyle is defined %}
+                    {{ ticket.status.displaystyle }}
+                  {% endif %}"
+                >
+                  {% if ticket.status.color is defined %}
+                    <span class="ui {{ ticket.status.color }} text">
+                      {% if ticket.status.icon is defined %}
+                        <i class="{{ ticket.status.icon }} icon"></i>
+                      {% endif %}
+                      {{ ticket.status.title }}
+                    </span>
+                  {% else %}
+                      {{ ticket.status.title }}
+                  {% endif %}
+                </td>
+              {% else %}
+                <td>{{ ticket.status }}</td>
+              {% endif %}
+              {% if ticket.priority is iterable %}
+                <td class="left {% if ticket.priority.color is defined %}
+                    {{ ticket.priority.color }}
+                  {% endif %}
+                  {% if ticket.priority.displaystyle is defined %}
+                    {{ ticket.priority.displaystyle }}
+                  {% endif %}"
+                >
+                  {% if ticket.priority.color is defined %}
+                    <span class="ui {{ ticket.priority.color }} text">
+                      {% if ticket.priority.icon is defined %}
+                        <i class="{{ ticket.priority.icon }} icon"></i>
+                      {% endif %}
+                      {{ ticket.priority.title }}
+                    </span>
+                  {% else %}
+                      {{ ticket.priority.title }}
+                  {% endif %}
+                </td>
+              {% else %}
+                <td>{{ ticket.priority }}</td>
+              {% endif %}
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_open }}</a></td>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_last_modif }}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
 
+    {% if key == 'groupstickets' %}
+      <table class="ui blue table">
+        <caption>
+          {{ translation.groupstickets }}
+        </caption>
+        <thead>
+          <tr>
+            <th>{{ translation.id }}</th>
+            <th>{{ translation.title }}</th>
+            <th>{{ translation.status }}</th>
+            <th>{{ translation.priority }}</th>
+            <th>{{ translation.date_open }}</th>
+            <th>{{ translation.date_last_modif }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key2,ticket in item.datas %}
+            <tr>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ key2 }}</a></td>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.name }}</a></td>
+              {% if ticket.status is iterable %}
+                <td class="left {% if ticket.status.color is defined %}
+                    {{ ticket.status.color }}
+                  {% endif %}
+                  {% if ticket.status.displaystyle is defined %}
+                    {{ ticket.status.displaystyle }}
+                  {% endif %}"
+                >
+                  {% if ticket.status.color is defined %}
+                    <span class="ui {{ ticket.status.color }} text">
+                      {% if ticket.status.icon is defined %}
+                        <i class="{{ ticket.status.icon }} icon"></i>
+                      {% endif %}
+                      {{ ticket.status.title }}
+                    </span>
+                  {% else %}
+                      {{ ticket.status.title }}
+                  {% endif %}
+                </td>
+              {% else %}
+                <td>{{ ticket.status }}</td>
+              {% endif %}
+              {% if ticket.priority is iterable %}
+                <td class="left {% if ticket.priority.color is defined %}
+                    {{ ticket.priority.color }}
+                  {% endif %}
+                  {% if ticket.priority.displaystyle is defined %}
+                    {{ ticket.priority.displaystyle }}
+                  {% endif %}"
+                >
+                  {% if ticket.priority.color is defined %}
+                    <span class="ui {{ ticket.priority.color }} text">
+                      {% if ticket.priority.icon is defined %}
+                        <i class="{{ ticket.priority.icon }} icon"></i>
+                      {% endif %}
+                      {{ ticket.priority.title }}
+                    </span>
+                  {% else %}
+                      {{ ticket.priority.title }}
+                  {% endif %}
+                </td>
+              {% else %}
+                <td>{{ ticket.priority }}</td>
+              {% endif %}
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_open }}</a></td>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_last_modif }}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    {% if key == 'todayincidents' %}
+      <div class="ui blue cards">
+        <div class="ui card">
+          <div class="content">
+            <div class="header" style="text-align: center;">{{ translation.nb_today_incidents }}</div>
+          </div>
+          <div class="content" style="text-align: center;">
+            <a class="header">{{ item.datas.nb }}</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if key == 'lastproblems' %}
+      <table class="ui blue table">
+        <caption>
+          {{ translation.last_problems }}
+        </caption>
+        <thead>
+          <tr>
+            <th>{{ translation.id }}</th>
+            <th>{{ translation.title }}</th>
+            <th>{{ translation.status }}</th>
+            <th>{{ translation.priority }}</th>
+            <th>{{ translation.date_open }}</th>
+            <th>{{ translation.date_last_modif }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key2,ticket in item.datas %}
+            {% if key2 != '#' %}
+              <tr>
+                <td><a href="{{ data.rootUrl }}/problems/{{ key2 }}">{{ key2 }}</a></td>
+                <td><a href="{{ data.rootUrl }}/problems/{{ key2 }}">{{ ticket.name }}</a></td>
+                {% if ticket.status is iterable %}
+                  <td class="left {% if ticket.status.color is defined %}
+                      {{ ticket.status.color }}
+                    {% endif %}
+                    {% if ticket.status.displaystyle is defined %}
+                      {{ ticket.status.displaystyle }}
+                    {% endif %}"
+                  >
+                    {% if ticket.status.color is defined %}
+                      <span class="ui {{ ticket.status.color }} text">
+                        {% if ticket.status.icon is defined %}
+                          <i class="{{ ticket.status.icon }} icon"></i>
+                        {% endif %}
+                        {{ ticket.status.title }}
+                      </span>
+                    {% else %}
+                        {{ ticket.status.title }}
+                    {% endif %}
+                  </td>
+                {% else %}
+                  <td>{{ ticket.status }}</td>
+                {% endif %}
+                {% if ticket.priority is iterable %}
+                  <td class="left {% if ticket.priority.color is defined %}
+                      {{ ticket.priority.color }}
+                    {% endif %}
+                    {% if ticket.priority.displaystyle is defined %}
+                      {{ ticket.priority.displaystyle }}
+                    {% endif %}"
+                  >
+                    {% if ticket.priority.color is defined %}
+                      <span class="ui {{ ticket.priority.color }} text">
+                        {% if ticket.priority.icon is defined %}
+                          <i class="{{ ticket.priority.icon }} icon"></i>
+                        {% endif %}
+                        {{ ticket.priority.title }}
+                      </span>
+                    {% else %}
+                        {{ ticket.priority.title }}
+                    {% endif %}
+                  </td>
+                {% else %}
+                  <td>{{ ticket.priority }}</td>
+                {% endif %}
+                <td><a href="{{ data.rootUrl }}/problems/{{ key2 }}">{{ ticket.date_open }}</a></td>
+                <td><a href="{{ data.rootUrl }}/problems/{{ key2 }}">{{ ticket.date_last_modif }}</a></td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% if item.datas['#']['limit'] == true %}
+            <tr>
+              <td colspan="6">Limite atteinte ({{ item.datas['#']['nbLast'] }}) sur {{ item.datas['#']['nb_res'] }} résultats </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    {% if key == 'lastknowledgeitems' %}
+      <table class="ui blue table">
+        <caption>
+          {{ translation.last_knowbaseitems }}
+        </caption>
+        <thead>
+          <tr>
+            <th>{{ translation.subject }}</th>
+            <th>{{ translation.writer }}</th>
+            <th>{{ translation.category }}</th>
+            <th>{{ translation.visible_since }}</th>
+            <th>{{ translation.visible_until }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key2,ticket in item.datas %}
+            {% if key2 != '#' %}
+              <tr>
+                <td><a href="{{ data.rootUrl }}/knowbaseitems/{{ key2 }}">{{ ticket.name }}</a></td>
+                <td><a href="{{ data.rootUrl }}/knowbaseitems/{{ key2 }}">{{ ticket.user }}</a></td>
+                <td><a href="{{ data.rootUrl }}/knowbaseitems/{{ key2 }}">{{ ticket.category }}</a></td>
+                <td><a href="{{ data.rootUrl }}/knowbaseitems/{{ key2 }}">{{ ticket.visible_since }}</a></td>
+                <td><a href="{{ data.rootUrl }}/knowbaseitems/{{ key2 }}">{{ ticket.visible_until }}</a></td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% if item.datas['#']['limit'] == true %}
+            <tr>
+              <td colspan="6">Limite atteinte ({{ item.datas['#']['nbLast'] }}) sur {{ item.datas['#']['nb_res'] }} résultats </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    {% if key == 'linkedincidents' %}
+      <table class="ui blue table">
+        <caption>
+          {{ translation.linkedtickets }}
+        </caption>
+        <thead>
+          <tr>
+            <th>{{ translation.id }}</th>
+            <th>{{ translation.title }}</th>
+            <th>{{ translation.status }}</th>
+            <th>{{ translation.priority }}</th>
+            <th>{{ translation.date_open }}</th>
+            <th>{{ translation.date_last_modif }}</th>
+            <th>{{ translation.linkedtickets }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key2,ticket in item.datas %}
+            <tr>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ key2 }}</a></td>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.name }}</a></td>
+              {% if ticket.status is iterable %}
+                <td class="left {% if ticket.status.color is defined %}
+                    {{ ticket.status.color }}
+                  {% endif %}
+                  {% if ticket.status.displaystyle is defined %}
+                    {{ ticket.status.displaystyle }}
+                  {% endif %}"
+                >
+                  {% if ticket.status.color is defined %}
+                    <span class="ui {{ ticket.status.color }} text">
+                      {% if ticket.status.icon is defined %}
+                        <i class="{{ ticket.status.icon }} icon"></i>
+                      {% endif %}
+                      {{ ticket.status.title }}
+                    </span>
+                  {% else %}
+                      {{ ticket.status.title }}
+                  {% endif %}
+                </td>
+              {% else %}
+                <td>{{ ticket.status }}</td>
+              {% endif %}
+              {% if ticket.priority is iterable %}
+                <td class="left {% if ticket.priority.color is defined %}
+                    {{ ticket.priority.color }}
+                  {% endif %}
+                  {% if ticket.priority.displaystyle is defined %}
+                    {{ ticket.priority.displaystyle }}
+                  {% endif %}"
+                >
+                  {% if ticket.priority.color is defined %}
+                    <span class="ui {{ ticket.priority.color }} text">
+                      {% if ticket.priority.icon is defined %}
+                        <i class="{{ ticket.priority.icon }} icon"></i>
+                      {% endif %}
+                      {{ ticket.priority.title }}
+                    </span>
+                  {% else %}
+                      {{ ticket.priority.title }}
+                  {% endif %}
+                </td>
+              {% else %}
+                <td>{{ ticket.priority }}</td>
+              {% endif %}
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_open }}</a></td>
+              <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_last_modif }}</a></td>
+              <td>
+                {% if ticket.linkedtickets is iterable %}
+                  {% for linkedticket in ticket.linkedtickets %}
+                    <p>{{ linkedticket|raw }}</p>
+                  {% endfor %}
+                {% else %}
+                  {{ ticket.linkedtickets }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    {% if key == 'lastescaladedtickets' %}
+      <table class="ui blue table">
+        <caption>
+          {{ translation.lastescaladedtickets }}
+        </caption>
+        <thead>
+          <tr>
+            <th>{{ translation.id }}</th>
+            <th>{{ translation.title }}</th>
+            <th>{{ translation.status }}</th>
+            <th>{{ translation.priority }}</th>
+            <th>{{ translation.date_open }}</th>
+            <th>{{ translation.date_last_modif }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key2,ticket in item.datas %}
+            {% if key2 != '#' %}
+              <tr>
+                <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ key2 }}</a></td>
+                <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.name }}</a></td>
+                {% if ticket.status is iterable %}
+                  <td class="left {% if ticket.status.color is defined %}
+                      {{ ticket.status.color }}
+                    {% endif %}
+                    {% if ticket.status.displaystyle is defined %}
+                      {{ ticket.status.displaystyle }}
+                    {% endif %}"
+                  >
+                    {% if ticket.status.color is defined %}
+                      <span class="ui {{ ticket.status.color }} text">
+                        {% if ticket.status.icon is defined %}
+                          <i class="{{ ticket.status.icon }} icon"></i>
+                        {% endif %}
+                        {{ ticket.status.title }}
+                      </span>
+                    {% else %}
+                        {{ ticket.status.title }}
+                    {% endif %}
+                  </td>
+                {% else %}
+                  <td>{{ ticket.status }}</td>
+                {% endif %}
+                {% if ticket.priority is iterable %}
+                  <td class="left {% if ticket.priority.color is defined %}
+                      {{ ticket.priority.color }}
+                    {% endif %}
+                    {% if ticket.priority.displaystyle is defined %}
+                      {{ ticket.priority.displaystyle }}
+                    {% endif %}"
+                  >
+                    {% if ticket.priority.color is defined %}
+                      <span class="ui {{ ticket.priority.color }} text">
+                        {% if ticket.priority.icon is defined %}
+                          <i class="{{ ticket.priority.icon }} icon"></i>
+                        {% endif %}
+                        {{ ticket.priority.title }}
+                      </span>
+                    {% else %}
+                        {{ ticket.priority.title }}
+                    {% endif %}
+                  </td>
+                {% else %}
+                  <td>{{ ticket.priority }}</td>
+                {% endif %}
+                <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_open }}</a></td>
+                <td><a href="{{ data.rootUrl }}/tickets/{{ key2 }}">{{ ticket.date_last_modif }}</a></td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% if item.datas['#']['limit'] == true %}
+            <tr>
+              <td colspan="6">Limite atteinte ({{ item.datas['#']['nbLast'] }}) sur {{ item.datas['#']['nb_res'] }} résultats </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    {% if key == 'knowledgelink' %}
+      <div class="ui blue cards">
+        <div class="ui card">
+          <div class="content">
+            <div class="header" style="text-align: center;">{{ translation.knowledgebase }}</div>
+          </div>
+          <div class="content" style="text-align: center;">
+            <a class="header">{{ item.datas.link|raw }}</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if key == 'forms' %}
+    <div class="ui blue cards">
+      <div class="ui card">
+        <div class="content">
+          <div class="header" style="text-align: center;">{{ translation.forms }}</div>
+        </div>
+        <div class="content">
+          <div class="ui relaxed list">
+            {% for cat_form in item.datas %}
+              <div class="item">
+                <div class="content">
+                  <a class="header">{{ cat_form.category }}</a>
+                  {% if cat_form.forms is iterable %}
+                    <div class="ui relaxed list">
+                      {% for form in cat_form.forms %}
+                      <div class="item">
+                        <div class="content">
+                          <a class="header"> - {{ form.name }}</a>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
 </div>
 
 

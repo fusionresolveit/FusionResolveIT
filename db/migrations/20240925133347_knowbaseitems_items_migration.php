@@ -37,7 +37,7 @@ final class KnowbaseitemsItemsMigration extends AbstractMigration
           [
             'id'              => $row['id'],
             'knowbaseitem_id' => $row['knowbaseitems_id'],
-            'item_type'       => $row['itemtype'],
+            'item_type'       => 'App\\Models\\' . $row['itemtype'],
             'item_id'         => $row['items_id'],
             'created_at'      => $row['date_creation'],
             'updated_at'      => $row['date_mod'],

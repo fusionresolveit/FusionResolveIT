@@ -37,7 +37,7 @@ final class ItemsDevicenetworkcardsMigration extends AbstractMigration
           [
             'id'                    => $row['id'],
             'item_id'               => $row['items_id'],
-            'item_type'             => $row['itemtype'],
+            'item_type'             => 'App\\Models\\' . $row['itemtype'],
             'devicenetworkcard_id'  => $row['devicenetworkcards_id'],
             'mac'                   => $row['mac'],
             'is_dynamic'            => $row['is_dynamic'],

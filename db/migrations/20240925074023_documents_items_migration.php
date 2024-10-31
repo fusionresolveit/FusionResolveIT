@@ -44,7 +44,7 @@ final class DocumentsItemsMigration extends AbstractMigration
             'id'                => $row['id'],
             'document_id'       => $row['documents_id'],
             'item_id'           => $row['items_id'],
-            'item_type'         => $row['itemtype'],
+            'item_type'         => 'App\\Models\\' . $row['itemtype'],
             'entity_id'         => ($row['entities_id'] + 1),
             'is_recursive'      => $row['is_recursive'],
             'updated_at'        => $row['date_mod'],
