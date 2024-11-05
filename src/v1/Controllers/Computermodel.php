@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Computermodel extends Common
 {
+  protected $model = '\App\Models\Computermodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Computermodel();

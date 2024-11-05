@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Phonetype extends Common
 {
+  protected $model = '\App\Models\Phonetype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Phonetype();

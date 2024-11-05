@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Rackmodel extends Common
 {
+  protected $model = '\App\Models\Rackmodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Rackmodel();

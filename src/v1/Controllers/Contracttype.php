@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Contracttype extends Common
 {
+  protected $model = '\App\Models\Contracttype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Contracttype();

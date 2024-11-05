@@ -137,8 +137,8 @@ class Document
     return [
       [
         'title' => $translator->translatePlural('Document', 'Documents', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Associated item', 'Associated items', 2),
@@ -153,12 +153,12 @@ class Document
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

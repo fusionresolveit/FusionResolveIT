@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Ssovariable extends Common
 {
+  protected $model = '\App\Models\Ssovariable';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Ssovariable();

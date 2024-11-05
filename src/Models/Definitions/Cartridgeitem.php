@@ -333,6 +333,11 @@ class Cartridgeitem
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Cartridge', 'Cartridges', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translatePlural('Cartridge', 'Cartridges', 2),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -355,7 +360,7 @@ class Cartridgeitem
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),

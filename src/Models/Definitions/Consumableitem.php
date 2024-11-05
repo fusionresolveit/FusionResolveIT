@@ -300,6 +300,11 @@ class Consumableitem
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Consumable', 'Consumables', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translatePlural('Consumable', 'Consumables', 2),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -317,7 +322,7 @@ class Consumableitem
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),

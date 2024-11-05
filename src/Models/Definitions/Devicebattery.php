@@ -22,6 +22,7 @@ class Devicebattery
         'name'  => 'manufacturer',
         'dbname' => 'manufacturer_id',
         'itemtype' => '\App\Models\Manufacturer',
+        'fillable' => true,
       ],
       [
         'id'    => 13,
@@ -98,8 +99,8 @@ class Devicebattery
     return [
       [
         'title' => $translator->translatePlural('Battery', 'Batteries', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -114,7 +115,7 @@ class Devicebattery
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

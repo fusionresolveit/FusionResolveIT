@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Contacttype extends Common
 {
+  protected $model = '\App\Models\Contacttype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Contacttype();

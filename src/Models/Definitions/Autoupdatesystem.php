@@ -45,13 +45,13 @@ class Autoupdatesystem
     return [
       [
         'title' => $translator->translatePlural('Update Source', 'Update Sources', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class FormcreatorCategory extends Common
 {
+  protected $model = '\App\Models\FormcreatorCategory';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\FormcreatorCategory();

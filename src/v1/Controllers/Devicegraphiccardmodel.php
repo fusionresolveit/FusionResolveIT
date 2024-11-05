@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicegraphiccardmodel extends Common
 {
+  protected $model = '\App\Models\Devicegraphiccardmodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicegraphiccardmodel();

@@ -582,6 +582,11 @@ class Problem
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Problem', 'Problems', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Processing problem'),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -629,17 +634,17 @@ class Problem
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
         'icon' => 'book',
-        'link' => '',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

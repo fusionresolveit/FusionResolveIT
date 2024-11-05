@@ -52,13 +52,13 @@ class Devicesensormodel
     return [
       [
         'title' => $translator->translatePlural('Device sensor model', 'Device sensor models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

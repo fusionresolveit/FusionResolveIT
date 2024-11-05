@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicesimcardtype extends Common
 {
+  protected $model = '\App\Models\Devicesimcardtype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicesimcardtype();

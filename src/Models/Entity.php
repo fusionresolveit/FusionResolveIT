@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Entity extends Common
 {
@@ -16,13 +18,16 @@ class Entity extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
+    'notes',
   ];
 
   protected $visible = [
+    'notes',
   ];
 
   protected $with = [
     'entity:id,name',
+    'notes:id',
   ];
 
   public static function booted()
@@ -45,5 +50,13 @@ class Entity extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

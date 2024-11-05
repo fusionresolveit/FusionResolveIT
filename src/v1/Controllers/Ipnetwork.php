@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Ipnetwork extends Common
 {
+  protected $model = '\App\Models\Ipnetwork';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Ipnetwork();

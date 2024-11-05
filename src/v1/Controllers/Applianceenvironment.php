@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Applianceenvironment extends Common
 {
+  protected $model = '\App\Models\Applianceenvironment';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Applianceenvironment();

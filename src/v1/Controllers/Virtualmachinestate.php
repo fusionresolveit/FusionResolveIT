@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Virtualmachinestate extends Common
 {
+  protected $model = '\App\Models\Virtualmachinestate';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Virtualmachinestate();

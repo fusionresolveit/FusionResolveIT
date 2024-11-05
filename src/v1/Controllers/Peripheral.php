@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Peripheral extends Common
 {
   protected $model = '\App\Models\Peripheral';
+  protected $rootUrl2 = '/peripherals/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

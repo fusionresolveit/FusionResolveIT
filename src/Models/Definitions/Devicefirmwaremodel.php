@@ -52,13 +52,13 @@ class Devicefirmwaremodel
     return [
       [
         'title' => $translator->translatePlural('Device firmware model', 'Device firmware models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

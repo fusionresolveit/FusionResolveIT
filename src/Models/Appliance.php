@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Appliance extends Common
 {
@@ -25,6 +27,8 @@ class Appliance extends Common
     'manufacturer',
     'environment',
     'entity',
+    'certificates',
+    'domains',
   ];
 
   protected $visible = [
@@ -38,6 +42,8 @@ class Appliance extends Common
     'manufacturer',
     'environment',
     'entity',
+    'certificates',
+    'domains',
   ];
 
   protected $with = [
@@ -51,6 +57,8 @@ class Appliance extends Common
     'manufacturer:id,name',
     'environment:id,name',
     'entity:id,name',
+    'certificates:id,name',
+    'domains:id,name',
   ];
 
   public function location(): BelongsTo
@@ -101,5 +109,27 @@ class Appliance extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function certificates(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Certificate',
+      'item',
+      'certificate_item'
+    )->withPivot(
+      'certificate_id',
+    );
+  }
+
+  public function domains(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Domain',
+      'item',
+      'domain_item'
+    )->withPivot(
+      'domainrelation_id',
+    );
   }
 }

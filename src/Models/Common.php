@@ -247,6 +247,9 @@ class Common extends Model
     {
       $def = $otherDefs;
     }
+    if ($myItem == null) {
+      return $def;
+    }
 
     foreach ($def as $idx => &$field)
     {

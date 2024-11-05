@@ -104,8 +104,8 @@ class Devicegraphiccard
     return [
       [
         'title' => $translator->translatePlural('Graphics card', 'Graphics cards', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -120,7 +120,7 @@ class Devicegraphiccard
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -52,13 +52,13 @@ class Planningeventcategory
     return [
       [
         'title' => $translator->translatePlural('Event category', 'Event categories', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

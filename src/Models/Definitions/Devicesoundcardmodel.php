@@ -52,13 +52,13 @@ class Devicesoundcardmodel
     return [
       [
         'title' => $translator->translatePlural('Device sound card model', 'Device sound card models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

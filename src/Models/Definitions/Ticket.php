@@ -515,9 +515,9 @@ class Ticket
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Knowledge'),
+        'title' => $translator->translate('Knowledge base'),
         'icon' => 'book',
-        'link' => '',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Budget extends Common
 {
@@ -18,18 +20,21 @@ class Budget extends Common
     'location',
     'type',
     'entity',
+    'notes',
   ];
 
   protected $visible = [
     'location',
     'type',
     'entity',
+    'notes',
   ];
 
   protected $with = [
     'location:id,name',
     'type:id,name',
     'entity:id,name',
+    'notes:id',
   ];
 
   public function location(): BelongsTo
@@ -45,5 +50,13 @@ class Budget extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

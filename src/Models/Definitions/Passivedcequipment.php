@@ -148,6 +148,11 @@ class Passivedcequipment
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Passive device', 'Passive devices', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Management'),
         'icon' => 'caret square down outline',
         'link' => '',

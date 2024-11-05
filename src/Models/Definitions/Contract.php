@@ -538,8 +538,8 @@ class Contract
     return [
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Cost', 'Costs', 2),
@@ -564,12 +564,12 @@ class Contract
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
@@ -579,7 +579,7 @@ class Contract
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

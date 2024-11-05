@@ -40,8 +40,8 @@ class Softwarecategory
     return [
       [
         'title' => $translator->translatePlural('Software category', 'Software categories', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Software category', 'Software categories', 2),
@@ -51,7 +51,7 @@ class Softwarecategory
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -9,6 +9,9 @@ use Slim\Routing\RouteContext;
 
 final class Problem extends Common
 {
+  protected $model = '\App\Models\Problem';
+  protected $rootUrl2 = '/problems/';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Problem();

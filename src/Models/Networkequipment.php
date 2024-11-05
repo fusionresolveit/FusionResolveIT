@@ -46,6 +46,7 @@ class Networkequipment extends Common
     'domains',
     'appliances',
     'notes',
+    'knowbaseitems',
   ];
 
   protected $with = [
@@ -64,6 +65,7 @@ class Networkequipment extends Common
     'domains:id,name',
     'appliances:id,name',
     'notes:id',
+    'knowbaseitems:id,name',
   ];
 
 
@@ -158,6 +160,17 @@ class Networkequipment extends Common
     return $this->morphMany(
       '\App\Models\Notepad',
       'item',
+    );
+  }
+
+  public function knowbaseitems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Knowbaseitem',
+      'item',
+      'knowbaseitem_item'
+    )->withPivot(
+      'knowbaseitem_id',
     );
   }
 }

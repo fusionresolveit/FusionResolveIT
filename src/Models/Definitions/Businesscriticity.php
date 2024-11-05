@@ -68,8 +68,8 @@ class Businesscriticity
     return [
       [
         'title' => $translator->translatePlural('Business criticity', 'Business criticities', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Business criticity', 'Business criticities', 2),
@@ -79,7 +79,7 @@ class Businesscriticity
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

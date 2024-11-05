@@ -9,6 +9,7 @@ use Slim\Views\Twig;
 class Common
 {
   protected $model = '';
+  protected $rootUrl2 = '';
 
   protected function getUrlWithoutQuery(Request $request)
   {
@@ -284,11 +285,14 @@ class Common
     // Load the item
     $myItem = $item->find($args['id']);
 
-    $logs = \App\Models\Log::
-        where('item_type', ltrim($this->model, '\\'))
-      ->where('item_id', $myItem->id)
-      ->orderBy('id', 'desc')
-      ->get();
+    $logs = [];
+    if ($myItem != null) {
+      $logs = \App\Models\Log::
+          where('item_type', ltrim($this->model, '\\'))
+        ->where('item_id', $myItem->id)
+        ->orderBy('id', 'desc')
+        ->get();
+    }
 
 
     $fieldsTitle = [];
@@ -694,4 +698,244 @@ class Common
 
     return $view->render($response, 'subitem/certificates.html.twig', (array)$viewData);
   }
+
+  public function showSubExternalLinks(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $computermodelclass = str_ireplace('\\v1\\Controllers\\', '\\Models\\', get_class($this));
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::find($args['id']);
+
+    $item2 = new \App\Models\LinkItemtype();
+    $externallinks = $item2::with('links')->where('item_type', $computermodelclass)->get();
+
+    $item3 = new \App\Models\DomainItem();
+    $domainitems = $item3->where(['item_id'=>$args['id'],'item_type'=>$computermodelclass])->get();
+
+    $myExternalLinks = [];
+    foreach ($externallinks as $externallink)
+    {
+      $name = '';
+      $open_window = 0;
+      $link = '';
+      $data = '';
+      $generate = '';
+      if ($externallink->links !== null)
+      {
+        $name = $externallink->links->name;
+        $open_window = $externallink->links->open_window;
+        $link = $externallink->links->link;
+        $data = $externallink->links->data;
+
+
+        $location_id = '';
+        $location_name = '';
+        if ($myItem->location != null)
+        {
+          $location_id = $myItem->location->id;
+          $location_name = $myItem->location->name;
+        }
+
+        $domains = [];
+        foreach ($domainitems as $domainitem) {
+          if ($domainitem->domain != null) {
+            $domains[] = $domainitem->domain->name;
+          }
+        }
+
+        $network_name = '';
+        if ($myItem->network != null)
+        {
+          $network_name = $myItem->network->name;
+        }
+
+        $user_name = '';
+        if ($myItem->user != null)
+        {
+          $user_name = $myItem->user->name;
+        }
+        $group_name = '';
+        if ($myItem->group != null)
+        {
+          $group_name = $myItem->group->name;
+        }
+
+        $ips = [];
+        $macs = [];
+
+        $itemsLink = [
+          'id' => $externallink->links->id,
+          'name' => $myItem->name,
+          'serial' => $myItem->serial,
+          'otherserial' => $myItem->otherserial,
+          'location_id' => $location_id,
+          'location' => $location_name,
+          'domains' => $domains,
+          'network' => $network_name,
+          'comment' => $myItem->comment,
+          'user' => $user_name,
+          'group' => $group_name,
+          // 'realname' => $realname,
+          // 'firstname' => $firstname,
+          // 'login' => $login,
+          // 'ips' => $ips,
+          // 'macs' => $macs,
+        ];
+
+        $generate = $name . ' : ' . self::generateLinkContents($data, $itemsLink, true);
+      }
+
+
+      $myExternalLinks[] = [
+        'name'          => $name,
+        'open_window'   => $open_window,
+        'link'          => $link,
+        'generate'      => $generate,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/externallinks');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('externallinks', $myExternalLinks);
+
+    return $view->render($response, 'subitem/externallinks.html.twig', (array)$viewData);
+  }
+
+  public function generateLinkContents($link, $item, $replaceByBr = false)
+  {
+    $new_link = $link;
+    if ($replaceByBr === true) $new_link=str_ireplace("\n", "<br>", $new_link);
+    $matches = [];
+    if (preg_match_all('/\[FIELD:(\w+)\]/', $new_link, $matches)) {
+      foreach ($matches[1] as $key => $field) {
+        $new_link = self::checkAndReplaceProperty($item, $field, $matches[0][$key], $new_link, $replaceByBr);
+      }
+    }
+
+    if (strstr($new_link, "[ID]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'id', "[ID]", $new_link, $replaceByBr);
+    }
+    if (strstr($link, "[NAME]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'name', "[NAME]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[SERIAL]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'serial', "[SERIAL]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[OTHERSERIAL]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'otherserial', "[OTHERSERIAL]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[LOCATIONID]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'location_id', "[LOCATIONID]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[LOCATION]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'location', "[LOCATION]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[DOMAIN]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'domains', "[DOMAIN]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[NETWORK]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'network', "[NETWORK]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[REALNAME]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'realname', "[REALNAME]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[FIRSTNAME]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'firstname', "[FIRSTNAME]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[LOGIN]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'login', "[LOGIN]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[USER]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'user', "[USER]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[GROUP]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'group', "[GROUP]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[IP]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'ips', "[IP]", $new_link, $replaceByBr);
+    }
+    if (strstr($new_link, "[MAC]")) {
+      $new_link = self::checkAndReplaceProperty($item, 'macs', "[MAC]", $new_link, $replaceByBr);
+    }
+
+    return $new_link;
+  }
+
+  public function checkAndReplaceProperty($item, $field, $strToReplace, $new_link, $replaceByBr = false)
+  {
+    $ret = $new_link;
+
+    if (array_key_exists($field, $item)) {
+      if (is_array($item[$field])) {
+        $tmp = '';
+        foreach ($item[$field] as $val) {
+          if ($tmp != '') $tmp = $tmp  . "\n";
+          $tmp = $tmp . $val;
+        }
+        $ret = str_replace($strToReplace, $tmp, $ret);
+      } else {
+        $ret = str_replace($strToReplace, $item[$field], $ret);
+      }
+      if ($replaceByBr === true) $ret=str_ireplace("\n", "<br>", $ret);
+    }
+
+    return $ret;
+  }
+
+  public function showSubKnowbaseitems(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('knowbaseitems')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/knowbaseitems');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myKnowbaseitems = [];
+    foreach ($myItem->knowbaseitems as $knowbaseitem)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/knowbaseitems/" . $knowbaseitem->id;
+      }
+
+      $myKnowbaseitems[$knowbaseitem->id] = [
+        'name'           => $knowbaseitem->name,
+        'created_at'     => $knowbaseitem->date,
+        'updated_at'     => $knowbaseitem->updated_at,
+        'url'            => $url,
+      ];
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('knowbaseitems', $myKnowbaseitems);
+
+    $viewData->addTranslation('name', $translator->translatePlural('Item', 'Items', 1));
+    $viewData->addTranslation('created_at', $translator->translate('Creation date'));
+    $viewData->addTranslation('updated_at', $translator->translate('Update date'));
+
+    return $view->render($response, 'subitem/knowbaseitems.html.twig', (array)$viewData);
+  }
+
 }

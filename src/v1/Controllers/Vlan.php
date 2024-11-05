@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Vlan extends Common
 {
+  protected $model = '\App\Models\Vlan';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Vlan();

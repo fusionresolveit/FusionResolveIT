@@ -52,13 +52,13 @@ class Rackmodel
     return [
       [
         'title' => $translator->translatePlural('Rack model', 'Rack models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

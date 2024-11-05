@@ -52,13 +52,13 @@ class Devicegenericmodel
     return [
       [
         'title' => $translator->translatePlural('Device generic model', 'Device generic models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

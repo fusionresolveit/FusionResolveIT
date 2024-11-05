@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Line extends Common
 {
@@ -21,6 +23,8 @@ class Line extends Common
     'state',
     'user',
     'group',
+    'entity',
+    'notes',
   ];
 
   protected $visible = [
@@ -30,6 +34,8 @@ class Line extends Common
     'state',
     'user',
     'group',
+    'entity',
+    'notes',
   ];
 
   protected $with = [
@@ -39,6 +45,8 @@ class Line extends Common
     'state:id,name',
     'user:id,name',
     'group:id,name',
+    'entity:id,name',
+    'notes:id',
   ];
 
   public function location(): BelongsTo
@@ -69,5 +77,18 @@ class Line extends Common
   public function group(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Group');
+  }
+
+  public function entity(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

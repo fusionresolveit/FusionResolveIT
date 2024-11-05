@@ -52,8 +52,8 @@ class Blacklistedmailcontent
     return [
       [
         'title' => $translator->translate('Blacklisted mail content'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
     ];
   }

@@ -360,8 +360,8 @@ class Softwarelicense
     return [
       [
         'title' => $translator->translatePlural('License', 'Licenses', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('License', 'Licenses', 2),
@@ -421,17 +421,17 @@ class Softwarelicense
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/certificates',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

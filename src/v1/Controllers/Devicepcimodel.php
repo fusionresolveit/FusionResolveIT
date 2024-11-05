@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicepcimodel extends Common
 {
+  protected $model = '\App\Models\Devicepcimodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicepcimodel();

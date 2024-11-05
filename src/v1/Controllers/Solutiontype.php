@@ -7,23 +7,25 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\PhpRenderer;
 use Slim\Routing\RouteContext;
 
-final class Virtualmachinetype extends Common
+final class Solutiontype extends Common
 {
+  protected $model = '\App\Models\Solutiontype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
-    $item = new \App\Models\Virtualmachinetype();
+    $item = new \App\Models\Solutiontype();
     return $this->commonGetAll($request, $response, $args, $item);
   }
 
   public function showItem(Request $request, Response $response, $args): Response
   {
-    $item = new \App\Models\Virtualmachinetype();
+    $item = new \App\Models\Solutiontype();
     return $this->commonShowItem($request, $response, $args, $item);
   }
 
   public function updateItem(Request $request, Response $response, $args): Response
   {
-    $item = new \App\Models\Virtualmachinetype();
+    $item = new \App\Models\Solutiontype();
     return $this->commonUpdateItem($request, $response, $args, $item);
   }
 }

@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Blacklistedmailcontent extends Common
 {
+  protected $model = '\App\Models\Blacklistedmailcontent';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Blacklistedmailcontent();

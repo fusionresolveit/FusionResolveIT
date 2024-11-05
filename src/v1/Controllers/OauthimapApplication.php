@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class OauthimapApplication extends Common
 {
+  protected $model = '\App\Models\OauthimapApplication';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\OauthimapApplication();

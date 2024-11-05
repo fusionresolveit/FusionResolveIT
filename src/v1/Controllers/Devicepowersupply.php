@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicepowersupply extends Common
 {
+  protected $model = '\App\Models\Devicepowersupply';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicepowersupply();

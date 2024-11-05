@@ -287,9 +287,9 @@ class Computer
         'link' => $rootUrl . '/virtualization',
       ],
       [
-        'title' => $translator->translate('Knowledge'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'title' => $translator->translate('Knowledge base'),
+        'icon' => 'book',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translate('ITIL'),

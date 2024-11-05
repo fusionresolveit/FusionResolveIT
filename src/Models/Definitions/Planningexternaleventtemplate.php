@@ -115,13 +115,13 @@ class Planningexternaleventtemplate
     return [
       [
         'title' => $translator->translatePlural('External events template', 'External events templates', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -91,8 +91,8 @@ class Devicepowersupply
     return [
       [
         'title' => $translator->translatePlural('Power supply', 'Power supplies', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -107,7 +107,7 @@ class Devicepowersupply
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

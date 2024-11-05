@@ -82,13 +82,13 @@ class Fieldblacklist
     return [
       [
         'title' => $translator->translatePlural('Ignored value for the unicity', 'Ignored values for the unicity', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

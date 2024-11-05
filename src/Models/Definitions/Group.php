@@ -231,8 +231,8 @@ class Group
     return [
       [
         'title' => $translator->translatePlural('Group', 'Groups', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Child groups'),
@@ -277,12 +277,12 @@ class Group
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

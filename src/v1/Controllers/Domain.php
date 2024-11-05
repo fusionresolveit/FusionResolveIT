@@ -7,6 +7,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Domain extends Common
 {
+  protected $model = '\App\Models\Domain';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Domain();

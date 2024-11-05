@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Usertitle extends Common
 {
+  protected $model = '\App\Models\Usertitle';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Usertitle();

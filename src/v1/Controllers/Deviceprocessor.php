@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Deviceprocessor extends Common
 {
+  protected $model = '\App\Models\Deviceprocessor';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Deviceprocessor();

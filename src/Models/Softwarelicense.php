@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Softwarelicense extends Common
 {
@@ -27,6 +29,8 @@ class Softwarelicense extends Common
     'manufacturer',
     'software',
     'entity',
+    'certificates',
+    'notes',
   ];
 
   protected $visible = [
@@ -42,6 +46,8 @@ class Softwarelicense extends Common
     'manufacturer',
     'software',
     'entity',
+    'certificates',
+    'notes',
   ];
 
   protected $with = [
@@ -57,6 +63,8 @@ class Softwarelicense extends Common
     'manufacturer:id,name',
     'software:id,name',
     'entity:id,name',
+    'certificates:id,name',
+    'notes:id',
   ];
 
   public function location(): BelongsTo
@@ -117,5 +125,24 @@ class Softwarelicense extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function certificates(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Certificate',
+      'item',
+      'certificate_item'
+    )->withPivot(
+      'certificate_id',
+    );
+  }
+
+  public function notes(): MorphMany
+  {
+    return $this->morphMany(
+      '\App\Models\Notepad',
+      'item',
+    );
   }
 }

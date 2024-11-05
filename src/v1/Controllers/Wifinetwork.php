@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Wifinetwork extends Common
 {
+  protected $model = '\App\Models\Wifinetwork';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Wifinetwork();

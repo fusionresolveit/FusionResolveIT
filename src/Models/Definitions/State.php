@@ -292,8 +292,8 @@ class State
     return [
       [
         'title' => $translator->translatePlural('Status of items', 'Statuses of items', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Status of items', 'Statuses of items', 2),
@@ -303,7 +303,7 @@ class State
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -59,13 +59,13 @@ class Clustertype
     return [
       [
         'title' => $translator->translatePlural('Cluster type', 'Cluster types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

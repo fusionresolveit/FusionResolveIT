@@ -45,13 +45,13 @@ class Interfacetype
     return [
       [
         'title' => $translator->translatePlural('Interface type (Hard drive...)', 'Interface types (Hard drive...)', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

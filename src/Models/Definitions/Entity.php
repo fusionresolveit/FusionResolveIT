@@ -734,7 +734,7 @@ class Entity
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
@@ -744,7 +744,7 @@ class Entity
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
       [
         'title' => $translator->translatePlural('Form', 'Forms', 2),

@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Computertype extends Common
 {
+  protected $model = '\App\Models\Computertype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Computertype();

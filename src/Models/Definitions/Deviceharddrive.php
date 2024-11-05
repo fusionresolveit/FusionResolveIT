@@ -115,8 +115,8 @@ class Deviceharddrive
     return [
       [
         'title' => $translator->translatePlural('Hard drive', 'Hard drives', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -131,7 +131,7 @@ class Deviceharddrive
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

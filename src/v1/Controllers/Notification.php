@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Notification extends Common
 {
+  protected $model = '\App\Models\Notification';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Notification();

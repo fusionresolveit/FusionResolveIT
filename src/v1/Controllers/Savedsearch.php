@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Savedsearch extends Common
 {
+  protected $model = '\App\Models\Savedsearch';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Savedsearch();

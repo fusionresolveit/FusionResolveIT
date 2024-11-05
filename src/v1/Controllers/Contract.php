@@ -7,6 +7,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Contract extends Common
 {
+  protected $model = '\App\Models\Contract';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Contract();

@@ -87,8 +87,8 @@ class Ipnetwork
     return [
       [
         'title' => $translator->translatePlural('IP network', 'IP networks', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('VLAN', 'VLANs', 1),
@@ -103,7 +103,7 @@ class Ipnetwork
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

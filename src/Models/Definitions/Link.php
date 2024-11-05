@@ -113,8 +113,8 @@ class Link
     return [
       [
         'title' => $translator->translatePlural('External link', 'External links', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Associated item type', 'Associated item types', 2),
@@ -124,7 +124,7 @@ class Link
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

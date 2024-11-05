@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Netpoint extends Common
 {
+  protected $model = '\App\Models\Netpoint';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Netpoint();

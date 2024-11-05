@@ -133,6 +133,11 @@ class Pdu
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('PDU', 'PDUs', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Analysis impact'),
         'icon' => 'caret square down outline',
         'link' => '',

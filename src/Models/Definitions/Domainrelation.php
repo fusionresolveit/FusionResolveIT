@@ -45,8 +45,8 @@ class Domainrelation
     return [
       [
         'title' => $translator->translatePlural('Domain relation', 'Domains relations', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
@@ -56,7 +56,7 @@ class Domainrelation
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

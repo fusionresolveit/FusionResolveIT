@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Domaintype extends Common
 {
+  protected $model = '\App\Models\Domaintype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Domaintype();

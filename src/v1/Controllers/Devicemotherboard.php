@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicemotherboard extends Common
 {
+  protected $model = '\App\Models\Devicemotherboard';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicemotherboard();

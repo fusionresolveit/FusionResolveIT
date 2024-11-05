@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicesensormodel extends Common
 {
+  protected $model = '\App\Models\Devicesensormodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicesensormodel();

@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Networkequipment extends Common
 {
   protected $model = '\App\Models\Networkequipment';
+  protected $rootUrl2 = '/networkequipments/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

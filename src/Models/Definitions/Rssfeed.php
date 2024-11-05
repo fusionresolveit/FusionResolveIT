@@ -392,8 +392,8 @@ class Rssfeed
     return [
       [
         'title' => $translator->translatePlural('RSS feed', 'RSS feed', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Content'),
@@ -408,7 +408,7 @@ class Rssfeed
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

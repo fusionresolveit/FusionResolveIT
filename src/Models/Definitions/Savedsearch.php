@@ -151,8 +151,8 @@ class Savedsearch
     return [
       [
         'title' => $translator->translatePlural('Saved search', 'Saved searches', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Saved search alert', 'Saved searches alerts', 2),

@@ -219,6 +219,11 @@ class Networkequipment
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Network device', 'Network devices', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Analysis impact'),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -270,8 +275,8 @@ class Networkequipment
       ],
       [
         'title' => $translator->translate('Knowledge base'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'book',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
@@ -291,7 +296,7 @@ class Networkequipment
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),

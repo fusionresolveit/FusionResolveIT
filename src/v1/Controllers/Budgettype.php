@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Budgettype extends Common
 {
+  protected $model = '\App\Models\Budgettype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Budgettype();

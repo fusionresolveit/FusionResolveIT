@@ -84,8 +84,8 @@ class Devicemotherboard
     return [
       [
         'title' => $translator->translatePlural('System board', 'System boards', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -100,7 +100,7 @@ class Devicemotherboard
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

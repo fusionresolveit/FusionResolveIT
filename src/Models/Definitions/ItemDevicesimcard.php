@@ -109,6 +109,11 @@ class ItemDevicesimcard
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Simcard', 'Simcards', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Management'),
         'icon' => 'caret square down outline',
         'link' => '',

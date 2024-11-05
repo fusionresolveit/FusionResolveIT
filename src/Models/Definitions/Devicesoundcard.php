@@ -84,8 +84,8 @@ class Devicesoundcard
     return [
       [
         'title' => $translator->translatePlural('Soundcard', 'Soundcards', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -100,7 +100,7 @@ class Devicesoundcard
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

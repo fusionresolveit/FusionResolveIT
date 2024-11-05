@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Operatingsystemversion extends Common
 {
+  protected $model = '\App\Models\Operatingsystemversion';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Operatingsystemversion();

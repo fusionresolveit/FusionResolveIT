@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Businesscriticity extends Common
 {
+  protected $model = '\App\Models\Businesscriticity';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Businesscriticity();

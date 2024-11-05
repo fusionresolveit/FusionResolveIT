@@ -93,8 +93,8 @@ class Devicecontrol
     return [
       [
         'title' => $translator->translatePlural('Controller', 'Controllers', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -109,7 +109,7 @@ class Devicecontrol
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

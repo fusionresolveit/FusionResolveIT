@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Requesttype extends Common
 {
+  protected $model = '\App\Models\Requesttype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Requesttype();

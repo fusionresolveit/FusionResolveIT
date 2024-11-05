@@ -66,8 +66,8 @@ class Fqdn
     return [
       [
         'title' => $translator->translatePlural('Network name', 'Network names', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Network alias', 'Network aliases', 1),
@@ -77,7 +77,7 @@ class Fqdn
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

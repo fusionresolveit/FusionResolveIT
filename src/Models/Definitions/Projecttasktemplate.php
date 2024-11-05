@@ -481,13 +481,13 @@ class Projecttasktemplate
     return [
       [
         'title' => $translator->translatePlural('Project task template', 'Project task templates', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),

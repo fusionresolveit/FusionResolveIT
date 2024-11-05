@@ -68,8 +68,8 @@ class Softwarelicensetype
     return [
       [
         'title' => $translator->translatePlural('License type', 'License types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('License type', 'License types', 2),
@@ -79,7 +79,7 @@ class Softwarelicensetype
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

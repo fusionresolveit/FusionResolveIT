@@ -7,6 +7,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Crontask extends Common
 {
+  protected $model = '\App\Models\Crontask';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Crontask();

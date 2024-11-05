@@ -97,7 +97,7 @@ class Form
     return [
       [
         'title' => $translator->translatePlural('Form', 'Forms', 1),
-        'icon' => 'caret square down outline',
+        'icon' => 'home',
         'link' => $rootUrl,
       ],
       [

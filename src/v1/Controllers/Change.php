@@ -9,6 +9,9 @@ use Slim\Routing\RouteContext;
 
 final class Change extends Common
 {
+  protected $model = '\App\Models\Change';
+  protected $rootUrl2 = '/changes/';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Change();

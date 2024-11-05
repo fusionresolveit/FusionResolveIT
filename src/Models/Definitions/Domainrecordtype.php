@@ -45,13 +45,13 @@ class Domainrecordtype
     return [
       [
         'title' => $translator->translatePlural('Record type', 'Records types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

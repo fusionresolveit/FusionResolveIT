@@ -240,8 +240,8 @@ class Category
     return [
       [
         'title' => $translator->translatePlural('ITIL category', 'ITIL categories', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('ITIL category', 'ITIL categories', 2),
@@ -251,7 +251,7 @@ class Category
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

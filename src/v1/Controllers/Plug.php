@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Plug extends Common
 {
+  protected $model = '\App\Models\Plug';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Plug();

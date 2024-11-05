@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Ticket extends Common
 {
@@ -45,6 +47,7 @@ class Ticket extends Common
     'problems',
     'changes',
     'linkedtickets',
+    'knowbaseitems',
   ];
 
   protected $with = [
@@ -62,6 +65,7 @@ class Ticket extends Common
     'problems:id,name',
     'changes:id,name',
     'linkedtickets:id,name',
+    'knowbaseitems:id,name',
   ];
 
   // For default values
@@ -304,5 +308,16 @@ class Ticket extends Common
   {
     $statesDef = $this->definition::getStatusArray();
     return $statesDef[$this->status]['color'];
+  }
+
+  public function knowbaseitems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Knowbaseitem',
+      'item',
+      'knowbaseitem_item'
+    )->withPivot(
+      'knowbaseitem_id',
+    );
   }
 }

@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicecasemodel extends Common
 {
+  protected $model = '\App\Models\Devicecasemodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicecasemodel();

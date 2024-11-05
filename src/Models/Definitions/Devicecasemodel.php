@@ -52,13 +52,13 @@ class Devicecasemodel
     return [
       [
         'title' => $translator->translatePlural('Device case model', 'Device case models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

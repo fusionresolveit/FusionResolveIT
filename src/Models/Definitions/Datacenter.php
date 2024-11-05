@@ -54,8 +54,8 @@ class Datacenter
     return [
       [
         'title' => $translator->translatePlural('Data center', 'Data centers', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Impact analysis'),

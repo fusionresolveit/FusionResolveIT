@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Location extends Common
 {
+  protected $model = '\App\Models\Location';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Location();

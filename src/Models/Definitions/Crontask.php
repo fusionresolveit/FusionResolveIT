@@ -452,8 +452,8 @@ class Crontask
     return [
       [
         'title' => $translator->translatePlural('Automatic action', 'Automatic actions', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Statistics'),
@@ -468,7 +468,7 @@ class Crontask
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

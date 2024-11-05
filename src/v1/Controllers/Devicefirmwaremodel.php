@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicefirmwaremodel extends Common
 {
+  protected $model = '\App\Models\Devicefirmwaremodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicefirmwaremodel();

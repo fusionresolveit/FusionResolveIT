@@ -86,8 +86,8 @@ class Devicecase
     return [
       [
         'title' => $translator->translatePlural('Case', 'Cases', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -102,7 +102,7 @@ class Devicecase
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

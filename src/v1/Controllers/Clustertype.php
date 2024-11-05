@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Clustertype extends Common
 {
+  protected $model = '\App\Models\Clustertype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Clustertype();

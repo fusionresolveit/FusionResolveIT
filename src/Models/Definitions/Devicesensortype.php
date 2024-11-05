@@ -31,13 +31,13 @@ class Devicesensortype
     return [
       [
         'title' => $translator->translatePlural('Sensor type', 'Sensor types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -25,8 +25,8 @@ class Answer
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Answer', 'Answers', 2),
-        'icon' => 'caret square down outline',
+        'title' => $translator->translatePlural('Answer', 'Answers', 1),
+        'icon' => 'home',
         'link' => $rootUrl,
       ],
       [

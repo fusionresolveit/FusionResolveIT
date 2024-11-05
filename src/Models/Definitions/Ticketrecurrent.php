@@ -145,8 +145,8 @@ class Ticketrecurrent
     return [
       [
         'title' => $translator->translate('Recurrent tickets'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Information', 'Information', 2),
@@ -156,7 +156,7 @@ class Ticketrecurrent
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

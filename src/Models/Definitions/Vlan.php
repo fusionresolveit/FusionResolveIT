@@ -215,8 +215,8 @@ class Vlan
     return [
       [
         'title' => $translator->translatePlural('VLAN', 'VLANs', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Network port', 'Network ports', 1),
@@ -226,7 +226,7 @@ class Vlan
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

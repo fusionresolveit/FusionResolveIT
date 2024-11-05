@@ -68,8 +68,8 @@ class Slm
     return [
       [
         'title' => $translator->translatePlural('Service level', 'Service levels', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('SLA'),
@@ -84,7 +84,7 @@ class Slm
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

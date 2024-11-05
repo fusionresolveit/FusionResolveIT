@@ -54,13 +54,13 @@ class Netpoint
     return [
       [
         'title' => $translator->translatePlural('Network outlet', 'Network outlets', 1),
-        'icon' => 'laptop house',
-        'link' => $rootUrl . '/operatingsystem',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

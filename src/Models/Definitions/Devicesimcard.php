@@ -95,8 +95,8 @@ class Devicesimcard
     return [
       [
         'title' => $translator->translatePlural('Simcard', 'Simcards', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -111,7 +111,7 @@ class Devicesimcard
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

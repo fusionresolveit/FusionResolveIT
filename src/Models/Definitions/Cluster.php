@@ -113,8 +113,8 @@ class Cluster
     return [
       [
         'title' => $translator->translatePlural('Cluster', 'Clusters', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Impact analysis'),
@@ -159,12 +159,12 @@ class Cluster
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/appliances',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

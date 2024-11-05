@@ -7,6 +7,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Followup extends Common
 {
+  protected $model = '\App\Models\Followup';
+
   public function postItem(Request $request, Response $response, $args): Response
   {
     $data = (object) $request->getParsedBody();

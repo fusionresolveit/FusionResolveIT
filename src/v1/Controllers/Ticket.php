@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Ticket extends Common
 {
   protected $model = '\App\Models\Ticket';
+  protected $rootUrl2 = '/tickets/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

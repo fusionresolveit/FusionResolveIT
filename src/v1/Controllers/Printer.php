@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Printer extends Common
 {
   protected $model = '\App\Models\Printer';
+  protected $rootUrl2 = '/printers/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

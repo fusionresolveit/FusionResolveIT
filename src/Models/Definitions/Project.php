@@ -782,8 +782,8 @@ class Project
     return [
       [
         'title' => $translator->translatePlural('Project', 'Projects', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Project task', 'Project tasks', 2),
@@ -838,7 +838,7 @@ class Project
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
@@ -848,7 +848,7 @@ class Project
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

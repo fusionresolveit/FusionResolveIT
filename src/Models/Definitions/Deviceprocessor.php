@@ -113,8 +113,8 @@ class Deviceprocessor
     return [
       [
         'title' => $translator->translatePlural('Processor', 'Processors', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -129,7 +129,7 @@ class Deviceprocessor
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

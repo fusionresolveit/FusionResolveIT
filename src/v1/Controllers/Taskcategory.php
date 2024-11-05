@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Taskcategory extends Common
 {
+  protected $model = '\App\Models\Taskcategory';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Taskcategory();

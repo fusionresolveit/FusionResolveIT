@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Software extends Common
 {
   protected $model = '\App\Models\Software';
+  protected $rootUrl2 = '/softwares/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

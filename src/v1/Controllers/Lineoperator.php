@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Lineoperator extends Common
 {
+  protected $model = '\App\Models\Lineoperator';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Lineoperator();

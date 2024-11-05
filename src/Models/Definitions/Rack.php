@@ -160,6 +160,11 @@ class Rack
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Rack', 'Racks', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translatePlural('Rack', 'Racks', 2),
         'icon' => 'caret square down outline',
         'link' => '',

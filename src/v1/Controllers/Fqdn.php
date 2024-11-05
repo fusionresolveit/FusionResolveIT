@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Fqdn extends Common
 {
+  protected $model = '\App\Models\Fqdn';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Fqdn();

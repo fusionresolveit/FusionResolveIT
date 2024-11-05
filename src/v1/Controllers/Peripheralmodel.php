@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Peripheralmodel extends Common
 {
+  protected $model = '\App\Models\Peripheralmodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Peripheralmodel();

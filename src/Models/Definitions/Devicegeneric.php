@@ -77,8 +77,8 @@ class Devicegeneric
     return [
       [
         'title' => $translator->translatePlural('Generic device', 'Generic devices', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -93,7 +93,7 @@ class Devicegeneric
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Phone extends Common
 {
   protected $model = '\App\Models\Phone';
+  protected $rootUrl2 = '/phones/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

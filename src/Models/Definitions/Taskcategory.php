@@ -77,8 +77,8 @@ class Taskcategory
     return [
       [
         'title' => $translator->translatePlural('Task category', 'Task categories', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Task category', 'Task categories', 2),
@@ -88,7 +88,7 @@ class Taskcategory
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

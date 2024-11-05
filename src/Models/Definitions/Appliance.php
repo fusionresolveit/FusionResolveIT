@@ -194,8 +194,8 @@ class Appliance
     return [
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Impact analysis'),
@@ -225,12 +225,12 @@ class Appliance
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/certificates',
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
@@ -255,12 +255,12 @@ class Appliance
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

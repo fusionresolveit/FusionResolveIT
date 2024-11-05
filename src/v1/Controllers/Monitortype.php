@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Monitortype extends Common
 {
+  protected $model = '\App\Models\Monitortype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Monitortype();

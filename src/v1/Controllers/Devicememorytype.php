@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicememorytype extends Common
 {
+  protected $model = '\App\Models\Devicememorytype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicememorytype();

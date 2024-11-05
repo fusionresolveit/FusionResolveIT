@@ -45,13 +45,13 @@ class Phonepowersupply
     return [
       [
         'title' => $translator->translatePlural('Phone power supply type', 'Phone power supply types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Monitor extends Common
 {
   protected $model = '\App\Models\Monitor';
+  protected $rootUrl2 = '/monitors/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

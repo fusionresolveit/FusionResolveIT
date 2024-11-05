@@ -52,13 +52,13 @@ class Devicemotherboardmodel
     return [
       [
         'title' => $translator->translatePlural('System board model', 'System board models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

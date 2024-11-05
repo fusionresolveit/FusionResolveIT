@@ -154,14 +154,19 @@ class Mailcollector
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Wifi network', 'Wifi networks', 1),
+        'title' => $translator->translatePlural('Receiver', 'Receivers', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
+        'title' => $translator->translatePlural('Action', 'Actions', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

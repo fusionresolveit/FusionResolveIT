@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Cluster extends Common
 {
@@ -20,6 +22,7 @@ class Cluster extends Common
     'userstech',
     'groupstech',
     'entity',
+    'appliances',
   ];
 
   protected $visible = [
@@ -28,6 +31,7 @@ class Cluster extends Common
     'userstech',
     'groupstech',
     'entity',
+    'appliances',
   ];
 
   protected $with = [
@@ -36,6 +40,7 @@ class Cluster extends Common
     'userstech:id,name',
     'groupstech:id,name',
     'entity:id,name',
+    'appliances:id,name',
   ];
 
   public function type(): BelongsTo
@@ -61,5 +66,14 @@ class Cluster extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function appliances(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Appliance',
+      'item',
+      'appliance_item'
+    );
   }
 }

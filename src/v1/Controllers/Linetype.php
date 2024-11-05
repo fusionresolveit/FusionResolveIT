@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Linetype extends Common
 {
+  protected $model = '\App\Models\Linetype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Linetype();

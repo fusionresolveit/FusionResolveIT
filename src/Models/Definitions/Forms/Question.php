@@ -176,7 +176,7 @@ class Question
     return [
       [
         'title' => $translator->translatePlural('Question', 'Questions', 1),
-        'icon' => 'caret square down outline',
+        'icon' => 'home',
         'link' => $rootUrl,
       ],
       [

@@ -138,8 +138,8 @@ class Fieldunicity
     return [
       [
         'title' => $translator->translate('Fields unicity'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Duplicates'),
@@ -149,7 +149,7 @@ class Fieldunicity
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

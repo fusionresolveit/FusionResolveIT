@@ -24,7 +24,7 @@ class Answerquestion
     return [
       [
         'title' => $translator->translatePlural('Answerquestion', 'Answerquestions', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'home',
         'link' => $rootUrl,
       ],
       [

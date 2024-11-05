@@ -133,6 +133,11 @@ class Enclosure
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Enclosure', 'Enclosures', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Analysis impact'),
         'icon' => 'caret square down outline',
         'link' => '',

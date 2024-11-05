@@ -37,7 +37,7 @@ class Section
     return [
       [
         'title' => $translator->translatePlural('Section', 'Sections', 1),
-        'icon' => 'caret square down outline',
+        'icon' => 'home',
         'link' => $rootUrl,
       ],
       [

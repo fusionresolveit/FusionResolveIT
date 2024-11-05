@@ -19,7 +19,7 @@ final class Home extends Common
     global $basePath;
     global $translator;
 
-    $nbLast = 2;
+    $nbLast = 8;
 
     $nbValTotal = 0;
 

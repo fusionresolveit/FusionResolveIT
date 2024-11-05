@@ -45,13 +45,13 @@ class Operatingsystemkernel
     return [
       [
         'title' => $translator->translatePlural('Kernel', 'Kernels', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

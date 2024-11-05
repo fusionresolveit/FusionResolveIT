@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Tasktemplate extends Common
 {
+  protected $model = '\App\Models\Tasktemplate';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Tasktemplate();

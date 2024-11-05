@@ -45,13 +45,13 @@ class Consumableitemtype
     return [
       [
         'title' => $translator->translatePlural('Consumable type', 'Consumable types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

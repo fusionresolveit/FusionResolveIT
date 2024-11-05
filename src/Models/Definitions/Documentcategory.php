@@ -54,8 +54,8 @@ class Documentcategory
     return [
       [
         'title' => $translator->translatePlural('Document heading', 'Document headings', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Document heading', 'Document headings', 2),
@@ -65,7 +65,7 @@ class Documentcategory
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

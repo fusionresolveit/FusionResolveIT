@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Ticketrecurrent extends Common
 {
+  protected $model = '\App\Models\Ticketrecurrent';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Ticketrecurrent();

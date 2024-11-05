@@ -1,0 +1,36 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui stackable cards">
+    {% for knowbaseitem in data.knowbaseitems|sort((a, b) => a.knowbaseitem.name|lower <=> b.knowbaseitem.name|lower) %}
+      <div class="ui card">
+        <div class="content">
+          <div class="header">
+            {% if knowbaseitem.url != '' %}
+                <a href="{{ knowbaseitem.url }}">{{ knowbaseitem.name }}</a>
+            {% else %}
+                {{ knowbaseitem.name }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="content">
+          <div class="ui relaxed list">
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.created_at }}</a>
+                <div class="description">{{ knowbaseitem.created_at }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.updated_at }}</a>
+                <div class="description">{{ knowbaseitem.updated_at }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{{ include('footer.html.twig') }}

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class User extends Common
 {
@@ -24,6 +26,8 @@ class User extends Common
     // 'group',
     'completename',
     'entity',
+    'certificates',
+    'defaultgroup',
   ];
 
   protected $visible = [
@@ -35,6 +39,8 @@ class User extends Common
     'supervisor',
     'group',
     'completename',
+    'certificates',
+    'defaultgroup',
   ];
 
   protected $with = [
@@ -45,16 +51,18 @@ class User extends Common
     'profile:id,name',
     'supervisor:id,name',
     'group:id,name',
+    'certificates:id,name',
+    'defaultgroup:id,name',
   ];
 
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Usercategory');
+    return $this->belongsTo('\App\Models\Usercategory', 'usercategory_id');
   }
 
   public function title(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Usertitle');
+    return $this->belongsTo('\App\Models\Usertitle', 'usertitle_id');
   }
 
   public function location(): BelongsTo
@@ -80,6 +88,11 @@ class User extends Common
   public function group(): BelongsToMany
   {
     return $this->belongsToMany('\App\Models\Group')->withPivot('group_id');
+  }
+
+  public function defaultgroup(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Group', 'group_id');
   }
 
   public function profiles(): BelongsToMany
@@ -114,5 +127,16 @@ class User extends Common
       $name = $this->name;
     }
     return $name;
+  }
+
+  public function certificates(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Certificate',
+      'item',
+      'certificate_item'
+    )->withPivot(
+      'certificate_id',
+    );
   }
 }

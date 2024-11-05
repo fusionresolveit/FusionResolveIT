@@ -195,8 +195,8 @@ class Location
     return [
       [
         'title' => $translator->translatePlural('Location', 'Locations', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Location', 'Locations', 2),
@@ -211,7 +211,7 @@ class Location
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
       [
         'title' => $translator->translatePlural('Network outlet', 'Network outlets', 2),

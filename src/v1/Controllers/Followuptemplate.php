@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Followuptemplate extends Common
 {
+  protected $model = '\App\Models\Followuptemplate';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Followuptemplate();

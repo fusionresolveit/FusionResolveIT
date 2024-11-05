@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicedrivemodel extends Common
 {
+  protected $model = '\App\Models\Devicedrivemodel';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicedrivemodel();

@@ -51,14 +51,14 @@ class Devicedrivemodel
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Device control model', 'Device control models', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'title' => $translator->translatePlural('Device drive model', 'Device drive models', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

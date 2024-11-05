@@ -100,8 +100,8 @@ class Devicedrive
     return [
       [
         'title' => $translator->translatePlural('Drive', 'Drives', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -116,7 +116,7 @@ class Devicedrive
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

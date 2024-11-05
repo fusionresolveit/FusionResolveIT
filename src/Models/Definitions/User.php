@@ -125,7 +125,7 @@ class User
         'id'    => 277,
         'title' => $translator->translate('Default group'),
         'type'  => 'dropdown_remote',
-        'name'  => 'group',
+        'name'  => 'defaultgroup',
         'dbname' => 'group_id',
         'itemtype' => '\App\Models\Group',
         'fillable' => true,
@@ -500,12 +500,12 @@ class User
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/certificates',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

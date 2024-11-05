@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Networkname extends Common
 {
+  protected $model = '\App\Models\Networkname';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Networkname();

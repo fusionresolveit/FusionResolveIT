@@ -551,6 +551,11 @@ class Change
     global $translator;
     return [
       [
+        'title' => $translator->translatePlural('Change', 'Changes', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
+      ],
+      [
         'title' => $translator->translate('Processing change'),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -608,17 +613,17 @@ class Change
       [
         'title' => $translator->translate('Knowledge base'),
         'icon' => 'book',
-        'link' => '',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -45,13 +45,13 @@ class Networkequipmenttype
     return [
       [
         'title' => $translator->translatePlural('Networking equipment type', 'Networking equipment types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

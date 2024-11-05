@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Operatingsystemarchitecture extends Common
 {
+  protected $model = '\App\Models\Operatingsystemarchitecture';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Operatingsystemarchitecture();

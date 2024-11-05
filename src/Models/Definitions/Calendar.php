@@ -59,13 +59,13 @@ class Calendar
     return [
       [
         'title' => $translator->translatePlural('Calendar', 'Calendars', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
       [
         'title' => $translator->translatePlural('Time range', 'Time ranges', 2),

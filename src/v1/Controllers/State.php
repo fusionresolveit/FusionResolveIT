@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class State extends Common
 {
+  protected $model = '\App\Models\State';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\State();

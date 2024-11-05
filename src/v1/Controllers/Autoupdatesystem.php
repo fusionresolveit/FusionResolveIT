@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Autoupdatesystem extends Common
 {
+  protected $model = '\App\Models\Autoupdatesystem';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Autoupdatesystem();

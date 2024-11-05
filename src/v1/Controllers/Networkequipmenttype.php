@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Networkequipmenttype extends Common
 {
+  protected $model = '\App\Models\Networkequipmenttype';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Networkequipmenttype();

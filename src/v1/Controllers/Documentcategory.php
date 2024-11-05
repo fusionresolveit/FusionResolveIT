@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Documentcategory extends Common
 {
+  protected $model = '\App\Models\Documentcategory';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Documentcategory();

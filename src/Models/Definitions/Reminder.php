@@ -132,9 +132,9 @@ class Reminder
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'title' => $translator->translatePlural('Note', 'Notes', 1),
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
@@ -149,7 +149,7 @@ class Reminder
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

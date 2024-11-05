@@ -9,6 +9,8 @@ use Slim\Routing\RouteContext;
 
 final class Devicesoundcard extends Common
 {
+  protected $model = '\App\Models\Devicesoundcard';
+
   public function getAll(Request $request, Response $response, $args): Response
   {
     $item = new \App\Models\Devicesoundcard();

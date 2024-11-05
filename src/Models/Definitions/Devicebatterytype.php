@@ -38,13 +38,13 @@ class Devicebatterytype
     return [
       [
         'title' => $translator->translatePlural('Battery type', 'Battery types', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }
