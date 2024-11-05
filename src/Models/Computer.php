@@ -96,7 +96,7 @@ class Computer extends Common
     'changes:id,name',
   ];
 
-  public static function boot()
+  protected static function booted(): void
   {
     parent::boot();
 
