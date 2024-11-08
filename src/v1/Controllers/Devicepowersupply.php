@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicepowersupply extends Common
 {
   protected $model = '\App\Models\Devicepowersupply';
+  protected $rootUrl2 = '/devicepowersupplies/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

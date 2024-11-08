@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Projecttasktemplate extends Common
 {
@@ -26,6 +28,7 @@ class Projecttasktemplate extends Common
     'type',
     'projecttasks',
     'entity',
+    'documents',
   ];
 
   protected $with = [
@@ -33,6 +36,7 @@ class Projecttasktemplate extends Common
     'type:id,name',
     'projecttasks:id,name',
     'entity:id,name',
+    'documents:id,name',
   ];
 
   public function state(): BelongsTo
@@ -53,5 +57,17 @@ class Projecttasktemplate extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
   }
 }

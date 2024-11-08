@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicegraphiccard extends Common
 {
   protected $model = '\App\Models\Devicegraphiccard';
+  protected $rootUrl2 = '/devicegraphiccards/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

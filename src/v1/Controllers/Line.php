@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Line extends Common
 {
   protected $model = '\App\Models\Line';
+  protected $rootUrl2 = '/lines/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

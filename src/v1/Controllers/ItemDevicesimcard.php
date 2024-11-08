@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class ItemDevicesimcard extends Common
 {
   protected $model = '\App\Models\ItemDevicesimcard';
+  protected $rootUrl2 = '/itemdevicesimcards/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

@@ -1,0 +1,43 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.file }}</th>
+      <th>{{ translation.weblink }}</th>
+      <th>{{ translation.rubrique }}</th>
+      <th>{{ translation.mimetype }}</th>
+      <th>{{ translation.balise }}</th>
+      <th>{{ translation.date }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for document in data.documents %}
+      <tr>
+        <td>
+          {% if document.url != '' %}
+              <a href="{{ document.url }}">{{ document.name }}</a>
+          {% else %}
+              {{ document.name }}
+          {% endif %}
+        </td>
+        <td>{{ document.entity }}</td>
+        <td>{{ document.file }}</td>
+        <td>
+          {% if document.weblink != '' %}
+              <a href="{{ document.weblink }}" target="_blank">{{ document.weblink }}</a>
+          {% endif %}
+        </td>
+        <td>{{ document.rubrique }}</td>
+        <td>{{ document.mimetype }}</td>
+        <td>{{ document.balise }}</td>
+        <td>{{ document.date }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

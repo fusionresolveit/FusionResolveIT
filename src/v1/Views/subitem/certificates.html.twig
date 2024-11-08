@@ -42,7 +42,7 @@
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.date_expiration }}</a>
-              <div class="description">{{ certificate.date_expiration }}</div>
+              <div class="description" {% if certificate.alert_expiration %}style="background-color: #f27960;"{% endif %}>{{ certificate.date_expiration }}</div>
             </div>
           </div>
           <div class="item">

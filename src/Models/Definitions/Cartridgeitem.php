@@ -354,17 +354,17 @@ class Cartridgeitem
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [

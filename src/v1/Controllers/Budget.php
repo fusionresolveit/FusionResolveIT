@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Budget extends Common
 {
   protected $model = '\App\Models\Budget';
+  protected $rootUrl2 = '/budgets/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

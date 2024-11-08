@@ -444,7 +444,7 @@ class User
       ],
       [
         'title' => $translator->translatePlural('Group', 'Groups', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'users',
         'link' => '',
       ],
       [
@@ -479,8 +479,8 @@ class User
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translatePlural('Reservation', 'Reservations', 2),
@@ -494,12 +494,12 @@ class User
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'linkify',
+        'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [

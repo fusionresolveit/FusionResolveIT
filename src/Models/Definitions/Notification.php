@@ -265,8 +265,8 @@ class Notification
     return [
       [
         'title' => $translator->translatePlural('Notification', 'Notifications', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'home',
+        'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Template translation', 'Template translations', 2),
@@ -281,7 +281,7 @@ class Notification
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
-        'link' => '',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -560,21 +560,27 @@ class Common
       {
         $relation = $domainrelation->name;
       }
+
+      $alert_expiration = false;
       $date_expiration = $domain->date_expiration;
-      if ($date_expiration == null)
-      {
+      if ($date_expiration == null) {
         $date_expiration = $translator->translate("N'expire pas");
+      } else {
+        if ($date_expiration < date('Y-m-d H:i:s')) {
+          $alert_expiration = true;
+        }
       }
 
       $myDomains[] = [
-        'name'          => $domain->name,
-        'entity'        => $entity,
-        'group'         => $groupstech,
-        'user'          => $userstech,
-        'type'          => $type,
-        'relation'      => $relation,
-        'date_create'   => $domain->created_at,
-        'date_exp'      => $date_expiration,
+        'name'              => $domain->name,
+        'entity'            => $entity,
+        'group'             => $groupstech,
+        'user'              => $userstech,
+        'type'              => $type,
+        'relation'          => $relation,
+        'date_create'       => $domain->created_at,
+        'date_exp'          => $date_expiration,
+        'alert_expiration'  => $alert_expiration,
       ];
     }
 
@@ -654,10 +660,14 @@ class Common
         $entity = $certificate->entity->name;
       }
 
+      $alert_expiration = false;
       $date_expiration = $certificate->date_expiration;
-      if ($date_expiration == null)
-      {
+      if ($date_expiration == null) {
         $date_expiration = $translator->translate("N'expire pas");
+      } else {
+        if ($date_expiration < date('Y-m-d H:i:s')) {
+          $alert_expiration = true;
+        }
       }
       $state = '';
       if ($certificate->state !== null)
@@ -674,6 +684,7 @@ class Common
         'dns_suffix'        => $certificate->dns_suffix,
         'created_at'        => $certificate->created_at,
         'date_expiration'   => $date_expiration,
+        'alert_expiration'  => $alert_expiration,
         'state'             => $state,
       ];
     }
@@ -754,15 +765,27 @@ class Common
           $network_name = $myItem->network->name;
         }
 
-        $user_name = '';
+        $users = '';
         if ($myItem->user != null)
         {
-          $user_name = $myItem->user->name;
+          if (isset($myItem->user->name)) {
+            $users[] = $myItem->user->name;
+          } else {
+            foreach ($myItem->user as $user) {
+              $users[] = $user->name;
+            }
+          }
         }
-        $group_name = '';
+        $groups = [];
         if ($myItem->group != null)
         {
-          $group_name = $myItem->group->name;
+          if (isset($myItem->group->name)) {
+            $groups[] = $myItem->group->name;
+          } else {
+            foreach ($myItem->group as $group) {
+              $groups[] = $group->name;
+            }
+          }
         }
 
         $ips = [];
@@ -778,8 +801,8 @@ class Common
           'domains' => $domains,
           'network' => $network_name,
           'comment' => $myItem->comment,
-          'user' => $user_name,
-          'group' => $group_name,
+          'users' => $users,
+          'groups' => $groups,
           // 'realname' => $realname,
           // 'firstname' => $firstname,
           // 'login' => $login,
@@ -856,10 +879,10 @@ class Common
       $new_link = self::checkAndReplaceProperty($item, 'login', "[LOGIN]", $new_link, $replaceByBr);
     }
     if (strstr($new_link, "[USER]")) {
-      $new_link = self::checkAndReplaceProperty($item, 'user', "[USER]", $new_link, $replaceByBr);
+      $new_link = self::checkAndReplaceProperty($item, 'users', "[USER]", $new_link, $replaceByBr);
     }
     if (strstr($new_link, "[GROUP]")) {
-      $new_link = self::checkAndReplaceProperty($item, 'group', "[GROUP]", $new_link, $replaceByBr);
+      $new_link = self::checkAndReplaceProperty($item, 'groups', "[GROUP]", $new_link, $replaceByBr);
     }
     if (strstr($new_link, "[IP]")) {
       $new_link = self::checkAndReplaceProperty($item, 'ips', "[IP]", $new_link, $replaceByBr);
@@ -886,7 +909,7 @@ class Common
       } else {
         $ret = str_replace($strToReplace, $item[$field], $ret);
       }
-      if ($replaceByBr === true) $ret=str_ireplace("\n", "<br>", $ret);
+      if ($replaceByBr === true) $ret = str_ireplace("\n", "<br>", $ret);
     }
 
     return $ret;
@@ -938,4 +961,458 @@ class Common
     return $view->render($response, 'subitem/knowbaseitems.html.twig', (array)$viewData);
   }
 
+  public function showSubDocuments(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('documents')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/documents');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myDocuments = [];
+    foreach ($myItem->documents as $document)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/documents/" . $document->id;
+      }
+
+      $entity = '';
+      if ($document->entity != null)
+      {
+        $entity = $document->entity->name;
+      }
+
+      $rubrique = '';
+      if ($document->categorie != null)
+      {
+        $rubrique = $document->categorie->name;
+      }
+
+
+      $myDocuments[$document->id] = [
+        'name'          => $document->name,
+        'date'          => $document->pivot->updated_at,
+        'url'           => $url,
+        'entity'        => $entity,
+        'file'          => $document->filename,
+        'weblink'       => $document->link,
+        'rubrique'      => $rubrique,
+        'mimetype'      => $document->mime,
+        'balise'        => $document->tag,
+      ];
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($myDocuments, function ($a, $b)
+    {
+      return $a['date'] < $b['date'];
+    });
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('documents', $myDocuments);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('file', $translator->translate('File'));
+    $viewData->addTranslation('weblink', $translator->translate('Web link'));
+    $viewData->addTranslation('rubrique', $translator->translate('Heading'));
+    $viewData->addTranslation('mimetype', $translator->translate('MIME type'));
+    $viewData->addTranslation('balise', $translator->translate('Tag'));
+    $viewData->addTranslation('date', $translator->translatePlural('Dates', 'Dates', 1));
+
+    return $view->render($response, 'subitem/documents.html.twig', (array)$viewData);
+  }
+
+  public function showSubContracts(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('contracts')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/contracts');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myContracts = [];
+    foreach ($myItem->contracts as $contract)
+    {
+
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/contracts/" . $contract->id;
+      }
+
+      $entity = '';
+      if ($contract->entity != null)
+      {
+        $entity = $contract->entity->name;
+      }
+
+      $type = '';
+      if ($contract->type != null)
+      {
+        $type = $contract->type->name;
+      }
+
+      $suppliers = [];
+      if ($contract->suppliers != null)
+      {
+        foreach ($contract->suppliers as $supplier) {
+          $suppliers[$supplier->id] = [
+            'name' => $supplier->name,
+          ];
+        }
+      }
+
+      $duration = $contract->duration;
+      if ($duration == 0) $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
+      if ($duration != 0) $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', $duration), $duration);
+
+      if ($contract->begin_date != null) {
+        $ladate = $contract->begin_date;
+        if ($duration != 0)
+        {
+          $end_date = date('Y-m-d', strtotime('+' . $duration . ' month', strtotime($ladate)));
+          if ($end_date < date('Y-m-d')) {
+            $end_date = "<span style=\"color: red;\">" . $end_date . "</span>";
+          }
+          $initial_contract_period = $initial_contract_period . ' => ' . $end_date;
+        }
+      }
+
+      $myContracts[$contract->id] = [
+        'name'                      => $contract->name,
+        'url'                       => $url,
+        'entity'                    => $entity,
+        'number'                    => $contract->num,
+        'type'                      => $type,
+        'suppliers'                 => $suppliers,
+        'start_date'                => $contract->begin_date,
+        'initial_contract_period'   => $initial_contract_period,
+      ];
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($myContracts, function ($a, $b)
+    {
+      return strtolower($a['name']) > strtolower($b['name']);
+    });
+
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('contracts', $myContracts);
+    $viewData->addData('show_suppliers', true);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('number', 'Numéro');
+    $viewData->addTranslation('type', $translator->translatePlural('Contract type', 'Contract types', 1));
+    $viewData->addTranslation('supplier', $translator->translatePlural('Supplier', 'Suppliers', 1));
+    $viewData->addTranslation('start_date', $translator->translate('Start date'));
+    $viewData->addTranslation('initial_contract_period', $translator->translate('Initial contract period'));
+
+    return $view->render($response, 'subitem/contracts.html.twig', (array)$viewData);
+  }
+
+  public function showSubSuppliers(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('suppliers')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/suppliers');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $mySuppliers = [];
+    foreach ($myItem->suppliers as $supplier)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/suppliers/" . $supplier->id;
+      }
+
+      $entity = '';
+      if ($supplier->entity != null)
+      {
+        $entity = $supplier->entity->name;
+      }
+
+      $type = '';
+      if ($supplier->type != null)
+      {
+        $type = $supplier->type->name;
+      }
+
+      $mySuppliers[$supplier->id] = [
+        'name'           => $supplier->name,
+        'url'            => $url,
+        'entity'         => $entity,
+        'type'           => $type,
+        'phone'          => $supplier->phonenumber,
+        'fax'            => $supplier->fax,
+        'website'        => $supplier->website,
+      ];
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($mySuppliers, function ($a, $b)
+    {
+      return strtolower($a['name']) > strtolower($b['name']);
+    });
+
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('suppliers', $mySuppliers);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('type', $translator->translatePlural('Third party type', 'Third party types', 1));
+    $viewData->addTranslation('phone', $translator->translatePlural('Phone', 'Phones', 1));
+    $viewData->addTranslation('fax', $translator->translate('Fax'));
+    $viewData->addTranslation('website', $translator->translate('Website'));
+
+    return $view->render($response, 'subitem/suppliers.html.twig', (array)$viewData);
+  }
+
+  public function showSubSoftwares(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('softwareversions')->find($args['id']);
+
+    $myAntiviruses = [];
+
+    $softwares = [];
+    foreach ($myItem->softwareversions as $softwareversion)
+    {
+      $softwares[] = [
+        'id' => $softwareversion->id,
+        'name' => $softwareversion->name,
+        'software' => [
+          'id' => $softwareversion->software->id,
+          'name' => $softwareversion->software->name,
+        ]
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/softwares');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('softwares', $softwares);
+    $viewData->addData('show', 'default');
+
+    $viewData->addTranslation('software', $translator->translatePlural('Software', 'Software', 1));
+    $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
+
+    return $view->render($response, 'subitem/softwares.html.twig', (array)$viewData);
+  }
+
+  public function showSubOperatingSystem(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('operatingsystems')->find($args['id']);
+
+    $operatingsystem = [];
+    foreach ($myItem->operatingsystems as $os)
+    {
+      $osa = \App\Models\Operatingsystemarchitecture::find($os->pivot->operatingsystemarchitecture_id);
+      $osv = \App\Models\Operatingsystemversion::find($os->pivot->operatingsystemversion_id);
+      $ossp = \App\Models\Operatingsystemservicepack::find($os->pivot->operatingsystemservicepack_id);
+      $oskv = \App\Models\Operatingsystemkernelversion::find($os->pivot->operatingsystemkernelversion_id);
+      $ose = \App\Models\Operatingsystemedition::find($os->pivot->operatingsystemedition_id);
+      $osln = $os->pivot->license_number;
+      $oslid = $os->pivot->licenseid;
+      $osid = $os->pivot->installationdate;
+      $oswo = $os->pivot->winowner;
+      $oswc = $os->pivot->wincompany;
+      $osoc = $os->pivot->oscomment;
+      $oshid = $os->pivot->hostid;
+
+      $architecture = '';
+      if ($osa !== null)
+      {
+        $architecture = $osa->name;
+      }
+      $version = '';
+      if ($osv !== null)
+      {
+        $version = $osv->name;
+      }
+      $servicepack = '';
+      if ($ossp !== null)
+      {
+        $servicepack = $ossp->name;
+      }
+      $kernelversion = '';
+      if ($oskv !== null)
+      {
+        $kernelversion = $oskv->name;
+      }
+      $edition = '';
+      if ($ose !== null)
+      {
+        $edition = $ose->name;
+      }
+      $license_number = '';
+      if ($osln !== null)
+      {
+        $license_number = $osln;
+      }
+      $licenseid = '';
+      if ($oslid !== null)
+      {
+        $licenseid = $oslid;
+      }
+      $installationdate = '';
+      if ($osid !== null)
+      {
+        $installationdate = $osid;
+      }
+      $winowner = '';
+      if ($oswo !== null)
+      {
+        $winowner = $oswo;
+      }
+      $wincompany = '';
+      if ($oswc !== null)
+      {
+        $wincompany = $oswc;
+      }
+      $oscomment = '';
+      if ($osoc !== null)
+      {
+        $oscomment = $osoc;
+      }
+      $hostid = '';
+      if ($oshid !== null)
+      {
+        $hostid = $oshid;
+      }
+
+      $operatingsystem = [
+        'id' => $os->id,
+        'name' => $os->name,
+        'architecture' => $architecture,
+        'architecture_id' => $os->pivot->operatingsystemarchitecture_id,
+        'version' => $version,
+        'version_id' => $os->pivot->operatingsystemversion_id,
+        'servicepack' => $servicepack,
+        'servicepack_id' => $os->pivot->operatingsystemservicepack_id,
+        'kernelversion' => $kernelversion,
+        'kernelversion_id' => $os->pivot->operatingsystemkernelversion_id,
+        'edition' => $edition,
+        'edition_id' => $os->pivot->operatingsystemedition_id,
+        'licensenumber' => $license_number,
+        'licenseid' => $licenseid,
+        'installationdate' => $installationdate,
+        'winowner' => $winowner,
+        'wincompany' => $wincompany,
+        'oscomment' => $oscomment,
+        'hostid' => $hostid,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/operatingsystem');
+
+    $show = '';
+    if ($this->rootUrl2 != '') {
+      $show = str_ireplace('/', '', $this->rootUrl2);
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $getDef = [];
+    $myItemData = [];
+
+
+    $getDefs = $item->getSpecificFunction('getDefinitionOperatingSystem');
+
+    $myItemData = [
+      'name'  => $operatingsystem['name'],
+      'architecture'  => [
+        'id' => $operatingsystem['architecture_id'],
+        'name' => $operatingsystem['architecture'],
+      ],
+      'kernelversion'  => [
+        'id' => $operatingsystem['kernelversion_id'],
+        'name' => $operatingsystem['kernelversion'],
+      ],
+      'version'  => [
+        'id' => $operatingsystem['version_id'],
+        'name' => $operatingsystem['version'],
+      ],
+      'servicepack'  => [
+        'id' => $operatingsystem['servicepack_id'],
+        'name' => $operatingsystem['servicepack'],
+      ],
+      'edition'  => [
+        'id' => $operatingsystem['edition_id'],
+        'name' => $operatingsystem['edition'],
+      ],
+      'licenseid'  => $operatingsystem['licenseid'],
+      'licensenumber'  => $operatingsystem['licensenumber'],
+    ];
+    $myItemDataObject = json_decode(json_encode($myItemData));
+
+    $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
+    $viewData->addData('show', $show);
+    $viewData->addData('operatingsystem', $operatingsystem);
+
+    $viewData->addTranslation('entreprise', 'Entreprise');
+    $viewData->addTranslation('oscomment', $translator->translate('Comments'));
+    $viewData->addTranslation('hostid', 'HostID');
+    $viewData->addTranslation('owner', 'Propriétaire');
+    $viewData->addTranslation('install_date', $translator->translate('Installation date'));
+
+    return $view->render($response, 'subitem/operatingsystems.html.twig', (array)$viewData);
+  }
 }

@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Deviceprocessor extends Common
 {
   protected $model = '\App\Models\Deviceprocessor';
+  protected $rootUrl2 = '/deviceprocessors/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

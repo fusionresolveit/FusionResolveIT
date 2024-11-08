@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Softwarelicense extends Common
 {
   protected $model = '\App\Models\Softwarelicense';
+  protected $rootUrl2 = '/softwarelicenses/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

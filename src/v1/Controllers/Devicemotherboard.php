@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicemotherboard extends Common
 {
   protected $model = '\App\Models\Devicemotherboard';
+  protected $rootUrl2 = '/devicemotherboards/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

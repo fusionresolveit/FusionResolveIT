@@ -251,7 +251,7 @@ class Group
       ],
       [
         'title' => $translator->translatePlural('User', 'Users', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'user',
         'link' => '',
       ],
       [
@@ -276,7 +276,7 @@ class Group
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [

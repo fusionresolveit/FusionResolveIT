@@ -30,6 +30,9 @@ class Domain extends Common
     'groupstech',
     'entity',
     'certificates',
+    'documents',
+    'contracts',
+    'records',
   ];
 
   protected $with = [
@@ -38,6 +41,9 @@ class Domain extends Common
     'groupstech:id,name',
     'entity:id,name',
     'certificates:id,name',
+    'documents:id,name',
+    'contracts:id,name',
+    'records:id,name',
   ];
 
   public function type(): BelongsTo
@@ -69,5 +75,33 @@ class Domain extends Common
     )->withPivot(
       'certificate_id',
     );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
+  }
+
+  public function contracts(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Contract',
+      'item',
+      'contract_item'
+    )->withPivot(
+      'contract_id',
+    );
+  }
+
+  public function records(): HasMany
+  {
+    return $this->hasMany('App\Models\Domainrecord');
   }
 }

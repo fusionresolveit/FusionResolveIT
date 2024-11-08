@@ -33,6 +33,7 @@ class Consumableitem extends Common
     'location',
     'entity',
     'notes',
+    'documents',
   ];
 
   protected $with = [
@@ -43,6 +44,7 @@ class Consumableitem extends Common
     'location:id,name',
     'entity:id,name',
     'notes:id',
+    'documents:id,name',
   ];
 
 
@@ -81,6 +83,18 @@ class Consumableitem extends Common
     return $this->morphMany(
       '\App\Models\Notepad',
       'item',
+    );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
     );
   }
 }

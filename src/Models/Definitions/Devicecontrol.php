@@ -103,8 +103,8 @@ class Devicecontrol
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translate('Historical'),

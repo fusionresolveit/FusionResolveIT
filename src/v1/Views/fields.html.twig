@@ -15,23 +15,31 @@
   {% endif %}
 
   {% if item.type == 'dropdown' %}
-    <div class="ui search selection dropdown">
-      <input type="hidden" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
-      <i class="dropdown icon"></i>
-      <div class="default text">Select value...</div>
-      <div class="menu">
-        {% for key, val in item.values %}
-          <div class="item {{ val.class }}" data-value="{{ key }}">
-            {% if val.icon is defined %}
-              {% if val.icon != '' %}
-                <i class="{{ val.color }} {{ val.icon }} icon"></i>
+    {% if item.readonly is defined %}
+      {% for key, val in item.values %}
+        {% if key == item.value %}
+          {{val.title}}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="ui search selection dropdown">
+        <input type="hidden" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select value...</div>
+        <div class="menu">
+          {% for key, val in item.values %}
+            <div class="item {{ val.class }}" data-value="{{ key }}">
+              {% if val.icon is defined %}
+                {% if val.icon != '' %}
+                  <i class="{{ val.color }} {{ val.icon }} icon"></i>
+                {% endif %}
               {% endif %}
-            {% endif %}
-            {{ val.title }}
+              {{ val.title }}
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
-    </div>
+    {% endif %}
   {% endif %}
 
   {% if item.type == 'dropdown_remote' %}

@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Contact extends Common
 {
   protected $model = '\App\Models\Contact';
+  protected $rootUrl2 = '/contacts/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

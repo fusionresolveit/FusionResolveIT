@@ -16,9 +16,11 @@ class Computerantivirus extends Common
   ];
 
   protected $visible = [
+    'manufacturer',
   ];
 
   protected $with = [
+    'manufacturer:id,name',
   ];
 
   protected $fillable = [
@@ -29,5 +31,10 @@ class Computerantivirus extends Common
   public function computer(): BelongsTo
   {
     return $this->belongsTo('App\Models\Computer');
+  }
+
+  public function manufacturer(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Manufacturer');
   }
 }

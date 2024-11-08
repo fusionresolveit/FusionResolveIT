@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicedrive extends Common
 {
   protected $model = '\App\Models\Devicedrive';
+  protected $rootUrl2 = '/devicedrives/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

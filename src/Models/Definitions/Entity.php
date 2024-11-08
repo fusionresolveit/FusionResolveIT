@@ -667,6 +667,85 @@ class Entity
     ];
   }
 
+  public static function getDefinitionAddress()
+  {
+    global $translator;
+    return [
+      [
+        'id'    => 1,
+        'title' => $translator->translatePlural('Phone', 'Phones', 1),
+        'type'  => 'input',
+        'name'  => 'phonenumber',
+      ],
+      [
+        'id'    => 2,
+        'title' => $translator->translate('Fax'),
+        'type'  => 'input',
+        'name'  => 'fax',
+      ],
+      [
+        'id'    => 3,
+        'title' => $translator->translate('Website'),
+        'type'  => 'input',
+        'name'  => 'website',
+      ],
+      [
+        'id'    => 4,
+        'title' => $translator->translatePlural('Email', 'Emails', 1),
+        'type'  => 'input',
+        'name'  => 'email',
+      ],
+      [
+        'id'    => 5,
+        'title' => $translator->translate('Address'),
+        'type'  => 'textarea',
+        'name'  => 'address',
+      ],
+      [
+        'id'    => 6,
+        'title' => $translator->translate('Postal code'),
+        'type'  => 'input',
+        'name'  => 'postcode',
+      ],
+      [
+        'id'    => 7,
+        'title' => $translator->translate('City'),
+        'type'  => 'input',
+        'name'  => 'town',
+      ],
+      [
+        'id'    => 8,
+        'title' => $translator->translate('location' . "\004" . 'State'),
+        'type'  => 'input',
+        'name'  => 'state',
+      ],
+      [
+        'id'    => 9,
+        'title' => $translator->translate('Country'),
+        'type'  => 'input',
+        'name'  => 'country',
+      ],
+      [
+        'id'    => 10,
+        'title' => $translator->translate('Longitude'),
+        'type'  => 'input',
+        'name'  => 'longitude',
+      ],
+      [
+        'id'    => 11,
+        'title' => $translator->translate('Latitude'),
+        'type'  => 'input',
+        'name'  => 'latitude',
+      ],
+      [
+        'id'    => 12,
+        'title' => $translator->translate('Altitude'),
+        'type'  => 'input',
+        'name'  => 'altitude',
+      ],
+    ];
+  }
+
   public static function getRelatedPages($rootUrl)
   {
     global $translator;
@@ -684,7 +763,7 @@ class Entity
       [
         'title' => $translator->translate('Address'),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/address',
       ],
       [
         'title' => $translator->translate('Advanced information'),
@@ -723,21 +802,21 @@ class Entity
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
+        'icon' => 'book',
+        'link' => $rootUrl . '/knowbaseitems',
+      ],
+      [
+        'title' => $translator->translate('FusionInventory'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
@@ -745,16 +824,6 @@ class Entity
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
-      ],
-      [
-        'title' => $translator->translatePlural('Form', 'Forms', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translate('FusionInventory'),
-        'icon' => 'caret square down outline',
-        'link' => '',
       ],
     ];
   }

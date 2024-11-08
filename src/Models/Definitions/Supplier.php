@@ -200,13 +200,13 @@ class Supplier
       ],
       [
         'title' => $translator->translatePlural('Contact', 'Contacts', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'user tie',
+        'link' => $rootUrl . '/contacts',
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
@@ -215,8 +215,8 @@ class Supplier
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
@@ -235,18 +235,18 @@ class Supplier
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'book',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translate('Historical'),

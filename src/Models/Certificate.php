@@ -40,6 +40,9 @@ class Certificate extends Common
     'manufacturer',
     'entity',
     'notes',
+    'knowbaseitems',
+    'documents',
+    'contracts',
   ];
 
   protected $with = [
@@ -53,6 +56,9 @@ class Certificate extends Common
     'manufacturer:id,name',
     'entity:id,name',
     'notes:id',
+    'knowbaseitems:id,name',
+    'documents:id,name',
+    'contracts:id,name',
   ];
 
   public function location(): BelongsTo
@@ -105,6 +111,40 @@ class Certificate extends Common
     return $this->morphMany(
       '\App\Models\Notepad',
       'item',
+    );
+  }
+
+  public function knowbaseitems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Knowbaseitem',
+      'item',
+      'knowbaseitem_item'
+    )->withPivot(
+      'knowbaseitem_id',
+    );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
+  }
+
+  public function contracts(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Contract',
+      'item',
+      'contract_item'
+    )->withPivot(
+      'contract_id',
     );
   }
 }

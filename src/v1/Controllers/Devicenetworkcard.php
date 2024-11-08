@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicenetworkcard extends Common
 {
   protected $model = '\App\Models\Devicenetworkcard';
+  protected $rootUrl2 = '/devicenetworkcards/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

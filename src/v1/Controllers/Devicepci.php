@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicepci extends Common
 {
   protected $model = '\App\Models\Devicepci';
+  protected $rootUrl2 = '/devicepcis/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

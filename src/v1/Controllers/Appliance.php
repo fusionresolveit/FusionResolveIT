@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Appliance extends Common
 {
   protected $model = '\App\Models\Appliance';
+  protected $rootUrl2 = '/appliances/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

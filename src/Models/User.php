@@ -41,6 +41,7 @@ class User extends Common
     'completename',
     'certificates',
     'defaultgroup',
+    'documents',
   ];
 
   protected $with = [
@@ -53,6 +54,7 @@ class User extends Common
     'group:id,name',
     'certificates:id,name',
     'defaultgroup:id,name',
+    'documents:id,name',
   ];
 
   public function category(): BelongsTo
@@ -137,6 +139,18 @@ class User extends Common
       'certificate_item'
     )->withPivot(
       'certificate_id',
+    );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
     );
   }
 }

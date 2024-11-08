@@ -1,0 +1,39 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.type }}</th>
+      <th>{{ translation.phone }}</th>
+      <th>{{ translation.fax }}</th>
+      <th>{{ translation.website }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for supplier in data.suppliers %}
+      <tr>
+        <td>
+          {% if supplier.url != '' %}
+              <a href="{{ supplier.url }}">{{ supplier.name }}</a>
+          {% else %}
+              {{ supplier.name }}
+          {% endif %}
+        </td>
+        <td>{{ supplier.entity }}</td>
+        <td>{{ supplier.type }}</td>
+        <td>{{ supplier.phone }}</td>
+        <td>{{ supplier.fax }}</td>
+        <td>
+          {% if supplier.website != '' %}
+              <a href="{{ supplier.website }}" target="_blank">{{ supplier.website }}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

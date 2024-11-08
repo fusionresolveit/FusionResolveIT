@@ -209,13 +209,13 @@ class Appliance
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translate('Management'),
@@ -224,7 +224,7 @@ class Appliance
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [
@@ -234,8 +234,8 @@ class Appliance
       ],
       [
         'title' => $translator->translate('Knowledge base'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'book',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
@@ -254,7 +254,7 @@ class Appliance
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [

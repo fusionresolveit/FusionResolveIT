@@ -44,6 +44,10 @@ class Monitor extends Common
     'appliances',
     'notes',
     'knowbaseitems',
+    'documents',
+    'contracts',
+    'softwareversions',
+    'operatingsystems',
   ];
 
   protected $with = [
@@ -61,6 +65,10 @@ class Monitor extends Common
     'appliances:id,name',
     'notes:id',
     'knowbaseitems:id,name',
+    'documents:id,name',
+    'contracts:id,name',
+    'softwareversions:id,name',
+    'operatingsystems:id,name',
   ];
 
 
@@ -150,6 +158,56 @@ class Monitor extends Common
       'knowbaseitem_item'
     )->withPivot(
       'knowbaseitem_id',
+    );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
+  }
+
+  public function contracts(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Contract',
+      'item',
+      'contract_item'
+    )->withPivot(
+      'contract_id',
+    );
+  }
+
+  public function softwareversions(): MorphToMany
+  {
+    return $this->morphToMany('\App\Models\Softwareversion', 'item', 'item_softwareversion');
+  }
+
+  public function operatingsystems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Operatingsystem',
+      'item',
+      'item_operatingsystem'
+    )->withPivot(
+      'operatingsystemversion_id',
+      'operatingsystemservicepack_id',
+      'operatingsystemarchitecture_id',
+      'operatingsystemkernelversion_id',
+      'operatingsystemedition_id',
+      'license_number',
+      'licenseid',
+      'installationdate',
+      'winowner',
+      'wincompany',
+      'oscomment',
+      'hostid'
     );
   }
 }

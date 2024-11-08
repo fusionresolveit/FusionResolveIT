@@ -57,17 +57,17 @@ class Category extends Common
 
   public function users(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User');
+    return $this->belongsTo('\App\Models\User', 'user_id');
   }
 
   public function groups(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group');
+    return $this->belongsTo('\App\Models\Group', 'group_id');
   }
 
   public function knowbaseitemcategories(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Knowbaseitemcategory');
+    return $this->belongsTo('\App\Models\Knowbaseitemcategory', 'knowbaseitemcategory_id');
   }
 
   public function tickettemplatesDemand(): BelongsTo
@@ -82,12 +82,12 @@ class Category extends Common
 
   public function changetemplates(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Changetemplate');
+    return $this->belongsTo('\App\Models\Changetemplate', 'changetemplate_id');
   }
 
   public function problemtemplates(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Problemtemplate');
+    return $this->belongsTo('\App\Models\Problemtemplate', 'problemtemplate_id');
   }
 
   public function entity(): BelongsTo

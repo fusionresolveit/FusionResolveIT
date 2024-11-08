@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Enclosure extends Common
 {
   protected $model = '\App\Models\Enclosure';
+  protected $rootUrl2 = '/enclosures/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

@@ -5,20 +5,30 @@
   <button class="ui button right floated" type="submit">{{ translation.savebutton }}</button>
   <div class="ui internally celled grid">
     <div class="row">
-      <div class="height wide column">
-        {% for item in data.fields %}
-          {% if item.name != 'comment' %}
-            {{ include('fields.html.twig') }}
-          {% endif %}
-        {% endfor %}
-      </div>
-      <div class="height wide column">
-        Entreprise: {{ data.operatingsystem.wincompany }}<br>
-        Commentaires: {{ data.operatingsystem.oscomment }}<br>
-        HostID: {{ data.operatingsystem.hostid }}<br>
-        Propriétaire: {{ data.operatingsystem.winowner }}<br>
-        Date d'installation: {{ data.operatingsystem.installationdate }}<br>
-      </div>
+      {% if data.show == 'computers' %}
+        <div class="height wide column">
+          {% for item in data.fields %}
+            {% if item.name != 'comment' %}
+              {{ include('fields.html.twig') }}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="height wide column">
+          {{ translation.entreprise }}: {{ data.operatingsystem.wincompany }}<br>
+          {{ translation.oscomment }}: {{ data.operatingsystem.oscomment }}<br>
+          {{ translation.hostid }}: {{ data.operatingsystem.hostid }}<br>
+          {{ translation.owner }}: {{ data.operatingsystem.winowner }}<br>
+          {{ translation.install_date }}: {{ data.operatingsystem.installationdate }}<br>
+        </div>
+      {% else %}
+        <div class="column">
+          {% for item in data.fields %}
+            {% if item.name != 'comment' %}
+              {{ include('fields.html.twig') }}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </div>
   <button class="ui button right floated" type="submit">{{ translation.savebutton }}</button>

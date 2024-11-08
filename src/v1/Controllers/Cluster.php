@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Cluster extends Common
 {
   protected $model = '\App\Models\Cluster';
+  protected $rootUrl2 = '/clusters/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

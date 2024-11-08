@@ -1,0 +1,37 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.begin_date }}</th>
+      <th>{{ translation.end_date }}</th>
+      <th>{{ translation.budget }}</th>
+      <th>{{ translation.cost }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cost in data.costs %}
+      <tr>
+        <td>{{ cost.name }}</td>
+        <td>{{ cost.begin_date }}</td>
+        <td>{{ cost.end_date }}</td>
+        <td>
+          {% if cost.budget_url != '' %}
+              <a href="{{ cost.budget_url }}">{{ cost.budget }}</a>
+          {% else %}
+              {{ cost.budget }}
+          {% endif %}
+        </td>
+        <td>{{ cost.cost }}</td>
+      </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="4" style="text-align: right;">{{ translation.total_cost }}</td>
+      <td>{{ data.total_cost }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

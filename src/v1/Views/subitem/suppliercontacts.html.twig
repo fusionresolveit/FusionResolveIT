@@ -1,0 +1,43 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.phone }}</th>
+      <th>{{ translation.phone2 }}</th>
+      <th>{{ translation.mobile }}</th>
+      <th>{{ translation.fax }}</th>
+      <th>{{ translation.email }}</th>
+      <th>{{ translation.type }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for contact in data.contacts %}
+      <tr>
+        <td>
+          {% if contact.url != '' %}
+              <a href="{{ contact.url }}">{{ contact.name }}</a>
+          {% else %}
+              {{ contact.name }}
+          {% endif %}
+        </td>
+        <td>{{ contact.entity }}</td>
+        <td>{{ contact.phone }}</td>
+        <td>{{ contact.phone2 }}</td>
+        <td>{{ contact.mobile }}</td>
+        <td>{{ contact.fax }}</td>
+        <td>
+          {% if contact.email != '' %}
+              <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+          {% endif %}
+        </td>
+        <td>{{ contact.type }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

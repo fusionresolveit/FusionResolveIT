@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicefirmware extends Common
 {
   protected $model = '\App\Models\Devicefirmware';
+  protected $rootUrl2 = '/devicefirmwares/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

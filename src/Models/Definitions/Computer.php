@@ -172,6 +172,7 @@ class Computer
       ],
     ];
   }
+
   public static function getDefinitionOperatingSystem()
   {
     global $translator;
@@ -277,9 +278,14 @@ class Computer
         'link' => '',
       ],
       [
+        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
+      ],
+      [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translate('Virtualization'),
@@ -298,12 +304,12 @@ class Computer
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [
@@ -313,7 +319,7 @@ class Computer
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
@@ -332,14 +338,14 @@ class Computer
         'link' => $rootUrl . '/appliances',
       ],
       [
-        'title' => $translator->translate('Historical'),
-        'icon' => 'history',
-        'link' => $rootUrl . '/history',
-      ],
-      [
         'title' => $translator->translate('Information d\'import'),
         'icon' => 'caret square down outline',
         'link' => '',
+      ],
+      [
+        'title' => $translator->translate('Historical'),
+        'icon' => 'history',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

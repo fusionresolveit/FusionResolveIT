@@ -1,0 +1,36 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<div class="ui stackable cards">
+    {% for record in data.records %}
+      <div class="ui card">
+        <div class="content">
+          <div class="header"><i class="globe icon"></i>{{ record.name }}</div>
+        </div>
+        <div class="content">
+          <div class="ui relaxed list">
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.type }}</a>
+                <div class="description">{{ record.type }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.ttl }}</a>
+                <div class="description">{{ record.ttl }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.target }}</a>
+                <div class="description">{{ record.target }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{{ include('footer.html.twig') }}

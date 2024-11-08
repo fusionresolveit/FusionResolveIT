@@ -120,18 +120,18 @@ class ItemDevicesimcard
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
+      ],
+      [
+        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
       ],
       [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
-      ],
-      [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
       ],
     ];
   }

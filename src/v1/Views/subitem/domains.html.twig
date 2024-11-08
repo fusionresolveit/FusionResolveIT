@@ -48,7 +48,7 @@
             <div class="item">
               <div class="content">
                 <a class="header">{{ translation.date_exp }}</a>
-                <div class="description">{{ domain.date_exp }}</div>
+                <div class="description" {% if domain.alert_expiration %}style="background-color: #f27960;"{% endif %}>{{ domain.date_exp }}</div>
               </div>
             </div>
           </div>

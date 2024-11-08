@@ -2,59 +2,61 @@
 {{ include('headerForm.html.twig') }}
 
 
-<table class="ui blue table">
-  <thead>
-    <tr>
-      <th>Antivirus</th>
-      <th>Version</th>
-      <th>Publisher</th>
-      <th>Dynamic</th>
-      <th>Active</th>
-      <th>Uptodate</th>
-      <th>Signature</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for antivirus in data.antiviruses|sort((a, b) => a.antivirus.name|lower <=> b.antivirus.name|lower) %}
+{% if data.show == 'computer' %}
+  <table class="ui blue table">
+    <thead>
       <tr>
-        <td>{{ antivirus.name }}</td>
-        <td>{{ antivirus.version }}</td>
-        <td>{{ antivirus.publisher }}</td>
-        {% if antivirus.is_dynamic %}
-          <td class="positive">
-          <i class="check circle outline icon"></i>
-          Yes
-        {% else %}
-          <td class="negative">
-          <i class="times circle outline icon"></i>
-          No
-        {% endif %}
-        </td>
-        {% if antivirus.is_active %}
-          <td class="positive">
-          <i class="check circle outline icon"></i>
-          Yes
-        {% else %}
-          <td class="negative">
-          <i class="times circle outline icon"></i>
-          No
-        {% endif %}
-        </td>
-        {% if not antivirus.is_uptodate %}
-          <td class="positive">
-          <i class="check circle outline icon"></i>
-          Yes
-        {% else %}
-          <td class="negative">
-          <i class="times circle outline icon"></i>
-          No
-        {% endif %}
-        </td>
-        <td>{{ antivirus.signature }}</td>
+        <th>{{ translation.antivirus }}</th>
+        <th>{{ translation.antivirus_version }}</th>
+        <th>{{ translation.publisher }}</th>
+        <th>{{ translation.is_dynamic }}</th>
+        <th>{{ translation.is_active }}</th>
+        <th>{{ translation.is_uptodate }}</th>
+        <th>{{ translation.signature }}</th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for antivirus in data.antiviruses|sort((a, b) => a.antivirus.name|lower <=> b.antivirus.name|lower) %}
+        <tr>
+          <td>{{ antivirus.name }}</td>
+          <td>{{ antivirus.version }}</td>
+          <td>{{ antivirus.publisher }}</td>
+          {% if antivirus.is_dynamic %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            Yes
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            No
+          {% endif %}
+          </td>
+          {% if antivirus.is_active %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            Yes
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            No
+          {% endif %}
+          </td>
+          {% if not antivirus.is_uptodate %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            Yes
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            No
+          {% endif %}
+          </td>
+          <td>{{ antivirus.signature }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
 
 <table class="ui blue table">
   <thead>

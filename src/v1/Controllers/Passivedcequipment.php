@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Passivedcequipment extends Common
 {
   protected $model = '\App\Models\Passivedcequipment';
+  protected $rootUrl2 = '/passivedcequipments/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

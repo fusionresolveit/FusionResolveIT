@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicebattery extends Common
 {
   protected $model = '\App\Models\Devicebattery';
+  protected $rootUrl2 = '/devicebatteries/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

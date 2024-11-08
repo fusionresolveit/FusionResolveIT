@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Rack extends Common
 {
   protected $model = '\App\Models\Rack';
+  protected $rootUrl2 = '/racks/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

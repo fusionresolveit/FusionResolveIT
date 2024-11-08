@@ -32,6 +32,8 @@ class Cluster extends Common
     'groupstech',
     'entity',
     'appliances',
+    'documents',
+    'contracts',
   ];
 
   protected $with = [
@@ -41,6 +43,8 @@ class Cluster extends Common
     'groupstech:id,name',
     'entity:id,name',
     'appliances:id,name',
+    'documents:id,name',
+    'contracts:id,name',
   ];
 
   public function type(): BelongsTo
@@ -74,6 +78,29 @@ class Cluster extends Common
       '\App\Models\Appliance',
       'item',
       'appliance_item'
+    );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
+  }
+
+  public function contracts(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Contract',
+      'item',
+      'contract_item'
+    )->withPivot(
+      'contract_id',
     );
   }
 }

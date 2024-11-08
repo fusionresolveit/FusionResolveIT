@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicecontrol extends Common
 {
   protected $model = '\App\Models\Devicecontrol';
+  protected $rootUrl2 = '/devicecontrols/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

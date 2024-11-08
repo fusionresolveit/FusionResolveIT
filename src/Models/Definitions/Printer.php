@@ -277,6 +277,71 @@ class Printer
     ];
   }
 
+  public static function getDefinitionOperatingSystem()
+  {
+    global $translator;
+    return [
+      [
+        'id'    => 1,
+        'title' => $translator->translate('Name'),
+        'type'  => 'input',
+        'name'  => 'name',
+      ],
+      [
+        'id'    => 2,
+        'title' => $translator->translatePlural('Architecture', 'Architectures', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'architecture',
+        'dbname' => 'operatingsystemarchitecture_id',
+        'itemtype' => '\App\Models\Operatingsystemarchitecture',
+      ],
+      [
+        'id'    => 3,
+        'title' => $translator->translatePlural('Kernel', 'Kernels', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'kernelversion',
+        'dbname' => 'operatingsystemkernelversion_id',
+        'itemtype' => '\App\Models\Operatingsystemkernelversion',
+      ],
+      [
+        'id'    => 4,
+        'title' => $translator->translatePlural('Version', 'Versions', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'version',
+        'dbname' => 'operatingsystemversion_id',
+        'itemtype' => '\App\Models\Operatingsystemversion',
+      ],
+      [
+        'id'    => 5,
+        'title' => $translator->translatePlural('Service pack', 'Service packs', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'servicepack',
+        'dbname' => 'operatingsystemservicepack_id',
+        'itemtype' => '\App\Models\Operatingsystemservicepack',
+      ],
+      [
+        'id'    => 6,
+        'title' => $translator->translatePlural('Edition', 'Editions', 1),
+        'type'  => 'dropdown_remote',
+        'name'  => 'edition',
+        'dbname' => 'operatingsystemedition_id',
+        'itemtype' => '\App\Models\Operatingsystemedition',
+      ],
+      [
+        'id'    => 7,
+        'title' => $translator->translate('Product ID'),
+        'type'  => 'input',
+        'name'  => 'licenseid',
+      ],
+      [
+        'id'    => 8,
+        'title' => $translator->translate('Serial number'),
+        'type'  => 'input',
+        'name'  => 'licensenumber',
+      ],
+    ];
+  }
+
   public static function getRelatedPages($rootUrl)
   {
     global $translator;
@@ -299,7 +364,7 @@ class Printer
       [
         'title' => $translator->translatePlural('Software', 'Softwares', 2),
         'icon' => 'cube',
-        'link' => '',
+        'link' => $rootUrl . '/softwares',
       ],
       [
         'title' => $translator->translatePlural('Cartridge', 'Cartridges', 2),
@@ -333,13 +398,13 @@ class Printer
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
@@ -363,12 +428,12 @@ class Printer
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
@@ -378,7 +443,7 @@ class Printer
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [

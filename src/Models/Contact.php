@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Contact extends Common
 {
@@ -28,6 +29,8 @@ class Contact extends Common
     'title',
     'entity',
     'notes',
+    'documents',
+    'suppliers',
   ];
 
   protected $with = [
@@ -35,6 +38,8 @@ class Contact extends Common
     'title:id,name',
     'entity:id,name',
     'notes:id',
+    'documents:id,name',
+    'suppliers:id,name',
   ];
 
   public function type(): BelongsTo
@@ -57,5 +62,22 @@ class Contact extends Common
       '\App\Models\Notepad',
       'item',
     );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
+  }
+
+  public function suppliers(): BelongsToMany
+  {
+    return $this->belongsToMany('\App\Models\Supplier');
   }
 }

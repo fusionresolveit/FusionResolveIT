@@ -9,6 +9,7 @@ use Slim\Views\Twig;
 final class User extends Common
 {
   protected $model = '\App\Models\User';
+  protected $rootUrl2 = '/users/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

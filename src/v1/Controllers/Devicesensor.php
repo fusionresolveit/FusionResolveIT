@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicesensor extends Common
 {
   protected $model = '\App\Models\Devicesensor';
+  protected $rootUrl2 = '/devicesensors/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

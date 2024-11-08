@@ -77,14 +77,14 @@ class Knowbaseitemcategory
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
-        'icon' => 'history',
-        'link' => $rootUrl . '/history',
-      ],
-      [
         'title' => $translator->translate('Icon'),
         'icon' => 'history',
         'link' => '',
+      ],
+      [
+        'title' => $translator->translate('Historical'),
+        'icon' => 'history',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

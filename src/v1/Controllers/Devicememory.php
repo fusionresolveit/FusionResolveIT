@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Devicememory extends Common
 {
   protected $model = '\App\Models\Devicememory';
+  protected $rootUrl2 = '/devicememories/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

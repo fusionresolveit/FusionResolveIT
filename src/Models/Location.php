@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Location extends Common
 {
@@ -22,11 +24,13 @@ class Location extends Common
   protected $visible = [
     'location',
     'entity',
+    'documents',
   ];
 
   protected $with = [
     'location:id,name',
     'entity:id,name',
+    'documents:id,name',
   ];
 
   public function location(): BelongsTo
@@ -37,5 +41,17 @@ class Location extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
   }
 }

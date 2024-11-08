@@ -148,7 +148,7 @@ class Domain
       [
         'title' => $translator->translatePlural('Record', 'Records', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/records',
       ],
       [
         'title' => $translator->translatePlural('Associated item', 'Associated items', 2),
@@ -177,22 +177,22 @@ class Domain
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [

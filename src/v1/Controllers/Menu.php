@@ -1173,9 +1173,9 @@ final class Menu
           ],
           [
             'name' => $translator->translatePlural('Soundcard', 'Soundcards', 2),
-            'link' => $basePath . '/view/devices/devicesoundcardmodels',
+            'link' => $basePath . '/view/devices/devicesoundcards',
             'icon' => 'edit',
-            'class' => $activePath == $basePath . '/view/devices/devicesoundcardmodels' ? 'active blue' : '',
+            'class' => $activePath == $basePath . '/view/devices/devicesoundcards' ? 'active blue' : '',
           ],
           [
             'name' => $translator->translatePlural('Generic device', 'Generic devices', 2),

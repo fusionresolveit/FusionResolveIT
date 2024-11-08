@@ -84,11 +84,6 @@ class Holiday
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
-        'icon' => 'history',
-        'link' => $rootUrl . '/history',
-      ],
-      [
         'title' => $translator->translatePlural('Time range', 'Time ranges', 2),
         'icon' => 'caret square down outline',
         'link' => '',
@@ -97,6 +92,11 @@ class Holiday
         'title' => $translator->translatePlural('Close time', 'Close times', 2),
         'icon' => 'caret square down outline',
         'link' => '',
+      ],
+      [
+        'title' => $translator->translate('Historical'),
+        'icon' => 'history',
+        'link' => $rootUrl . '/history',
       ],
     ];
   }

@@ -10,6 +10,7 @@ use Slim\Routing\RouteContext;
 final class Cartridgeitem extends Common
 {
   protected $model = '\App\Models\Cartridgeitem';
+  protected $rootUrl2 = '/cartridgeitems/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

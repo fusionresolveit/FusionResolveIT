@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Passivedcequipment extends Common
 {
@@ -34,6 +36,8 @@ class Passivedcequipment extends Common
     'userstech',
     'location',
     'entity',
+    'documents',
+    'contracts',
   ];
 
   protected $with = [
@@ -45,6 +49,8 @@ class Passivedcequipment extends Common
     'userstech:id,name',
     'location:id,name',
     'entity:id,name',
+    'documents:id,name',
+    'contracts:id,name',
   ];
 
 
@@ -86,5 +92,28 @@ class Passivedcequipment extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
+      'updated_at',
+    );
+  }
+
+  public function contracts(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Contract',
+      'item',
+      'contract_item'
+    )->withPivot(
+      'contract_id',
+    );
   }
 }

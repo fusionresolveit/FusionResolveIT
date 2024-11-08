@@ -40,6 +40,8 @@ final class DocumentsItemsMigration extends AbstractMigration
         $data = [];
         foreach ($rows as $row)
         {
+          if ($row['itemtype'] == 'Entity') $row['items_id'] = $row['items_id'] + 1;
+
           $data[] = [
             'id'                => $row['id'],
             'document_id'       => $row['documents_id'],

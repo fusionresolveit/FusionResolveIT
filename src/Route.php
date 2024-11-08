@@ -82,6 +82,8 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Computer::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Computer::class . ':showSubNotes');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Computer::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Computer::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Computer::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Computer::class . ':showSubHistory');
           });
         });
@@ -110,6 +112,10 @@ final class Route
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Monitor::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Monitor::class . ':showSubExternalLinks');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Monitor::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Monitor::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Monitor::class . ':showSubContracts');
+            $sub->map(['GET'], 'softwares', \App\v1\Controllers\Monitor::class . ':showSubSoftwares');
+            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Monitor::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Monitor::class . ':showSubHistory');
           });
         });
@@ -138,6 +144,8 @@ final class Route
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Software::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Software::class . ':showSubExternalLinks');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Software::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Software::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Software::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Software::class . ':showSubHistory');
           });
         });
@@ -167,6 +175,10 @@ final class Route
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Networkequipment::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Networkequipment::class . ':showSubExternalLinks');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Networkequipment::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Networkequipment::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Networkequipment::class . ':showSubContracts');
+            $sub->map(['GET'], 'softwares', \App\v1\Controllers\Networkequipment::class . ':showSubSoftwares');
+            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Networkequipment::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipment::class . ':showSubHistory');
           });
         });
@@ -188,6 +200,10 @@ final class Route
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Peripheral::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Peripheral::class . ':showSubExternalLinks');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Peripheral::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Peripheral::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Peripheral::class . ':showSubContracts');
+            $sub->map(['GET'], 'softwares', \App\v1\Controllers\Peripheral::class . ':showSubSoftwares');
+            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Peripheral::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Peripheral::class . ':showSubHistory');
           });
         });
@@ -209,6 +225,10 @@ final class Route
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Printer::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Printer::class . ':showSubExternalLinks');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Printer::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Printer::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Printer::class . ':showSubContracts');
+            $sub->map(['GET'], 'softwares', \App\v1\Controllers\Printer::class . ':showSubSoftwares');
+            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Printer::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Printer::class . ':showSubHistory');
           });
         });
@@ -226,6 +246,7 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Cartridgeitem::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Cartridgeitem::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Cartridgeitem::class . ':showSubDocuments');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Cartridgeitem::class . ':showSubHistory');
           });
         });
@@ -242,6 +263,7 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Consumableitem::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Consumableitem::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Consumableitem::class . ':showSubDocuments');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Consumableitem::class . ':showSubHistory');
           });
         });
@@ -262,6 +284,10 @@ final class Route
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Phone::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Phone::class . ':showSubExternalLinks');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Phone::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Phone::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Phone::class . ':showSubContracts');
+            $sub->map(['GET'], 'softwares', \App\v1\Controllers\Phone::class . ':showSubSoftwares');
+            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Phone::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Phone::class . ':showSubHistory');
           });
         });
@@ -276,6 +302,8 @@ final class Route
           $rackId->map(['POST'], '', \App\v1\Controllers\Rack::class . ':updateItem');
           $rackId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Rack::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Rack::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Rack::class . ':showSubHistory');
           });
         });
@@ -290,6 +318,8 @@ final class Route
           $enclosureId->map(['POST'], '', \App\v1\Controllers\Enclosure::class . ':updateItem');
           $enclosureId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Enclosure::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Enclosure::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Enclosure::class . ':showSubHistory');
           });
         });
@@ -304,6 +334,8 @@ final class Route
           $pduId->map(['POST'], '', \App\v1\Controllers\Pdu::class . ':updateItem');
           $pduId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Pdu::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Pdu::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Pdu::class . ':showSubHistory');
           });
         });
@@ -318,6 +350,8 @@ final class Route
           $passivedcequipmentId->map(['POST'], '', \App\v1\Controllers\Passivedcequipment::class . ':updateItem');
           $passivedcequipmentId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Passivedcequipment::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Passivedcequipment::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Passivedcequipment::class . ':showSubHistory');
           });
         });
@@ -332,6 +366,8 @@ final class Route
           $item_devicesimcardId->map(['POST'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':updateItem');
           $item_devicesimcardId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubHistory');
           });
         });
@@ -427,6 +463,9 @@ final class Route
           {
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Softwarelicense::class . ':showSubCertificates');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Softwarelicense::class . ':showSubNotes');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Softwarelicense::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Softwarelicense::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Softwarelicense::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Softwarelicense::class . ':showSubHistory');
           });
         });
@@ -443,6 +482,8 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Budget::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Budget::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Budget::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Budget::class . ':showSubDocuments');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Budget::class . ':showSubHistory');
           });
         });
@@ -459,6 +500,10 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Supplier::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Supplier::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Supplier::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Supplier::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Supplier::class . ':showSubContracts');
+            $sub->map(['GET'], 'contacts', \App\v1\Controllers\Supplier::class . ':showSubContacts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Supplier::class . ':showSubHistory');
           });
         });
@@ -475,6 +520,8 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Contact::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Contact::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Contact::class . ':showSubDocuments');
+            $sub->map(['GET'], 'suppliers', \App\v1\Controllers\Contact::class . ':showSubSuppliers');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Contact::class . ':showSubHistory');
           });
         });
@@ -491,6 +538,10 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Contract::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Contract::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Contract::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Contract::class . ':showSubDocuments');
+            $sub->map(['GET'], 'suppliers', \App\v1\Controllers\Contract::class . ':showSubSuppliers');
+            $sub->map(['GET'], 'costs', \App\v1\Controllers\Contract::class . ':showSubCosts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Contract::class . ':showSubHistory');
           });
         });
@@ -521,6 +572,8 @@ final class Route
           $lineId->group('/', function (RouteCollectorProxy $sub)
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Line::class . ':showSubNotes');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Line::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Line::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Line::class . ':showSubHistory');
           });
         });
@@ -537,6 +590,10 @@ final class Route
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Certificate::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Certificate::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Certificate::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Certificate::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Certificate::class . ':showSubContracts');
+            $sub->map(['GET'], 'domains', \App\v1\Controllers\Certificate::class . ':showSubDomains');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Certificate::class . ':showSubHistory');
           });
         });
@@ -562,6 +619,8 @@ final class Route
           $clusterId->group('/', function (RouteCollectorProxy $sub)
           {
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Cluster::class . ':showSubAppliances');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Cluster::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Cluster::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Cluster::class . ':showSubHistory');
           });
         });
@@ -578,6 +637,9 @@ final class Route
           {
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Domain::class . ':showSubCertificates');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Domain::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Domain::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Domain::class . ':showSubContracts');
+            $sub->map(['GET'], 'records', \App\v1\Controllers\Domain::class . ':showSubRecords');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Domain::class . ':showSubHistory');
           });
         });
@@ -595,6 +657,9 @@ final class Route
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Appliance::class . ':showSubCertificates');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Appliance::class . ':showSubDomains');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Appliance::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Appliance::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Appliance::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Appliance::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Appliance::class . ':showSubHistory');
           });
         });
@@ -612,6 +677,9 @@ final class Route
           $projectId->group('/', function (RouteCollectorProxy $sub)
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Project::class . ':showSubNotes');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Project::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Project::class . ':showSubDocuments');
+            $sub->map(['GET'], 'contracts', \App\v1\Controllers\Project::class . ':showSubContracts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Project::class . ':showSubHistory');
           });
         });
@@ -626,6 +694,7 @@ final class Route
           $reminderId->map(['POST'], '', \App\v1\Controllers\Reminder::class . ':updateItem');
           $reminderId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Reminder::class . ':showSubDocuments');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Reminder::class . ':showSubHistory');
           });
         });
@@ -680,6 +749,8 @@ final class Route
             $sub->map(['GET'], 'authorization', \App\v1\Controllers\User::class . ':showSubAuthorization');
             $sub->map(['POST'], 'authorization', \App\v1\Controllers\User::class . ':itemSubAuthorization');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\User::class . ':showSubCertificates');
+            $sub->map(['GET'], 'externallinks', \App\v1\Controllers\User::class . ':showSubExternalLinks');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\User::class . ':showSubDocuments');
             $sub->map(['GET'], 'history', \App\v1\Controllers\User::class . ':showSubHistory');
           });
         });
@@ -710,6 +781,9 @@ final class Route
           $entityId->group('/', function (RouteCollectorProxy $sub)
           {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Entity::class . ':showSubNotes');
+            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Entity::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'documents', \App\v1\Controllers\Entity::class . ':showSubDocuments');
+            $sub->map(['GET'], 'address', \App\v1\Controllers\Entity::class . ':showSubAddress');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Entity::class . ':showSubHistory');
           });
         });
@@ -791,6 +865,7 @@ final class Route
             $locationId->map(['POST'], '', \App\v1\Controllers\Location::class . ':updateItem');
             $locationId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Location::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Location::class . ':showSubHistory');
             });
           });
@@ -1005,6 +1080,7 @@ final class Route
             $projecttasktemplateId->map(['POST'], '', \App\v1\Controllers\Projecttasktemplate::class . ':updateItem');
             $projecttasktemplateId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Projecttasktemplate::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Projecttasktemplate::class . ':showSubHistory');
             });
           });
@@ -2327,6 +2403,7 @@ final class Route
             $devicepowersupplyId->map(['POST'], '', \App\v1\Controllers\Devicepowersupply::class . ':updateItem');
             $devicepowersupplyId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicepowersupply::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicepowersupply::class . ':showSubHistory');
             });
           });
@@ -2341,6 +2418,7 @@ final class Route
             $devicebatteryId->map(['POST'], '', \App\v1\Controllers\Devicebattery::class . ':updateItem');
             $devicebatteryId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicebattery::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicebattery::class . ':showSubHistory');
             });
           });
@@ -2355,6 +2433,7 @@ final class Route
             $devicecaseId->map(['POST'], '', \App\v1\Controllers\Devicecase::class . ':updateItem');
             $devicecaseId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicecase::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicecase::class . ':showSubHistory');
             });
           });
@@ -2369,6 +2448,7 @@ final class Route
             $devicesensorId->map(['POST'], '', \App\v1\Controllers\Devicesensor::class . ':updateItem');
             $devicesensorId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicesensor::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesensor::class . ':showSubHistory');
             });
           });
@@ -2383,6 +2463,7 @@ final class Route
             $devicesimcardId->map(['POST'], '', \App\v1\Controllers\Devicesimcard::class . ':updateItem');
             $devicesimcardId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicesimcard::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesimcard::class . ':showSubHistory');
             });
           });
@@ -2397,6 +2478,7 @@ final class Route
             $devicegraphiccardId->map(['POST'], '', \App\v1\Controllers\Devicegraphiccard::class . ':updateItem');
             $devicegraphiccardId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicegraphiccard::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicegraphiccard::class . ':showSubHistory');
             });
           });
@@ -2411,6 +2493,7 @@ final class Route
             $devicemotherboardId->map(['POST'], '', \App\v1\Controllers\Devicemotherboard::class . ':updateItem');
             $devicemotherboardId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicemotherboard::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicemotherboard::class . ':showSubHistory');
             });
           });
@@ -2425,20 +2508,22 @@ final class Route
             $devicenetworkcardId->map(['POST'], '', \App\v1\Controllers\Devicenetworkcard::class . ':updateItem');
             $devicenetworkcardId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicenetworkcard::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicenetworkcard::class . ':showSubHistory');
             });
           });
         });
-        $devices->group('/devicesoundcardmodels', function (RouteCollectorProxy $devicesoundcardmodels)
+        $devices->group('/devicesoundcards', function (RouteCollectorProxy $devicesoundcards)
         {
-          $devicesoundcardmodels->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':getAll');
-          $devicesoundcardmodels->map(['POST'], '', \App\v1\Controllers\Devicesoundcard::class . ':postItem');
-          $devicesoundcardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesoundcardmodelId)
+          $devicesoundcards->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':getAll');
+          $devicesoundcards->map(['POST'], '', \App\v1\Controllers\Devicesoundcard::class . ':postItem');
+          $devicesoundcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesoundcardId)
           {
-            $devicesoundcardmodelId->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':showItem');
-            $devicesoundcardmodelId->map(['POST'], '', \App\v1\Controllers\Devicesoundcard::class . ':updateItem');
-            $devicesoundcardmodelId->group('/', function (RouteCollectorProxy $sub)
+            $devicesoundcardId->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':showItem');
+            $devicesoundcardId->map(['POST'], '', \App\v1\Controllers\Devicesoundcard::class . ':updateItem');
+            $devicesoundcardId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicesoundcard::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesoundcard::class . ':showSubHistory');
             });
           });
@@ -2453,6 +2538,7 @@ final class Route
             $devicegenericId->map(['POST'], '', \App\v1\Controllers\Devicegeneric::class . ':updateItem');
             $devicegenericId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicegeneric::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicegeneric::class . ':showSubHistory');
             });
           });
@@ -2467,6 +2553,7 @@ final class Route
             $devicecontrolId->map(['POST'], '', \App\v1\Controllers\Devicecontrol::class . ':updateItem');
             $devicecontrolId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicecontrol::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicecontrol::class . ':showSubHistory');
             });
           });
@@ -2481,6 +2568,7 @@ final class Route
             $deviceharddriveId->map(['POST'], '', \App\v1\Controllers\Deviceharddrive::class . ':updateItem');
             $deviceharddriveId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Deviceharddrive::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Deviceharddrive::class . ':showSubHistory');
             });
           });
@@ -2495,6 +2583,7 @@ final class Route
             $devicefirmwareId->map(['POST'], '', \App\v1\Controllers\Devicefirmware::class . ':updateItem');
             $devicefirmwareId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicefirmware::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicefirmware::class . ':showSubHistory');
             });
           });
@@ -2509,6 +2598,7 @@ final class Route
             $devicedriveId->map(['POST'], '', \App\v1\Controllers\Devicedrive::class . ':updateItem');
             $devicedriveId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicedrive::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicedrive::class . ':showSubHistory');
             });
           });
@@ -2523,6 +2613,7 @@ final class Route
             $devicememoryId->map(['POST'], '', \App\v1\Controllers\Devicememory::class . ':updateItem');
             $devicememoryId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicememory::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicememory::class . ':showSubHistory');
             });
           });
@@ -2537,6 +2628,7 @@ final class Route
             $deviceprocessorId->map(['POST'], '', \App\v1\Controllers\Deviceprocessor::class . ':updateItem');
             $deviceprocessorId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Deviceprocessor::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Deviceprocessor::class . ':showSubHistory');
             });
           });
@@ -2551,6 +2643,7 @@ final class Route
             $devicepciId->map(['POST'], '', \App\v1\Controllers\Devicepci::class . ':updateItem');
             $devicepciId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicepci::class . ':showSubDocuments');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Devicepci::class . ':showSubHistory');
             });
           });
@@ -2567,6 +2660,10 @@ final class Route
           {
             $notificationtemplateId->map(['GET'], '', \App\v1\Controllers\Notificationtemplate::class . ':showItem');
             $notificationtemplateId->map(['POST'], '', \App\v1\Controllers\Notificationtemplate::class . ':updateItem');
+            $notificationtemplateId->group('/', function (RouteCollectorProxy $sub)
+            {
+              $sub->map(['GET'], 'history', \App\v1\Controllers\Notificationtemplate::class . ':showSubHistory');
+            });
           });
         });
         $notifications->group('/notifications', function (RouteCollectorProxy $notifications)
@@ -2577,6 +2674,10 @@ final class Route
           {
             $notificationId->map(['GET'], '', \App\v1\Controllers\Notification::class . ':showItem');
             $notificationId->map(['POST'], '', \App\v1\Controllers\Notification::class . ':updateItem');
+            $notificationId->group('/', function (RouteCollectorProxy $sub)
+            {
+              $sub->map(['GET'], 'history', \App\v1\Controllers\Notification::class . ':showSubHistory');
+            });
           });
         });
       });

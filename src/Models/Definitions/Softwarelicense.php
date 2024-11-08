@@ -374,11 +374,6 @@ class Softwarelicense
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
         'title' => $translator->translatePlural('Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => '',
@@ -390,18 +385,18 @@ class Softwarelicense
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file signature',
+        'link' => $rootUrl . '/contracts',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translate('Knowledge base'),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'book',
+        'link' => $rootUrl . '/knowbaseitems',
       ],
       [
         'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
@@ -420,12 +415,12 @@ class Softwarelicense
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
         'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [

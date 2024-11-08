@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Reminder extends Common
 {
   protected $model = '\App\Models\Reminder';
+  protected $rootUrl2 = '/reminders/';
 
   public function getAll(Request $request, Response $response, $args): Response
   {
