@@ -104,8 +104,8 @@ class Notificationtemplate
       ],
       [
         'title' => $translator->translatePlural('Template translation', 'Template translations', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'language',
+        'link' => $rootUrl . '/templatetranslation',
       ],
       [
         'title' => $translator->translatePlural('Notification', 'Notifications', 2),
