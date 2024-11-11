@@ -2688,8 +2688,16 @@ final class Route
           $notificationtemplateId->group('/', function (RouteCollectorProxy $sub)
           {
             $sub->map(['GET'], 'history', \App\v1\Controllers\Notificationtemplate::class . ':showSubHistory');
-            $sub->map(['GET'], 'templatetranslation', \App\v1\Controllers\Notificationtemplate::class . ':showSubTemplatetranslations');
-            $sub->map(['GET'], 'templatetranslation/{translationid:[0-9]+}', \App\v1\Controllers\Notificationtemplate::class . ':showSubTemplatetranslation');
+            $sub->map(
+              ['GET'],
+              'templatetranslation',
+              \App\v1\Controllers\Notificationtemplate::class . ':showSubTemplatetranslations'
+            );
+            $sub->map(
+              ['GET'],
+              'templatetranslation/{translationid:[0-9]+}',
+              \App\v1\Controllers\Notificationtemplate::class . ':showSubTemplatetranslation'
+            );
           });
         });
       });
