@@ -76,8 +76,8 @@ final class Home extends Common
               if ($req->pivot->user_id == $GLOBALS['user_id']) {
                 $items[$key]['datas'][$it->id] = [
                   'name' => $it->name,
-                  'status' => self::getStatusArray()[$it->status],
-                  'priority' => self::getPriorityArray()[$it->priority],
+                  'status' => $this->getStatusArray()[$it->status],
+                  'priority' => $this->getPriorityArray()[$it->priority],
                   'date_open' => $it->date,
                   'date_last_modif' => $it->updated_at,
                 ];
@@ -105,8 +105,8 @@ final class Home extends Common
                 if (array_key_exists($req->pivot->group_id, $groups)) {
                   $items[$key]['datas'][$it->id] = [
                     'name' => $it->name,
-                    'status' => self::getStatusArray()[$it->status],
-                    'priority' => self::getPriorityArray()[$it->priority],
+                    'status' => $this->getStatusArray()[$it->status],
+                    'priority' => $this->getPriorityArray()[$it->priority],
                     'date_open' => $it->date,
                     'date_last_modif' => $it->updated_at,
                   ];
@@ -118,8 +118,8 @@ final class Home extends Common
                 if (array_key_exists($req->pivot->group_id, $groups)) {
                   $items[$key]['datas'][$it->id] = [
                     'name' => $it->name,
-                    'status' => self::getStatusArray()[$it->status],
-                    'priority' => self::getPriorityArray()[$it->priority],
+                    'status' => $this->getStatusArray()[$it->status],
+                    'priority' => $this->getPriorityArray()[$it->priority],
                     'date_open' => $it->date,
                     'date_last_modif' => $it->updated_at,
                   ];
@@ -131,8 +131,8 @@ final class Home extends Common
                 if (array_key_exists($req->pivot->group_id, $groups)) {
                   $items[$key]['datas'][$it->id] = [
                     'name' => $it->name,
-                    'status' => self::getStatusArray()[$it->status],
-                    'priority' => self::getPriorityArray()[$it->priority],
+                    'status' => $this->getStatusArray()[$it->status],
+                    'priority' => $this->getPriorityArray()[$it->priority],
                     'date_open' => $it->date,
                     'date_last_modif' => $it->updated_at,
                   ];
@@ -186,8 +186,8 @@ final class Home extends Common
         foreach ($myItem2 as $it) {
           $items[$key]['datas'][$it->id] = [
             'name' => $it->name,
-            'status' => self::getStatusArray()[$it->status],
-            'priority' => self::getPriorityArray()[$it->priority],
+            'status' => $this->getStatusArray()[$it->status],
+            'priority' => $this->getPriorityArray()[$it->priority],
             'date_open' => $it->date,
             'date_last_modif' => $it->updated_at,
           ];
@@ -281,8 +281,8 @@ final class Home extends Common
 
             $items[$key]['datas'][$ticket->id] = [
               'name' => $ticket->name,
-              'status' => self::getStatusArray()[$ticket->status],
-              'priority' => self::getPriorityArray()[$ticket->priority],
+              'status' => $this->getStatusArray()[$ticket->status],
+              'priority' => $this->getPriorityArray()[$ticket->priority],
               'date_open' => $ticket->date,
               'date_last_modif' => $ticket->updated_at,
               'linkedtickets' => self::showLinkedTickets($links),
@@ -324,8 +324,8 @@ final class Home extends Common
                   if ($incr <= $nbLast) {
                     $items[$key]['datas'][$it->id] = [
                       'name' => $it->name,
-                      'status' => self::getStatusArray()[$it->status],
-                      'priority' => self::getPriorityArray()[$it->priority],
+                      'status' => $this->getStatusArray()[$it->status],
+                      'priority' => $this->getPriorityArray()[$it->priority],
                       'date_open' => $it->date,
                       'date_last_modif' => $it->updated_at,
                     ];
@@ -430,85 +430,6 @@ final class Home extends Common
   }
 
 
-  public static function getStatusArray()
-  {
-    global $translator;
-    return [
-      1 => [
-        'title' => $translator->translate('New'),
-        'displaystyle' => 'marked',
-        'color' => 'olive',
-        'icon'  => 'book open',
-      ],
-      2 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (assigned)'),
-        'displaystyle' => 'marked',
-        'color' => 'blue',
-        'icon'  => 'book reader',
-      ],
-      3 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (planned)'),
-        'displaystyle' => 'marked',
-        'color' => 'blue',
-        'icon'  => 'business time',
-      ],
-      4 => [
-        'title' => $translator->translate('Pending'),
-        'displaystyle' => 'marked',
-        'color' => 'grey',
-        'icon'  => 'pause',
-      ],
-      5 => [
-        'title' => $translator->translate('Solved'),
-        'displaystyle' => 'marked',
-        'color' => 'purple',
-        'icon'  => 'vote yea',
-      ],
-      6 => [
-        'title' => $translator->translate('Closed'),
-        'displaystyle' => 'marked',
-        'color' => 'brown',
-        'icon'  => 'archive',
-      ],
-    ];
-  }
-
-  public static function getPriorityArray()
-  {
-    global $translator;
-    return [
-      6 => [
-        'title' => $translator->translate('priority' . "\004" . 'Major'),
-        'color' => 'gsitmajor',
-        'icon'  => 'fire extinguisher',
-      ],
-      5 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very high'),
-        'color' => 'gsitveryhigh',
-        'icon'  => 'fire alternate',
-      ],
-      4 => [
-        'title' => $translator->translate('priority' . "\004" . 'High'),
-        'color' => 'gsithigh',
-        'icon'  => 'fire',
-      ],
-      3 => [
-        'title' => $translator->translate('priority' . "\004" . 'Medium'),
-        'color' => 'gsitmedium',
-        'icon'  => 'volume up',
-      ],
-      2 => [
-        'title' => $translator->translate('priority' . "\004" . 'Low'),
-        'color' => 'gsitlow',
-        'icon'  => 'volume down',
-      ],
-      1 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very low'),
-        'color' => 'gsitverylow',
-        'icon'  => 'volume off',
-      ],
-    ];
-  }
 
   public static function showLinkedTickets($links)
   {

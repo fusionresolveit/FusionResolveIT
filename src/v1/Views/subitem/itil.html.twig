@@ -1,0 +1,593 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.tickets|length > 0 or data.tickets_link_elements|length > 0 %}
+  {% if data.tickets|length > 0 %}
+    <h2>{{ translation.tickets }}</h2>
+    <table class="ui blue table">
+      <thead>
+        <tr>
+          <th>{{ translation.title }}</th>
+          <th>{{ translation.category }}</th>
+          <th>{{ translation.status }}</th>
+          <th>{{ translation.date }}</th>
+          <th>{{ translation.last_update }}</th>
+          <th>{{ translation.entity }}</th>
+          <th>{{ translation.priority }}</th>
+          <th>{{ translation.requesters }}</th>
+          <th>{{ translation.technicians }}</th>
+          <th>{{ translation.associated_items }}</th>
+          <th>{{ translation.planification }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,ticket in data.tickets %}
+          <tr>
+            <td>
+              {% if ticket.url != '' %}
+                  <a href="{{ ticket.url }}">{{ ticket.title }}</a>
+              {% else %}
+                  {{ ticket.title }}
+              {% endif %}
+            </td>
+            <td>{{ ticket.category }}</td>
+            {% if ticket.status is iterable %}
+              <td class="left {% if ticket.status.color is defined %}
+                  {{ ticket.status.color }}
+                {% endif %}
+                {% if ticket.status.displaystyle is defined %}
+                  {{ ticket.status.displaystyle }}
+                {% endif %}"
+              >
+                {% if ticket.status.color is defined %}
+                  <span class="ui {{ ticket.status.color }} text">
+                    {% if ticket.status.icon is defined %}
+                      <i class="{{ ticket.status.icon }} icon"></i>
+                    {% endif %}
+                    {{ ticket.status.title }}
+                  </span>
+                {% else %}
+                    {{ ticket.status.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ ticket.status }}</td>
+            {% endif %}
+            <td>{{ ticket.date }}</td>
+            <td>{{ ticket.last_update }}</td>
+            <td>{{ ticket.entity }}</td>
+            </td>
+            {% if ticket.priority is iterable %}
+              <td class="left {% if ticket.priority.color is defined %}
+                  {{ ticket.priority.color }}
+                {% endif %}
+                {% if ticket.priority.displaystyle is defined %}
+                  {{ ticket.priority.displaystyle }}
+                {% endif %}"
+              >
+                {% if ticket.priority.color is defined %}
+                  <span class="ui {{ ticket.priority.color }} text">
+                    {% if ticket.priority.icon is defined %}
+                      <i class="{{ ticket.priority.icon }} icon"></i>
+                    {% endif %}
+                    {{ ticket.priority.title }}
+                  </span>
+                {% else %}
+                    {{ ticket.priority.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ ticket.priority }}</td>
+            {% endif %}
+            <td>
+            {% for requester in ticket.requesters %}
+            <p>{{ requester.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for technician in ticket.technicians %}
+            <p>{{ technician.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for associated_item in ticket.associated_items %}
+            <p>{{ associated_item.name }}</p>
+            {% endfor %}
+            </td>
+            <td>{{ ticket.planification }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div><p>{{ translation.no_ticket_found }}</p></div>
+  {% endif %}
+
+  {% if data.tickets_link_elements|length > 0 %}
+    <h2>{{ translation.tickets_link_elements }}</h2>
+    <table class="ui blue table">
+      <thead>
+        <tr>
+          <th>{{ translation.title }}</th>
+          <th>{{ translation.category }}</th>
+          <th>{{ translation.status }}</th>
+          <th>{{ translation.date }}</th>
+          <th>{{ translation.last_update }}</th>
+          <th>{{ translation.entity }}</th>
+          <th>{{ translation.priority }}</th>
+          <th>{{ translation.requesters }}</th>
+          <th>{{ translation.technicians }}</th>
+          <th>{{ translation.associated_items }}</th>
+          <th>{{ translation.planification }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,ticket in data.tickets_link_elements %}
+          <tr>
+            <td>
+              {% if ticket.url != '' %}
+                  <a href="{{ ticket.url }}">{{ ticket.title }}</a>
+              {% else %}
+                  {{ ticket.title }}
+              {% endif %}
+            </td>
+            <td>{{ ticket.category }}</td>
+            {% if ticket.status is iterable %}
+              <td class="left {% if ticket.status.color is defined %}
+                  {{ ticket.status.color }}
+                {% endif %}
+                {% if ticket.status.displaystyle is defined %}
+                  {{ ticket.status.displaystyle }}
+                {% endif %}"
+              >
+                {% if ticket.status.color is defined %}
+                  <span class="ui {{ ticket.status.color }} text">
+                    {% if ticket.status.icon is defined %}
+                      <i class="{{ ticket.status.icon }} icon"></i>
+                    {% endif %}
+                    {{ ticket.status.title }}
+                  </span>
+                {% else %}
+                    {{ ticket.status.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ ticket.status }}</td>
+            {% endif %}
+            <td>{{ ticket.date }}</td>
+            <td>{{ ticket.last_update }}</td>
+            <td>{{ ticket.entity }}</td>
+            </td>
+            {% if ticket.priority is iterable %}
+              <td class="left {% if ticket.priority.color is defined %}
+                  {{ ticket.priority.color }}
+                {% endif %}
+                {% if ticket.priority.displaystyle is defined %}
+                  {{ ticket.priority.displaystyle }}
+                {% endif %}"
+              >
+                {% if ticket.priority.color is defined %}
+                  <span class="ui {{ ticket.priority.color }} text">
+                    {% if ticket.priority.icon is defined %}
+                      <i class="{{ ticket.priority.icon }} icon"></i>
+                    {% endif %}
+                    {{ ticket.priority.title }}
+                  </span>
+                {% else %}
+                    {{ ticket.priority.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ ticket.priority }}</td>
+            {% endif %}
+            <td>
+            {% for requester in ticket.requesters %}
+            <p>{{ requester.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for technician in ticket.technicians %}
+            <p>{{ technician.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for associated_item in ticket.associated_items %}
+            <p>{{ associated_item.name }}</p>
+            {% endfor %}
+            </td>
+            <td>{{ ticket.planification }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% else %}
+  <div><p>{{ translation.no_ticket_found }}</p></div>
+{% endif %}
+
+
+{% if data.problems|length > 0 or data.problems_link_elements|length > 0 %}
+  {% if data.problems|length > 0 %}
+    <h2>{{ translation.problems }}</h2>
+    <table class="ui blue table">
+      <thead>
+        <tr>
+          <th>{{ translation.title }}</th>
+          <th>{{ translation.category }}</th>
+          <th>{{ translation.status }}</th>
+          <th>{{ translation.date }}</th>
+          <th>{{ translation.last_update }}</th>
+          <th>{{ translation.entity }}</th>
+          <th>{{ translation.priority }}</th>
+          <th>{{ translation.requesters }}</th>
+          <th>{{ translation.technicians }}</th>
+          <th>{{ translation.planification }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,problem in data.problems %}
+          <tr>
+            <td>
+              {% if problem.url != '' %}
+                  <a href="{{ problem.url }}">{{ problem.title }}</a>
+              {% else %}
+                  {{ problem.title }}
+              {% endif %}
+            </td>
+            <td>{{ problem.category }}</td>
+            {% if problem.status is iterable %}
+              <td class="left {% if problem.status.color is defined %}
+                  {{ problem.status.color }}
+                {% endif %}
+                {% if problem.status.displaystyle is defined %}
+                  {{ problem.status.displaystyle }}
+                {% endif %}"
+              >
+                {% if problem.status.color is defined %}
+                  <span class="ui {{ problem.status.color }} text">
+                    {% if problem.status.icon is defined %}
+                      <i class="{{ problem.status.icon }} icon"></i>
+                    {% endif %}
+                    {{ problem.status.title }}
+                  </span>
+                {% else %}
+                    {{ problem.status.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ problem.status }}</td>
+            {% endif %}
+            <td>{{ problem.date }}</td>
+            <td>{{ problem.last_update }}</td>
+            <td>{{ problem.entity }}</td>
+            </td>
+            {% if problem.priority is iterable %}
+              <td class="left {% if problem.priority.color is defined %}
+                  {{ problem.priority.color }}
+                {% endif %}
+                {% if problem.priority.displaystyle is defined %}
+                  {{ problem.priority.displaystyle }}
+                {% endif %}"
+              >
+                {% if problem.priority.color is defined %}
+                  <span class="ui {{ problem.priority.color }} text">
+                    {% if problem.priority.icon is defined %}
+                      <i class="{{ problem.priority.icon }} icon"></i>
+                    {% endif %}
+                    {{ problem.priority.title }}
+                  </span>
+                {% else %}
+                    {{ problem.priority.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ problem.priority }}</td>
+            {% endif %}
+            <td>
+            {% for requester in problem.requesters %}
+            <p>{{ requester.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for technician in problem.technicians %}
+            <p>{{ technician.name }}</p>
+            {% endfor %}
+            </td>
+            <td>{{ problem.planification }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+      <div><p>{{ translation.no_problem_found }}</p></div>
+  {% endif %}
+
+  {% if data.problems_link_elements|length > 0 %}
+    <h2>{{ translation.problems_link_elements }}</h2>
+    <table class="ui blue table">
+      <thead>
+        <tr>
+          <th>{{ translation.title }}</th>
+          <th>{{ translation.category }}</th>
+          <th>{{ translation.status }}</th>
+          <th>{{ translation.date }}</th>
+          <th>{{ translation.last_update }}</th>
+          <th>{{ translation.entity }}</th>
+          <th>{{ translation.priority }}</th>
+          <th>{{ translation.requesters }}</th>
+          <th>{{ translation.technicians }}</th>
+          <th>{{ translation.planification }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,problem in data.problems_link_elements %}
+          <tr>
+            <td>
+              {% if problem.url != '' %}
+                  <a href="{{ problem.url }}">{{ problem.title }}</a>
+              {% else %}
+                  {{ problem.title }}
+              {% endif %}
+            </td>
+            <td>{{ problem.category }}</td>
+            {% if problem.status is iterable %}
+              <td class="left {% if problem.status.color is defined %}
+                  {{ problem.status.color }}
+                {% endif %}
+                {% if problem.status.displaystyle is defined %}
+                  {{ problem.status.displaystyle }}
+                {% endif %}"
+              >
+                {% if problem.status.color is defined %}
+                  <span class="ui {{ problem.status.color }} text">
+                    {% if problem.status.icon is defined %}
+                      <i class="{{ problem.status.icon }} icon"></i>
+                    {% endif %}
+                    {{ problem.status.title }}
+                  </span>
+                {% else %}
+                    {{ problem.status.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ problem.status }}</td>
+            {% endif %}
+            <td>{{ problem.date }}</td>
+            <td>{{ problem.last_update }}</td>
+            <td>{{ problem.entity }}</td>
+            </td>
+            {% if problem.priority is iterable %}
+              <td class="left {% if problem.priority.color is defined %}
+                  {{ problem.priority.color }}
+                {% endif %}
+                {% if problem.priority.displaystyle is defined %}
+                  {{ problem.priority.displaystyle }}
+                {% endif %}"
+              >
+                {% if problem.priority.color is defined %}
+                  <span class="ui {{ problem.priority.color }} text">
+                    {% if problem.priority.icon is defined %}
+                      <i class="{{ problem.priority.icon }} icon"></i>
+                    {% endif %}
+                    {{ problem.priority.title }}
+                  </span>
+                {% else %}
+                    {{ problem.priority.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ problem.priority }}</td>
+            {% endif %}
+            <td>
+            {% for requester in problem.requesters %}
+            <p>{{ requester.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for technician in problem.technicians %}
+            <p>{{ technician.name }}</p>
+            {% endfor %}
+            </td>
+            <td>{{ problem.planification }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% else %}
+    <div><p>{{ translation.no_problem_found }}</p></div>
+{% endif %}
+
+{% if data.changes|length > 0 or data.changes_link_elements|length > 0 %}
+  {% if data.changes|length > 0 %}
+    <h2>{{ translation.changes }}</h2>
+    <table class="ui blue table">
+      <thead>
+        <tr>
+          <th>{{ translation.title }}</th>
+          <th>{{ translation.category }}</th>
+          <th>{{ translation.status }}</th>
+          <th>{{ translation.date }}</th>
+          <th>{{ translation.last_update }}</th>
+          <th>{{ translation.entity }}</th>
+          <th>{{ translation.priority }}</th>
+          <th>{{ translation.requesters }}</th>
+          <th>{{ translation.technicians }}</th>
+          <th>{{ translation.planification }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,change in data.changes %}
+          <tr>
+            <td>
+              {% if change.url != '' %}
+                  <a href="{{ change.url }}">{{ change.title }}</a>
+              {% else %}
+                  {{ change.title }}
+              {% endif %}
+            </td>
+            <td>{{ change.category }}</td>
+            {% if change.status is iterable %}
+              <td class="left {% if change.status.color is defined %}
+                  {{ change.status.color }}
+                {% endif %}
+                {% if change.status.displaystyle is defined %}
+                  {{ change.status.displaystyle }}
+                {% endif %}"
+              >
+                {% if change.status.color is defined %}
+                  <span class="ui {{ change.status.color }} text">
+                    {% if change.status.icon is defined %}
+                      <i class="{{ change.status.icon }} icon"></i>
+                    {% endif %}
+                    {{ change.status.title }}
+                  </span>
+                {% else %}
+                    {{ change.status.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ change.status }}</td>
+            {% endif %}
+            <td>{{ change.date }}</td>
+            <td>{{ change.last_update }}</td>
+            <td>{{ change.entity }}</td>
+            </td>
+            {% if change.priority is iterable %}
+              <td class="left {% if change.priority.color is defined %}
+                  {{ change.priority.color }}
+                {% endif %}
+                {% if change.priority.displaystyle is defined %}
+                  {{ change.priority.displaystyle }}
+                {% endif %}"
+              >
+                {% if change.priority.color is defined %}
+                  <span class="ui {{ change.priority.color }} text">
+                    {% if change.priority.icon is defined %}
+                      <i class="{{ change.priority.icon }} icon"></i>
+                    {% endif %}
+                    {{ change.priority.title }}
+                  </span>
+                {% else %}
+                    {{ change.priority.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ change.priority }}</td>
+            {% endif %}
+            <td>
+            {% for requester in change.requesters %}
+            <p>{{ requester.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for technician in change.technicians %}
+            <p>{{ technician.name }}</p>
+            {% endfor %}
+            </td>
+            <td>{{ change.planification }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div><p>{{ translation.no_change_found }}</p></div>
+  {% endif %}
+
+  {% if data.changes_link_elements|length > 0 %}
+    <h2>{{ translation.changes_link_elements }}</h2>
+    <table class="ui blue table">
+      <thead>
+        <tr>
+          <th>{{ translation.title }}</th>
+          <th>{{ translation.category }}</th>
+          <th>{{ translation.status }}</th>
+          <th>{{ translation.date }}</th>
+          <th>{{ translation.last_update }}</th>
+          <th>{{ translation.entity }}</th>
+          <th>{{ translation.priority }}</th>
+          <th>{{ translation.requesters }}</th>
+          <th>{{ translation.technicians }}</th>
+          <th>{{ translation.planification }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,change in data.changes_link_elements %}
+          <tr>
+            <td>
+              {% if change.url != '' %}
+                  <a href="{{ change.url }}">{{ change.title }}</a>
+              {% else %}
+                  {{ change.title }}
+              {% endif %}
+            </td>
+            <td>{{ change.category }}</td>
+            {% if change.status is iterable %}
+              <td class="left {% if change.status.color is defined %}
+                  {{ change.status.color }}
+                {% endif %}
+                {% if change.status.displaystyle is defined %}
+                  {{ change.status.displaystyle }}
+                {% endif %}"
+              >
+                {% if change.status.color is defined %}
+                  <span class="ui {{ change.status.color }} text">
+                    {% if change.status.icon is defined %}
+                      <i class="{{ change.status.icon }} icon"></i>
+                    {% endif %}
+                    {{ change.status.title }}
+                  </span>
+                {% else %}
+                    {{ change.status.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ change.status }}</td>
+            {% endif %}
+            <td>{{ change.date }}</td>
+            <td>{{ change.last_update }}</td>
+            <td>{{ change.entity }}</td>
+            </td>
+            {% if change.priority is iterable %}
+              <td class="left {% if change.priority.color is defined %}
+                  {{ change.priority.color }}
+                {% endif %}
+                {% if change.priority.displaystyle is defined %}
+                  {{ change.priority.displaystyle }}
+                {% endif %}"
+              >
+                {% if change.priority.color is defined %}
+                  <span class="ui {{ change.priority.color }} text">
+                    {% if change.priority.icon is defined %}
+                      <i class="{{ change.priority.icon }} icon"></i>
+                    {% endif %}
+                    {{ change.priority.title }}
+                  </span>
+                {% else %}
+                    {{ change.priority.title }}
+                {% endif %}
+              </td>
+            {% else %}
+              <td>{{ change.priority }}</td>
+            {% endif %}
+            <td>
+            {% for requester in change.requesters %}
+            <p>{{ requester.name }}</p>
+            {% endfor %}
+            </td>
+            <td>
+            {% for technician in change.technicians %}
+            <p>{{ technician.name }}</p>
+            {% endfor %}
+            </td>
+            <td>{{ change.planification }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% else %}
+  <div><p>{{ translation.no_change_found }}</p></div>
+{% endif %}
+
+{{ include('footer.html.twig') }}

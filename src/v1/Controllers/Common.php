@@ -1415,4 +1415,365 @@ class Common
 
     return $view->render($response, 'subitem/operatingsystems.html.twig', (array)$viewData);
   }
+
+  public function showSubItil(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('tickets', 'problems', 'changes')->find($args['id']);
+
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/itil');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+    // echo "<pre>";
+    // print_r($myItem->tickets);
+    // echo "</pre>";
+    // die();
+
+    $tickets = [];
+    foreach ($myItem->tickets as $ticket)
+    {
+      // echo "<pre>";
+      // print_r($ticket);
+      // echo "</pre>";
+      // die();
+
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/tickets/" . $ticket->id;
+      }
+
+      $status = $this->getStatusArray()[$ticket->status];
+      $entity = '';
+      if ($ticket->entity != null) {
+        $entity = $ticket->entity->name;
+      }
+      $priority = $this->getPriorityArray()[$ticket->priority];
+      $requesters = [];
+      if ($ticket->requester != null) {
+        foreach ($ticket->requester as $requester) {
+          $requesters[] = ['name' => $requester->name];
+        }
+      }
+      if ($ticket->requestergroup != null) {
+        foreach ($ticket->requestergroup as $requestergroup) {
+          $requesters[] = ['name' => $requestergroup->name];
+        }
+      }
+      $technicians = [];
+      if ($ticket->technician != null) {
+        foreach ($ticket->technician as $technician) {
+          $technicians[] = ['name' => $technician->name];
+        }
+      }
+      if ($ticket->techniciangroup != null) {
+        foreach ($ticket->techniciangroup as $techniciangroup) {
+          $technicians[] = ['name' => $techniciangroup->name];
+        }
+      }
+      $associated_items = []; // TODO
+      $category = '';
+      if ($ticket->category != null) {
+        $category = $ticket->category->name;
+      }
+      $planification = 0; // TODO
+
+
+      $tickets[$ticket->id] = [
+        'url' => $url,
+        'status' => $status,
+        'date' => $ticket->date,
+        'last_update' => $ticket->updated_at,
+        'entity' => $entity,
+        'priority' => $priority,
+        'requesters' => $requesters,
+        'technicians' => $technicians,
+        'associated_items' => $associated_items,
+        'title' => $ticket->name,
+        'category' => $category,
+        'planification' => $planification,
+      ];
+
+    }
+
+    $problems = [];
+    foreach ($myItem->problems as $problem)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/problems/" . $problem->id;
+      }
+
+      $status = $this->getStatusArray()[$problem->status];
+      $entity = '';
+      if ($problem->entity != null) {
+        $entity = $problem->entity->name;
+      }
+      $priority = $this->getPriorityArray()[$problem->priority];
+      $requesters = [];
+      if ($problem->requester != null) {
+        foreach ($problem->requester as $requester) {
+          $requesters[] = ['name' => $requester->name];
+        }
+      }
+      if ($problem->requestergroup != null) {
+        foreach ($problem->requestergroup as $requestergroup) {
+          $requesters[] = ['name' => $requestergroup->name];
+        }
+      }
+      $technicians = [];
+      if ($problem->technician != null) {
+        foreach ($problem->technician as $technician) {
+          $technicians[] = ['name' => $technician->name];
+        }
+      }
+      if ($problem->techniciangroup != null) {
+        foreach ($problem->techniciangroup as $techniciangroup) {
+          $technicians[] = ['name' => $techniciangroup->name];
+        }
+      }
+      $category = '';
+      if ($problem->category != null) {
+        $category = $problem->category->name;
+      }
+      $planification = 0; // TODO
+
+
+      $problems[$problem->id] = [
+        'url' => $url,
+        'status' => $status,
+        'date' => $problem->date,
+        'last_update' => $problem->updated_at,
+        'entity' => $entity,
+        'priority' => $priority,
+        'requesters' => $requesters,
+        'technicians' => $technicians,
+        'title' => $problem->name,
+        'category' => $category,
+        'planification' => $planification,
+      ];
+
+    }
+
+    $changes = [];
+    foreach ($myItem->changes as $change)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/changes/" . $change->id;
+      }
+
+      $status = $this->getStatusArray()[$change->status];
+      $entity = '';
+      if ($change->entity != null) {
+        $entity = $change->entity->name;
+      }
+      $priority = $this->getPriorityArray()[$change->priority];
+      $requesters = [];
+      if ($change->requester != null) {
+        foreach ($change->requester as $requester) {
+          $requesters[] = ['name' => $requester->name];
+        }
+      }
+      if ($change->requestergroup != null) {
+        foreach ($change->requestergroup as $requestergroup) {
+          $requesters[] = ['name' => $requestergroup->name];
+        }
+      }
+      $technicians = []; // TODO
+      if ($change->technician != null) {
+        foreach ($change->technician as $technician) {
+          $technicians[] = ['name' => $technician->name];
+        }
+      }
+      if ($change->techniciangroup != null) {
+        foreach ($change->techniciangroup as $techniciangroup) {
+          $technicians[] = ['name' => $techniciangroup->name];
+        }
+      }
+      $category = '';
+      if ($change->itilcategorie != null) {
+        $category = $change->itilcategorie->name;
+      }
+      $planification = 0; // TODO
+
+
+      $changes[$change->id] = [
+        'url' => $url,
+        'status' => $status,
+        'date' => $change->date,
+        'last_update' => $change->updated_at,
+        'entity' => $entity,
+        'priority' => $priority,
+        'requesters' => $requesters,
+        'technicians' => $technicians,
+        'title' => $change->name,
+        'category' => $category,
+        'planification' => $planification,
+      ];
+    }
+
+    $tickets_link_elements = [];
+    $problems_link_elements = [];
+    $changes_link_elements = [];
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('tickets', $tickets);
+    $viewData->addData('problems', $problems);
+    $viewData->addData('changes', $changes);
+    $viewData->addData('tickets_link_elements', $tickets_link_elements);
+    $viewData->addData('problems_link_elements', $problems_link_elements);
+    $viewData->addData('changes_link_elements', $changes_link_elements);
+
+    $viewData->addTranslation('tickets', $translator->translatePlural('Ticket', 'Tickets', 2));
+    $viewData->addTranslation('problems', $translator->translatePlural('Problem', 'Problems', 2));
+    $viewData->addTranslation('changes', $translator->translatePlural('Change', 'Changes', 2));
+    $viewData->addTranslation('tickets_link_elements', $translator->translatePlural('Ticket on linked items', 'Tickets on linked items', 1));
+    $viewData->addTranslation('problems_link_elements', $translator->translate('Problems on linked items'));
+    $viewData->addTranslation('changes_link_elements', $translator->translate('Changes on linked items'));
+    $viewData->addTranslation('status', $translator->translate('Status'));
+    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', $translator->translate('Last update'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', $translator->translate('Priority'));
+    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation('associated_items', $translator->translatePlural('Associated element', 'Associated elements', 2));
+    $viewData->addTranslation('category', $translator->translate('Category'));
+    $viewData->addTranslation('title', $translator->translate('Title'));
+    $viewData->addTranslation('planification', $translator->translate('Planification'));
+    $viewData->addTranslation('no_ticket_found', $translator->translate('No ticket found.'));
+    $viewData->addTranslation('no_problem_found', $translator->translate('No problem found.'));
+    $viewData->addTranslation('no_change_found', $translator->translate('No change found.'));
+
+    return $view->render($response, 'subitem/itil.html.twig', (array)$viewData);
+  }
+
+
+  public static function getStatusArray()
+  {
+    global $translator;
+    return [
+      1 => [
+        'title' => $translator->translate('New'),
+        'displaystyle' => 'marked',
+        'color' => 'olive',
+        'icon'  => 'book open',
+      ],
+      2 => [
+        'title' => $translator->translate('status' . "\004" . 'Processing (assigned)'),
+        'displaystyle' => 'marked',
+        'color' => 'blue',
+        'icon'  => 'book reader',
+      ],
+      3 => [
+        'title' => $translator->translate('status' . "\004" . 'Processing (planned)'),
+        'displaystyle' => 'marked',
+        'color' => 'blue',
+        'icon'  => 'business time',
+      ],
+      4 => [
+        'title' => $translator->translate('Pending'),
+        'displaystyle' => 'marked',
+        'color' => 'grey',
+        'icon'  => 'pause',
+      ],
+      5 => [
+        'title' => $translator->translate('Solved'),
+        'displaystyle' => 'marked',
+        'color' => 'purple',
+        'icon'  => 'vote yea',
+      ],
+      6 => [
+        'title' => $translator->translate('Closed'),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+      7 => [
+        'title' => $translator->translate('status' . "\004" . 'Accepted'),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+     8 => [
+        'title' => $translator->translate('Review'),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+      9 => [
+        'title' => $translator->translate('Evaluation'),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+      10 => [
+        'title' => $translator->translatePlural('Approval', 'Approvals', 1),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+      11 => [
+        'title' => $translator->translate('change' . "\004" . 'Testing'),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+      12 => [
+        'title' => $translator->translate('Qualification'),
+        'displaystyle' => 'marked',
+        'color' => 'brown',
+        'icon'  => 'archive',
+      ],
+    ];
+  }
+
+  public static function getPriorityArray()
+  {
+    global $translator;
+    return [
+      6 => [
+        'title' => $translator->translate('priority' . "\004" . 'Major'),
+        'color' => 'gsitmajor',
+        'icon'  => 'fire extinguisher',
+      ],
+      5 => [
+        'title' => $translator->translate('priority' . "\004" . 'Very high'),
+        'color' => 'gsitveryhigh',
+        'icon'  => 'fire alternate',
+      ],
+      4 => [
+        'title' => $translator->translate('priority' . "\004" . 'High'),
+        'color' => 'gsithigh',
+        'icon'  => 'fire',
+      ],
+      3 => [
+        'title' => $translator->translate('priority' . "\004" . 'Medium'),
+        'color' => 'gsitmedium',
+        'icon'  => 'volume up',
+      ],
+      2 => [
+        'title' => $translator->translate('priority' . "\004" . 'Low'),
+        'color' => 'gsitlow',
+        'icon'  => 'volume down',
+      ],
+      1 => [
+        'title' => $translator->translate('priority' . "\004" . 'Very low'),
+        'color' => 'gsitverylow',
+        'icon'  => 'volume off',
+      ],
+    ];
+  }
 }

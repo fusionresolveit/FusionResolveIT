@@ -48,6 +48,9 @@ class Monitor extends Common
     'contracts',
     'softwareversions',
     'operatingsystems',
+    'tickets',
+    'problems',
+    'changes',
   ];
 
   protected $with = [
@@ -69,6 +72,10 @@ class Monitor extends Common
     'contracts:id,name',
     'softwareversions:id,name',
     'operatingsystems:id,name',
+    'contracts:id,name',
+    'tickets:id,name',
+    'problems:id,name',
+    'changes:id,name',
   ];
 
 
@@ -208,6 +215,39 @@ class Monitor extends Common
       'wincompany',
       'oscomment',
       'hostid'
+    );
+  }
+
+  public function tickets(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Ticket',
+      'item',
+      'item_ticket'
+    )->withPivot(
+      'ticket_id',
+    );
+  }
+
+  public function problems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Problem',
+      'item',
+      'item_problem'
+    )->withPivot(
+      'problem_id',
+    );
+  }
+
+  public function changes(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Change',
+      'item',
+      'change_item'
+    )->withPivot(
+      'change_id',
     );
   }
 }

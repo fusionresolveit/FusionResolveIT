@@ -55,6 +55,9 @@ class Computer extends Common
     'knowbaseitems',
     'documents',
     'contracts',
+    'tickets',
+    'problems',
+    'changes',
   ];
 
   protected $with = [
@@ -88,6 +91,9 @@ class Computer extends Common
     'knowbaseitems:id,name',
     'documents:id,name',
     'contracts:id,name',
+    'tickets:id,name',
+    'problems:id,name',
+    'changes:id,name',
   ];
 
   public static function boot()
@@ -379,6 +385,39 @@ class Computer extends Common
       'contract_item'
     )->withPivot(
       'contract_id',
+    );
+  }
+
+  public function tickets(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Ticket',
+      'item',
+      'item_ticket'
+    )->withPivot(
+      'ticket_id',
+    );
+  }
+
+  public function problems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Problem',
+      'item',
+      'item_problem'
+    )->withPivot(
+      'problem_id',
+    );
+  }
+
+  public function changes(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Change',
+      'item',
+      'change_item'
+    )->withPivot(
+      'change_id',
     );
   }
 }

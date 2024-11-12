@@ -84,6 +84,7 @@ final class Route
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Computer::class . ':showSubKnowbaseitems');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Computer::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Computer::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Computer::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Computer::class . ':showSubHistory');
           });
         });
@@ -116,6 +117,7 @@ final class Route
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Monitor::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Monitor::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Monitor::class . ':showSubOperatingSystem');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Monitor::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Monitor::class . ':showSubHistory');
           });
         });
@@ -146,6 +148,7 @@ final class Route
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Software::class . ':showSubKnowbaseitems');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Software::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Software::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Software::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Software::class . ':showSubHistory');
           });
         });
@@ -179,6 +182,7 @@ final class Route
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Networkequipment::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Networkequipment::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Networkequipment::class . ':showSubOperatingSystem');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Networkequipment::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipment::class . ':showSubHistory');
           });
         });
@@ -204,6 +208,7 @@ final class Route
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Peripheral::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Peripheral::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Peripheral::class . ':showSubOperatingSystem');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Peripheral::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Peripheral::class . ':showSubHistory');
           });
         });
@@ -229,6 +234,7 @@ final class Route
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Printer::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Printer::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Printer::class . ':showSubOperatingSystem');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Printer::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Printer::class . ':showSubHistory');
           });
         });
@@ -288,6 +294,7 @@ final class Route
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Phone::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Phone::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Phone::class . ':showSubOperatingSystem');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Phone::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Phone::class . ':showSubHistory');
           });
         });
@@ -304,6 +311,7 @@ final class Route
           {
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Rack::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Rack::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Rack::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Rack::class . ':showSubHistory');
           });
         });
@@ -320,6 +328,7 @@ final class Route
           {
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Enclosure::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Enclosure::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Enclosure::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Enclosure::class . ':showSubHistory');
           });
         });
@@ -336,6 +345,7 @@ final class Route
           {
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Pdu::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Pdu::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Pdu::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Pdu::class . ':showSubHistory');
           });
         });
@@ -352,6 +362,7 @@ final class Route
           {
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Passivedcequipment::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Passivedcequipment::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Passivedcequipment::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Passivedcequipment::class . ':showSubHistory');
           });
         });
@@ -466,6 +477,7 @@ final class Route
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Softwarelicense::class . ':showSubKnowbaseitems');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Softwarelicense::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Softwarelicense::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Softwarelicense::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Softwarelicense::class . ':showSubHistory');
           });
         });
@@ -504,6 +516,7 @@ final class Route
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Supplier::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Supplier::class . ':showSubContracts');
             $sub->map(['GET'], 'contacts', \App\v1\Controllers\Supplier::class . ':showSubContacts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Supplier::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Supplier::class . ':showSubHistory');
           });
         });
@@ -594,6 +607,7 @@ final class Route
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Certificate::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Certificate::class . ':showSubContracts');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Certificate::class . ':showSubDomains');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Certificate::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Certificate::class . ':showSubHistory');
           });
         });
@@ -621,6 +635,7 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Cluster::class . ':showSubAppliances');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Cluster::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Cluster::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Cluster::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Cluster::class . ':showSubHistory');
           });
         });
@@ -640,6 +655,7 @@ final class Route
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Domain::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Domain::class . ':showSubContracts');
             $sub->map(['GET'], 'records', \App\v1\Controllers\Domain::class . ':showSubRecords');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Domain::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Domain::class . ':showSubHistory');
           });
         });
@@ -660,6 +676,7 @@ final class Route
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Appliance::class . ':showSubKnowbaseitems');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Appliance::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Appliance::class . ':showSubContracts');
+            $sub->map(['GET'], 'itil', \App\v1\Controllers\Appliance::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Appliance::class . ':showSubHistory');
           });
         });

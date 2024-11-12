@@ -29,6 +29,9 @@ class Supplier extends Common
     'notes',
     'knowbaseitems',
     'documents',
+    'tickets',
+    'problems',
+    'changes',
   ];
 
   protected $with = [
@@ -37,6 +40,9 @@ class Supplier extends Common
     'notes:id',
     'knowbaseitems:id,name',
     'documents:id,name',
+    'tickets:id,name',
+    'problems:id,name',
+    'changes:id,name',
   ];
 
   public function type(): BelongsTo
@@ -77,6 +83,39 @@ class Supplier extends Common
     )->withPivot(
       'document_id',
       'updated_at',
+    );
+  }
+
+  public function tickets(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Ticket',
+      'item',
+      'item_ticket'
+    )->withPivot(
+      'ticket_id',
+    );
+  }
+
+  public function problems(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Problem',
+      'item',
+      'item_problem'
+    )->withPivot(
+      'problem_id',
+    );
+  }
+
+  public function changes(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Change',
+      'item',
+      'change_item'
+    )->withPivot(
+      'change_id',
     );
   }
 }

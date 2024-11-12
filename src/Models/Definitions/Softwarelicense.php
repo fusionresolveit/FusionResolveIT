@@ -399,19 +399,9 @@ class Softwarelicense
         'link' => $rootUrl . '/knowbaseitems',
       ],
       [
-        'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translatePlural('Problem', 'Problems', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
-      ],
-      [
-        'title' => $translator->translatePlural('Change', 'Changes', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'title' => $translator->translate('ITIL'),
+        'icon' => 'hands helping',
+        'link' => $rootUrl . '/itil',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),

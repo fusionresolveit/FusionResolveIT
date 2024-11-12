@@ -300,7 +300,7 @@ class Computer
       [
         'title' => $translator->translate('ITIL'),
         'icon' => 'hands helping',
-        'link' => '',
+        'link' => $rootUrl . '/itil',
       ],
       [
         'title' => $translator->translatePlural('External link', 'External links', 2),

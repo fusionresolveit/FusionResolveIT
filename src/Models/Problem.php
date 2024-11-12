@@ -35,6 +35,10 @@ class Problem extends Common
     'entity',
     'notes',
     'knowbaseitems',
+    'requester',
+    'requestergroup',
+    'technician',
+    'techniciangroup',
   ];
 
   protected $with = [
@@ -44,6 +48,10 @@ class Problem extends Common
     'entity:id,name',
     'notes:id',
     'knowbaseitems:id,name',
+    'requester',
+    'requestergroup',
+    'technician',
+    'techniciangroup',
   ];
 
   public function category(): BelongsTo
@@ -83,5 +91,25 @@ class Problem extends Common
     )->withPivot(
       'knowbaseitem_id',
     );
+  }
+
+  public function requester()
+  {
+    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 1);
+  }
+
+  public function requestergroup()
+  {
+    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 1);
+  }
+
+  public function technician()
+  {
+    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 2);
+  }
+
+  public function techniciangroup()
+  {
+    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 2);
   }
 }
