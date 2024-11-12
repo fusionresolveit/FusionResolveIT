@@ -69,7 +69,7 @@ final class Contract extends Common
         'end_date'        => $cost->end_date,
         'budget'          => $budget,
         'budget_url'      => $budget_url,
-        'cost'            => sprintf("%.2f",$cost->cost),
+        'cost'            => sprintf("%.2f", $cost->cost),
       ];
     }
 
@@ -85,7 +85,7 @@ final class Contract extends Common
 
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('costs', $myCosts);
-    $viewData->addData('total_cost', sprintf("%.2f",$total_cost));
+    $viewData->addData('total_cost', sprintf("%.2f", $total_cost));
 
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('begin_date', $translator->translate('Start date'));

@@ -181,7 +181,11 @@ final class Route
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Networkequipment::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Networkequipment::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Networkequipment::class . ':showSubSoftwares');
-            $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Networkequipment::class . ':showSubOperatingSystem');
+            $sub->map(
+              ['GET'],
+              'operatingsystem',
+              \App\v1\Controllers\Networkequipment::class . ':showSubOperatingSystem'
+            );
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Networkequipment::class . ':showSubItil');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipment::class . ':showSubHistory');
           });

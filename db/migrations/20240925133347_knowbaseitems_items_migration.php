@@ -33,7 +33,10 @@ final class KnowbaseitemsItemsMigration extends AbstractMigration
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
-        if ($row['itemtype'] == 'Entity') $row['items_id'] = $row['items_id'] + 1;
+        if ($row['itemtype'] == 'Entity')
+        {
+          $row['items_id'] = $row['items_id'] + 1;
+        }
         $data = [
           [
             'id'              => $row['id'],

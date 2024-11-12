@@ -64,9 +64,9 @@ final class FormsAnswersMigration extends AbstractMigration
         if ($configArray['environments'][$configArray['environments']['default_environment']]['adapter'] == 'pgsql')
         {
           $this->execute("SELECT setval('answers_id_seq', (SELECT MAX(id) FROM answers)+1)");
-        }
         } else {
-        return;
+          return;
+        }
       }
     } else {
       // rollback

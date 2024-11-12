@@ -101,5 +101,4 @@ class Contract extends Common
   {
     return $this->hasMany('App\Models\Contractcost');
   }
-
 }

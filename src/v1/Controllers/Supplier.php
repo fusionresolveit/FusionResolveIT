@@ -46,7 +46,7 @@ final class Supplier extends Common
       $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
     }
 
-    $item2 = new \App\Models\Contract;
+    $item2 = new \App\Models\Contract();
     $myItem2 = $item2::with('suppliers')->orderBy('name', 'asc')->get();
 
     $myContracts = [];
@@ -83,8 +83,21 @@ final class Supplier extends Common
 
 
         $duration = $contract->duration;
-        if ($duration == 0) $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
-        if ($duration != 0) $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', $duration), $duration);
+        if ($duration == 0)
+        {
+          $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
+        }
+        if ($duration != 0)
+        {
+          $initial_contract_period = sprintf(
+            $translator->translatePlural(
+              '%d month',
+              '%d months',
+              $duration
+            ),
+            $duration
+          );
+        }
 
         if ($contract->begin_date != null) {
           $ladate = $contract->begin_date;
@@ -146,7 +159,7 @@ final class Supplier extends Common
       $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
     }
 
-    $item2 = new \App\Models\Contact;
+    $item2 = new \App\Models\Contact();
     $myItem2 = $item2::with('suppliers')->orderBy('name', 'asc')->get();
 
     $myContacts = [];

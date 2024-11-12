@@ -29,16 +29,13 @@ class Domainrecord extends Common
     'type:id,name',
   ];
 
-
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
   }
 
-
   public function type(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Domainrecordtype', 'domainrecordtype_id');
   }
-
 }

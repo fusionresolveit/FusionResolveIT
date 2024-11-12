@@ -1074,7 +1074,6 @@ class Common
     $myContracts = [];
     foreach ($myItem->contracts as $contract)
     {
-
       $url = '';
       if ($rootUrl2 != '') {
         $url = $rootUrl2 . "/contracts/" . $contract->id;
@@ -1103,8 +1102,14 @@ class Common
       }
 
       $duration = $contract->duration;
-      if ($duration == 0) $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
-      if ($duration != 0) $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', $duration), $duration);
+      if ($duration == 0)
+      {
+        $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
+      }
+      if ($duration != 0)
+      {
+        $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', $duration), $duration);
+      }
 
       if ($contract->begin_date != null) {
         $ladate = $contract->begin_date;
@@ -1519,7 +1524,6 @@ class Common
         'category' => $category,
         'planification' => $planification,
       ];
-
     }
 
     $problems = [];
@@ -1578,7 +1582,6 @@ class Common
         'category' => $category,
         'planification' => $planification,
       ];
-
     }
 
     $changes = [];
@@ -1657,7 +1660,10 @@ class Common
     $viewData->addTranslation('tickets', $translator->translatePlural('Ticket', 'Tickets', 2));
     $viewData->addTranslation('problems', $translator->translatePlural('Problem', 'Problems', 2));
     $viewData->addTranslation('changes', $translator->translatePlural('Change', 'Changes', 2));
-    $viewData->addTranslation('tickets_link_elements', $translator->translatePlural('Ticket on linked items', 'Tickets on linked items', 1));
+    $viewData->addTranslation(
+      'tickets_link_elements',
+      $translator->translatePlural('Ticket on linked items', 'Tickets on linked items', 1)
+    );
     $viewData->addTranslation('problems_link_elements', $translator->translate('Problems on linked items'));
     $viewData->addTranslation('changes_link_elements', $translator->translate('Changes on linked items'));
     $viewData->addTranslation('status', $translator->translate('Status'));
@@ -1667,7 +1673,10 @@ class Common
     $viewData->addTranslation('priority', $translator->translate('Priority'));
     $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
     $viewData->addTranslation('technicians', $translator->translate('Assigned'));
-    $viewData->addTranslation('associated_items', $translator->translatePlural('Associated element', 'Associated elements', 2));
+    $viewData->addTranslation(
+      'associated_items',
+      $translator->translatePlural('Associated element', 'Associated elements', 2)
+    );
     $viewData->addTranslation('category', $translator->translate('Category'));
     $viewData->addTranslation('title', $translator->translate('Title'));
     $viewData->addTranslation('planification', $translator->translate('Planification'));
@@ -1725,7 +1734,7 @@ class Common
         'color' => 'brown',
         'icon'  => 'archive',
       ],
-     8 => [
+      8 => [
         'title' => $translator->translate('Review'),
         'displaystyle' => 'marked',
         'color' => 'brown',

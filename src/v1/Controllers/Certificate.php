@@ -84,14 +84,13 @@ final class Certificate extends Common
         $myItem3 = $item3::with('relation')->where('domain_id', $domain->id)->get();
 
         foreach ($myItem3 as $domainitem) {
-          if (($args['id'] == $domainitem->item_id) && ('\\'.$domainitem->item_type == $this->model)) {
-
+          if (($args['id'] == $domainitem->item_id) && ('\\' . $domainitem->item_type == $this->model))
+          {
             $domainrelation = \App\Models\Domainrelation::find($domainitem->domainrelation_id);
             if ($domainrelation !== null)
             {
               $relation = $domainrelation->name;
             }
-
           }
         }
 
