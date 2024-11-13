@@ -231,11 +231,22 @@ class Common extends Model
 
   public function getRelatedPages($rootUrl)
   {
+    global $translator;
+
     if (is_null($this->definition) || !method_exists($this->definition, 'getRelatedPages'))
     {
       return [];
     }
-    return call_user_func($this->definition . '::getRelatedPages', $rootUrl);
+    $pages = call_user_func($this->definition . '::getRelatedPages', $rootUrl);
+    $listUrl = preg_replace('/\/(\d+)$/', '', $rootUrl);
+
+    array_unshift($pages, [
+      'title' => $translator->translate('Back to list'),
+      'icon' => 'stream',
+      'link' => $listUrl,
+    ]);
+
+    return $pages;
   }
 
   public function getSpecificFunction($functionName)
