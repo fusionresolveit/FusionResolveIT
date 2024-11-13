@@ -1,0 +1,48 @@
+{{ include('header.html.twig') }}
+
+<div class="ui pageheader">
+  <div style="height: 1px"></div>
+  <div class="ui blue dividing header">
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <i class="big {{ header.icon }} icon"></i>
+        <div class="content">
+          {{ header.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+TODO add form with dropdown to add
+
+<div class="ui secondary segment">
+  <table class="ui blue table">
+    <caption>
+      Columns
+    </caption>
+    {# <thead>
+      <tr>
+        <th>{{ translation.id }}</th>
+        <th>{{ translation.title }}</th>
+        <th>{{ translation.status }}</th>
+        <th>{{ translation.priority }}</th>
+        <th>{{ translation.date_open }}</th>
+        <th>{{ translation.date_last_modif }}</th>
+      </tr>
+    </thead> #}
+    <tbody>
+      {% for column in data.columns %}
+        <tr>
+          <td>{{ column.title }}</td>
+          <td><a><i class="chevron up icon"></i></a></td>
+          <td><a><i class="chevron down icon"></i></a></td>
+          <td><a href="{{ rootpath }}/view/columns/{{ column.id }}/delete"><i class="times circle outline icon"></i></a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{{ include('footer.html.twig') }}

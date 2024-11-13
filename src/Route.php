@@ -48,6 +48,8 @@ final class Route
         });
       });
 
+      $view->map(['GET'], '/columns', \App\v1\Controllers\Displaypreference::class . ':manageColumnsOfModel');
+
       $view->map(['GET'], '/logout', \App\v1\Controllers\Login::class . ':logout');
       $view->map(['POST'], '/changeprofileentity', \App\v1\Controllers\Login::class . ':changeProfileEntity');
 

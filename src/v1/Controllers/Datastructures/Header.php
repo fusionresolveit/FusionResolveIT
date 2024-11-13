@@ -18,6 +18,7 @@ trait Header
     $this->header->color = 'blue';
     $this->header->route = Pluralizer::plural(strtolower((new \ReflectionClass($item))->getShortName()));
     $this->header->username = $GLOBALS['username'];
+    $this->header->modelname = get_class($item);
 
     $this->setProfile();
 

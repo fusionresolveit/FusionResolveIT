@@ -20,6 +20,16 @@
           {{ translation.newbutton }}
           </button>
         </a>
+        <a href="{{ header.rootpath }}/view/columns?m={{ header.modelname }}">
+          <button
+            class="ui button labeled icon floated"
+          >
+            <i class="columns icon"></i>
+            Columns
+          </button>
+        </a>
+
+
       </span>
     </div>
   </div>
@@ -71,7 +81,7 @@
   </form>
 </div>
 
-<table class="ui fixed sortable celled striped small blue table">
+<table class="ui fixed selectable celled striped small blue table">
   <thead>
     <th></th>
     {% for title in data.fields.header %}

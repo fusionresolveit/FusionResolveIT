@@ -5,7 +5,9 @@ namespace App\Models;
 class Displaypreference extends Common
 {
   protected $hasEntityField = false;
-
+  protected $titles = ['Manage columns', 'Manage columns'];
+  protected $icon = 'columns';
+  
   /**
    * Get display preference for a user for an itemtype
    *
