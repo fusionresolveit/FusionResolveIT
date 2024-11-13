@@ -54,6 +54,15 @@ class Ticket
         ],
       ],
       [
+        'id'            => 14,
+        'title'         => $translator->translate('Type', 'Types', 1),
+        'type'          => 'dropdown',
+        'name'          => 'type',
+        'values'        => self::getTypesArray(),
+        'displaygroup'  => 'main',
+        'fillable' => true,
+      ],
+      [
         'id'            => 12,
         'title'         => $translator->translate('Status'),
         'type'          => 'dropdown',
@@ -303,6 +312,20 @@ class Ticket
     ];
 
     // TODO others like users
+  }
+
+  public static function getTypesArray()
+  {
+    global $translator;
+
+    return [
+      1 => [
+        'title' => $translator->translate('Incident'),
+      ],
+      2 => [
+        'title' => $translator->translate('Request'),
+      ],
+    ];
   }
 
   public static function getStatusArray()

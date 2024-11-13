@@ -165,8 +165,9 @@ $customErrorHandler = function (
     ];
 
     return $view->render($response, 'error401.html.twig', $viewData);
+  } else {
+    echo $exception->getMessage();
   }
-
 };
 
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);

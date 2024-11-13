@@ -73,6 +73,7 @@ class Ticket extends Common
   // For default values
   protected $attributes = [
     'status'    => 1,
+    'type'      => 1,
     'urgency'   => 3,
     'impact'    => 3,
     'priority'  => 3,
@@ -83,6 +84,7 @@ class Ticket extends Common
     'name',
     'entity_id',
     'status',
+    'type',
     'user_id_recipient',
     'requesttype_id',
     'content',
