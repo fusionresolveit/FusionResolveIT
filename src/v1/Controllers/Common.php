@@ -1687,7 +1687,6 @@ class Common
     return $view->render($response, 'subitem/itil.html.twig', (array)$viewData);
   }
 
-
   public static function getStatusArray()
   {
     global $translator;
@@ -1803,4 +1802,832 @@ class Common
       ],
     ];
   }
+
+  public function showSubComponents(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with(
+      'memories',
+      'firmwares',
+      'processors',
+      'harddrives',
+      'batteries',
+      'soundcards',
+      'controllers',
+      'powersupplies',
+      'sensors',
+      'devicepcis',
+      'devicegenerics',
+      'devicenetworkcards',
+      'devicesimcards',
+      'devicemotherboards',
+      'devicecases',
+      'devicegraphiccards',
+      'devicedrives'
+    )->find($args['id']);
+
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/components');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '')
+    {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myMemories = [];
+    foreach ($myItem->memories as $memory)
+    {
+      $loc = \App\Models\Location::find($memory->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($memory->manufacturer !== null)
+      {
+        $manufacturer = $memory->manufacturer->name;
+      }
+
+      $myMemories[] = [
+        'name'          => $memory->name,
+        'manufacturer'  => $manufacturer,
+        'type'          => $memory->type->name,
+        'frequence'     => $memory->frequence,
+        'size'          => $memory->pivot->size,
+        'serial'        => $memory->pivot->serial,
+        'busID'         => $memory->pivot->busID,
+        'location'      => $location,
+        'color'         => 'red',
+      ];
+    }
+
+    $myFirmwares = [];
+    foreach ($myItem->firmwares as $firmware)
+    {
+      $loc = \App\Models\Location::find($firmware->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($firmware->manufacturer !== null)
+      {
+        $manufacturer = $firmware->manufacturer->name;
+      }
+
+      $type = '';
+      if ($firmware->type !== null)
+      {
+        $type = $firmware->type->name;
+      }
+
+      $myFirmwares[] = [
+        'name'          => $firmware->name,
+        'manufacturer'  => $manufacturer,
+        'type'          => $type,
+        'version'       => $firmware->version,
+        'date'          => $firmware->date,
+        'location'      => $location,
+        'color'         => 'orange',
+      ];
+    }
+
+    $myProcessors = [];
+    foreach ($myItem->processors as $processor)
+    {
+      $loc = \App\Models\Location::find($processor->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($processor->manufacturer !== null)
+      {
+        $manufacturer = $processor->manufacturer->name;
+      }
+
+      $myProcessors[] = [
+        'name'          => $processor->name,
+        'manufacturer'  => $manufacturer,
+        'frequency'     => $processor->pivot->frequency,
+        'nbcores'       => $processor->pivot->nbcores,
+        'nbthreads'     => $processor->pivot->nbthreads,
+        'location'      => $location,
+        'color'         => 'olive',
+      ];
+    }
+
+    $myHarddrives = [];
+    foreach ($myItem->harddrives as $harddrive)
+    {
+      $loc = \App\Models\Location::find($harddrive->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($harddrive->manufacturer !== null)
+      {
+        $manufacturer = $harddrive->manufacturer->name;
+      }
+
+      $interface = '';
+      if ($harddrive->interface !== null)
+      {
+        $interface = $harddrive->interface->name;
+      }
+
+      $myHarddrives[] = [
+        'name'            => $harddrive->name,
+        'manufacturer'    => $manufacturer,
+        'rpm'             => $harddrive->rpm,
+        'cache'           => $harddrive->cache,
+        'interface'       => $interface,
+        'capacity'        => $harddrive->pivot->capacity,
+        'serial'          => $harddrive->pivot->serial,
+        'location'        => $location,
+        'color'           => 'teal',
+      ];
+    }
+
+    $myBatteries = [];
+    foreach ($myItem->batteries as $battery)
+    {
+      $loc = \App\Models\Location::find($battery->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($battery->manufacturer !== null)
+      {
+        $manufacturer = $battery->manufacturer->name;
+      }
+
+      $type = '';
+      if ($battery->type !== null)
+      {
+        $type = $battery->type->name;
+      }
+
+      $myBatteries[] = [
+        'name'                => $battery->name,
+        'manufacturer'        => $manufacturer,
+        'type'                => $type,
+        'voltage'             => $battery->voltage,
+        'capacity'            => $battery->capacity,
+        'serial'              => $battery->pivot->serial,
+        'manufacturing_date'  => $battery->pivot->manufacturing_date,
+        'location'            => $location,
+        'color'               => 'blue',
+      ];
+    }
+
+    $mySoundcards = [];
+    foreach ($myItem->soundcards as $soundcard)
+    {
+      $loc = \App\Models\Location::find($soundcard->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($soundcard->manufacturer !== null)
+      {
+        $manufacturer = $soundcard->manufacturer->name;
+      }
+
+      $mySoundcards[] = [
+        'name'            => $soundcard->name,
+        'manufacturer'    => $manufacturer,
+        'type'            => $soundcard->type,
+        'location'        => $location,
+        'color'           => 'purple',
+      ];
+    }
+
+    $myControllers = [];
+    foreach ($myItem->controllers as $controller)
+    {
+      $loc = \App\Models\Location::find($controller->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($controller->manufacturer !== null)
+      {
+        $manufacturer = $controller->manufacturer->name;
+      }
+
+      $interface = '';
+      if ($controller->interface !== null)
+      {
+        $interface = $controller->interface->name;
+      }
+
+      $myControllers[] = [
+        'name'            => $controller->name,
+        'manufacturer'    => $manufacturer,
+        'interface'       => $interface,
+        'location'        => $location,
+        'color'           => 'brown',
+      ];
+    }
+
+    $myPowerSupplies = [];
+    foreach ($myItem->powersupplies as $powersupply)
+    {
+      $loc = \App\Models\Location::find($powersupply->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $documents = [];
+      if ($powersupply->documents !== null)
+      {
+        foreach ($powersupply->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myPowerSupplies[] = [
+        'name'          => $powersupply->name,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'purple',
+      ];
+    }
+
+    $mySensors = [];
+    foreach ($myItem->sensors as $sensor)
+    {
+      $loc = \App\Models\Location::find($sensor->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($sensor->manufacturer !== null)
+      {
+        $manufacturer = $sensor->manufacturer->name;
+      }
+
+      $documents = [];
+      if ($sensor->documents !== null)
+      {
+        foreach ($sensor->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $mySensors[] = [
+        'name'          => $sensor->name,
+        'manufacturer'  => $manufacturer,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'purple',
+      ];
+    }
+
+    $myDevicepcis = [];
+    foreach ($myItem->devicepcis as $devicepci)
+    {
+      $loc = \App\Models\Location::find($devicepci->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $documents = [];
+      if ($devicepci->documents !== null)
+      {
+        foreach ($devicepci->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicepcis[] = [
+        'name'          => $devicepci->name,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'blue',
+      ];
+    }
+
+    $myDevicegenerics = [];
+    foreach ($myItem->devicegenerics as $devicegeneric)
+    {
+      $loc = \App\Models\Location::find($devicegeneric->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $documents = [];
+      if ($devicegeneric->documents !== null)
+      {
+        foreach ($devicegeneric->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicegenerics[] = [
+        'name'          => $devicegeneric->name,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'teal',
+      ];
+    }
+
+    $myDevicenetworkcards = [];
+    foreach ($myItem->devicenetworkcards as $devicenetworkcard)
+    {
+      $loc = \App\Models\Location::find($devicenetworkcard->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $documents = [];
+      if ($devicenetworkcard->documents !== null)
+      {
+        foreach ($devicenetworkcard->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicenetworkcards[] = [
+        'name'          => $devicenetworkcard->name,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'red',
+      ];
+    }
+
+    $myDevicesimcards = [];
+    foreach ($myItem->devicesimcards as $devicesimcard)
+    {
+      $loc = \App\Models\Location::find($devicesimcard->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $documents = [];
+      if ($devicesimcard->documents !== null)
+      {
+        foreach ($devicesimcard->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $mac_address = ''; # TODO
+
+      $myDevicesimcards[] = [
+        'name'          => $devicesimcard->name,
+        'location'      => $location,
+        'documents'     => $documents,
+        'mac_address'   => $mac_address,
+        'color'         => 'orange',
+      ];
+    }
+
+    $myDevicemotherboards = [];
+    foreach ($myItem->devicemotherboards as $devicemotherboard)
+    {
+      $loc = \App\Models\Location::find($devicemotherboard->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $documents = [];
+      if ($devicemotherboard->documents !== null)
+      {
+        foreach ($devicemotherboard->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicemotherboards[] = [
+        'name'          => $devicemotherboard->name,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'olive',
+      ];
+    }
+
+    $myDevicecases = [];
+    foreach ($myItem->devicecases as $devicecase)
+    {
+      $loc = \App\Models\Location::find($devicecase->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($devicecase->manufacturer !== null)
+      {
+        $manufacturer = $devicecase->manufacturer->name;
+      }
+
+      $documents = [];
+      if ($devicecase->documents !== null)
+      {
+        foreach ($devicecase->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicecases[] = [
+        'name'          => $devicecase->name,
+        'manufacturer'  => $manufacturer,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'olive',
+      ];
+    }
+
+    $myDevicegraphiccards = [];
+    foreach ($myItem->devicegraphiccards as $devicegraphiccard)
+    {
+      $loc = \App\Models\Location::find($devicegraphiccard->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($devicegraphiccard->manufacturer !== null)
+      {
+        $manufacturer = $devicegraphiccard->manufacturer->name;
+      }
+
+      $interface = '';
+      if ($devicegraphiccard->interface !== null)
+      {
+        $interface = $devicegraphiccard->interface->name;
+      }
+
+      $documents = [];
+      if ($devicegraphiccard->documents !== null)
+      {
+        foreach ($devicegraphiccard->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicegraphiccards[] = [
+        'name'          => $devicegraphiccard->name,
+        'manufacturer'  => $manufacturer,
+        'interface'     => $interface,
+        'chipset'       => $devicegraphiccard->chipset,
+        'memory'        => $devicegraphiccard->emory,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'brown',
+      ];
+    }
+
+    $myDevicedrives = [];
+    foreach ($myItem->devicedrives as $devicedrive)
+    {
+      $loc = \App\Models\Location::find($devicedrive->pivot->location_id);
+
+      $location = '';
+      if ($loc !== null)
+      {
+        $location = $loc->name;
+      }
+
+      $manufacturer = '';
+      if ($devicedrive->manufacturer !== null)
+      {
+        $manufacturer = $devicedrive->manufacturer->name;
+      }
+
+      $interface = '';
+      if ($devicedrive->interface !== null)
+      {
+        $interface = $devicedrive->interface->name;
+      }
+
+      $documents = [];
+      if ($devicedrive->documents !== null)
+      {
+        foreach ($devicedrive->documents as $document) {
+
+          $url = '';
+          if ($rootUrl2 != '')
+          {
+            $url = $rootUrl2 . "/documents/" . $document->id;
+          }
+          $documents[$document->id] = [
+            'name' => $document->name,
+            'url' => $url,
+          ];
+        }
+      }
+
+      $myDevicedrives[] = [
+        'name'          => $devicedrive->name,
+        'manufacturer'  => $manufacturer,
+        'write'         => $devicedrive->is_writer,
+        'speed'         => $devicedrive->speed,
+        'interface'     => $interface,
+        'location'      => $location,
+        'documents'     => $documents,
+        'color'         => 'teal',
+      ];
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('memories', $myMemories);
+    $viewData->addData('firmwares', $myFirmwares);
+    $viewData->addData('processors', $myProcessors);
+    $viewData->addData('harddrives', $myHarddrives);
+    $viewData->addData('batteries', $myBatteries);
+    $viewData->addData('soundcards', $mySoundcards);
+    $viewData->addData('controllers', $myControllers);
+    $viewData->addData('powersupplies', $myPowerSupplies);
+    $viewData->addData('sensors', $mySensors);
+    $viewData->addData('devicepcis', $myDevicepcis);
+    $viewData->addData('devicegenerics', $myDevicegenerics);
+    $viewData->addData('devicenetworkcards', $myDevicenetworkcards);
+    $viewData->addData('devicesimcards', $myDevicesimcards);
+    $viewData->addData('devicemotherboards', $myDevicemotherboards);
+    $viewData->addData('devicecases', $myDevicecases);
+    $viewData->addData('devicegraphiccards', $myDevicegraphiccards);
+    $viewData->addData('devicedrives', $myDevicedrives);
+
+    $viewData->addTranslation('memory', 'Memoire');
+    $viewData->addTranslation('manufacturer', 'Fabricant');
+    $viewData->addTranslation('type', 'Type');
+    $viewData->addTranslation('frequence', 'Fréquence');
+    $viewData->addTranslation('size', 'Taille (Mio)');
+    $viewData->addTranslation('serial', 'Numéro de série');
+    $viewData->addTranslation('location', 'Lieu');
+    $viewData->addTranslation('busID', 'Position du composant sur son bus');
+    $viewData->addTranslation('firmware', 'Micrologiciel');
+    $viewData->addTranslation('version', 'Version');
+    $viewData->addTranslation('install_date', "Date d'installation");
+    $viewData->addTranslation('processor', 'Processeur');
+    $viewData->addTranslation('frequence_mhz', 'Fréquence (MHz)');
+    $viewData->addTranslation('nbcores', 'Nombre de cœurs');
+    $viewData->addTranslation('nbthreads', 'Nombre de threads');
+    $viewData->addTranslation('harddrive', 'Disque dur');
+    $viewData->addTranslation('rpm', 'Vitesse de rotation');
+    $viewData->addTranslation('cache', 'Cache');
+    $viewData->addTranslation('interface', 'Interface');
+    $viewData->addTranslation('capacity', 'Capacité (Mio)');
+    $viewData->addTranslation('battery', 'Batterie');
+    $viewData->addTranslation('voltage_mv', 'Voltage (mV)');
+    $viewData->addTranslation('capacity_mwh', 'Capacité (mWh)');
+    $viewData->addTranslation('manufacturing_date', 'Date de fabrication');
+    $viewData->addTranslation('soundcard', 'Carte son');
+    $viewData->addTranslation('controller', 'Contrôleur');
+    $viewData->addTranslation('documents', 'Documents');
+    $viewData->addTranslation('mac_address', 'Adresse MAC');
+    $viewData->addTranslation('powersupply', 'Alimentation');
+    $viewData->addTranslation('sensor', 'Capteur');
+    $viewData->addTranslation('devicepci', 'Périphérique PCI');
+    $viewData->addTranslation('devicegeneric', 'Composant générique');
+    $viewData->addTranslation('devicenetworkcard', 'Carte réseau');
+    $viewData->addTranslation('devicesimcard', 'Carte SIM');
+    $viewData->addTranslation('devicemotherboard', 'Carte mère');
+    $viewData->addTranslation('devicecase', 'Boîtier');
+    $viewData->addTranslation('devicegraphiccard', 'Carte graphique');
+    $viewData->addTranslation('devicedrive', 'Lecteur');
+    $viewData->addTranslation('memory_mio', 'Mémoire (Mio)');
+    $viewData->addTranslation('chipset', 'Chipset');
+    $viewData->addTranslation('write', 'Écriture');
+    $viewData->addTranslation('speed', 'Vitesse');
+
+    return $view->render($response, 'subitem/components.html.twig', (array)$viewData);
+  }
+
+  public function showSubVolumes(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('volumes')->find($args['id']);
+
+    $myVolumes = [];
+    foreach ($myItem->volumes as $volume)
+    {
+      if ($volume->is_dynamic == 1)
+      {
+        $auto_val = $translator->translate('Yes');
+      }
+      else
+      {
+        $auto_val = $translator->translate('No');
+      }
+
+      $filesystem = '';
+      if ($volume->filesystem !== null)
+      {
+        $filesystem = $volume->filesystem->name;
+      }
+
+
+      $usedpercent = 100;
+      if ($volume->totalsize > 0)
+      {
+        $usedpercent = 100 - round(($volume->freesize / $volume->totalsize) * 100);
+      }
+
+      $encryption_status_val = '';
+      if ($volume->encryption_status == 0)
+      {
+        $encryption_status_val = $translator->translate('Non chiffré');
+      }
+      if ($volume->encryption_status == 1)
+      {
+        $encryption_status_val = $translator->translate('Chiffré');
+      }
+      if ($volume->encryption_status == 2)
+      {
+        $encryption_status_val = $translator->translate('Partiellement chiffré');
+      }
+
+      $myVolumes[] = [
+        'name'                      => $volume->name,
+        'auto'                      => $volume->is_dynamic,
+        'auto_val'                  => $auto_val,
+        'device'                    => $volume->device,
+        'mountpoint'                => $volume->mountpoint,
+        'filesystem'                => $filesystem,
+        'totalsize'                 => $volume->totalsize,
+        'freesize'                  => $volume->freesize,
+        'usedpercent'               => $usedpercent,
+        'encryption_status'         => $volume->encryption_status,
+        'encryption_status_val'     => $encryption_status_val,
+        'encryption_tool'           => $volume->encryption_tool,
+        'encryption_algorithm'      => $volume->encryption_algorithm,
+        'encryption_type'           => $volume->encryption_type,
+      ];
+    }
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/volumes');
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('volumes', $myVolumes);
+
+    $viewData->addTranslation('auto', 'Inventaire automatique');
+    $viewData->addTranslation('device', 'Partition');
+    $viewData->addTranslation('mountpoint', 'Point de montage');
+    $viewData->addTranslation('filesystem', 'Système de fichiers');
+    $viewData->addTranslation('totalsize', 'Taille totale');
+    $viewData->addTranslation('freesize', 'Taille libre');
+    $viewData->addTranslation('encryption', 'Chiffrement');
+    $viewData->addTranslation('encryption_algorithm', 'Algorithme de chiffrement');
+    $viewData->addTranslation('encryption_tool', 'Outil de chiffrement');
+    $viewData->addTranslation('encryption_type', 'Type de chiffrement');
+    $viewData->addTranslation('usedpercent', 'Pourcentage utilisé');
+
+    return $view->render($response, 'subitem/volumes.html.twig', (array)$viewData);
+  }
+
 }

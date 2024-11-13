@@ -325,12 +325,12 @@ class Phone
       [
         'title' => $translator->translatePlural('Component', 'Components', 2),
         'icon' => 'microchip',
-        'link' => '',
+        'link' => $rootUrl . '/components',
       ],
       [
         'title' => $translator->translatePlural('Volume', 'Volumes', 2),
         'icon' => 'hdd',
-        'link' => '',
+        'link' => $rootUrl . '/volumes',
       ],
       [
         'title' => $translator->translatePlural('Connection', 'Connections', 2),

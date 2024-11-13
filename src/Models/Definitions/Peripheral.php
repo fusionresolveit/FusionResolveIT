@@ -277,7 +277,7 @@ class Peripheral
       [
         'title' => $translator->translatePlural('Component', 'Components', 2),
         'icon' => 'microchip',
-        'link' => '',
+        'link' => $rootUrl . '/components',
       ],
       [
         'title' => $translator->translatePlural('Connection', 'Connections', 2),

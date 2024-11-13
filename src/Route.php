@@ -187,6 +187,8 @@ final class Route
               \App\v1\Controllers\Networkequipment::class . ':showSubOperatingSystem'
             );
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Networkequipment::class . ':showSubItil');
+            $sub->map(['GET'], 'components', \App\v1\Controllers\Networkequipment::class . ':showSubComponents');
+            $sub->map(['GET'], 'volumes', \App\v1\Controllers\Networkequipment::class . ':showSubVolumes');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipment::class . ':showSubHistory');
           });
         });
@@ -213,6 +215,7 @@ final class Route
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Peripheral::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Peripheral::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Peripheral::class . ':showSubItil');
+            $sub->map(['GET'], 'components', \App\v1\Controllers\Peripheral::class . ':showSubComponents');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Peripheral::class . ':showSubHistory');
           });
         });
@@ -239,6 +242,8 @@ final class Route
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Printer::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Printer::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Printer::class . ':showSubItil');
+            $sub->map(['GET'], 'components', \App\v1\Controllers\Printer::class . ':showSubComponents');
+            $sub->map(['GET'], 'volumes', \App\v1\Controllers\Printer::class . ':showSubVolumes');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Printer::class . ':showSubHistory');
           });
         });
@@ -299,6 +304,8 @@ final class Route
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Phone::class . ':showSubSoftwares');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Phone::class . ':showSubOperatingSystem');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Phone::class . ':showSubItil');
+            $sub->map(['GET'], 'components', \App\v1\Controllers\Phone::class . ':showSubComponents');
+            $sub->map(['GET'], 'volumes', \App\v1\Controllers\Phone::class . ':showSubVolumes');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Phone::class . ':showSubHistory');
           });
         });
@@ -333,6 +340,7 @@ final class Route
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Enclosure::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Enclosure::class . ':showSubContracts');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Enclosure::class . ':showSubItil');
+            $sub->map(['GET'], 'components', \App\v1\Controllers\Enclosure::class . ':showSubComponents');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Enclosure::class . ':showSubHistory');
           });
         });

@@ -150,7 +150,7 @@ class Enclosure
       [
         'title' => $translator->translatePlural('Component', 'Components', 2),
         'icon' => 'microchip',
-        'link' => '',
+        'link' => $rootUrl . '/components',
       ],
       [
         'title' => $translator->translatePlural('Network port', 'Network ports', 2),

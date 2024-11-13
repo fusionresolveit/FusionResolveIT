@@ -304,6 +304,434 @@
       </div>
     </div>
   {% endfor %}
+
+  {% for powersupply in data.powersupplies|sort((a, b) => a.powersupply.name|lower <=> b.powersupply.name|lower) %}
+    <div class="ui {{ powersupply.color }} card">
+      <div class="content">
+        <div class="header">{{ powersupply.name }}</div>
+        <div class="meta"><span class="ui {{ powersupply.color }} text">{{ translation.powersupply }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ powersupply.location }}</div>
+            </div>
+          </div>
+          {% if powersupply.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in powersupply.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for sensor in data.sensors|sort((a, b) => a.sensor.name|lower <=> b.sensor.name|lower) %}
+    <div class="ui {{ sensor.color }} card">
+      <div class="content">
+        <div class="header">{{ sensor.name }}</div>
+        <div class="meta"><span class="ui {{ sensor.color }} text">{{ translation.sensor }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ sensor.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ sensor.location }}</div>
+            </div>
+          </div>
+          {% if sensor.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in sensor.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicepci in data.devicepcis|sort((a, b) => a.devicepci.name|lower <=> b.devicepci.name|lower) %}
+    <div class="ui {{ devicepci.color }} card">
+      <div class="content">
+        <div class="header">{{ devicepci.name }}</div>
+        <div class="meta"><span class="ui {{ devicepci.color }} text">{{ translation.devicepci }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicepci.location }}</div>
+            </div>
+          </div>
+          {% if devicepci.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicepci.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicegeneric in data.devicegenerics|sort((a, b) => a.devicegeneric.name|lower <=> b.devicegeneric.name|lower) %}
+    <div class="ui {{ devicegeneric.color }} card">
+      <div class="content">
+        <div class="header">{{ devicegeneric.name }}</div>
+        <div class="meta"><span class="ui {{ devicegeneric.color }} text">{{ translation.devicegeneric }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicegeneric.location }}</div>
+            </div>
+          </div>
+          {% if devicegeneric.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicegeneric.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicenetworkcard in data.devicenetworkcards|sort((a, b) => a.devicenetworkcard.name|lower <=> b.devicenetworkcard.name|lower) %}
+    <div class="ui {{ devicenetworkcard.color }} card">
+      <div class="content">
+        <div class="header">{{ devicenetworkcard.name }}</div>
+        <div class="meta"><span class="ui {{ devicenetworkcard.color }} text">{{ translation.devicenetworkcard }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicenetworkcard.location }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.mac_address }}</a>
+              <div class="description">{{ devicenetworkcard.mac_address }}</div>
+            </div>
+          </div>
+          {% if devicenetworkcard.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicenetworkcard.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicesimcard in data.devicesimcards|sort((a, b) => a.devicesimcard.name|lower <=> b.devicesimcard.name|lower) %}
+    <div class="ui {{ devicesimcard.color }} card">
+      <div class="content">
+        <div class="header">{{ devicesimcard.name }}</div>
+        <div class="meta"><span class="ui {{ devicesimcard.color }} text">{{ translation.devicesimcard }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicesimcard.location }}</div>
+            </div>
+          </div>
+          {% if devicesimcard.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicesimcard.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicemotherboard in data.devicemotherboards|sort((a, b) => a.devicemotherboard.name|lower <=> b.devicemotherboard.name|lower) %}
+    <div class="ui {{ devicemotherboard.color }} card">
+      <div class="content">
+        <div class="header">{{ devicemotherboard.name }}</div>
+        <div class="meta"><span class="ui {{ devicemotherboard.color }} text">{{ translation.devicemotherboard }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicemotherboard.location }}</div>
+            </div>
+          </div>
+          {% if devicemotherboard.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicemotherboard.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicecase in data.devicecases|sort((a, b) => a.devicecase.name|lower <=> b.devicecase.name|lower) %}
+    <div class="ui {{ devicecase.color }} card">
+      <div class="content">
+        <div class="header">{{ devicecase.name }}</div>
+        <div class="meta"><span class="ui {{ devicecase.color }} text">{{ translation.devicecase }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ devicecase.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicecase.location }}</div>
+            </div>
+          </div>
+          {% if devicecase.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicecase.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicegraphiccard in data.devicegraphiccards|sort((a, b) => a.devicegraphiccard.name|lower <=> b.devicegraphiccard.name|lower) %}
+    <div class="ui {{ devicegraphiccard.color }} card">
+      <div class="content">
+        <div class="header">{{ devicegraphiccard.name }}</div>
+        <div class="meta"><span class="ui {{ devicegraphiccard.color }} text">{{ translation.devicegraphiccard }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ devicegraphiccard.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.interface }}</a>
+              <div class="description">{{ devicegraphiccard.interface }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.chipset }}</a>
+              <div class="description">{{ devicegraphiccard.chipset }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.memory_mio }}</a>
+              <div class="description">{{ devicegraphiccard.memory }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicegraphiccard.location }}</div>
+            </div>
+          </div>
+          {% if devicegraphiccard.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicegraphiccard.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% for devicedrive in data.devicedrives|sort((a, b) => a.devicedrive.name|lower <=> b.devicedrive.name|lower) %}
+    <div class="ui {{ devicedrive.color }} card">
+      <div class="content">
+        <div class="header">{{ devicedrive.name }}</div>
+        <div class="meta"><span class="ui {{ devicedrive.color }} text">{{ translation.devicedrive }}</span></div>
+      </div>
+      <div class="content">
+        <div class="ui relaxed list">
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.manufacturer }}</a>
+              <div class="description">{{ devicedrive.manufacturer }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.write }}</a>
+              <div class="description">
+                {% if devicedrive.write %}
+                  <div style="box-shadow: 0 0 0 #a3c293 inset;background: #fcfff5;color: #2c662d;">
+                    <i class="check circle outline icon"></i>
+                    Yes
+                  </div>
+                {% else %}
+                  <div style="box-shadow: 0 0 0 #e0b4b4 inset;background: #fff6f6;color: #9f3a38;">
+                    <i class="times circle outline icon"></i>
+                    No
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.speed }}</a>
+              <div class="description">{{ devicedrive.speed }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.interface }}</a>
+              <div class="description">{{ devicedrive.interface }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.location }}</a>
+              <div class="description">{{ devicedrive.location }}</div>
+            </div>
+          </div>
+          {% if devicedrive.documents|length > 0%}
+          <div class="item">
+            <div class="content">
+              <a class="header">{{ translation.documents }}</a>
+              {% for document in devicedrive.documents %}
+                <div class="description">
+                  {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% else %}
+                      {{ document.name }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
 </div>
 
 {{ include('footer.html.twig') }}
