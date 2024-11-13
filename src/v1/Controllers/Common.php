@@ -31,6 +31,10 @@ class Common
     $params = $request->getQueryParams();
     $page = 1;
     $view = Twig::fromRequest($request);
+    if (!$this->canRightRead())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
     $search = new \App\v1\Controllers\Search();
     $url = $this->getUrlWithoutQuery($request);
@@ -62,6 +66,11 @@ class Common
     $view = Twig::fromRequest($request);
 
     $myItem = $item->find($args['id']);
+
+    if (!$this->canRightReadItem($myItem))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
     // form data
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
@@ -156,6 +165,11 @@ class Common
     // Load the item
     // $item->loadId($args['id']);
     $myItem = $item->find($args['id']);
+
+    if (!$this->canRightReadItem($myItem))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
     // form data
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
@@ -342,6 +356,10 @@ class Common
 
     if (is_null($id))
     {
+      if (!$this->canRightCreate($this->model))
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
       foreach ((array) $data as $key => $value)
       {
         if (isset($booleans[$key]))
@@ -354,11 +372,22 @@ class Common
           }
         }
       }
+      $aData = $this->filterFieldsAllowedToWrite($this->model, (array) $data);
 
-      $item = $this->model::create((array) $data);
+      $item = $this->model::create($aData);
     } else {
       // update
+      if (!$this->canRightCreate($this->model))
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+
       $item = $this->model::find($id);
+      if (!$this->canRightReadItem($item))
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+
       if (is_null($item))
       {
         // Error
@@ -382,6 +411,8 @@ class Common
           }
         }
       }
+      $aData = $this->filterFieldsAllowedToWrite($this->model, $aData);
+
       $item->update($aData);
     }
 
@@ -3184,4 +3215,167 @@ class Common
   }
 
 
+  private function canRightRead()
+  {
+    $profileright = \App\Models\Profileright::
+        where('profile_id', $GLOBALS['profile_id'])
+      ->where('model', ltrim($this->model, '\\'))
+      ->first();
+    if (is_null($profileright))
+    {
+      return false;
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        if ($custom->read)
+        {
+          return true;
+        }
+      }
+    }
+    if ($profileright->read || $profileright->readmyitems || $profileright->readmygroupitems)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  private function canRightReadItem($item)
+  {
+    $profileright = \App\Models\Profileright::
+        where('profile_id', $GLOBALS['profile_id'])
+      ->where('model', get_class($item))
+      ->first();
+    if (is_null($profileright))
+    {
+      return false;
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        if ($custom->read)
+        {
+          return true;
+        }
+      }
+    }
+    if ($profileright->read)
+    {
+      return true;
+    }
+    if ($profileright->readmyitems)
+    {
+      if ($item->user_id_recipient == $GLOBALS['user_id'])
+      {
+        return true;
+      }
+    }
+    if ($profileright->readmygroupitems)
+    {
+    }
+
+    return false;
+  }
+
+  private function canRightCreate()
+  {
+    $profileright = \App\Models\Profileright::
+        where('profile_id', $GLOBALS['profile_id'])
+      ->where('model', ltrim($this->model, '\\'))
+      ->first();
+    if (is_null($profileright))
+    {
+      return false;
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        if ($custom->write)
+        {
+          return true;
+        }
+      }
+    }
+    if ($profileright->create)
+    {
+      return true;
+    }
+    return false;
+  }
+
+
+  private function canRightUpdate()
+  {
+    $profileright = \App\Models\Profileright::
+        where('profile_id', $GLOBALS['profile_id'])
+      ->where('model', ltrim($this->model, '\\'))
+      ->first();
+    if (is_null($profileright))
+    {
+      return false;
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        if ($custom->write)
+        {
+          return true;
+        }
+      }
+    }
+    if ($profileright->update)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  private function filterFieldsAllowedToWrite($model, $fields)
+  {
+    $item = new $model();
+    $definitions = $item->getDefinitions();
+    $defIds = [];
+    foreach ($definitions as $definition)
+    {
+      $defIds[$definition['id']] = $definition['name'];
+    }
+
+    $profileright = \App\Models\Profileright::
+        where('profile_id', $GLOBALS['profile_id'])
+      ->where('model', ltrim($this->model, '\\'))
+      ->first();
+    if (is_null($profileright))
+    {
+      return false;
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        if (!$custom->write)
+        {
+          if (isset($fields[$defIds[$custom->definitionfield_id]]))
+          {
+            unset($fields[$defIds[$custom->definitionfield_id]]);
+          }
+        }
+      }
+    }
+    return $fields;
+  }
 }

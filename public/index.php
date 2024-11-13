@@ -17,6 +17,14 @@ $apiversion = 'v1';
 
 $app = AppFactory::create();
 
+// Create Twig
+$twig = Twig::create('../src/v1/Views');
+
+// Add Twig-View Middleware
+// $app->add(TwigMiddleware::create($app, $twig));
+$app->add(new TwigMiddleware($twig, $app->getRouteCollector()->getRouteParser(), '', 'view'));
+
+
 $app->addRoutingMiddleware();
 $basePath = "";
 if (strstr($_SERVER['REQUEST_URI'], 'index.php'))
@@ -44,15 +52,6 @@ if (strstr($_SERVER['REQUEST_URI'], '/'))
   $basePath = '/' . implode('/', $paths);
 }
 $app->setBasePath($basePath);
-
-
-
-// Create Twig
-$twig = Twig::create('../src/v1/Views');
-
-// Add Twig-View Middleware
-// $app->add(TwigMiddleware::create($app, $twig));
-$app->add(new TwigMiddleware($twig, $app->getRouteCollector()->getRouteParser(), '', 'view'));
 
 // See https://github.com/tuupola/slim-jwt-auth
 $container = $app->getContainer();
@@ -153,11 +152,25 @@ $customErrorHandler = function (
   bool $logErrorDetails
 ) use ($app)
 {
-  // TODO write error page
+  global $basePath;
+
+  if ($exception->getCode() == 401)
+  {
+    $view = Twig::create('../src/v1/Views');
+
+    $response = $app->getResponseFactory()->createResponse();
+    $viewData = [
+      'rootpath' => $basePath,
+      'message'  => $exception->getMessage(),
+    ];
+
+    return $view->render($response, 'error401.html.twig', $viewData);
+  }
+
 };
 
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
-// $errorMiddleware->setDefaultErrorHandler($customErrorHandler);
+$errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 
 // get php errors (warning...)
 SymfonyErrorHandler::register();
