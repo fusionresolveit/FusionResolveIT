@@ -7,18 +7,21 @@ class Crontaskexecution
   public static function getDefinition()
   {
     global $translator;
-    return [];
+    return [
+      [
+        'id'      => 2,
+        'title'   => $translator->translate('ID'),
+        'type'    => 'input',
+        'name'    => 'id',
+        'display' => false,
+      ],
+    ];
   }
 
   public static function getRelatedPages($rootUrl)
   {
     global $translator;
     return [
-      [
-        'title' => $translator->translatePlural('Execution', 'Executions', 1),
-        'icon' => 'cogs',
-        'link' => $rootUrl,
-      ],
     ];
   }
 }

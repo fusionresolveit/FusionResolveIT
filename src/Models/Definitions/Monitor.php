@@ -52,7 +52,7 @@ class Monitor
         'fillable' => true,
       ],
       [
-        'id'    => 40,
+        'id'    => 23,
         'title' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
         'type'  => 'dropdown_remote',
         'name'  => 'manufacturer',

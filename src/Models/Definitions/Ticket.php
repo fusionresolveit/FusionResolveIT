@@ -83,7 +83,7 @@ class Ticket
         'relationfields' => ['id', 'name', 'completename'],
       ],
       [
-        'id'            => 3,
+        'id'            => 83,
         'title'         => $translator->translatePlural('Location', 'Locations', 1),
         'type'          => 'dropdown_remote',
         'name'          => 'location',
@@ -286,7 +286,7 @@ class Ticket
         'relationfields' => ['id', 'name', 'completename'],
       ],
       [
-        'id'    => 22,
+        'id'    => 301,
         'title' => 'Followups',
         'type'  => 'input',
         'name'  => 'followups',

@@ -3215,7 +3215,7 @@ class Common
   }
 
 
-  private function canRightRead()
+  protected function canRightRead()
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])
@@ -3244,7 +3244,7 @@ class Common
     return false;
   }
 
-  private function canRightReadItem($item)
+  protected function canRightReadItem($item)
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])
@@ -3284,7 +3284,7 @@ class Common
     return false;
   }
 
-  private function canRightCreate()
+  protected function canRightCreate()
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])
@@ -3314,7 +3314,7 @@ class Common
   }
 
 
-  private function canRightUpdate()
+  protected function canRightUpdate()
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])

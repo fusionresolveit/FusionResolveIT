@@ -16,7 +16,7 @@ class Wifinetwork
         'fillable' => true,
       ],
       [
-        'id'    => 1,
+        'id'    => 10,
         'title' => $translator->translate('ESSID'),
         'type'  => 'input',
         'name'  => 'essid',

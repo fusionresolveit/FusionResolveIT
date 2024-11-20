@@ -90,13 +90,6 @@ class Cartridgeitem
       //    'name'  => 'completename',
       //    'itemtype' => '\App\Models\Entity',
       // ],
-      [
-        'id'    => 34,
-        'title' => $translator->translate('Reference'),
-        'type'  => 'input',
-        'name'  => 'ref',
-        'fillable' => true,
-      ],
 
       /*
       $tab[] = [

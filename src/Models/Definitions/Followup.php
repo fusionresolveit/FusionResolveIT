@@ -30,7 +30,7 @@ class Followup
         'fillable' => true,
       ],
       [
-        'id'    => 5,
+        'id'    => 1000,
         'title' => $translator->translate('Source of followup'),
         'type'  => 'dropdown_remote',
         'name'  => 'source',

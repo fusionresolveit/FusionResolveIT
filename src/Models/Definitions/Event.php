@@ -9,7 +9,7 @@ class Event
     global $translator;
     return [
       [
-        'id'    => 14,
+        'id'    => 10,
         'title' => $translator->translate('Source'),
         'type'  => 'dropdown',
         'name'  => 'type',
@@ -18,14 +18,14 @@ class Event
         'readonly'  => 'readonly',
       ],
       [
-        'id'    => 14,
+        'id'    => 11,
         'title' => $translator->translatePlural('Date', 'Dates', 1),
         'type'  => 'datetime',
         'name'  => 'date',
         'readonly'  => 'readonly',
       ],
       [
-        'id'    => 14,
+        'id'    => 12,
         'title' => $translator->translate('Service'),
         'type'  => 'dropdown',
         'name'  => 'service',
@@ -34,7 +34,7 @@ class Event
         'readonly'  => 'readonly',
       ],
       [
-        'id'    => 14,
+        'id'    => 13,
         'title' => $translator->translate('Level'),
         'type'  => 'input',
         'name'  => 'level',

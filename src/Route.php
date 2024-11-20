@@ -48,7 +48,19 @@ final class Route
         });
       });
 
-      $view->map(['GET'], '/columns', \App\v1\Controllers\Displaypreference::class . ':manageColumnsOfModel');
+      $view->group('/columns', function (RouteCollectorProxy $columns)
+      {
+        $columns->map(['GET'], '', \App\v1\Controllers\Displaypreference::class . ':manageColumnsOfModel');
+        $columns->map(['POST'], '', \App\v1\Controllers\Displaypreference::class . ':postColumnOfModel');
+        $columns->map(['GET'], '/createuser', \App\v1\Controllers\Displaypreference::class . ':viewCreateUserColumn');
+        $columns->map(['GET'], '/deleteuser', \App\v1\Controllers\Displaypreference::class . ':viewDeleteUserColumn');
+        $columns->group("/{id:[0-9]+}", function (RouteCollectorProxy $columnId)
+        {
+          $columnId->map(['GET'], '/delete', \App\v1\Controllers\Displaypreference::class . ':deleteColumn');
+          $columnId->map(['GET'], '/up', \App\v1\Controllers\Displaypreference::class . ':viewUpColumn');
+          $columnId->map(['GET'], '/down', \App\v1\Controllers\Displaypreference::class . ':viewDownColumn');
+        });
+      });
 
       $view->map(['GET'], '/logout', \App\v1\Controllers\Login::class . ':logout');
       $view->map(['POST'], '/changeprofileentity', \App\v1\Controllers\Login::class . ':changeProfileEntity');

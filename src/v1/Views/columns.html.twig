@@ -14,35 +14,63 @@
   </div>
 </div>
 
-TODO add form with dropdown to add
 
-<div class="ui secondary segment">
-  <table class="ui blue table">
-    <caption>
-      Columns
-    </caption>
-    {# <thead>
-      <tr>
-        <th>{{ translation.id }}</th>
-        <th>{{ translation.title }}</th>
-        <th>{{ translation.status }}</th>
-        <th>{{ translation.priority }}</th>
-        <th>{{ translation.date_open }}</th>
-        <th>{{ translation.date_last_modif }}</th>
-      </tr>
-    </thead> #}
-    <tbody>
-      {% for column in data.columns %}
-        <tr>
-          <td>{{ column.title }}</td>
-          <td><a><i class="chevron up icon"></i></a></td>
-          <td><a><i class="chevron down icon"></i></a></td>
-          <td><a href="{{ rootpath }}/view/columns/{{ column.id }}/delete"><i class="times circle outline icon"></i></a></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="ui secondary blue segment">
+  <form method="post" class="ui form" id="myform">
+    <input type="hidden" name="type" value="{{ data.type }}">
+    <div class="ui search selection dropdown">
+      <input type="hidden" name="id">
+      <i class="dropdown icon"></i>
+      <div class="default text">Select value...</div>
+      <div class="menu">
+        {% for key, val in data.dropdown %}
+          <div class="item" data-value="{{ key }}">
+            {{ val }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="ui primary button" type="submit">add</button>
+  </form>
 </div>
 
+<table class="ui blue table">
+  <thead>
+    <tr><th colspan="4">
+      Columns for: {{ data.type }}
+      {% if data.type == 'user' %}
+        <a href="{{ header.rootpath }}/view/columns/deleteuser?m={{ data.m }}" class="ui right floated red button">
+          Delete user columns management
+        </a>
+      {% else %}
+        <a href="{{ header.rootpath }}/view/columns/createuser?m={{ data.m }}" class="ui right floated primary button">
+          Create user columns management
+        </a>
+      </div>
+      {% endif %}
+    </th>
+  </tr></thead>
+  <tbody>
+    {% for index,column in data.columns %}
+      <tr>
+        <td>{{ column.title }}</td>
+        <td>
+          {% if index > 0 and data.canupdate %}
+            <a href="{{ header.rootpath }}/view/columns/{{ column.id }}/up"><i class="chevron up icon"></i></a>
+          {% endif %}
+        </td>
+        <td>
+          {% if index < data.columns|length - 1  and data.canupdate %}
+            <a href="{{ header.rootpath }}/view/columns/{{ column.id }}/down"><i class="chevron down icon"></i></a></td>
+          {% endif %}
+        <td>
+          {% if data.canupdate %}
+            <a href="{{ header.rootpath }}/view/columns/{{ column.id }}/delete"><i class="times circle outline icon"></i></a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {{ include('footer.html.twig') }}

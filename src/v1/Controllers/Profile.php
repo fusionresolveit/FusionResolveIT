@@ -68,6 +68,7 @@ final class Profile extends Common
       '\App\Models\Profile',
       '\App\Models\Queuednotification',
       '\App\Models\Event',
+      '\App\Models\Displaypreference',
     ],
     'setup' => [
       '\App\Models\Authsso',

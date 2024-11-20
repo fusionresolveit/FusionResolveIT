@@ -57,10 +57,7 @@ final class Search extends Common
         $newItemDef[] = $field;
       }
     }
-    // echo "<pre>";
-    // print_r($newItemDef);
-    // echo "</pre>";
-    // die();
+    $newItemDef = $this->orderColumns($newItemDef, $prefs);
 
     $start = 0;
     $limit = 15;
@@ -234,5 +231,22 @@ final class Search extends Common
       }
     }
     return [];
+  }
+
+  private function orderColumns($itemDef, $prefs)
+  {
+    $orderedItemDef = [];
+    foreach ($prefs as $id)
+    {
+      foreach ($itemDef as $field)
+      {
+        if ($field['id'] == $id)
+        {
+          $orderedItemDef[] = $field;
+          continue;
+        }
+      }
+    }
+    return $orderedItemDef;
   }
 }

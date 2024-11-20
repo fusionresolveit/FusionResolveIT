@@ -70,6 +70,7 @@ final class NotificationTicketTest extends TestCase
     'closed_at',
     'time_to_resolve',
     'solved_at',
+    'type',
     'updated_at',
     'usersidlastupdater.id',
     'usersidlastupdater.completename',
@@ -125,6 +126,7 @@ final class NotificationTicketTest extends TestCase
     'lang.closed_at',
     'lang.time_to_resolve',
     'lang.solved_at',
+    'lang.type',
     'lang.updated_at',
     'lang.usersidlastupdater.id',
     'lang.usersidlastupdater.completename',
@@ -183,6 +185,7 @@ final class NotificationTicketTest extends TestCase
   closed_at::{{ lang.closed_at }}::||{{ closed_at }}||
   time_to_resolve::{{ lang.time_to_resolve }}::||{{ time_to_resolve }}||
   solved_at::{{ lang.solved_at }}::||{{ solved_at }}||
+  type::{{ lang.type }}::||{{ type }}||
   updated_at::{{ lang.updated_at }}::||{{ updated_at }}||
   usersidlastupdater.id::{{ lang.usersidlastupdater.id }}::||{{ usersidlastupdater.id }}||
   usersidlastupdater.completename::{{ lang.usersidlastupdater.completename }}::||{{ usersidlastupdater.completename }}||

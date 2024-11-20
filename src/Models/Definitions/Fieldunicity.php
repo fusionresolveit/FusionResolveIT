@@ -16,7 +16,7 @@ class Fieldunicity
         'fillable' => true,
       ],
       [
-        'id'    => 16,
+        'id'    => 30,
         'title' => $translator->translate('Active'),
         'type'  => 'boolean',
         'name'  => 'is_active',
