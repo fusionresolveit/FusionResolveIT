@@ -205,7 +205,7 @@ class Appliance
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
         'icon' => 'desktop',
-        'link' => '',
+        'link' => $rootUrl . '/items',
       ],
       [
         'title' => $translator->translatePlural('Contract', 'Contract', 2),
@@ -229,7 +229,7 @@ class Appliance
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [

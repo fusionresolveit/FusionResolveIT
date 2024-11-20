@@ -37,7 +37,7 @@ final class ItemsDevicenetworkcardsMigration extends AbstractMigration
           [
             'id'                    => $row['id'],
             'item_id'               => $row['items_id'],
-            'item_type'             => 'App\\Models\\' . $row['itemtype'],
+            'item_type'             => self::convertItemtype($row['itemtype']),
             'devicenetworkcard_id'  => $row['devicenetworkcards_id'],
             'mac'                   => $row['mac'],
             'is_dynamic'            => $row['is_dynamic'],
@@ -73,5 +73,20 @@ final class ItemsDevicenetworkcardsMigration extends AbstractMigration
     }
 
     return null;
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

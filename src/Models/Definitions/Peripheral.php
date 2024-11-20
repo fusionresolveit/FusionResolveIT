@@ -282,7 +282,7 @@ class Peripheral
       [
         'title' => $translator->translatePlural('Connection', 'Connections', 2),
         'icon' => 'microchip',
-        'link' => '',
+        'link' => $rootUrl . '/connections',
       ],
       [
         'title' => $translator->translatePlural('Network port', 'Network ports', 2),
@@ -336,12 +336,12 @@ class Peripheral
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [

@@ -225,6 +225,13 @@ class User
         'name'  => 'completename',
         'fillable' => false,
       ],
+      // [
+      //   'id'    => 150,
+      //   'title' => $translator->translate('Picture'),
+      //   'type'  => 'file',
+      //   'name'  => 'picture',
+      //   'fillable' => true,
+      // ],
 
 
       /*
@@ -459,7 +466,7 @@ class User
       [
         'title' => $translator->translatePlural('Group', 'Groups', 2),
         'icon' => 'users',
-        'link' => '',
+        'link' => $rootUrl . '/groups',
       ],
       [
         'title' => $translator->translate('Settings'),
@@ -479,17 +486,17 @@ class User
       [
         'title' => $translator->translate('Created tickets'),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/tickets',
       ],
       [
         'title' => $translator->translatePlural('Problem', 'Problems', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/problems',
       ],
       [
         'title' => $translator->translatePlural('Change', 'Changes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/changes',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),

@@ -24,6 +24,11 @@ final class Search extends Common
 
     $hasEntity = $item->isEntity();
 
+    // echo "<pre>";
+    // print_r($itemDef);
+    // echo "</pre>";
+    // die();
+
     // columns
     $newItemDef = [];
     foreach ($itemDef as $field)
@@ -41,12 +46,21 @@ final class Search extends Common
       {
         $newItemDef[] = $field;
       }
+      // add name field if not in preferences
+      if ($field['name'] == 'completename' && !in_array($field['id'], $prefs))
+      {
+        $newItemDef[] = $field;
+      }
       // Same for entity
       if ($GLOBALS['entity_recursive'] && $field['name'] == 'entity' && !in_array($field['id'], $prefs))
       {
         $newItemDef[] = $field;
       }
     }
+    // echo "<pre>";
+    // print_r($newItemDef);
+    // echo "</pre>";
+    // die();
 
     $start = 0;
     $limit = 15;
@@ -62,6 +76,10 @@ final class Search extends Common
         $item = $item->where($key, $value);
       }
     }
+    // echo "<pre>";
+    // print_r($item);
+    // echo "</pre>";
+    // die();
 
     if ($hasEntity)
     {
@@ -88,7 +106,18 @@ final class Search extends Common
     $cnt = $item->count();
 
     $items = $item->offset($start)->take($limit)->get();
+
+    // echo "<pre>";
+    // print_r($items);
+    // echo "</pre>";
+    // die();
+
     $itemDbData = $this->prepareValues($newItemDef, $items, $uri);
+
+    // echo "<pre>";
+    // print_r($itemDbData);
+    // echo "</pre>";
+    // die();
 
     $itemDbData['paging'] = [
       'total'   => $cnt,
@@ -180,7 +209,6 @@ final class Search extends Common
       }
       $allData[] = $myData;
     }
-
     return [
       'header' => $header,
       'data'   => $allData,

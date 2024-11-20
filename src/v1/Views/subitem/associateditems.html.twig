@@ -1,0 +1,33 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.type }}</th>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.serial_number }}</th>
+      <th>{{ translation.inventaire_number }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,associateditem in data.associateditems %}
+      <tr>
+        <td>{{ associateditem.type }}</td>
+        <td>
+          {% if associateditem.url != '' %}
+              <a href="{{ associateditem.url }}">{{ associateditem.name }}</a>
+          {% else %}
+              {{ associateditem.name }}
+          {% endif %}
+        </td>
+        <td>{{ associateditem.entity }}</td>
+        <td>{{ associateditem.serial_number }}</td>
+        <td>{{ associateditem.inventaire_number }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

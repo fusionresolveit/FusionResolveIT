@@ -1,0 +1,70 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th colspan="5">{{ translation.cartridges_use }}</th>
+    </tr>
+    <tr>
+      <th>{{ translation.model }}</th>
+      <th>{{ translation.type }}</th>
+      <th>{{ translation.date_add }}</th>
+      <th>{{ translation.date_use }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,cartridge in data.cartridges_use %}
+      <tr>
+        <td>
+          {% if cartridge.url != '' %}
+              <a href="{{ cartridge.url }}">{{ cartridge.model }}</a>
+          {% else %}
+              {{ cartridge.model }}
+          {% endif %}
+        </td>
+        <td>{{ cartridge.type }}</td>
+        <td>{{ cartridge.date_add }}</td>
+        <td>{{ cartridge.date_use }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th colspan="5">{{ translation.cartridges_out }}</th>
+    </tr>
+    <tr>
+      <th>{{ translation.model }}</th>
+      <th>{{ translation.type }}</th>
+      <th>{{ translation.date_add }}</th>
+      <th>{{ translation.date_use }}</th>
+      <th>{{ translation.date_end }}</th>
+      <th>{{ translation.printer_counter }}</th>
+      <th>{{ translation.printed_pages }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,cartridge in data.cartridges_out %}
+      <tr>
+        <td>
+          {% if cartridge.url != '' %}
+              <a href="{{ cartridge.url }}">{{ cartridge.model }}</a>
+          {% else %}
+              {{ cartridge.model }}
+          {% endif %}
+        </td>
+        <td>{{ cartridge.type }}</td>
+        <td>{{ cartridge.date_add }}</td>
+        <td>{{ cartridge.date_use }}</td>
+        <td>{{ cartridge.date_end }}</td>
+        <td>{{ cartridge.printer_counter }}</td>
+        <td>{{ cartridge.printed_pages }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

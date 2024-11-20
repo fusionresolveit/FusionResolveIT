@@ -1,0 +1,71 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+
+{% if data.show == 'cluster' %}
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.name }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,item in data.items %}
+        <tr>
+          <td>
+            {% if item.url != '' %}
+                <a href="{{ item.url }}">{{ item.name }}</a>
+            {% else %}
+                {{ item.name }}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if data.show == 'appliance' %}
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.type }}</th>
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.serial_number }}</th>
+        <th>{{ translation.inventaire_number }}</th>
+        <th>{{ translation.relations }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,item in data.items %}
+        <tr>
+          <td>{{ item.type }}</td>
+          <td>
+            {% if item.url != '' %}
+                <a href="{{ item.url }}">{{ item.name }}</a>
+            {% else %}
+                {{ item.name }}
+            {% endif %}
+          </td>
+          <td>{{ item.serial_number }}</td>
+          <td>{{ item.inventaire_number }}</td>
+          <td>
+            {% if item.relations is iterable %}
+              {% for key2,item2 in item.relations %}
+                {% if item2.url != '' %}
+                  <p>{{ item2.type }} - <a href="{{ item2.url }}">{{ item2.name }}</a></p>
+                {% else %}
+                  <p>{{ item2.type }} - {{ item2.name }}</p>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              {{ item.relations }}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{{ include('footer.html.twig') }}

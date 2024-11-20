@@ -36,9 +36,9 @@ final class ImpactrelationsMigration extends AbstractMigration
         $data = [
           [
             'id'                  => $row['id'],
-            'item_type_source'    => 'App\\Models\\' . $row['itemtype_source'],
+            'item_type_source'    => self::convertItemtype($row['itemtype_source']),
             'item_id_source'      => $row['items_id_source'],
-            'item_type_impacted'  => 'App\\Models\\' . $row['itemtype_impacted'],
+            'item_type_impacted'  => self::convertItemtype($row['itemtype_impacted']),
             'item_id_impacted'    => $row['items_id_impacted'],
           ]
         ];
@@ -53,5 +53,20 @@ final class ImpactrelationsMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

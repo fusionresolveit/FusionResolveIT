@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -72,6 +73,8 @@ class Printer extends Common
     'devicecases',
     'devicegraphiccards',
     'devicedrives',
+    'connections',
+    'cartridges',
   ];
 
   protected $with = [
@@ -116,6 +119,8 @@ class Printer extends Common
     'devicecases:id,name',
     'devicegraphiccards:id,name',
     'devicedrives:id,name',
+    'connections:id,name',
+    'cartridges:id',
   ];
 
 
@@ -524,5 +529,22 @@ class Printer extends Common
       'devicedrive_id',
       'location_id',
     );
+  }
+
+  public function connections(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Computer',
+      'item',
+      'computer_item'
+    )->withPivot(
+      'computer_id',
+      'is_dynamic',
+    );
+  }
+
+  public function cartridges(): HasMany
+  {
+    return $this->hasMany('App\Models\Cartridge', 'printer_id');
   }
 }

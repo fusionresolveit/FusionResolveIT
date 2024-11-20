@@ -1,0 +1,105 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.tickets|length > 0 %}
+  <h2>{{ translation.tickets }}</h2>
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.title }}</th>
+        <th>{{ translation.category }}</th>
+        <th>{{ translation.status }}</th>
+        <th>{{ translation.date }}</th>
+        <th>{{ translation.last_update }}</th>
+        <th>{{ translation.entity }}</th>
+        <th>{{ translation.priority }}</th>
+        <th>{{ translation.requesters }}</th>
+        <th>{{ translation.technicians }}</th>
+        <th>{{ translation.associated_items }}</th>
+        <th>{{ translation.planification }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,ticket in data.tickets %}
+        <tr>
+          <td>
+            {% if ticket.url != '' %}
+                <a href="{{ ticket.url }}">{{ ticket.title }}</a>
+            {% else %}
+                {{ ticket.title }}
+            {% endif %}
+          </td>
+          <td>{{ ticket.category }}</td>
+          {% if ticket.status is iterable %}
+            <td class="left {% if ticket.status.color is defined %}
+                {{ ticket.status.color }}
+              {% endif %}
+              {% if ticket.status.displaystyle is defined %}
+                {{ ticket.status.displaystyle }}
+              {% endif %}"
+            >
+              {% if ticket.status.color is defined %}
+                <span class="ui {{ ticket.status.color }} text">
+                  {% if ticket.status.icon is defined %}
+                    <i class="{{ ticket.status.icon }} icon"></i>
+                  {% endif %}
+                  {{ ticket.status.title }}
+                </span>
+              {% else %}
+                  {{ ticket.status.title }}
+              {% endif %}
+            </td>
+          {% else %}
+            <td>{{ ticket.status }}</td>
+          {% endif %}
+          <td>{{ ticket.date }}</td>
+          <td>{{ ticket.last_update }}</td>
+          <td>{{ ticket.entity }}</td>
+          </td>
+          {% if ticket.priority is iterable %}
+            <td class="left {% if ticket.priority.color is defined %}
+                {{ ticket.priority.color }}
+              {% endif %}
+              {% if ticket.priority.displaystyle is defined %}
+                {{ ticket.priority.displaystyle }}
+              {% endif %}"
+            >
+              {% if ticket.priority.color is defined %}
+                <span class="ui {{ ticket.priority.color }} text">
+                  {% if ticket.priority.icon is defined %}
+                    <i class="{{ ticket.priority.icon }} icon"></i>
+                  {% endif %}
+                  {{ ticket.priority.title }}
+                </span>
+              {% else %}
+                  {{ ticket.priority.title }}
+              {% endif %}
+            </td>
+          {% else %}
+            <td>{{ ticket.priority }}</td>
+          {% endif %}
+          <td>
+          {% for requester in ticket.requesters %}
+          <p>{{ requester.name }}</p>
+          {% endfor %}
+          </td>
+          <td>
+          {% for technician in ticket.technicians %}
+          <p>{{ technician.name }}</p>
+          {% endfor %}
+          </td>
+          <td>
+          {% for associated_item in ticket.associated_items %}
+          <p>{{ associated_item.name }}</p>
+          {% endfor %}
+          </td>
+          <td>{{ ticket.planification }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div><p>{{ translation.no_ticket_found }}</p></div>
+{% endif %}
+
+{{ include('footer.html.twig') }}

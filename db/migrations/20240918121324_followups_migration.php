@@ -48,7 +48,7 @@ final class FollowupsMigration extends AbstractMigration
         foreach ($rows as $row)
         {
           $data[] = [
-            'item_type'         => 'App\\Models\\' . $row['itemtype'],
+            'item_type'         => self::convertItemtype($row['itemtype']),
             'item_id'           => $row['items_id'],
             'date'              => Toolbox::fixDate($row['date']),
             'user_id'           => $row['users_id'],
@@ -234,5 +234,20 @@ final class FollowupsMigration extends AbstractMigration
       // rollback
       $followups->truncate();
     }
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

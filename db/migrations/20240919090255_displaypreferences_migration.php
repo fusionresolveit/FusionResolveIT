@@ -39,7 +39,7 @@ final class DisplaypreferencesMigration extends AbstractMigration
         $data = [
           [
             'id'        => $row['id'],
-            'itemtype'  => 'App\\Models\\' . $row['itemtype'],
+            'itemtype'  => self::convertItemtype($row['itemtype']),
             'num'       => $row['num'],
             'rank'      => $row['rank'],
             'user_id'   => $row['users_id'],
@@ -56,5 +56,20 @@ final class DisplaypreferencesMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

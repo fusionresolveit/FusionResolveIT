@@ -1,0 +1,21 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.interface }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mandatoryfield in data.mandatoryfields|sort((a, b) => a.mandatoryfield.name|lower <=> b.mandatoryfield.name|lower) %}
+      <tr>
+        <td><a>{{ mandatoryfield.name }}</a></td>
+        <td><a>{{ mandatoryfield.interface }}</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class Document extends Common
 {
   protected $model = '\App\Models\Document';
+  protected $rootUrl2 = '/documents/';
+  protected $associateditems_model = '\App\Models\Documentitem';
+  protected $associateditems_model_id = 'document_id';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

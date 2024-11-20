@@ -73,6 +73,7 @@ class Phone extends Common
     'devicegraphiccards',
     'devicedrives',
     'volumes',
+    'connections',
   ];
 
   protected $with = [
@@ -117,6 +118,7 @@ class Phone extends Common
     'devicegraphiccards:id,name',
     'devicedrives:id,name',
     'volumes:id,name',
+    'connections:id,name',
   ];
 
 
@@ -519,5 +521,17 @@ class Phone extends Common
   public function volumes(): HasMany
   {
     return $this->hasMany('App\Models\Itemdisk', 'item_id')->where('item_type', get_class($this));
+  }
+
+  public function connections(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Computer',
+      'item',
+      'computer_item'
+    )->withPivot(
+      'computer_id',
+      'is_dynamic',
+    );
   }
 }

@@ -262,11 +262,11 @@ class Certificate
       [
         'title' => $translator->translatePlural('Associated item', 'Associated items', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/associateditems',
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [

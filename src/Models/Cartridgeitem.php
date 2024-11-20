@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cartridgeitem extends Common
@@ -34,6 +35,8 @@ class Cartridgeitem extends Common
     'entity',
     'notes',
     'documents',
+    'cartridges',
+    'printermodels',
   ];
 
   protected $with = [
@@ -45,6 +48,8 @@ class Cartridgeitem extends Common
     'entity:id,name',
     'notes:id',
     'documents:id,name',
+    'cartridges:id',
+    'printermodels:id,name',
   ];
 
 
@@ -96,5 +101,15 @@ class Cartridgeitem extends Common
       'document_id',
       'updated_at',
     );
+  }
+
+  public function cartridges(): HasMany
+  {
+    return $this->hasMany('\App\Models\Cartridge', 'cartridgeitem_id');
+  }
+
+  public function printermodels(): BelongsToMany
+  {
+    return $this->belongsToMany('\App\Models\Printermodel', 'cartridgeitem_printermodel', 'cartridgeitem_id', 'printermodel_id');
   }
 }

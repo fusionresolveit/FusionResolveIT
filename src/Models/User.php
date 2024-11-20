@@ -89,7 +89,7 @@ class User extends Common
 
   public function group(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Group')->withPivot('group_id');
+    return $this->belongsToMany('\App\Models\Group')->withPivot('group_id', 'is_dynamic', 'is_manager', 'is_userdelegate');
   }
 
   public function defaultgroup(): BelongsTo

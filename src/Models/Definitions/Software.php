@@ -341,7 +341,7 @@ class Software
       [
         'title' => $translator->translatePlural('Version', 'Versions', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/versions',
       ],
       [
         'title' => $translator->translatePlural('License', 'Licenses', 2),
@@ -395,12 +395,12 @@ class Software
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [

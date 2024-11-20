@@ -26,12 +26,14 @@ class Document extends Common
     'categorie',
     'entity',
     'notes',
+    'documents',
   ];
 
   protected $with = [
     'categorie:id,name',
     'entity:id,name',
     'notes:id',
+    'documents:id,name',
   ];
 
   public function categorie(): BelongsTo
@@ -49,6 +51,17 @@ class Document extends Common
     return $this->morphMany(
       '\App\Models\Notepad',
       'item',
+    );
+  }
+
+  public function documents(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Document',
+      'item',
+      'document_item'
+    )->withPivot(
+      'document_id',
     );
   }
 }

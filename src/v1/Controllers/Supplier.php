@@ -133,7 +133,7 @@ final class Supplier extends Common
 
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('number', 'Numéro');
+    $viewData->addTranslation('number', $translator->translate('phone' . "\004" . 'Number'));
     $viewData->addTranslation('type', $translator->translatePlural('Contract type', 'Contract types', 1));
     $viewData->addTranslation('supplier', $translator->translatePlural('Supplier', 'Suppliers', 1));
     $viewData->addTranslation('start_date', $translator->translate('Start date'));

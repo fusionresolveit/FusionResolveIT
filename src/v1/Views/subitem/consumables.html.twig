@@ -1,0 +1,54 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <td colspan="5">{{ translation.total }} : {{ data.total }}, {{ translation.total_new }} : {{ data.total_new }}, {{ translation.total_use }} : {{ data.total_use }}</td>
+    </tr>
+    <tr>
+      <th>{{ translation.status }}</th>
+      <th>{{ translation.date_in }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,consumable in data.consumables_new %}
+      <tr>
+        <td>{{ consumable.status }}</td>
+        <td>{{ consumable.date_in }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th colspan="5">{{ translation.consumables_use }}</th>
+    </tr>
+    <tr>
+      <th>{{ translation.status }}</th>
+      <th>{{ translation.date_add }}</th>
+      <th>{{ translation.date_out }}</th>
+      <th>{{ translation.given_to }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,consumable in data.consumables_use %}
+      <tr>
+        <td>{{ consumable.status }}</td>
+        <td>{{ consumable.date_add }}</td>
+        <td>{{ consumable.date_out }}</td>
+        <td>
+          {% if consumable.url != '' %}
+              <a href="{{ consumable.url }}">{{ consumable.given_to }}</a>
+          {% else %}
+              {{ consumable.given_to }}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

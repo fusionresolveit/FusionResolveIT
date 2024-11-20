@@ -165,7 +165,7 @@ class Rack
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Rack', 'Racks', 2),
+        'title' => $translator->translatePlural('Item', 'Items', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],

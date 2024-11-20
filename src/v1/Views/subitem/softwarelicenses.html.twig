@@ -1,0 +1,29 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.comment }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,softwarelicense in data.softwarelicenses %}
+      <tr>
+        <td>
+          {% if softwarelicense.url != '' %}
+              <a href="{{ softwarelicense.url }}">{{ softwarelicense.name }}</a>
+          {% else %}
+              {{ softwarelicense.name }}
+          {% endif %}
+        </td>
+        <td>{{ softwarelicense.entity }}</td>
+        <td>{{ softwarelicense.comment }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

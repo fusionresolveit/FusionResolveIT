@@ -10,6 +10,8 @@ final class Certificate extends Common
 {
   protected $model = '\App\Models\Certificate';
   protected $rootUrl2 = '/certificates/';
+  protected $associateditems_model = '\App\Models\Certificateitem';
+  protected $associateditems_model_id = 'certificate_id';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

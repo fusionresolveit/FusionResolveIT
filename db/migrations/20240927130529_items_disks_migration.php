@@ -37,7 +37,7 @@ final class ItemsDisksMigration extends AbstractMigration
           [
             'id'                    => $row['id'],
             'entity_id'             => ($row['entities_id'] + 1),
-            'item_type'             => 'App\\Models\\' . $row['itemtype'],
+            'item_type'             => self::convertItemtype($row['itemtype']),
             'item_id'               => $row['items_id'],
             'name'                  => $row['name'],
             'device'                => $row['device'],
@@ -76,5 +76,20 @@ final class ItemsDisksMigration extends AbstractMigration
     }
 
     return null;
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

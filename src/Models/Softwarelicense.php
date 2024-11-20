@@ -31,6 +31,7 @@ class Softwarelicense extends Common
     'entity',
     'certificates',
     'notes',
+    'childs',
   ];
 
   protected $visible = [
@@ -54,6 +55,7 @@ class Softwarelicense extends Common
     'tickets',
     'problems',
     'changes',
+    'childs',
   ];
 
   protected $with = [
@@ -77,6 +79,7 @@ class Softwarelicense extends Common
     'tickets:id,name',
     'problems:id,name',
     'changes:id,name',
+    'childs:id,name',
   ];
 
   public function location(): BelongsTo
@@ -223,5 +226,10 @@ class Softwarelicense extends Common
     )->withPivot(
       'change_id',
     );
+  }
+
+  public function childs(): HasMany
+  {
+    return $this->hasMany('\App\Models\Softwarelicense');
   }
 }

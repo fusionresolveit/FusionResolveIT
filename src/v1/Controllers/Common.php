@@ -10,6 +10,9 @@ class Common
 {
   protected $model = '';
   protected $rootUrl2 = '';
+  protected $itilchoose = '';
+  protected $associateditems_model = '';
+  protected $associateditems_model_id = '';
 
   protected function getUrlWithoutQuery(Request $request)
   {
@@ -44,6 +47,11 @@ class Common
     $viewData->addData('fields', $fields);
 
     $viewData->addData('definition', $item->getDefinitions());
+
+    // echo "<pre>";
+    // print_r($fields);
+    // echo "</pre>";
+    // die();
 
     return $view->render($response, 'search.html.twig', (array)$viewData);
   }
@@ -683,14 +691,14 @@ class Common
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('certificates', $myCertificates);
 
-    $viewData->addTranslation('name', 'Nom');
-    $viewData->addTranslation('entity', 'Entité');
-    $viewData->addTranslation('type', 'Type');
-    $viewData->addTranslation('dns_name', 'Nom DNS');
-    $viewData->addTranslation('dns_suffix', 'Suffixe DNS');
-    $viewData->addTranslation('created_at', 'Date de création');
-    $viewData->addTranslation('date_expiration', "Date d'expiration");
-    $viewData->addTranslation('state', 'Statut');
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('dns_name', $translator->translate('DNS name'));
+    $viewData->addTranslation('dns_suffix', $translator->translate('DNS suffix'));
+    $viewData->addTranslation('created_at', $translator->translate('Creation date'));
+    $viewData->addTranslation('date_expiration', $translator->translate('Expiration date'));
+    $viewData->addTranslation('status', $translator->translate('Status'));
 
     return $view->render($response, 'subitem/certificates.html.twig', (array)$viewData);
   }
@@ -1151,7 +1159,7 @@ class Common
 
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('number', 'Numéro');
+    $viewData->addTranslation('number', $translator->translate('phone' . "\004" . 'Number'));
     $viewData->addTranslation('type', $translator->translatePlural('Contract type', 'Contract types', 1));
     $viewData->addTranslation('supplier', $translator->translatePlural('Supplier', 'Suppliers', 1));
     $viewData->addTranslation('start_date', $translator->translate('Start date'));
@@ -1456,19 +1464,10 @@ class Common
     if ($this->rootUrl2 != '') {
       $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
     }
-    // echo "<pre>";
-    // print_r($myItem->tickets);
-    // echo "</pre>";
-    // die();
 
     $tickets = [];
     foreach ($myItem->tickets as $ticket)
     {
-      // echo "<pre>";
-      // print_r($ticket);
-      // echo "</pre>";
-      // die();
-
       $url = '';
       if ($rootUrl2 != '') {
         $url = $rootUrl2 . "/tickets/" . $ticket->id;
@@ -2493,48 +2492,48 @@ class Common
     $viewData->addData('devicegraphiccards', $myDevicegraphiccards);
     $viewData->addData('devicedrives', $myDevicedrives);
 
-    $viewData->addTranslation('memory', 'Memoire');
-    $viewData->addTranslation('manufacturer', 'Fabricant');
-    $viewData->addTranslation('type', 'Type');
-    $viewData->addTranslation('frequence', 'Fréquence');
-    $viewData->addTranslation('size', 'Taille (Mio)');
-    $viewData->addTranslation('serial', 'Numéro de série');
-    $viewData->addTranslation('location', 'Lieu');
-    $viewData->addTranslation('busID', 'Position du composant sur son bus');
-    $viewData->addTranslation('firmware', 'Micrologiciel');
-    $viewData->addTranslation('version', 'Version');
-    $viewData->addTranslation('install_date', "Date d'installation");
-    $viewData->addTranslation('processor', 'Processeur');
-    $viewData->addTranslation('frequence_mhz', 'Fréquence (MHz)');
-    $viewData->addTranslation('nbcores', 'Nombre de cœurs');
-    $viewData->addTranslation('nbthreads', 'Nombre de threads');
-    $viewData->addTranslation('harddrive', 'Disque dur');
-    $viewData->addTranslation('rpm', 'Vitesse de rotation');
-    $viewData->addTranslation('cache', 'Cache');
-    $viewData->addTranslation('interface', 'Interface');
-    $viewData->addTranslation('capacity', 'Capacité (Mio)');
-    $viewData->addTranslation('battery', 'Batterie');
-    $viewData->addTranslation('voltage_mv', 'Voltage (mV)');
-    $viewData->addTranslation('capacity_mwh', 'Capacité (mWh)');
-    $viewData->addTranslation('manufacturing_date', 'Date de fabrication');
-    $viewData->addTranslation('soundcard', 'Carte son');
-    $viewData->addTranslation('controller', 'Contrôleur');
-    $viewData->addTranslation('documents', 'Documents');
-    $viewData->addTranslation('mac_address', 'Adresse MAC');
-    $viewData->addTranslation('powersupply', 'Alimentation');
-    $viewData->addTranslation('sensor', 'Capteur');
-    $viewData->addTranslation('devicepci', 'Périphérique PCI');
-    $viewData->addTranslation('devicegeneric', 'Composant générique');
-    $viewData->addTranslation('devicenetworkcard', 'Carte réseau');
-    $viewData->addTranslation('devicesimcard', 'Carte SIM');
-    $viewData->addTranslation('devicemotherboard', 'Carte mère');
-    $viewData->addTranslation('devicecase', 'Boîtier');
-    $viewData->addTranslation('devicegraphiccard', 'Carte graphique');
-    $viewData->addTranslation('devicedrive', 'Lecteur');
-    $viewData->addTranslation('memory_mio', 'Mémoire (Mio)');
-    $viewData->addTranslation('chipset', 'Chipset');
-    $viewData->addTranslation('write', 'Écriture');
-    $viewData->addTranslation('speed', 'Vitesse');
+    $viewData->addTranslation('memory', $translator->translatePlural('Memory', 'Memories', 1));
+    $viewData->addTranslation('manufacturer', $translator->translatePlural('Manufacturer', 'Manufacturers', 1));
+    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('frequence', $translator->translate('Frequency'));
+    $viewData->addTranslation('size', sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Mio')));
+    $viewData->addTranslation('serial', $translator->translate('Serial number'));
+    $viewData->addTranslation('location', $translator->translatePlural('Location', 'Locations', 1));
+    $viewData->addTranslation('busID', $translator->translate('Position of the device on its bus'));
+    $viewData->addTranslation('firmware', $translator->translatePlural('Firmware', 'Firmware', 1));
+    $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
+    $viewData->addTranslation('install_date', $translator->translate('Installation date'));
+    $viewData->addTranslation('processor', $translator->translatePlural('Processor', 'Processors', 1));
+    $viewData->addTranslation('frequence_mhz', sprintf('%1$s (%2$s)', $translator->translate('Frequency'), $translator->translate('MHz')));
+    $viewData->addTranslation('nbcores', $translator->translate('Number of cores'));
+    $viewData->addTranslation('nbthreads', $translator->translate('Number of threads'));
+    $viewData->addTranslation('harddrive', $translator->translatePlural('Hard drive', 'Hard drives', 1));
+    $viewData->addTranslation('rpm', $translator->translate('Rpm'));
+    $viewData->addTranslation('cache', $translator->translate('Cache'));
+    $viewData->addTranslation('interface', $translator->translate('Interface'));
+    $viewData->addTranslation('capacity', sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('Mio')));
+    $viewData->addTranslation('battery', $translator->translatePlural('Battery', 'Batteries', 1));
+    $viewData->addTranslation('voltage_mv', sprintf('%1$s (%2$s)', $translator->translate('Voltage'), $translator->translate('mV')));
+    $viewData->addTranslation('capacity_mwh', sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('mWh')));
+    $viewData->addTranslation('manufacturing_date', $translator->translate('Manufacturing date'));
+    $viewData->addTranslation('soundcard', $translator->translatePlural('Soundcard', 'Soundcards', 1));
+    $viewData->addTranslation('controller', $translator->translatePlural('Controller', 'Controllers', 1));
+    $viewData->addTranslation('documents', $translator->translatePlural('Document', 'Documents', 2));
+    $viewData->addTranslation('mac_address', $translator->translate('MAC address'));
+    $viewData->addTranslation('powersupply', $translator->translatePlural('Power supply', 'Power supplies', 1));
+    $viewData->addTranslation('sensor', $translator->translatePlural('Sensor', 'Sensors', 1));
+    $viewData->addTranslation('devicepci', $translator->translatePlural('PCI device', 'PCI devices', 1));
+    $viewData->addTranslation('devicegeneric', $translator->translatePlural('Generic device', 'Generic devices', 1));
+    $viewData->addTranslation('devicenetworkcard', $translator->translatePlural('Network card', 'Network cards', 1));
+    $viewData->addTranslation('devicesimcard', $translator->translatePlural('Simcard', 'Simcards', 1));
+    $viewData->addTranslation('devicemotherboard', $translator->translatePlural('System board', 'System boards', 1));
+    $viewData->addTranslation('devicecase', $translator->translatePlural('Case', 'Cases', 1));
+    $viewData->addTranslation('devicegraphiccard', $translator->translatePlural('Graphics card', 'Graphics cards', 1));
+    $viewData->addTranslation('devicedrive', $translator->translatePlural('Drive', 'Drives', 1));
+    $viewData->addTranslation('memory_mio', sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio')));
+    $viewData->addTranslation('chipset', $translator->translate('Chipset'));
+    $viewData->addTranslation('write', $translator->translate('Write'));
+    $viewData->addTranslation('speed', $translator->translate('Speed'));
 
     return $view->render($response, 'subitem/components.html.twig', (array)$viewData);
   }
@@ -2615,19 +2614,574 @@ class Common
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('volumes', $myVolumes);
 
-    $viewData->addTranslation('auto', 'Inventaire automatique');
-    $viewData->addTranslation('device', 'Partition');
-    $viewData->addTranslation('mountpoint', 'Point de montage');
-    $viewData->addTranslation('filesystem', 'Système de fichiers');
-    $viewData->addTranslation('totalsize', 'Taille totale');
-    $viewData->addTranslation('freesize', 'Taille libre');
-    $viewData->addTranslation('encryption', 'Chiffrement');
-    $viewData->addTranslation('encryption_algorithm', 'Algorithme de chiffrement');
-    $viewData->addTranslation('encryption_tool', 'Outil de chiffrement');
-    $viewData->addTranslation('encryption_type', 'Type de chiffrement');
+    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
+    $viewData->addTranslation('device', $translator->translate('Partition'));
+    $viewData->addTranslation('mountpoint', $translator->translate('Mount point'));
+    $viewData->addTranslation('filesystem', $translator->translatePlural('File system', 'File systems', 1));
+    $viewData->addTranslation('totalsize', $translator->translate('Global size'));
+    $viewData->addTranslation('freesize', $translator->translate('Free size'));
+    $viewData->addTranslation('encryption', $translator->translate('Encryption'));
+    $viewData->addTranslation('encryption_algorithm', $translator->translate('Encryption algorithm'));
+    $viewData->addTranslation('encryption_tool', $translator->translate('Encryption tool'));
+    $viewData->addTranslation('encryption_type', $translator->translate('Encryption type'));
     $viewData->addTranslation('usedpercent', 'Pourcentage utilisé');
 
     return $view->render($response, 'subitem/volumes.html.twig', (array)$viewData);
   }
+
+
+  public function showSubItilTicketsCreated(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item->find($args['id']);
+
+
+    $item2 = new \App\Models\Ticket();
+    $myItem2 = $item2::with('requester', 'requestergroup', 'technician', 'techniciangroup')->get();
+
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/tickets');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $tickets = [];
+    foreach ($myItem2 as $ticket)
+    {
+      $add_to_tab = false;
+
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/tickets/" . $ticket->id;
+      }
+
+      $status = $this->getStatusArray()[$ticket->status];
+      $entity = '';
+      if ($ticket->entity != null) {
+        $entity = $ticket->entity->name;
+      }
+      $priority = $this->getPriorityArray()[$ticket->priority];
+      $requesters = [];
+      if ($ticket->requester != null) {
+        foreach ($ticket->requester as $requester) {
+          if ($this->itilchoose == 'users') {
+            if ($requester->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $requesters[] = ['name' => $requester->name];
+        }
+      }
+      if ($ticket->requestergroup != null) {
+        foreach ($ticket->requestergroup as $requestergroup) {
+          if ($this->itilchoose == 'groups') {
+            if ($requestergroup->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $requesters[] = ['name' => $requestergroup->name];
+        }
+      }
+      $technicians = [];
+      if ($ticket->technician != null) {
+        foreach ($ticket->technician as $technician) {
+          $technicians[] = ['name' => $technician->name];
+        }
+      }
+      if ($ticket->techniciangroup != null) {
+        foreach ($ticket->techniciangroup as $techniciangroup) {
+          $technicians[] = ['name' => $techniciangroup->name];
+        }
+      }
+      $associated_items = []; // TODO
+      $category = '';
+      if ($ticket->category != null) {
+        $category = $ticket->category->name;
+      }
+      $planification = 0; // TODO
+
+
+      if ($add_to_tab) {
+        $tickets[$ticket->id] = [
+          'url' => $url,
+          'status' => $status,
+          'date' => $ticket->date,
+          'last_update' => $ticket->updated_at,
+          'entity' => $entity,
+          'priority' => $priority,
+          'requesters' => $requesters,
+          'technicians' => $technicians,
+          'associated_items' => $associated_items,
+          'title' => $ticket->name,
+          'category' => $category,
+          'planification' => $planification,
+        ];
+      }
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($tickets, function ($a, $b)
+    {
+      return $a['last_update'] < $b['last_update'];
+    });
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('tickets', $tickets);
+
+    $viewData->addTranslation('tickets', $translator->translatePlural('Ticket', 'Tickets', 2));
+    $viewData->addTranslation('status', $translator->translate('Status'));
+    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', $translator->translate('Last update'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', $translator->translate('Priority'));
+    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation(
+      'associated_items',
+      $translator->translatePlural('Associated element', 'Associated elements', 2)
+    );
+    $viewData->addTranslation('category', $translator->translate('Category'));
+    $viewData->addTranslation('title', $translator->translate('Title'));
+    $viewData->addTranslation('planification', $translator->translate('Planification'));
+    $viewData->addTranslation('no_ticket_found', $translator->translate('No ticket found.'));
+
+    return $view->render($response, 'subitem/itiltickets.html.twig', (array)$viewData);
+  }
+
+  public function showSubItilProblems(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item->find($args['id']);
+
+
+    $item2 = new \App\Models\Problem();
+    $myItem2 = $item2::with('requester', 'requestergroup', 'technician', 'techniciangroup')->get();
+
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/problems');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $problems = [];
+    foreach ($myItem2 as $problem)
+    {
+      $add_to_tab = false;
+
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/problems/" . $problem->id;
+      }
+
+      $status = $this->getStatusArray()[$problem->status];
+      $entity = '';
+      if ($problem->entity != null) {
+        $entity = $problem->entity->name;
+      }
+      $priority = $this->getPriorityArray()[$problem->priority];
+      $requesters = [];
+      if ($problem->requester != null) {
+        foreach ($problem->requester as $requester) {
+          if ($this->itilchoose == 'users') {
+            if ($requester->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $requesters[] = ['name' => $requester->name];
+        }
+      }
+      if ($problem->requestergroup != null) {
+        foreach ($problem->requestergroup as $requestergroup) {
+          if ($this->itilchoose == 'groups') {
+            if ($requestergroup->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $requesters[] = ['name' => $requestergroup->name];
+        }
+      }
+      $technicians = [];
+      if ($problem->technician != null) {
+        foreach ($problem->technician as $technician) {
+          if ($this->itilchoose == 'users') {
+            if ($technician->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $technicians[] = ['name' => $technician->name];
+        }
+      }
+      if ($problem->techniciangroup != null) {
+        foreach ($problem->techniciangroup as $techniciangroup) {
+          if ($this->itilchoose == 'groups') {
+            if ($techniciangroup->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $technicians[] = ['name' => $techniciangroup->name];
+        }
+      }
+      $category = '';
+      if ($problem->category != null) {
+        $category = $problem->category->name;
+      }
+      $planification = 0; // TODO
+
+
+      if ($add_to_tab) {
+        $problems[$problem->id] = [
+          'url' => $url,
+          'status' => $status,
+          'date' => $problem->date,
+          'last_update' => $problem->updated_at,
+          'entity' => $entity,
+          'priority' => $priority,
+          'requesters' => $requesters,
+          'technicians' => $technicians,
+          'title' => $problem->name,
+          'category' => $category,
+          'planification' => $planification,
+        ];
+      }
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($problems, function ($a, $b)
+    {
+      return $a['last_update'] < $b['last_update'];
+    });
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('problems', $problems);
+
+    $viewData->addTranslation('problems', $translator->translatePlural('Problem', 'Problems', 2));
+    $viewData->addTranslation('status', $translator->translate('Status'));
+    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', $translator->translate('Last update'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', $translator->translate('Priority'));
+    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation(
+      'associated_items',
+      $translator->translatePlural('Associated element', 'Associated elements', 2)
+    );
+    $viewData->addTranslation('category', $translator->translate('Category'));
+    $viewData->addTranslation('title', $translator->translate('Title'));
+    $viewData->addTranslation('planification', $translator->translate('Planification'));
+    $viewData->addTranslation('no_problem_found', $translator->translate('No problem found.'));
+
+    return $view->render($response, 'subitem/itilproblems.html.twig', (array)$viewData);
+  }
+
+  public function showSubItilChanges(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item->find($args['id']);
+
+
+    $item2 = new \App\Models\Change();
+    $myItem2 = $item2::with('requester', 'requestergroup', 'technician', 'techniciangroup')->get();
+
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/changes');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $changes = [];
+    foreach ($myItem2 as $change)
+    {
+      $add_to_tab = false;
+
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/changes/" . $change->id;
+      }
+
+      $status = $this->getStatusArray()[$change->status];
+      $entity = '';
+      if ($change->entity != null) {
+        $entity = $change->entity->name;
+      }
+      $priority = $this->getPriorityArray()[$change->priority];
+      $requesters = [];
+      if ($change->requester != null) {
+        foreach ($change->requester as $requester) {
+          if ($this->itilchoose == 'users') {
+            if ($requester->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $requesters[] = ['name' => $requester->name];
+        }
+      }
+      if ($change->requestergroup != null) {
+        foreach ($change->requestergroup as $requestergroup) {
+          if ($this->itilchoose == 'groups') {
+            if ($requestergroup->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $requesters[] = ['name' => $requestergroup->name];
+        }
+      }
+      $technicians = [];
+      if ($change->technician != null) {
+        foreach ($change->technician as $technician) {
+          if ($this->itilchoose == 'users') {
+            if ($technician->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $technicians[] = ['name' => $technician->name];
+        }
+      }
+      if ($change->techniciangroup != null) {
+        foreach ($change->techniciangroup as $techniciangroup) {
+          if ($this->itilchoose == 'groups') {
+            if ($techniciangroup->id == $args['id']) {
+              $add_to_tab = true;
+            }
+          }
+          $technicians[] = ['name' => $techniciangroup->name];
+        }
+      }
+      $category = '';
+      if ($change->itilcategorie != null) {
+        $category = $change->itilcategorie->name;
+      }
+      $planification = 0; // TODO
+
+
+      if ($add_to_tab) {
+        $changes[$change->id] = [
+          'url' => $url,
+          'status' => $status,
+          'date' => $change->date,
+          'last_update' => $change->updated_at,
+          'entity' => $entity,
+          'priority' => $priority,
+          'requesters' => $requesters,
+          'technicians' => $technicians,
+          'title' => $change->name,
+          'category' => $category,
+          'planification' => $planification,
+        ];
+      }
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($changes, function ($a, $b)
+    {
+      return $a['last_update'] < $b['last_update'];
+    });
+
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('changes', $changes);
+
+    $viewData->addTranslation('changes', $translator->translatePlural('Change', 'Changes', 2));
+    $viewData->addTranslation('status', $translator->translate('Status'));
+    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', $translator->translate('Last update'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', $translator->translate('Priority'));
+    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation(
+      'associated_items',
+      $translator->translatePlural('Associated element', 'Associated elements', 2)
+    );
+    $viewData->addTranslation('category', $translator->translate('Category'));
+    $viewData->addTranslation('title', $translator->translate('Title'));
+    $viewData->addTranslation('planification', $translator->translate('Planification'));
+    $viewData->addTranslation('no_change_found', $translator->translate('No change found.'));
+
+    return $view->render($response, 'subitem/itilchanges.html.twig', (array)$viewData);
+  }
+
+  public function showSubConnections(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('connections')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/connections');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myConnections = [];
+    foreach ($myItem->connections as $connection)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/computers/" . $connection->id;
+      }
+      $entity = '';
+      if ($connection->entity != null) {
+        $entity = $connection->entity->name;
+      }
+
+      if ($connection->pivot->is_dynamic == 1)
+      {
+        $auto_val = $translator->translate('Yes');
+      }
+      else
+      {
+        $auto_val = $translator->translate('No');
+      }
+
+      $myConnections[] = [
+        'name'                 => $connection->name,
+        'url'                  => $url,
+        'auto'                 => $connection->pivot->is_dynamic,
+        'auto_val'             => $auto_val,
+        'entity'               => $entity,
+        'serial_number'        => $connection->serial,
+        'inventaire_number'    => $connection->otherserial,
+      ];
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('connections', $myConnections);
+    $viewData->addData('show', 'default');
+
+    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
+    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
+    $viewData->addTranslation('no_connection_found', $translator->translate('Not connected.'));
+
+    return $view->render($response, 'subitem/connections.html.twig', (array)$viewData);
+  }
+
+  public function showSubAssociatedItems(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item->find($args['id']);
+
+    $item2 = new $this->associateditems_model();
+    $myItem2 = $item2::where($this->associateditems_model_id, $args['id'])->get();
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/associateditems');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myAssociatedItems = [];
+    foreach ($myItem2 as $associateditem)
+    {
+      $item3 = new $associateditem->item_type();
+      $myItem3 = $item3->find($associateditem->item_id);
+
+      if ($myItem3 != null) {
+        $name = $myItem3->name;
+        if ($name == '') {
+          $name = '(' . $myItem3->id . ')';
+        }
+
+        $url = '';
+        if ($rootUrl2 != '') {
+          $table = $item3->getTable();
+          if ($table != '') {
+            $url = $rootUrl2 . "/" . $table . "/" . $myItem3->id;
+          }
+        }
+        $entity = '';
+        if ($myItem3->entity != null) {
+          $entity = $myItem3->entity->name;
+        }
+        $type = $item3->getTitle();
+
+        $serial_number = $myItem3->serial;
+        $inventaire_number = $myItem3->otherserial;
+
+        $myAssociatedItems[] = [
+          'type'                 => $type,
+          'name'                 => $name,
+          'url'                  => $url,
+          'entity'               => $entity,
+          'serial_number'        => $serial_number,
+          'inventaire_number'    => $inventaire_number,
+        ];
+      }
+    }
+
+    // tri ordre alpha
+    usort($myAssociatedItems, function ($a, $b)
+    {
+      return strtolower($a['name']) > strtolower($b['name']);
+    });
+    usort($myAssociatedItems, function ($a, $b)
+    {
+      return strtolower($a['type']) > strtolower($b['type']);
+    });
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('associateditems', $myAssociatedItems);
+    $viewData->addData('show', 'computer');
+
+    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
+    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
+
+    return $view->render($response, 'subitem/associateditems.html.twig', (array)$viewData);
+  }
+
 
 }

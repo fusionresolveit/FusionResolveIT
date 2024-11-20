@@ -1,0 +1,47 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.type }}</th>
+      <th>{{ translation.status }}</th>
+      <th>{{ translation.percent_done }}</th>
+      <th>{{ translation.planned_start_date }}</th>
+      <th>{{ translation.planned_end_date }}</th>
+      <th>{{ translation.planned_duration }}</th>
+      <th>{{ translation.effective_duration }}</th>
+      <th>{{ translation.father }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,projecttask in data.projecttasks %}
+      <tr>
+        <td>
+          {% if projecttask.url != '' %}
+              <a href="{{ projecttask.url }}">{{ projecttask.name }}</a>
+          {% else %}
+              {{ projecttask.name }}
+          {% endif %}
+        </td>
+        <td>{{ projecttask.type }}</td>
+        <td style="background-color: {{ projecttask.status_color }};">{{ projecttask.status }}</td>
+        <td>{{ projecttask.percent_done }}</td>
+        <td>{{ projecttask.planned_start_date }}</td>
+        <td>{{ projecttask.planned_end_date }}</td>
+        <td>{{ projecttask.planned_duration }}</td>
+        <td>{{ projecttask.effective_duration }}</td>
+        <td>
+          {% if projecttask.father_url != '' %}
+              <a href="{{ projecttask.father_url }}">{{ projecttask.father }}</a>
+          {% else %}
+              {{ projecttask.father }}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

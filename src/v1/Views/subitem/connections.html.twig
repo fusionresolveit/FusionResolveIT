@@ -1,0 +1,53 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.connections|length > 0 %}
+  <h2>{{ translation.connections }}</h2>
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        {% if data.show == 'computer' %}
+        <th>{{ translation.type }}</th>
+        {% endif %}
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.auto }}</th>
+        <th>{{ translation.entity }}</th>
+        <th>{{ translation.serial_number }}</th>
+        <th>{{ translation.inventaire_number }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,connection in data.connections %}
+        <tr>
+          {% if data.show == 'computer' %}
+          <td>{{ connection.type }}</td>
+          {% endif %}
+          <td>
+            {% if connection.url != '' %}
+                <a href="{{ connection.url }}">{{ connection.name }}</a>
+            {% else %}
+                {{ connection.name }}
+            {% endif %}
+          </td>
+          {% if connection.auto == 1 %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            {{ connection.auto_val }}
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            {{ connection.auto_val }}
+          {% endif %}
+          </td>
+          <td>{{ connection.entity }}</td>
+          <td>{{ connection.serial_number }}</td>
+          <td>{{ connection.inventaire_number }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div><p>{{ translation.no_connection_found }}</p></div>
+{% endif %}
+
+{{ include('footer.html.twig') }}

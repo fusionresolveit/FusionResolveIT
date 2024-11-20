@@ -143,12 +143,12 @@ class Document
       [
         'title' => $translator->translatePlural('Associated item', 'Associated items', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/associateditems',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'file',
+        'link' => $rootUrl . '/documents',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),

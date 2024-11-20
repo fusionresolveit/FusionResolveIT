@@ -266,7 +266,7 @@ class Group
       [
         'title' => $translator->translatePlural('User', 'Users', 2),
         'icon' => 'user',
-        'link' => '',
+        'link' => $rootUrl . '/users',
       ],
       [
         'title' => $translator->translatePlural('Notification', 'Notifications', 2),
@@ -276,17 +276,17 @@ class Group
       [
         'title' => $translator->translate('Created tickets'),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/tickets',
       ],
       [
         'title' => $translator->translatePlural('Problem', 'Problems', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/problems',
       ],
       [
         'title' => $translator->translatePlural('Change', 'Changes', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/changes',
       ],
       [
         'title' => $translator->translatePlural('Note', 'Notes', 2),

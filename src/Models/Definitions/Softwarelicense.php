@@ -365,8 +365,8 @@ class Softwarelicense
       ],
       [
         'title' => $translator->translatePlural('License', 'Licenses', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'key',
+        'link' => $rootUrl . '/licenses',
       ],
       [
         'title' => $translator->translate('Summary'),

@@ -1,0 +1,99 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.changes|length > 0 %}
+  <h2>{{ translation.changes }}</h2>
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.title }}</th>
+        <th>{{ translation.category }}</th>
+        <th>{{ translation.status }}</th>
+        <th>{{ translation.date }}</th>
+        <th>{{ translation.last_update }}</th>
+        <th>{{ translation.entity }}</th>
+        <th>{{ translation.priority }}</th>
+        <th>{{ translation.requesters }}</th>
+        <th>{{ translation.technicians }}</th>
+        <th>{{ translation.planification }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,change in data.changes %}
+        <tr>
+          <td>
+            {% if change.url != '' %}
+                <a href="{{ change.url }}">{{ change.title }}</a>
+            {% else %}
+                {{ change.title }}
+            {% endif %}
+          </td>
+          <td>{{ change.category }}</td>
+          {% if change.status is iterable %}
+            <td class="left {% if change.status.color is defined %}
+                {{ change.status.color }}
+              {% endif %}
+              {% if change.status.displaystyle is defined %}
+                {{ change.status.displaystyle }}
+              {% endif %}"
+            >
+              {% if change.status.color is defined %}
+                <span class="ui {{ change.status.color }} text">
+                  {% if change.status.icon is defined %}
+                    <i class="{{ change.status.icon }} icon"></i>
+                  {% endif %}
+                  {{ change.status.title }}
+                </span>
+              {% else %}
+                  {{ change.status.title }}
+              {% endif %}
+            </td>
+          {% else %}
+            <td>{{ change.status }}</td>
+          {% endif %}
+          <td>{{ change.date }}</td>
+          <td>{{ change.last_update }}</td>
+          <td>{{ change.entity }}</td>
+          </td>
+          {% if change.priority is iterable %}
+            <td class="left {% if change.priority.color is defined %}
+                {{ change.priority.color }}
+              {% endif %}
+              {% if change.priority.displaystyle is defined %}
+                {{ change.priority.displaystyle }}
+              {% endif %}"
+            >
+              {% if change.priority.color is defined %}
+                <span class="ui {{ change.priority.color }} text">
+                  {% if change.priority.icon is defined %}
+                    <i class="{{ change.priority.icon }} icon"></i>
+                  {% endif %}
+                  {{ change.priority.title }}
+                </span>
+              {% else %}
+                  {{ change.priority.title }}
+              {% endif %}
+            </td>
+          {% else %}
+            <td>{{ change.priority }}</td>
+          {% endif %}
+          <td>
+          {% for requester in change.requesters %}
+          <p>{{ requester.name }}</p>
+          {% endfor %}
+          </td>
+          <td>
+          {% for technician in change.technicians %}
+          <p>{{ technician.name }}</p>
+          {% endfor %}
+          </td>
+          <td>{{ change.planification }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div><p>{{ translation.no_change_found }}</p></div>
+{% endif %}
+
+{{ include('footer.html.twig') }}

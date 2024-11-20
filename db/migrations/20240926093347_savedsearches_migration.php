@@ -38,7 +38,7 @@ final class SavedsearchesMigration extends AbstractMigration
             'id'                  => $row['id'],
             'name'                => $row['name'],
             'type'                => $row['type'],
-            'item_type'           => 'App\\Models\\' . $row['itemtype'],
+            'item_type'           => self::convertItemtype($row['itemtype']),
             'user_id'             => $row['users_id'],
             'is_private'          => $row['is_private'],
             'entity_id'           => ($row['entities_id'] + 1),
@@ -62,5 +62,20 @@ final class SavedsearchesMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

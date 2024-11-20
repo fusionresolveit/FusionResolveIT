@@ -31,6 +31,8 @@ class Softwareversion extends Common
   protected $with = [
     'software:id,name',
     'entity:id,name',
+    'state:id,name',
+    'operatingsystem:id,name',
   ];
 
 
@@ -48,5 +50,15 @@ class Softwareversion extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function state(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\State');
+  }
+
+  public function operatingsystem(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Operatingsystem', 'operatingsystem_id');
   }
 }

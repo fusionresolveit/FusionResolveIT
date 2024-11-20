@@ -10,6 +10,7 @@ final class User extends Common
 {
   protected $model = '\App\Models\User';
   protected $rootUrl2 = '/users/';
+  protected $itilchoose = 'users';
 
   public function getAll(Request $request, Response $response, $args): Response
   {
@@ -135,5 +136,53 @@ final class User extends Common
     $uri = $request->getUri();
     header('Location: ' . (string) $uri);
     exit();
+  }
+
+  public function showSubGroups(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('group')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/groups');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myGroups = [];
+    foreach ($myItem->group as $group)
+    {
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/groups/" . $group->pivot->group_id;
+      }
+
+      $myGroups[] = [
+        'name'                 => $group->name,
+        'url'                  => $url,
+        'auto'                 => $group->pivot->is_dynamic,
+        'is_manager'           => $group->pivot->is_manager,
+        'is_userdelegate'      => $group->pivot->is_userdelegate,
+      ];
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('groups', $myGroups);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
+    $viewData->addTranslation('manager', $translator->translate('Manager'));
+    $viewData->addTranslation('userdelegate', $translator->translate('Delegatee'));
+
+    return $view->render($response, 'subitem/groups.html.twig', (array)$viewData);
   }
 }

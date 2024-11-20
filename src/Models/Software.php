@@ -56,7 +56,7 @@ class Software extends Common
     // 'category:id,name',
     // 'manufacturer:id,name',
     // // 'nbinstallation.devices',
-    // // 'versions',
+    'versions:id,name',
     // 'groupstech:id,name',
     // 'userstech:id,name',
     // 'user:id,name',

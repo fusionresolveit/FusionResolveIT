@@ -333,19 +333,19 @@ class Cartridgeitem
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Cartridge', 'Cartridges', 1),
+        'title' => $translator->translatePlural('Cartridge model', 'Cartridge models', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
         'title' => $translator->translatePlural('Cartridge', 'Cartridges', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'fill drip',
+        'link' => $rootUrl . '/cartridges',
       ],
       [
         'title' => $translator->translatePlural('Printer model', 'Printer models', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'print',
+        'link' => $rootUrl . '/printermodels',
       ],
       [
         'title' => $translator->translate('Management'),

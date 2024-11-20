@@ -370,12 +370,12 @@ class Networkequipment
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [

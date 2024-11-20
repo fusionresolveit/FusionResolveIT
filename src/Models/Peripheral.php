@@ -71,6 +71,7 @@ class Peripheral extends Common
     'devicecases',
     'devicegraphiccards',
     'devicedrives',
+    'connections',
   ];
 
   protected $with = [
@@ -114,6 +115,7 @@ class Peripheral extends Common
     'devicecases:id,name',
     'devicegraphiccards:id,name',
     'devicedrives:id,name',
+    'connections:id,name',
   ];
 
 
@@ -516,6 +518,18 @@ class Peripheral extends Common
     )->withPivot(
       'devicedrive_id',
       'location_id',
+    );
+  }
+
+  public function connections(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Computer',
+      'item',
+      'computer_item'
+    )->withPivot(
+      'computer_id',
+      'is_dynamic',
     );
   }
 }

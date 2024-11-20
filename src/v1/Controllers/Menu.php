@@ -501,6 +501,13 @@ final class Menu
             'display' => $this->getRightForModel('\App\Models\Category'),
           ],
           [
+            'name' => $translator->translatePlural('Ticket template', 'Ticket templates', 2),
+            'link' => $basePath . '/view/dropdowns/ticketemplates',
+            'icon' => 'edit',
+            'class' => $activePath == $basePath . '/view/dropdowns/ticketemplates' ? 'active blue' : '',
+            'display' => $this->getRightForModel('\App\Models\Tickettemplate'),
+          ],
+          [
             'name' => $translator->translatePlural('Task category', 'Task categories', 2),
             'link' => $basePath . '/view/dropdowns/taskcategory',
             'icon' => 'edit',

@@ -1,0 +1,69 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.auto }}</th>
+      <th>{{ translation.manager }}</th>
+      <th>{{ translation.userdelegate }}</th>
+      <th>{{ translation.active }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in data.users|sort((a, b) => a.user.name|lower <=> b.user.name|lower) %}
+      <tr>
+        <td>
+          {% if user.url != '' %}
+              <a href="{{ user.url }}">{{ user.name }}</a>
+          {% else %}
+              {{ user.name }}
+          {% endif %}
+        </td>
+        {% if user.auto %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+          Yes
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+          No
+        {% endif %}
+        </td>
+        {% if user.is_manager %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+          Yes
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+          No
+        {% endif %}
+        </td>
+        {% if user.is_userdelegate %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+          Yes
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+          No
+        {% endif %}
+        </td>
+        {% if user.is_active %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+          Yes
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+          No
+        {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

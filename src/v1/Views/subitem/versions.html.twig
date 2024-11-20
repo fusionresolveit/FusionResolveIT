@@ -1,0 +1,42 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.versions|length > 0 %}
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.status }}</th>
+        <th>{{ translation.os }}</th>
+        <th>{{ translation.nb_install }}</th>
+        <th>{{ translation.comment }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,version in data.versions %}
+        <tr>
+          <td>
+            {% if version.url != '' %}
+                <a href="{{ version.url }}">{{ version.name }}</a>
+            {% else %}
+                {{ version.name }}
+            {% endif %}
+          </td>
+          <td>{{ version.status }}</td>
+          <td>{{ version.os }}</td>
+          <td>{{ version.nb_install }}</td>
+          <td>{{ version.comment }}</td>
+        </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="3" style="text-align: right;">{{ translation.total }}</td>
+        <td>{{ data.total_install }}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+{% else %}
+  <div><p>{{ translation.no_item_found }}</p></div>
+{% endif %}
+
+{{ include('footer.html.twig') }}

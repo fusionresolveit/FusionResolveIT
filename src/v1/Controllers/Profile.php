@@ -86,6 +86,7 @@ final class Profile extends Common
       '\App\Models\Blacklist',
       '\App\Models\Blacklistedmailcontent',
       '\App\Models\Category',
+      '\App\Models\Tickettemplate',
       '\App\Models\Taskcategory',
       '\App\Models\Tasktemplate',
       '\App\Models\Solutiontype',

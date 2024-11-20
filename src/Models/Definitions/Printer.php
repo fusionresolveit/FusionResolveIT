@@ -368,8 +368,8 @@ class Printer
       ],
       [
         'title' => $translator->translatePlural('Cartridge', 'Cartridges', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'fill drip',
+        'link' => $rootUrl . '/cartridges',
       ],
       [
         'title' => $translator->translatePlural('Component', 'Components', 2),
@@ -384,7 +384,7 @@ class Printer
       [
         'title' => $translator->translatePlural('Connection', 'Connections', 2),
         'icon' => 'microchip',
-        'link' => '',
+        'link' => $rootUrl . '/connections',
       ],
       [
         'title' => $translator->translatePlural('Network port', 'Network ports', 2),
@@ -438,12 +438,12 @@ class Printer
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [

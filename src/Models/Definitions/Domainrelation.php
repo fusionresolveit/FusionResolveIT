@@ -50,7 +50,7 @@ class Domainrelation
       ],
       [
         'title' => $translator->translatePlural('Domain', 'Domains', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'globe americas',
         'link' => '',
       ],
       [

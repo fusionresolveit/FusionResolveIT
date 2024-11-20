@@ -244,18 +244,116 @@ final class Computer extends Common
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('virtualmachines', $myVirtualmachines);
 
-    $viewData->addTranslation('name', 'Nom');
-    $viewData->addTranslation('comment', 'Commentaires');
-    $viewData->addTranslation('auto', 'Inventaire automatique');
-    $viewData->addTranslation('virtualmachinesystem', 'Système de virtualisation');
-    $viewData->addTranslation('virtualmachinemodel', 'Modèle de virtualisation');
-    $viewData->addTranslation('virtualmachinestate', 'Statut');
-    $viewData->addTranslation('uuid', 'UUID');
-    $viewData->addTranslation('nb_proc', 'Nombre de processeurs');
-    $viewData->addTranslation('memory', 'Mémoire (Mio)');
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
+    $viewData->addTranslation('virtualmachinesystem', $translator->translatePlural('Virtualization system', 'Virtualization systems', 1));
+    $viewData->addTranslation('virtualmachinemodel', $translator->translatePlural('Virtualization model', 'Virtualization models', 1));
+    $viewData->addTranslation('virtualmachinestate', $translator->translate('Status'));
+    $viewData->addTranslation('uuid', $translator->translate('UUID'));
+    $viewData->addTranslation('nb_proc', $translator->translate('processor number'));
+    $viewData->addTranslation('memory', sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio')));
     $viewData->addTranslation('machine_host', 'Machine hote');
 
     return $view->render($response, 'subitem/virtualization.html.twig', (array)$viewData);
+  }
+
+  public function showSubConnections(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item->find($args['id']);
+
+    $item2 = new \App\Models\Computeritem();
+    $myItem2 = $item2::where('computer_id', $args['id'])->get();
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/connections');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myConnections = [];
+    foreach ($myItem2 as $connection)
+    {
+      $item3 = new $connection->item_type();
+      $myItem3 = $item3->find($connection->item_id);
+
+      if ($myItem3 != null) {
+        $name = $myItem3->name;
+        if ($name == '') {
+          $name = '(' . $myItem3->id . ')';
+        }
+
+        $url = '';
+        if ($rootUrl2 != '') {
+          $table = $item3->getTable();
+          if ($table != '') {
+            $url = $rootUrl2 . "/" . $table . "/" . $myItem3->id;
+          }
+        }
+        $entity = '';
+        if ($myItem3->entity != null) {
+          $entity = $myItem3->entity->name;
+        }
+        if ($connection->is_dynamic == 1)
+        {
+          $auto_val = $translator->translate('Yes');
+        }
+        else
+        {
+          $auto_val = $translator->translate('No');
+        }
+
+        $type = $item3->getTitle();
+
+        $serial_number = $myItem3->serial;
+        $inventaire_number = $myItem3->otherserial;
+
+        $myConnections[] = [
+          'type'                 => $type,
+          'name'                 => $name,
+          'url'                  => $url,
+          'auto'                 => $connection->is_dynamic,
+          'auto_val'             => $auto_val,
+          'entity'               => $entity,
+          'serial_number'        => $serial_number,
+          'inventaire_number'    => $inventaire_number,
+        ];
+      }
+    }
+
+    // tri ordre alpha
+    usort($myConnections, function ($a, $b)
+    {
+      return strtolower($a['name']) > strtolower($b['name']);
+    });
+    usort($myConnections, function ($a, $b)
+    {
+      return strtolower($a['type']) > strtolower($b['type']);
+    });
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('connections', $myConnections);
+    $viewData->addData('show', 'computer');
+
+    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
+    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
+    $viewData->addTranslation('no_connection_found', $translator->translate('Not connected.'));
+
+    return $view->render($response, 'subitem/connections.html.twig', (array)$viewData);
   }
 
 }

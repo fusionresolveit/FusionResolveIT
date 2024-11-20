@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Monitor extends Common
 {
@@ -51,6 +52,7 @@ class Monitor extends Common
     'tickets',
     'problems',
     'changes',
+    'connections',
   ];
 
   protected $with = [
@@ -76,6 +78,7 @@ class Monitor extends Common
     'tickets:id,name',
     'problems:id,name',
     'changes:id,name',
+    'connections:id,name',
   ];
 
 
@@ -248,6 +251,18 @@ class Monitor extends Common
       'change_item'
     )->withPivot(
       'change_id',
+    );
+  }
+
+  public function connections(): MorphToMany
+  {
+    return $this->morphToMany(
+      '\App\Models\Computer',
+      'item',
+      'computer_item'
+    )->withPivot(
+      'computer_id',
+      'is_dynamic',
     );
   }
 }

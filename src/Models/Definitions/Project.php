@@ -787,8 +787,8 @@ class Project
       ],
       [
         'title' => $translator->translatePlural('Project task', 'Project tasks', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'columns',
+        'link' => $rootUrl . '/projecttasks',
       ],
       [
         'title' => $translator->translatePlural('Project team', 'Project teams', 2),
@@ -798,7 +798,7 @@ class Project
       [
         'title' => $translator->translatePlural('Project', 'Projects', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/projects',
       ],
       [
         'title' => $translator->translate('GANTT'),

@@ -34,6 +34,7 @@ class Consumableitem extends Common
     'entity',
     'notes',
     'documents',
+    'consumables',
   ];
 
   protected $with = [
@@ -45,6 +46,7 @@ class Consumableitem extends Common
     'entity:id,name',
     'notes:id',
     'documents:id,name',
+    'consumables:id',
   ];
 
 
@@ -96,5 +98,10 @@ class Consumableitem extends Common
       'document_id',
       'updated_at',
     );
+  }
+
+  public function consumables(): HasMany
+  {
+    return $this->hasMany('\App\Models\Consumable', 'consumableitem_id');
   }
 }

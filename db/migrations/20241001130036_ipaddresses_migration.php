@@ -38,7 +38,7 @@ final class IpaddressesMigration extends AbstractMigration
             'id'            => $row['id'],
             'entity_id'     => ($row['entities_id'] + 1),
             'item_id'       => $row['items_id'],
-            'item_type'     => 'App\\Models\\' . $row['itemtype'],
+            'item_type'     => self::convertItemtype($row['itemtype']),
             'version'       => $row['version'],
             'name'          => $row['name'],
             'binary_0'      => $row['binary_0'],
@@ -47,7 +47,7 @@ final class IpaddressesMigration extends AbstractMigration
             'binary_3'      => $row['binary_3'],
             'is_dynamic'    => $row['is_dynamic'],
             'mainitem_id'   => $row['mainitems_id'],
-            'mainitem_type' => 'App\\Models\\' . $row['mainitemtype'],
+            'mainitem_type' => self::convertItemtype($row['mainitemtype']),
             'deleted_at'    => self::convertIsDeleted($row['is_deleted']),
           ]
         ];
@@ -72,5 +72,20 @@ final class IpaddressesMigration extends AbstractMigration
     }
 
     return null;
+  }
+
+  public function convertItemtype($itemtype) {
+    $new_itemtype = '';
+
+    if ($itemtype != null) {
+      $new_itemtype = $itemtype;
+      $new_itemtype = ucfirst(strtolower($new_itemtype));
+      if ($new_itemtype == 'Item_devicesimcard') {
+        $new_itemtype = 'ItemDevicesimcard';
+      }
+      $new_itemtype = 'App\\Models\\' . $new_itemtype;
+    }
+
+    return $new_itemtype;
   }
 }

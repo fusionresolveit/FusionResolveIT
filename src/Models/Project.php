@@ -35,6 +35,8 @@ class Project extends Common
     'knowbaseitems',
     'documents',
     'contracts',
+    'tasks',
+    'parent_of',
   ];
 
   protected $with = [
@@ -47,6 +49,8 @@ class Project extends Common
     'knowbaseitems:id,name',
     'documents:id,name',
     'contracts:id,name',
+    'tasks:id,name',
+    'parent_of:id,name',
   ];
 
 
@@ -115,5 +119,14 @@ class Project extends Common
     )->withPivot(
       'contract_id',
     );
+  }
+
+  public function tasks(): HasMany
+  {
+    return $this->hasMany('\App\Models\Projecttask','project_id',);
+  }
+  public function parent_of(): HasMany
+  {
+    return $this->hasMany('\App\Models\Project','project_id',);
   }
 }

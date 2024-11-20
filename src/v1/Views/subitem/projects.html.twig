@@ -1,0 +1,72 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.status }}</th>
+      <th>{{ translation.open_date }}</th>
+      <th>{{ translation.last_update }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.priority }}</th>
+      <th>{{ translation.manager }}</th>
+      <th>{{ translation.manager_group }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key,project in data.projects %}
+      <tr>
+        <td>
+          {% if project.url != '' %}
+              <a href="{{ project.url }}">{{ project.name }}</a>
+          {% else %}
+              {{ project.name }}
+          {% endif %}
+        </td>
+        <td style="background-color: {{ project.status_color }};">{{ project.status }}</td>
+        <td>{{ project.open_date }}</td>
+        <td>{{ project.last_update }}</td>
+        <td>{{ project.entity }}</td>
+        {% if project.priority is iterable %}
+          <td class="left {% if project.priority.color is defined %}
+              {{ project.priority.color }}
+            {% endif %}
+            {% if project.priority.displaystyle is defined %}
+              {{ project.priority.displaystyle }}
+            {% endif %}"
+          >
+            {% if project.priority.color is defined %}
+              <span class="ui {{ project.priority.color }} text">
+                {% if project.priority.icon is defined %}
+                  <i class="{{ project.priority.icon }} icon"></i>
+                {% endif %}
+                {{ project.priority.title }}
+              </span>
+            {% else %}
+                {{ project.priority.title }}
+            {% endif %}
+          </td>
+        {% else %}
+          <td>{{ project.priority }}</td>
+        {% endif %}
+        <td>
+          {% if project.manager_url != '' %}
+              <a href="{{ project.manager_url }}">{{ project.manager }}</a>
+          {% else %}
+              {{ project.manager }}
+          {% endif %}
+        </td>
+        <td>
+          {% if project.manager_group_url != '' %}
+              <a href="{{ project.manager_group_url }}">{{ project.manager_group }}</a>
+          {% else %}
+              {{ project.manager_group }}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

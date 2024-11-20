@@ -1,0 +1,21 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.value }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for predefinedfield in data.predefinedfields|sort((a, b) => a.predefinedfield.name|lower <=> b.predefinedfield.name|lower) %}
+      <tr>
+        <td><a>{{ predefinedfield.name }}</a></td>
+        <td><a>{{ predefinedfield.value }}</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

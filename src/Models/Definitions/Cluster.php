@@ -124,7 +124,7 @@ class Cluster
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
         'icon' => 'desktop',
-        'link' => '',
+        'link' => $rootUrl . '/items',
       ],
       [
         'title' => $translator->translatePlural('Network port', 'Network ports', 2),
@@ -148,7 +148,7 @@ class Cluster
       ],
       [
         'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
-        'icon' => 'caret square down outline',
+        'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [
