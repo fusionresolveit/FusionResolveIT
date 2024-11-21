@@ -130,29 +130,51 @@
   <tfoot>
     <tr><th colspan="{{ data.fields|first|length + 1 }}">
       <div class="ui right floated pagination menu">
-        <a class="icon item">
-          <i class="left chevron icon"></i>
-        </a>
+        {% if data.fields.paging.current > 1 %}
+          <a href="{{ data.fields.paging.linkpage }}1" class="icon item">
+            <i class="left chevron icon"></i>
+            <i class="left chevron icon"></i>
+          </a>
+        {% else %}
+          <a class="icon item">
+          </a>
+        {% endif %}
+        {% if data.fields.paging.current > 1 %}
+          <a href="{{ data.fields.paging.linkpage }}{{ data.fields.paging.current - 1 }}" class="icon item">
+            <i class="left chevron icon"></i>
+          </a>
+        {% else %}
+          <a class="icon item">
+          </a>
+        {% endif %}
         {% for i in 1..data.fields.paging.pages %}
-          {% if i > (data.fields.paging.current - 2) and i < data.fields.paging.current %}  
+          {% if i > (data.fields.paging.current - 2) and i < data.fields.paging.current %}
             <a href="{{ data.fields.paging.linkpage }}{{ i }}" class="item">{{ i }}</a>
           {% endif %}
-          {% if i == data.fields.paging.current %}  
+          {% if i == data.fields.paging.current %}
             <a href="{{ data.fields.paging.linkpage }}{{ i }}" class="active item">{{ i }}</a>
           {% endif %}
-          {% if i < (data.fields.paging.current + 2) and i > data.fields.paging.current %}  
-            <a href="{{ data.fields.paging.linkpage }}{{ i }}" class="item">{{ i }}</a>
-          {% endif %}
-          {% if i == (data.fields.paging.current + 2) %}  
-            <a class="item">...</a>
-          {% endif %}
-          {% if i == data.fields.paging.pages and i != data.fields.paging.current %}  
+          {% if i < (data.fields.paging.current + 2) and i > data.fields.paging.current %}
             <a href="{{ data.fields.paging.linkpage }}{{ i }}" class="item">{{ i }}</a>
           {% endif %}
         {% endfor %}
-        <a class="icon item">
-          <i class="right chevron icon"></i>
-        </a>
+        {% if data.fields.paging.current < data.fields.paging.pages %}
+          <a href="{{ data.fields.paging.linkpage }}{{ data.fields.paging.current + 1 }}" class="icon item">
+            <i class="right chevron icon"></i>
+          </a>
+        {% else %}
+          <a class="icon item">
+          </a>
+        {% endif %}
+        {% if data.fields.paging.current < data.fields.paging.pages %}
+          <a href="{{ data.fields.paging.linkpage }}{{ data.fields.paging.pages }}" class="icon item">
+            <i class="right chevron icon"></i>
+            <i class="right chevron icon"></i>
+          </a>
+        {% else %}
+          <a class="icon item">
+          </a>
+        {% endif %}
       </div>
     </th>
   </tr></tfoot>

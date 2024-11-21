@@ -59,11 +59,6 @@ class Common
 
     $viewData->addData('definition', $item->getDefinitions());
 
-    // echo "<pre>";
-    // print_r($fields);
-    // echo "</pre>";
-    // die();
-
     return $view->render($response, 'search.html.twig', (array)$viewData);
   }
 
