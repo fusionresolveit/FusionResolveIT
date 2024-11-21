@@ -67,7 +67,7 @@ class Common
 
     $myItem = $item->find($args['id']);
 
-    if (!$this->canRightReadItem($myItem))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($myItem))
     {
       throw new \Exception('Unauthorized access', 401);
     }
@@ -166,7 +166,7 @@ class Common
     // $item->loadId($args['id']);
     $myItem = $item->find($args['id']);
 
-    if (!$this->canRightReadItem($myItem))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($myItem))
     {
       throw new \Exception('Unauthorized access', 401);
     }
@@ -184,6 +184,8 @@ class Common
     } else {
       $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($myItem->content));
     }
+    $ctrlFollowup = new \App\v1\Controllers\Followup();
+    $viewData->addData('fullFollowup', $ctrlFollowup->canRightReadPrivateItem());
 
     $canAddFollowup = true;
     $canAddSolution = true;
@@ -383,7 +385,7 @@ class Common
       }
 
       $item = $this->model::find($id);
-      if (!$this->canRightReadItem($item))
+      if (!\App\v1\Controllers\Profile::canRightReadItem($item))
       {
         throw new \Exception('Unauthorized access', 401);
       }
@@ -3244,46 +3246,6 @@ class Common
     return false;
   }
 
-  protected function canRightReadItem($item)
-  {
-    $profileright = \App\Models\Profileright::
-        where('profile_id', $GLOBALS['profile_id'])
-      ->where('model', get_class($item))
-      ->first();
-    if (is_null($profileright))
-    {
-      return false;
-    }
-    if ($profileright->custom)
-    {
-      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
-      $ids = [];
-      foreach ($profilerightcustoms as $custom)
-      {
-        if ($custom->read)
-        {
-          return true;
-        }
-      }
-    }
-    if ($profileright->read)
-    {
-      return true;
-    }
-    if ($profileright->readmyitems)
-    {
-      if ($item->user_id_recipient == $GLOBALS['user_id'])
-      {
-        return true;
-      }
-    }
-    if ($profileright->readmygroupitems)
-    {
-    }
-
-    return false;
-  }
-
   protected function canRightCreate()
   {
     $profileright = \App\Models\Profileright::
@@ -3340,6 +3302,11 @@ class Common
     {
       return true;
     }
+    return false;
+  }
+
+  public function canRightReadPrivateItem()
+  {
     return false;
   }
 

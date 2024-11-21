@@ -202,7 +202,10 @@ class Common extends Model
       {
         if (isset($ids[$def["id"]]))
         {
-          $def['display'] = $ids[$def["id"]]['read'];
+          if (!isset($def['display']) || $def['display'])
+          {
+            $def['display'] = $ids[$def["id"]]['read'];
+          }
           if (!$ids[$def["id"]]['write'] || $canOnlyReadItem)
           {
             $def['readonly'] = 'readonly';
@@ -239,6 +242,17 @@ class Common extends Model
     }
     $pages = call_user_func($this->definition . '::getRelatedPages', $rootUrl);
     $listUrl = preg_replace('/\/(\d+)$/', '', $rootUrl);
+    foreach ($pages as $idx => $page)
+    {
+      if (isset($page['rightModel']))
+      {
+        $item = new $page['rightModel']();
+        if (!\App\v1\Controllers\Profile::canRightReadItem($item))
+        {
+          unset($pages[$idx]);
+        }
+      }
+    }
 
     array_unshift($pages, [
       'title' => $translator->translate('Back to list'),

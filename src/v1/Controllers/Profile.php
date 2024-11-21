@@ -521,4 +521,44 @@ final class Profile extends Common
   {
     return $this->rigthCategories;
   }
+
+  public static function canRightReadItem($item)
+  {
+    $profileright = \App\Models\Profileright::
+        where('profile_id', $GLOBALS['profile_id'])
+      ->where('model', get_class($item))
+      ->first();
+    if (is_null($profileright))
+    {
+      return false;
+    }
+    if ($profileright->custom)
+    {
+      $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
+      $ids = [];
+      foreach ($profilerightcustoms as $custom)
+      {
+        if ($custom->read)
+        {
+          return true;
+        }
+      }
+    }
+    if ($profileright->read)
+    {
+      return true;
+    }
+    if ($profileright->readmyitems)
+    {
+      if ($item->user_id_recipient == $GLOBALS['user_id'])
+      {
+        return true;
+      }
+    }
+    if ($profileright->readmygroupitems)
+    {
+    }
+
+    return false;
+  }
 }

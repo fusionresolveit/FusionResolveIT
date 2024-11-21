@@ -28,6 +28,7 @@ class Ticket
         'title'   => $translator->translate('ID'),
         'type'    => 'input',
         'name'    => 'id',
+        'displaygroup'  => 'main',
         'display' => false,
       ],
       [
@@ -609,21 +610,25 @@ class Ticket
         'title' => $translator->translatePlural('Project', 'Projects', 2),
         'icon' => 'folder open',
         'link' => '',
+        'rightModel' => '\App\Models\Project',
       ],
       [
         'title' => $translator->translatePlural('Project task', 'Project tasks', 2),
         'icon' => 'tasks',
         'link' => '',
+        'rightModel' => '\App\Models\Project',
       ],
       [
         'title' => $translator->translatePlural('Problem', 'Problems', 2),
         'icon' => 'drafting compass',
         'link' => $rootUrl . '/problem',
+        'rightModel' => '\App\Models\Problem',
       ],
       [
         'title' => $translator->translatePlural('Change', 'Changes', 2),
         'icon' => 'paint roller',
         'link' => '',
+        'rightModel' => '\App\Models\Change',
       ],
       [
         'title' => $translator->translate('Historical'),

@@ -9,6 +9,7 @@
       <div class="twelve wide column" style="padding-top: 0px;">
         <div class="ui form {{ header.color }} segment">
         <a class="ui {{ header.color }} ribbon label" style="text-transform: capitalize" data-value="contentdescription">
+          <i class="angle up icon"></i>
           {{ translation.description }}
         </a>
         <div name="contentdescription" class="field" style="display: block">
@@ -149,7 +150,11 @@ editorcontent = new toastui.Editor({
             <form method="post" action="{{ current_url() }}/followups" class="ui form">
             {# {% endif %} #}
               <div class="ui grid">
+                {% if data.fullFollowup %}
                 <div class="eleven wide column">
+                {% else %}
+                <div class="wide column">
+                {% endif %}
                   <div id="editorfollowup"></div>
                   <textarea rows="3" name="followup" style="display: none"></textarea>
 <script type="text/javascript">
@@ -168,6 +173,7 @@ editorfollowup = new toastui.Editor({
 });
 </script>
                 </div>
+                {% if data.fullFollowup %}
                 <div class="five wide column">
                   <div class="field">
                     <label>{{ translation.template }}</label>
@@ -188,7 +194,9 @@ editorfollowup = new toastui.Editor({
                     </select>
                   </div>
                 </div>
+                {% endif %}
               </div>
+              {% if data.fullFollowup %}
               <div class="ui grid">
                 <div class="five wide column">
                   <div class="field">
@@ -235,6 +243,7 @@ editorfollowup = new toastui.Editor({
                   </div>
                 </div>
               </div>
+              {% endif %}
               <div style="text-align: center;">
                 <input type="hidden" name="item_id" value="{{ header.id }}"/>
                 <input type="hidden" name="item_type" value="App\Models\Ticket"/>
@@ -315,6 +324,7 @@ editorsolution = new toastui.Editor({
             {% if displaygroup == '' or displaygroup != item.displaygroup %}
             <div class="ui form {{ header.color }} segment">
               <a class="ui {{ header.color }} right ribbon label" style="text-transform: capitalize" data-value="{{ item.displaygroup }}">
+                <i class="angle up icon"></i>
                 {{ item.displaygroup }}
               </a>
               <div name="{{ item.displaygroup }}" class="field" style="display: block">
@@ -345,15 +355,18 @@ toggle = function() {
     handler = {
       activate: function() {
         $panel = $(this).attr('data-value');
-        console.log($panel);
         if ($('[name="'+$panel+'"]').css('display') == 'block') {
           $('[name="'+$panel+'"]').css('display', 'none');
           $(this).removeClass('{{ header.color }}').addClass('grey');
           $(this).parent().removeClass('{{ header.color }}').addClass('grey');
+          $(this).find('i').addClass('down');
+          $(this).find('i').removeClass('up');
         } else {
           $('[name="'+$panel+'"]').css('display', 'block');
           $(this).removeClass('grey').addClass('{{ header.color }}');
           $(this).parent().removeClass('grey').addClass('{{ header.color }}');
+          $(this).find('i').addClass('up');
+          $(this).find('i').removeClass('down');
         }
         console.log('test1');
       }

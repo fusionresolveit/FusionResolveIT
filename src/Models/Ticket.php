@@ -224,8 +224,19 @@ class Ticket extends Common
     $ticket = \App\Models\Ticket::find($id);
     $statesDef = $this->definition::getStatusArray();
 
+    $ctrl = new \App\v1\Controllers\Followup();
     // Get followups
-    $followups = \App\Models\Followup::where('item_type', 'App\Models\Ticket')->where('item_id', $id)->get();
+    if (!$ctrl->canRightReadPrivateItem())
+    {
+      $followups = \App\Models\Followup::
+          where('item_type', 'App\Models\Ticket')
+        ->where('item_id', $id)
+        ->where('is_private', false)
+        ->get();
+    } else {
+      $followups = \App\Models\Followup::where('item_type', 'App\Models\Ticket')->where('item_id', $id)->get();
+    }
+
     foreach ($followups as $followup)
     {
       $usertype = 'user';
