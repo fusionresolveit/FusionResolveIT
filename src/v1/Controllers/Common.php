@@ -172,14 +172,27 @@ class Common
     {
       throw new \Exception('Unauthorized access', 401);
     }
+    $title = '';
+
+    $fields = $item->getFormData($myItem);
+    foreach ($fields as $field)
+    {
+      if ($field['name'] == 'name')
+      {
+        $title = $field['value'];
+        break;
+      }
+    }
 
     // form data
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($this->getUrlWithoutQuery($request)));
     $viewData->addHeaderColor($myItem->getColor());
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $fields);
     $viewData->addData('feeds', $item->getFeeds($args['id']));
+    $viewData->addData('title', $title);
+
     if (is_null($myItem->content))
     {
       $viewData->addData('content', null);
