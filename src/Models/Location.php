@@ -15,6 +15,7 @@ class Location extends Common
   protected $definition = '\App\Models\Definitions\Location';
   protected $titles = ['Location', 'Locations'];
   protected $icon = 'edit';
+  protected $tree = true;
 
   protected $appends = [
     'location',

@@ -13,6 +13,7 @@ class Category extends Common
   protected $definition = '\App\Models\Definitions\Category';
   protected $titles = ['Category', 'Categories'];
   protected $icon = 'edit';
+  protected $tree = true;
 
   protected $appends = [
     // 'category',

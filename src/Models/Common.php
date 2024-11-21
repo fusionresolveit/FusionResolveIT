@@ -15,6 +15,7 @@ class Common extends Model
   protected $icon = '';
   protected $table = null;
   protected $hasEntityField = true;
+  protected $tree = false;
 
   public function __construct(array $attributes = [])
   {
@@ -111,11 +112,11 @@ class Common extends Model
 
   public function getDropdownValues($filter = null)
   {
-    $treepath = false;
     $item = $this;
-    if (get_class($this) == 'App\Models\Category')
+    $className = '\\' . get_class($this);
+    $trees = [];
+    if ($this->tree)
     {
-      $treepath = true;
       $item = $item->orderBy('treepath');
     }
 
@@ -143,8 +144,28 @@ class Common extends Model
         $name .= ' - ' . $item->id;
       }
       $class = '';
-      if ($treepath)
+      if ($this->tree)
       {
+        $trees[$item->treepath] = true;
+        // $parents = $this->getParentLevelsForTree($item->treepath, $trees);
+
+        $itemsId = str_split($item->treepath, 5);
+        array_pop($itemsId);
+        foreach ($itemsId as $id)
+        {
+          $parentItem = $className::find((int) $id);
+          if (!isset($trees[$parentItem->treepath]))
+          {
+            $nb = strlen($parentItem->treepath) / 5;
+            $class = ' treelvl' . $nb;
+            $data[] = [
+              "name"  => $parentItem->name,
+              "value" => $parentItem->id,
+              "class" => 'item' . $class,
+            ];
+            $trees[$parentItem->treepath] = true;
+          }
+        }
         $nb = strlen($item->treepath) / 5;
         $class = ' treelvl' . $nb;
       }
