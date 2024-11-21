@@ -20,16 +20,18 @@
           <img class="ui small centered image" src="{{ basePath }}/assets/img/logo_gsit.png">
         </div> #}
 
-        <div class="item" style="display: flex;align-items: end;">
-          <span class="ui small image">
-            <img src="{{ basePath }}/assets/img/logo_gsit.png">
-          </span>
-          <span class="bottom aligned content">
-            <span class="ui blue large text">
-              {{ include('version.html.twig') }}
+        <a href="{{ header.rootpath }}/view/home">
+          <div class="item" style="display: flex;align-items: end;">
+            <span class="ui small image">
+              <img src="{{ basePath }}/assets/img/logo_gsit.png">
             </span>
-          </span>
-        </div>          
+            <span class="bottom aligned content">
+              <span class="ui blue large text">
+                {{ include('version.html.twig') }}
+              </span>
+            </span>
+          </div>          
+        </a>
         <div class="item">
           {{ header.username }}
           <a href="{{ basePath }}/view/logout" style="float: right">
