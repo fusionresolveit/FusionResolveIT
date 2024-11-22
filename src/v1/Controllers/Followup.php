@@ -23,9 +23,15 @@ final class Followup extends Common
     {
       $item->is_private = true;
     }
+    if ($this->canRightReadPrivateItem())
+    {
+      $item->is_tech = true;
+    }
     $item->user_id = $GLOBALS['user_id'];
 
     $item->save();
+
+    $relatedItem = $data->item_type::find($data->item_id);
 
     // Manage time
     if (property_exists($data, 'time'))
@@ -41,11 +47,11 @@ final class Followup extends Common
         {
           $time = $time * 3600;
         }
-        $relatedItem = $data->item_type::find($data->item_id);
         $relatedItem->actiontime = $relatedItem->actiontime + $time;
         $relatedItem->save();
       }
     }
+    $relatedItem->touch();
     // add message to session
     \App\v1\Controllers\Toolbox::addSessionMessage('The followup has been added successfully');
 

@@ -67,13 +67,13 @@ final class FillemptydatabaseMigration extends AbstractMigration
         foreach ($modellist as $model)
         {
           $data[] = [
-            'model'       => $model,
+            'model'       => ltrim($model, '\\'),
             'profile_id'  => 1,
-            'read'        => 1,
-            'create'      => 1,
-            'update'      => 1,
-            'softdelete'  => 1,
-            'delete'      => 1
+            'read'        => true,
+            'create'      => true,
+            'update'      => true,
+            'softdelete'  => true,
+            'delete'      => true,
           ];
         }
       }

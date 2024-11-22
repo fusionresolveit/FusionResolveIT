@@ -158,7 +158,7 @@ $customErrorHandler = function (
   {
     $view = Twig::create('../src/v1/Views');
 
-    $response = $app->getResponseFactory()->createResponse();
+    $response = $app->getResponseFactory()->createResponse()->withStatus($exception->getCode());
     $viewData = [
       'rootpath' => $basePath,
       'message'  => $exception->getMessage(),

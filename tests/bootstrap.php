@@ -1,13 +1,18 @@
 <?php
 
+use DI\ContainerBuilder;
+use Slim\App;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 
-include('vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 global $translator;
 global $databaseName;
+global $basePath;
+
+$basePath = "";
 
 $GLOBALS['user_id'] = 1;
 $GLOBALS['username'] = 'Theodore Admin';
@@ -39,3 +44,11 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 session_start();
+
+// Build DI container instance
+$container = (new ContainerBuilder())
+  ->addDefinitions(__DIR__ . '/container.php')
+  ->build();
+
+// create App instance
+return $container->get(App::class);

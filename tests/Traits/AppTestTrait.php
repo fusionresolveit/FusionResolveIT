@@ -16,7 +16,7 @@ trait AppTestTrait
 
   protected function setUp(): void
   {
-    $this->app = require __DIR__ . '/../bootstrap2.php';
+    $this->app = require __DIR__ . '/../bootstrap.php';
 
     $container = $this->app->getContainer();
     if ($container === null)

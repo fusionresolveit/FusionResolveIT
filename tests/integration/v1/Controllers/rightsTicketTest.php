@@ -2,24 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tests\unit\v1\Controllers;
+namespace Tests\integration\v1\Controllers;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Container\ContainerInterface;
 use Selective\TestTrait\Traits\HttpTestTrait;
-use Slim\Views\Twig;
-use Slim\Views\TwigMiddleware;
-use Slim\App;
-use Slim\Interfaces\RouteCollectorInterface;
-use Slim\Interfaces\RouteParserInterface;
-use Slim\Http\Environment;
 use Tests\Traits\AppTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Notification')]
+#[UsesClass('\App\Route')]
+#[UsesClass('\App\Translation')]
 #[UsesClass('\App\Models\Category')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Category')]
@@ -44,28 +37,107 @@ use Tests\Traits\AppTestTrait;
 #[UsesClass('\App\Models\Location')]
 #[UsesClass('\App\Models\Ticket')]
 #[UsesClass('\App\Models\User')]
+#[UsesClass('\App\v1\Controllers\Common')]
+#[UsesClass('\App\v1\Controllers\Ticket')]
+
+#[UsesClass('\App\Models\Definitions\Document')]
+#[UsesClass('\App\Models\Displaypreference')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Header')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Information')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Translation')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Viewdata')]
+#[UsesClass('\App\v1\Controllers\Menu')]
+#[UsesClass('\App\v1\Controllers\Search')]
+#[UsesClass('\App\v1\Controllers\Toolbox')]
 
 final class RightsTicketTest extends TestCase
 {
   use AppTestTrait;
   use HttpTestTrait;
 
-  public function testRenderNotificationTwoFollowups(): void
+  public static function setUpBeforeClass(): void
   {
-    // $this->mock(\App\v1\Controllers\Ticket::class)
-    //      ->method('')
+    $profile = \App\Models\Profile::find(2);
+    if (!is_null($profile))
+    {
+      $profile->delete();
+    }
+
+    $profile = new \App\Models\Profile();
+    $profile->id = 2;
+    $profile->name = 'Test';
+    $profile->interface = 'central';
+    $profile->save();
+  }
+
+  public static function tearDownAfterClass(): void
+  {
+    $profile = \App\Models\Profile::find(2);
+    $profile->delete();
+  }
+
+  private function setRight($rightname)
+  {
+    $profileright = \App\Models\Profileright::where('profile_id', 2)->first();
+    if (is_null($profileright))
+    {
+      $profileright = new \App\Models\Profileright();
+      $profileright->profile_id = 2;
+      $profileright->model = 'App\Models\Ticket';
+    }
+    $profileright->read = false;
+
+    $profileright->{$rightname} = true;
+    $profileright->save();
+  }
+
+  public function testRenderTicketsOnDefaultInstallation(): void
+  {
+    $GLOBALS['profile_id'] = 1;
 
     // Create request with method and url
     $request = $this->createRequest('GET', '/view/tickets');
     $response = $this->app->handle($request);
 
-    print_r($response);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
 
-    $this->assertEquals('yo', 'yo');
+  public function testRenderTicketsNoRights(): void
+  {
+    $GLOBALS['profile_id'] = 2;
+
+    $profileright = \App\Models\Profileright::where('profile_id', 2)->first();
+    if (!is_null($profileright))
+    {
+      $profileright->delete();
+    }
+
+    // Create request with method and url
+    $request = $this->createRequest('GET', '/view/tickets');
+    $response = $this->app->handle($request);
+
+    $this->assertEquals(401, $response->getStatusCode());
+  }
+
+  public function testRenderTicketsRead(): void
+  {
+    $this->setRight('read');
+
+    // Create request with method and url
+    $request = $this->createRequest('GET', '/view/tickets');
+    $response = $this->app->handle($request);
+
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+
+  public function testRenderTicketsReadMyItems(): void
+  {
+    $this->setRight('readmyitems');
+
+    // Create request with method and url
+    $request = $this->createRequest('GET', '/view/tickets');
+    $response = $this->app->handle($request);
+
+    $this->assertEquals(200, $response->getStatusCode());
   }
 }
-
-
-// https://gist.githubusercontent.com/shahariaazam/8523437/raw/95cf2ea2c66e1512120a60cccc0ab3fbb8139faf/Slim_RoutesTest.php
-// https://blog.shaharia.com/write-unit-test-for-slim-framework
-// https://akrabat.com/testing-slim-framework-actions/

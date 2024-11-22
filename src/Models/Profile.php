@@ -23,4 +23,18 @@ class Profile extends Common
 
   protected $with = [
   ];
+
+  protected static function booted(): void
+  {
+    parent::booted();
+
+    static::deleted(function ($model)
+    {
+      $profilerights = \App\Models\Profileright::where('profile_id', $model->id)->get();
+      foreach ($profilerights as $profileright)
+      {
+        $profileright->delete();
+      }
+    });
+  }
 }

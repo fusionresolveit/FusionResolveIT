@@ -5,10 +5,28 @@ declare(strict_types=1);
 namespace Tests\unit\v1\Controllers;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @covers \App\v1\Controllers\Displaypreference
- */
+#[CoversClass('\App\v1\Controllers\Displaypreference')]
+#[UsesClass('\App\Models\Common')]
+#[UsesClass('\App\Models\Definitions\Certificate')]
+#[UsesClass('\App\Models\Definitions\Document')]
+#[UsesClass('\App\Models\Definitions\Entity')]
+#[UsesClass('\App\Models\Definitions\Group')]
+#[UsesClass('\App\Models\Definitions\Knowbaseitem')]
+#[UsesClass('\App\Models\Definitions\Location')]
+#[UsesClass('\App\Models\Definitions\Notepad')]
+#[UsesClass('\App\Models\Definitions\Profile')]
+#[UsesClass('\App\Models\Definitions\User')]
+#[UsesClass('\App\Models\Definitions\Usercategory')]
+#[UsesClass('\App\Models\Definitions\Usertitle')]
+#[UsesClass('\App\Models\Entity')]
+#[UsesClass('\App\Models\Location')]
+#[UsesClass('\App\Models\Profile')]
+#[UsesClass('\App\Models\User')]
+#[UsesClass('\App\v1\Controllers\Log')]
+
 final class DisplaypreferenceTest extends TestCase
 {
   protected function setUp(): void
