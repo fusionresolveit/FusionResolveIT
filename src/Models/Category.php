@@ -32,10 +32,10 @@ class Category extends Common
     'users',
     'groups',
     'knowbaseitemcategories',
-    // 'tickettemplatesDemand',
-    // 'tickettemplatesIncident',
-    // 'changetemplates',
-    // 'problemtemplates',
+    'tickettemplatesDemand',
+    'tickettemplatesIncident',
+    'changetemplates',
+    'problemtemplates',
     'entity',
     'completename',
   ];
@@ -45,10 +45,10 @@ class Category extends Common
     'users:id,name',
     'groups:id,name',
     'knowbaseitemcategories:id,name',
-    // 'tickettemplatesDemand:id,name',
-    // 'tickettemplatesIncident:id,name',
-    // 'changetemplates:id,name',
-    // 'problemtemplates:id,name',
+    'tickettemplatesDemand:id,name',
+    'tickettemplatesIncident:id,name',
+    'changetemplates:id,name',
+    'problemtemplates:id,name',
     'entity:id,name',
   ];
 
@@ -116,5 +116,25 @@ class Category extends Common
   public function entity(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Entity');
+  }
+
+  public function template_request(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplates_id_demand');
+  }
+
+  public function template_incident(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplates_id_incident');
+  }
+
+  public function template_change(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Changetemplate', 'changetemplates_id');
+  }
+
+  public function template_problem(): BelongsTo
+  {
+    return $this->belongsTo('\App\Models\Problemtemplate', 'problemtemplates_id');
   }
 }

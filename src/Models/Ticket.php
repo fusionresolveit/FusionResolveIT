@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ticket extends Common
 {
@@ -48,15 +49,16 @@ class Ticket extends Common
     'linkedtickets',
     'knowbaseitems',
     'followups',
+    'costs',
   ];
 
   protected $with = [
-    'requester:id,name',
-    'requestergroup:id,name',
-    'watcher:id,name',
-    'watchergroup:id,name',
-    'technician:id,name',
-    'techniciangroup:id,name',
+    'requester',
+    'requestergroup',
+    'watcher',
+    'watchergroup',
+    'technician',
+    'techniciangroup',
     'usersidlastupdater:id,name',
     'usersidrecipient:id,name',
     'category:id,name',
@@ -68,6 +70,7 @@ class Ticket extends Common
     'entity:id,name,completename,address,country,email,fax,phonenumber,postcode,state,town,website',
     'followups:id,content',
     'solutions',
+    'costs:id,name,ticket_id,begin_date,end_date,actiontime,cost_time,cost_fixed,cost_material,budget_id,entity_id',
   ];
 
   // For default values
@@ -412,5 +415,10 @@ class Ticket extends Common
       return true;
     }
     return false;
+  }
+
+  public function costs(): HasMany
+  {
+    return $this->hasMany('App\Models\Ticketcost', 'ticket_id');
   }
 }

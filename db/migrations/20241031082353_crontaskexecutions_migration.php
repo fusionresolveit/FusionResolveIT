@@ -69,7 +69,7 @@ final class CrontaskexecutionsMigration extends AbstractMigration
           ->update();
 
     $table = $this->table('crontasklogs');
-    $table->addColumn('crontask_id', 'integer', ['null' => false])
+    $table->addColumn('crontasklog_id', 'integer', ['null' => false])
           ->renameColumn('created_at', 'date')
           ->removeColumn('updated_at')
           ->addColumn('elapsed', 'float', ['null' => false])
@@ -78,13 +78,6 @@ final class CrontaskexecutionsMigration extends AbstractMigration
           ->removeColumn('execution_duration')
           ->update();
 
-    $table = $this->table('crontaskexecutionlogs');
-    $table->removeColumn('crontaskexecution_id')
-          ->removeColumn('created_at')
-          ->removeColumn('updated_at')
-          ->removeColumn('ended_at')
-          ->removeColumn('volume')
-          ->removeColumn('content')
-          ->create();
+    $table = $this->table('crontaskexecutionlogs')->drop()->save();
   }
 }

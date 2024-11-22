@@ -1,58 +1,87 @@
 {{ include('header.html.twig') }}
 {{ include('headerForm.html.twig') }}
 
-<table class="ui blue table">
-  <thead>
-    <tr>
-      <th>{{ translation.name }}</th>
-      <th>{{ translation.auto }}</th>
-      <th>{{ translation.manager }}</th>
-      <th>{{ translation.userdelegate }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for group in data.groups|sort((a, b) => a.group.name|lower <=> b.group.name|lower) %}
+{% if data.show == 'users' %}
+  <table class="ui blue table">
+    <thead>
       <tr>
-        <td>
-          {% if group.url != '' %}
-              <a href="{{ group.url }}">{{ group.name }}</a>
-          {% else %}
-              {{ group.name }}
-          {% endif %}
-        </td>
-        {% if group.auto %}
-          <td class="positive">
-          <i class="check circle outline icon"></i>
-          Yes
-        {% else %}
-          <td class="negative">
-          <i class="times circle outline icon"></i>
-          No
-        {% endif %}
-        </td>
-        {% if group.is_manager %}
-          <td class="positive">
-          <i class="check circle outline icon"></i>
-          Yes
-        {% else %}
-          <td class="negative">
-          <i class="times circle outline icon"></i>
-          No
-        {% endif %}
-        </td>
-        {% if group.is_userdelegate %}
-          <td class="positive">
-          <i class="check circle outline icon"></i>
-          Yes
-        {% else %}
-          <td class="negative">
-          <i class="times circle outline icon"></i>
-          No
-        {% endif %}
-        </td>
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.auto }}</th>
+        <th>{{ translation.manager }}</th>
+        <th>{{ translation.userdelegate }}</th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for group in data.groups|sort((a, b) => a.group.name|lower <=> b.group.name|lower) %}
+        <tr>
+          <td>
+            {% if group.url != '' %}
+                <a href="{{ group.url }}">{{ group.name }}</a>
+            {% else %}
+                {{ group.name }}
+            {% endif %}
+          </td>
+          {% if group.auto %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            Yes
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            No
+          {% endif %}
+          </td>
+          {% if group.is_manager %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            Yes
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            No
+          {% endif %}
+          </td>
+          {% if group.is_userdelegate %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+            Yes
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+            No
+          {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if data.show == 'groups' %}
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.entity }}</th>
+        <th>{{ translation.comment }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for group in data.groups|sort((a, b) => a.group.name|lower <=> b.group.name|lower) %}
+        <tr>
+          <td>
+            {% if group.url != '' %}
+                <a href="{{ group.url }}">{{ group.name }}</a>
+            {% else %}
+                {{ group.name }}
+            {% endif %}
+          </td>
+          <td>{{ group.entity }}</td>
+          <td>{{ group.comment }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
 
 {{ include('footer.html.twig') }}

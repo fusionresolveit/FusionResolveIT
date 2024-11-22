@@ -215,7 +215,7 @@ class Location
       [
         'title' => $translator->translatePlural('Location', 'Locations', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/locations',
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),

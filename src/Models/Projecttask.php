@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Projecttask extends Common
 {
@@ -19,6 +20,7 @@ class Projecttask extends Common
     'parent',
     'type',
     'state',
+    'tickets',
   ];
 
   protected $visible = [
@@ -26,6 +28,7 @@ class Projecttask extends Common
     'parent',
     'type',
     'state',
+    'tickets',
   ];
 
   protected $with = [
@@ -33,6 +36,7 @@ class Projecttask extends Common
     'parent:id,name',
     'type:id,name',
     'state:id,name,color',
+    'tickets:id,name',
   ];
 
   public function entity(): BelongsTo
@@ -53,5 +57,10 @@ class Projecttask extends Common
   public function state(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Projectstate', 'projectstate_id');
+  }
+
+  public function tickets(): BelongsToMany
+  {
+    return $this->belongsToMany('\App\Models\Ticket', 'projecttask_ticket', 'projecttask_id', 'ticket_id');
   }
 }

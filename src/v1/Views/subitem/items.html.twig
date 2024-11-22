@@ -68,4 +68,35 @@
   </table>
 {% endif %}
 
+{% if data.show == 'project' %}
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.type }}</th>
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.entity }}</th>
+        <th>{{ translation.serial_number }}</th>
+        <th>{{ translation.inventaire_number }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,item in data.items %}
+        <tr>
+          <td>{{ item.type }}</td>
+          <td>
+            {% if item.url != '' %}
+                <a href="{{ item.url }}">{{ item.name }}</a>
+            {% else %}
+                {{ item.name }}
+            {% endif %}
+          </td>
+          <td>{{ item.entity }}</td>
+          <td>{{ item.serial_number }}</td>
+          <td>{{ item.inventaire_number }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
 {{ include('footer.html.twig') }}

@@ -1,0 +1,50 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+
+{% for key,profileuser in data.profilesusers %}
+  <h2>{{ translation.profil }} : {{ profileuser.name }}</h2>
+
+  <table class="ui blue table">
+    <thead>
+      <tr>
+        <th>{{ translation.name }}</th>
+        <th>{{ translation.is_dynamic }}</th>
+        <th>{{ translation.is_recursive }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key2,user in profileuser.users %}
+        <tr>
+          <td>
+            {% if user.url != '' %}
+                <a href="{{ user.url }}">{{ user.name }}</a>
+            {% else %}
+                {{ user.name }}
+            {% endif %}
+          </td>
+          {% if user.auto %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+          {% endif %}
+          {{ user.auto_val }}
+          </td>
+          {% if user.recursive %}
+            <td class="positive">
+            <i class="check circle outline icon"></i>
+          {% else %}
+            <td class="negative">
+            <i class="times circle outline icon"></i>
+          {% endif %}
+          {{ user.auto_val }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+
+{{ include('footer.html.twig') }}

@@ -793,7 +793,7 @@ class Project
       [
         'title' => $translator->translatePlural('Project team', 'Project teams', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/projectteams',
       ],
       [
         'title' => $translator->translatePlural('Project', 'Projects', 2),
@@ -813,17 +813,17 @@ class Project
       [
         'title' => $translator->translatePlural('Cost', 'Costs', 2),
         'icon' => 'money bill alternate',
-        'link' => '',
+        'link' => $rootUrl . '/costs',
       ],
       [
         'title' => $translator->translatePlural('Itil item', 'Itil items', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/itilitems',
       ],
       [
         'title' => $translator->translatePlural('Item', 'Items', 2),
         'icon' => 'desktop',
-        'link' => '',
+        'link' => $rootUrl . '/items',
       ],
       [
         'title' => $translator->translatePlural('Document', 'Documents', 2),

@@ -1,0 +1,49 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.address }}</th>
+      <th>{{ translation.postcode }}</th>
+      <th>{{ translation.town }}</th>
+      <th>{{ translation.state }}</th>
+      <th>{{ translation.country }}</th>
+      <th>{{ translation.building }}</th>
+      <th>{{ translation.room }}</th>
+      <th>{{ translation.latitude }}</th>
+      <th>{{ translation.longitude }}</th>
+      <th>{{ translation.altitude }}</th>
+      <th>{{ translation.comment }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for location in data.locations|sort((a, b) => a.location.name|lower <=> b.location.name|lower) %}
+      <tr>
+        <td>
+          {% if location.url != '' %}
+              <a href="{{ location.url }}">{{ location.name }}</a>
+          {% else %}
+              {{ location.name }}
+          {% endif %}
+        </td>
+        <td>{{ location.entity }}</td>
+        <td>{{ location.address }}</td>
+        <td>{{ location.postcode }}</td>
+        <td>{{ location.town }}</td>
+        <td>{{ location.state }}</td>
+        <td>{{ location.country }}</td>
+        <td>{{ location.building }}</td>
+        <td>{{ location.room }}</td>
+        <td>{{ location.latitude }}</td>
+        <td>{{ location.longitude }}</td>
+        <td>{{ location.altitude }}</td>
+        <td>{{ location.comment }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

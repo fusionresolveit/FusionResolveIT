@@ -1,0 +1,29 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.comment }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entity in data.entities|sort((a, b) => a.entity.name|lower <=> b.entity.name|lower) %}
+      <tr>
+        <td>
+          {% if entity.url != '' %}
+              <a href="{{ entity.url }}">{{ entity.name }}</a>
+          {% else %}
+              {{ entity.name }}
+          {% endif %}
+        </td>
+        <td>{{ entity.entity }}</td>
+        <td>{{ entity.comment }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

@@ -771,8 +771,8 @@ class Entity
       ],
       [
         'title' => $translator->translatePlural('Entity', 'Entities', 2),
-        'icon' => 'caret square down outline',
-        'link' => '',
+        'icon' => 'layer group',
+        'link' => $rootUrl . '/entities',
       ],
       [
         'title' => $translator->translate('Address'),
@@ -807,7 +807,7 @@ class Entity
       [
         'title' => $translator->translatePlural('User', 'Users', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/users',
       ],
       [
         'title' => $translator->translatePlural('Rule', 'Rules', 2),

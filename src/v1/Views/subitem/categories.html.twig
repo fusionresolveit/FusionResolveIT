@@ -1,0 +1,94 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.user }}</th>
+      <th>{{ translation.group }}</th>
+      <th>{{ translation.knowbaseitemcategory }}</th>
+      <th>{{ translation.visible_simplified_interface }}</th>
+      <th>{{ translation.visible_incident }}</th>
+      <th>{{ translation.visible_request }}</th>
+      <th>{{ translation.visible_problem }}</th>
+      <th>{{ translation.visible_change }}</th>
+      <th>{{ translation.template_request }}</th>
+      <th>{{ translation.template_incident }}</th>
+      <th>{{ translation.template_change }}</th>
+      <th>{{ translation.template_problem }}</th>
+      <th>{{ translation.comment }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for categorie in data.categories|sort((a, b) => a.categorie.name|lower <=> b.categorie.name|lower) %}
+      <tr>
+        <td>
+          {% if categorie.url != '' %}
+              <a href="{{ categorie.url }}">{{ categorie.name }}</a>
+          {% else %}
+              {{ categorie.name }}
+          {% endif %}
+        </td>
+        <td>{{ categorie.entity }}</td>
+        <td>{{ categorie.user }}</td>
+        <td>{{ categorie.group }}</td>
+        <td>{{ categorie.knowbaseitemcategory }}</td>
+        {% if categorie.visible_simplified_interface %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ categorie.visible_simplified_interface_val }}
+        </td>
+          {% if categorie.visible_incident %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ categorie.visible_incident_val }}
+        </td>
+          {% if categorie.visible_request %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ categorie.visible_request_val }}
+        </td>
+          {% if categorie.visible_problem %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ categorie.visible_problem_val }}
+        </td>
+          {% if categorie.visible_change %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ categorie.visible_change_val }}
+        </td>
+        <td>{{ categorie.template_request }}</td>
+        <td>{{ categorie.template_incident }}</td>
+        <td>{{ categorie.template_change }}</td>
+        <td>{{ categorie.template_problem }}</td>
+        <td>{{ categorie.comment }}</td>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

@@ -26,11 +26,13 @@ class Group extends Common
     'entity',
     'notes',
     'completename',
+    'parent_of',
   ];
 
   protected $with = [
     'entity:id,name',
     'notes:id',
+    'parent_of:id,name,group_id,entity_id',
   ];
 
   public function getCompletenameAttribute()
@@ -65,5 +67,10 @@ class Group extends Common
       '\App\Models\Notepad',
       'item',
     );
+  }
+
+  public function parent_of(): HasMany
+  {
+    return $this->hasMany('\App\Models\Group','group_id');
   }
 }

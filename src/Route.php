@@ -454,6 +454,7 @@ final class Route
             $sub->map(['GET'], 'problem', \App\v1\Controllers\Ticket::class . ':showProblem');
             $sub->map(['POST'], 'problem', \App\v1\Controllers\Ticket::class . ':postProblem');
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Ticket::class . ':showSubKnowbaseitems');
+            $sub->map(['GET'], 'costs', \App\v1\Controllers\Ticket::class . ':showSubCosts');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Ticket::class . ':showSubHistory');
           });
         });
@@ -752,6 +753,10 @@ final class Route
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Project::class . ':showSubContracts');
             $sub->map(['GET'], 'projecttasks', \App\v1\Controllers\Project::class . ':showSubProjecttasks');
             $sub->map(['GET'], 'projects', \App\v1\Controllers\Project::class . ':showSubProjects');
+            $sub->map(['GET'], 'projectteams', \App\v1\Controllers\Project::class . ':showSubProjectteams');
+            $sub->map(['GET'], 'items', \App\v1\Controllers\Project::class . ':showSubItems');
+            $sub->map(['GET'], 'costs', \App\v1\Controllers\Project::class . ':showSubCosts');
+            $sub->map(['GET'], 'itilitems', \App\v1\Controllers\Project::class . ':showSubItilitems');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Project::class . ':showSubHistory');
           });
         });
@@ -846,6 +851,7 @@ final class Route
             $sub->map(['GET'], 'tickets', \App\v1\Controllers\Group::class . ':showSubItilTicketsCreated');
             $sub->map(['GET'], 'problems', \App\v1\Controllers\Group::class . ':showSubItilProblems');
             $sub->map(['GET'], 'changes', \App\v1\Controllers\Group::class . ':showSubItilChanges');
+            $sub->map(['GET'], 'groups', \App\v1\Controllers\Group::class . ':showSubGroups');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Group::class . ':showSubHistory');
           });
         });
@@ -864,6 +870,8 @@ final class Route
             $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Entity::class . ':showSubKnowbaseitems');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Entity::class . ':showSubDocuments');
             $sub->map(['GET'], 'address', \App\v1\Controllers\Entity::class . ':showSubAddress');
+            $sub->map(['GET'], 'entities', \App\v1\Controllers\Entity::class . ':showSubEntities');
+            $sub->map(['GET'], 'users', \App\v1\Controllers\Entity::class . ':showSubUsers');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Entity::class . ':showSubHistory');
           });
         });
@@ -948,6 +956,7 @@ final class Route
             $locationId->group('/', function (RouteCollectorProxy $sub)
             {
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Location::class . ':showSubDocuments');
+              $sub->map(['GET'], 'locations', \App\v1\Controllers\Location::class . ':showSubLocations');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Location::class . ':showSubHistory');
             });
           });
@@ -962,6 +971,7 @@ final class Route
             $stateId->map(['POST'], '', \App\v1\Controllers\State::class . ':updateItem');
             $stateId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'states', \App\v1\Controllers\State::class . ':showSubStates');
               $sub->map(['GET'], 'history', \App\v1\Controllers\State::class . ':showSubHistory');
             });
           });
@@ -1022,6 +1032,7 @@ final class Route
             $categoryId->map(['POST'], '', \App\v1\Controllers\Category::class . ':updateItem');
             $categoryId->group('/', function (RouteCollectorProxy $sub)
             {
+              $sub->map(['GET'], 'categories', \App\v1\Controllers\Category::class . ':showSubCategories');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Category::class . ':showSubHistory');
             });
           });

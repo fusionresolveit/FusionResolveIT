@@ -27,6 +27,7 @@ class Entity extends Common
     'knowbaseitems',
     'documents',
     'completename',
+    'profilesusers',
   ];
 
   protected $with = [
@@ -34,6 +35,7 @@ class Entity extends Common
     'notes:id',
     'knowbaseitems:id,name',
     'documents:id,name',
+    'profilesusers',
   ];
 
   protected static function booted(): void
@@ -108,5 +110,10 @@ class Entity extends Common
       'document_id',
       'updated_at',
     );
+  }
+
+  public function profilesusers(): HasMany
+  {
+    return $this->hasMany('\App\Models\ProfileUser','entity_id');
   }
 }

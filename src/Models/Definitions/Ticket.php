@@ -604,7 +604,7 @@ class Ticket
       [
         'title' => $translator->translatePlural('Cost', 'Costs', 2),
         'icon' => 'money bill alternate',
-        'link' => '',
+        'link' => $rootUrl . '/costs',
       ],
       [
         'title' => $translator->translatePlural('Project', 'Projects', 2),

@@ -1,0 +1,190 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.entity }}</th>
+      <th>{{ translation.is_visible_computer }}</th>
+      <th>{{ translation.is_visible_monitor }}</th>
+      <th>{{ translation.is_visible_networkequipment }}</th>
+      <th>{{ translation.is_visible_peripheral }}</th>
+      <th>{{ translation.is_visible_phone }}</th>
+      <th>{{ translation.is_visible_printer }}</th>
+      <th>{{ translation.is_visible_softwarelicense }}</th>
+      <th>{{ translation.is_visible_certificate }}</th>
+      <th>{{ translation.is_visible_enclosure }}</th>
+      <th>{{ translation.is_visible_pdu }}</th>
+      <th>{{ translation.is_visible_line }}</th>
+      <th>{{ translation.is_visible_rack }}</th>
+      <th>{{ translation.is_visible_softwareversion }}</th>
+      <th>{{ translation.is_visible_cluster }}</th>
+      <th>{{ translation.is_visible_contract }}</th>
+      <th>{{ translation.is_visible_appliance }}</th>
+      <th>{{ translation.comment }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for state in data.states|sort((a, b) => a.state.name|lower <=> b.state.name|lower) %}
+      <tr>
+        <td>
+          {% if state.url != '' %}
+              <a href="{{ state.url }}">{{ state.name }}</a>
+          {% else %}
+              {{ state.name }}
+          {% endif %}
+        </td>
+        <td>{{ state.entity }}</td>
+        {% if state.is_visible_computer %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_computer_val }}
+        </td>
+        {% if state.is_visible_monitor %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_monitor_val }}
+        </td>
+        {% if state.is_visible_networkequipment %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_networkequipment_val }}
+        </td>
+        {% if state.is_visible_peripheral %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_peripheral_val }}
+        </td>
+        {% if state.is_visible_phone %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_phone_val }}
+        </td>
+        {% if state.is_visible_printer %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_printer_val }}
+        </td>
+        {% if state.is_visible_softwarelicense %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_softwarelicense_val }}
+        </td>
+        {% if state.is_visible_certificate %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_certificate_val }}
+        </td>
+        {% if state.is_visible_enclosure %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_enclosure_val }}
+        </td>
+        {% if state.is_visible_pdu %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_pdu_val }}
+        </td>
+        {% if state.is_visible_line %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_line_val }}
+        </td>
+        {% if state.is_visible_rack %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_rack_val }}
+        </td>
+        {% if state.is_visible_softwareversion %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_softwareversion_val }}
+        </td>
+        {% if state.is_visible_cluster %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_cluster_val }}
+        </td>
+        {% if state.is_visible_contract %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_contract_val }}
+        </td>
+        {% if state.is_visible_appliance %}
+          <td class="positive">
+          <i class="check circle outline icon"></i>
+        {% else %}
+          <td class="negative">
+          <i class="times circle outline icon"></i>
+        {% endif %}
+        {{ state.is_visible_appliance_val }}
+        </td>
+        <td>{{ state.comment }}</td>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

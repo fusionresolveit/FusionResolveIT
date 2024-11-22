@@ -177,6 +177,7 @@ final class User extends Common
 
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('groups', $myGroups);
+    $viewData->addData('show', $this->itilchoose);
 
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));

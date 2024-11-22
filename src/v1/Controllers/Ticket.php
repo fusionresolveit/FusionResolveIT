@@ -11,6 +11,7 @@ final class Ticket extends Common
 {
   protected $model = '\App\Models\Ticket';
   protected $rootUrl2 = '/tickets/';
+  protected $costchoose = 'ticket';
 
   public function getAll(Request $request, Response $response, $args): Response
   {

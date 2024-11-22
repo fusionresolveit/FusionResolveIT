@@ -298,7 +298,7 @@ class State
       [
         'title' => $translator->translatePlural('Status of items', 'Statuses of items', 2),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/states',
       ],
       [
         'title' => $translator->translate('Historical'),

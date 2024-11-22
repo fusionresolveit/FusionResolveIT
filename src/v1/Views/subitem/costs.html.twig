@@ -3,11 +3,22 @@
 
 <table class="ui blue table">
   <thead>
+    {% if data.show == 'project' %}
+    <tr>
+      <th>{{ translation.costs }}</th>
+    </tr>
+    {% endif %}
     <tr>
       <th>{{ translation.name }}</th>
       <th>{{ translation.begin_date }}</th>
       <th>{{ translation.end_date }}</th>
       <th>{{ translation.budget }}</th>
+      {% if data.show == 'ticket' %}
+      <th>{{ translation.actiontime }}</th>
+      <th>{{ translation.cost_time }}</th>
+      <th>{{ translation.cost_fixed }}</th>
+      <th>{{ translation.cost_material }}</th>
+      {% endif %}
       <th>{{ translation.cost }}</th>
     </tr>
   </thead>
@@ -24,14 +35,93 @@
               {{ cost.budget }}
           {% endif %}
         </td>
+        {% if data.show == 'ticket' %}
+        <td>{{ cost.actiontime }}</td>
+        <td>{{ cost.cost_time }}</td>
+        <td>{{ cost.cost_fixed }}</td>
+        <td>{{ cost.cost_material }}</td>
+        {% endif %}
         <td>{{ cost.cost }}</td>
       </tr>
     {% endfor %}
+    {% if data.costs|length > 0 %}
     <tr>
-      <td colspan="4" style="text-align: right;">{{ translation.total_cost }}</td>
+      {% if data.show == 'ticket' %}
+      <td colspan="4" style="text-align: right;">{{ translation.total }}</td>
+      <td>{{ data.total_actiontime }}</td>
+      <td>{{ data.total_cost_time }}</td>
+      <td>{{ data.total_cost_fixed }}</td>
+      <td>{{ data.total_cost_material }}</td>
+      {% else %}
+        <td colspan="4" style="text-align: right;">{{ translation.total_cost }}</td>
+      {% endif %}
       <td>{{ data.total_cost }}</td>
     </tr>
+    {% endif %}
   </tbody>
 </table>
+
+{% if data.show == 'project' %}
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.ticket_costs }}</th>
+    </tr>
+    <tr>
+      <th>{{ translation.ticket }}</th>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.begin_date }}</th>
+      <th>{{ translation.end_date }}</th>
+      <th>{{ translation.budget }}</th>
+      <th>{{ translation.actiontime }}</th>
+      <th>{{ translation.cost_time }}</th>
+      <th>{{ translation.cost_fixed }}</th>
+      <th>{{ translation.cost_material }}</th>
+      <th>{{ translation.cost }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ticket_cost in data.ticket_costs %}
+      <tr>
+        <td>
+          {% if ticket_cost.ticket_url != '' %}
+              <a href="{{ ticket_cost.ticket_url }}">{{ ticket_cost.ticket }}</a>
+          {% else %}
+              {{ ticket_cost.ticket }}
+          {% endif %}
+        </td>
+        <td>{{ ticket_cost.name }}</td>
+        <td>{{ ticket_cost.begin_date }}</td>
+        <td>{{ ticket_cost.end_date }}</td>
+        <td>
+          {% if ticket_cost.budget_url != '' %}
+              <a href="{{ ticket_cost.budget_url }}">{{ ticket_cost.budget }}</a>
+          {% else %}
+              {{ ticket_cost.budget }}
+          {% endif %}
+        </td>
+        <td>{{ ticket_cost.actiontime }}</td>
+        <td>{{ ticket_cost.cost_time }}</td>
+        <td>{{ ticket_cost.cost_fixed }}</td>
+        <td>{{ ticket_cost.cost_material }}</td>
+        <td>{{ ticket_cost.cost }}</td>
+      </tr>
+    {% endfor %}
+    {% if data.ticket_costs|length > 0 %}
+    <tr>
+      <td colspan="5" style="text-align: right;">{{ translation.total }}</td>
+      <td>{{ data.ticket_costs_total_actiontime }}</td>
+      <td>{{ data.ticket_costs_total_cost_time }}</td>
+      <td>{{ data.ticket_costs_total_cost_fixed }}</td>
+      <td>{{ data.ticket_costs_total_cost_material }}</td>
+      <td>{{ data.ticket_costs_total_cost }}</td>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<div style="text-align: center;">{{ translation.total_cost }} : {{ data.total_costs }}</div>
+
+{% endif %}
 
 {{ include('footer.html.twig') }}

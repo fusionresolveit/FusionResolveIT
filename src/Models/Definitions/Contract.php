@@ -543,7 +543,7 @@ class Contract
       ],
       [
         'title' => $translator->translatePlural('Cost', 'Costs', 2),
-        'icon' => 'piggy bank',
+        'icon' => 'money bill alternate',
         'link' => $rootUrl . '/costs',
       ],
       [

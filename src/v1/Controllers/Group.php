@@ -88,4 +88,60 @@ final class Group extends Common
 
     return $view->render($response, 'subitem/users.html.twig', (array)$viewData);
   }
+
+  public function showSubGroups(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('parent_of')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/groups');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myGroups = [];
+    foreach ($myItem->parent_of as $parent_of)
+    {
+      $name = $parent_of->name;
+
+      $url = '';
+      if ($rootUrl2 != '') {
+        $url = $rootUrl2 . "/groups/" . $parent_of->id;
+      }
+
+      $entity = '';
+      if ($parent_of->entity != null) {
+        $entity = $parent_of->entity->name;
+      }
+
+      $comment = $parent_of->comment;
+
+      $myGroups[$parent_of->id] = [
+        'name'        => $name,
+        'url'         => $url,
+        'entity'      => $entity,
+        'comment'     => $comment,
+      ];
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('groups', $myGroups);
+    $viewData->addData('show', $this->itilchoose);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+
+    return $view->render($response, 'subitem/groups.html.twig', (array)$viewData);
+  }
 }

@@ -13,6 +13,13 @@ class Common
   protected $itilchoose = '';
   protected $associateditems_model = '';
   protected $associateditems_model_id = '';
+  protected $costchoose = '';
+
+  protected $MINUTE_TIMESTAMP = '60';
+  protected $HOUR_TIMESTAMP = '3600';
+  protected $DAY_TIMESTAMP = '86400';
+  protected $WEEK_TIMESTAMP = '604800';
+  protected $MONTH_TIMESTAMP = '2592000';
 
   protected function getUrlWithoutQuery(Request $request)
   {
@@ -1520,7 +1527,7 @@ class Common
       }
       if ($ticket->requestergroup != null) {
         foreach ($ticket->requestergroup as $requestergroup) {
-          $requesters[] = ['name' => $requestergroup->name];
+          $requesters[] = ['name' => $requestergroup->completename];
         }
       }
       $technicians = [];
@@ -1531,7 +1538,7 @@ class Common
       }
       if ($ticket->techniciangroup != null) {
         foreach ($ticket->techniciangroup as $techniciangroup) {
-          $technicians[] = ['name' => $techniciangroup->name];
+          $technicians[] = ['name' => $techniciangroup->completename];
         }
       }
       $associated_items = []; // TODO
@@ -1580,7 +1587,7 @@ class Common
       }
       if ($problem->requestergroup != null) {
         foreach ($problem->requestergroup as $requestergroup) {
-          $requesters[] = ['name' => $requestergroup->name];
+          $requesters[] = ['name' => $requestergroup->completename];
         }
       }
       $technicians = [];
@@ -1591,7 +1598,7 @@ class Common
       }
       if ($problem->techniciangroup != null) {
         foreach ($problem->techniciangroup as $techniciangroup) {
-          $technicians[] = ['name' => $techniciangroup->name];
+          $technicians[] = ['name' => $techniciangroup->completename];
         }
       }
       $category = '';
@@ -1638,10 +1645,10 @@ class Common
       }
       if ($change->requestergroup != null) {
         foreach ($change->requestergroup as $requestergroup) {
-          $requesters[] = ['name' => $requestergroup->name];
+          $requesters[] = ['name' => $requestergroup->completename];
         }
       }
-      $technicians = []; // TODO
+      $technicians = [];
       if ($change->technician != null) {
         foreach ($change->technician as $technician) {
           $technicians[] = ['name' => $technician->name];
@@ -1649,7 +1656,7 @@ class Common
       }
       if ($change->techniciangroup != null) {
         foreach ($change->techniciangroup as $techniciangroup) {
-          $technicians[] = ['name' => $techniciangroup->name];
+          $technicians[] = ['name' => $techniciangroup->completename];
         }
       }
       $category = '';
@@ -3344,5 +3351,329 @@ class Common
       }
     }
     return $fields;
+  }
+
+  public function showSubCosts(Request $request, Response $response, $args): Response
+  {
+    global $translator;
+
+    $item = new $this->model();
+    $definitions = $item->getDefinitions();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::with('costs')->find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/costs');
+    $rootUrl2 = '';
+    if ($this->rootUrl2 != '') {
+      $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
+    }
+
+    $myCosts = [];
+    $myTicketCosts = [];
+    $total_cost = 0;
+    $total_actiontime = 0;
+    $total_cost_time = 0;
+    $total_cost_fixed = 0;
+    $total_cost_material = 0;
+    $ticket_costs_total_cost = 0;
+    $ticket_costs_total_actiontime = 0;
+    $ticket_costs_total_cost_time = 0;
+    $ticket_costs_total_cost_fixed = 0;
+    $ticket_costs_total_cost_material = 0;
+    $total_costs = 0;
+    foreach ($myItem->costs as $current_cost)
+    {
+      $budget = '';
+      $budget_url = '';
+      if ($current_cost->budget != null)
+      {
+        $budget = $current_cost->budget->name;
+
+        if ($rootUrl2 != '') {
+          $budget_url = $rootUrl2 . "/budgets/" . $current_cost->budget->id;
+        }
+      }
+
+      $cost = 0;
+      $actiontime = 0;
+      $cost_time = 0;
+      $cost_fixed = 0;
+      $cost_material = 0;
+      if ($this->costchoose == 'ticket') {
+        if (isset($current_cost->actiontime)) {
+          $actiontime = $current_cost->actiontime;
+
+          $total_actiontime = $total_actiontime + $actiontime;
+        }
+        if (isset($current_cost->cost_time)) {
+          $cost_time = $current_cost->cost_time;
+
+          $total_cost_time = $total_cost_time + $this->computeCostTime($actiontime, $cost_time);
+        }
+        if (isset($current_cost->cost_fixed)) {
+          $cost_fixed = $current_cost->cost_fixed;
+
+          $total_cost_fixed = $total_cost_fixed + ($cost_fixed);
+        }
+        if (isset($current_cost->cost_material)) {
+          $cost_material = $current_cost->cost_material;
+
+          $total_cost_material = $total_cost_material + ($cost_material);
+        }
+
+        $cost = $this->computeTotalCost($actiontime, $cost_time, $cost_fixed, $cost_material);
+        $total_cost = $total_cost + ($cost);
+
+      } else {
+        if (isset($current_cost->cost)) {
+          $cost = $current_cost->cost;
+
+          $total_cost = $total_cost + ($cost);
+        }
+      }
+
+      $myCosts[$current_cost->id] = [
+        'name'               => $current_cost->name,
+        'begin_date'         => $current_cost->begin_date,
+        'end_date'           => $current_cost->end_date,
+        'budget'             => $budget,
+        'budget_url'         => $budget_url,
+        'cost'               => $this->showCosts($cost),
+        'actiontime'         => $this->timestampToString($actiontime, false),
+        'cost_time'          => $this->showCosts($cost_time),
+        'cost_fixed'         => $this->showCosts($cost_fixed),
+        'cost_material'      => $this->showCosts($cost_material),
+      ];
+    }
+
+    // tri de la + récente à la + ancienne
+    usort($myCosts, function ($a, $b)
+    {
+      return strtolower($a['begin_date']) > strtolower($b['begin_date']);
+    });
+
+    if ($this->costchoose == 'project') {
+      $item2 = new $this->model();
+      $myItem2 = $item2::with('tasks')->find($args['id']);
+
+
+      foreach ($myItem2->tasks as $current_task) {
+        if ($current_task->tickets != null)
+        {
+          foreach ($current_task->tickets as $current_ticket) {
+            $ticket = $current_ticket->name;
+            $ticket_url = '';
+            if ($rootUrl2 != '') {
+              $ticket_url = $rootUrl2 . "/tickets/" . $current_ticket->id;
+            }
+
+            if ($current_ticket->costs != null) {
+              foreach ($current_ticket->costs as $current_cost) {
+                $budget = '';
+                $budget_url = '';
+                if ($current_cost->budget != null)
+                {
+                  $budget = $current_cost->budget->name;
+
+                  if ($rootUrl2 != '') {
+                    $budget_url = $rootUrl2 . "/budgets/" . $current_cost->budget->id;
+                  }
+                }
+
+                $cost = 0;
+                $actiontime = 0;
+                $cost_time = 0;
+                $cost_fixed = 0;
+                $cost_material = 0;
+
+                if (isset($current_cost->actiontime)) {
+                  $actiontime = $current_cost->actiontime;
+
+                  $ticket_costs_total_actiontime = $ticket_costs_total_actiontime + $actiontime;
+                }
+                if (isset($current_cost->cost_time)) {
+                  $cost_time = $current_cost->cost_time;
+
+                  $ticket_costs_total_cost_time = $ticket_costs_total_cost_time + $this->computeCostTime($actiontime, $cost_time);
+                }
+                if (isset($current_cost->cost_fixed)) {
+                  $cost_fixed = $current_cost->cost_fixed;
+
+                  $ticket_costs_total_cost_fixed = $ticket_costs_total_cost_fixed + ($cost_fixed);
+                }
+                if (isset($current_cost->cost_material)) {
+                  $cost_material = $current_cost->cost_material;
+
+                  $ticket_costs_total_cost_material = $ticket_costs_total_cost_material + ($cost_material);
+                }
+
+                $cost = $this->computeTotalCost($actiontime, $cost_time, $cost_fixed, $cost_material);
+                $ticket_costs_total_cost = $ticket_costs_total_cost + ($cost);
+
+
+                $myTicketCosts[$current_cost->id] = [
+                  'ticket'             => $ticket,
+                  'ticket_url'         => $ticket_url,
+                  'name'               => $current_cost->name,
+                  'begin_date'         => $current_cost->begin_date,
+                  'end_date'           => $current_cost->end_date,
+                  'budget'             => $budget,
+                  'budget_url'         => $budget_url,
+                  'cost'               => $this->showCosts($cost),
+                  'actiontime'         => $this->timestampToString($actiontime, false),
+                  'cost_time'          => $this->showCosts($cost_time),
+                  'cost_fixed'         => $this->showCosts($cost_fixed),
+                  'cost_material'      => $this->showCosts($cost_material),
+                ];
+              }
+            }
+          }
+        }
+      }
+
+      // tri de la + récente à la + ancienne
+      usort($myTicketCosts, function ($a, $b)
+      {
+        return strtolower($a['begin_date']) > strtolower($b['begin_date']);
+      });
+
+      $total_costs = $total_cost + $ticket_costs_total_cost;
+    }
+
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('costs', $myCosts);
+    $viewData->addData('ticket_costs', $myTicketCosts);
+    $viewData->addData('total_cost', $this->showCosts($total_cost));
+    $viewData->addData('total_actiontime', $this->timestampToString($total_actiontime, false));
+    $viewData->addData('total_cost_time', $this->showCosts($total_cost_time));
+    $viewData->addData('total_cost_fixed', $this->showCosts($total_cost_fixed));
+    $viewData->addData('total_cost_material', $this->showCosts($total_cost_material));
+    $viewData->addData('ticket_costs_total_cost', $this->showCosts($ticket_costs_total_cost));
+    $viewData->addData('ticket_costs_total_actiontime', $this->timestampToString($ticket_costs_total_actiontime, false));
+    $viewData->addData('ticket_costs_total_cost_time', $this->showCosts($ticket_costs_total_cost_time));
+    $viewData->addData('ticket_costs_total_cost_fixed', $this->showCosts($ticket_costs_total_cost_fixed));
+    $viewData->addData('ticket_costs_total_cost_material', $this->showCosts($ticket_costs_total_cost_material));
+    $viewData->addData('total_costs', $this->showCosts($total_costs));
+    $viewData->addData('show', $this->costchoose);
+
+    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('begin_date', $translator->translate('Start date'));
+    $viewData->addTranslation('end_date', $translator->translate('End date'));
+    $viewData->addTranslation('budget', $translator->translatePlural('Budget', 'Budgets', 1));
+    $viewData->addTranslation('cost', $translator->translatePlural('Cost', 'Costs', 1));
+    $viewData->addTranslation('costs', $translator->translatePlural('Cost', 'Costs', 2));
+    $viewData->addTranslation('total_cost', $translator->translate('Total cost'));
+    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('actiontime', $translator->translate('Duration'));
+    $viewData->addTranslation('cost_time', $translator->translate('Time cost'));
+    $viewData->addTranslation('cost_fixed', $translator->translate('Fixed cost'));
+    $viewData->addTranslation('cost_material', $translator->translate('Material cost'));
+    $viewData->addTranslation('ticket_costs', $translator->translatePlural('Ticket cost', 'Ticket costs', 2));
+    $viewData->addTranslation('ticket', $translator->translatePlural('Ticket', 'Tickets', 1));
+
+    return $view->render($response, 'subitem/costs.html.twig', (array)$viewData);
+  }
+
+  public function timestampToString($time, $display_sec = true, $use_days = true)
+  {
+    global $translator;
+
+    $time = (float)$time;
+
+    $sign = '';
+    if ($time < 0) {
+      $sign = '- ';
+      $time = abs($time);
+    }
+    $time = floor($time);
+
+    // Force display seconds if time is null
+    if ($time < $this->MINUTE_TIMESTAMP) {
+      $display_sec = true;
+    }
+
+    $units = $this->getTimestampTimeUnits($time);
+    if ($use_days) {
+      if ($units['day'] > 0) {
+        if ($display_sec) {
+          return sprintf($translator->translate('%1$s%2$d days %3$d hours %4$d minutes %5$d seconds'), $sign, $units['day'], $units['hour'], $units['minute'], $units['second']);
+        }
+        return sprintf($translator->translate('%1$s%2$d days %3$d hours %4$d minutes'), $sign, $units['day'], $units['hour'], $units['minute']);
+      }
+    } else {
+      if ($units['day'] > 0) {
+        $units['hour'] += 24*$units['day'];
+      }
+    }
+
+    if ($units['hour'] > 0) {
+      if ($display_sec) {
+        return sprintf($translator->translate('%1$s%2$d hours %3$d minutes %4$d seconds'), $sign, $units['hour'], $units['minute'], $units['second']);
+      }
+      return sprintf($translator->translate('%1$s%2$d hours %3$d minutes'), $sign, $units['hour'], $units['minute']);
+    }
+
+    if ($units['minute'] > 0) {
+      if ($display_sec) {
+        return sprintf($translator->translate('%1$s%2$d minutes %3$d seconds'), $sign, $units['minute'], $units['second']);
+      }
+      return sprintf($translator->translatePlural('%1$s%2$d minute', '%1$s%2$d minutes', $units['minute']), $sign, $units['minute']);
+    }
+
+    if ($display_sec) {
+      return sprintf($translator->translatePlural('%1$s%2$s second', '%1$s%2$s seconds', $units['second']), $sign, $units['second']);
+    }
+
+    return '';
+  }
+
+  public function getTimestampTimeUnits($time)
+  {
+    $out = [];
+
+    $time          = round(abs($time));
+    $out['second'] = 0;
+    $out['minute'] = 0;
+    $out['hour']   = 0;
+    $out['day']    = 0;
+
+    $out['second'] = $time%$this->MINUTE_TIMESTAMP;
+    $time         -= $out['second'];
+
+    if ($time > 0) {
+      $out['minute'] = ($time%$this->HOUR_TIMESTAMP)/$this->MINUTE_TIMESTAMP;
+      $time         -= $out['minute']*$this->MINUTE_TIMESTAMP;
+
+      if ($time > 0) {
+        $out['hour'] = ($time%$this->DAY_TIMESTAMP)/$this->HOUR_TIMESTAMP;
+        $time       -= $out['hour']*$this->HOUR_TIMESTAMP;
+
+        if ($time > 0) {
+          $out['day'] = $time/$this->DAY_TIMESTAMP;
+        }
+      }
+    }
+    return $out;
+  }
+
+  public function showCosts($cost)
+  {
+    return sprintf("%.2f", $cost);
+  }
+
+  public function computeCostTime($actiontime, $cost_time)
+  {
+    return $this->showCosts(($actiontime*$cost_time/$this->HOUR_TIMESTAMP));
+  }
+
+  public function computeTotalCost($actiontime, $cost_time, $cost_fixed, $cost_material)
+  {
+    return $this->showCosts(($actiontime*$cost_time/$this->HOUR_TIMESTAMP)+$cost_fixed+$cost_material);
   }
 }

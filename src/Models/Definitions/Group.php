@@ -251,7 +251,7 @@ class Group
       [
         'title' => $translator->translate('Child groups'),
         'icon' => 'caret square down outline',
-        'link' => '',
+        'link' => $rootUrl . '/groups',
       ],
       [
         'title' => $translator->translate('Used items'),
