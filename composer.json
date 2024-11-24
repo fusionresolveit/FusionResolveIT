@@ -26,8 +26,6 @@
         "directorytree/ldaprecord": "^3.7",
         "fico7489/laravel-pivot": "^3.0",
         "genealabs/laravel-pivot-events": "~11.0",
-        "guzzlehttp/guzzle": "^7.4",
-        "guzzlehttp/psr7": "^1.8",
         "htmlawed/htmlawed": "^1.2",
         "illuminate/container": "^11",
         "illuminate/database": "^11",
@@ -40,16 +38,14 @@
         "paragonie/sodium_compat": "^1.14",
         "php-di/php-di": "^7.0",
         "phpmailer/phpmailer": "^6.9",
-        "psr/log": "^1.1",
-        "psr/simple-cache": "^1.0",
         "ramsey/uuid": "^4.0",
         "rlanvin/php-rrule": "^2.1",
-        "robmorgan/phinx": "^0.14.0",
+        "robmorgan/phinx": "~0.16.0",
         "slim/psr7": "^1.7",
         "slim/slim": "4.*",
         "slim/twig-view": "^3.4",
         "socialconnect/auth": "^3.3",
-        "socialconnect/http-client": "^1.0",
+        "socialconnect/http-client": "dev-master",
         "spatie/array-to-xml": "^3.3",
         "symfony/console": "^6.0",
         "symfony/error-handler": "^6.4",
@@ -62,7 +58,6 @@
     },
     "require-dev": {
         "ext-xml": "*",
-        "consolidation/robo": "^4.0",
         "illuminate/testing": "^11.30",
         "laminas/laminas-cli": "^1.10",
         "maglnet/composer-require-checker": "^4.7",
@@ -99,12 +94,6 @@
             "@php -r \"file_put_contents('.composer.hash', sha1_file('composer.lock'));\""
         ]
     },
-    "repositories": {
-        "htmlawed": {
-            "type": "composer",
-            "url": "https://www.bioinformatics.org/phplabware/downloads/"
-        }
-    },
     "autoload": {
         "psr-4": {
             "App\\": "src",
@@ -112,6 +101,12 @@
             "Migration\\": "db"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/alyldas/http-client"
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
