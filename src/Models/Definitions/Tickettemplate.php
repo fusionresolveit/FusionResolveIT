@@ -184,7 +184,7 @@ Array
         'icon' => 'caret square down outline',
         'link' => '',
       ],
-       [
+      [
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
         'link' => $rootUrl . '/history',

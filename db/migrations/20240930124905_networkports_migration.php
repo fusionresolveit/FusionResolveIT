@@ -74,7 +74,8 @@ final class NetworkportsMigration extends AbstractMigration
     return null;
   }
 
-  public function convertItemtype($itemtype) {
+  public function convertItemtype($itemtype)
+  {
     $new_itemtype = '';
 
     if ($itemtype != null) {

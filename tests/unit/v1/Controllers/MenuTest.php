@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace Tests\unit\v1\Controllers;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
+use Selective\TestTrait\Traits\HttpTestTrait;
+use Tests\Traits\AppTestTrait;
 
-/**
- * @covers \App\v1\Controllers\Menu
- */
+#[CoversClass('\App\v1\Controllers\Menu')]
+#[UsesClass('\App\Route')]
+#[UsesClass('\App\Translation')]
+
 final class MenuTest extends TestCase
 {
-  use \Tests\Traits\HttpTestTrait;
+  use AppTestTrait;
+  use HttpTestTrait;
 
   public function testMenuDataHasDisplayField(): void
   {

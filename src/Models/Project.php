@@ -36,8 +36,8 @@ class Project extends Common
     'documents',
     'contracts',
     'tasks',
-    'parent_of',
     'costs',
+    'parents',
   ];
 
   protected $with = [
@@ -51,7 +51,7 @@ class Project extends Common
     'documents:id,name',
     'contracts:id,name',
     'tasks:id,name',
-    'parent_of:id,name',
+    'parents:id,name',
     'costs:id,name',
   ];
 
@@ -125,12 +125,12 @@ class Project extends Common
 
   public function tasks(): HasMany
   {
-    return $this->hasMany('\App\Models\Projecttask','project_id',);
+    return $this->hasMany('\App\Models\Projecttask', 'project_id');
   }
 
-  public function parent_of(): HasMany
+  public function parents(): HasMany
   {
-    return $this->hasMany('\App\Models\Project','project_id',);
+    return $this->hasMany('\App\Models\Project', 'project_id');
   }
 
   public function costs(): HasMany

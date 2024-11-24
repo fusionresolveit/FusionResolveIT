@@ -305,7 +305,8 @@ class Common extends Model
     {
       $def = $otherDefs;
     }
-    if ($myItem == null) {
+    if ($myItem == null)
+    {
       return $def;
     }
 

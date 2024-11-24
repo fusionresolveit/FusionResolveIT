@@ -131,7 +131,7 @@ final class Project extends Common
     $definitions = $item->getDefinitions();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('parent_of')->find($args['id']);
+    $myItem = $item::with('parents')->find($args['id']);
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/projects');
@@ -140,47 +140,47 @@ final class Project extends Common
     }
 
     $myProjects = [];
-    foreach ($myItem->parent_of as $parent_of)
+    foreach ($myItem->parents as $parent)
     {
-      $name = $parent_of->name;
+      $name = $parent->name;
 
       $url = '';
       if ($rootUrl2 != '') {
-        $url = $rootUrl2 . "/projects/" . $parent_of->id;
+        $url = $rootUrl2 . "/projects/" . $parent->id;
       }
 
       $status = '';
       $status_color = '';
-      if ($parent_of->state !== null)
+      if ($parent->state !== null)
       {
-        $status = $parent_of->state->name;
-        $status_color = $parent_of->state->color;
+        $status = $parent->state->name;
+        $status_color = $parent->state->color;
       }
-      $open_date = $parent_of->date;
-      $last_update = $parent_of->updated_at;
+      $open_date = $parent->date;
+      $last_update = $parent->updated_at;
       $entity = '';
-      if ($parent_of->entity !== null)
+      if ($parent->entity !== null)
       {
-        $entity = $parent_of->entity->name;
+        $entity = $parent->entity->name;
       }
-      $priority = $this->getPriorityArray()[$parent_of->priority];
+      $priority = $this->getPriorityArray()[$parent->priority];
 
       $manager = '';
       $manager_url = '';
-      if ($parent_of->user !== null)
+      if ($parent->user !== null)
       {
-        $manager = $parent_of->user->name;
+        $manager = $parent->user->name;
         if ($rootUrl2 != '') {
-          $manager_url = $rootUrl2 . "/users/" . $parent_of->user->id;
+          $manager_url = $rootUrl2 . "/users/" . $parent->user->id;
         }
       }
       $manager_group = '';
       $manager_group_url = '';
-      if ($parent_of->group !== null)
+      if ($parent->group !== null)
       {
-        $manager_group = $parent_of->group->name;
+        $manager_group = $parent->group->name;
         if ($rootUrl2 != '') {
-          $manager_group_url = $rootUrl2 . "/groups/" . $parent_of->group->id;
+          $manager_group_url = $rootUrl2 . "/groups/" . $parent->group->id;
         }
       }
 

@@ -1047,8 +1047,16 @@ final class Route
             $ticketemplateId->map(['POST'], '', \App\v1\Controllers\Tickettemplate::class . ':updateItem');
             $ticketemplateId->group('/', function (RouteCollectorProxy $sub)
             {
-              $sub->map(['GET'], 'mandatoryfields', \App\v1\Controllers\Tickettemplate::class . ':showSubMandatoryFields');
-              $sub->map(['GET'], 'predefinedfields', \App\v1\Controllers\Tickettemplate::class . ':showSubPredefinedFields');
+              $sub->map(
+                ['GET'],
+                'mandatoryfields',
+                \App\v1\Controllers\Tickettemplate::class . ':showSubMandatoryFields'
+              );
+              $sub->map(
+                ['GET'],
+                'predefinedfields',
+                \App\v1\Controllers\Tickettemplate::class . ':showSubPredefinedFields'
+              );
               $sub->map(['GET'], 'hiddenfields', \App\v1\Controllers\Tickettemplate::class . ':showSubHiddenFields');
               $sub->map(['GET'], 'history', \App\v1\Controllers\Tickettemplate::class . ':showSubHistory');
             });

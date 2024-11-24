@@ -88,8 +88,10 @@ final class Cartridgeitem extends Common
 
       $printer_counter = 0; // TODO
 
-
-      $printer_counter = sprintf($translator->translatePlural('%d printed page', '%d printed pages', $printer_counter), $printer_counter);
+      $printer_counter = sprintf(
+        $translator->translatePlural('%d printed page', '%d printed pages', $printer_counter),
+        $printer_counter
+      );
 
       if ($cartridge->date_out == null) {
         $myCartridges_use[] = [
@@ -133,10 +135,18 @@ final class Cartridgeitem extends Common
     $viewData->addTranslation('cartridges_use', $translator->translate('Used cartridges'));
     $viewData->addTranslation('cartridges_out', $translator->translate('Worn cartridges'));
     $viewData->addTranslation('total', $translator->translate('Total'));
-    $viewData->addTranslation('total_new', $translator->translatePlural('cartridge' . "\004" . 'New', 'cartridge' . "\004" . 'New', $total_new));
-    $viewData->addTranslation('total_use', $translator->translatePlural('cartridge' . "\004" . 'Used', 'cartridge' . "\004" . 'Used', $total_use));
-    $viewData->addTranslation('total_out', $translator->translatePlural('cartridge' . "\004" . 'Worn', 'cartridge' . "\004" . 'Worn', $total_out));
-
+    $viewData->addTranslation(
+      'total_new',
+      $translator->translatePlural('cartridge' . "\004" . 'New', 'cartridge' . "\004" . 'New', $total_new)
+    );
+    $viewData->addTranslation(
+      'total_use',
+      $translator->translatePlural('cartridge' . "\004" . 'Used', 'cartridge' . "\004" . 'Used', $total_use)
+    );
+    $viewData->addTranslation(
+      'total_out',
+      $translator->translatePlural('cartridge' . "\004" . 'Worn', 'cartridge' . "\004" . 'Worn', $total_out)
+    );
 
     return $view->render($response, 'subitem/cartridges.html.twig', (array)$viewData);
   }

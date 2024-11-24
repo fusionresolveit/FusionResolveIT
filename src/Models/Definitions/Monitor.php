@@ -323,7 +323,6 @@ class Monitor
       [
         'title' => $translator->translatePlural('Connection', 'Connections', 2),
         'icon' => 'linkify',
-        'link' => '',
         'link' => $rootUrl . '/connections',
       ],
       [

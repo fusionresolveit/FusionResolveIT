@@ -42,8 +42,6 @@ final class Tickettemplate extends Common
     $myMandatoryFields = [];
     foreach ($myItem->mandatoryfields as $mandatoryfield)
     {
-      $name = '';
-      $name = $mandatoryfield->num;
       $interface = '';
       // if ($mandatoryfield->interface !== null)
       // {
@@ -84,8 +82,7 @@ final class Tickettemplate extends Common
     $myPredefinedFields = [];
     foreach ($myItem->predefinedfields as $predefinedfield)
     {
-      $name = '';
-      $name = $mandatoryfield->num;
+      $name = $myItem->num;
 
       $myPredefinedFields[] = [
         'name'      => $name,
@@ -121,8 +118,7 @@ final class Tickettemplate extends Common
     $myHiddenFields = [];
     foreach ($myItem->hiddenfields as $hiddenfield)
     {
-      $name = '';
-      $name = $mandatoryfield->num;
+      $name = $hiddenfield->num;
 
       $myHiddenFields[] = [
         'name'        => $name,

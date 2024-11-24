@@ -162,7 +162,8 @@ class Mailcollector
 
 
     $tab[0]['title'] = $translator->translate('No import');
-    for ($index = 1; $index < 100; $index++) {
+    for ($index = 1; $index < 100; $index++)
+    {
       $tab[$index * 1048576]['title'] = sprintf($translator->translate('%s Mio'), $index);
     }
     return $tab;

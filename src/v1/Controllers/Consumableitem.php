@@ -118,8 +118,14 @@ final class Consumableitem extends Common
     $viewData->addTranslation('no_consumable', $translator->translate('No consumable'));
     $viewData->addTranslation('consumables_use', $translator->translate('Used consumables'));
     $viewData->addTranslation('total', $translator->translate('Total'));
-    $viewData->addTranslation('total_new', $translator->translatePlural('consumable' . "\004" . 'New', 'consumable' . "\004" . 'New', 1));
-    $viewData->addTranslation('total_use', $translator->translatePlural('consumable' . "\004" . 'Used', 'consumable' . "\004" . 'Used', 1));
+    $viewData->addTranslation(
+      'total_new',
+      $translator->translatePlural('consumable' . "\004" . 'New', 'consumable' . "\004" . 'New', 1)
+    );
+    $viewData->addTranslation(
+      'total_use',
+      $translator->translatePlural('consumable' . "\004" . 'Used', 'consumable' . "\004" . 'Used', 1)
+    );
 
     return $view->render($response, 'subitem/consumables.html.twig', (array)$viewData);
   }

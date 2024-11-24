@@ -247,12 +247,24 @@ final class Computer extends Common
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
     $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
-    $viewData->addTranslation('virtualmachinesystem', $translator->translatePlural('Virtualization system', 'Virtualization systems', 1));
-    $viewData->addTranslation('virtualmachinemodel', $translator->translatePlural('Virtualization model', 'Virtualization models', 1));
-    $viewData->addTranslation('virtualmachinestate', $translator->translate('Status'));
+    $viewData->addTranslation(
+      'virtualmachinesystem',
+      $translator->translatePlural('Virtualization system', 'Virtualization systems', 1)
+    );
+    $viewData->addTranslation(
+      'virtualmachinemodel',
+      $translator->translatePlural('Virtualization model', 'Virtualization models', 1)
+    );
+    $viewData->addTranslation(
+      'virtualmachinestate',
+      $translator->translate('Status')
+    );
     $viewData->addTranslation('uuid', $translator->translate('UUID'));
     $viewData->addTranslation('nb_proc', $translator->translate('processor number'));
-    $viewData->addTranslation('memory', sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio')));
+    $viewData->addTranslation(
+      'memory',
+      sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio'))
+    );
     $viewData->addTranslation('machine_host', 'Machine hote');
 
     return $view->render($response, 'subitem/virtualization.html.twig', (array)$viewData);
@@ -355,5 +367,4 @@ final class Computer extends Common
 
     return $view->render($response, 'subitem/connections.html.twig', (array)$viewData);
   }
-
 }

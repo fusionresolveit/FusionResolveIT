@@ -110,6 +110,11 @@ class Cartridgeitem extends Common
 
   public function printermodels(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Printermodel', 'cartridgeitem_printermodel', 'cartridgeitem_id', 'printermodel_id');
+    return $this->belongsToMany(
+      '\App\Models\Printermodel',
+      'cartridgeitem_printermodel',
+      'cartridgeitem_id',
+      'printermodel_id'
+    );
   }
 }

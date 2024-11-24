@@ -54,7 +54,8 @@ return [
         echo $exception->getMessage();
         print_r($exception->getTraceAsString());
         $code = 500;
-        if ($exception->getCode() >= 300) {
+        if ($exception->getCode() >= 300)
+        {
           $code = $exception->getCode();
         }
         $response->getBody()->write(json_encode($error));

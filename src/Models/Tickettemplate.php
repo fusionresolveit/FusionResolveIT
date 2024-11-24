@@ -55,5 +55,4 @@ class Tickettemplate extends Common
   {
     return $this->hasMany('\App\Models\Tickettemplatehiddenfields', 'tickettemplate_id');
   }
-
 }

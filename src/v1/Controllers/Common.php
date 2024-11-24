@@ -2123,8 +2123,8 @@ class Common
       $documents = [];
       if ($powersupply->documents !== null)
       {
-        foreach ($powersupply->documents as $document) {
-
+        foreach ($powersupply->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2165,8 +2165,8 @@ class Common
       $documents = [];
       if ($sensor->documents !== null)
       {
-        foreach ($sensor->documents as $document) {
-
+        foreach ($sensor->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2202,8 +2202,8 @@ class Common
       $documents = [];
       if ($devicepci->documents !== null)
       {
-        foreach ($devicepci->documents as $document) {
-
+        foreach ($devicepci->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2238,8 +2238,8 @@ class Common
       $documents = [];
       if ($devicegeneric->documents !== null)
       {
-        foreach ($devicegeneric->documents as $document) {
-
+        foreach ($devicegeneric->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2274,8 +2274,8 @@ class Common
       $documents = [];
       if ($devicenetworkcard->documents !== null)
       {
-        foreach ($devicenetworkcard->documents as $document) {
-
+        foreach ($devicenetworkcard->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2310,8 +2310,8 @@ class Common
       $documents = [];
       if ($devicesimcard->documents !== null)
       {
-        foreach ($devicesimcard->documents as $document) {
-
+        foreach ($devicesimcard->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2349,8 +2349,8 @@ class Common
       $documents = [];
       if ($devicemotherboard->documents !== null)
       {
-        foreach ($devicemotherboard->documents as $document) {
-
+        foreach ($devicemotherboard->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2391,8 +2391,8 @@ class Common
       $documents = [];
       if ($devicecase->documents !== null)
       {
-        foreach ($devicecase->documents as $document) {
-
+        foreach ($devicecase->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2440,8 +2440,8 @@ class Common
       $documents = [];
       if ($devicegraphiccard->documents !== null)
       {
-        foreach ($devicegraphiccard->documents as $document) {
-
+        foreach ($devicegraphiccard->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2492,8 +2492,8 @@ class Common
       $documents = [];
       if ($devicedrive->documents !== null)
       {
-        foreach ($devicedrive->documents as $document) {
-
+        foreach ($devicedrive->documents as $document)
+        {
           $url = '';
           if ($rootUrl2 != '')
           {
@@ -2544,7 +2544,10 @@ class Common
     $viewData->addTranslation('manufacturer', $translator->translatePlural('Manufacturer', 'Manufacturers', 1));
     $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
     $viewData->addTranslation('frequence', $translator->translate('Frequency'));
-    $viewData->addTranslation('size', sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Mio')));
+    $viewData->addTranslation(
+      'size',
+      sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Mio'))
+    );
     $viewData->addTranslation('serial', $translator->translate('Serial number'));
     $viewData->addTranslation('location', $translator->translatePlural('Location', 'Locations', 1));
     $viewData->addTranslation('busID', $translator->translate('Position of the device on its bus'));
@@ -2552,17 +2555,29 @@ class Common
     $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
     $viewData->addTranslation('install_date', $translator->translate('Installation date'));
     $viewData->addTranslation('processor', $translator->translatePlural('Processor', 'Processors', 1));
-    $viewData->addTranslation('frequence_mhz', sprintf('%1$s (%2$s)', $translator->translate('Frequency'), $translator->translate('MHz')));
+    $viewData->addTranslation(
+      'frequence_mhz',
+      sprintf('%1$s (%2$s)', $translator->translate('Frequency'), $translator->translate('MHz'))
+    );
     $viewData->addTranslation('nbcores', $translator->translate('Number of cores'));
     $viewData->addTranslation('nbthreads', $translator->translate('Number of threads'));
     $viewData->addTranslation('harddrive', $translator->translatePlural('Hard drive', 'Hard drives', 1));
     $viewData->addTranslation('rpm', $translator->translate('Rpm'));
     $viewData->addTranslation('cache', $translator->translate('Cache'));
     $viewData->addTranslation('interface', $translator->translate('Interface'));
-    $viewData->addTranslation('capacity', sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('Mio')));
+    $viewData->addTranslation(
+      'capacity',
+      sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('Mio'))
+    );
     $viewData->addTranslation('battery', $translator->translatePlural('Battery', 'Batteries', 1));
-    $viewData->addTranslation('voltage_mv', sprintf('%1$s (%2$s)', $translator->translate('Voltage'), $translator->translate('mV')));
-    $viewData->addTranslation('capacity_mwh', sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('mWh')));
+    $viewData->addTranslation(
+      'voltage_mv',
+      sprintf('%1$s (%2$s)', $translator->translate('Voltage'), $translator->translate('mV'))
+    );
+    $viewData->addTranslation(
+      'capacity_mwh',
+      sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('mWh'))
+    );
     $viewData->addTranslation('manufacturing_date', $translator->translate('Manufacturing date'));
     $viewData->addTranslation('soundcard', $translator->translatePlural('Soundcard', 'Soundcards', 1));
     $viewData->addTranslation('controller', $translator->translatePlural('Controller', 'Controllers', 1));
@@ -2578,7 +2593,10 @@ class Common
     $viewData->addTranslation('devicecase', $translator->translatePlural('Case', 'Cases', 1));
     $viewData->addTranslation('devicegraphiccard', $translator->translatePlural('Graphics card', 'Graphics cards', 1));
     $viewData->addTranslation('devicedrive', $translator->translatePlural('Drive', 'Drives', 1));
-    $viewData->addTranslation('memory_mio', sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio')));
+    $viewData->addTranslation(
+      'memory_mio',
+      sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio'))
+    );
     $viewData->addTranslation('chipset', $translator->translate('Chipset'));
     $viewData->addTranslation('write', $translator->translate('Write'));
     $viewData->addTranslation('speed', $translator->translate('Speed'));
@@ -2696,7 +2714,8 @@ class Common
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/tickets');
     $rootUrl2 = '';
-    if ($this->rootUrl2 != '') {
+    if ($this->rootUrl2 != '')
+    {
       $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
     }
 

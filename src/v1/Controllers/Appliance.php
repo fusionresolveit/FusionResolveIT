@@ -45,7 +45,8 @@ final class Appliance extends Common
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/items');
     $rootUrl2 = '';
-    if ($this->rootUrl2 != '') {
+    if ($this->rootUrl2 != '')
+    {
       $rootUrl2 = rtrim($rootUrl, $this->rootUrl2 . $args['id']);
     }
 
@@ -55,7 +56,8 @@ final class Appliance extends Common
       $item3 = new $appliance_item->item_type();
       $myItem3 = $item3->find($appliance_item->item_id);
 
-      if ($myItem3 != null) {
+      if ($myItem3 != null)
+      {
         $type = '';
         $name = '';
         $url = '';
@@ -67,14 +69,17 @@ final class Appliance extends Common
         $type = $item3->getTitle();
 
         $name = $myItem3->name;
-        if ($name == '') {
+        if ($name == '')
+        {
           $name = '(' . $myItem3->id . ')';
         }
 
         $url = '';
-        if ($rootUrl2 != '') {
+        if ($rootUrl2 != '')
+        {
           $table = $item3->getTable();
-          if ($table != '') {
+          if ($table != '')
+          {
             $url = $rootUrl2 . "/" . $table . "/" . $myItem3->id;
           }
         }
@@ -86,20 +91,25 @@ final class Appliance extends Common
         $item4 = new \App\Models\Applianceitemrelation();
         $myItem4 = $item4::where('appliance_item_id', $appliance_item->id)->get();
 
-        foreach ($myItem4 as $appliance_item_relation) {
+        foreach ($myItem4 as $appliance_item_relation)
+        {
           $item5 = new $appliance_item_relation->item_type();
           $myItem5 = $item5->find($appliance_item_relation->item_id);
 
-          if ($myItem5 != null) {
+          if ($myItem5 != null)
+          {
             $relation_type = $item5->getTitle();
             $relation_name = $myItem5->name;
-            if ($relation_name == '') {
+            if ($relation_name == '')
+            {
               $relation_name = '(' . $myItem5->id . ')';
             }
             $relation_url = '';
-            if ($rootUrl2 != '') {
+            if ($rootUrl2 != '')
+            {
               $table = $item5->getTable();
-              if ($table != '') {
+              if ($table != '')
+              {
                 $relation_url = $rootUrl2 . "/" . $table . "/" . $myItem5->id;
               }
             }
@@ -154,7 +164,10 @@ final class Appliance extends Common
     $viewData->addTranslation('name', $translator->translatePlural('Item', 'Items', 1));
     $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
     $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
-    $viewData->addTranslation('relations', $translator->translatePlural('appliance' . "\004" . 'Relation', 'appliance' . "\004" . 'Relations', 2));
+    $viewData->addTranslation(
+      'relations',
+      $translator->translatePlural('appliance' . "\004" . 'Relation', 'appliance' . "\004" . 'Relations', 2)
+    );
 
     return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
   }

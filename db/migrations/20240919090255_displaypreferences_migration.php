@@ -58,7 +58,8 @@ final class DisplaypreferencesMigration extends AbstractMigration
     }
   }
 
-  public function convertItemtype($itemtype) {
+  public function convertItemtype($itemtype)
+  {
     $new_itemtype = '';
 
     if ($itemtype != null) {
