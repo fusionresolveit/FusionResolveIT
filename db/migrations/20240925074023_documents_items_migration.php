@@ -66,7 +66,6 @@ final class DocumentsItemsMigration extends AbstractMigration
             'date'              => Toolbox::fixDate($row['date']),
           ];
         }
-        print_r($data[196]);
         $item->insert($data)
              ->saveData();
       }

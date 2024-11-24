@@ -51,7 +51,6 @@ final class ApiclientsMigration extends AbstractMigration
             'created_at'        => Toolbox::fixDate($row['date_mod']),
           ]
         ];
-        print_r($data);
         $item->insert($data)
              ->saveData();
       }
