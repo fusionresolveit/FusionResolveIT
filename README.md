@@ -15,7 +15,8 @@ We maintain this version because not agree with some features that seems not sec
 
 # Releases
 
-The releases are same than official but with our patches.
+The first version is the 9.5 version, copy of GLPI 9.5 version but secured.
+The second (in dev now), is the 1.0.0 version, with 95% of code rewritten.
 
 
 # Availability of code
