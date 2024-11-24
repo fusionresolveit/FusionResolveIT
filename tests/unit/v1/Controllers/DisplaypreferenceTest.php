@@ -18,6 +18,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Location')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
 #[UsesClass('\App\Models\Definitions\Profile')]
+#[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Definitions\Usercategory')]
 #[UsesClass('\App\Models\Definitions\Usertitle')]

@@ -114,6 +114,6 @@ class Entity extends Common
 
   public function profilesusers(): HasMany
   {
-    return $this->hasMany('\App\Models\ProfileUser','entity_id');
+    return $this->hasMany('\App\Models\ProfileUser', 'entity_id');
   }
 }

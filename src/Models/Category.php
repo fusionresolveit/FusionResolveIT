@@ -119,22 +119,22 @@ class Category extends Common
     return $this->belongsTo('\App\Models\Entity');
   }
 
-  public function template_request(): BelongsTo
+  public function templaterequest(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplates_id_demand');
   }
 
-  public function template_incident(): BelongsTo
+  public function templateincident(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplates_id_incident');
   }
 
-  public function template_change(): BelongsTo
+  public function templatechange(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Changetemplate', 'changetemplates_id');
   }
 
-  public function template_problem(): BelongsTo
+  public function templateproblem(): BelongsTo
   {
     return $this->belongsTo('\App\Models\Problemtemplate', 'problemtemplates_id');
   }

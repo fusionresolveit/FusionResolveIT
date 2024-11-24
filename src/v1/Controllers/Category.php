@@ -42,7 +42,10 @@ final class Category extends Common
     $myItem = $item->find($args['id']);
 
     $item2 = new $this->model();
-    $myItem2 = $item2::with('template_request', 'template_incident', 'template_change', 'template_problem')->where('category_id', $args['id'])->get();
+    $myItem2 = $item2::
+        with('templaterequest', 'templateincident', 'templatechange', 'templateproblem')
+      ->where('category_id', $args['id'])
+      ->get();
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/categories');
@@ -71,7 +74,7 @@ final class Category extends Common
         $user = $current_category->users->name;
       }
 
-      $group = '';;
+      $group = '';
       if ($current_category->groups != null) {
         $group = $current_category->groups->name;
       }
@@ -185,7 +188,10 @@ final class Category extends Common
     $viewData->addTranslation('user', $translator->translate('Technician in charge of the hardware'));
     $viewData->addTranslation('group', $translator->translate('Group in charge of the hardware'));
     $viewData->addTranslation('knowbaseitemcategory', $translator->translate('Knowledge base'));
-    $viewData->addTranslation('visible_simplified_interface', $translator->translate('Visible in the simplified interface'));
+    $viewData->addTranslation(
+      'visible_simplified_interface',
+      $translator->translate('Visible in the simplified interface')
+    );
     $viewData->addTranslation('visible_incident', $translator->translate('Visible for an incident'));
     $viewData->addTranslation('visible_request', $translator->translate('Visible for a request'));
     $viewData->addTranslation('visible_problem', $translator->translate('Visible for a problem'));

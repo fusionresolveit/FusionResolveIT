@@ -26,13 +26,13 @@ class Group extends Common
     'entity',
     'notes',
     'completename',
-    'parent_of',
+    'parents',
   ];
 
   protected $with = [
     'entity:id,name',
     'notes:id',
-    'parent_of:id,name,group_id,entity_id',
+    'parents:id,name,group_id,entity_id',
   ];
 
   public function getCompletenameAttribute()
@@ -69,8 +69,8 @@ class Group extends Common
     );
   }
 
-  public function parent_of(): HasMany
+  public function parents(): HasMany
   {
-    return $this->hasMany('\App\Models\Group','group_id');
+    return $this->hasMany('\App\Models\Group', 'group_id');
   }
 }

@@ -474,7 +474,7 @@ class Common
         $toAdd = array_diff($data->{$key}, $dbItems);
         foreach ($toAdd as $groupId)
         {
-          // $item->$key()->attach($groupId, $pivot);
+          $item->$key()->attach($groupId, $pivot);
         }
       }
     }
@@ -3452,7 +3452,6 @@ class Common
 
         $cost = $this->computeTotalCost($actiontime, $cost_time, $cost_fixed, $cost_material);
         $total_cost = $total_cost + ($cost);
-
       } else {
         if (isset($current_cost->cost)) {
           $cost = $current_cost->cost;
@@ -3523,7 +3522,8 @@ class Common
                 if (isset($current_cost->cost_time)) {
                   $cost_time = $current_cost->cost_time;
 
-                  $ticket_costs_total_cost_time = $ticket_costs_total_cost_time + $this->computeCostTime($actiontime, $cost_time);
+                  $ticket_costs_total_cost_time =
+                    $ticket_costs_total_cost_time + $this->computeCostTime($actiontime, $cost_time);
                 }
                 if (isset($current_cost->cost_fixed)) {
                   $cost_fixed = $current_cost->cost_fixed;
@@ -3582,7 +3582,10 @@ class Common
     $viewData->addData('total_cost_fixed', $this->showCosts($total_cost_fixed));
     $viewData->addData('total_cost_material', $this->showCosts($total_cost_material));
     $viewData->addData('ticket_costs_total_cost', $this->showCosts($ticket_costs_total_cost));
-    $viewData->addData('ticket_costs_total_actiontime', $this->timestampToString($ticket_costs_total_actiontime, false));
+    $viewData->addData(
+      'ticket_costs_total_actiontime',
+      $this->timestampToString($ticket_costs_total_actiontime, false)
+    );
     $viewData->addData('ticket_costs_total_cost_time', $this->showCosts($ticket_costs_total_cost_time));
     $viewData->addData('ticket_costs_total_cost_fixed', $this->showCosts($ticket_costs_total_cost_fixed));
     $viewData->addData('ticket_costs_total_cost_material', $this->showCosts($ticket_costs_total_cost_material));
@@ -3629,32 +3632,64 @@ class Common
     if ($use_days) {
       if ($units['day'] > 0) {
         if ($display_sec) {
-          return sprintf($translator->translate('%1$s%2$d days %3$d hours %4$d minutes %5$d seconds'), $sign, $units['day'], $units['hour'], $units['minute'], $units['second']);
+          return sprintf(
+            $translator->translate('%1$s%2$d days %3$d hours %4$d minutes %5$d seconds'),
+            $sign,
+            $units['day'],
+            $units['hour'],
+            $units['minute'],
+            $units['second']
+          );
         }
-        return sprintf($translator->translate('%1$s%2$d days %3$d hours %4$d minutes'), $sign, $units['day'], $units['hour'], $units['minute']);
+        return sprintf(
+          $translator->translate('%1$s%2$d days %3$d hours %4$d minutes'),
+          $sign,
+          $units['day'],
+          $units['hour'],
+          $units['minute']
+        );
       }
     } else {
       if ($units['day'] > 0) {
-        $units['hour'] += 24*$units['day'];
+        $units['hour'] += 24 * $units['day'];
       }
     }
 
     if ($units['hour'] > 0) {
       if ($display_sec) {
-        return sprintf($translator->translate('%1$s%2$d hours %3$d minutes %4$d seconds'), $sign, $units['hour'], $units['minute'], $units['second']);
+        return sprintf(
+          $translator->translate('%1$s%2$d hours %3$d minutes %4$d seconds'),
+          $sign,
+          $units['hour'],
+          $units['minute'],
+          $units['second']
+        );
       }
       return sprintf($translator->translate('%1$s%2$d hours %3$d minutes'), $sign, $units['hour'], $units['minute']);
     }
 
     if ($units['minute'] > 0) {
       if ($display_sec) {
-        return sprintf($translator->translate('%1$s%2$d minutes %3$d seconds'), $sign, $units['minute'], $units['second']);
+        return sprintf(
+          $translator->translate('%1$s%2$d minutes %3$d seconds'),
+          $sign,
+          $units['minute'],
+          $units['second']
+        );
       }
-      return sprintf($translator->translatePlural('%1$s%2$d minute', '%1$s%2$d minutes', $units['minute']), $sign, $units['minute']);
+      return sprintf(
+        $translator->translatePlural('%1$s%2$d minute', '%1$s%2$d minutes', $units['minute']),
+        $sign,
+        $units['minute']
+      );
     }
 
     if ($display_sec) {
-      return sprintf($translator->translatePlural('%1$s%2$s second', '%1$s%2$s seconds', $units['second']), $sign, $units['second']);
+      return sprintf(
+        $translator->translatePlural('%1$s%2$s second', '%1$s%2$s seconds', $units['second']),
+        $sign,
+        $units['second']
+      );
     }
 
     return '';
@@ -3670,19 +3705,19 @@ class Common
     $out['hour']   = 0;
     $out['day']    = 0;
 
-    $out['second'] = $time%$this->MINUTE_TIMESTAMP;
+    $out['second'] = $time % $this->MINUTE_TIMESTAMP;
     $time         -= $out['second'];
 
     if ($time > 0) {
-      $out['minute'] = ($time%$this->HOUR_TIMESTAMP)/$this->MINUTE_TIMESTAMP;
-      $time         -= $out['minute']*$this->MINUTE_TIMESTAMP;
+      $out['minute'] = ($time % $this->HOUR_TIMESTAMP) / $this->MINUTE_TIMESTAMP;
+      $time         -= $out['minute'] * $this->MINUTE_TIMESTAMP;
 
       if ($time > 0) {
-        $out['hour'] = ($time%$this->DAY_TIMESTAMP)/$this->HOUR_TIMESTAMP;
-        $time       -= $out['hour']*$this->HOUR_TIMESTAMP;
+        $out['hour'] = ($time % $this->DAY_TIMESTAMP) / $this->HOUR_TIMESTAMP;
+        $time       -= $out['hour'] * $this->HOUR_TIMESTAMP;
 
         if ($time > 0) {
-          $out['day'] = $time/$this->DAY_TIMESTAMP;
+          $out['day'] = $time / $this->DAY_TIMESTAMP;
         }
       }
     }
@@ -3696,11 +3731,11 @@ class Common
 
   public function computeCostTime($actiontime, $cost_time)
   {
-    return $this->showCosts(($actiontime*$cost_time/$this->HOUR_TIMESTAMP));
+    return $this->showCosts(($actiontime * $cost_time / $this->HOUR_TIMESTAMP));
   }
 
   public function computeTotalCost($actiontime, $cost_time, $cost_fixed, $cost_material)
   {
-    return $this->showCosts(($actiontime*$cost_time/$this->HOUR_TIMESTAMP)+$cost_fixed+$cost_material);
+    return $this->showCosts(($actiontime * $cost_time / $this->HOUR_TIMESTAMP) + $cost_fixed + $cost_material);
   }
 }

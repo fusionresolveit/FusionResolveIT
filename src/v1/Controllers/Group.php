@@ -97,7 +97,7 @@ final class Group extends Common
     $definitions = $item->getDefinitions();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('parent_of')->find($args['id']);
+    $myItem = $item::with('parents')->find($args['id']);
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/groups');
@@ -107,23 +107,23 @@ final class Group extends Common
     }
 
     $myGroups = [];
-    foreach ($myItem->parent_of as $parent_of)
+    foreach ($myItem->parents as $parent)
     {
-      $name = $parent_of->name;
+      $name = $parent->name;
 
       $url = '';
       if ($rootUrl2 != '') {
-        $url = $rootUrl2 . "/groups/" . $parent_of->id;
+        $url = $rootUrl2 . "/groups/" . $parent->id;
       }
 
       $entity = '';
-      if ($parent_of->entity != null) {
-        $entity = $parent_of->entity->name;
+      if ($parent->entity != null) {
+        $entity = $parent->entity->name;
       }
 
-      $comment = $parent_of->comment;
+      $comment = $parent->comment;
 
-      $myGroups[$parent_of->id] = [
+      $myGroups[$parent->id] = [
         'name'        => $name,
         'url'         => $url,
         'entity'      => $entity,

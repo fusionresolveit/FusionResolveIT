@@ -278,7 +278,10 @@ final class State extends Common
     $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
     $viewData->addTranslation('is_visible_computer', $translator->translatePlural('Computers', 'Computers', 2));
     $viewData->addTranslation('is_visible_monitor', $translator->translatePlural('Monitor', 'Monitors', 2));
-    $viewData->addTranslation('is_visible_networkequipment', $translator->translatePlural('Network device', 'Network devices', 2));
+    $viewData->addTranslation(
+      'is_visible_networkequipment',
+      $translator->translatePlural('Network device', 'Network devices', 2)
+    );
     $viewData->addTranslation('is_visible_peripheral', $translator->translatePlural('Device', 'Devices', 2));
     $viewData->addTranslation('is_visible_phone', $translator->translatePlural('Phone', 'Phones', 2));
     $viewData->addTranslation('is_visible_printer', $translator->translatePlural('Printer', 'Printers', 2));
