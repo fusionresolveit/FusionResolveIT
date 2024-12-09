@@ -11,4 +11,3 @@ final class PdutypeTest extends Common
 {
   protected $className = 'Pdutype';
 }
-

@@ -11,4 +11,3 @@ final class DomainrelationTest extends Common
 {
   protected $className = 'Domainrelation';
 }
-

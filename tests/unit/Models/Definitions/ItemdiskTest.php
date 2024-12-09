@@ -11,4 +11,3 @@ final class ItemdiskTest extends Common
 {
   protected $className = 'Itemdisk';
 }
-

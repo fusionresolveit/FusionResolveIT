@@ -61,6 +61,7 @@ class Common extends TestCase
     {
       if (isset($field['values']))
       {
+        $this->assertIsArray($field['values']);
         foreach ($field['values'] as $values)
         {
           $nbTests++;

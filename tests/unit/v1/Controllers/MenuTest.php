@@ -7,21 +7,60 @@ namespace Tests\unit\v1\Controllers;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
-use Selective\TestTrait\Traits\HttpTestTrait;
-use Tests\Traits\AppTestTrait;
+use Tests\Traits\HttpTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Menu')]
+#[UsesClass('\App\App')]
 #[UsesClass('\App\Route')]
 #[UsesClass('\App\Translation')]
+#[UsesClass('\App\Models\Common')]
+#[UsesClass('\App\Models\Computer')]
+#[UsesClass('\App\Models\Definitions\Certificate')]
+#[UsesClass('\App\Models\Definitions\Computer')]
+#[UsesClass('\App\Models\Definitions\Document')]
+#[UsesClass('\App\Models\Definitions\Entity')]
+#[UsesClass('\App\Models\Definitions\Group')]
+#[UsesClass('\App\Models\Definitions\Knowbaseitem')]
+#[UsesClass('\App\Models\Definitions\Location')]
+#[UsesClass('\App\Models\Definitions\Notepad')]
+#[UsesClass('\App\Models\Definitions\Profile')]
+#[UsesClass('\App\Models\Definitions\ProfileUser')]
+#[UsesClass('\App\Models\Definitions\User')]
+#[UsesClass('\App\Models\Definitions\Usercategory')]
+#[UsesClass('\App\Models\Definitions\Usertitle')]
+#[UsesClass('\App\Models\Displaypreference')]
+#[UsesClass('\App\Models\Entity')]
+#[UsesClass('\App\Models\User')]
+#[UsesClass('\App\v1\Controllers\Common')]
+#[UsesClass('\App\v1\Controllers\Computer')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Header')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Information')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Translation')]
+#[UsesClass('\App\v1\Controllers\Datastructures\Viewdata')]
+#[UsesClass('\App\v1\Controllers\Search')]
+#[UsesClass('\App\v1\Controllers\Token')]
+#[UsesClass('\App\v1\Controllers\Toolbox')]
 
 final class MenuTest extends TestCase
 {
-  use AppTestTrait;
   use HttpTestTrait;
+
+  protected $app;
+
+  protected function setUp(): void
+  {
+    $this->app = (new \App\App())->get();
+  }
 
   public function testMenuDataHasDisplayField(): void
   {
-    $request = $this->createRequest('GET', '/view/computers');
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+    $request = $this->createRequest('GET', '/view/computers', [], ['token' => $token]);
+    $request = $request->withQueryParams([]);
+
+    $response = $this->app->handle($request);
+    $payload = (string) $response->getBody();
 
     $menu = new \App\v1\Controllers\Menu();
 
@@ -35,20 +74,39 @@ final class MenuTest extends TestCase
     {
       foreach ($menuItem['sub'] as $subItem)
       {
-        $this->assertArrayHasKey('display', $subItem, 'The menu name `' . $subItem['name'] . '` not have display key');
+        $substring = '<a class="item " href="' . $subItem['link'] . '">';
+        if ($subItem['link'] == '/view/computers')
+        {
+          $substring = '<a class="item active blue" href="' . $subItem['link'] . '">';
+        }
+        $this->assertStringContainsString(
+          $substring,
+          $payload,
+          'The menu name `' . $subItem['name'] . '` not have display key ' . $subItem['link']
+        );
       }
       if (isset($menuItem['dropdown']))
       {
         foreach ($menuItem['dropdown'] as $subItem)
         {
-          $this->assertArrayHasKey('display', $subItem, 'The menu dropdown name `' . $subItem['name'] . '` not have display key');
+          $substring = '<a class="item " href="' . $subItem['link'] . '">';
+          $this->assertStringContainsString(
+            $substring,
+            $payload,
+            'The menu dropdown name `' . $subItem['name'] . '` not have display key ' . $subItem['link']
+          );
         }
       }
       if (isset($menuItem['component']))
       {
         foreach ($menuItem['component'] as $subItem)
         {
-          $this->assertArrayHasKey('display', $subItem, 'The menu component name `' . $subItem['name'] . '` not have display key');
+          $substring = '<a class="item " href="' . $subItem['link'] . '">';
+          $this->assertStringContainsString(
+            $substring,
+            $payload,
+            'The menu component name `' . $subItem['name'] . '` not have display key ' . $subItem['link']
+          );
         }
       }
     }

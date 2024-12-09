@@ -381,6 +381,10 @@ class Common
         $booleans[$definition['name']] = true;
       }
     }
+    // TODO clean data not available (like with rights)
+
+    // manage rules
+    $data = $this->runRules($data, $id);
 
     if (is_null($id))
     {
@@ -6984,5 +6988,10 @@ class Common
     $viewData->addTranslation('no_reservations', $translator->translate('No reservation'));
 
     return $view->render($response, 'subitem/reservations.html.twig', (array)$viewData);
+  }
+
+  public function runRules($data, $id)
+  {
+    return $data;
   }
 }

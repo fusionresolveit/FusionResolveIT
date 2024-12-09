@@ -11,4 +11,3 @@ final class FilesystemTest extends Common
 {
   protected $className = 'Filesystem';
 }
-

@@ -24,7 +24,7 @@ class Category extends Common
     // 'tickettemplatesIncident',
     // 'changetemplates',
     // 'problemtemplates',
-    'entity',
+    // 'entity',
     'completename',
   ];
 

@@ -11,4 +11,3 @@ final class NetworkinterfaceTest extends Common
 {
   protected $className = 'Networkinterface';
 }
-

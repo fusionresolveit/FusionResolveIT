@@ -11,4 +11,3 @@ final class SoftwareversionTest extends Common
 {
   protected $className = 'Softwareversion';
 }
-

@@ -11,4 +11,3 @@ final class RequesttypeTest extends Common
 {
   protected $className = 'Requesttype';
 }
-

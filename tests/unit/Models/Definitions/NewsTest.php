@@ -11,4 +11,3 @@ final class NewsTest extends Common
 {
   protected $className = 'News';
 }
-

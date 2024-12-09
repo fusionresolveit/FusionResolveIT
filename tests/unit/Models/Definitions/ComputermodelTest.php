@@ -11,4 +11,3 @@ final class ComputermodelTest extends Common
 {
   protected $className = 'Computermodel';
 }
-

@@ -11,4 +11,3 @@ final class ReminderTest extends Common
 {
   protected $className = 'Reminder';
 }
-

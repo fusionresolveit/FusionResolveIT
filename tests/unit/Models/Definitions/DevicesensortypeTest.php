@@ -11,4 +11,3 @@ final class DevicesensortypeTest extends Common
 {
   protected $className = 'Devicesensortype';
 }
-

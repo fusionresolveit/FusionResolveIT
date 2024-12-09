@@ -11,4 +11,3 @@ final class RulerightparameterTest extends Common
 {
   protected $className = 'Rulerightparameter';
 }
-

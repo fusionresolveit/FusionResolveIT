@@ -11,4 +11,3 @@ final class KnowbaseitemTest extends Common
 {
   protected $className = 'Knowbaseitem';
 }
-

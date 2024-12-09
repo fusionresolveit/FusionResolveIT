@@ -11,4 +11,3 @@ final class PlanningeventcategoryTest extends Common
 {
   protected $className = 'Planningeventcategory';
 }
-

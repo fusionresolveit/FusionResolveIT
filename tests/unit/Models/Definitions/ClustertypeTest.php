@@ -11,4 +11,3 @@ final class ClustertypeTest extends Common
 {
   protected $className = 'Clustertype';
 }
-

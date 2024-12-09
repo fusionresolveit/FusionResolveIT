@@ -11,4 +11,3 @@ final class EventTest extends Common
 {
   protected $className = 'Event';
 }
-

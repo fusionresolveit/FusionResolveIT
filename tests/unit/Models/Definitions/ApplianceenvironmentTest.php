@@ -11,4 +11,3 @@ final class ApplianceenvironmentTest extends Common
 {
   protected $className = 'Applianceenvironment';
 }
-

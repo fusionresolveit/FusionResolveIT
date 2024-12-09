@@ -11,4 +11,3 @@ final class ProjectstateTest extends Common
 {
   protected $className = 'Projectstate';
 }
-

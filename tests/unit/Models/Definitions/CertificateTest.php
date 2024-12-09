@@ -11,4 +11,3 @@ final class CertificateTest extends Common
 {
   protected $className = 'Certificate';
 }
-

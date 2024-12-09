@@ -11,4 +11,3 @@ final class LinkTest extends Common
 {
   protected $className = 'Link';
 }
-

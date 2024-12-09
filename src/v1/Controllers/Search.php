@@ -37,22 +37,22 @@ final class Search extends Common
       {
         continue;
       }
-      if (in_array($field['id'], $prefs))
+      if (isset($prefs[$field['id']]))
       {
         $newItemDef[] = $field;
       }
       // add name field if not in preferences
-      if ($field['name'] == 'name' && !in_array($field['id'], $prefs))
+      if ($field['name'] == 'name' && !isset($prefs[$field['id']]))
       {
         $newItemDef[] = $field;
       }
       // add name field if not in preferences
-      if ($field['name'] == 'completename' && !in_array($field['id'], $prefs))
+      if ($field['name'] == 'completename' && !isset($prefs[$field['id']]))
       {
         $newItemDef[] = $field;
       }
       // Same for entity
-      if ($GLOBALS['entity_recursive'] && $field['name'] == 'entity' && !in_array($field['id'], $prefs))
+      if ($GLOBALS['entity_recursive'] && $field['name'] == 'entity' && !isset($prefs[$field['id']]))
       {
         $newItemDef[] = $field;
       }
@@ -205,6 +205,12 @@ final class Search extends Common
         {
           $myData[$field['name']] = [
             'value' => $field['values'][$item->{$field['name']}],
+          ];
+        }
+        elseif ($field['type'] == 'boolean')
+        {
+          $myData[$field['name']] = [
+            'value' => boolval($item->{$field['name']}),
           ];
         }
         else

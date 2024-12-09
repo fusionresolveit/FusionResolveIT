@@ -1,0 +1,33 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.actions|length == 0 %}
+  <div class="ui form segment">
+    <i class="bullhorn icon"></i> No actions yet created
+  </div>
+{% endif %}
+
+<a href="{{ header.rootpath }}/view/rules/tickets/{{ header.id }}/actions/new">
+  <button class="ui labeled blue icon button">
+    <i class="plus icon"></i>
+    Add new action
+  </button>
+</a>
+
+{% for action in data.actions %}
+  <div class="ui form segment">
+    <div class="three fields">
+      {% set item = action.field %}
+      {{ include('fields.html.twig') }}
+
+      <div class="field">
+        <label>action</label>
+        {{ action.action_type }}
+      </div>
+      {% set item = action.value %}
+      {{ include('fields.html.twig') }}
+    </div>
+  </div>
+{% endfor %}
+
+{{ include('footer.html.twig') }}

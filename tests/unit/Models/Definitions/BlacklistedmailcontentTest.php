@@ -11,4 +11,3 @@ final class BlacklistedmailcontentTest extends Common
 {
   protected $className = 'Blacklistedmailcontent';
 }
-

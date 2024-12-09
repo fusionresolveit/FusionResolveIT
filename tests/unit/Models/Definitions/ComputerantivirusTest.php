@@ -11,4 +11,3 @@ final class ComputerantivirusTest extends Common
 {
   protected $className = 'Computerantivirus';
 }
-

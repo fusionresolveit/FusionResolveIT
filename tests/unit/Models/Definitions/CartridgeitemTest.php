@@ -11,4 +11,3 @@ final class CartridgeitemTest extends Common
 {
   protected $className = 'Cartridgeitem';
 }
-

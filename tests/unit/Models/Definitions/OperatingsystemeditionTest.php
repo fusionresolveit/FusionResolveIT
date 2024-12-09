@@ -11,4 +11,3 @@ final class OperatingsystemeditionTest extends Common
 {
   protected $className = 'Operatingsystemedition';
 }
-

@@ -11,4 +11,3 @@ final class VirtualmachinesystemTest extends Common
 {
   protected $className = 'Virtualmachinesystem';
 }
-

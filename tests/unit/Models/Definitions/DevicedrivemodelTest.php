@@ -11,4 +11,3 @@ final class DevicedrivemodelTest extends Common
 {
   protected $className = 'Devicedrivemodel';
 }
-

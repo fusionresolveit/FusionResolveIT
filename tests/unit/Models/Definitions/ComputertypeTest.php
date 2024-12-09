@@ -11,4 +11,3 @@ final class ComputertypeTest extends Common
 {
   protected $className = 'Computertype';
 }
-

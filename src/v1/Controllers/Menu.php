@@ -186,13 +186,13 @@ final class Menu
             'class' => $activePath == $basePath . '/view/questions' ? 'active blue' : '',
             'display' => $this->getRightForModel('\App\Models\Forms\Question'),
           ],
-          [
-            'name'  => $translator->translatePlural('Answer', 'Answers', 2),
-            'link'  => $basePath . '/view/answers',
-            'icon'  => 'clipboard check',
-            'class' => $activePath == $basePath . '/view/answers' ? 'active blue' : '',
-            'display' => $this->getRightForModel('\App\Models\Forms\Answer'),
-          ],
+          // [
+          //   'name'  => $translator->translatePlural('Answer', 'Answers', 2),
+          //   'link'  => $basePath . '/view/answers',
+          //   'icon'  => 'clipboard check',
+          //   'class' => $activePath == $basePath . '/view/answers' ? 'active blue' : '',
+          //   'display' => $this->getRightForModel('\App\Models\Forms\Answer'),
+          // ],
         ],
       ],
       [
@@ -317,13 +317,13 @@ final class Menu
             'class' => $activePath == $basePath . '/view/savedsearchs' ? 'active blue' : '',
             'display' => $this->getRightForModel('\App\Models\Savedsearch'),
           ],
-          [
-            'name' => $translator->translatePlural('Alert', 'Alerts', 2),
-            'link' => $basePath . '/view/news',
-            'icon' => 'bell',
-            'class' => $activePath == $basePath . '/view/news' ? 'active blue' : '',
-            'display' => $this->getRightForModel('\App\Models\Alert'),
-          ],
+          // [
+          //   'name' => $translator->translatePlural('Alert', 'Alerts', 2),
+          //   'link' => $basePath . '/view/news',
+          //   'icon' => 'bell',
+          //   'class' => $activePath == $basePath . '/view/news' ? 'active blue' : '',
+          //   'display' => $this->getRightForModel('\App\Models\Alert'),
+          // ],
         ],
       ],
       [

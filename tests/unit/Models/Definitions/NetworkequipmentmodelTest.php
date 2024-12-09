@@ -11,4 +11,3 @@ final class NetworkequipmentmodelTest extends Common
 {
   protected $className = 'Networkequipmentmodel';
 }
-

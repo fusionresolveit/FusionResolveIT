@@ -13,7 +13,7 @@ class Link
         'title' => $translator->translate('Valid tags'),
         'type'  => 'description',
         'name'  => 'description',
-        'values' => self::getValidTags(),
+        // 'values' => self::getValidTags(),
         'fillable' => true,
       ],
       [

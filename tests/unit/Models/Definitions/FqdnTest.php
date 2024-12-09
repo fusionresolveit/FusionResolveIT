@@ -11,4 +11,3 @@ final class FqdnTest extends Common
 {
   protected $className = 'Fqdn';
 }
-

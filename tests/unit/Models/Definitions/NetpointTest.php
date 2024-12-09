@@ -11,4 +11,3 @@ final class NetpointTest extends Common
 {
   protected $className = 'Netpoint';
 }
-

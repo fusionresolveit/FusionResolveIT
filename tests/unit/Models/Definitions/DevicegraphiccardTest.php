@@ -11,4 +11,3 @@ final class DevicegraphiccardTest extends Common
 {
   protected $className = 'Devicegraphiccard';
 }
-

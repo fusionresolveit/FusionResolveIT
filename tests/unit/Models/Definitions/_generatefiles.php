@@ -29,7 +29,6 @@ foreach ($files as $file)
     $content .= "{\n";
     $content .= "  protected \$className = '" . $className . "';\n";
     $content .= "}\n";
-    $content .= "\n";
     file_put_contents($className . "Test.php", $content);
   }
 }

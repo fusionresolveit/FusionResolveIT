@@ -11,4 +11,3 @@ final class WifinetworkTest extends Common
 {
   protected $className = 'Wifinetwork';
 }
-

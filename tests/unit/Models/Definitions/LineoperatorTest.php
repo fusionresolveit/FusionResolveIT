@@ -11,4 +11,3 @@ final class LineoperatorTest extends Common
 {
   protected $className = 'Lineoperator';
 }
-

@@ -11,4 +11,3 @@ final class PlugTest extends Common
 {
   protected $className = 'Plug';
 }
-

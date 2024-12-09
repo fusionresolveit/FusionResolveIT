@@ -7,7 +7,15 @@ class ContractItem
   public static function getDefinition()
   {
     global $translator;
-    return [];
+    return [
+      [
+        'id'      => 2,
+        'title'   => $translator->translate('ID'),
+        'type'    => 'input',
+        'name'    => 'id',
+        'display' => false,
+      ],
+    ];
   }
 
   public static function getRelatedPages($rootUrl)

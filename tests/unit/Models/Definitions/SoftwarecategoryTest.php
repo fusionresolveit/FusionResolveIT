@@ -11,4 +11,3 @@ final class SoftwarecategoryTest extends Common
 {
   protected $className = 'Softwarecategory';
 }
-

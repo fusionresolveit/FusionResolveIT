@@ -11,4 +11,3 @@ final class DevicebatterytypeTest extends Common
 {
   protected $className = 'Devicebatterytype';
 }
-

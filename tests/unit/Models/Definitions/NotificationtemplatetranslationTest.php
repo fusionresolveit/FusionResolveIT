@@ -11,4 +11,3 @@ final class NotificationtemplatetranslationTest extends Common
 {
   protected $className = 'Notificationtemplatetranslation';
 }
-

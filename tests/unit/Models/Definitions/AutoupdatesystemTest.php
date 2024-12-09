@@ -11,4 +11,3 @@ final class AutoupdatesystemTest extends Common
 {
   protected $className = 'Autoupdatesystem';
 }
-

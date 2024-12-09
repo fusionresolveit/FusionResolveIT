@@ -18,7 +18,6 @@ class Entity extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'notes',
     'completename',
   ];
 
@@ -37,23 +36,6 @@ class Entity extends Common
     'documents:id,name',
     'profilesusers',
   ];
-
-  protected static function booted(): void
-  {
-    parent::booted();
-    static::created(function ($model)
-    {
-      // Manage tree
-      $currItem = (new self())->find($model->id);
-      $currItem->treepath = sprintf("%05d", $currItem->id);
-      if ($currItem->entity_id > 0)
-      {
-        $parentItem = self::find($currItem->entity_id);
-        $currItem->treepath = $parentItem->treepath . $currItem->treepath;
-      }
-      $currItem->save();
-    });
-  }
 
   public function getCompletenameAttribute()
   {

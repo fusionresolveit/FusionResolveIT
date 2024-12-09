@@ -17,6 +17,11 @@ class Common extends Model
   protected $hasEntityField = true;
   protected $tree = false;
 
+  protected $dispatchesEvents = [
+    'creating' => \App\Events\EntityCreating::class,
+    'created'  => \App\Events\TreepathCreated::class,
+  ];
+
   public function __construct(array $attributes = [])
   {
     parent::__construct($attributes);
@@ -45,14 +50,6 @@ class Common extends Model
   protected static function booted(): void
   {
     parent::booted();
-
-    static::creating(function ($model)
-    {
-      if ($model->hasEntityField)
-      {
-        $model->entity_id = $GLOBALS['entity_id'];
-      }
-    });
 
     static::updated(function ($model)
     {
@@ -185,8 +182,9 @@ class Common extends Model
   /**
    * Get definition fields of model
    * @param $bypassRights  boolean  Set true is not want manage rights (only on some features like notifications)
+   * @param $usein  string=search|form|notification|rule  Force to get only definition for this part of the app
    */
-  public function getDefinitions($bypassRights = false)
+  public function getDefinitions($bypassRights = false, $usein = null)
   {
     if (is_null($this->definition))
     {
@@ -198,6 +196,25 @@ class Common extends Model
     {
       return $definitions;
     }
+
+    // manage usein
+    if (!is_null($usein))
+    {
+      $newDefinitions = [];
+      foreach ($definitions as $def)
+      {
+        if (!isset($def['usein']))
+        {
+          $newDefinitions[] = $def;
+        }
+        elseif (isset($def['usein'][$usein]))
+        {
+          $newDefinitions[] = $def;
+        }
+      }
+      $definitions = $newDefinitions;
+    }
+
     if ($bypassRights)
     {
       return $definitions;
@@ -409,7 +426,7 @@ class Common extends Model
         $oldValue = (boolval($oldValue) ? 'true' : 'false');
       }
       // TODO for textarea
-      if (strlen($newValue) >= 255 || strlen($oldValue) >= 255)
+      if ((!is_null($newValue) && strlen($newValue) >= 255) || (!is_null($oldValue) && strlen($oldValue) >= 255))
       {
         return;
       }
@@ -504,5 +521,10 @@ class Common extends Model
   public function canOnlyReadItem()
   {
     return false;
+  }
+
+  public function isTree()
+  {
+    return $this->tree;
   }
 }

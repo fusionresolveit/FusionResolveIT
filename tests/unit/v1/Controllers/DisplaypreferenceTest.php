@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass('\App\v1\Controllers\Displaypreference')]
+#[UsesClass('\App\Events\EntityCreating')]
+#[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Certificate')]
 #[UsesClass('\App\Models\Definitions\Document')]

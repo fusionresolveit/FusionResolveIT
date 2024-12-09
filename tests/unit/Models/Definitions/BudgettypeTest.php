@@ -11,4 +11,3 @@ final class BudgettypeTest extends Common
 {
   protected $className = 'Budgettype';
 }
-

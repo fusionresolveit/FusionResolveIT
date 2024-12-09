@@ -11,4 +11,3 @@ final class DomainItemTest extends Common
 {
   protected $className = 'DomainItem';
 }
-

@@ -11,4 +11,3 @@ final class DeviceprocessormodelTest extends Common
 {
   protected $className = 'Deviceprocessormodel';
 }
-

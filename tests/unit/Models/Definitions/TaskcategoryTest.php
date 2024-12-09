@@ -11,4 +11,3 @@ final class TaskcategoryTest extends Common
 {
   protected $className = 'Taskcategory';
 }
-

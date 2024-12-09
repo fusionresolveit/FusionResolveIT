@@ -11,4 +11,3 @@ final class TicketrecurrentTest extends Common
 {
   protected $className = 'Ticketrecurrent';
 }
-

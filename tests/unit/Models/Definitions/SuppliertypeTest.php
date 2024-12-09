@@ -11,4 +11,3 @@ final class SuppliertypeTest extends Common
 {
   protected $className = 'Suppliertype';
 }
-
