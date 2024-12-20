@@ -427,32 +427,32 @@ class Problem
     return [
       6 => [
         'title' => $translator->translate('priority' . "\004" . 'Major'),
-        'color' => 'gsitmajor',
+        'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       5 => [
         'title' => $translator->translate('priority' . "\004" . 'Very high'),
-        'color' => 'gsitveryhigh',
+        'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       4 => [
         'title' => $translator->translate('priority' . "\004" . 'High'),
-        'color' => 'gsithigh',
+        'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
       3 => [
         'title' => $translator->translate('priority' . "\004" . 'Medium'),
-        'color' => 'gsitmedium',
+        'color' => 'fusionmedium',
         'icon'  => 'volume up',
       ],
       2 => [
         'title' => $translator->translate('priority' . "\004" . 'Low'),
-        'color' => 'gsitlow',
+        'color' => 'fusionlow',
         'icon'  => 'volume down',
       ],
       1 => [
         'title' => $translator->translate('priority' . "\004" . 'Very low'),
-        'color' => 'gsitverylow',
+        'color' => 'fusionverylow',
         'icon'  => 'volume off',
       ],
     ];

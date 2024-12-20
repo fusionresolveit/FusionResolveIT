@@ -13,57 +13,57 @@ body.inverted {
 [hidden] { display:none !important;}
 
 /* priority, impact and urgency */
-.ui.ui.table td.gsitmajor:not(.marked) {
+.ui.ui.table td.fusionmajor:not(.marked) {
   background: #ffdef5;
   color: #581845;
 }
 
-.ui.ui.table td.gsitveryhigh:not(.marked) {
+.ui.ui.table td.fusionveryhigh:not(.marked) {
   background: #ffddea;
   color: #900c3f;
 }
 
-.ui.ui.table td.gsithigh:not(.marked) {
+.ui.ui.table td.fusionhigh:not(.marked) {
   background: #ffdbe5;
   color: #c70039;
 }
 
-.ui.ui.table td.gsitmedium:not(.marked) {
+.ui.ui.table td.fusionmedium:not(.marked) {
   background: #ffdad3;
   color: #ff5733;
 }
 
-.ui.ui.table td.gsitlow:not(.marked) {
+.ui.ui.table td.fusionlow:not(.marked) {
   background: #fff5d6;
   color: #ecb400;
 }
 
-.ui.ui.table td.gsitverylow:not(.marked) {
+.ui.ui.table td.fusionverylow:not(.marked) {
   background: #fcfff8;
   color: #c3de93;
 }
 
-i.icon.gsitmajor {
+i.icon.fusionmajor {
   color: #581845;
 }
 
-i.icon.gsitveryhigh {
+i.icon.fusionveryhigh {
   color: #900c3f;
 }
 
-i.icon.gsithigh {
+i.icon.fusionhigh {
   color: #c70039;
 }
 
-i.icon.gsitmedium {
+i.icon.fusionmedium {
   color: #ff5733;
 }
 
-i.icon.gsitlow {
+i.icon.fusionlow {
   color: #ecb400;
 }
 
-i.icon.gsitverylow {
+i.icon.fusionverylow {
   color: #c3de93;
 }
 

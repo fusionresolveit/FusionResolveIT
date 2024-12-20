@@ -111,17 +111,17 @@ class Reminder
     return [
       0 => [
         'title' => $translator->translatePlural('Information', 'Information', 1),
-        'color' => 'gsitmajor',
+        'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       1 => [
         'title' => $translator->translate('To do'),
-        'color' => 'gsitveryhigh',
+        'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       2 => [
         'title' => $translator->translate('Done'),
-        'color' => 'gsithigh',
+        'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
     ];

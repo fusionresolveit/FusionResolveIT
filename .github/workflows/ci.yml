@@ -1,4 +1,4 @@
-name: "GSIT CI"
+name: "Fusion Resolve IT CI"
 
 on:
   # Runs test suite when a new commit is pushed on "master" and "*/bugfixes" branches
@@ -129,9 +129,9 @@ jobs:
         ports:
           - 3306:3306        
         env:
-          MARIADB_DATABASE: gsittests
-          MARIADB_USER: gsittests
-          MARIADB_PASSWORD: gsittests
+          MARIADB_DATABASE: frittests
+          MARIADB_USER: frittests
+          MARIADB_PASSWORD: frittests
           MARIADB_ROOT_PASSWORD: rootpassword
 
     steps:
@@ -170,9 +170,9 @@ jobs:
         ports:
           - 5432:5432        
         env:
-          POSTGRES_USER: gsittests
-          POSTGRES_PASSWORD: gsittests
-          POSTGRES_DB: gsittests
+          POSTGRES_USER: frittests
+          POSTGRES_PASSWORD: frittests
+          POSTGRES_DB: frittests
 
     steps:
     - uses: actions/checkout@v4

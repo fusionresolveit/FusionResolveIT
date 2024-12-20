@@ -37,31 +37,34 @@ final class OperatingsystemMigration extends AbstractMigration
 
     if ($this->isMigratingUp())
     {
-      $nbRows = $pdo->query(
-        'SELECT count(*) FROM glpi_plugin_fusioninventory_inventorycomputercomputers'
-      )->fetchColumn();
-      $nbLoops = ceil($nbRows / 5000);
-
-      for ($i = 0; $i < $nbLoops; $i++)
+      if ($this->hasTable('glpi_plugin_fusioninventory_inventorycomputercomputers'))
       {
-        $stmt = $pdo->query(
-          'SELECT * FROM glpi_plugin_fusioninventory_inventorycomputercomputers ORDER BY id LIMIT 5000 OFFSET ' .
-          ($i * 5000)
-        );
+        $nbRows = $pdo->query(
+          'SELECT count(*) FROM glpi_plugin_fusioninventory_inventorycomputercomputers'
+        )->fetchColumn();
+        $nbLoops = ceil($nbRows / 5000);
 
-        $rows = $stmt->fetchAll();
-        $data = [];
-        foreach ($rows as $row)
+        for ($i = 0; $i < $nbLoops; $i++)
         {
-          $builder = $this->getQueryBuilder('update');
-          $builder->update('item_operatingsystem')
-                  ->set('installationdate', Toolbox::fixDate($row['operatingsystem_installationdate']))
-                  ->set('winowner', $row['winowner'])
-                  ->set('wincompany', $row['wincompany'])
-                  ->set('oscomment', $row['oscomment'])
-                  ->set('hostid', $row['hostid'])
-                  ->where(['item_type' => 'App\\Models\\Computer', 'item_id' => $row['computers_id']])
-                  ->execute();
+          $stmt = $pdo->query(
+            'SELECT * FROM glpi_plugin_fusioninventory_inventorycomputercomputers ORDER BY id LIMIT 5000 OFFSET ' .
+            ($i * 5000)
+          );
+
+          $rows = $stmt->fetchAll();
+          $data = [];
+          foreach ($rows as $row)
+          {
+            $builder = $this->getQueryBuilder('update');
+            $builder->update('item_operatingsystem')
+                    ->set('installationdate', Toolbox::fixDate($row['operatingsystem_installationdate']))
+                    ->set('winowner', $row['winowner'])
+                    ->set('wincompany', $row['wincompany'])
+                    ->set('oscomment', $row['oscomment'])
+                    ->set('hostid', $row['hostid'])
+                    ->where(['item_type' => 'App\\Models\\Computer', 'item_id' => $row['computers_id']])
+                    ->execute();
+          }
         }
       }
     }

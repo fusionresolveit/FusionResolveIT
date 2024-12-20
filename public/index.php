@@ -134,7 +134,7 @@ $app->add(new Tuupola\Middleware\JwtAuthentication([
 // Init session
 $app->add(
   new \Slim\Middleware\Session([
-    'name' => 'gsit_session',
+    'name' => 'fusionresolveit_session',
     'autorefresh' => true,
     'lifetime' => '1 hour',
   ])

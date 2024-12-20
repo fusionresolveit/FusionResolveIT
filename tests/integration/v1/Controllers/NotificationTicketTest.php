@@ -271,7 +271,7 @@ final class NotificationTicketTest extends TestCase
 
     // create category
     $category = new \App\Models\Category();
-    $category->name = "GSIT app";
+    $category->name = "Fusion Resolve IT app";
     $category->save();
 
     // fill in entity

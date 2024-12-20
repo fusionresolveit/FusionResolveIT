@@ -37,6 +37,10 @@ final class AnswerquestionsMigration extends AbstractMigration
 
     if ($this->isMigratingUp())
     {
+      if (!$this->hasTable('glpi_plugin_formcreator_formanswers'))
+      {
+        return;
+      }
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_plugin_formcreator_formanswers')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 

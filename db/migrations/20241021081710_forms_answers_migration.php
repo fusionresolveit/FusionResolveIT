@@ -36,7 +36,10 @@ final class FormsAnswersMigration extends AbstractMigration
       if (in_array('old', $environments))
       {
         // Migration of database
-
+        if (!$this->hasTable('glpi_plugin_formcreator_formanswers'))
+        {
+          return;
+        }
         $config = Config::fromPhp('phinx.php');
         $environment = new Environment('old', $config->getEnvironment('old'));
         $pdo = $environment->getAdapter()->getConnection();
