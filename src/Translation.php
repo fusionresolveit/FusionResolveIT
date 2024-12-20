@@ -85,7 +85,7 @@ final class Translation
   }
 
   /**
-   * Return preffered language (from HTTP headers, fallback to default GSIT lang).
+   * Return preffered language (from HTTP headers, fallback to default FusionResolveIT lang).
    *
    * @return string
    */

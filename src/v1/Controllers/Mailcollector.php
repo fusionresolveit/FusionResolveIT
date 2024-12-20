@@ -91,7 +91,7 @@ final class Mailcollector extends Common
     // }
 
 
-    $folder = $client->getFolderByPath('Tests gsit'); // INBOX');
+    $folder = $client->getFolderByPath('Tests Fusion Resolve IT'); // INBOX');
     $messages = $folder->messages()->unseen()->setFetchOrder('desc')->all()->limit($limit = 10, $page = 0)->get();
     //                             ->all()->count();
 

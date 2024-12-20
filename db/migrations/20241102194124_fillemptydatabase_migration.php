@@ -27,7 +27,7 @@ final class FillemptydatabaseMigration extends AbstractMigration
       $item = $this->table('entities');
       $data = [
         [
-          'name' => 'gsit',
+          'name' => 'main',
           'treepath' => 00001,
         ]
       ];

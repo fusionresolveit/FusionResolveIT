@@ -8,7 +8,7 @@ trait Header
 {
   public function initHeaderData($item, $request)
   {
-    $this->header->title = 'GSIT - ' . $item->getTitle(1);
+    $this->header->title = 'Fusion Resolve IT - ' . $item->getTitle(1);
     $menu = new \App\v1\Controllers\Menu();
     $this->header->menu = $menu->getMenu($request);
     $this->header->rootpath = \App\v1\Controllers\Toolbox::getRootPath($request);

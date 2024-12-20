@@ -15,7 +15,7 @@ final class Login extends Common
     $view = Twig::fromRequest($request);
 
     $viewData = [
-      'title'     => 'GSIT - ' . 'Login page',
+      'title'     => 'Fusion Resolve IT - ' . 'Login page',
       'rootpath'  => \App\v1\Controllers\Toolbox::getRootPath($request),
       'basePath'  => $basePath,
       'sso'       => [],

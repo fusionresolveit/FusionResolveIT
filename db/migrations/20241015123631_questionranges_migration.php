@@ -35,6 +35,10 @@ final class QuestionrangesMigration extends AbstractMigration
 
     if ($this->isMigratingUp())
     {
+      if (!$this->hasTable('glpi_plugin_formcreator_questionranges'))
+      {
+        return;
+      }
       $nbRows = $pdo->query('SELECT count(*) FROM glpi_plugin_formcreator_questionranges')->fetchColumn();
       $nbLoops = ceil($nbRows / 5000);
 

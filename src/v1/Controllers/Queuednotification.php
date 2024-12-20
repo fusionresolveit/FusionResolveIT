@@ -96,9 +96,9 @@ final class Queuednotification extends Common
         $mailer->Body    = \App\v1\Controllers\Toolbox::convertHtmlToMarkdown($mail->body_html);
         $mailer->AltBody = $mail->body_html;
 
-        // $mail->addCustomHeader('X-GSIT-instance', 'custom-value');
-        // $mail->addCustomHeader('X-GSIT-type', 'App\\Models\\Ticket');
-        // $mail->addCustomHeader('X-GSIT-id', '546');
+        // $mail->addCustomHeader('X-FRIT-instance', 'custom-value');
+        // $mail->addCustomHeader('X-FRIT-type', 'App\\Models\\Ticket');
+        // $mail->addCustomHeader('X-FRIT-id', '546');
         // "Auto-Submitted":"auto-generated","X-Auto-Response-Suppress":"OOF, DR, NDR, RN, NRN" => $mail->headers
 
         if (empty($mailer->Body))

@@ -315,7 +315,7 @@ final class Profile extends Common
     $rootUrl = $this->genereRootUrl($request, '/' . $category);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addHeaderTitle('GSIT - ' . $item->getTitle(2));
+    $viewData->addHeaderTitle('Fusion Resolve IT - ' . $item->getTitle(2));
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
