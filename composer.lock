@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6731d2be8558d22d66100f2a5cbbf837",
+    "content-hash": "46fd38689d963124687538d6c534ff16",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1354,6 +1354,56 @@
                 "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
             },
             "time": "2021-11-08T20:18:51+00:00"
+        },
+        {
+            "name": "fullpipe/twig-webpack-extension",
+            "version": "v4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fullpipe/twig-webpack-extension.git",
+                "reference": "a4047ebc806b991aeda6031cee04ffeff9671894"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fullpipe/twig-webpack-extension/zipball/a4047ebc806b991aeda6031cee04ffeff9671894",
+                "reference": "a4047ebc806b991aeda6031cee04ffeff9671894",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2||^8.0",
+                "twig/twig": "^2.0||^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6|^7|^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fullpipe\\TwigWebpackExtension\\": "src/Fullpipe/TwigWebpackExtension/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eugene Bravov",
+                    "email": "eugene.bravov@gmail.com"
+                }
+            ],
+            "description": "Inject your webpack entry points into twig templates with easy.",
+            "keywords": [
+                "extension",
+                "twig",
+                "webpack"
+            ],
+            "support": {
+                "issues": "https://github.com/fullpipe/twig-webpack-extension/issues",
+                "source": "https://github.com/fullpipe/twig-webpack-extension/tree/v4.0.2"
+            },
+            "time": "2023-01-17T14:54:37+00:00"
         },
         {
             "name": "genealabs/laravel-pivot-events",

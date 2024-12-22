@@ -153,6 +153,11 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Run webpack for production
+      run: |
+        yarn install
+        yarn run production
+
     - name: PHPUnit tests
       run: ./vendor/bin/phpunit --coverage-text
 
@@ -197,6 +202,11 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
+
+    - name: Run webpack for production
+      run: |
+        yarn install
+        yarn run production
 
     - name: PHPUnit tests
       run: ./vendor/bin/phpunit --coverage-text

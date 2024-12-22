@@ -1,5 +1,6 @@
 <?php
 
+use Fullpipe\TwigWebpackExtension\WebpackExtension;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Slim\App;
@@ -16,6 +17,14 @@ return [
     \App\Route::setRoutes($app);
 
     $twig = Twig::create(__DIR__ . '/../src/v1/Views');
+
+    $publicPath = __DIR__;
+
+    $twig->addExtension(new WebpackExtension(
+      $publicPath . '/../public/assets/manifest.json',
+      $publicPath . '/../public/'
+    ));
+
     $app->add(new TwigMiddleware($twig, $app->getRouteCollector()->getRouteParser(), '', 'view'));
 
     $app->addBodyParsingMiddleware();
@@ -36,8 +45,13 @@ return [
 
       if ($exception->getCode() == 401)
       {
+        $publicPath = __DIR__;
         $view = Twig::create(__DIR__ . '/../src/v1/Views');
-
+        $view->addExtension(new WebpackExtension(
+          $publicPath . '/../public/assets/manifest.json',
+          $publicPath . '/../public/'
+        ));
+    
         $response = $app->getResponseFactory()->createResponse()->withStatus($exception->getCode());
         $viewData = [
           'rootpath' => $basePath,
