@@ -187,7 +187,8 @@ $errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 SymfonyErrorHandler::register();
 
 // Middleware to replace auto path for vendor.(js|css) by real path
-$app->add(function (Request $request, RequestHandler $handler) use ($app, $basePath) {
+$app->add(function (Request $request, RequestHandler $handler) use ($app, $basePath)
+{
   $response = $handler->handle($request);
   $body = (string) $response->getBody();
 
