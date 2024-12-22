@@ -25,6 +25,7 @@
         "crunzphp/crunz": "^3.7",
         "directorytree/ldaprecord": "^3.7",
         "fico7489/laravel-pivot": "^3.0",
+        "fullpipe/twig-webpack-extension": "^4.0",
         "genealabs/laravel-pivot-events": "~11.0",
         "htmlawed/htmlawed": "^1.2",
         "illuminate/container": "^11",

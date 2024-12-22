@@ -8,6 +8,8 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use Fullpipe\TwigWebpackExtension\WebpackExtension;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 // Load lang
@@ -20,10 +22,15 @@ $app = AppFactory::create();
 // Create Twig
 $twig = Twig::create('../src/v1/Views');
 
-// Add Twig-View Middleware
-// $app->add(TwigMiddleware::create($app, $twig));
-$app->add(new TwigMiddleware($twig, $app->getRouteCollector()->getRouteParser(), '', 'view'));
+$publicPath = __DIR__;
 
+$twig->addExtension(new WebpackExtension(
+  $publicPath . '/assets/manifest.json',
+  $publicPath . '/'
+));
+
+// Add Twig-View Middleware
+$app->add(new TwigMiddleware($twig, $app->getRouteCollector()->getRouteParser(), '', 'view'));
 
 $app->addRoutingMiddleware();
 $basePath = "";
@@ -152,18 +159,21 @@ $customErrorHandler = function (
   bool $logErrorDetails
 ) use ($app)
 {
-  global $basePath;
+  global $basePath, $publicPath;
 
   if ($exception->getCode() == 401)
   {
     $view = Twig::create('../src/v1/Views');
+    $view->addExtension(new WebpackExtension(
+      $publicPath . '/assets/manifest.json',
+      $publicPath . '/'
+    ));
 
     $response = $app->getResponseFactory()->createResponse()->withStatus($exception->getCode());
     $viewData = [
       'rootpath' => $basePath,
       'message'  => $exception->getMessage(),
     ];
-
     return $view->render($response, 'error401.html.twig', $viewData);
   } else {
     echo $exception->getMessage();
@@ -175,5 +185,17 @@ $errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 
 // get php errors (warning...)
 SymfonyErrorHandler::register();
+
+// Middleware to replace auto path for vendor.(js|css) by real path
+$app->add(function (Request $request, RequestHandler $handler) use ($app, $basePath) {
+  $response = $handler->handle($request);
+  $body = (string) $response->getBody();
+
+  $response = $app->getResponseFactory()->createResponse();
+  $body = str_replace('auto/vendor.', $basePath . '/assets/vendor.', $body);
+  $response->getBody()->write($body);
+
+  return $response;
+});
 
 $app->run();

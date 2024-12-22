@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="{{ header.rootpath }}/assets/fomantic-ui/semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="{{ header.rootpath }}/assets/main.css">
-  <link rel="stylesheet" href="{{ header.rootpath }}/assets/toast-ui/toastui-editor.min.css" />  <script type="text/javascript" src="{{ header.rootpath }}/assets/fomantic-ui/jquery-3.7.1.min.js"></script>
-  <script type="text/javascript" src="{{ header.rootpath }}/assets/fomantic-ui/semantic.min.js"></script>
-  <script type="text/javascript" src="{{ header.rootpath }}/assets/fomantic-ui/jquery.tablesort.min.js"></script>
-  <script src="{{ header.rootpath }}/assets/toast-ui/toastui-editor-all.min.js"></script>
+
+{% block js %}
+  {% webpack_entry_js 'vendor' %}
+{% endblock %}
+
+{% block css %}
+  {% webpack_entry_css 'vendor' %}
+{% endblock %}
+
   <title>{{ header.title }}</title>
 </head>
 <body>
@@ -16,17 +19,12 @@
   <div class="ui grid">
     <div class="three wide left attached column">
       <div class="ui left vertical visible menu" style="border-radius: unset;width: 300px;border-top: unset;">
-        {# <div class="item">
-          <img class="ui small centered image" src="{{ basePath }}/assets/img/logo_fusionresolveit.png">
-        </div> #}
-
         <a href="{{ header.rootpath }}/view/home">
           <div class="item" style="display: flex;align-items: end;">
-            <span class="ui small image">
-              <img src="{{ basePath }}/assets/img/logo_fusionresolveit.png">
+            <span class="ui small image logo">
             </span>
             <span class="bottom aligned content">
-              <span class="ui blue large text">
+              <span class="ui blue large text" style="font-size: 1rem !important;">
                 {{ include('version.html.twig') }}
               </span>
             </span>

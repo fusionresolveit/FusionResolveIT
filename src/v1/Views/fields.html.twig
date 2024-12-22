@@ -84,7 +84,7 @@
     <div id="editor{{ item.name }}">{{ item.value }}</div>
     <textarea rows="3" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %}  style="display: none">{{ item.value }}</textarea>
 <script type="text/javascript">
-editor{{ item.name }} = new toastui.Editor({
+editor{{ item.name }} = new Editor({
   el: document.querySelector('#editor{{ item.name }}'),
   initialEditType: 'markdown',
   previewStyle: 'vertical',
