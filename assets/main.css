@@ -69,9 +69,15 @@ i.icon.fusionverylow {
 
 .loginbg {
   background-color: #000000;
-  background-image: url(img/logo.jpg);
+  background-image: url('img/background.png');
   background-position: center top;
   background-size: 100% auto;
+}
+
+.logo {
+  background-image: url('img/logo.png');
+  width: 200px !important;
+  height: 64px !important;
 }
 
 blockquote {
