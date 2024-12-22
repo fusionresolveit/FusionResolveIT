@@ -21,8 +21,8 @@ return [
     $publicPath = __DIR__;
 
     $twig->addExtension(new WebpackExtension(
-      $publicPath . '/assets/manifest.json',
-      $publicPath . '/'
+      $publicPath . '/../public/assets/manifest.json',
+      $publicPath . '/../public/'
     ));
 
     $app->add(new TwigMiddleware($twig, $app->getRouteCollector()->getRouteParser(), '', 'view'));
@@ -41,14 +41,15 @@ return [
       bool $logErrorDetails
     ) use ($app)
     {
-      global $basePath, $publicPath;
+      global $basePath;
 
       if ($exception->getCode() == 401)
       {
+        $publicPath = __DIR__;
         $view = Twig::create(__DIR__ . '/../src/v1/Views');
         $view->addExtension(new WebpackExtension(
-          $publicPath . '/assets/manifest.json',
-          $publicPath . '/'
+          $publicPath . '/../public/assets/manifest.json',
+          $publicPath . '/../public/'
         ));
     
         $response = $app->getResponseFactory()->createResponse()->withStatus($exception->getCode());
