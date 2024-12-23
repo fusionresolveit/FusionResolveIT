@@ -1,26 +1,16 @@
-# Security Policy
+# Security Reporting
 
-## Supported Versions
+If you wish to report a security vulnerability but not in a public issue -- thank you! -- we ask that you follow the following process.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 9.5.x   | :heavy_check_mark: |
-| 9.4.x   | :x:                |
-| 9.3.x   | :x:                |
-| 9.2.x   | :x:                |
-| < 9.2   | :x:                |
+Please report security vulnerabilities by filling out the following template:
 
-## Reporting a Vulnerability
+- *PUBLIC*: Please let us know if this vulnerability has been made or discussed publicly already, and if so, please let us know where.
+- *DESCRIPTION*: Please provide precise description of the security vulnerability you have found with as much information as you are able and willing to provide.
 
-If you found a security issue, please contact us using the following email:
-glpi-security AT ow2.org
+Please send the above info, along with any other information you feel is pertinent to: david+security@durieux.family.
 
-Please **never** use standard issues to report security problems;
-vulnerabilities are published once a fix release is available.
+In addition, you may request that the project provide you a patched release in advance of the release announcement, however, we can not guarantee that such information will be provided to you in advance of the public release and announcement.
 
-You should provide us all details about the issue and the way to reproduce it.
-You may also provide a script that can be used to check the issue exists.
-
-Once the report will be handled, and if the issue is not yet fixed (or in progress)
-we'll add it to the GitHub security tab, and add you as observer. Meanwhile,
-you will reserve a CVE for the issue.
+However, David Durieux will email you at the same time the public announcement is made.
+We will let you know within a few weeks whether or not your report has been accepted or rejected.
+We ask that you please keep the report confidential until we have made a public announcement.
