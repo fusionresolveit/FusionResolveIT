@@ -38,10 +38,10 @@ final class FillemptydatabaseMigration extends AbstractMigration
       $item = $this->table('users');
       $data = [
         [
-          'name' => 'admin@foo.com',
+          'name' => 'admin',
           'entity_id' => 1,
           'lastname' => 'Administrator',
-          'password' => '',
+          'password' => \App\v1\Controllers\Token::generateDBHashPassword('adminIT'),
         ]
       ];
       $item->insert($data)
@@ -77,6 +77,17 @@ final class FillemptydatabaseMigration extends AbstractMigration
           ];
         }
       }
+      $item->insert($data)
+           ->saveData();
+
+      // Add profile to admin
+      $item = $this->table('profile_user');
+      $data = [
+        [
+          'user_id'    => 1,
+          'profile_id' => 1,
+        ]
+      ];
       $item->insert($data)
            ->saveData();
     }
