@@ -13,36 +13,63 @@ final class Token
    /**
     * Check is a password match the stored hash
     *
-    * @since 0.85
-    *
     * @param string $pass Password (pain-text)
     * @param string $hash Hash
     *
     * @return boolean
     */
-  public static function checkPassword($pass, $hash)
+  public static function checkPassword($password, $hash)
   {
-    $tmp = password_get_info($hash);
-    $verify = false;
+    if (is_null($password) || is_null($hash))
+    {
+      return false;
+    }
+    if (!strstr($hash, '.'))
+    {
+      return false;
+    }
 
-    if (isset($tmp['algo']) && $tmp['algo'])
+    $spl = explode('.', $hash);
+    if (count($spl) !== 2 || empty($spl[0]) || empty($spl[1]))
     {
-      $verify = password_verify($pass, $hash);
+      return false;
     }
-    elseif (strlen($hash) == 32)
+    $hashpassword = self::hashPasword($password, hex2bin($spl[0]));
+
+    if ($hashpassword === $spl[1])
     {
-      $verify = md5($pass) === $hash;
+      return true;
     }
-    elseif (strlen($hash) == 40)
-    {
-      $verify = sha1($pass) === $hash;
-    }
-    else
-    {
-      $salt = substr($hash, 0, 8);
-      $verify = ($salt . sha1($salt . $pass) === $hash);
-    }
-    return $verify;
+    return false;
+  }
+
+  public static function generateSalt()
+  {
+    $salt = random_bytes(SODIUM_CRYPTO_PWHASH_SALTBYTES);
+    return $salt;
+  }
+
+  // recommandations of OWASP: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+  public static function hashPasword($password, $salt)
+  {
+    // Using bin2hex to keep output readable
+    return bin2hex(
+      sodium_crypto_pwhash(
+        32,
+        $password,
+        $salt,
+        SODIUM_CRYPTO_PWHASH_OPSLIMIT_INTERACTIVE,
+        SODIUM_CRYPTO_PWHASH_MEMLIMIT_INTERACTIVE,
+        SODIUM_CRYPTO_PWHASH_ALG_ARGON2ID13
+      )
+    );
+  }
+
+  public static function generateDBHashPassword($password)
+  {
+    $salt = self::generateSalt();
+    $hash = self::hashPasword($password, $salt);
+    return bin2hex($salt) . '.' . $hash;
   }
 
   public function generateJWTToken(
@@ -97,7 +124,6 @@ final class Token
       header('Location: ' . $basePath);
       exit();
     }
-
     $now = new DateTime();
     $future = new DateTime("+2000 minutes");
     // For test / DEBUG
