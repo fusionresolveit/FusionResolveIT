@@ -1,24 +1,22 @@
-# GSIT (Gestionnaire de Services IT)
+# Fusion Resolve IT
+
+<a href="https://jit.io?utm_source=github&utm_medium=badge">
+<img src="https://img.shields.io/badge/Secured%20by-Jit-B8287F?style=plastic"/>
+</a>
 
 ## Introduction
 
-This version is a secure and cleaned fork version of [GLPI](https://github.com/glpi-project/glpi/).
-
-The patches are maintened by DCS EASYWARE, by the `Innovation and expertise center` of company [DCSEASYWARE](https://www.dcsit-group.com/).
+This version is at the beginning a fork version of [GLPI](https://github.com/glpi-project/glpi/).
+We have rewritten about all the code with new framework.
 
 
 ## Why this version ?
 
-We maintain this version because not agree with some features that seems not secured for us (like marketplace) and too many messages about glpi-network.
-
-
-
-# Releases
-
-The first version is the 9.5 version, copy of GLPI 9.5 version but secured.
-The second (in dev now), is the 1.0.0 version, with 95% of code rewritten.
+Many features are not secured for us in GLPI and the code is not enough stable.
+So we have forked and in same time rewritten near all the code.
 
 
 # Availability of code
 
-To be right with the license `GNU General Public License v2`, the code source and the patches are available in this repository.
+To be right with the license `GNU AFFERO GENERAL PUBLIC LICENSE v3`, the code source and the patches are available in this repository.
+
