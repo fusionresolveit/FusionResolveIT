@@ -1,0 +1,57 @@
+name: "Fusion Resolve IT DEPLOY"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_on_recette:
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: intl, mbstring
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v4
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-dev
+
+    - name: Run webpack for production
+      run: |
+        yarn install
+        yarn run production
+
+    - name: Create the packages
+      run: |
+        tar cvf fusionresolveit-dev.tar --transform 's+^+fusionresolveit/+' db locales public src tasks vendor crunz.yml LICENSE phinx.php README.md
+        gzip -9 fusionresolveit-dev.tar
+
+    - name: prepare the deployment
+      run: |
+        mkdir package
+        mv fusionresolveit-dev.tar.gz package/
+        touch package/deploy.txt
+
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@7.0.1
+      with:
+        switches: -avzr --delete --exclude="" --include="" --filter=""
+        path: package/
+        remote_path: ${{ secrets.SSH_RECETTE_FOLDER }}
+        remote_host: ${{ secrets.SSH_HOST }}
+        remote_port: ${{ secrets.SSH_RECETTE_PORT }}
+        remote_user: ${{ secrets.SSH_RECETTE_ACCOUNT }}
+        remote_key: ${{ secrets.SSH_RECETTE_KEY }}
