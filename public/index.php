@@ -192,7 +192,6 @@ $app->add(function (Request $request, RequestHandler $handler) use ($app, $baseP
   $response = $handler->handle($request);
   $body = (string) $response->getBody();
 
-  $response = $app->getResponseFactory()->createResponse();
   $body = str_replace('auto/vendor.', $basePath . '/assets/vendor.', $body);
   $response->getBody()->write($body);
 
