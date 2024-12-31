@@ -11,4 +11,3 @@ final class QueuednotificationTest extends Common
 {
   protected $className = 'Queuednotification';
 }
-

@@ -11,4 +11,3 @@ final class ManufacturerTest extends Common
 {
   protected $className = 'Manufacturer';
 }
-

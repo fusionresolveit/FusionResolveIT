@@ -11,4 +11,3 @@ final class LinkItemtypeTest extends Common
 {
   protected $className = 'LinkItemtype';
 }
-

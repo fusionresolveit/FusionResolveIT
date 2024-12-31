@@ -11,4 +11,3 @@ final class FieldblacklistTest extends Common
 {
   protected $className = 'Fieldblacklist';
 }
-

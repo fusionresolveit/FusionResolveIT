@@ -11,4 +11,3 @@ final class ContactTest extends Common
 {
   protected $className = 'Contact';
 }
-

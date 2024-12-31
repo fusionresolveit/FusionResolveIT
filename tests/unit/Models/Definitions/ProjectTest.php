@@ -11,4 +11,3 @@ final class ProjectTest extends Common
 {
   protected $className = 'Project';
 }
-

@@ -11,4 +11,3 @@ final class NetworknameTest extends Common
 {
   protected $className = 'Networkname';
 }
-

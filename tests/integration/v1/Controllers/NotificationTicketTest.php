@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass('\App\v1\Controllers\Notification')]
+#[UsesClass('\App\Events\EntityCreating')]
+#[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Category')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Category')]
@@ -50,6 +52,7 @@ final class NotificationTicketTest extends TestCase
     'name',
     'content',
     'id',
+    'is_late',
     'entity.id',
     'entity.name',
     'entity.completename',
@@ -106,6 +109,7 @@ final class NotificationTicketTest extends TestCase
     'lang.name',
     'lang.content',
     'lang.id',
+    'lang.is_late',
     'lang.entity.id',
     'lang.entity.name',
     'lang.entity.completename',

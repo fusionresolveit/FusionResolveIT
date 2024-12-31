@@ -11,4 +11,3 @@ final class CalendarTest extends Common
 {
   protected $className = 'Calendar';
 }
-

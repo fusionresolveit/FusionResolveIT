@@ -11,4 +11,3 @@ final class ChangeTest extends Common
 {
   protected $className = 'Change';
 }
-

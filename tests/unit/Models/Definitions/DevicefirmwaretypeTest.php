@@ -11,4 +11,3 @@ final class DevicefirmwaretypeTest extends Common
 {
   protected $className = 'Devicefirmwaretype';
 }
-

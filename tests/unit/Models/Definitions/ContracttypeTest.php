@@ -11,4 +11,3 @@ final class ContracttypeTest extends Common
 {
   protected $className = 'Contracttype';
 }
-

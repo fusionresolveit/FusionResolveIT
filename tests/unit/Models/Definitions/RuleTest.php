@@ -11,4 +11,3 @@ final class RuleTest extends Common
 {
   protected $className = 'Rule';
 }
-

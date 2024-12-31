@@ -35,6 +35,26 @@ final class Route
         '/dropdown/rule/criteria/condition',
         \App\v1\Controllers\Dropdown::class . ':getRuleCriteriaCondition'
       );
+      $view->map(
+        ['GET'],
+        '/dropdown/rule/criteria/pattern',
+        \App\v1\Controllers\Dropdown::class . ':getRuleCriteriaPattern'
+      );
+      $view->map(
+        ['GET'],
+        '/dropdown/rule/actions/field',
+        \App\v1\Controllers\Dropdown::class . ':getRuleActionsField'
+      );
+      $view->map(
+        ['GET'],
+        '/dropdown/rule/actions/actiontype',
+        \App\v1\Controllers\Dropdown::class . ':getRuleActionsType'
+      );
+      $view->map(
+        ['GET'],
+        '/dropdown/rule/actions/value',
+        \App\v1\Controllers\Dropdown::class . ':getRuleActionsValue'
+      );
 
       $view->group('/login', function (RouteCollectorProxy $login)
       {
@@ -940,6 +960,13 @@ final class Route
       {
         $groups->map(['GET'], '', \App\v1\Controllers\Group::class . ':getAll');
         $groups->map(['POST'], '', \App\v1\Controllers\Group::class . ':postItem');
+
+        $groups->group("/new", function (RouteCollectorProxy $groupNew)
+        {
+          $groupNew->map(['GET'], '', \App\v1\Controllers\Group::class . ':showNewItem');
+          $groupNew->map(['POST'], '', \App\v1\Controllers\Group::class . ':newItem');
+        });
+
         $groups->group("/{id:[0-9]+}", function (RouteCollectorProxy $groupId)
         {
           $groupId->map(['GET'], '', \App\v1\Controllers\Group::class . ':showItem');
@@ -981,6 +1008,12 @@ final class Route
         $rules->group("/tickets", function (RouteCollectorProxy $tickets)
         {
           $tickets->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':getAll');
+          $tickets->group("/new", function (RouteCollectorProxy $ticketNew)
+          {
+            $ticketNew->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showNewItem');
+            $ticketNew->map(['POST'], '', \App\v1\Controllers\Rules\Ticket::class . ':newItem');
+          });
+
           $tickets->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketId)
           {
             $ticketId->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showItem');
@@ -988,6 +1021,17 @@ final class Route
             $ticketId->group('/', function (RouteCollectorProxy $sub)
             {
               $sub->map(['GET'], 'criteria', \App\v1\Controllers\Rules\Ticket::class . ':showCriteria');
+              $sub->group("criteria/new", function (RouteCollectorProxy $criteriaNew)
+              {
+                $criteriaNew->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showNewCriteria');
+                $criteriaNew->map(['POST'], '', \App\v1\Controllers\Rules\Ticket::class . ':newCriteria');
+              });
+              $sub->map(['GET'], 'actions', \App\v1\Controllers\Rules\Ticket::class . ':showActions');
+              $sub->group("actions/new", function (RouteCollectorProxy $actionNew)
+              {
+                $actionNew->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showNewAction');
+                $actionNew->map(['POST'], '', \App\v1\Controllers\Rules\Ticket::class . ':newAction');
+              });
             });
           });
         });
@@ -1127,6 +1171,13 @@ final class Route
         {
           $categories->map(['GET'], '', \App\v1\Controllers\Category::class . ':getAll');
           $categories->map(['POST'], '', \App\v1\Controllers\Category::class . ':postItem');
+
+          $categories->group("/new", function (RouteCollectorProxy $categoryNew)
+          {
+            $categoryNew->map(['GET'], '', \App\v1\Controllers\Category::class . ':showNewItem');
+            $categoryNew->map(['POST'], '', \App\v1\Controllers\Category::class . ':newItem');
+          });
+
           $categories->group("/{id:[0-9]+}", function (RouteCollectorProxy $categoryId)
           {
             $categoryId->map(['GET'], '', \App\v1\Controllers\Category::class . ':showItem');
@@ -3062,6 +3113,13 @@ final class Route
       {
         $links->map(['GET'], '', \App\v1\Controllers\Link::class . ':getAll');
         $links->map(['POST'], '', \App\v1\Controllers\Link::class . ':postItem');
+
+        $links->group("/new", function (RouteCollectorProxy $linkNew)
+        {
+          $linkNew->map(['GET'], '', \App\v1\Controllers\Link::class . ':showNewItem');
+          $linkNew->map(['POST'], '', \App\v1\Controllers\Link::class . ':newItem');
+        });
+
         $links->group("/{id:[0-9]+}", function (RouteCollectorProxy $linkId)
         {
           $linkId->map(['GET'], '', \App\v1\Controllers\Link::class . ':showItem');

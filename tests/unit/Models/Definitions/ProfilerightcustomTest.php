@@ -11,4 +11,3 @@ final class ProfilerightcustomTest extends Common
 {
   protected $className = 'Profilerightcustom';
 }
-

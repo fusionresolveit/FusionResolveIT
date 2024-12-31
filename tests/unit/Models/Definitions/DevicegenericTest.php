@@ -11,4 +11,3 @@ final class DevicegenericTest extends Common
 {
   protected $className = 'Devicegeneric';
 }
-

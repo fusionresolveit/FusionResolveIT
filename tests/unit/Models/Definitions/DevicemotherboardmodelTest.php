@@ -11,4 +11,3 @@ final class DevicemotherboardmodelTest extends Common
 {
   protected $className = 'Devicemotherboardmodel';
 }
-

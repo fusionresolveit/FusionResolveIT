@@ -11,4 +11,3 @@ final class BusinesscriticityTest extends Common
 {
   protected $className = 'Businesscriticity';
 }
-

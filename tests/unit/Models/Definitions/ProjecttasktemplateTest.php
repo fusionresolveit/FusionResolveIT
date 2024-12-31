@@ -11,4 +11,3 @@ final class ProjecttasktemplateTest extends Common
 {
   protected $className = 'Projecttasktemplate';
 }
-

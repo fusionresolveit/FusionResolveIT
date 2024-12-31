@@ -11,4 +11,3 @@ final class ContractcostTest extends Common
 {
   protected $className = 'Contractcost';
 }
-

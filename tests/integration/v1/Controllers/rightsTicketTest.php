@@ -7,12 +7,14 @@ namespace Tests\integration\v1\Controllers;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
-use Selective\TestTrait\Traits\HttpTestTrait;
-use Tests\Traits\AppTestTrait;
+use Tests\Traits\HttpTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Notification')]
+#[UsesClass('\App\App')]
 #[UsesClass('\App\Route')]
 #[UsesClass('\App\Translation')]
+#[UsesClass('\App\Events\EntityCreating')]
+#[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Category')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Category')]
@@ -21,6 +23,7 @@ use Tests\Traits\AppTestTrait;
 #[UsesClass('\App\Models\Definitions\Entity')]
 #[UsesClass('\App\Models\Definitions\Followup')]
 #[UsesClass('\App\Models\Definitions\Group')]
+#[UsesClass('\App\Models\Definitions\ItemTicket')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitemcategory')]
 #[UsesClass('\App\Models\Definitions\Location')]
@@ -28,7 +31,11 @@ use Tests\Traits\AppTestTrait;
 #[UsesClass('\App\Models\Definitions\Problem')]
 #[UsesClass('\App\Models\Definitions\Profile')]
 #[UsesClass('\App\Models\Definitions\ProfileUser')]
+#[UsesClass('\App\Models\Definitions\ProjecttaskTicket')]
+#[UsesClass('\App\Models\Definitions\Solution')]
 #[UsesClass('\App\Models\Definitions\Ticket')]
+#[UsesClass('\App\Models\Definitions\Ticketcost')]
+#[UsesClass('\App\Models\Definitions\Ticketvalidation')]
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Definitions\Usercategory')]
 #[UsesClass('\App\Models\Definitions\Usertitle')]
@@ -49,21 +56,18 @@ use Tests\Traits\AppTestTrait;
 #[UsesClass('\App\v1\Controllers\Datastructures\Viewdata')]
 #[UsesClass('\App\v1\Controllers\Menu')]
 #[UsesClass('\App\v1\Controllers\Search')]
+#[UsesClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\v1\Controllers\Toolbox')]
+
 
 final class RightsTicketTest extends TestCase
 {
-  use AppTestTrait;
   use HttpTestTrait;
+
+  protected $app;
 
   public static function setUpBeforeClass(): void
   {
-    $profile = \App\Models\Profile::find(2);
-    if (!is_null($profile))
-    {
-      $profile->delete();
-    }
-
     $profile = new \App\Models\Profile();
     $profile->id = 2;
     $profile->name = 'Test';
@@ -73,9 +77,23 @@ final class RightsTicketTest extends TestCase
 
   public static function tearDownAfterClass(): void
   {
+    $GLOBALS['profile_id'] = 1;
+
     $profile = \App\Models\Profile::find(2);
-    $profile->delete();
+    $profile->forceDelete();
   }
+
+  protected function setUp(): void
+  {
+    $GLOBALS['profile_id'] = 1;
+    $this->app = (new \App\App())->get();
+
+    $user = \App\Models\User::find(1);
+    $this->setTokenForUser($user);
+
+    // TODO manage token for requests
+  }
+
 
   private function setRight($rightname)
   {
@@ -97,7 +115,9 @@ final class RightsTicketTest extends TestCase
     $GLOBALS['profile_id'] = 1;
 
     // Create request with method and url
-    $request = $this->createRequest('GET', '/view/tickets');
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+    $request = $this->createRequest('GET', '/view/tickets', [], ['token' => $token]);
     $response = $this->app->handle($request);
 
     $this->assertEquals(200, $response->getStatusCode());
@@ -114,7 +134,9 @@ final class RightsTicketTest extends TestCase
     }
 
     // Create request with method and url
-    $request = $this->createRequest('GET', '/view/tickets');
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user, 2);
+    $request = $this->createRequest('GET', '/view/tickets', [], ['token' => $token]);
     $response = $this->app->handle($request);
 
     $this->assertEquals(401, $response->getStatusCode());
@@ -125,7 +147,9 @@ final class RightsTicketTest extends TestCase
     $this->setRight('read');
 
     // Create request with method and url
-    $request = $this->createRequest('GET', '/view/tickets');
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+    $request = $this->createRequest('GET', '/view/tickets', [], ['token' => $token]);
     $response = $this->app->handle($request);
 
     $this->assertEquals(200, $response->getStatusCode());
@@ -136,7 +160,9 @@ final class RightsTicketTest extends TestCase
     $this->setRight('readmyitems');
 
     // Create request with method and url
-    $request = $this->createRequest('GET', '/view/tickets');
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+    $request = $this->createRequest('GET', '/view/tickets', [], ['token' => $token]);
     $response = $this->app->handle($request);
 
     $this->assertEquals(200, $response->getStatusCode());

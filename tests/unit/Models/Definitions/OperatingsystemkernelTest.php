@@ -11,4 +11,3 @@ final class OperatingsystemkernelTest extends Common
 {
   protected $className = 'Operatingsystemkernel';
 }
-

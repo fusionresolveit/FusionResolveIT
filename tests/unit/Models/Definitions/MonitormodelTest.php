@@ -11,4 +11,3 @@ final class MonitormodelTest extends Common
 {
   protected $className = 'Monitormodel';
 }
-

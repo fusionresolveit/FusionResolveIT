@@ -11,4 +11,3 @@ final class EnclosuremodelTest extends Common
 {
   protected $className = 'Enclosuremodel';
 }
-

@@ -11,4 +11,3 @@ final class TickettemplateTest extends Common
 {
   protected $className = 'Tickettemplate';
 }
-

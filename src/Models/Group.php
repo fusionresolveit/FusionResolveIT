@@ -15,10 +15,9 @@ class Group extends Common
   protected $definition = '\App\Models\Definitions\Group';
   protected $titles = ['Group', 'Groups'];
   protected $icon = 'users';
+  protected $tree = true;
 
   protected $appends = [
-    'entity',
-    'notes',
     'completename',
   ];
 

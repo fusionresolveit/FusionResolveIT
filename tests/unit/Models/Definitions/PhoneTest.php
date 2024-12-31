@@ -11,4 +11,3 @@ final class PhoneTest extends Common
 {
   protected $className = 'Phone';
 }
-

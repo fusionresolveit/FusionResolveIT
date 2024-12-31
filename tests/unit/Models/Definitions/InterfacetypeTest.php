@@ -11,4 +11,3 @@ final class InterfacetypeTest extends Common
 {
   protected $className = 'Interfacetype';
 }
-

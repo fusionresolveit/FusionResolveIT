@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass('\App\v1\Controllers\Common')]
 #[CoversClass('\App\Models\Ticket')]
 #[CoversClass('\App\Models\Common')]
+#[UsesClass('\App\Events\EntityCreating')]
+#[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Definitions\Category')]
 #[UsesClass('\App\Models\Definitions\Certificate')]
 #[UsesClass('\App\Models\Definitions\Change')]
@@ -28,6 +30,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Profile')]
 #[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Definitions\ProjecttaskTicket')]
+#[UsesClass('\App\Models\Definitions\Rule')]
 #[UsesClass('\App\Models\Definitions\Solution')]
 #[UsesClass('\App\Models\Definitions\Ticket')]
 #[UsesClass('\App\Models\Definitions\Ticketcost')]
@@ -39,9 +42,11 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Followup')]
 #[UsesClass('\App\Models\Location')]
 #[UsesClass('\App\Models\Profile')]
+#[UsesClass('\App\Models\Rules\Ticket')]
 #[UsesClass('\App\Models\Solution')]
 #[UsesClass('\App\Models\User')]
 #[UsesClass('\App\v1\Controllers\Notification')]
+#[UsesClass('\App\v1\Controllers\Rules\Common')]
 #[UsesClass('\App\v1\Controllers\Toolbox')]
 
 final class TicketTest extends TestCase
@@ -93,7 +98,7 @@ final class TicketTest extends TestCase
       // watcher=
       // watchergroup=
       // technician=4099%2C4096
-      // techniciangroup=      
+      // techniciangroup=
     ];
     $ctrl = new \App\v1\Controllers\Ticket();
     $ticketId = $ctrl->saveItem($data);

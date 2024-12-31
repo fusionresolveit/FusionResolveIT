@@ -11,4 +11,3 @@ final class VlanTest extends Common
 {
   protected $className = 'Vlan';
 }
-

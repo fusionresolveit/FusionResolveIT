@@ -11,4 +11,3 @@ final class DevicesoundcardmodelTest extends Common
 {
   protected $className = 'Devicesoundcardmodel';
 }
-

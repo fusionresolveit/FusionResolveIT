@@ -11,4 +11,3 @@ final class PassivedcequipmentmodelTest extends Common
 {
   protected $className = 'Passivedcequipmentmodel';
 }
-

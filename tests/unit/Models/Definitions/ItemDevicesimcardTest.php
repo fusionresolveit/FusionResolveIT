@@ -11,4 +11,3 @@ final class ItemDevicesimcardTest extends Common
 {
   protected $className = 'ItemDevicesimcard';
 }
-

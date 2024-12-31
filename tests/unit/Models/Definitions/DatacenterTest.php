@@ -11,4 +11,3 @@ final class DatacenterTest extends Common
 {
   protected $className = 'Datacenter';
 }
-

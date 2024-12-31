@@ -11,4 +11,3 @@ final class ConsumableitemTest extends Common
 {
   protected $className = 'Consumableitem';
 }
-

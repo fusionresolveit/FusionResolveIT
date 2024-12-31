@@ -1,0 +1,42 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.criteria|length == 0 %}
+  <div class="ui form segment">
+    <i class="bullhorn icon"></i> No criteria yet created
+  </div>
+{% endif %}
+
+<a href="{{ header.rootpath }}/view/rules/tickets/{{ header.id }}/criteria/new">
+  <button class="ui labeled blue icon button">
+    <i class="plus icon"></i>
+    Add new criteria
+  </button>
+</a>
+
+{% for criterium in data.criteria %}
+  <div class="ui form segment">
+    <div class="three fields">
+      <div class="field">
+        <label>Criterium</label>
+        <div class="text">{{ criterium.criteria.title }}</div>
+      </div>
+      {% set item = criterium.condition %}
+      {{ include('fields.html.twig') }}
+
+      {% set item = criterium.patternviewfield %}
+      {{ include('fields.html.twig') }}
+
+    </div>
+  </div>
+{% endfor %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#criteriaxx').on("change", function() {
+      console.log('test1');
+      console.log($(this).val());
+      $('#conditiondiv').attr('data-criteria', $(this).val());
+    });
+  });
+</script>
+{{ include('footer.html.twig') }}

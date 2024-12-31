@@ -82,7 +82,7 @@
 
   {% if item.type == 'textarea' %}
     <div id="editor{{ item.name }}">{{ item.value }}</div>
-    <textarea rows="3" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %}  style="display: none">{{ item.value }}</textarea>
+    <textarea rows="3" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} style="display: none">{{ item.value }}</textarea>
 <script type="text/javascript">
 editor{{ item.name }} = new Editor({
   el: document.querySelector('#editor{{ item.name }}'),
@@ -99,7 +99,7 @@ editor{{ item.name }} = new Editor({
   {% endif %}
 
   {% if item.type == 'boolean' %}
-    <div class="ui toggle checkbox">
+    <div class="ui toggle {% if item.readonly is defined %}read-only{% endif %} checkbox">
       <input type="hidden" name="{{ item.name }}" value="off">
       <input type="checkbox" name="{{ item.name }}" {% if item.value %}checked{% endif %}>
       <label>{{ item.title }}</label>

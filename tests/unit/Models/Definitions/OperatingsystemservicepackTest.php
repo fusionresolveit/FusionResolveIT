@@ -11,4 +11,3 @@ final class OperatingsystemservicepackTest extends Common
 {
   protected $className = 'Operatingsystemservicepack';
 }
-

@@ -11,4 +11,3 @@ final class OauthimapApplicationTest extends Common
 {
   protected $className = 'OauthimapApplication';
 }
-

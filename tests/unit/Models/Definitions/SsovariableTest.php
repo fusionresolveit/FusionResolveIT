@@ -11,4 +11,3 @@ final class SsovariableTest extends Common
 {
   protected $className = 'Ssovariable';
 }
-

@@ -11,4 +11,3 @@ final class BlacklistTest extends Common
 {
   protected $className = 'Blacklist';
 }
-

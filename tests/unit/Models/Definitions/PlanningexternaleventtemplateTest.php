@@ -11,4 +11,3 @@ final class PlanningexternaleventtemplateTest extends Common
 {
   protected $className = 'Planningexternaleventtemplate';
 }
-

@@ -1,0 +1,95 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+  {# `action_type` varchar(255) DEFAULT NULL,
+  `field` varchar(255) DEFAULT NULL,
+  `value` longtext DEFAULT NULL, #}
+
+<div class="ui form segment">
+  <form method="post" class="ui form">
+    <div class="three fields">
+      <div class="field">
+        <label>Field</label>
+          <div
+            class="ui selection dropdown search remotedropdown"
+            data-url="{{ header.rootpath }}/view/dropdown/rule/actions/field"
+            data-itemtype="{{ data.model }}"
+          >
+            <input type="hidden" id="fieldxx" name="field" value="">
+            <i class="dropdown icon"></i>
+            <div class="default text"></div>
+            <div class="menu"></div>
+          </div>
+      </div>
+
+      <div class="field">
+        <label>Action type</label>
+        <div
+          class="ui selection dropdown search remotedropdownrulecondition"
+          data-url="{{ header.rootpath }}/view/dropdown/rule/actions/actiontype"
+          data-itemtype="{{ data.model }}"
+          data-definitionname=""
+          id="actiontype"
+        >
+          <input type="hidden" id="actiontypexx" name="actiontype" value="">
+          <i class="dropdown icon"></i>
+          <div class="default text"></div>
+          <div class="menu"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Value</label>
+        <span id="value">
+        </span>
+      </div>
+
+    </div>
+    <button id="submitbutton" class="ui primary disabled button" type="submit">Save</button>
+  </form>    
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#fieldxx').on("change", function() {
+      $('#actiontype').attr('data-definitionname', $(this).val());
+    });
+    $('#actiontypexx').on("change", function() {
+      switch ($(this).val()) {
+        case 'assign_dropdown':
+        case 'append_dropdown':
+          // dropdowns
+          $('#value').replaceWith( '<div' +
+          ' class="ui selection dropdown search remotedropdownrulevalue"' +
+          ' data-url="{{ header.rootpath }}/view/dropdown/rule/actions/value"' +
+          ' data-itemtype=""' +
+          ' data-field=""' +
+          ' id="valuediv"' +
+          '>' +
+          ' <input type="hidden" id="valuexx" name="value" value="0">' +
+          ' <i class="dropdown icon"></i>' +
+          ' <div class="default text"></div>' +
+          ' <div class="menu"></div>' +
+          '</div>' );
+          $('#valuediv').attr('data-itemtype', $('#actiontype').attr('data-itemtype'));
+          $('#valuediv').attr('data-field', $('#fieldxx').val());
+          $('.remotedropdownrulevalue')
+            .dropdown({
+              saveRemoteData: false,
+              preserveHTML : false,
+              apiSettings: {
+                encodeParameters: false,
+                cache: false,
+                url: '{url}?q={query}&itemtype={itemtype}&field={field}',
+              }
+            });          
+          break;
+        default:
+          // others
+          $('#value').replaceWith( '<input type="text" id="valuexx" name="value" value="">' );
+      }
+      $('#submitbutton').removeClass('disabled');
+    });
+  });
+</script>
+{{ include('footer.html.twig') }}

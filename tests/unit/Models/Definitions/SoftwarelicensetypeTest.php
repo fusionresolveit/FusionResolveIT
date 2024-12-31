@@ -11,4 +11,3 @@ final class SoftwarelicensetypeTest extends Common
 {
   protected $className = 'Softwarelicensetype';
 }
-

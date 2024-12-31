@@ -11,4 +11,3 @@ final class StateTest extends Common
 {
   protected $className = 'State';
 }
-

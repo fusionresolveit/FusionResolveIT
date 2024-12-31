@@ -11,4 +11,3 @@ final class HolidayTest extends Common
 {
   protected $className = 'Holiday';
 }
-

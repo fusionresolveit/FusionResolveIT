@@ -11,4 +11,3 @@ final class PeripheralTest extends Common
 {
   protected $className = 'Peripheral';
 }
-

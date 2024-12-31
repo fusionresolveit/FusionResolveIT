@@ -11,4 +11,3 @@ final class DocumentTest extends Common
 {
   protected $className = 'Document';
 }
-

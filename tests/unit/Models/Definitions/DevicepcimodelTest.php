@@ -11,4 +11,3 @@ final class DevicepcimodelTest extends Common
 {
   protected $className = 'Devicepcimodel';
 }
-

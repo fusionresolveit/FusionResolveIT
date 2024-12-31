@@ -11,4 +11,3 @@ final class LinetypeTest extends Common
 {
   protected $className = 'Linetype';
 }
-

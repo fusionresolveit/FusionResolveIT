@@ -11,4 +11,3 @@ final class PrintertypeTest extends Common
 {
   protected $className = 'Printertype';
 }
-

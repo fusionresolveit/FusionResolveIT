@@ -11,4 +11,3 @@ final class HomeTest extends Common
 {
   protected $className = 'Home';
 }
-

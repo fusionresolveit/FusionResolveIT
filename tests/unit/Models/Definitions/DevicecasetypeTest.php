@@ -11,4 +11,3 @@ final class DevicecasetypeTest extends Common
 {
   protected $className = 'Devicecasetype';
 }
-

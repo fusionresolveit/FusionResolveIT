@@ -21,6 +21,7 @@ class Rule
         'type'  => 'input',
         'name'  => 'ranking',
         'fillable' => true,
+        'display' => false,
       ],
       [
         'id'    => 4,
@@ -39,7 +40,7 @@ class Rule
       [
         'id'    => 8,
         'title' => $translator->translate('Active'),
-        'type'  => 'input',
+        'type'  => 'boolean',
         'name'  => 'is_active',
         'fillable' => true,
       ],
@@ -50,6 +51,26 @@ class Rule
         'name'  => 'comment',
         'fillable' => true,
       ],
+      // [
+      //   'id'    => 1001,
+      //   'title' => $translator->translatePlural('Criterium', 'Criteria', 2),
+      //   'type'  => 'dropdown_remote',
+      //   'name'  => 'criteria',
+      //   'itemtype' => '\App\Models\Rules\Rulecriterium',
+      //   'multiple' => true,
+      //   'fillable' => true,
+      //   'relationfields' => ['id'],
+      // ],
+      // [
+      //   'id'    => 1002,
+      //   'title' => $translator->translatePlural('Action', 'Actions', 2),
+      //   'type'  => 'dropdown_remote',
+      //   'name'  => 'actions',
+      //   'itemtype' => '\App\Models\Ruleaction',
+      //   'multiple' => true,
+      //   'fillable' => true,
+      //   'relationfields' => ['id'],
+      // ],
     ];
   }
 
@@ -70,7 +91,7 @@ class Rule
       [
         'title' => $translator->translatePlural('Action', 'Actions', 2),
         'icon' => 'running',
-        'link' => '', // $rootUrl . '/actions',
+        'link' => $rootUrl . '/actions',
       ],
       [
         'title' => $translator->translate('Testing'),

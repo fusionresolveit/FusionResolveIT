@@ -11,4 +11,3 @@ final class SlmTest extends Common
 {
   protected $className = 'Slm';
 }
-

@@ -11,4 +11,3 @@ final class RacktypeTest extends Common
 {
   protected $className = 'Racktype';
 }
-

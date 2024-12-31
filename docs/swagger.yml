@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: API Fusion Resolve IT
+  version: '1.0'
+servers:
+  - url: https://recette.fusionresolveit.org/jit
+components:
+  securitySchemes:
+    tokenauth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    cookieauth:
+      type: apiKey
+      in: cookie
+      name: token
+paths:
+  /view/dropdown/rule/criteria:
+    get:
+      description: ''
+      parameters:
+        - name: q
+          in: query
+          description: string to filter, can be empty
+          required: true
+          schema:
+            type: string
+        - name: itemtype
+          in: query
+          description: Itemtype of data to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+      security:
+        - cookieauth: []

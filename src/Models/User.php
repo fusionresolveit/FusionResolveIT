@@ -25,9 +25,9 @@ class User extends Common
     // 'supervisor',
     // 'group',
     'completename',
-    'entity',
-    'certificates',
-    'defaultgroup',
+    // 'entity',
+    // 'certificates',
+    // 'defaultgroup',
   ];
 
   protected $visible = [

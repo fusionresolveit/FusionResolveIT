@@ -11,4 +11,3 @@ final class FollowuptemplateTest extends Common
 {
   protected $className = 'Followuptemplate';
 }
-

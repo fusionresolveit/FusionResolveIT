@@ -11,4 +11,3 @@ final class RssfeedTest extends Common
 {
   protected $className = 'Rssfeed';
 }
-

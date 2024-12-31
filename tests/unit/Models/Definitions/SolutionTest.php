@@ -11,4 +11,3 @@ final class SolutionTest extends Common
 {
   protected $className = 'Solution';
 }
-

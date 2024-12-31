@@ -159,8 +159,6 @@ final class Ticket extends Common
     $updateData = $rule->processAllRules(
       $input
     );
-    // print_r($updateData);
-    // exit;
 
     foreach ($updateData as $field => $value)
     {
@@ -211,6 +209,79 @@ final class Ticket extends Common
     header('Location: ' . (string) $uri);
     exit();
     // return $this->commonUpdateItem($request, $response, $args, $item);
+  }
+
+  public function runRules($data, $id)
+  {
+    // Run ticket rules
+    $rule = new \App\v1\Controllers\Rules\Ticket();
+    if (is_null($id))
+    {
+      $ticket = new \App\Models\Ticket();
+    } else {
+      $ticket = \App\Models\Ticket::find($id);
+    }
+
+    $preparedData = $rule->prepareData($ticket, $data);
+    $ruledData = $rule->processAllRules($ticket, $preparedData);
+
+    $data = $rule->parseNewData($ticket, $data, $ruledData);
+    return $data;
+  }
+
+  public function showStats(Request $request, Response $response, $args)
+  {
+    global $translator;
+    $item = new \App\Models\Ticket();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::find($args['id']);
+
+    $rootUrl = $this->getUrlWithoutQuery($request);
+    $rootUrl = rtrim($rootUrl, '/stats');
+
+    $feeds = [];
+
+    $feeds[] = [
+      'date'  => $myItem->date,
+      'text'  => $translator->translate('Opening date'),
+      'icon'  => 'pencil alternate',
+      'color' => 'blue'
+    ];
+
+    $feeds[] = [
+      'date'  => $myItem->time_to_resolve,
+      'text'  => $translator->translate('Time to resolve'),
+      'icon'  => 'hourglass half',
+      'color' => 'blue'
+    ];
+    if ($myItem->status >= 5)
+    {
+      $feeds[] = [
+        'date'  => $myItem->solvedate,
+        'text'  => $translator->translate('Resolution date'),
+        'icon'  => 'check circle',
+        'color' => 'blue'
+      ];
+    }
+    if ($myItem->status == 6)
+    {
+      $feeds[] = [
+        'date'  => $myItem->closedate,
+        'text'  => $translator->translate('Closing date'),
+        'icon'  => 'flag checkered',
+        'color' => 'blue'
+      ];
+    }
+
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('feeds', $feeds);
+
+
+    return $view->render($response, 'subitem/stats.html.twig', (array) $viewData);
   }
 
   public function showProblem(Request $request, Response $response, $args)

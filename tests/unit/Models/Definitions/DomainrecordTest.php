@@ -11,4 +11,3 @@ final class DomainrecordTest extends Common
 {
   protected $className = 'Domainrecord';
 }
-

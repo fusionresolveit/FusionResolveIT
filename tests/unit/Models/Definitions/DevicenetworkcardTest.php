@@ -11,4 +11,3 @@ final class DevicenetworkcardTest extends Common
 {
   protected $className = 'Devicenetworkcard';
 }
-

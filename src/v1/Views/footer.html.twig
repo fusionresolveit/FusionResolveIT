@@ -15,19 +15,18 @@
           encodeParameters: false,
           cache: false,
           url: '{url}?q={query}&itemtype={itemtype}',
-        }      
+        } 
       });
 
       $('.remotedropdownrulecondition')
       .dropdown({
-        // minCharacters: 2,
         saveRemoteData: false,
         preserveHTML : false,
         apiSettings: {
           encodeParameters: false,
           cache: false,
-          url: '{url}?q={query}&itemtype={itemtype}&criteria={criteria}',
-        }      
+          url: '{url}?itemtype={itemtype}&definitionname={definitionname}',
+        }
       });
 
 

@@ -11,4 +11,3 @@ final class NotepadTest extends Common
 {
   protected $className = 'Notepad';
 }
-

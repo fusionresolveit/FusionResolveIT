@@ -11,4 +11,3 @@ final class DevicepowersupplymodelTest extends Common
 {
   protected $className = 'Devicepowersupplymodel';
 }
-

@@ -11,4 +11,3 @@ final class DevicememoryTest extends Common
 {
   protected $className = 'Devicememory';
 }
-

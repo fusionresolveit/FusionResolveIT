@@ -119,6 +119,10 @@
                   {{ value.value.title }}
               {% endif %}
             </td>
+          {% elseif value.value is same as(true) %}
+            <td><i class="toggle on green big icon"></i></td>
+            {% elseif value.value is same as(false) %}
+            <td><i class="toggle off red big icon"></i></td>
           {% else %}
             <td>{{ value.value }}</td>
           {% endif %}

@@ -11,4 +11,3 @@ final class CrontaskexecutionlogTest extends Common
 {
   protected $className = 'Crontaskexecutionlog';
 }
-

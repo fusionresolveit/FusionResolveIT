@@ -159,13 +159,15 @@ class Ticket
         'name'  => 'time_to_resolve',
         'displaygroup' => 'dates',
       ],
-      // [
-      //   'id'    => 82,
-      //   'title' => $translator->translate('Time to resolve exceeded'),
-      //   'type'  => 'boolean',
-      //   'name'  => 'is_late',
-      //   'displaygroup' => 'dates',
-      // ],
+      [
+        'id'    => 82,
+        'title' => $translator->translate('Time to resolve exceeded'),
+        'type'  => 'boolean',
+        'name'  => 'is_late',
+        'displaygroup' => 'dates',
+        'readonly' => true,
+        'fillable' => false,
+      ],
       [
         'id'    => 17,
         'title' => $translator->translate('Resolution date'),

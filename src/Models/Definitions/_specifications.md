@@ -14,6 +14,10 @@ Mandatory fields:
 * type: string | values are:
   * input
   * inputpassword
+  * textarea
+  * email
+  * boolean
+  * date
   * datetime
   * dropdown
   * dropdown_remote
@@ -31,7 +35,7 @@ Optional fields:
 * fillable: true if database can be filled with these field (directly from form),
 * display: display or not in form
 * relationfields ['id', 'name', 'user.id', 'user.completename']
-* usein: ['search', 'form', 'notification']
+* usein: ['search', 'form', 'notification', 'rule']
 
 
 ## Case of values of a static list (dropdown)
