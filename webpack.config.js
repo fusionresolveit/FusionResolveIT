@@ -5,6 +5,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -64,6 +65,14 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "assets/img/logo_icon.png",
+          to: "logo_icon.png",
+        },
+      ],
     }),
   ],
   watchOptions: {
