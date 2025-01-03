@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Category';
   protected $titles = ['Category', 'Categories'];
@@ -16,16 +18,7 @@ class Category extends Common
   protected $tree = true;
 
   protected $appends = [
-    // 'category',
-    // 'users',
-    // 'groups',
-    // 'knowbaseitemcategories',
-    // 'tickettemplatesDemand',
-    // 'tickettemplatesIncident',
-    // 'changetemplates',
-    // 'problemtemplates',
-    // 'entity',
-    'completename',
+    // 'completename',
   ];
 
   protected $visible = [
@@ -53,7 +46,7 @@ class Category extends Common
     'entity:id,name,completename',
   ];
 
-  public function getCompletenameAttribute()
+  public function getCompletenameAttribute(): string
   {
     $names = [];
     if ($this->treepath != null)
@@ -64,7 +57,7 @@ class Category extends Common
       {
         $itemsId[$key] = (int) $value;
       }
-      $items = \App\Models\Category::whereIn('id', $itemsId)->orderBy('treepath');
+      $items = \App\Models\Category::whereIn('id', $itemsId)->orderBy('treepath')->get();
       foreach ($items as $item)
       {
         $names[] = $item->name;
@@ -74,68 +67,75 @@ class Category extends Common
     return implode(' > ', $names);
   }
 
+  /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Category');
+    return $this->belongsTo(\App\Models\Category::class);
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function users(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id');
+    return $this->belongsTo(\App\Models\User::class, 'user_id');
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function groups(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id');
   }
 
+  /** @return BelongsTo<\App\Models\Knowbaseitemcategory, $this> */
   public function knowbaseitemcategories(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Knowbaseitemcategory', 'knowbaseitemcategory_id');
+    return $this->belongsTo(\App\Models\Knowbaseitemcategory::class, 'knowbaseitemcategory_id');
   }
 
+  /** @return BelongsTo<\App\Models\Tickettemplate, $this> */
   public function tickettemplatesDemand(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplate_id_demand');
+    return $this->belongsTo(\App\Models\Tickettemplate::class, 'tickettemplate_id_demand');
   }
 
+  /** @return BelongsTo<\App\Models\Tickettemplate, $this> */
   public function tickettemplatesIncident(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplate_id_incident');
+    return $this->belongsTo(\App\Models\Tickettemplate::class, 'tickettemplate_id_incident');
   }
 
+  /** @return BelongsTo<\App\Models\Changetemplate, $this> */
   public function changetemplates(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Changetemplate', 'changetemplate_id');
+    return $this->belongsTo(\App\Models\Changetemplate::class, 'changetemplate_id');
   }
 
+  /** @return BelongsTo<\App\Models\Problemtemplate, $this> */
   public function problemtemplates(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Problemtemplate', 'problemtemplate_id');
+    return $this->belongsTo(\App\Models\Problemtemplate::class, 'problemtemplate_id');
   }
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return BelongsTo<\App\Models\Tickettemplate, $this> */
   public function templaterequest(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplates_id_demand');
+    return $this->belongsTo(\App\Models\Tickettemplate::class, 'tickettemplates_id_demand');
   }
 
+  /** @return BelongsTo<\App\Models\Tickettemplate, $this> */
   public function templateincident(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Tickettemplate', 'tickettemplates_id_incident');
+    return $this->belongsTo(\App\Models\Tickettemplate::class, 'tickettemplates_id_incident');
   }
 
+  /** @return BelongsTo<\App\Models\Changetemplate, $this> */
   public function templatechange(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Changetemplate', 'changetemplates_id');
+    return $this->belongsTo(\App\Models\Changetemplate::class, 'changetemplates_id');
   }
 
+  /** @return BelongsTo<\App\Models\Problemtemplate, $this> */
   public function templateproblem(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Problemtemplate', 'problemtemplates_id');
+    return $this->belongsTo(\App\Models\Problemtemplate::class, 'problemtemplates_id');
   }
 }

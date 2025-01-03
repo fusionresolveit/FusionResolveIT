@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -35,7 +37,7 @@ final class Authldap extends Common
   {
     $connection = new \LdapRecord\Connection([
       'hosts'     => [$ldap->host],
-      'port'      => (int) $ldap->post,
+      'port'      => (int) $ldap->port,
       'base_dn'   => $ldap->basedn,
       'username'  => $ldap->rootdn,
       'password'  => $ldap->rootdn_passwd,
@@ -66,6 +68,7 @@ final class Authldap extends Common
 
   public static function tryAuth($authldapId, $userdn, $passowrd)
   {
+    /** @var \App\Models\Authldap|null */
     $authldap = \App\Models\Authldap::find($authldapId);
     if (is_null($authldap) or !$authldap->is_active)
     {
@@ -74,7 +77,7 @@ final class Authldap extends Common
 
     $connection = new \LdapRecord\Connection([
       'hosts'     => [$authldap->host],
-      'port'      => (int) $authldap->post,
+      'port'      => (int) $authldap->port,
       'timeout'   => 1,
     ]);
 

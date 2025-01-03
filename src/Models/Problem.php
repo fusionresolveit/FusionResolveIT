@@ -1,31 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Problem extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Notes;
+  use \App\Traits\Relationships\Knowbaseitems;
 
   protected $definition = '\App\Models\Definitions\Problem';
   protected $titles = ['Problem', 'Problems'];
   protected $icon = 'drafting compass';
 
   protected $appends = [
-    // 'category',
-    // 'usersidlastupdater',
-    // 'usersidrecipient',
-    'entity',
-    'notes',
-    'changes',
-    'costs',
-    'items',
   ];
 
   protected $visible = [
@@ -64,77 +59,63 @@ class Problem extends Common
     'items',
   ];
 
+  /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Category', 'category_id');
+    return $this->belongsTo(\App\Models\Category::class, 'category_id');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function usersidlastupdater(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_lastupdater');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_lastupdater');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function usersidrecipient(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_recipient');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_recipient');
   }
 
-  public function entity(): BelongsTo
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function requester(): BelongsToMany
   {
-    return $this->belongsTo('\App\Models\Entity');
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 1);
   }
 
-  public function notes(): MorphMany
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function requestergroup(): BelongsToMany
   {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 1);
   }
 
-  public function knowbaseitems(): MorphToMany
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function technician(): BelongsToMany
   {
-    return $this->morphToMany(
-      '\App\Models\Knowbaseitem',
-      'item',
-      'knowbaseitem_item'
-    )->withPivot(
-      'knowbaseitem_id',
-    );
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 2);
   }
 
-  public function requester()
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function techniciangroup(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 1);
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 2);
   }
 
-  public function requestergroup()
-  {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 1);
-  }
-
-  public function technician()
-  {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 2);
-  }
-
-  public function techniciangroup()
-  {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 2);
-  }
-
+  /** @return BelongsToMany<\App\Models\Change, $this> */
   public function changes(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Change', 'change_problem', 'problem_id', 'change_id');
+    return $this->belongsToMany(\App\Models\Change::class, 'change_problem', 'problem_id', 'change_id');
   }
 
+  /** @return HasMany<\App\Models\Problemcost, $this> */
   public function costs(): HasMany
   {
-    return $this->hasMany('App\Models\Problemcost', 'problem_id');
+    return $this->hasMany(\App\Models\Problemcost::class, 'problem_id');
   }
 
+  /** @return HasMany<\App\Models\ItemProblem, $this> */
   public function items(): HasMany
   {
-    return $this->hasMany('\App\Models\ItemProblem', 'problem_id');
+    return $this->hasMany(\App\Models\ItemProblem::class, 'problem_id');
   }
 }

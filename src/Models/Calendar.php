@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Calendar extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Calendar';
   protected $titles = ['Calendar', 'Calendars'];
@@ -17,9 +19,6 @@ class Calendar extends Common
 
 
   protected $appends = [
-    'entity',
-    'timeranges',
-    'holidays',
   ];
 
   protected $visible = [
@@ -34,18 +33,15 @@ class Calendar extends Common
     'holidays',
   ];
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return HasMany<\App\Models\Calendarsegment, $this> */
   public function timeranges(): HasMany
   {
-    return $this->hasMany('\App\Models\Calendarsegment', 'calendar_id');
+    return $this->hasMany(\App\Models\Calendarsegment::class, 'calendar_id');
   }
 
+  /** @return BelongsToMany<\App\Models\Holiday, $this> */
   public function holidays(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Holiday', 'calendar_holiday', 'calendar_id', 'holiday_id');
+    return $this->belongsToMany(\App\Models\Holiday::class, 'calendar_holiday', 'calendar_id', 'holiday_id');
   }
 }

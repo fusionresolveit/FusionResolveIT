@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers\Fusioninventory;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -36,7 +38,7 @@ final class Computer extends \App\v1\Controllers\Common
 
     $computer->save();
 
-    $this->operatingSystem($dataObj, $computer);
+    // $this->operatingSystem($dataObj, $computer);
     $this->softwares($dataObj, $computer);
     $this->antivirus($dataObj, $computer);
   }
@@ -110,9 +112,9 @@ final class Computer extends \App\v1\Controllers\Common
     return 0;
   }
 
-  private function operatingSystem(object $dataObj, \App\Models\Computer $computer)
-  {
-  }
+  // private function operatingSystem(object $dataObj, \App\Models\Computer $computer)
+  // {
+  // }
 
   private function softwares(object $dataObj, \App\Models\Computer $computer)
   {

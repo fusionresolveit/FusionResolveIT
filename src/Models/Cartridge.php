@@ -1,12 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cartridge extends Common
 {
@@ -16,10 +14,6 @@ class Cartridge extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'date_in',
-    'date_use',
-    'date_out',
-    'pages',
   ];
 
   protected $visible = [
@@ -37,12 +31,15 @@ class Cartridge extends Common
   ];
 
 
+  /** @return BelongsTo<\App\Models\Cartridgeitem, $this> */
   public function cartridgeitems(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Cartridgeitem', 'cartridgeitem_id');
+    return $this->belongsTo(\App\Models\Cartridgeitem::class, 'cartridgeitem_id');
   }
+
+  /** @return BelongsTo<\App\Models\Printer, $this> */
   public function printer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Printer', 'printer_id');
+    return $this->belongsTo(\App\Models\Printer::class, 'printer_id');
   }
 }

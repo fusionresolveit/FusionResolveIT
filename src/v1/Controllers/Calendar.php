@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -61,19 +63,7 @@ final class Calendar extends Common
     }
 
     // tri ordre alpha
-    uasort($myTimeranges, function ($a, $b)
-    {
-      if ($a['day'] == 0)
-      {
-        $a['day'] = 7;
-      }
-      if ($b['day'] == 0)
-      {
-        $b['day'] = 7;
-      }
-
-      return $a['day'] > $b['day'];
-    });
+    array_multisort(array_column($myTimeranges, 'day'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myTimeranges);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -133,10 +123,7 @@ final class Calendar extends Common
     }
 
     // tri ordre alpha
-    uasort($myHolidays, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($myHolidays, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myHolidays);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

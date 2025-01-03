@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -334,14 +336,18 @@ final class Project extends Common
     }
 
     // tri ordre alpha
-    uasort($myItems, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
-    uasort($myItems, function ($a, $b)
-    {
-      return strtolower($a['type']) > strtolower($b['type']);
-    });
+    array_multisort(
+      array_column($myItems, 'name'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myItems
+    );
+    array_multisort(
+      array_column($myItems, 'type'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myItems
+    );
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -644,42 +650,39 @@ final class Project extends Common
           $associated_items = [];
           $item4 = new \App\Models\ItemTicket();
           $myItem4 = $item4::where('ticket_id', $myItem3->id)->get();
-          if ($myItem4 !== null)
+          foreach ($myItem4 as $val)
           {
-            foreach ($myItem4 as $val)
+            $item5 = new $val->item_type();
+            $myItem5 = $item5->find($val->item_id);
+            if ($myItem5 !== null)
             {
-              $item5 = new $val->item_type();
-              $myItem5 = $item5->find($val->item_id);
-              if ($myItem5 !== null)
+              $type5_fr = $item5->getTitle();
+              $type5 = $item5->getTable();
+
+              $name5 = $myItem5->name;
+
+              $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
+
+              if ($type5_fr != '')
               {
-                $type5_fr = $item5->getTitle();
-                $type5 = $item5->getTable();
-
-                $name5 = $myItem5->name;
-
-                $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
-
-                if ($type5_fr != '')
-                {
-                  $type5_fr = $type5_fr . ' - ';
-                }
-
-                $associated_items[] = [
-                  'type'     => $type5_fr,
-                  'name'     => $name5,
-                  'url'      => $url5,
-                ];
+                $type5_fr = $type5_fr . ' - ';
               }
-            }
 
-            if (empty($associated_items))
-            {
               $associated_items[] = [
-                'type'     => '',
-                'name'     => $translator->translate('General'),
-                'url'      => '',
+                'type'     => $type5_fr,
+                'name'     => $name5,
+                'url'      => $url5,
               ];
             }
+          }
+
+          if (empty($associated_items))
+          {
+            $associated_items[] = [
+              'type'     => '',
+              'name'     => $translator->translate('General'),
+              'url'      => '',
+            ];
           }
 
           $category = '';
@@ -713,18 +716,9 @@ final class Project extends Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($tickets, function ($a, $b)
-    {
-      return $a['last_update'] > $b['last_update'];
-    });
-    uasort($problems, function ($a, $b)
-    {
-      return $a['last_update'] > $b['last_update'];
-    });
-    uasort($changes, function ($a, $b)
-    {
-      return $a['last_update'] > $b['last_update'];
-    });
+    array_multisort(array_column($tickets, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $tickets);
+    array_multisort(array_column($problems, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $problems);
+    array_multisort(array_column($changes, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $changes);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

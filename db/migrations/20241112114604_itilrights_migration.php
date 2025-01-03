@@ -33,57 +33,27 @@ final class ItilrightsMigration extends AbstractMigration
         'canassign'         => 8192,
       ];
 
-      $builderSelect = $this->getQueryBuilder('select');
-      $statement = $builderSelect
-        ->select('*')
-        ->from('profilerights')
-        ->where(['model' => 'App\Models\Ticket'])
-        ->execute();
-      $items = $statement->fetchAll('assoc');
+      $stmt = $this->query('SELECT * FROM profilerights WHERE model = ?', ['App\Models\Ticket']);
+      $items = $stmt->fetchAll();
       foreach ($items as $item)
       {
         if (intval($item['rights']) & $oldRights['readmyitems'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('readmyitems', true, 'boolean')
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET readmyitems = ? WHERE id = ?', [true, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['read'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('read', true, 'boolean')
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [true, $item['id']]);
         } else {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('read', false, 'boolean')
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [false, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['readmygroupitems'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('readmygroupitems', true, 'boolean')
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET readmygroupitems = ? WHERE id = ?', [true, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['canassign'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('canassign', true, 'boolean')
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET canassign = ? WHERE id = ?', [true, $item['id']]);
         }
       }
     }

@@ -52,12 +52,14 @@ final class QuestionrangesMigration extends AbstractMigration
         $data = [];
         foreach ($rows as $row)
         {
-            $builder = $this->getQueryBuilder('update');
-            $builder->update('questions')
-                    ->set('range_min', $row['range_min'])
-                    ->set('range_max', $row['range_max'])
-                    ->where(['id' => $row['plugin_formcreator_questions_id']])
-                    ->execute();
+          $this->execute(
+            'UPDATE questions SET range_min = ? WHERE id = ?',
+            [$row['range_min'], $row['plugin_formcreator_questions_id']]
+          );
+          $this->execute(
+            'UPDATE questions SET range_max = ? WHERE id = ?',
+            [$row['range_max'], $row['plugin_formcreator_questions_id']]
+          );
         }
       }
     }

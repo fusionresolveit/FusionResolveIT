@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Rules;
 
 class Ruleaction extends \App\Models\Common
@@ -27,8 +29,9 @@ class Ruleaction extends \App\Models\Common
     'value',
   ];
 
-  public function getFieldviewfieldAttribute()
+  public function getFieldviewfieldAttribute(): array
   {
+    /** @var \App\Models\Rules\Rule|null */
     $rule = \App\Models\Rules\Rule::find($this->attributes['rule_id']);
     $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
 
@@ -45,7 +48,7 @@ class Ruleaction extends \App\Models\Common
     return [];
   }
 
-  public function getValueviewfieldAttribute()
+  public function getValueviewfieldAttribute(): array
   {
     $field = $this->getFieldviewfieldAttribute();
 

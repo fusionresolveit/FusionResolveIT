@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Definitions;
 
 class ItemDevicesoundcard
@@ -18,7 +20,7 @@ class ItemDevicesoundcard
     ];
   }
 
-  public static function getRelatedPages($rootUrl)
+  public static function getRelatedPages($rootUrl): array
   {
     global $translator;
     return [];

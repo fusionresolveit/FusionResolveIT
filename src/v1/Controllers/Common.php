@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -8,27 +10,55 @@ use Slim\Views\Twig;
 
 class Common
 {
+  /** @var string */
   protected $model = '';
+
+  /** @var string */
   protected $rootUrl2 = '';
+
+  /** @var string */
   protected $choose = '';
+
+  /** @var string */
   protected $associateditems_model = '';
+
+  /** @var string */
   protected $associateditems_model_id = '';
 
-  protected $MINUTE_TIMESTAMP = '60';
-  protected $HOUR_TIMESTAMP = '3600';
-  protected $DAY_TIMESTAMP = '86400';
-  protected $WEEK_TIMESTAMP = '604800';
-  protected $MONTH_TIMESTAMP = '2592000';
+  /** @var int */
+  protected $MINUTE_TIMESTAMP = 60;
 
+  /** @var int */
+  protected $HOUR_TIMESTAMP = 3600;
+
+  /** @var int */
+  protected $DAY_TIMESTAMP = 86400;
+
+  /** @var int */
+  protected $WEEK_TIMESTAMP = 604800;
+
+  /** @var int */
+  protected $MONTH_TIMESTAMP = 2592000;
+
+  /** @var int */
   protected $APPROVAL_NONE = 1;
+
+  /** @var int */
   protected $APPROVAL_WAITING = 2;
+
+  /** @var int */
   protected $APPROVAL_ACCEPTED = 3;
+
+  /** @var int */
   protected $APPROVAL_REFUSED = 4;
 
+  /** @var int */
   protected $TTR = 0;
+
+  /** @var int */
   protected $TTO = 1;
 
-  protected function getUrlWithoutQuery(Request $request)
+  protected function getUrlWithoutQuery(Request $request): string
   {
     $uri = $request->getUri();
     $query = $uri->getQuery();
@@ -301,7 +331,7 @@ class Common
     return $view->render($response, 'ITILForm.html.twig', (array)$viewData);
   }
 
-  public function showSubHistory(Request $request, Response $response, $args)
+  public function showSubHistory(Request $request, Response $response, $args): Response
   {
     $item = new $this->model();
     $definitions = $item->getDefinitions();
@@ -354,7 +384,6 @@ class Common
       return $response
         ->withHeader('Location', str_replace('/new', '/' . $id, (string) $uri))
         ->withStatus(302);
-      exit;
     }
 
     $uri = $request->getUri();
@@ -388,7 +417,7 @@ class Common
 
     if (is_null($id))
     {
-      if (!$this->canRightCreate($this->model))
+      if (!$this->canRightCreate())
       {
         throw new \Exception('Unauthorized access', 401);
       }
@@ -413,7 +442,7 @@ class Common
     else
     {
       // update
-      if (!$this->canRightCreate($this->model))
+      if (!$this->canRightCreate())
       {
         throw new \Exception('Unauthorized access', 401);
       }
@@ -578,10 +607,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($myNotes, function ($a, $b)
-    {
-      return $a['updated_at'] < $b['updated_at'];
-    });
+    array_multisort(array_column($myNotes, 'updated_at'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $myNotes);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -648,7 +674,7 @@ class Common
 
       $relation = '';
       $relation_url = '';
-      $domainrelation = \App\Models\Domainrelation::find($domain->pivot->domainrelation_id);
+      $domainrelation = \App\Models\Domainrelation::find($domain->getRelationValue('pivot')->domainrelation_id);
       if ($domainrelation !== null)
       {
         $relation = $domainrelation->name;
@@ -968,7 +994,7 @@ class Common
     return $view->render($response, 'subitem/externallinks.html.twig', (array)$viewData);
   }
 
-  private function generateLinkContents($link, $item, $replaceByBr = false)
+  private function generateLinkContents($link, $item, $replaceByBr = false): string
   {
     $new_link = $link;
     if ($replaceByBr === true)
@@ -1048,7 +1074,7 @@ class Common
     return $new_link;
   }
 
-  private function checkAndReplaceProperty($item, $field, $strToReplace, $new_link, $replaceByBr = false)
+  private function checkAndReplaceProperty($item, $field, $strToReplace, $new_link, $replaceByBr = false): string
   {
     $ret = $new_link;
 
@@ -1100,7 +1126,7 @@ class Common
 
       $myKnowbaseitems[$knowbaseitem->id] = [
         'name'           => $knowbaseitem->name,
-        'created_at'     => $knowbaseitem->date,
+        'created_at'     => $knowbaseitem->created_at,
         'updated_at'     => $knowbaseitem->updated_at,
         'url'            => $url,
       ];
@@ -1159,7 +1185,7 @@ class Common
 
       $myDocuments[$document->id] = [
         'name'              => $document->name,
-        'date'              => $document->pivot->updated_at,
+        'date'              => $document->getRelationValue('pivot')->updated_at,
         'url'               => $url,
         'entity'            => $entity,
         'entity_url'        => $entity_url,
@@ -1173,10 +1199,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($myDocuments, function ($a, $b)
-    {
-      return $a['date'] < $b['date'];
-    });
+    array_multisort(array_column($myDocuments, 'date'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $myDocuments);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -1248,9 +1271,7 @@ class Common
       if ($duration == 0)
       {
         $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
-      }
-      if ($duration != 0)
-      {
+      } else {
         $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', $duration), $duration);
       }
 
@@ -1282,11 +1303,7 @@ class Common
       ];
     }
 
-    // tri de la + récente à la + ancienne
-    uasort($myContracts, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($myContracts, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myContracts);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -1353,11 +1370,7 @@ class Common
       ];
     }
 
-    // tri de la + récente à la + ancienne
-    uasort($mySuppliers, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($mySuppliers, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $mySuppliers);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -1436,18 +1449,33 @@ class Common
     $operatingsystem = [];
     foreach ($myItem->operatingsystems as $os)
     {
-      $osa = \App\Models\Operatingsystemarchitecture::find($os->pivot->operatingsystemarchitecture_id);
-      $osv = \App\Models\Operatingsystemversion::find($os->pivot->operatingsystemversion_id);
-      $ossp = \App\Models\Operatingsystemservicepack::find($os->pivot->operatingsystemservicepack_id);
-      $oskv = \App\Models\Operatingsystemkernelversion::find($os->pivot->operatingsystemkernelversion_id);
-      $ose = \App\Models\Operatingsystemedition::find($os->pivot->operatingsystemedition_id);
-      $osln = $os->pivot->license_number;
-      $oslid = $os->pivot->licenseid;
-      $osid = $os->pivot->installationdate;
-      $oswo = $os->pivot->winowner;
-      $oswc = $os->pivot->wincompany;
-      $osoc = $os->pivot->oscomment;
-      $oshid = $os->pivot->hostid;
+      /** @var \App\Models\Operatingsystemarchitecture|null */
+      $osa = \App\Models\Operatingsystemarchitecture::
+          find($os->getRelationValue('pivot')
+        ->operatingsystemarchitecture_id);
+      /** @var \App\Models\Operatingsystemversion|null */
+      $osv = \App\Models\Operatingsystemversion::
+          find($os->getRelationValue('pivot')
+        ->operatingsystemversion_id);
+      /** @var \App\Models\Operatingsystemservicepack|null */
+      $ossp = \App\Models\Operatingsystemservicepack::
+          find($os->getRelationValue('pivot')
+        ->operatingsystemservicepack_id);
+      /** @var \App\Models\Operatingsystemkernelversion|null */
+      $oskv = \App\Models\Operatingsystemkernelversion::
+          find($os->getRelationValue('pivot')
+        ->operatingsystemkernelversion_id);
+      /** @var \App\Models\Operatingsystemedition|null */
+      $ose = \App\Models\Operatingsystemedition::
+          find($os->getRelationValue('pivot')
+        ->operatingsystemedition_id);
+      $osln = $os->getRelationValue('pivot')->license_number;
+      $oslid = $os->getRelationValue('pivot')->licenseid;
+      $osid = $os->getRelationValue('pivot')->installationdate;
+      $oswo = $os->getRelationValue('pivot')->winowner;
+      $oswc = $os->getRelationValue('pivot')->wincompany;
+      $osoc = $os->getRelationValue('pivot')->oscomment;
+      $oshid = $os->getRelationValue('pivot')->hostid;
 
       $architecture = '';
       if ($osa !== null)
@@ -1514,15 +1542,15 @@ class Common
         'id'                => $os->id,
         'name'              => $os->name,
         'architecture'      => $architecture,
-        'architecture_id'   => $os->pivot->operatingsystemarchitecture_id,
+        'architecture_id'   => $os->getRelationValue('pivot')->operatingsystemarchitecture_id,
         'version'           => $version,
-        'version_id'        => $os->pivot->operatingsystemversion_id,
+        'version_id'        => $os->getRelationValue('pivot')->operatingsystemversion_id,
         'servicepack'       => $servicepack,
-        'servicepack_id'    => $os->pivot->operatingsystemservicepack_id,
+        'servicepack_id'    => $os->getRelationValue('pivot')->operatingsystemservicepack_id,
         'kernelversion'     => $kernelversion,
-        'kernelversion_id'  => $os->pivot->operatingsystemkernelversion_id,
+        'kernelversion_id'  => $os->getRelationValue('pivot')->operatingsystemkernelversion_id,
         'edition'           => $edition,
-        'edition_id'        => $os->pivot->operatingsystemedition_id,
+        'edition_id'        => $os->getRelationValue('pivot')->operatingsystemedition_id,
         'licensenumber'     => $license_number,
         'licenseid'         => $licenseid,
         'installationdate'  => $installationdate,
@@ -1672,42 +1700,39 @@ class Common
       $associated_items = [];
       $item4 = new \App\Models\ItemTicket();
       $myItem4 = $item4::where('ticket_id', $ticket->id)->get();
-      if ($myItem4 !== null)
+      foreach ($myItem4 as $val)
       {
-        foreach ($myItem4 as $val)
+        $item5 = new $val->item_type();
+        $myItem5 = $item5->find($val->item_id);
+        if ($myItem5 !== null)
         {
-          $item5 = new $val->item_type();
-          $myItem5 = $item5->find($val->item_id);
-          if ($myItem5 !== null)
+          $type5_fr = $item5->getTitle();
+          $type5 = $item5->getTable();
+
+          $name5 = $myItem5->name;
+
+          $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
+
+          if ($type5_fr != '')
           {
-            $type5_fr = $item5->getTitle();
-            $type5 = $item5->getTable();
-
-            $name5 = $myItem5->name;
-
-            $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
-
-            if ($type5_fr != '')
-            {
-              $type5_fr = $type5_fr . ' - ';
-            }
-
-            $associated_items[] = [
-              'type'     => $type5_fr,
-              'name'     => $name5,
-              'url'      => $url5,
-            ];
+            $type5_fr = $type5_fr . ' - ';
           }
-        }
 
-        if (empty($associated_items))
-        {
           $associated_items[] = [
-            'type'     => '',
-            'name'     => $translator->translate('General'),
-            'url'      => '',
+            'type'     => $type5_fr,
+            'name'     => $name5,
+            'url'      => $url5,
           ];
         }
+      }
+
+      if (empty($associated_items))
+      {
+        $associated_items[] = [
+          'type'     => '',
+          'name'     => $translator->translate('General'),
+          'url'      => '',
+        ];
       }
 
       $category = '';
@@ -1723,7 +1748,7 @@ class Common
       $tickets[$ticket->id] = [
         'url'               => $url,
         'status'            => $status,
-        'date'              => $ticket->date,
+        'date'              => $ticket->created_at,
         'last_update'       => $ticket->updated_at,
         'entity'            => $entity,
         'entity_url'        => $entity_url,
@@ -1820,7 +1845,7 @@ class Common
       $problems[$problem->id] = [
         'url'               => $url,
         'status'            => $status,
-        'date'              => $problem->date,
+        'date'              => $problem->created_at,
         'last_update'       => $problem->updated_at,
         'entity'            => $entity,
         'entity_url'        => $entity_url,
@@ -1916,7 +1941,7 @@ class Common
       $changes[$change->id] = [
         'url'               => $url,
         'status'            => $status,
-        'date'              => $change->date,
+        'date'              => $change->created_at,
         'last_update'       => $change->updated_at,
         'entity'            => $entity,
         'entity_url'        => $entity_url,
@@ -2147,8 +2172,9 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($memory->pivot->location_id);
-      if ($loc !== null)
+      /** @var \App\Models\Location|null */
+      $loc = \App\Models\Location::find($memory->getRelationValue('pivot')->location_id);
+      if (!is_null($loc))
       {
         $location = $loc->name;
         $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
@@ -2174,14 +2200,15 @@ class Common
         $type_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/devicememorytype/', $memory->type->id);
       }
 
-      $serial = $memory->pivot->serial;
+      $serial = $memory->getRelationValue('pivot')->serial;
 
-      $otherserial = $memory->pivot->otherserial;
+      $otherserial = $memory->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($memory->pivot->state_id);
-      if ($status !== null)
+      /** @var \App\Models\State|null */
+      $status = \App\Models\State::find($memory->getRelationValue('pivot')->state_id);
+      if (!is_null($status))
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
@@ -2202,27 +2229,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $memory->pivot->id,
+          'item_id' => $memory->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicememory'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2234,8 +2255,8 @@ class Common
         'type'                => $type,
         'type_url'            => $type_url,
         'frequence'           => $memory->frequence,
-        'size'                => $memory->pivot->size,
-        'busID'               => $memory->pivot->busID,
+        'size'                => $memory->getRelationValue('pivot')->size,
+        'busID'               => $memory->getRelationValue('pivot')->busID,
         'location'            => $location,
         'location_url'        => $location_url,
         'serial'              => $serial,
@@ -2252,8 +2273,9 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($firmware->pivot->location_id);
-      if ($loc !== null)
+      /** @var \App\Models\Location|null */
+      $loc = \App\Models\Location::find($firmware->getRelationValue('pivot')->location_id);
+      if (!is_null($loc))
       {
         $location = $loc->name;
         $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
@@ -2279,13 +2301,13 @@ class Common
         $type_url = $this->genereRootUrl2Link($rootUrl2, '/devices/devicefirmwaretypes/', $firmware->type->id);
       }
 
-      $serial = $firmware->pivot->serial;
+      $serial = $firmware->getRelationValue('pivot')->serial;
 
-      $otherserial = $firmware->pivot->otherserial;
+      $otherserial = $firmware->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($firmware->pivot->state_id);
+      $status = \App\Models\State::find($firmware->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -2307,27 +2329,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $firmware->pivot->id,
+          'item_id' => $firmware->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicefirmware'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2356,7 +2372,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($processor->pivot->location_id);
+      $loc = \App\Models\Location::find($processor->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2375,20 +2391,20 @@ class Common
         );
       }
 
-      $serial = $processor->pivot->serial;
+      $serial = $processor->getRelationValue('pivot')->serial;
 
-      $otherserial = $processor->pivot->otherserial;
+      $otherserial = $processor->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($processor->pivot->state_id);
+      $status = \App\Models\State::find($processor->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $processor->pivot->busID;
+      $busID = $processor->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($processor->documents !== null)
@@ -2405,27 +2421,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $processor->pivot->id,
+          'item_id' => $processor->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_deviceprocessor'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2434,9 +2444,9 @@ class Common
         'name'                => $processor->name,
         'manufacturer'        => $manufacturer,
         'manufacturer_url'    => $manufacturer_url,
-        'frequency'           => $processor->pivot->frequency,
-        'nbcores'             => $processor->pivot->nbcores,
-        'nbthreads'           => $processor->pivot->nbthreads,
+        'frequency'           => $processor->getRelationValue('pivot')->frequency,
+        'nbcores'             => $processor->getRelationValue('pivot')->nbcores,
+        'nbthreads'           => $processor->getRelationValue('pivot')->nbthreads,
         'location'            => $location,
         'location_url'        => $location_url,
         'serial'              => $serial,
@@ -2454,7 +2464,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($harddrive->pivot->location_id);
+      $loc = \App\Models\Location::find($harddrive->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2481,20 +2491,20 @@ class Common
         $interface_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/interfacetypes/', $harddrive->interface->id);
       }
 
-      $serial = $harddrive->pivot->serial;
+      $serial = $harddrive->getRelationValue('pivot')->serial;
 
-      $otherserial = $harddrive->pivot->otherserial;
+      $otherserial = $harddrive->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($harddrive->pivot->state_id);
+      $status = \App\Models\State::find($harddrive->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $harddrive->pivot->busID;
+      $busID = $harddrive->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($harddrive->documents !== null)
@@ -2511,27 +2521,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $harddrive->pivot->id,
+          'item_id' => $harddrive->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_deviceharddrive'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2544,7 +2548,7 @@ class Common
         'cache'               => $harddrive->cache,
         'interface'           => $interface,
         'interface_url'       => $interface_url,
-        'capacity'            => $harddrive->pivot->capacity,
+        'capacity'            => $harddrive->getRelationValue('pivot')->capacity,
         'location'            => $location,
         'location_url'        => $location_url,
         'serial'              => $serial,
@@ -2562,7 +2566,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($battery->pivot->location_id);
+      $loc = \App\Models\Location::find($battery->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2589,13 +2593,13 @@ class Common
         $type_url = $this->genereRootUrl2Link($rootUrl2, '/devices/devicebatterytypes/', $battery->type->id);
       }
 
-      $serial = $battery->pivot->serial;
+      $serial = $battery->getRelationValue('pivot')->serial;
 
-      $otherserial = $battery->pivot->otherserial;
+      $otherserial = $battery->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($battery->pivot->state_id);
+      $status = \App\Models\State::find($battery->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -2617,27 +2621,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $battery->pivot->id,
+          'item_id' => $battery->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicebattery'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2650,7 +2648,7 @@ class Common
         'type_url'            => $type_url,
         'voltage'             => $battery->voltage,
         'capacity'            => $battery->capacity,
-        'manufacturing_date'  => $battery->pivot->manufacturing_date,
+        'manufacturing_date'  => $battery->getRelationValue('pivot')->manufacturing_date,
         'location'            => $location,
         'location_url'        => $location_url,
         'serial'              => $serial,
@@ -2667,7 +2665,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($soundcard->pivot->location_id);
+      $loc = \App\Models\Location::find($soundcard->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2686,20 +2684,20 @@ class Common
         );
       }
 
-      $serial = $soundcard->pivot->serial;
+      $serial = $soundcard->getRelationValue('pivot')->serial;
 
-      $otherserial = $soundcard->pivot->otherserial;
+      $otherserial = $soundcard->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($soundcard->pivot->state_id);
+      $status = \App\Models\State::find($soundcard->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $soundcard->pivot->busID;
+      $busID = $soundcard->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($soundcard->documents !== null)
@@ -2716,27 +2714,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $soundcard->pivot->id,
+          'item_id' => $soundcard->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicesoundcard'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2763,7 +2755,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($controller->pivot->location_id);
+      $loc = \App\Models\Location::find($controller->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2790,20 +2782,20 @@ class Common
         $interface_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/interfacetypes/', $controller->interface->id);
       }
 
-      $serial = $controller->pivot->serial;
+      $serial = $controller->getRelationValue('pivot')->serial;
 
-      $otherserial = $controller->pivot->otherserial;
+      $otherserial = $controller->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($controller->pivot->state_id);
+      $status = \App\Models\State::find($controller->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $controller->pivot->busID;
+      $busID = $controller->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($controller->documents !== null)
@@ -2820,27 +2812,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $controller->pivot->id,
+          'item_id' => $controller->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicecontrol'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2868,7 +2854,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($powersupply->pivot->location_id);
+      $loc = \App\Models\Location::find($powersupply->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2887,13 +2873,13 @@ class Common
         );
       }
 
-      $serial = $powersupply->pivot->serial;
+      $serial = $powersupply->getRelationValue('pivot')->serial;
 
-      $otherserial = $powersupply->pivot->otherserial;
+      $otherserial = $powersupply->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($powersupply->pivot->state_id);
+      $status = \App\Models\State::find($powersupply->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -2915,27 +2901,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $powersupply->pivot->id,
+          'item_id' => $powersupply->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicepowersupply'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -2960,7 +2940,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($sensor->pivot->location_id);
+      $loc = \App\Models\Location::find($sensor->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -2979,13 +2959,13 @@ class Common
         );
       }
 
-      $serial = $sensor->pivot->serial;
+      $serial = $sensor->getRelationValue('pivot')->serial;
 
-      $otherserial = $sensor->pivot->otherserial;
+      $otherserial = $sensor->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($sensor->pivot->state_id);
+      $status = \App\Models\State::find($sensor->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -3007,27 +2987,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $sensor->pivot->id,
+          'item_id' => $sensor->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicesensor'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3052,27 +3026,27 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicepci->pivot->location_id);
+      $loc = \App\Models\Location::find($devicepci->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
         $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
       }
 
-      $serial = $devicepci->pivot->serial;
+      $serial = $devicepci->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicepci->pivot->otherserial;
+      $otherserial = $devicepci->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicepci->pivot->state_id);
+      $status = \App\Models\State::find($devicepci->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $devicepci->pivot->busID;
+      $busID = $devicepci->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($devicepci->documents !== null)
@@ -3089,27 +3063,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicepci->pivot->id,
+          'item_id' => $devicepci->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicepci'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3133,7 +3101,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicegeneric->pivot->location_id);
+      $loc = \App\Models\Location::find($devicegeneric->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -3152,13 +3120,13 @@ class Common
         );
       }
 
-      $serial = $devicegeneric->pivot->serial;
+      $serial = $devicegeneric->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicegeneric->pivot->otherserial;
+      $otherserial = $devicegeneric->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicegeneric->pivot->state_id);
+      $status = \App\Models\State::find($devicegeneric->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -3180,27 +3148,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicegeneric->pivot->id,
+          'item_id' => $devicegeneric->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicegeneric'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3225,7 +3187,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicenetworkcard->pivot->location_id);
+      $loc = \App\Models\Location::find($devicenetworkcard->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -3244,20 +3206,20 @@ class Common
         );
       }
 
-      $serial = $devicenetworkcard->pivot->serial;
+      $serial = $devicenetworkcard->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicenetworkcard->pivot->otherserial;
+      $otherserial = $devicenetworkcard->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicenetworkcard->pivot->state_id);
+      $status = \App\Models\State::find($devicenetworkcard->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $devicenetworkcard->pivot->busID;
+      $busID = $devicenetworkcard->getRelationValue('pivot')->busID;
 
       $speed = $devicenetworkcard->bandwidth;
 
@@ -3276,32 +3238,26 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicenetworkcard->pivot->id,
+          'item_id' => $devicenetworkcard->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicenetworkcard'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
 
-      $mac_address = $devicenetworkcard->pivot->mac;
+      $mac_address = $devicenetworkcard->getRelationValue('pivot')->mac;
 
       $myDevicenetworkcards[] = [
         'name'                => $devicenetworkcard->name,
@@ -3326,20 +3282,20 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicesimcard->pivot->location_id);
+      $loc = \App\Models\Location::find($devicesimcard->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
         $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
       }
 
-      $serial = $devicesimcard->pivot->serial;
+      $serial = $devicesimcard->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicesimcard->pivot->otherserial;
+      $otherserial = $devicesimcard->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicesimcard->pivot->state_id);
+      $status = \App\Models\State::find($devicesimcard->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -3348,18 +3304,18 @@ class Common
 
       $line = '';
       $line_url = '';
-      $find_line = \App\Models\Line::find($devicesimcard->pivot->line_id);
+      $find_line = \App\Models\Line::find($devicesimcard->getRelationValue('pivot')->line_id);
       if ($find_line !== null)
       {
         $line = $find_line->name;
         $line_url = $this->genereRootUrl2Link($rootUrl2, '/lines/', $find_line->id);
       }
 
-      $msin = $devicesimcard->pivot->msin;
+      $msin = $devicesimcard->getRelationValue('pivot')->msin;
 
       $user = '';
       $user_url = '';
-      $find_user = \App\Models\User::find($devicesimcard->pivot->user_id);
+      $find_user = \App\Models\User::find($devicesimcard->getRelationValue('pivot')->user_id);
       if ($find_user !== null)
       {
         $user = $find_user->name;
@@ -3368,7 +3324,7 @@ class Common
 
       $group = '';
       $group_url = '';
-      $find_group = \App\Models\Group::find($devicesimcard->pivot->group_id);
+      $find_group = \App\Models\Group::find($devicesimcard->getRelationValue('pivot')->group_id);
       if ($find_group !== null)
       {
         $group = $find_group->name;
@@ -3390,27 +3346,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicesimcard->pivot->id,
+          'item_id' => $devicesimcard->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\ItemDevicesimcard'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3440,7 +3390,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicemotherboard->pivot->location_id);
+      $loc = \App\Models\Location::find($devicemotherboard->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -3459,13 +3409,13 @@ class Common
         );
       }
 
-      $serial = $devicemotherboard->pivot->serial;
+      $serial = $devicemotherboard->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicemotherboard->pivot->otherserial;
+      $otherserial = $devicemotherboard->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicemotherboard->pivot->state_id);
+      $status = \App\Models\State::find($devicemotherboard->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -3487,27 +3437,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicemotherboard->pivot->id,
+          'item_id' => $devicemotherboard->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicemotherboard'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3532,7 +3476,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicecase->pivot->location_id);
+      $loc = \App\Models\Location::find($devicecase->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -3551,13 +3495,13 @@ class Common
         );
       }
 
-      $serial = $devicecase->pivot->serial;
+      $serial = $devicecase->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicecase->pivot->otherserial;
+      $otherserial = $devicecase->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicecase->pivot->state_id);
+      $status = \App\Models\State::find($devicecase->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
@@ -3579,27 +3523,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicecase->pivot->id,
+          'item_id' => $devicecase->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicecase'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3624,7 +3562,7 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicegraphiccard->pivot->location_id);
+      $loc = \App\Models\Location::find($devicegraphiccard->getRelationValue('pivot')->location_id);
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -3655,20 +3593,20 @@ class Common
         );
       }
 
-      $serial = $devicegraphiccard->pivot->serial;
+      $serial = $devicegraphiccard->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicegraphiccard->pivot->otherserial;
+      $otherserial = $devicegraphiccard->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicegraphiccard->pivot->state_id);
+      $status = \App\Models\State::find($devicegraphiccard->getRelationValue('pivot')->state_id);
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $devicegraphiccard->pivot->busID;
+      $busID = $devicegraphiccard->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($devicegraphiccard->documents !== null)
@@ -3685,27 +3623,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicegraphiccard->pivot->id,
+          'item_id' => $devicegraphiccard->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicegraphiccard'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -3717,7 +3649,7 @@ class Common
         'interface'           => $interface,
         'interface_url'       => $interface_url,
         'chipset'             => $devicegraphiccard->chipset,
-        'memory'              => $devicegraphiccard->pivot->memory,
+        'memory'              => $devicegraphiccard->getRelationValue('pivot')->memory,
         'location'            => $location,
         'location_url'        => $location_url,
         'serial'              => $serial,
@@ -3735,8 +3667,8 @@ class Common
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::find($devicedrive->pivot->location_id);
-      if ($loc !== null)
+      $loc = \App\Models\Location::find($devicedrive->getRelationValue('pivot')->location_id);
+      if (!is_null($loc))
       {
         $location = $loc->name;
         $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
@@ -3778,20 +3710,20 @@ class Common
         );
       }
 
-      $serial = $devicedrive->pivot->serial;
+      $serial = $devicedrive->getRelationValue('pivot')->serial;
 
-      $otherserial = $devicedrive->pivot->otherserial;
+      $otherserial = $devicedrive->getRelationValue('pivot')->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::find($devicedrive->pivot->state_id);
-      if ($status !== null)
+      $status = \App\Models\State::find($devicedrive->getRelationValue('pivot')->state_id);
+      if (!is_null($status))
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $devicedrive->pivot->busID;
+      $busID = $devicedrive->getRelationValue('pivot')->busID;
 
       $documents = [];
       if ($devicedrive->documents !== null)
@@ -3808,27 +3740,21 @@ class Common
 
         $item5 = new \App\Models\Documentitem();
         $myItem5 = $item5::where([
-          'item_id' => $devicedrive->pivot->id,
+          'item_id' => $devicedrive->getRelationValue('pivot')->id,
           'item_type' => 'App\\Models\\Item_devicedrive'
         ])->get();
-        if ($myItem5 !== null)
+        foreach ($myItem5 as $current_documentitem)
         {
-          foreach ($myItem5 as $current_documentitem)
+          $item6 = new \App\Models\Document();
+          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
+          foreach ($myItem6 as $current_document)
           {
-            $item6 = new \App\Models\Document();
-            $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-            if ($myItem6 !== null)
-            {
-              foreach ($myItem6 as $current_document)
-              {
-                $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
 
-                $documents[$current_document->id] = [
-                  'name'  => $current_document->name,
-                  'url'   => $url,
-                ];
-              }
-            }
+            $documents[$current_document->id] = [
+              'name'  => $current_document->name,
+              'url'   => $url,
+            ];
           }
         }
       }
@@ -4144,42 +4070,39 @@ class Common
       $associated_items = [];
       $item4 = new \App\Models\ItemTicket();
       $myItem4 = $item4::where('ticket_id', $ticket->id)->get();
-      if ($myItem4 !== null)
+      foreach ($myItem4 as $val)
       {
-        foreach ($myItem4 as $val)
+        $item5 = new $val->item_type();
+        $myItem5 = $item5->find($val->item_id);
+        if ($myItem5 !== null)
         {
-          $item5 = new $val->item_type();
-          $myItem5 = $item5->find($val->item_id);
-          if ($myItem5 !== null)
+          $type5_fr = $item5->getTitle();
+          $type5 = $item5->getTable();
+
+          $name5 = $myItem5->name;
+
+          $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
+
+          if ($type5_fr != '')
           {
-            $type5_fr = $item5->getTitle();
-            $type5 = $item5->getTable();
-
-            $name5 = $myItem5->name;
-
-            $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
-
-            if ($type5_fr != '')
-            {
-              $type5_fr = $type5_fr . ' - ';
-            }
-
-            $associated_items[] = [
-              'type'     => $type5_fr,
-              'name'     => $name5,
-              'url'      => $url5,
-            ];
+            $type5_fr = $type5_fr . ' - ';
           }
-        }
 
-        if (empty($associated_items))
-        {
           $associated_items[] = [
-            'type'     => '',
-            'name'     => $translator->translate('General'),
-            'url'      => '',
+            'type'     => $type5_fr,
+            'name'     => $name5,
+            'url'      => $url5,
           ];
         }
+      }
+
+      if (empty($associated_items))
+      {
+        $associated_items[] = [
+          'type'     => '',
+          'name'     => $translator->translate('General'),
+          'url'      => '',
+        ];
       }
 
       $category = '';
@@ -4197,7 +4120,7 @@ class Common
         $tickets[$ticket->id] = [
           'url'                 => $url,
           'status'              => $status,
-          'date'                => $ticket->date,
+          'date'                => $ticket->created_at,
           'last_update'         => $ticket->updated_at,
           'entity'              => $entity,
           'entity_url'          => $entity_url,
@@ -4214,10 +4137,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($tickets, function ($a, $b)
-    {
-      return $a['last_update'] < $b['last_update'];
-    });
+    array_multisort(array_column($tickets, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $tickets);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -4375,7 +4295,7 @@ class Common
         $problems[$problem->id] = [
           'url'                 => $url,
           'status'              => $status,
-          'date'                => $problem->date,
+          'date'                => $problem->created_at,
           'last_update'         => $problem->updated_at,
           'entity'              => $entity,
           'entity_url'          => $entity_url,
@@ -4391,10 +4311,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($problems, function ($a, $b)
-    {
-      return $a['last_update'] < $b['last_update'];
-    });
+    array_multisort(array_column($problems, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $problems);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -4552,7 +4469,7 @@ class Common
         $changes[$change->id] = [
           'url'                 => $url,
           'status'              => $status,
-          'date'                => $change->date,
+          'date'                => $change->created_at,
           'last_update'         => $change->updated_at,
           'entity'              => $entity,
           'entity_url'          => $entity_url,
@@ -4568,10 +4485,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($changes, function ($a, $b)
-    {
-      return $a['last_update'] < $b['last_update'];
-    });
+    array_multisort(array_column($changes, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $changes);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -4625,7 +4539,7 @@ class Common
         $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $connection->entity->id);
       }
 
-      if ($connection->pivot->is_dynamic == 1)
+      if ($connection->getRelationValue('pivot')->is_dynamic == 1)
       {
         $auto_val = $translator->translate('Yes');
       }
@@ -4637,7 +4551,7 @@ class Common
       $myConnections[] = [
         'name'                 => $connection->name,
         'url'                  => $url,
-        'auto'                 => $connection->pivot->is_dynamic,
+        'auto'                 => $connection->getRelationValue('pivot')->is_dynamic,
         'auto_val'             => $auto_val,
         'entity'               => $entity,
         'entity_url'           => $entity_url,
@@ -4731,14 +4645,18 @@ class Common
     }
 
     // tri ordre alpha
-    uasort($myAssociatedItems, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
-    uasort($myAssociatedItems, function ($a, $b)
-    {
-      return strtolower($a['type']) > strtolower($b['type']);
-    });
+    array_multisort(
+      array_column($myAssociatedItems, 'name'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myAssociatedItems
+    );
+    array_multisort(
+      array_column($myAssociatedItems, 'type'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myAssociatedItems
+    );
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -4756,7 +4674,7 @@ class Common
     return $view->render($response, 'subitem/associateditems.html.twig', (array)$viewData);
   }
 
-  protected function canRightRead()
+  protected function canRightRead(): bool
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])
@@ -4769,7 +4687,6 @@ class Common
     if ($profileright->custom)
     {
       $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
-      $ids = [];
       foreach ($profilerightcustoms as $custom)
       {
         if ($custom->read)
@@ -4785,7 +4702,7 @@ class Common
     return false;
   }
 
-  protected function canRightCreate()
+  protected function canRightCreate(): bool
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])
@@ -4798,7 +4715,6 @@ class Common
     if ($profileright->custom)
     {
       $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
-      $ids = [];
       foreach ($profilerightcustoms as $custom)
       {
         if ($custom->write)
@@ -4814,7 +4730,7 @@ class Common
     return false;
   }
 
-  protected function canRightUpdate()
+  protected function canRightUpdate(): bool
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])
@@ -4827,7 +4743,6 @@ class Common
     if ($profileright->custom)
     {
       $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
-      $ids = [];
       foreach ($profilerightcustoms as $custom)
       {
         if ($custom->write)
@@ -4843,7 +4758,7 @@ class Common
     return false;
   }
 
-  public function canRightReadPrivateItem()
+  public function canRightReadPrivateItem(): bool
   {
     return false;
   }
@@ -4869,7 +4784,6 @@ class Common
     if ($profileright->custom)
     {
       $profilerightcustoms = \App\Models\Profilerightcustom::where('profileright_id', $profileright->id)->get();
-      $ids = [];
       foreach ($profilerightcustoms as $custom)
       {
         if (!$custom->write)
@@ -4980,10 +4894,12 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($myCosts, function ($a, $b)
-    {
-      return $a['begin_date'] > $b['begin_date'];
-    });
+    array_multisort(
+      array_column($myCosts, 'begin_date'),
+      SORT_DESC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myCosts
+    );
 
     if ($this->choose == 'projects')
     {
@@ -5065,10 +4981,12 @@ class Common
       }
 
       // tri de la + récente à la + ancienne
-      uasort($myTicketCosts, function ($a, $b)
-      {
-        return $a['begin_date'] > $b['begin_date'];
-      });
+      array_multisort(
+        array_column($myTicketCosts, 'begin_date'),
+        SORT_DESC,
+        SORT_NATURAL | SORT_FLAG_CASE,
+        $myTicketCosts
+      );
 
       $total_costs = $total_cost + $ticket_costs_total_cost;
     }
@@ -5113,7 +5031,7 @@ class Common
     return $view->render($response, 'subitem/costs.html.twig', (array)$viewData);
   }
 
-  public function timestampToString($time, $display_sec = true, $use_days = true)
+  public function timestampToString($time, $display_sec = true, $use_days = true): string
   {
     global $translator;
 
@@ -5211,7 +5129,7 @@ class Common
     return '';
   }
 
-  public function getTimestampTimeUnits($time)
+  public function getTimestampTimeUnits($time): array
   {
     $out = [];
 
@@ -5243,7 +5161,7 @@ class Common
     return $out;
   }
 
-  public function showCosts($cost)
+  public function showCosts($cost): string
   {
     return sprintf("%.2f", $cost);
   }
@@ -5370,10 +5288,7 @@ class Common
     }
 
     // tri ordre alpha
-    uasort($myItems, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($myItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -5389,7 +5304,7 @@ class Common
     return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
   }
 
-  public function getValueWithUnit($value, $unit, $decimals = 0)
+  public function getValueWithUnit($value, $unit, $decimals = 0): string
   {
     global $translator;
 
@@ -5443,7 +5358,7 @@ class Common
     }
   }
 
-  public function formatNumber($number, $edit = false, $forcedecimal = -1)
+  public function formatNumber($number, $edit = false, $forcedecimal = -1): string
   {
     if (!(isset($_SESSION['glpinumber_format'])))
     {
@@ -5493,7 +5408,7 @@ class Common
     }
   }
 
-  public function getSize($size)
+  public function getSize($size): string
   {
     global $translator;
 
@@ -5539,14 +5454,14 @@ class Common
       $add_to_tab = false;
       if ($this->choose == 'tickets')
       {
-        if ($change->pivot->ticket_id == $args['id'])
+        if ($change->getRelationValue('pivot')->ticket_id == $args['id'])
         {
           $add_to_tab = true;
         }
       }
       if ($this->choose == 'problems')
       {
-        if ($change->pivot->problem_id == $args['id'])
+        if ($change->getRelationValue('pivot')->problem_id == $args['id'])
         {
           $add_to_tab = true;
         }
@@ -5633,7 +5548,7 @@ class Common
         $changes[$change->id] = [
           'url'               => $url,
           'status'            => $status,
-          'date'              => $change->date,
+          'date'              => $change->created_at,
           'last_update'       => $change->updated_at,
           'entity'            => $entity,
           'entity_url'        => $entity_url,
@@ -5649,10 +5564,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($changes, function ($a, $b)
-    {
-      return $a['last_update'] < $b['last_update'];
-    });
+    array_multisort(array_column($changes, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $changes);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -5716,7 +5628,7 @@ class Common
           $status_color = $myItem3->state->color;
         }
 
-        $open_date = $myItem3->date;
+        $open_date = $myItem3->created_at;
 
         $last_update = $myItem3->updated_at;
 
@@ -5792,6 +5704,7 @@ class Common
 
     $myItem = $item->find($args['id']);
 
+    $myItem2 = [];
     if ($this->choose == 'changes')
     {
       $item2 = new \App\Models\ChangeTicket();
@@ -5887,42 +5800,39 @@ class Common
         $associated_items = [];
         $item4 = new \App\Models\ItemTicket();
         $myItem4 = $item4::where('ticket_id', $current_item->ticket_id)->get();
-        if ($myItem4 !== null)
+        foreach ($myItem4 as $val)
         {
-          foreach ($myItem4 as $val)
+          $item5 = new $val->item_type();
+          $myItem5 = $item5->find($val->item_id);
+          if ($myItem5 !== null)
           {
-            $item5 = new $val->item_type();
-            $myItem5 = $item5->find($val->item_id);
-            if ($myItem5 !== null)
+            $type5_fr = $item5->getTitle();
+            $type5 = $item5->getTable();
+
+            $name5 = $myItem5->name;
+
+            $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
+
+            if ($type5_fr != '')
             {
-              $type5_fr = $item5->getTitle();
-              $type5 = $item5->getTable();
-
-              $name5 = $myItem5->name;
-
-              $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
-
-              if ($type5_fr != '')
-              {
-                $type5_fr = $type5_fr . ' - ';
-              }
-
-              $associated_items[] = [
-                'type'     => $type5_fr,
-                'name'     => $name5,
-                'url'      => $url5,
-              ];
+              $type5_fr = $type5_fr . ' - ';
             }
-          }
 
-          if (empty($associated_items))
-          {
             $associated_items[] = [
-              'type'     => '',
-              'name'     => $translator->translate('General'),
-              'url'      => '',
+              'type'     => $type5_fr,
+              'name'     => $name5,
+              'url'      => $url5,
             ];
           }
+        }
+
+        if (empty($associated_items))
+        {
+          $associated_items[] = [
+            'type'     => '',
+            'name'     => $translator->translate('General'),
+            'url'      => '',
+          ];
         }
 
         $category = '';
@@ -5938,7 +5848,7 @@ class Common
         $tickets[$myItem3->id] = [
           'url'                 => $url,
           'status'              => $status,
-          'date'                => $myItem3->date,
+          'date'                => $myItem3->created_at,
           'last_update'         => $myItem3->updated_at,
           'entity'              => $entity,
           'entity_url'          => $entity_url,
@@ -5955,10 +5865,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($tickets, function ($a, $b)
-    {
-      return $a['last_update'] > $b['last_update'];
-    });
+    array_multisort(array_column($tickets, 'last_update'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $tickets);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -5985,7 +5892,7 @@ class Common
     return $view->render($response, 'subitem/itiltickets.html.twig', (array)$viewData);
   }
 
-  public function showStats(Request $request, Response $response, $args)
+  public function showStats(Request $request, Response $response, $args): Response
   {
     global $translator;
 
@@ -6000,7 +5907,7 @@ class Common
     $feeds = [];
 
     $feeds[] = [
-      'date'  => $myItem->date,
+      'date'  => $myItem->created_at,
       'text'  => $translator->translate('Opening date'),
       'icon'  => 'pencil alternate',
       'color' => 'blue'
@@ -6039,7 +5946,7 @@ class Common
     return $view->render($response, 'subitem/stats.html.twig', (array) $viewData);
   }
 
-  public function showSubApprovals(Request $request, Response $response, $args)
+  public function showSubApprovals(Request $request, Response $response, $args): Response
   {
     global $translator;
 
@@ -6103,10 +6010,7 @@ class Common
     }
 
     // tri de la + récente à la + ancienne
-    uasort($myApprovals, function ($a, $b)
-    {
-      return $a['request_date'] < $b['request_date'];
-    });
+    array_multisort(array_column($myApprovals, 'request_date'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $myApprovals);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -6145,7 +6049,7 @@ class Common
     ];
   }
 
-  public function genereUserName($name, $lastname = '', $firstname = '', $add_name = false)
+  public function genereUserName($name, $lastname = '', $firstname = '', $add_name = false): string
   {
     $ret = $lastname . ' ' . $firstname;
     $ret = trim($ret);
@@ -6165,7 +6069,7 @@ class Common
     return $ret;
   }
 
-  public function showSubInfocoms(Request $request, Response $response, $args)
+  public function showSubInfocoms(Request $request, Response $response, $args): Response
   {
     global $translator;
 
@@ -6506,7 +6410,7 @@ class Common
           }
           else
           {
-            $sum = $myAttachedItems[$type]['items'][$myItem3->id]['value'] + $value;
+            $sum = (int) $myAttachedItems[$type]['items'][$myItem3->id]['value'] + (int) $value;
             $myAttachedItems[$type]['items'][$myItem3->id]['value'] = $this->showCosts($sum);
           }
 
@@ -6819,10 +6723,7 @@ class Common
     }
 
     // tri par ordre alpha
-    uasort($myAttachedItems, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($myAttachedItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myAttachedItems);
 
     foreach (array_keys($myAttachedItems) as $type_item)
     {
@@ -6863,7 +6764,7 @@ class Common
     return $view->render($response, 'subitem/attacheditems.html.twig', (array)$viewData);
   }
 
-  public function genereRootUrl($request, $param = '')
+  public function genereRootUrl($request, $param = ''): string
   {
     $rootUrl = $this->getUrlWithoutQuery($request);
     if ($param != '')
@@ -6874,7 +6775,7 @@ class Common
     return $rootUrl;
   }
 
-  public function genereRootUrl2($rootUrl, $param = '')
+  public function genereRootUrl2($rootUrl, $param = ''): string
   {
     $rootUrl2 = '';
     if (($this->rootUrl2 != '') && ($param != ''))
@@ -6885,7 +6786,7 @@ class Common
     return $rootUrl2;
   }
 
-  public function genereRootUrl2Link($rootUrl2, $param, $id)
+  public function genereRootUrl2Link($rootUrl2, $param, $id): string
   {
     $rootUrl2Link = '';
     if (($rootUrl2 != '') && ($param != '') && ($param != '//') && ($id != ''))
@@ -6961,15 +6862,14 @@ class Common
     }
 
     // tri par ordre + ancien
-    uasort($myReservations, function ($a, $b)
-    {
-      return $a['begin'] > $b['begin'];
-    });
+    array_multisort(array_column($myReservations, 'begin'), SORT_DESC, SORT_NATURAL | SORT_FLAG_CASE, $myReservations);
     // tri par ordre + recent
-    uasort($myReservations_old, function ($a, $b)
-    {
-      return $a['begin'] < $b['begin'];
-    });
+    array_multisort(
+      array_column($myReservations_old, 'begin'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myReservations_old
+    );
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

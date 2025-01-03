@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -122,10 +124,7 @@ final class Domainrelation extends Common
     }
 
     // tri ordre alpha
-    uasort($myDomains, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($myDomains, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myDomains);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

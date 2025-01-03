@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers\Rules;
 
 use Psr\Http\Message\ResponseInterface as Response;

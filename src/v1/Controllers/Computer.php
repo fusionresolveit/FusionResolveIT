@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -171,9 +173,9 @@ final class Computer extends Common
     $memoryTotalSize = 0;
     foreach ($myItem->memories as $memory)
     {
-      if ($memory->pivot->size != '' && $memory->pivot->size > 0)
+      if ($memory->getRelationValue('pivot')->size != '' && $memory->getRelationValue('pivot')->size > 0)
       {
-        $memoryTotalSize = $memoryTotalSize + $memory->pivot->size;
+        $memoryTotalSize = $memoryTotalSize + $memory->getRelationValue('pivot')->size;
       }
     }
     $tabInfos[] = [
@@ -191,14 +193,16 @@ final class Computer extends Common
       ];
       $tabInfos[] = [
         'key'   => 'processor_' . $processor->id . '_frequency',
-        'value' => ' - ' . $translator->translate('Fréquence (MHz)') . ' : ' . $processor->pivot->frequency,
+        'value' => ' - ' . $translator->translate('Fréquence (MHz)') . ' : ' .
+                   $processor->getRelationValue('pivot')->frequency,
         'link'  => null,
       ];
       $tabInfos[] = [
         'key'   => 'processor_' . $processor->id . '_nbcores_nbthreads',
         'value' => ' - ' . $translator->translate('Nombre de cœurs') . ' / ' .
-                   $translator->translate('Nombre de threads') . ' : ' . $processor->pivot->nbcores . ' / ' .
-                   $processor->pivot->nbthreads,
+                   $translator->translate('Nombre de threads') . ' : ' .
+                   $processor->getRelationValue('pivot')->nbcores . ' / ' .
+                   $processor->getRelationValue('pivot')->nbthreads,
         'link'  => null,
       ];
     }
@@ -212,7 +216,8 @@ final class Computer extends Common
       ];
       $tabInfos[] = [
         'key'   => 'harddrive_' . $harddrive->id . '_capacity',
-        'value' => ' - ' . $translator->translate('Capacité (Mio)') . ' : ' . $harddrive->pivot->capacity,
+        'value' => ' - ' . $translator->translate('Capacité (Mio)') . ' : ' .
+                   $harddrive->getRelationValue('pivot')->capacity,
         'link'  => null,
       ];
     }
@@ -413,14 +418,8 @@ final class Computer extends Common
     }
 
     // tri ordre alpha
-    uasort($myConnections, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
-    uasort($myConnections, function ($a, $b)
-    {
-      return strtolower($a['type']) > strtolower($b['type']);
-    });
+    array_multisort(array_column($myConnections, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myConnections);
+    array_multisort(array_column($myConnections, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myConnections);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

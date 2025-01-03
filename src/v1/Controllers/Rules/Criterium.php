@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers\Rules;
 
 final class Criterium
@@ -228,8 +230,8 @@ final class Criterium
 
   /**
    * Check if the value(s) is same than the pattern (check the id)
-   * @param int|array  $value         the value(s)
-   * @param int        $patternValue  the value to have into value(s)
+   * @param mixed  $value         the value(s)
+   * @param mixed  $patternValue  the value to have into value(s)
    *
    * @return boolean
    */
@@ -263,8 +265,8 @@ final class Criterium
 
   /**
    * Check if the value(s) is same than the pattern (check the id)
-   * @param int|array  $value         the value(s)
-   * @param int        $patternValue  the value to have into value(s)
+   * @param mixed  $value         the value(s)
+   * @param mixed  $patternValue  the value to have into value(s)
    *
    * @return boolean
    */
@@ -291,8 +293,8 @@ final class Criterium
 
   /**
    * Check if the value(s) has the pattern
-   * @param string|array  $value        the value(s)
-   * @param string        $patternValue the value to have into value(s)
+   * @param mixed  $value        the value(s)
+   * @param mixed  $patternValue the value to have into value(s)
    *
    * @return boolean
    */
@@ -322,8 +324,8 @@ final class Criterium
 
   /**
    * Check if the value(s) hasn't the pattern
-   * @param string|array  $value        the value(s)
-   * @param string        $patternValue the value to not have into value(s)
+   * @param mixed   $value        the value(s)
+   * @param string  $patternValue the value to not have into value(s)
    *
    * @return boolean
    */
@@ -355,8 +357,8 @@ final class Criterium
 
   /**
    * Check if the value(s) begin with the pattern
-   * @param string|array  $value        the value(s)
-   * @param string        $patternValue the value at the beginning ot the value(s)
+   * @param mixed   $value        the value(s)
+   * @param string  $patternValue the value at the beginning ot the value(s)
    *
    * @return boolean
    */
@@ -386,8 +388,8 @@ final class Criterium
 
   /**
    * Check if the value(s) end with the pattern
-   * @param string|array  $value        the value(s)
-   * @param string        $patternValue the value at the end ot the value(s)
+   * @param mixed   $value        the value(s)
+   * @param string  $patternValue the value at the end ot the value(s)
    *
    * @return boolean
    */
@@ -417,8 +419,8 @@ final class Criterium
 
   /**
    * Check if the value(s) match the regex (pattern)
-   * @param string|array  $value        the value(s)
-   * @param string        $patternValue the pattern of the regex
+   * @param mixed   $value        the value(s)
+   * @param string  $patternValue the pattern of the regex
    *
    * @return boolean
    */
@@ -451,8 +453,8 @@ final class Criterium
 
   /**
    * Check if the value(s) not match the regex (pattern)
-   * @param string|array  $value        the value(s)
-   * @param string        $patternValue the pattern of the regex
+   * @param mixed   $value        the value(s)
+   * @param string  $patternValue the pattern of the regex
    *
    * @return boolean
    */
@@ -485,8 +487,8 @@ final class Criterium
   /**
    * Check if the value(s) is under pattern id (tree item)
    * @param string        $modelName  the class name of item
-   * @param string|array  $value      the value(s)
-   * @param string        $patternId  the parent pattern id
+   * @param mixed         $value      the value(s)
+   * @param string|null   $patternId  the parent pattern id
    *
    * @return boolean
    */
@@ -548,8 +550,8 @@ final class Criterium
   /**
    * Check if the value(s) is not under pattern id (tree item)
    * @param string        $modelName  the class name of item
-   * @param string|array  $value      the value(s)
-   * @param string        $patternId  the parent pattern id
+   * @param mixed         $value      the value(s)
+   * @param string|null   $patternId  the parent pattern id
    *
    * @return boolean
    */

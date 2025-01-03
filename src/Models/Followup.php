@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,9 +17,6 @@ class Followup extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'user',
-    'id',
-    'content',
   ];
 
   protected $visible = [
@@ -30,6 +29,11 @@ class Followup extends Common
     'user',
   ];
 
+  protected $casts = [
+    'is_private' => 'boolean',
+    'is_tech'    => 'boolean',
+  ];
+
   protected static function booted(): void
   {
     parent::booted();
@@ -38,6 +42,7 @@ class Followup extends Common
     {
       if ($model->item_type == 'App\Models\Ticket')
       {
+        /** @var \App\Models\Ticket|null */
         $ticket = \App\Models\Ticket::find($model->item_id);
         if ($ticket->status == 1)
         {
@@ -48,8 +53,9 @@ class Followup extends Common
     });
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User');
+    return $this->belongsTo(\App\Models\User::class);
   }
 }

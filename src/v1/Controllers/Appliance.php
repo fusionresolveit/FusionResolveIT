@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -97,14 +99,8 @@ final class Appliance extends Common
         }
 
         // tri ordre alpha
-        uasort($relations, function ($a, $b)
-        {
-          return strtolower($a['name']) > strtolower($b['name']);
-        });
-        uasort($relations, function ($a, $b)
-        {
-          return strtolower($a['type']) > strtolower($b['type']);
-        });
+        array_multisort(array_column($relations, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $relations);
+        array_multisort(array_column($relations, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $relations);
 
         $myItems[] = [
           'type'                 => $type_fr,
@@ -118,14 +114,8 @@ final class Appliance extends Common
     }
 
     // tri ordre alpha
-    uasort($myItems, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
-    uasort($myItems, function ($a, $b)
-    {
-      return strtolower($a['type']) > strtolower($b['type']);
-    });
+    array_multisort(array_column($myItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
+    array_multisort(array_column($myItems, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

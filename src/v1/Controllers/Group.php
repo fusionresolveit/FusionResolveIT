@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -53,13 +55,13 @@ final class Group extends Common
       {
         foreach ($user->group as $group)
         {
-          if ($group->pivot->group_id == $args['id'])
+          if ($group->getRelationValue('pivot')->group_id == $args['id'])
           {
             $user_name = $this->genereUserName($user->name, $user->lastname, $user->firstname);
 
-            $url = $this->genereRootUrl2Link($rootUrl2, '/users/', $group->pivot->user_id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/users/', $group->getRelationValue('pivot')->user_id);
 
-            if ($group->pivot->is_dynamic == 1)
+            if ($group->getRelationValue('pivot')->is_dynamic == 1)
             {
               $auto_val = $translator->translate('Yes');
             }
@@ -68,7 +70,7 @@ final class Group extends Common
               $auto_val = $translator->translate('No');
             }
 
-            if ($group->pivot->is_manager == 1)
+            if ($group->getRelationValue('pivot')->is_manager == 1)
             {
               $is_manager_val = $translator->translate('Yes');
             }
@@ -77,7 +79,7 @@ final class Group extends Common
               $is_manager_val = $translator->translate('No');
             }
 
-            if ($group->pivot->is_userdelegate == 1)
+            if ($group->getRelationValue('pivot')->is_userdelegate == 1)
             {
               $is_userdelegate_val = $translator->translate('Yes');
             }
@@ -95,14 +97,14 @@ final class Group extends Common
               $is_active_val = $translator->translate('No');
             }
 
-            $myUsers[$group->pivot->user_id] = [
+            $myUsers[$group->getRelationValue('pivot')->user_id] = [
               'name'                  => $user_name,
               'url'                   => $url,
-              'auto'                  => $group->pivot->is_dynamic,
+              'auto'                  => $group->getRelationValue('pivot')->is_dynamic,
               'auto_val'              => $auto_val,
-              'is_manager'            => $group->pivot->is_manager,
+              'is_manager'            => $group->getRelationValue('pivot')->is_manager,
               'is_manager_val'        => $is_manager_val,
-              'is_userdelegate'       => $group->pivot->is_userdelegate,
+              'is_userdelegate'       => $group->getRelationValue('pivot')->is_userdelegate,
               'is_userdelegate_val'   => $is_userdelegate_val,
               'is_active'             => $user->is_active,
               'is_active_val'         => $is_active_val,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -32,9 +34,9 @@ final class Toolbox
   /**
    * strtolower function for utf8 string
    *
-   * @param string $str
+   * @param string|null $str
    *
-   * @return string  lower case string
+   * @return string|null  lower case string
   **/
   public static function strtolower($str)
   {
@@ -85,16 +87,16 @@ final class Toolbox
 
   /**
    * Add message to the session
-   * @param message string
-   * @param type string=success|error
+   * @param $message string
+   * @param $type string=success|error
    */
   public static function addSessionMessage($message, $type = 'success')
   {
     // add message to session
     $session = new \SlimSession\Helper();
-    if (!$session->exists('message'))
+    if (!isset($session['message']))
     {
-      $session->message = [];
+      $session['message'] = [];
     }
     $session->merge(
       'message',

@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Fieldblacklist extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Fieldblacklist';
   protected $titles = ['Ignored value for the unicity', 'Ignored values for the unicity'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'entity',
   ];
 
   protected $visible = [
@@ -25,9 +25,4 @@ class Fieldblacklist extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
 }

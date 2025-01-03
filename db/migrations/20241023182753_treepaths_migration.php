@@ -313,9 +313,8 @@ final class TreepathsMigration extends AbstractMigration
 
   private function generateTreepath($id, $table, $foreignkey)
   {
-    $builderSelect = $this->getQueryBuilder('select');
-    $statement = $builderSelect->select('*')->from($table)->where($foreignkey . " = '" . $id . "'")->execute();
-    $items = $statement->fetchAll('assoc');
+    $stmt = $this->query('SELECT * FROM ' . $table . ' WHERE ? = ?', [$foreignkey, $id]);
+    $items = $stmt->fetchAll();
     $itemList = [];
     foreach ($items as $item)
     {
@@ -327,12 +326,7 @@ final class TreepathsMigration extends AbstractMigration
         $treepath = $this->treepaths[$item[$foreignkey]] . $treepath;
       }
       $this->treepaths[$item['id']] = $treepath;
-      $builderUpdate = $this->getQueryBuilder('update');
-      $builderUpdate
-        ->update($table)
-        ->set('treepath', $treepath)
-        ->where(['id' => $item['id']])
-        ->execute();
+      $this->execute('UPDATE ' . $table . ' SET treepath = ? WHERE id = ?', [$treepath, $item['id']]);
     }
     foreach ($itemList as $itemId)
     {

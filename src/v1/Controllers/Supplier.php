@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -85,6 +87,7 @@ final class Supplier extends Common
         }
 
         $duration = $contract->duration;
+        $initial_contract_period = '';
         if ($duration == 0)
         {
           $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);

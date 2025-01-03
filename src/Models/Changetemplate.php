@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Changetemplate extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Changetemplate';
 
   protected $appends = [
-    'entity',
   ];
 
   protected $visible = [
@@ -23,9 +23,4 @@ class Changetemplate extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
 }

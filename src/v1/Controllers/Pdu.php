@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -51,7 +53,7 @@ final class Pdu extends Common
 
       $url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/plugs/', $current_plug->id);
 
-      $number_plugs = $current_plug->pivot->number_plugs;
+      $number_plugs = $current_plug->getRelationValue('pivot')->number_plugs;
 
       $myPlugs[] = [
         'name'            => $name,
@@ -61,10 +63,7 @@ final class Pdu extends Common
     }
 
     // tri ordre alpha
-    uasort($myPlugs, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(array_column($myPlugs, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myPlugs);
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

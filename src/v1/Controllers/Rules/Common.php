@@ -1,11 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers\Rules;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use stdClass;
 
 class Common extends \App\v1\Controllers\Common
@@ -87,12 +85,8 @@ class Common extends \App\v1\Controllers\Common
 
   /**
    * Check criteria
-   *
-   * @param aray $input the input data used to check criteri
-   *
-   * @return boolean if criteria match
   **/
-  public function checkCriterias($rule, $item, $preparedData)
+  public function checkCriterias($rule, $item, $preparedData): bool
   {
     $criteria = \App\Models\Rules\Rulecriterium::
         where('rule_id', $rule->id)
@@ -108,26 +102,15 @@ class Common extends \App\v1\Controllers\Common
       }
       elseif (trim($rule->match) == self::OR_MATCHING && $ret === true)
       {
-        if (empty($this->regex_results))
-        {
-          $this->regex_results = $crit->getRegexResults();
-        }
         return true;
+      }
+      if (empty($this->regex_results))
+      {
+        $this->regex_results = $crit->getRegexResults();
       }
     }
     // We are here because it's validated
-    if (empty($this->regex_results))
-    {
-      $this->regex_results = $crit->getRegexResults();
-    }
     return true;
-
-    // //If all simple criteria match, and if necessary, check complex criteria
-    // if ($doactions)
-    // {
-    //   return $this->findWithGlobalCriteria($input);
-    // }
-    // return false;
   }
 
   /**

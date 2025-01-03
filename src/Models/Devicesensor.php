@@ -1,26 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Devicesensor extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Documents;
 
   protected $definition = '\App\Models\Definitions\Devicesensor';
   protected $titles = ['Sensor', 'Sensors'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'manufacturer',
-    'type',
-    'entity',
-    'items',
   ];
 
   protected $visible = [
@@ -39,35 +37,21 @@ class Devicesensor extends Common
     'items',
   ];
 
+  /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Manufacturer');
+    return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 
+  /** @return BelongsTo<\App\Models\Devicesensortype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicesensortype', 'devicesensortype_id');
+    return $this->belongsTo(\App\Models\Devicesensortype::class, 'devicesensortype_id');
   }
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
-  }
-
+  /** @return HasMany<\App\Models\ItemDevicesensor, $this> */
   public function items(): HasMany
   {
-    return $this->hasMany('\App\Models\ItemDevicesensor', 'devicesensor_id');
+    return $this->hasMany(\App\Models\ItemDevicesensor::class, 'devicesensor_id');
   }
 }

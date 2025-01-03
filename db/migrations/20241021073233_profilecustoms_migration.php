@@ -49,9 +49,7 @@ final class ProfilecustomsMigration extends AbstractMigration
     if ($this->isMigratingUp())
     {
       // Update model
-      $builderSelect = $this->getQueryBuilder('select');
-      $statement = $builderSelect->select('*')->from('profilerights')->execute();
-      $items = $statement->fetchAll('assoc');
+      $items = $this->fetchAll('SELECT * FROM profilerights');
       $models = [
         'computer'                => 'App\\Models\\Computer',
         'budget'                  => 'App\\Models\\Budget',
@@ -84,72 +82,37 @@ final class ProfilecustomsMigration extends AbstractMigration
       {
         if (isset($models[$item['model']]))
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('model', $models[$item['model']])
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET model = ? WHERE id = ?', [$models[$item['model']], $item['id']]);
         }
         // update 'rights' to new system
         if (intval($item['rights']) & $oldRights['read'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('read', true)
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [true, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['update'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('update', true)
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `update` = ? WHERE id = ?', [true, $item['id']]);
         }
 
         if (intval($item['rights']) & $oldRights['create'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('create', true)
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `create` = ? WHERE id = ?', [true, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['delete'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('softdelete', true)
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET softdelete = ? WHERE id = ?', [true, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['purge'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('delete', true)
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `delete` = ? WHERE id = ?', [true, $item['id']]);
         }
         if (intval($item['rights']) & $oldRights['allstandardright'])
         {
-          $builderUpdate = $this->getQueryBuilder('update');
-          $builderUpdate
-            ->update('profilerights')
-            ->set('read', true)
-            ->set('create', true)
-            ->set('update', true)
-            ->set('softdelete', true)
-            ->set('delete', true)
-            ->where(['id' => $item['id']])
-            ->execute();
+          $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [true, $item['id']]);
+          $this->execute('UPDATE profilerights SET `create` = ? WHERE id = ?', [true, $item['id']]);
+          $this->execute('UPDATE profilerights SET `update` = ? WHERE id = ?', [true, $item['id']]);
+          $this->execute('UPDATE profilerights SET softdelete = ? WHERE id = ?', [true, $item['id']]);
+          $this->execute('UPDATE profilerights SET `delete` = ? WHERE id = ?', [true, $item['id']]);
         }
       }
     } else {

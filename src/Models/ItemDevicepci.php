@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class ItemDevicepci extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Documents;
 
   protected $definition = '\App\Models\Definitions\ItemDevicepci';
   protected $titles = ['Devicepci Item', 'Devicepci Items'];
@@ -18,8 +18,6 @@ class ItemDevicepci extends Common
   protected $table = 'item_devicepci';
 
   protected $appends = [
-    'entity',
-    'documents',
   ];
 
   protected $visible = [
@@ -31,21 +29,4 @@ class ItemDevicepci extends Common
     'entity:id,name,completename',
     'documents',
   ];
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
-  }
 }

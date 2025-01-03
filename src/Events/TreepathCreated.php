@@ -13,11 +13,18 @@ final class TreepathCreated
     {
       $modelName = '\\' . get_class($model);
       $currItem = $modelName::find($model->id);
+      if (is_null($currItem))
+      {
+        return;
+      }
       $currItem->treepath = sprintf("%05d", $currItem->id);
       if ($currItem->{$model->getForeignKey()} > 0)
       {
         $parentItem = $modelName::find($currItem->{$model->getForeignKey()});
-        $currItem->treepath = $parentItem->treepath . $currItem->treepath;
+        if (!is_null($parentItem))
+        {
+          $currItem->treepath = $parentItem->treepath . $currItem->treepath;
+        }
       }
       $currItem->save();
     }

@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class User extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
+  use \App\Traits\Relationships\Documents;
 
   protected $definition = '\App\Models\Definitions\User';
   protected $titles = ['User', 'Users'];
@@ -57,54 +60,55 @@ class User extends Common
     'documents:id,name',
   ];
 
+  protected $casts = [
+    'is_active' => 'boolean',
+  ];
+
+  /** @return BelongsTo<\App\Models\Usercategory, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Usercategory', 'usercategory_id');
+    return $this->belongsTo(\App\Models\Usercategory::class, 'usercategory_id');
   }
 
+  /** @return BelongsTo<\App\Models\Usertitle, $this> */
   public function title(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Usertitle', 'usertitle_id');
+    return $this->belongsTo(\App\Models\Usertitle::class, 'usertitle_id');
   }
 
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return BelongsTo<\App\Models\Profile, $this> */
   public function profile(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Profile');
+    return $this->belongsTo(\App\Models\Profile::class);
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function supervisor(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_supervisor');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_supervisor');
   }
 
+  /** @return BelongsToMany<\App\Models\Group, $this> */
   public function group(): BelongsToMany
   {
     return $this
-      ->belongsToMany('\App\Models\Group')
+      ->belongsToMany(\App\Models\Group::class)
       ->withPivot('group_id', 'is_dynamic', 'is_manager', 'is_userdelegate');
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function defaultgroup(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id');
   }
 
+  /** @return BelongsToMany<\App\Models\Profile, $this> */
   public function profiles(): BelongsToMany
   {
-      return $this->belongsToMany('\App\Models\Profile')->withPivot('entity_id', 'is_recursive');
+      return $this->belongsToMany(\App\Models\Profile::class)->withPivot('entity_id', 'is_recursive');
   }
 
-  public function getCompletenameAttribute()
+  public function getCompletenameAttribute(): string
   {
     if ($this->id == 0)
     {
@@ -128,33 +132,22 @@ class User extends Common
       }
       $name = implode(' ', $names);
     }
-    else
+    elseif (!is_null($this->name))
     {
       $name = $this->name;
     }
     return $name;
   }
 
+  /** @return MorphToMany<\App\Models\Certificate, $this> */
   public function certificates(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Certificate',
+      \App\Models\Certificate::class,
       'item',
       'certificate_item'
     )->withPivot(
       'certificate_id',
-    );
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
     );
   }
 }

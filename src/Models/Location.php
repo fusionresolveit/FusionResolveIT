@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Location extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
+  use \App\Traits\Relationships\Documents;
 
   protected $definition = '\App\Models\Definitions\Location';
   protected $titles = ['Location', 'Locations'];
@@ -18,9 +19,7 @@ class Location extends Common
   protected $tree = true;
 
   protected $appends = [
-    'location',
-    'entity',
-    'completename',
+    // 'completename',
   ];
 
   protected $visible = [
@@ -55,7 +54,7 @@ class Location extends Common
     });
   }
 
-  public function getCompletenameAttribute()
+  public function getCompletenameAttribute(): string
   {
     $names = [];
     if ($this->treepath != null)
@@ -66,7 +65,7 @@ class Location extends Common
       {
         $itemsId[$key] = (int) $value;
       }
-      $items = \App\Models\Location::whereIn('id', $itemsId)->orderBy('treepath');
+      $items = \App\Models\Location::whereIn('id', $itemsId)->orderBy('treepath')->get();
       foreach ($items as $item)
       {
         $names[] = $item->name;
@@ -74,27 +73,5 @@ class Location extends Common
     }
     $names[] = $this->name;
     return implode(' > ', $names);
-  }
-
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
   }
 }

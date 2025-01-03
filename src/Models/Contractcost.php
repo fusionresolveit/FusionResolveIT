@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contractcost extends Common
@@ -16,7 +17,6 @@ class Contractcost extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'budget',
   ];
 
   protected $visible = [
@@ -27,8 +27,9 @@ class Contractcost extends Common
     'budget:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Budget, $this> */
   public function budget(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Budget');
+    return $this->belongsTo(\App\Models\Budget::class);
   }
 }

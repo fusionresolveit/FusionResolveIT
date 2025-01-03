@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -59,7 +61,7 @@ final class Followup extends Common
     exit();
   }
 
-  public function canRightReadPrivateItem()
+  public function canRightReadPrivateItem(): bool
   {
     $profileright = \App\Models\Profileright::
         where('profile_id', $GLOBALS['profile_id'])

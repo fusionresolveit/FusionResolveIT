@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Rules;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,11 +47,11 @@ class Ticket extends \App\Models\Common
 
   public function criteria(): HasMany
   {
-    return $this->HasMany('\App\Models\Rules\Rulecriterium', 'rule_id');
+    return $this->HasMany(\App\Models\Rules\Rulecriterium::class, 'rule_id');
   }
 
   public function actions(): HasMany
   {
-    return $this->HasMany('\App\Models\Rules\Ruleaction', 'rule_id');
+    return $this->HasMany(\App\Models\Rules\Ruleaction::class, 'rule_id');
   }
 }

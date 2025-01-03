@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,16 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Slm extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Slm';
   protected $titles = ['Service level', 'Service levels'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'calendar',
-    'entity',
-    'slas',
-    'olas',
   ];
 
   protected $visible = [
@@ -35,23 +34,21 @@ class Slm extends Common
     'olas',
   ];
 
+  /** @return BelongsTo<\App\Models\Calendar, $this> */
   public function calendar(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Calendar');
+    return $this->belongsTo(\App\Models\Calendar::class);
   }
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return HasMany<\App\Models\Sla, $this> */
   public function slas(): HasMany
   {
-    return $this->hasMany('\App\Models\Sla', 'slm_id');
+    return $this->hasMany(\App\Models\Sla::class, 'slm_id');
   }
 
+  /** @return HasMany<\App\Models\Ola, $this> */
   public function olas(): HasMany
   {
-    return $this->hasMany('\App\Models\Ola', 'slm_id');
+    return $this->hasMany(\App\Models\Ola::class, 'slm_id');
   }
 }

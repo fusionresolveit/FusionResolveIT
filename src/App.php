@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Slim\Factory\AppFactory;
@@ -98,6 +100,7 @@ class App
       "secret" => $secret,
       "before" => function ($request, $arguments)
       {
+        /** @var \App\Models\User|null */
         $myUser = \App\Models\User::find($arguments['decoded']['user_id']);
         // $jwtid = $myUser->getPropertyAttribute('userjwtid');
         // if (is_null($jwtid) || $jwtid != $arguments['decoded']['jti'])
@@ -184,7 +187,7 @@ class App
     SymfonyErrorHandler::register();
 
     // Middleware to replace auto path for vendor.(js|css) by real path
-    $app->add(function (Request $request, RequestHandler $handler) use ($app, $basePath)
+    $app->add(function (Request $request, RequestHandler $handler) use ($basePath)
     {
       $response = $handler->handle($request);
       if ($response->getHeaderLine('Content-Type') == 'application/json')

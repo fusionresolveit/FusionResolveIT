@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Netpoint extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
 
   protected $definition = '\App\Models\Definitions\Netpoint';
   protected $titles = ['Network outlet', 'Network outlets'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'location',
-    'entity',
   ];
 
   protected $visible = [
@@ -28,14 +28,4 @@ class Netpoint extends Common
     'location:id,name',
     'entity:id,name,completename',
   ];
-
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
 }

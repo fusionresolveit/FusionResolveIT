@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservationitem extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Reservationitem';
   protected $titles = ['Reservation item', 'Reservation items'];
@@ -16,8 +18,6 @@ class Reservationitem extends Common
   protected $table = 'reservationitems';
 
   protected $appends = [
-    'entity',
-    'reservations',
   ];
 
   protected $visible = [
@@ -31,13 +31,9 @@ class Reservationitem extends Common
   ];
 
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return HasMany<\App\Models\Reservation, $this> */
   public function reservations(): HasMany
   {
-    return $this->hasMany('\App\Models\Reservation');
+    return $this->hasMany(\App\Models\Reservation::class);
   }
 }

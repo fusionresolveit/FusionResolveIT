@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Definitions;
 
 class Projecttask
@@ -273,7 +275,7 @@ class Projecttask
     return sprintf($translator->translate('%1$s %2$s'), round($size, 2), $val);
   }
 
-  public static function getRelatedPages($rootUrl)
+  public static function getRelatedPages($rootUrl): array
   {
     global $translator;
     return [

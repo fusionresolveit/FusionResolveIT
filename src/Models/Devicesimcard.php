@@ -1,26 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Devicesimcard extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Documents;
 
   protected $definition = '\App\Models\Definitions\Devicesimcard';
   protected $titles = ['Simcard', 'Simcards'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'manufacturer',
-    'type',
-    'entity',
-    'items',
   ];
 
   protected $visible = [
@@ -39,35 +37,21 @@ class Devicesimcard extends Common
     'items',
   ];
 
+  /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Manufacturer');
+    return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 
+  /** @return BelongsTo<\App\Models\Devicesimcardtype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Devicesimcardtype', 'devicesimcardtype_id');
+    return $this->belongsTo(\App\Models\Devicesimcardtype::class, 'devicesimcardtype_id');
   }
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
-  }
-
+  /** @return HasMany<\App\Models\ItemDevicesimcard, $this> */
   public function items(): HasMany
   {
-    return $this->hasMany('\App\Models\ItemDevicesimcard', 'devicesimcard_id');
+    return $this->hasMany(\App\Models\ItemDevicesimcard::class, 'devicesimcard_id');
   }
 }

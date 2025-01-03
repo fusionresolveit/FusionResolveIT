@@ -1,31 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Change extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Notes;
+  use \App\Traits\Relationships\Knowbaseitems;
 
   protected $definition = '\App\Models\Definitions\Change';
   protected $titles = ['Change', 'Changes'];
   protected $icon = 'paint roller';
 
   protected $appends = [
-    'itilcategorie',
-    'usersidlastupdater',
-    'usersidrecipient',
-    'entity',
-    'notes',
-    'costs',
-    'items',
-    'approvals',
   ];
 
   protected $visible = [
@@ -60,85 +55,70 @@ class Change extends Common
     'approvals',
   ];
 
+  /** @return BelongsTo<\App\Models\Category, $this> */
   public function itilcategorie(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Category', 'category_id');
+    return $this->belongsTo(\App\Models\Category::class, 'category_id');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function usersidlastupdater(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_lastupdater');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_lastupdater');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function usersidrecipient(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_recipient');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_recipient');
   }
 
-  public function entity(): BelongsTo
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function requester(): BelongsToMany
   {
-    return $this->belongsTo('\App\Models\Entity');
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 1);
   }
 
-  public function notes(): MorphMany
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function requestergroup(): BelongsToMany
   {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 1);
   }
 
-  public function knowbaseitems(): MorphToMany
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function technician(): BelongsToMany
   {
-    return $this->morphToMany(
-      '\App\Models\Knowbaseitem',
-      'item',
-      'knowbaseitem_item'
-    )->withPivot(
-      'knowbaseitem_id',
-    );
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 2);
   }
 
-  public function requester()
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function techniciangroup(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 1);
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 2);
   }
 
-  public function requestergroup()
-  {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 1);
-  }
-
-  public function technician()
-  {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 2);
-  }
-
-  public function techniciangroup()
-  {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 2);
-  }
-
+  /** @return HasMany<\App\Models\Changecost, $this> */
   public function costs(): HasMany
   {
-    return $this->hasMany('App\Models\Changecost', 'change_id');
+    return $this->hasMany(\App\Models\Changecost::class, 'change_id');
   }
 
-  public function getFeeds($id)
+  public function getFeeds($id): array
   {
-    global $translator;
     $feeds = [];
 
     return $feeds;
   }
 
+  /** @return HasMany<\App\Models\ChangeItem, $this> */
   public function items(): HasMany
   {
-    return $this->hasMany('\App\Models\ChangeItem', 'change_id');
+    return $this->hasMany(\App\Models\ChangeItem::class, 'change_id');
   }
 
+  /** @return HasMany<\App\Models\Changevalidation, $this> */
   public function approvals(): HasMany
   {
-    return $this->hasMany('\App\Models\Changevalidation', 'change_id');
+    return $this->hasMany(\App\Models\Changevalidation::class, 'change_id');
   }
 }

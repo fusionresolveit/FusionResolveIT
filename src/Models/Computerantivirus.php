@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,13 +30,20 @@ class Computerantivirus extends Common
     'computer_id',
   ];
 
+  protected $casts = [
+    'is_active'  => 'boolean',
+    'is_dynamic' => 'boolean',
+  ];
+
+  /** @return BelongsTo<\App\Models\Computer, $this> */
   public function computer(): BelongsTo
   {
-    return $this->belongsTo('App\Models\Computer');
+    return $this->belongsTo(\App\Models\Computer::class);
   }
 
+  /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Manufacturer');
+    return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 }

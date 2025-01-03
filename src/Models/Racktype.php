@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Racktype extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Racktype';
   protected $titles = ['Rack type', 'Rack types'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'entity',
   ];
 
   protected $visible = [
@@ -25,9 +25,4 @@ class Racktype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
 }

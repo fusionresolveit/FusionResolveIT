@@ -1,26 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Projecttasktemplate extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Documents;
 
   protected $definition = '\App\Models\Definitions\Projecttasktemplate';
   protected $titles = ['Project task template', 'Project task templates'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'state',
-    'type',
-    'projecttasks',
-    'entity',
   ];
 
   protected $visible = [
@@ -39,35 +36,21 @@ class Projecttasktemplate extends Common
     'documents:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Projectstate, $this> */
   public function state(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Projectstate', 'projectstate_id');
+    return $this->belongsTo(\App\Models\Projectstate::class, 'projectstate_id');
   }
 
+  /** @return BelongsTo<\App\Models\Projecttasktype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Projecttasktype', 'projecttasktype_id');
+    return $this->belongsTo(\App\Models\Projecttasktype::class, 'projecttasktype_id');
   }
 
+  /** @return BelongsTo<\App\Models\Projecttask, $this> */
   public function projecttasks(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Projecttask', 'projecttask_id');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
+    return $this->belongsTo(\App\Models\Projecttask::class, 'projecttask_id');
   }
 }

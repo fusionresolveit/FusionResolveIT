@@ -55,15 +55,30 @@ final class OperatingsystemMigration extends AbstractMigration
           $data = [];
           foreach ($rows as $row)
           {
-            $builder = $this->getQueryBuilder('update');
-            $builder->update('item_operatingsystem')
-                    ->set('installationdate', Toolbox::fixDate($row['operatingsystem_installationdate']))
-                    ->set('winowner', $row['winowner'])
-                    ->set('wincompany', $row['wincompany'])
-                    ->set('oscomment', $row['oscomment'])
-                    ->set('hostid', $row['hostid'])
-                    ->where(['item_type' => 'App\\Models\\Computer', 'item_id' => $row['computers_id']])
-                    ->execute();
+            $this->execute(
+              'UPDATE item_operatingsystem SET installationdate = ? WHERE item_type = ? AND item_id = ?',
+              [
+                Toolbox::fixDate($row['operatingsystem_installationdate']),
+                'App\\Models\\Computer',
+                $row['computers_id']
+              ]
+            );
+            $this->execute(
+              'UPDATE item_operatingsystem SET winowner = ? WHERE item_type = ? AND item_id = ?',
+              [$row['winowner'], 'App\\Models\\Computer', $row['computers_id']]
+            );
+            $this->execute(
+              'UPDATE item_operatingsystem SET wincompany = ? WHERE item_type = ? AND item_id = ?',
+              [$row['wincompany'], 'App\\Models\\Computer', $row['computers_id']]
+            );
+            $this->execute(
+              'UPDATE item_operatingsystem SET oscomment = ? WHERE item_type = ? AND item_id = ?',
+              [$row['oscomment'], 'App\\Models\\Computer', $row['computers_id']]
+            );
+            $this->execute(
+              'UPDATE item_operatingsystem SET hostid = ? WHERE item_type = ? AND item_id = ?',
+              [$row['hostid'], 'App\\Models\\Computer', $row['computers_id']]
+            );
           }
         }
       }

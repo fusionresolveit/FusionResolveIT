@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Definitions\Forms;
 
 class Answer
@@ -20,7 +22,7 @@ class Answer
     ];
   }
 
-  public static function getRelatedPages($rootUrl)
+  public static function getRelatedPages($rootUrl): array
   {
     global $translator;
     return [

@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ola extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Ola';
   protected $titles = ['OLA', 'OLA'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'entity',
-    'calendar',
   ];
 
   protected $visible = [
@@ -29,13 +29,9 @@ class Ola extends Common
     'calendar:id,name',
   ];
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return BelongsTo<\App\Models\Calendar, $this> */
   public function calendar(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Calendar', 'calendar_id');
+    return $this->belongsTo(\App\Models\Calendar::class, 'calendar_id');
   }
 }

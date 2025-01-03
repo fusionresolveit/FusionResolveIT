@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use GeneaLabs\LaravelPivotEvents\Traits\PivotEventTrait;
@@ -10,13 +12,25 @@ class Common extends Model
 {
   use PivotEventTrait;
 
+  /** @var string|null */
   protected $definition = null;
+
+  /** @var string[] */
   protected $titles = ['not defined', 'not defined'];
+
+  /** @var string */
   protected $icon = '';
+
+  /** @var string|null */
   protected $table = null;
+
+  /** @var boolean */
   protected $hasEntityField = true;
+
+  /** @var boolean */
   protected $tree = false;
 
+  /** @var string[] */
   protected $dispatchesEvents = [
     'creating' => \App\Events\EntityCreating::class,
     'created'  => \App\Events\TreepathCreated::class,
@@ -70,48 +84,22 @@ class Common extends Model
     });
   }
 
-  public function getTitle($nb = 1)
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle($nb = 1): string
   {
     global $translator;
 
     return $translator->translatePlural($this->titles[0], $this->titles[1], $nb);
   }
 
-  public function getIcon()
+  public function getIcon(): string
   {
     return $this->icon;
   }
 
-  public function getNameFromID($id)
-  {
-    return $id;
-    $items = $this->find(['id' => $id], [], 1);
-    if (count($items) == 0)
-    {
-      return '';
-    }
-    else
-    {
-      return current($items)['name'];
-    }
-  }
-
-
-  // function getTable()
-  // {
-  //   return $this->table;
-  // }
-
-  // function loadId($id)
-  // {
-  //   $load = $this->getFromDB($id);
-  //   if ($load === false)
-  //   {
-  //     throw new \Exception("This item has not found", 404);
-  //   }
-  // }
-
-  public function getDropdownValues($filter = null)
+  public function getDropdownValues($filter = null): array
   {
     $item = $this;
     $className = '\\' . get_class($this);
@@ -135,17 +123,21 @@ class Common extends Model
     $data = [];
     foreach ($items as $item)
     {
-      $name = $item->name;
-      if ($item->name == '')
+      $name = '';
+      if (property_exists($item, 'name'))
       {
-        $name = $item->id;
-      }
-      if (is_numeric($filter))
-      {
-        $name .= ' - ' . $item->id;
+        $name = $item->name;
+        if ($item->name == '')
+        {
+          $name = $item->id;
+        }
+        elseif (is_numeric($filter))
+        {
+          $name .= ' - ' . $item->id;
+        }
       }
       $class = '';
-      if ($this->tree)
+      if ($this->isTree() && property_exists($item, 'treepath'))
       {
         $trees[$item->treepath] = true;
         // $parents = $this->getParentLevelsForTree($item->treepath, $trees);
@@ -184,7 +176,7 @@ class Common extends Model
    * @param $bypassRights  boolean  Set true is not want manage rights (only on some features like notifications)
    * @param $usein  string=search|form|notification|rule  Force to get only definition for this part of the app
    */
-  public function getDefinitions($bypassRights = false, $usein = null)
+  public function getDefinitions($bypassRights = false, $usein = null): array
   {
     if (is_null($this->definition))
     {
@@ -274,7 +266,7 @@ class Common extends Model
     return [];
   }
 
-  public function getRelatedPages($rootUrl)
+  public function getRelatedPages($rootUrl): array
   {
     global $translator;
 
@@ -305,7 +297,7 @@ class Common extends Model
     return $pages;
   }
 
-  public function getSpecificFunction($functionName)
+  public function getSpecificFunction($functionName): array
   {
     if (is_null($this->definition) || !method_exists($this->definition, $functionName))
     {
@@ -319,7 +311,7 @@ class Common extends Model
    *
    * @return array
    */
-  public function getFormData($myItem, $otherDefs = false)
+  public function getFormData($myItem, $otherDefs = false): array
   {
     if ($otherDefs !== false)
     {
@@ -408,7 +400,7 @@ class Common extends Model
   /**
    * Add in changes when update fields
    */
-  public function changesOnUpdated()
+  public function changesOnUpdated(): void
   {
     $changes = $this->getChanges();
     $casts = $this->getCasts();
@@ -426,7 +418,10 @@ class Common extends Model
         $oldValue = (boolval($oldValue) ? 'true' : 'false');
       }
       // TODO for textarea
-      if ((!is_null($newValue) && strlen($newValue) >= 255) || (!is_null($oldValue) && strlen($oldValue) >= 255))
+      if (
+          (!is_null($newValue) && is_string($newValue) && strlen($newValue) >= 255) ||
+          (!is_null($oldValue) && is_string($oldValue) && strlen($oldValue) >= 255)
+      )
       {
         return;
       }
@@ -461,55 +456,55 @@ class Common extends Model
    * Add in changes when update fields
    * @param $name string  name of the field (=name in definition)
    */
-  public function changesOnPivotUpdated($name, $pivotIds, $type = 'add')
+  public function changesOnPivotUpdated($name, $pivotIds, $type = 'add'): void
   {
     return;
     // get the id_search_option
-    $definitions = $this->getDefinitions();
-    $idSearchOption = 0;
-    $title = '';
-    $item = new stdClass();
-    foreach ($definitions as $definition)
-    {
-      if ($definition['name'] == $name)
-      {
-        $idSearchOption = $definition['id'];
-        $title = $definition['title'];
-        $item = new $definition['itemtype']();
-        break;
-      }
-    }
-    if ($type == 'add')
-    {
-      foreach ($pivotIds as $id)
-      {
-        $myItem = $item->find($id);
-        \App\v1\Controllers\Log::addEntry(
-          $this,
-          '{username} Add ' . $title . ' to "{new_value}"',
-          $myItem->name,
-          null,
-          $idSearchOption,
-        );
-      }
-    }
-    if ($type == 'delete')
-    {
-      foreach ($pivotIds as $id)
-      {
-        $myItem = $item->find($id);
-        \App\v1\Controllers\Log::addEntry(
-          $this,
-          '{username} delete ' . $title . ' to "{new_value}"',
-          null,
-          $myItem->name,
-          $idSearchOption,
-        );
-      }
-    }
+    // $definitions = $this->getDefinitions();
+    // $idSearchOption = 0;
+    // $title = '';
+    // $item = new stdClass();
+    // foreach ($definitions as $definition)
+    // {
+    //   if ($definition['name'] == $name)
+    //   {
+    //     $idSearchOption = $definition['id'];
+    //     $title = $definition['title'];
+    //     $item = new $definition['itemtype']();
+    //     break;
+    //   }
+    // }
+    // if ($type == 'add')
+    // {
+    //   foreach ($pivotIds as $id)
+    //   {
+    //     $myItem = $item->find($id);
+    //     \App\v1\Controllers\Log::addEntry(
+    //       $this,
+    //       '{username} Add ' . $title . ' to "{new_value}"',
+    //       $myItem->name,
+    //       null,
+    //       $idSearchOption,
+    //     );
+    //   }
+    // }
+    // if ($type == 'delete')
+    // {
+    //   foreach ($pivotIds as $id)
+    //   {
+    //     $myItem = $item->find($id);
+    //     \App\v1\Controllers\Log::addEntry(
+    //       $this,
+    //       '{username} delete ' . $title . ' to "{new_value}"',
+    //       null,
+    //       $myItem->name,
+    //       $idSearchOption,
+    //     );
+    //   }
+    // }
   }
 
-  public function isEntity()
+  public function isEntity(): bool
   {
     if ($this->hasEntityField)
     {
@@ -518,12 +513,12 @@ class Common extends Model
     return false;
   }
 
-  public function canOnlyReadItem()
+  public function canOnlyReadItem(): bool
   {
     return false;
   }
 
-  public function isTree()
+  public function isTree(): bool
   {
     return $this->tree;
   }

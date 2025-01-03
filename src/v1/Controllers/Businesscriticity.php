@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -78,10 +80,12 @@ final class Businesscriticity extends Common
     }
 
     // tri ordre alpha
-    uasort($myBusinesscriticities, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(
+      array_column($myBusinesscriticities, 'name'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myBusinesscriticities
+    );
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Problemcost extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Problemcost';
   protected $titles = ['Problem cost', 'Problem costs'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'entity',
-    'budget',
   ];
 
   protected $visible = [
@@ -30,13 +30,9 @@ class Problemcost extends Common
   ];
 
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return BelongsTo<\App\Models\Budget, $this> */
   public function budget(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Budget');
+    return $this->belongsTo(\App\Models\Budget::class);
   }
 }

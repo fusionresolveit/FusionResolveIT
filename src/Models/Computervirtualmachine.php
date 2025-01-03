@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,23 +25,27 @@ class Computervirtualmachine extends Common
     'type:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Computer, $this> */
   public function computer(): BelongsTo
   {
-    return $this->belongsTo('App\Models\Computer');
+    return $this->belongsTo(\App\Models\Computer::class);
   }
 
+  /** @return BelongsTo<\App\Models\Virtualmachinestate, $this> */
   public function state(): BelongsTo
   {
-    return $this->belongsTo('App\Models\Virtualmachinestate', 'virtualmachinestate_id');
+    return $this->belongsTo(\App\Models\Virtualmachinestate::class, 'virtualmachinestate_id');
   }
 
+  /** @return BelongsTo<\App\Models\Virtualmachinesystem, $this> */
   public function system(): BelongsTo
   {
-    return $this->belongsTo('App\Models\Virtualmachinesystem', 'virtualmachinesystem_id');
+    return $this->belongsTo(\App\Models\Virtualmachinesystem::class, 'virtualmachinesystem_id');
   }
 
+  /** @return BelongsTo<\App\Models\Virtualmachinetype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo('App\Models\Virtualmachinetype', 'virtualmachinetype_id');
+    return $this->belongsTo(\App\Models\Virtualmachinetype::class, 'virtualmachinetype_id');
   }
 }

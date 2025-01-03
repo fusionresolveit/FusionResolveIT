@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -73,7 +75,7 @@ final class Notification extends Common
               $queued->headers = '';
               $queued->body_html = $notif->render($translation->content_html, $item);
               $queued->body_text = $notif->render($translation->content_text, $item);
-              $queued->mode = $template->pivot->mode;
+              $queued->mode = $template->getRelationValue('pivot')->mode;
               $queued->save();
             }
           }

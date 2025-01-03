@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -88,13 +90,13 @@ final class Home extends Common
           {
             foreach ($it->requester as $req)
             {
-              if ($req->pivot->user_id == $GLOBALS['user_id'])
+              if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
               {
                 $items[$key]['datas'][$it->id] = [
                   'name'              => $it->name,
                   'status'            => $this->getStatusArray()[$it->status],
                   'priority'          => $this->getPriorityArray()[$it->priority],
-                  'date_open'         => $it->date,
+                  'date_open'         => $it->created_at,
                   'date_last_modif'   => $it->updated_at,
                 ];
               }
@@ -122,13 +124,13 @@ final class Home extends Common
             {
               foreach ($it->requestergroup as $req)
               {
-                if (array_key_exists($req->pivot->group_id, $groups))
+                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
                 {
                   $items[$key]['datas'][$it->id] = [
                     'name'              => $it->name,
                     'status'            => $this->getStatusArray()[$it->status],
                     'priority'          => $this->getPriorityArray()[$it->priority],
-                    'date_open'         => $it->date,
+                    'date_open'         => $it->created_at,
                     'date_last_modif'   => $it->updated_at,
                   ];
                 }
@@ -138,13 +140,13 @@ final class Home extends Common
             {
               foreach ($it->watchergroup as $req)
               {
-                if (array_key_exists($req->pivot->group_id, $groups))
+                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
                 {
                   $items[$key]['datas'][$it->id] = [
                     'name'              => $it->name,
                     'status'            => $this->getStatusArray()[$it->status],
                     'priority'          => $this->getPriorityArray()[$it->priority],
-                    'date_open'         => $it->date,
+                    'date_open'         => $it->created_at,
                     'date_last_modif'   => $it->updated_at,
                   ];
                 }
@@ -154,13 +156,13 @@ final class Home extends Common
             {
               foreach ($it->techniciangroup as $req)
               {
-                if (array_key_exists($req->pivot->group_id, $groups))
+                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
                 {
                   $items[$key]['datas'][$it->id] = [
                     'name'              => $it->name,
                     'status'            => $this->getStatusArray()[$it->status],
                     'priority'          => $this->getPriorityArray()[$it->priority],
-                    'date_open'         => $it->date,
+                    'date_open'         => $it->created_at,
                     'date_last_modif'   => $it->updated_at,
                   ];
                 }
@@ -221,7 +223,7 @@ final class Home extends Common
             'name'              => $it->name,
             'status'            => $this->getStatusArray()[$it->status],
             'priority'          => $this->getPriorityArray()[$it->priority],
-            'date_open'         => $it->date,
+            'date_open'         => $it->created_at,
             'date_last_modif'   => $it->updated_at,
           ];
         }
@@ -260,9 +262,9 @@ final class Home extends Common
             {
               foreach ($it->requestergroup as $req)
               {
-                if (array_key_exists($req->pivot->group_id, $groups))
+                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
                 {
-                  if (substr(trim($it->date), 0, 10) == date('Y-m-d'))
+                  if ($it->created_at->toDateString() == date('Y-m-d'))
                   {
                     $nbTodayIncidents = $nbTodayIncidents + 1;
                   }
@@ -273,9 +275,9 @@ final class Home extends Common
             {
               foreach ($it->requester as $req)
               {
-                if ($req->pivot->user_id == $GLOBALS['user_id'])
+                if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
                 {
-                  if (substr(trim($it->date), 0, 10) == date('Y-m-d'))
+                  if ($it->created_at->toDateString() == date('Y-m-d'))
                   {
                     $nbTodayIncidents = $nbTodayIncidents + 1;
                   }
@@ -283,7 +285,7 @@ final class Home extends Common
                 else
                 {
                   $user2 = new \App\Models\User();
-                  $itemUser2 = $user2::with('group')->find($req->pivot->user_id);
+                  $itemUser2 = $user2::with('group')->find($req->getRelationValue('pivot')->user_id);
                   $groups2 = [];
                   foreach ($itemUser2->group as $grp2)
                   {
@@ -294,7 +296,7 @@ final class Home extends Common
                   {
                     if (array_key_exists($key2, $groups))
                     {
-                      if (substr(trim($it->date), 0, 10) == date('Y-m-d'))
+                      if ($it->created_at->toDateString() == date('Y-m-d'))
                       {
                         $nbTodayIncidents = $nbTodayIncidents + 1;
                       }
@@ -329,7 +331,7 @@ final class Home extends Common
       //       ];
       //       foreach ($ticket->linkedtickets as $linkedticket)
       //       {
-      //         $links[$linkedticket->pivot->link]++;
+      //         $links[$linkedticket->getRelationValue('pivot')->link]++;
       //         $ticketFound[] = $linkedticket->id;
       //       }
 
@@ -362,14 +364,14 @@ final class Home extends Common
           {
             foreach ($it->requester as $req)
             {
-              if ($req->pivot->user_id == $GLOBALS['user_id'])
+              if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
               {
                 $others_tech = false;
                 if ($it->technician !== null)
                 {
                   foreach ($it->technician as $tec)
                   {
-                    if ($tec->pivot->user_id != $GLOBALS['user_id'])
+                    if ($tec->getRelationValue('pivot')->user_id != $GLOBALS['user_id'])
                     {
                       $others_tech = true;
                       break;
@@ -397,7 +399,7 @@ final class Home extends Common
                       'name'              => $it->name,
                       'status'            => $this->getStatusArray()[$it->status],
                       'priority'          => $this->getPriorityArray()[$it->priority],
-                      'date_open'         => $it->date,
+                      'date_open'         => $it->created_at,
                       'date_last_modif'   => $it->updated_at,
                     ];
                   }

@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Group extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Notes;
 
   protected $definition = '\App\Models\Definitions\Group';
   protected $titles = ['Group', 'Groups'];
@@ -18,7 +20,7 @@ class Group extends Common
   protected $tree = true;
 
   protected $appends = [
-    'completename',
+    // 'completename',
   ];
 
   protected $visible = [
@@ -34,7 +36,7 @@ class Group extends Common
     'parents:id,name,group_id,entity_id',
   ];
 
-  public function getCompletenameAttribute()
+  public function getCompletenameAttribute(): string
   {
     $names = [];
     if ($this->treepath != null)
@@ -45,7 +47,7 @@ class Group extends Common
       {
         $itemsId[$key] = (int) $value;
       }
-      $items = \App\Models\Group::whereIn('id', $itemsId)->orderBy('treepath');
+      $items = \App\Models\Group::whereIn('id', $itemsId)->orderBy('treepath')->get();
       foreach ($items as $item)
       {
         $names[] = $item->name;
@@ -55,26 +57,15 @@ class Group extends Common
     return implode(' > ', $names);
   }
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function notes(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
-  }
-
+  /** @return HasMany<\App\Models\Group, $this> */
   public function parents(): HasMany
   {
-    return $this->hasMany('\App\Models\Group', 'group_id');
+    return $this->hasMany(\App\Models\Group::class, 'group_id');
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function child(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id');
   }
 }

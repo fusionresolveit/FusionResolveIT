@@ -1,39 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Ticket extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
+  use \App\Traits\Relationships\Knowbaseitems;
 
   protected $definition = '\App\Models\Definitions\Ticket';
   protected $titles = ['Ticket', 'Tickets'];
   protected $icon = 'hands helping';
 
   protected $appends = [
-    'requester',
-    'requestergroup',
-    'watcher',
-    'watchergroup',
-    'technician',
-    'techniciangroup',
-    'usersidlastupdater',
-    'usersidrecipient',
-    'category',
-    'entity',
-    'problems',
-    'changes',
-    'linkedtickets',
-    'followups',
-    'items',
-    'projecttasks',
-    'approvals',
   ];
 
   protected $visible = [
@@ -108,25 +96,29 @@ class Ticket extends Common
     'location_id',
   ];
 
+  protected $casts = [
+    'user_id_recipient'   => 'integer',
+    'user_id_lastupdater' => 'integer',
+  ];
+
   protected static function booted(): void
   {
     parent::booted();
 
-    static::creating(function ($model)
+    static::creating(function (\App\Models\Ticket $model): void
     {
       $model->user_id_recipient = $GLOBALS['user_id'];
       $model->user_id_lastupdater = $GLOBALS['user_id'];
 
       $session = new \SlimSession\Helper();
-      if ($session->exists('ticketCreationDate'))
+      if (isset($session['ticketCreationDate']))
       {
-        $model->created_at = $session->ticketCreationDate;
+        $model->created_at = $session['ticketCreationDate'];
       }
     });
 
-    static::updating(function ($model)
+    static::updating(function ($model): void
     {
-      $currentItem = \App\Models\Ticket::find($model->id);
       // Clean new lines before passing to rules
       if (property_exists($model, 'content'))
       {
@@ -138,102 +130,112 @@ class Ticket extends Common
 
      // TODO finish
     });
-
-    static::deleting(function ($model)
-    {
-    });
-
-    // static::restoring(function ($model)
-    // {
-    // });
   }
 
-  public function requester()
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function requester(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 1);
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 1);
   }
 
-  public function requestergroup()
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function requestergroup(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 1);
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 1);
   }
 
-  public function watcher()
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function watcher(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 3);
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 3);
   }
 
-  public function watchergroup()
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function watchergroup(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 3);
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 3);
   }
 
-  public function technician()
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function technician(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\User')->wherePivot('type', 2);
+    return $this->belongsToMany(\App\Models\User::class)->wherePivot('type', 2);
   }
 
-  public function techniciangroup()
+  /** @return BelongsToMany<\App\Models\Group, $this> */
+  public function techniciangroup(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Group')->wherePivot('type', 2);
+    return $this->belongsToMany(\App\Models\Group::class)->wherePivot('type', 2);
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function usersidlastupdater(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_lastupdater');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_lastupdater');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function usersidrecipient(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_recipient');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_recipient');
   }
 
+  /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Category');
+    return $this->belongsTo(\App\Models\Category::class);
   }
 
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
+  /** @return BelongsToMany<\App\Models\Problem, $this> */
   public function problems(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Problem', 'problem_ticket', 'ticket_id', 'problem_id');
+    return $this->belongsToMany(\App\Models\Problem::class, 'problem_ticket', 'ticket_id', 'problem_id');
   }
 
+  /** @return BelongsToMany<\App\Models\Change, $this> */
   public function changes(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Change', 'change_ticket', 'ticket_id', 'change_id');
+    return $this->belongsToMany(\App\Models\Change::class, 'change_ticket', 'ticket_id', 'change_id');
   }
 
+  /** @return BelongsToMany<\App\Models\Ticket, $this> */
   public function linkedtickets(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Ticket', 'ticket_ticket', 'ticket_id_1', 'ticket_id_2')->withPivot('link');
+    return $this->belongsToMany(
+      \App\Models\Ticket::class,
+      'ticket_ticket',
+      'ticket_id_1',
+      'ticket_id_2'
+    )->withPivot('link');
   }
 
-  public function entity(): BelongsTo
+  /** @return MorphMany<\App\Models\Followup, $this> */
+  public function followups(): MorphMany
   {
-    return $this->belongsTo('\App\Models\Entity');
+    return $this->morphMany(\App\Models\Followup::class, 'item');
   }
 
-  public function followups()
+  /** @return MorphMany<\App\Models\Solution, $this> */
+  public function solutions(): MorphMany
   {
-    return $this->morphMany('\App\Models\Followup', 'item');
+    return $this->morphMany(\App\Models\Solution::class, 'item');
   }
 
-  public function solutions()
-  {
-    return $this->morphMany('\App\Models\Solution', 'item');
-  }
-
-  public function getFeeds($id)
+  public function getFeeds($id): array
   {
     global $translator;
     $feeds = [];
 
+    /** @var \App\Models\Ticket|null */
     $ticket = \App\Models\Ticket::find($id);
+    if (
+        is_null($this->definition) ||
+        !class_exists($this->definition) ||
+        is_null($ticket)
+    )
+    {
+      return [];
+    }
     $statesDef = $this->definition::getStatusArray();
 
     $ctrl = new \App\v1\Controllers\Followup();
@@ -394,59 +396,58 @@ class Ticket extends Common
     }
 
     // sort
-    usort($feeds, function ($a, $b)
-    {
-      return $a['date'] > $b['date'];
-    });
+    array_multisort(
+      array_column($feeds, 'date'),
+      SORT_DESC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $feeds
+    );
     return $feeds;
   }
 
   /**
    * Get the color of the status of the ticket
    */
-  public function getColor()
+  public function getColor(): string
   {
-    $statesDef = $this->definition::getStatusArray();
-    return $statesDef[$this->status]['color'];
+    if (!is_null($this->definition) && class_exists($this->definition))
+    {
+      $statesDef = $this->definition::getStatusArray();
+      return $statesDef[$this->attributes['status']]['color'];
+    }
+    return 'blue';
   }
 
-  public function knowbaseitems(): MorphToMany
+  public function canOnlyReadItem(): bool
   {
-    return $this->morphToMany(
-      '\App\Models\Knowbaseitem',
-      'item',
-      'knowbaseitem_item'
-    )->withPivot(
-      'knowbaseitem_id',
-    );
-  }
-
-  public function canOnlyReadItem()
-  {
-    if ($this->status == 6)
+    if ($this->attributes['status'] == 6)
     {
       return true;
     }
     return false;
   }
 
+  /** @return HasMany<\App\Models\Ticketcost, $this> */
   public function costs(): HasMany
   {
-    return $this->hasMany('App\Models\Ticketcost', 'ticket_id');
+    return $this->hasMany(\App\Models\Ticketcost::class, 'ticket_id');
   }
 
+  /** @return HasMany<\App\Models\ItemTicket, $this> */
   public function items(): HasMany
   {
-    return $this->hasMany('\App\Models\ItemTicket', 'ticket_id');
+    return $this->hasMany(\App\Models\ItemTicket::class, 'ticket_id');
   }
 
+  /** @return HasMany<\App\Models\ProjecttaskTicket, $this> */
   public function projecttasks(): HasMany
   {
-    return $this->hasMany('\App\Models\ProjecttaskTicket', 'ticket_id');
+    return $this->hasMany(\App\Models\ProjecttaskTicket::class, 'ticket_id');
   }
 
+  /** @return HasMany<\App\Models\Ticketvalidation, $this> */
   public function approvals(): HasMany
   {
-    return $this->hasMany('\App\Models\Ticketvalidation', 'ticket_id');
+    return $this->hasMany(\App\Models\Ticketvalidation::class, 'ticket_id');
   }
 }

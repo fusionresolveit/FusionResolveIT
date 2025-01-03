@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,8 +15,8 @@ final class Token
    /**
     * Check is a password match the stored hash
     *
-    * @param string $pass Password (pain-text)
-    * @param string $hash Hash
+    * @param string|null $password Password (pain-text)
+    * @param string|null $hash Hash
     *
     * @return boolean
     */
@@ -97,23 +99,23 @@ final class Token
     // $user->properties()->updateExistingPivot($refreshtokenPropId, ['value_string' => $refreshtoken]);
 
     // the jwtid (jit), used to revoke the JWT by server (for example when change rights, disable user...)
-    if (is_null($jwtid))
-    {
+    // if (is_null($jwtid))
+    // {
       $jti = $this->generateToken();
       // $user->properties()->updateExistingPivot($jwtidId, ['value_string' => $jti]);
-    }
-    else
-    {
-      $jti = $jwtid;
-    }
+    // }
+    // else
+    // {
+      // $jti = $jwtid;
+    // }
 
     if (is_null($profile_id))
     {
       foreach ($user->profiles()->get() as $profile)
       {
         $profile_id = $profile->id;
-        $entity_id = $profile->pivot->entity_id;
-        $entity_recursive = $profile->pivot->is_recursive;
+        $entity_id = $profile->getRelationValue('pivot')->entity_id;
+        $entity_recursive = $profile->getRelationValue('pivot')->is_recursive;
         break;
       }
     }

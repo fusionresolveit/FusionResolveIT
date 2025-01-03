@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Knowbaseitem extends Common
@@ -15,8 +16,6 @@ class Knowbaseitem extends Common
   protected $icon = 'edit';
 
   protected $appends = [
-    'category',
-    'user',
   ];
 
   protected $visible = [
@@ -29,13 +28,15 @@ class Knowbaseitem extends Common
     'user:id,name,firstname,lastname',
   ];
 
+  /** @return BelongsTo<\App\Models\Knowbaseitemcategory, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Knowbaseitemcategory', 'knowbaseitemcategory_id');
+    return $this->belongsTo(\App\Models\Knowbaseitemcategory::class, 'knowbaseitemcategory_id');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User');
+    return $this->belongsTo(\App\Models\User::class);
   }
 }
