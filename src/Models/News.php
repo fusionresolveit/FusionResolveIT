@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +28,6 @@ class News extends Common
 
   // public function user(): BelongsTo
   // {
-  //   return $this->belongsTo('\App\Models\User', 'users_id');
+  //   return $this->belongsTo(\App\Models\User::class, 'users_id');
   // }
 }

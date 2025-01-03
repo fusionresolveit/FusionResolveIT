@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -68,10 +70,12 @@ final class Documentcategory extends Common
     }
 
     // tri ordre alpha
-    uasort($myDocumentcategories, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(
+      array_column($myDocumentcategories, 'name'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myDocumentcategories
+    );
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

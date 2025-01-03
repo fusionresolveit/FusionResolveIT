@@ -5,10 +5,6 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Migration\Manager\Environment;
-use Phinx\Config\Config;
-use App\v1\Controllers\Toolbox;
-use Phinx\Db\Adapter\MysqlAdapter;
 
 final class RenamefieldruleactionsMigration extends AbstractMigration
 {
@@ -30,22 +26,12 @@ final class RenamefieldruleactionsMigration extends AbstractMigration
       '_users_id_requester'    => 'requester',
     ];
 
-    $builderSelect = $this->getQueryBuilder('select');
-    $statement = $builderSelect
-      ->select('*')
-      ->from('ruleactions')
-      ->execute();
-    $items = $statement->fetchAll('assoc');
+    $items = $this->fetchAll('SELECT * FROM ruleactions');
     foreach ($items as $item)
     {
       if (isset($mapping[$item['field']]))
       {
-        $builderUpdate = $this->getQueryBuilder('update');
-        $builderUpdate
-          ->update('ruleactions')
-          ->set('field', $mapping[$item['field']])
-          ->where(['id' => $item['id']])
-          ->execute();
+        $this->execute('UPDATE ruleactions SET field = ? WHERE id = ?', [$mapping[$item['field']], $item['id']]);
       }
     }
   }

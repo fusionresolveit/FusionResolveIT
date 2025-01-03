@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Rules;
 
 class Rulecriterium extends \App\Models\Common
@@ -25,8 +27,9 @@ class Rulecriterium extends \App\Models\Common
     'pattern',
   ];
 
-  public function getCriteriaAttribute()
+  public function getCriteriaAttribute(): array
   {
+    /** @var \App\Models\Rules\Rule|null */
     $rule = \App\Models\Rules\Rule::find($this->attributes['rule_id']);
     $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
 
@@ -43,7 +46,7 @@ class Rulecriterium extends \App\Models\Common
     return [];
   }
 
-  public function getPatternAttribute()
+  public function getPatternAttribute(): mixed
   {
     $pattern = $this->attributes['pattern'];
     $criteria = $this->getCriteriaAttribute();
@@ -82,14 +85,10 @@ class Rulecriterium extends \App\Models\Common
     // TODO problem when condition is IS or ISNOT
   }
 
-  public function getPatternviewfieldAttribute()
+  public function getPatternviewfieldAttribute(): array
   {
-    $criteria = $this->criteria;
+    $criteria = $this->getCriteriaAttribute();
     $criteria['title'] = 'Pattern';
-    if (!is_array($criteria))
-    {
-      $criteria = $this->getCriteriaAttribute($criteria);
-    }
     $criteria['name'] = 'pattern';
     $criteria['value'] = $this->attributes['pattern'];
     if (isset($criteria['multiple']))

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -65,10 +67,7 @@ final class Login extends Common
       }
       $this->authOkAndRedirect($user);
       exit;
-    }
-
-    if (is_null($user))
-    {
+    } else {
       // Search in LDAP
       $users = \App\Models\User::
           where('name', $data->login)
@@ -276,20 +275,20 @@ final class Login extends Common
     {
       if ($profile->id == $data->changeProfile)
       {
-        if ($profile->pivot->entity_id == $data->changeEntity)
+        if ($profile->getRelationValue('pivot')->entity_id == $data->changeEntity)
         {
           $validation = true;
-          if ($data->changeEntityRecursive == true && !$profile->pivot->is_recursive)
+          if ($data->changeEntityRecursive == true && !$profile->getRelationValue('pivot')->is_recursive)
           {
             $data->changeEntityRecursive = false;
           }
           break;
         }
         elseif
-        ($profile->pivot->is_recursive)
+        ($profile->getRelationValue('pivot')->is_recursive)
         {
           // search if $data->changeEntity is in sub
-          $profileEntity = \App\Models\Entity::find($profile->pivot->entity_id);
+          $profileEntity = \App\Models\Entity::find($profile->getRelationValue('pivot')->entity_id);
           $entity = \App\Models\Entity::
               where('id', $data->changeEntity)
             ->where('treepath', 'LIKE', $profileEntity->treepath . '%')

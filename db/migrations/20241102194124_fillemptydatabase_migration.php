@@ -15,9 +15,7 @@ final class FillemptydatabaseMigration extends AbstractMigration
   {
     if ($this->isMigratingUp())
     {
-      $builderSelect = $this->getQueryBuilder('select');
-      $statement = $builderSelect->select('*')->from('entities')->execute();
-      $items = $statement->fetchAll('assoc');
+      $items = $this->fetchAll('SELECT * FROM entities');
       if (count($items) > 0)
       {
         return;

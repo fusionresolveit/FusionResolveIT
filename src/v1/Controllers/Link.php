@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -58,10 +60,12 @@ final class Link extends Common
     }
 
     // tri ordre alpha
-    uasort($myAssociatedItemType, function ($a, $b)
-    {
-      return strtolower($a['type']) > strtolower($b['type']);
-    });
+    array_multisort(
+      array_column($myAssociatedItemType, 'type'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myAssociatedItemType
+    );
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));

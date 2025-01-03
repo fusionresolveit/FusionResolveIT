@@ -13,7 +13,6 @@ final class CrontasklogsMigration extends AbstractMigration
 {
   public function change(): void
   {
-    return;
     $configArray = require('phinx.php');
     $environments = array_keys($configArray['environments']);
     if (in_array('old', $environments))

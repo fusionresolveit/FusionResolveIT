@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Taskcategory extends Common
 {
@@ -12,8 +13,6 @@ class Taskcategory extends Common
   protected $icon = 'edit';
 
   protected $appends = [
-    'category',
-    'knowbaseitemcategories',
   ];
 
   protected $visible = [
@@ -26,13 +25,15 @@ class Taskcategory extends Common
     'knowbaseitemcategories:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Taskcategory, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Taskcategory');
+    return $this->belongsTo(\App\Models\Taskcategory::class);
   }
 
+  /** @return BelongsTo<\App\Models\Knowbaseitemcategory, $this> */
   public function knowbaseitemcategories(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Knowbaseitemcategory');
+    return $this->belongsTo(\App\Models\Knowbaseitemcategory::class);
   }
 }

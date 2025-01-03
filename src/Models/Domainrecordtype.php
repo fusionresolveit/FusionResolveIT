@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Domainrecordtype extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Domainrecordtype';
   protected $titles = ['Record type', 'Records types'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'entity',
   ];
 
   protected $visible = [
@@ -25,10 +25,4 @@ class Domainrecordtype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
-
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
 }

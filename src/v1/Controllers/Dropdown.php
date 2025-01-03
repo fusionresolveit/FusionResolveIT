@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 
 final class Dropdown extends Common
 {
@@ -210,7 +210,7 @@ final class Dropdown extends Common
         $completeModelName = '\App\Models\\' . $data->itemtype;
         if (!class_exists($completeModelName))
         {
-          return [];
+          return $this->returnNoSuccess($response);
         }
         $itemCriteria = new $completeModelName();
 
@@ -279,7 +279,7 @@ final class Dropdown extends Common
     $completeModelName = '\App\Models\\' . $data->itemtype;
     if (!class_exists($completeModelName))
     {
-      return [];
+      return $this->returnNoSuccess($response);
     }
     $item = new $completeModelName();
     $definitions = $item->getDefinitions();
@@ -348,7 +348,7 @@ final class Dropdown extends Common
     $completeModelName = '\App\Models\\' . $data->itemtype;
     if (!class_exists($completeModelName))
     {
-      return [];
+      return $this->returnNoSuccess($response);
     }
     $respdata = [];
     $dropData = [];
@@ -373,6 +373,16 @@ final class Dropdown extends Common
     $respdata = [
       "success" => $success,
       "results" => $dropData,
+    ];
+    $response->getBody()->write(json_encode($respdata));
+    return $response->withHeader('Content-Type', 'application/json');
+  }
+
+  private function returnNoSuccess($response)
+  {
+    $respdata = [
+      "success" => false,
+      "results" => [],
     ];
     $response->getBody()->write(json_encode($respdata));
     return $response->withHeader('Content-Type', 'application/json');

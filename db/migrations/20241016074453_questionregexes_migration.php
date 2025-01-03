@@ -50,11 +50,10 @@ final class QuestionregexesMigration extends AbstractMigration
         $data = [];
         foreach ($rows as $row)
         {
-          $builder = $this->getQueryBuilder('update');
-          $builder->update('questions')
-                  ->set('regex', $row['regex'])
-                  ->where(['id' => $row['plugin_formcreator_questions_id']])
-                  ->execute();
+          $this->execute(
+            'UPDATE questions SET regex = ? WHERE id = ?',
+            [$row['regex'], $row['plugin_formcreator_questions_id']]
+          );
         }
       }
     }

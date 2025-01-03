@@ -1,25 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Document extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Documents;
+  use \App\Traits\Relationships\Notes;
 
   protected $definition = '\App\Models\Definitions\Document';
   protected $titles = ['Document', 'Documents'];
   protected $icon = 'file';
 
   protected $appends = [
-    'categorie',
-    'entity',
-    'notes',
   ];
 
   protected $visible = [
@@ -36,32 +35,9 @@ class Document extends Common
     'documents:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Documentcategory, $this> */
   public function categorie(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Documentcategory', 'documentcategory_id');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function notes(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-    );
+    return $this->belongsTo(\App\Models\Documentcategory::class, 'documentcategory_id');
   }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -92,7 +94,7 @@ final class Mailcollector extends Common
 
 
     $folder = $client->getFolderByPath('Tests Fusion Resolve IT'); // INBOX');
-    $messages = $folder->messages()->unseen()->setFetchOrder('desc')->all()->limit($limit = 10, $page = 0)->get();
+    $messages = $folder->messages()->unseen()->setFetchOrder('desc')->limit($limit = 10, $page = 0)->get();
     //                             ->all()->count();
 
 
@@ -211,20 +213,19 @@ final class Mailcollector extends Common
     }
 
     return $information;
-
-    return [
-      [
-        'key'   => 'callbackurl',
-        'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
-                   $basePath . '/view/mailcollectors/' . $item->id . '/oauth/cb',
-        'link'  => null,
-      ],
-      [
-        'key'   => 'loginoauth',
-        'value' => $translator->translate('Go login with oauth'),
-        'link'  => $basePath . '/view/mailcollectors/' . $item->id . '/oauth',
-      ],
-    ];
+    // return [
+    //   [
+    //     'key'   => 'callbackurl',
+    //     'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
+    //                $basePath . '/view/mailcollectors/' . $item->id . '/oauth/cb',
+    //     'link'  => null,
+    //   ],
+    //   [
+    //     'key'   => 'loginoauth',
+    //     'value' => $translator->translate('Go login with oauth'),
+    //     'link'  => $basePath . '/view/mailcollectors/' . $item->id . '/oauth',
+    //   ],
+    // ];
   }
 
   public function doOauth(Request $request, Response $response, $args)

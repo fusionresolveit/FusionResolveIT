@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Documentcategory extends Common
@@ -16,7 +17,6 @@ class Documentcategory extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'category',
   ];
 
   protected $visible = [
@@ -27,8 +27,9 @@ class Documentcategory extends Common
     'category:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Documentcategory, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Documentcategory', 'documentcategory_id');
+    return $this->belongsTo(\App\Models\Documentcategory::class, 'documentcategory_id');
   }
 }

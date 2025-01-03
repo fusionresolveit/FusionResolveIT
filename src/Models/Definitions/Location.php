@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Definitions;
 
 class Location
@@ -203,7 +205,7 @@ class Location
     ];
   }
 
-  public static function getRelatedPages($rootUrl)
+  public static function getRelatedPages($rootUrl): array
   {
     global $translator;
     return [

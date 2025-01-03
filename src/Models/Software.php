@@ -1,16 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Software extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
+  use \App\Traits\Relationships\Documents;
+  use \App\Traits\Relationships\Tickets;
+  use \App\Traits\Relationships\Problems;
+  use \App\Traits\Relationships\Changes;
+  use \App\Traits\Relationships\Infocom;
+  use \App\Traits\Relationships\Contract;
+  use \App\Traits\Relationships\Notes;
+  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Reservations;
 
   protected $table = 'softwares';
   protected $definition = '\App\Models\Definitions\Software';
@@ -18,17 +30,6 @@ class Software extends Common
   protected $icon = 'cube';
 
   protected $appends = [
-    // 'category',
-    // 'manufacturer',
-    // // 'nbinstallation',
-    // 'versions',
-    // 'groupstech',
-    // 'userstech',
-    // 'user',
-    // 'group',
-    // 'location',
-    'entity',
-    'infocom',
   ];
 
   protected $visible = [
@@ -84,60 +85,58 @@ class Software extends Common
     'entity_id'
   ];
 
+  /** @return BelongsTo<\App\Models\Softwarecategory, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Softwarecategory', 'softwarecategory_id');
+    return $this->belongsTo(\App\Models\Softwarecategory::class, 'softwarecategory_id');
   }
 
+  /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Manufacturer');
+    return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 
   // public function nbinstallation(): HasMany
   // {
-  //   return $this->hasMany('\App\Models\Softwareversion')->withCount('devices');
+  //   return $this->hasMany(\App\Models\Softwareversion::class)->withCount('devices');
   // }
 
+  /** @return HasMany<\App\Models\Softwareversion, $this> */
   public function versions(): HasMany
   {
-    return $this->hasMany('\App\Models\Softwareversion');
+    return $this->hasMany(\App\Models\Softwareversion::class);
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function groupstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id_tech');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function userstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_tech');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User');
+    return $this->belongsTo(\App\Models\User::class);
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function group(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group');
+    return $this->belongsTo(\App\Models\Group::class);
   }
 
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return MorphToMany<\App\Models\Domain, $this> */
   public function domains(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Domain',
+      \App\Models\Domain::class,
       'item',
       'domain_item'
     )->withPivot(
@@ -145,103 +144,13 @@ class Software extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Appliance, $this> */
   public function appliances(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Appliance',
+      \App\Models\Appliance::class,
       'item',
       'appliance_item'
-    );
-  }
-
-  public function notes(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
-  }
-
-  public function knowbaseitems(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Knowbaseitem',
-      'item',
-      'knowbaseitem_item'
-    )->withPivot(
-      'knowbaseitem_id',
-    );
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
-  }
-
-  public function contracts(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Contract',
-      'item',
-      'contract_item'
-    )->withPivot(
-      'contract_id',
-    );
-  }
-
-  public function tickets(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Ticket',
-      'item',
-      'item_ticket'
-    )->withPivot(
-      'ticket_id',
-    );
-  }
-
-  public function problems(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Problem',
-      'item',
-      'item_problem'
-    )->withPivot(
-      'problem_id',
-    );
-  }
-
-  public function changes(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Change',
-      'item',
-      'change_item'
-    )->withPivot(
-      'change_id',
-    );
-  }
-
-  public function infocom(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Infocom',
-      'item',
-    );
-  }
-
-  public function reservations(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Reservationitem',
-      'item',
     );
   }
 }

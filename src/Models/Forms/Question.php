@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Forms;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,8 +16,9 @@ class Question extends \App\Models\Common
   protected $icon = 'cubes';
   protected $hasEntityField = false;
 
+  /** @return BelongsToMany<\App\Models\Forms\Section, $this> */
   public function sections(): BelongsToMany
   {
-    return $this->belongsToMany('\App\Models\Forms\Section');
+    return $this->belongsToMany(\App\Models\Forms\Section::class);
   }
 }

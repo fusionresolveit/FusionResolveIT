@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Definitions;
 
 class Fieldblacklist
@@ -76,7 +78,7 @@ class Fieldblacklist
     ];
   }
 
-  public static function getRelatedPages($rootUrl)
+  public static function getRelatedPages($rootUrl): array
   {
     global $translator;
     return [

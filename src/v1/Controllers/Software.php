@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -65,12 +67,7 @@ final class Software extends Common
         $os_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/operatingsystems/', $version->operatingsystem->id);
       }
 
-      $nb_install = 0;
-      $nb_item_version = \App\Models\ItemSoftwareversion::where('softwareversion_id', $version->id)->count();
-      if ($nb_item_version !== null)
-      {
-        $nb_install = $nb_item_version;
-      }
+      $nb_install = \App\Models\ItemSoftwareversion::where('softwareversion_id', $version->id)->count();
 
       $total_install = $total_install + $nb_install;
 
@@ -135,11 +132,7 @@ final class Software extends Common
       $total_number = $total_number + $number;
 
       $affected_items = 0;
-      $nb_item_affected = \App\Models\ItemSoftwarelicence::where('softwarelicense_id', $license->id)->count();
-      if ($nb_item_affected !== null)
-      {
-        $affected_items = $nb_item_affected;
-      }
+      $affected_items = \App\Models\ItemSoftwarelicence::where('softwarelicense_id', $license->id)->count();
 
       $total_affected_items = $total_affected_items + $affected_items;
 
@@ -267,116 +260,113 @@ final class Software extends Common
       }
 
       $items_version = \App\Models\ItemSoftwareversion::where('softwareversion_id', $current_version->id)->get();
-      if ($items_version !== null)
+      foreach ($items_version as $current_item)
       {
-        foreach ($items_version as $current_item)
+        $item3 = new $current_item->item_type();
+        $myItem3 = $item3->find($current_item->item_id);
+        if ($myItem3 !== null)
         {
-          $item3 = new $current_item->item_type();
-          $myItem3 = $item3->find($current_item->item_id);
-          if ($myItem3 !== null)
+          $type_fr = $item3->getTitle();
+          $type = $item3->getTable();
+
+          $version = $current_version->name;
+
+          $version_url = $this->genereRootUrl2Link($rootUrl2, '/softwareversion/', $current_version->id);
+
+          $nom = $myItem3->name;
+
+          $nom_url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
+
+          $serial = $myItem3->serial;
+
+          $otherserial = $myItem3->otherserial;
+
+          $location = '';
+          $location_url = '';
+          if ($myItem3->location !== null)
           {
-            $type_fr = $item3->getTitle();
-            $type = $item3->getTable();
+            $location = $myItem3->location->name;
+            $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $myItem3->location->id);
+          }
 
-            $version = $current_version->name;
+          $status = '';
+          $status_url = '';
+          if ($myItem3->state !== null)
+          {
+            $status = $myItem3->state->name;
+            $status_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $myItem3->state->id);
+          }
 
-            $version_url = $this->genereRootUrl2Link($rootUrl2, '/softwareversion/', $current_version->id);
+          $group = '';
+          $group_url = '';
+          if ($myItem3->group !== null)
+          {
+            $group = $myItem3->group->completename;
+            $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $myItem3->group->id);
+          }
 
-            $nom = $myItem3->name;
+          $user = '';
+          $user_url = '';
+          if ($myItem3->user !== null)
+          {
+            $user = $myItem3->user->completename;
+            $user_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $myItem3->user->id);
+          }
 
-            $nom_url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
-
-            $serial = $myItem3->serial;
-
-            $otherserial = $myItem3->otherserial;
-
-            $location = '';
-            $location_url = '';
-            if ($myItem3->location !== null)
+          $licences = '';
+          $licences_url = '';
+          $licences_serial_type = '';
+          foreach (array_keys($mySoftwareLicense) as $softwarelicenseid)
+          {
+            $items_licences = \App\Models\ItemSoftwarelicence::where([
+              'item_id' => $current_item->item_id,
+              'item_type' => $current_item->item_type,
+              'softwarelicense_id' => $softwarelicenseid
+            ])->get();
+            if (count($items_licences) == 1)
             {
-              $location = $myItem3->location->name;
-              $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $myItem3->location->id);
-            }
+              $licences = $mySoftwareLicense[$softwarelicenseid]['name'];
+              $licences_url = $this->genereRootUrl2Link($rootUrl2, '/softwarelicenses/', $softwarelicenseid);
 
-            $status = '';
-            $status_url = '';
-            if ($myItem3->state !== null)
-            {
-              $status = $myItem3->state->name;
-              $status_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $myItem3->state->id);
-            }
-
-            $group = '';
-            $group_url = '';
-            if ($myItem3->group !== null)
-            {
-              $group = $myItem3->group->completename;
-              $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $myItem3->group->id);
-            }
-
-            $user = '';
-            $user_url = '';
-            if ($myItem3->user !== null)
-            {
-              $user = $myItem3->user->completename;
-              $user_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $myItem3->user->id);
-            }
-
-            $licences = '';
-            $licences_url = '';
-            $licences_serial_type = '';
-            foreach (array_keys($mySoftwareLicense) as $softwarelicenseid)
-            {
-              $items_licences = \App\Models\ItemSoftwarelicence::where([
-                'item_id' => $current_item->item_id,
-                'item_type' => $current_item->item_type,
-                'softwarelicense_id' => $softwarelicenseid
-              ])->get();
-              if (count($items_licences) == 1)
+              if ($mySoftwareLicense[$softwarelicenseid]['serial'] != '')
               {
-                $licences = $mySoftwareLicense[$softwarelicenseid]['name'];
-                $licences_url = $this->genereRootUrl2Link($rootUrl2, '/softwarelicenses/', $softwarelicenseid);
-
-                if ($mySoftwareLicense[$softwarelicenseid]['serial'] != '')
-                {
-                  $licences_serial_type = $licences_serial_type . $mySoftwareLicense[$softwarelicenseid]['serial'];
-                }
-                if ($mySoftwareLicense[$softwarelicenseid]['type'] != '')
-                {
-                  $toadd = ' (' . $mySoftwareLicense[$softwarelicenseid]['type'] . ')';
-                  $licences_serial_type = $licences_serial_type . $toadd;
-                }
-                if ($licences_serial_type != '')
-                {
-                  $licences_serial_type = ' - ' . $licences_serial_type;
-                }
+                $licences_serial_type = $licences_serial_type . $mySoftwareLicense[$softwarelicenseid]['serial'];
+              }
+              if ($mySoftwareLicense[$softwarelicenseid]['type'] != '')
+              {
+                $toadd = ' (' . $mySoftwareLicense[$softwarelicenseid]['type'] . ')';
+                $licences_serial_type = $licences_serial_type . $toadd;
+              }
+              if ($licences_serial_type != '')
+              {
+                $licences_serial_type = ' - ' . $licences_serial_type;
               }
             }
-
-            $date_install = $current_item->date_install;
-
-            $mySoftwareInstall[] = [
-              'version'                 => $version,
-              'version_url'             => $version_url,
-              'type'                    => $type_fr,
-              'nom'                     => $nom,
-              'nom_url'                 => $nom_url,
-              'serial'                  => $serial,
-              'otherserial'             => $otherserial,
-              'location'                => $location,
-              'location_url'            => $location_url,
-              'status'                  => $status,
-              'status_url'              => $status_url,
-              'group'                   => $group,
-              'group_url'               => $group_url,
-              'user'                    => $user,
-              'user_url'                => $user_url,
-              'licences'                => $licences,
-              'licences_url'            => $licences_url,
-              'licences_serial_type'    => $licences_serial_type,
-              'date_install'            => $date_install,
-            ];
           }
+
+          $date_install = $current_item->date_install;
+
+          $mySoftwareInstall[] = [
+            'version'                 => $version,
+            'version_url'             => $version_url,
+            'type'                    => $type_fr,
+            'nom'                     => $nom,
+            'nom_url'                 => $nom_url,
+            'serial'                  => $serial,
+            'otherserial'             => $otherserial,
+            'location'                => $location,
+            'location_url'            => $location_url,
+            'status'                  => $status,
+            'status_url'              => $status_url,
+            'group'                   => $group,
+            'group_url'               => $group_url,
+            'user'                    => $user,
+            'user_url'                => $user_url,
+            'licences'                => $licences,
+            'licences_url'            => $licences_url,
+            'licences_serial_type'    => $licences_serial_type,
+            'date_install'            => $date_install,
+          ];
         }
       }
     }

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Rssfeed extends Common
@@ -16,7 +17,6 @@ class Rssfeed extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'user',
   ];
 
   protected $visible = [
@@ -28,8 +28,9 @@ class Rssfeed extends Common
   ];
 
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User');
+    return $this->belongsTo(\App\Models\User::class);
   }
 }

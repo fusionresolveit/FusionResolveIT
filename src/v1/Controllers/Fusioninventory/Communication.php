@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers\Fusioninventory;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,7 +15,7 @@ final class Communication extends \App\v1\Controllers\Common
     // define default user
     $GLOBALS['user_id'] = 92368;
 
-    $data = gzinflate(substr($request->getBody(), 2));
+    $data = gzinflate(substr($request->getBody()->getContents(), 2));
     if (strstr($data, '<QUERY>INVENTORY</QUERY>'))
     {
       $computer = new Computer();

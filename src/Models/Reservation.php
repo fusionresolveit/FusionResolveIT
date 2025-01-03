@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Common
 {
@@ -14,7 +14,6 @@ class Reservation extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'user',
   ];
 
   protected $visible = [
@@ -25,8 +24,9 @@ class Reservation extends Common
     'user',
   ];
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id');
+    return $this->belongsTo(\App\Models\User::class, 'user_id');
   }
 }

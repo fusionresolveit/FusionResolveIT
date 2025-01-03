@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Definitions;
 
 class Link
@@ -91,10 +93,10 @@ class Link
 
     foreach ($tags as $tag)
     {
-      $ret = $ret . $tag;
-      $ret = $ret . "&nbsp;";
+      $ret .= $tag;
+      $ret .= "&nbsp;";
       $i++;
-      if (($i % 8 == 0) && ($count > 1))
+      if ($i % 8 == 0)
       {
         $ret = $ret . "<br>";
       }
@@ -107,7 +109,7 @@ class Link
     return $ret;
   }
 
-  public static function getRelatedPages($rootUrl)
+  public static function getRelatedPages($rootUrl): array
   {
     global $translator;
     return [

@@ -1,23 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Notification extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
 
   protected $definition = '\App\Models\Definitions\Notification';
   protected $titles = ['Notification', 'Notifications'];
   protected $icon = 'edit';
 
   protected $appends = [
-    'entity',
-    'templates',
   ];
 
   protected $visible = [
@@ -29,13 +28,9 @@ class Notification extends Common
     'entity:id,name,completename',
   ];
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return BelongsToMany<\App\Models\Notificationtemplate, $this> */
   public function templates(): BelongsToMany
   {
-      return $this->belongsToMany('\App\Models\Notificationtemplate')->withPivot('mode');
+      return $this->belongsToMany(\App\Models\Notificationtemplate::class)->withPivot('mode');
   }
 }

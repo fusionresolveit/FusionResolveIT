@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -356,10 +358,12 @@ final class Budget extends Common
     }
 
     // tri par ordre alpha
-    uasort($myBudgetMainType, function ($a, $b)
-    {
-      return strtolower($a['name']) > strtolower($b['name']);
-    });
+    array_multisort(
+      array_column($myBudgetMainType, 'name'),
+      SORT_ASC,
+      SORT_NATURAL | SORT_FLAG_CASE,
+      $myBudgetMainType
+    );
 
     foreach (array_keys($myBudgetMainType) as $type)
     {

@@ -1,30 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cartridgeitem extends Common
 {
   use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
+  use \App\Traits\Relationships\Documents;
+  use \App\Traits\Relationships\Infocom;
+  use \App\Traits\Relationships\Notes;
 
   protected $definition = '\App\Models\Definitions\Cartridgeitem';
   protected $titles = ['Cartridge', 'Cartridges'];
   protected $icon = 'fill drip';
 
   protected $appends = [
-    'type',
-    'manufacturer',
-    'groupstech',
-    'userstech',
-    'location',
-    'entity',
-    'infocom',
   ];
 
   protected $visible = [
@@ -56,76 +54,44 @@ class Cartridgeitem extends Common
   ];
 
 
+  /** @return BelongsTo<\App\Models\Cartridgeitemtype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Cartridgeitemtype', 'cartridgeitemtype_id');
+    return $this->belongsTo(\App\Models\Cartridgeitemtype::class, 'cartridgeitemtype_id');
   }
 
+  /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Manufacturer');
+    return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function groupstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id_tech');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function userstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_tech');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
-  public function notes(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
-  }
-
+  /** @return HasMany<\App\Models\Cartridge, $this> */
   public function cartridges(): HasMany
   {
-    return $this->hasMany('\App\Models\Cartridge', 'cartridgeitem_id');
+    return $this->hasMany(\App\Models\Cartridge::class, 'cartridgeitem_id');
   }
 
+  /** @return BelongsToMany<\App\Models\Printermodel, $this> */
   public function printermodels(): BelongsToMany
   {
     return $this->belongsToMany(
-      '\App\Models\Printermodel',
+      \App\Models\Printermodel::class,
       'cartridgeitem_printermodel',
       'cartridgeitem_id',
       'printermodel_id'
-    );
-  }
-
-  public function infocom(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Infocom',
-      'item',
     );
   }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,8 +22,9 @@ class Itemdisk extends Common
     'filesystem:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Filesystem, $this> */
   public function filesystem(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Filesystem');
+    return $this->belongsTo(\App\Models\Filesystem::class);
   }
 }

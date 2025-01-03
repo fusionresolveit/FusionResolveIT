@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,13 +26,15 @@ class DomainItem extends Common
     'relation',
   ];
 
+  /** @return BelongsTo<\App\Models\Domain, $this> */
   public function domain(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Domain');
+    return $this->belongsTo(\App\Models\Domain::class);
   }
 
+  /** @return BelongsTo<\App\Models\Domainrelation, $this> */
   public function relation(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Domainrelation', 'domainrelation_id');
+    return $this->belongsTo(\App\Models\Domainrelation::class, 'domainrelation_id');
   }
 }

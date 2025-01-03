@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,8 +17,6 @@ class Solution extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'user',
-    'id',
     'statusname',
   ];
 
@@ -34,21 +34,25 @@ class Solution extends Common
   {
     parent::booted();
 
-    static::created(function ($model)
+    static::created(function (\App\Models\Solution $model)
     {
       if ($model->item_type == 'App\Models\Ticket')
       {
+        /** @var \App\Models\Ticket|null */
         $ticket = \App\Models\Ticket::find($model->item_id);
-        $ticket->status = 5;
-        $ticket->save();
+        if (!is_null($ticket))
+        {
+          $ticket->status = 5;
+          $ticket->save();
+        }
       }
     });
   }
 
-  public function getStatusnameAttribute()
+  public function getStatusnameAttribute(): string
   {
     global $translator;
-    switch ($this->status)
+    switch ($this->attributes['status'])
     {
       case 1:
           return $translator->translate('Not subject to approval');
@@ -65,8 +69,9 @@ class Solution extends Common
     return '';
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User');
+    return $this->belongsTo(\App\Models\User::class);
   }
 }

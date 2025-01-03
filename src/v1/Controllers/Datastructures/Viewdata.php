@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers\Datastructures;
 
 class Viewdata
@@ -37,7 +39,7 @@ class Viewdata
     $this->addTranslation('newbutton', $translator->translate('New'));
 
     $session = new \SlimSession\Helper();
-    if ($session->exists('message'))
+    if (isset($session->message))
     {
       $this->message = $session->message;
       $session->delete('message');

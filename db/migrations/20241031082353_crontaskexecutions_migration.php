@@ -78,6 +78,6 @@ final class CrontaskexecutionsMigration extends AbstractMigration
           ->removeColumn('execution_duration')
           ->update();
 
-    $table = $this->table('crontaskexecutionlogs')->drop()->save();
+    $this->table('crontaskexecutionlogs')->drop()->save();
   }
 }

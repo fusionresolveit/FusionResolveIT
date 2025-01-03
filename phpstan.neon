@@ -1,5 +1,11 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
 parameters:
-    level: 0
+    level: 5
     bootstrapFiles:
         - vendor/autoload.php
-
+    checkModelProperties: true
+    squashedMigrationsPath: ['tests/schema']
+    databaseMigrationsPath: ['tests/schema']

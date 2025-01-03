@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Models\Forms;
+declare(strict_types=1);
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+namespace App\Models\Forms;
 
 class Answerquestion extends \App\Models\Common
 {

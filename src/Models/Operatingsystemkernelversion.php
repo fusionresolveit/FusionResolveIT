@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operatingsystemkernelversion extends Common
@@ -16,7 +17,6 @@ class Operatingsystemkernelversion extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'kernel',
   ];
 
   protected $visible = [
@@ -28,8 +28,9 @@ class Operatingsystemkernelversion extends Common
   ];
 
 
+  /** @return BelongsTo<\App\Models\Operatingsystemkernel, $this> */
   public function kernel(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Operatingsystemkernel', 'operatingsystemkernel_id');
+    return $this->belongsTo(\App\Models\Operatingsystemkernel::class, 'operatingsystemkernel_id');
   }
 }

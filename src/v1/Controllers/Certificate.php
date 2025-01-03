@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -111,6 +113,7 @@ final class Certificate extends Common
         {
           if (($args['id'] == $domainitem->item_id) && ('\\' . $domainitem->item_type == $this->model))
           {
+            /** @var \App\Models\Domainrelation|null */
             $domainrelation = \App\Models\Domainrelation::find($domainitem->domainrelation_id);
             if ($domainrelation !== null)
             {

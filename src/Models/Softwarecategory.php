@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +18,6 @@ class Softwarecategory extends Common
   protected $hasEntityField = false;
 
   protected $appends = [
-    'category',
   ];
 
   protected $visible = [
@@ -27,8 +28,9 @@ class Softwarecategory extends Common
     'category:id,name',
   ];
 
+  /** @return BelongsTo<\App\Models\Softwarecategory, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Softwarecategory', 'softwarecategory_id');
+    return $this->belongsTo(\App\Models\Softwarecategory::class, 'softwarecategory_id');
   }
 }

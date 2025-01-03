@@ -1,37 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
 class Computer extends Common
 {
   use PivotEventTrait;
+  use SoftDeletes;
+  use \App\Traits\Relationships\Entity;
+  use \App\Traits\Relationships\Location;
+  use \App\Traits\Relationships\Documents;
+  use \App\Traits\Relationships\Tickets;
+  use \App\Traits\Relationships\Problems;
+  use \App\Traits\Relationships\Changes;
+  use \App\Traits\Relationships\Infocom;
+  use \App\Traits\Relationships\Contract;
+  use \App\Traits\Relationships\Notes;
+  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Reservations;
 
   protected $definition = '\App\Models\Definitions\Computer';
   protected $titles = ['Computer', 'Computers'];
   protected $icon = 'laptop';
 
   protected $appends = [
-    // 'type',
-    // 'model',
-    // 'state',
-    // 'manufacturer',
-    // 'network',
-    // 'groupstech',
-    // 'userstech',
-    // 'user',
-    // 'group',
-    // 'location',
-    // 'autoupdatesystem',
-    'entity',
-    'infocom',
   ];
 
   protected $visible = [
@@ -144,70 +143,77 @@ class Computer extends Common
   }
 
 
+  /** @return BelongsTo<\App\Models\Computertype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Computertype', 'computertype_id');
+    return $this->belongsTo(\App\Models\Computertype::class, 'computertype_id');
   }
 
+  /** @return BelongsTo<\App\Models\Computermodel, $this> */
   public function model(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Computermodel', 'computermodel_id');
+    return $this->belongsTo(\App\Models\Computermodel::class, 'computermodel_id');
   }
 
+  /** @return BelongsTo<\App\Models\State, $this> */
   public function state(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\State');
+    return $this->belongsTo(\App\Models\State::class);
   }
 
+  /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Manufacturer');
+    return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 
+  /** @return BelongsTo<\App\Models\Network, $this> */
   public function network(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Network');
+    return $this->belongsTo(\App\Models\Network::class);
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function groupstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id_tech');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function userstech(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id_tech');
+    return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
+  /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\User', 'user_id');
+    return $this->belongsTo(\App\Models\User::class, 'user_id');
   }
 
+  /** @return BelongsTo<\App\Models\Group, $this> */
   public function group(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Group', 'group_id');
+    return $this->belongsTo(\App\Models\Group::class, 'group_id');
   }
 
-  public function location(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Location');
-  }
-
+  /** @return BelongsTo<\App\Models\Autoupdatesystem, $this> */
   public function autoupdatesystem(): BelongsTo
   {
-    return $this->belongsTo('\App\Models\Autoupdatesystem');
+    return $this->belongsTo(\App\Models\Autoupdatesystem::class);
   }
 
+  /** @return MorphToMany<\App\Models\Softwareversion, $this> */
   public function softwareversions(): MorphToMany
   {
-    return $this->morphToMany('\App\Models\Softwareversion', 'item', 'item_softwareversion');
+    return $this->morphToMany(\App\Models\Softwareversion::class, 'item', 'item_softwareversion');
   }
 
+  /** @return MorphToMany<\App\Models\Operatingsystem, $this> */
   public function operatingsystems(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Operatingsystem',
+      \App\Models\Operatingsystem::class,
       'item',
       'item_operatingsystem'
     )->withPivot(
@@ -226,10 +232,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicememory, $this> */
   public function memories(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicememory',
+      \App\Models\Devicememory::class,
       'item',
       'item_devicememory'
     )->withPivot(
@@ -244,10 +251,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicefirmware, $this> */
   public function firmwares(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicefirmware',
+      \App\Models\Devicefirmware::class,
       'item',
       'item_devicefirmware'
     )->withPivot(
@@ -260,10 +268,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Deviceprocessor, $this> */
   public function processors(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Deviceprocessor',
+      \App\Models\Deviceprocessor::class,
       'item',
       'item_deviceprocessor'
     )->withPivot(
@@ -280,10 +289,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Deviceharddrive, $this> */
   public function harddrives(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Deviceharddrive',
+      \App\Models\Deviceharddrive::class,
       'item',
       'item_deviceharddrive'
     )->withPivot(
@@ -298,10 +308,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicebattery, $this> */
   public function batteries(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicebattery',
+      \App\Models\Devicebattery::class,
       'item',
       'item_devicebattery'
     )->withPivot(
@@ -315,10 +326,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicesoundcard, $this> */
   public function soundcards(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicesoundcard',
+      \App\Models\Devicesoundcard::class,
       'item',
       'item_devicesoundcard'
     )->withPivot(
@@ -332,10 +344,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicecontrol, $this> */
   public function controllers(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicecontrol',
+      \App\Models\Devicecontrol::class,
       'item',
       'item_devicecontrol'
     )->withPivot(
@@ -349,20 +362,23 @@ class Computer extends Common
     );
   }
 
+  /** @return HasMany<\App\Models\Computervirtualmachine, $this> */
   public function virtualization(): HasMany
   {
-    return $this->hasMany('App\Models\Computervirtualmachine');
+    return $this->hasMany(\App\Models\Computervirtualmachine::class);
   }
 
+  /** @return HasMany<\App\Models\Itemdisk, $this> */
   public function volumes(): HasMany
   {
-    return $this->hasMany('App\Models\Itemdisk', 'item_id')->where('item_type', get_class($this));
+    return $this->hasMany(\App\Models\Itemdisk::class, 'item_id')->where('item_type', get_class($this));
   }
 
+  /** @return MorphToMany<\App\Models\Certificate, $this> */
   public function certificates(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Certificate',
+      \App\Models\Certificate::class,
       'item',
       'certificate_item'
     )->withPivot(
@@ -370,20 +386,17 @@ class Computer extends Common
     );
   }
 
+  /** @return HasMany<\App\Models\Computerantivirus, $this> */
   public function antiviruses(): HasMany
   {
-    return $this->hasMany('App\Models\Computerantivirus');
+    return $this->hasMany(\App\Models\Computerantivirus::class);
   }
 
-  public function entity(): BelongsTo
-  {
-    return $this->belongsTo('\App\Models\Entity');
-  }
-
+  /** @return MorphToMany<\App\Models\Domain, $this> */
   public function domains(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Domain',
+      \App\Models\Domain::class,
       'item',
       'domain_item'
     )->withPivot(
@@ -391,94 +404,21 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Appliance, $this> */
   public function appliances(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Appliance',
+      \App\Models\Appliance::class,
       'item',
       'appliance_item'
     );
   }
 
-  public function notes(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Notepad',
-      'item',
-    );
-  }
-
-  public function knowbaseitems(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Knowbaseitem',
-      'item',
-      'knowbaseitem_item'
-    )->withPivot(
-      'knowbaseitem_id',
-    );
-  }
-
-  public function documents(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Document',
-      'item',
-      'document_item'
-    )->withPivot(
-      'document_id',
-      'updated_at',
-    );
-  }
-
-  public function contracts(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Contract',
-      'item',
-      'contract_item'
-    )->withPivot(
-      'contract_id',
-    );
-  }
-
-  public function tickets(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Ticket',
-      'item',
-      'item_ticket'
-    )->withPivot(
-      'ticket_id',
-    );
-  }
-
-  public function problems(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Problem',
-      'item',
-      'item_problem'
-    )->withPivot(
-      'problem_id',
-    );
-  }
-
-  public function changes(): MorphToMany
-  {
-    return $this->morphToMany(
-      '\App\Models\Change',
-      'item',
-      'change_item'
-    )->withPivot(
-      'change_id',
-    );
-  }
-
+  /** @return MorphToMany<\App\Models\Devicepowersupply, $this> */
   public function powersupplies(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicepowersupply',
+      \App\Models\Devicepowersupply::class,
       'item',
       'item_devicepowersupply'
     )->withPivot(
@@ -491,10 +431,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicesensor, $this> */
   public function sensors(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicesensor',
+      \App\Models\Devicesensor::class,
       'item',
       'item_devicesensor'
     )->withPivot(
@@ -507,10 +448,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicepci, $this> */
   public function devicepcis(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicepci',
+      \App\Models\Devicepci::class,
       'item',
       'item_devicepci'
     )->withPivot(
@@ -524,10 +466,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicegeneric, $this> */
   public function devicegenerics(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicegeneric',
+      \App\Models\Devicegeneric::class,
       'item',
       'item_devicegeneric'
     )->withPivot(
@@ -540,10 +483,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicenetworkcard, $this> */
   public function devicenetworkcards(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicenetworkcard',
+      \App\Models\Devicenetworkcard::class,
       'item',
       'item_devicenetworkcard'
     )->withPivot(
@@ -558,10 +502,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicesimcard, $this> */
   public function devicesimcards(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicesimcard',
+      \App\Models\Devicesimcard::class,
       'item',
       'item_devicesimcard'
     )->withPivot(
@@ -578,10 +523,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicemotherboard, $this> */
   public function devicemotherboards(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicemotherboard',
+      \App\Models\Devicemotherboard::class,
       'item',
       'item_devicemotherboard'
     )->withPivot(
@@ -594,10 +540,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicecase, $this> */
   public function devicecases(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicecase',
+      \App\Models\Devicecase::class,
       'item',
       'item_devicecase'
     )->withPivot(
@@ -610,10 +557,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicegraphiccard, $this> */
   public function devicegraphiccards(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicegraphiccard',
+      \App\Models\Devicegraphiccard::class,
       'item',
       'item_devicegraphiccard'
     )->withPivot(
@@ -628,10 +576,11 @@ class Computer extends Common
     );
   }
 
+  /** @return MorphToMany<\App\Models\Devicedrive, $this> */
   public function devicedrives(): MorphToMany
   {
     return $this->morphToMany(
-      '\App\Models\Devicedrive',
+      \App\Models\Devicedrive::class,
       'item',
       'item_devicedrive'
     )->withPivot(
@@ -642,22 +591,6 @@ class Computer extends Common
       'state_id',
       'busID',
       'id',
-    );
-  }
-
-  public function infocom(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Infocom',
-      'item',
-    );
-  }
-
-  public function reservations(): MorphMany
-  {
-    return $this->morphMany(
-      '\App\Models\Reservationitem',
-      'item',
     );
   }
 }
