@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use App\v1\Controllers\Cli\Common;
+use Ahc\Cli\Output\Cursor;
+
+$cursor = new Cursor;
+echo $cursor->clear();
+
+$cliCommon = new Common;
+$cliCommon->displayLogo();
+
+$version = '1.0.0';
+$app = new Ahc\Cli\Application(' FusionResolveIT cli', $version);
+
+$app->add(new \App\v1\Controllers\Cli\Prerequisites);
+$app->add(new \App\v1\Controllers\Cli\Migration);
+$app->add(new \App\v1\Controllers\Cli\Rollback);
+$app->add(new \App\v1\Controllers\Cli\Documentation);
+$app->add(new \App\v1\Controllers\Cli\Reset);
+
+$app->handle($_SERVER['argv']);

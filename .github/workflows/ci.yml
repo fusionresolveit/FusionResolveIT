@@ -50,7 +50,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run PHPStan
-      run: phpstan analyse db src public
+      run: phpstan analyse db src public bin/cli
 
   lint:
 
@@ -82,7 +82,7 @@ jobs:
 
     - name: Run phpcs
       run: |
-        files=$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }} | grep '^\(src\|public\|db\)' || true)
+        files=$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }} | grep '^\(src\|public\|db\|bin/cli\)' || true)
         if [ -n "$files" ]; then
           phpcs -q --report=checkstyle $files | cs2pr
         fi
