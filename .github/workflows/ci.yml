@@ -49,6 +49,9 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Set phinx.php
+      run: cp phinx.php.dist phinx.php
+
     - name: Run PHPStan
       run: phpstan analyse db src public bin/cli
 
@@ -138,11 +141,13 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: intl, mbstring
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v4
@@ -157,6 +162,9 @@ jobs:
       run: |
         yarn install
         yarn run production
+
+    - name: Set phinx.php
+      run: cp phinx.php.dist phinx.php
 
     - name: PHPUnit tests
       run: ./vendor/bin/phpunit --coverage-text
@@ -183,11 +191,16 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: intl, mbstring
+
+    - name: Set phinx.php
+      run: cp phinx.php.dist phinx.php
+
     - name: update databaseconfiguration
       run: |
         sed -i 's/mysql/pgsql/g' phinx.php
