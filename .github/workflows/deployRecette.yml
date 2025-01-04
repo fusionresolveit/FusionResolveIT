@@ -36,7 +36,7 @@ jobs:
 
     - name: Create the packages
       run: |
-        tar cvf fusionresolveit-dev.tar --transform 's+^+fusionresolveit/+' db locales public src tasks vendor crunz.yml LICENSE phinx.php README.md database.lock bin
+        tar cvf fusionresolveit-dev.tar --transform 's+^+fusionresolveit/+' db locales public src tasks vendor crunz.yml LICENSE phinx.php.dist README.md database.lock bin
         gzip -9 fusionresolveit-dev.tar
 
     - name: prepare the deployment
