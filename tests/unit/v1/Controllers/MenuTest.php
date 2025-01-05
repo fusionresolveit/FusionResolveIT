@@ -22,6 +22,7 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Group')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Location')]
+#[UsesClass('\App\Models\Definitions\Menubookmark')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
 #[UsesClass('\App\Models\Definitions\Profile')]
 #[UsesClass('\App\Models\Definitions\ProfileUser')]
@@ -30,6 +31,8 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Usertitle')]
 #[UsesClass('\App\Models\Displaypreference')]
 #[UsesClass('\App\Models\Entity')]
+#[UsesClass('\App\Models\Location')]
+#[UsesClass('\App\Models\Profile')]
 #[UsesClass('\App\Models\User')]
 #[UsesClass('\App\v1\Controllers\Common')]
 #[UsesClass('\App\v1\Controllers\Computer')]
@@ -74,40 +77,16 @@ final class MenuTest extends TestCase
     {
       foreach ($menuItem['sub'] as $subItem)
       {
-        $substring = '<a class="item " href="' . $subItem['link'] . '">';
-        if ($subItem['link'] == '/view/computers')
+        $substring = '<a href="' . $subItem['endpoint'] . '">';
+        if ($subItem['endpoint'] == '/view/computers')
         {
-          $substring = '<a class="item active blue" href="' . $subItem['link'] . '">';
+          $substring = '<a href="' . $subItem['endpoint'] . '">Computers';
         }
         $this->assertStringContainsString(
           $substring,
           $payload,
-          'The menu name `' . $subItem['name'] . '` not have display key ' . $subItem['link']
+          'The menu name `' . $subItem['name'] . '` not have display key ' . $subItem['endpoint']
         );
-      }
-      if (isset($menuItem['dropdown']))
-      {
-        foreach ($menuItem['dropdown'] as $subItem)
-        {
-          $substring = '<a class="item " href="' . $subItem['link'] . '">';
-          $this->assertStringContainsString(
-            $substring,
-            $payload,
-            'The menu dropdown name `' . $subItem['name'] . '` not have display key ' . $subItem['link']
-          );
-        }
-      }
-      if (isset($menuItem['component']))
-      {
-        foreach ($menuItem['component'] as $subItem)
-        {
-          $substring = '<a class="item " href="' . $subItem['link'] . '">';
-          $this->assertStringContainsString(
-            $substring,
-            $payload,
-            'The menu component name `' . $subItem['name'] . '` not have display key ' . $subItem['link']
-          );
-        }
       }
     }
   }
@@ -153,6 +132,6 @@ final class MenuTest extends TestCase
     $this->assertcount(1, $menuCleaned, 'The menu must have an entry');
     $this->assertArrayHasKey('sub', $menuCleaned[0], 'The menu must have sub key');
     $this->assertcount(1, $menuCleaned[0]['sub'], 'The sub menu must have an entry');
-    $this->assertStringEndsWith('/view/computers', $menuCleaned[0]['sub'][0]['link']);
+    $this->assertStringEndsWith('/view/computers', $menuCleaned[0]['sub'][0]['endpoint']);
   }
 }

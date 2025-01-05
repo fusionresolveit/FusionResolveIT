@@ -13,6 +13,7 @@ trait Header
     $this->header->title = 'Fusion Resolve IT - ' . $item->getTitle(1);
     $menu = new \App\v1\Controllers\Menu();
     $this->header->menu = $menu->getMenu($request);
+    $this->header->menubookmark = $menu->getMenubookmark($this->header->menu);
     $this->header->rootpath = \App\v1\Controllers\Toolbox::getRootPath($request);
     $this->header->name = $item->getTitle(1);
     $this->header->id = null;

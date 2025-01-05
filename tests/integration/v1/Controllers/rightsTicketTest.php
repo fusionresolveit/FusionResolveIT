@@ -27,6 +27,7 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitemcategory')]
 #[UsesClass('\App\Models\Definitions\Location')]
+#[UsesClass('\App\Models\Definitions\Menubookmark')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
 #[UsesClass('\App\Models\Definitions\Problem')]
 #[UsesClass('\App\Models\Definitions\Profile')]

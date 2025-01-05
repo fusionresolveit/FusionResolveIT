@@ -155,14 +155,14 @@ class App
     {
       global $basePath;
 
+      $view = Twig::create(__DIR__ . '/v1/Views');
+      $view->addExtension(new WebpackExtension(
+        __DIR__ . '/../public/assets/manifest.json',
+        __DIR__ . '/../public/'
+      ));
+
       if ($exception->getCode() == 401)
       {
-        $view = Twig::create(__DIR__ . '/v1/Views');
-        $view->addExtension(new WebpackExtension(
-          __DIR__ . '/../public/assets/manifest.json',
-          __DIR__ . '/../public/'
-        ));
-
         $response = $app->getResponseFactory()->createResponse()->withStatus($exception->getCode());
         $viewData = [
           'rootpath' => $basePath,
@@ -170,6 +170,11 @@ class App
         ];
 
         return $view->render($response, 'error401.html.twig', $viewData);
+      }
+      elseif ($exception->getCode() == 405)
+      {
+        $response = $app->getResponseFactory()->createResponse()->withStatus(404);
+        return $view->render($response, 'error404.html.twig', []);
       } else {
         echo $exception->getMessage();
         echo "<br>";

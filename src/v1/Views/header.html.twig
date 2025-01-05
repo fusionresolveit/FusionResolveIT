@@ -20,7 +20,7 @@
   
   <div class="ui grid">
     <div class="three wide left attached column">
-      <div class="ui left vertical visible menu" style="border-radius: unset;width: 300px;border-top: unset;">
+      <div class="ui left fixed vertical visible menu" style="border-radius: unset;width: 300px;border-top: unset;">
         <a href="{{ header.rootpath }}/view/home">
           <div class="item" style="display: flex;align-items: end;">
             <span class="ui small image logo">
@@ -38,7 +38,7 @@
             <i class="sign out alternate large icon"></i>
           </a>
         </div>
-        <div class="item">
+        <div class="item" style="padding-top: 0;padding-bottom: 0;">
           <div class="ui internally celled grid">
             <div class="row">
               <div class="three wide column" style="padding: unset;margin-top: 10px;">
@@ -65,77 +65,84 @@
           </div>
         </div>
 
-      {# <div class="item">
-        <div class="ui icon input">
-          <input type="text" placeholder="Search...">
-          <i class="search icon"></i>
-        </div>
-      </div> #}
-      {% for item in header.menu %}
         <div class="item">
-          <div class="header">
-            {{ item.name }}
-            <i class="{{ item.icon }} icon"></i>
-          </div>
+          Bookmarks
           <div class="menu">
-            {% for subitem in item.sub %}
-              <a class="item {{ subitem.class }}" href="{{ subitem.link }}">
-                {{ subitem.name }}
-                <i class="{{ subitem.icon }} icon"></i>
-              </a>
+            {% for item in header.menubookmark %}
+              <div class="item">
+                <div class="header menulink">
+                  {% if item.icon is defined %}
+                    <i class="blue {{ item.icon }} middle aligned icon"></i>
+                  {% elseif item.svgicon is defined %}
+                    <i class="blue {{ item.icon }} middle aligned icon"><img src="{{ header.rootpath }}/assets/svgicons/{{ item.svgicon }}.svg"></i>
+                  {% endif %}
+                  <a href="{{ header.rootpath }}{{ item.endpoint }}">{{ item.name }}</a>
+                  <a href="{{ header.rootpath }}/view/menubookmarks/delete/{{ item.id }}" style="float: right;">
+                    <i class="trash icon"></i>
+                  </a>
+                </div>
+              </div>
             {% endfor %}
-
-            {% if item.more is defined and item.more|length > 0 %}
-              <div class="ui dropdown item">
-                More
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  {% for moreitem in item.more %}
-                    <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
-                      <i class="{{ moreitem.icon }} icon"></i>
-                      {{ moreitem.name }}
-                    </a>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endif %}
-
-            {% if item.dropdown is defined and item.dropdown|length > 0 %}
-              <div class="ui dropdown item">
-                Dropdown
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  {% for moreitem in item.dropdown %}
-                    <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
-                      <i class="{{ moreitem.icon }} icon"></i>
-                      {{ moreitem.name }}
-                    </a>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endif %}
-
-            {% if item.component is defined and item.component|length > 0 %}
-              <div class="ui dropdown item">
-                Component
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  {% for moreitem in item.component %}
-                    <a class="item {{ moreitem.class }}" href="{{ moreitem.link }}">
-                      <i class="{{ moreitem.icon }} icon"></i>
-                      {{ moreitem.name }}
-                    </a>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endif %}
           </div>
         </div>
-      {% endfor %}
+
+        <div class="item">
+          Menu
+          <div class="menu">
+
+            {% for item in header.menu %}
+              <div class="item">
+                <div class="header menulink" style="cursor:pointer" data-menuid="{{ item.id }}">
+                  <i class="{{ item.icon }} icon"></i>
+                  {{ item.name }}
+                  <div class="ui right floated label" style="float: inline-end;">{{ item.sub|length }}</div>
+                </div>
+
+                {% if item.sub|length > 0 %}
+                  <div class="ui extralarge modal" id="menu-{{ item.id }}">
+                    <div class="header">{{ item.name }}</div>
+                    <div class="content">
+                      <div class="ui four column relaxed divided grid">
+                        {% for key in [0, 1, 2, 3] %}
+                        <div class="column">
+                          <h4 class="ui header"></h4>
+                          <div class="ui list">
+                            {% for subitem in item.sub|slice((key * (item.sub|length / 4)|round(0, 'ceil')), (item.sub|length / 4)|round(0, 'ceil')) %}
+                              <div class="item">
+                                {% if subitem.icon is defined %}
+                                  <i class="large blue {{ subitem.icon }} middle aligned icon"></i>
+                                {% elseif subitem.svgicon is defined %}
+                                  <i class="large blue {{ subitem.icon }} middle aligned icon"><img src="{{ header.rootpath }}/assets/svgicons/{{ subitem.svgicon }}.svg"></i>
+                                {% endif %}
+                                <div class="content">
+                                  <div class="header">
+                                    <a href="{{ header.rootpath }}{{ subitem.endpoint }}">{{ subitem.name }}</a>
+                                    <a href="{{ header.rootpath }}/view/menubookmarks{{ subitem.endpoint }}">
+                                    <i class="bookmark outline icon" style="float: right;"></i>
+                                    </a>
+                                  </div>
+                                  {% if subitem.comment is defined %}
+                                    <div class="description" style="color: grey; font-style: italic;">{{ subitem.comment }}</div>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="actions">
+                      <div class="ui cancel button">Close</div>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="twelve wide right attached column">
 
-    {# <!-- <div class="ui resizable scrolling wide long container" style="margin: 40px; margin-left: 300px !important"> -->
-    <div class="overflowing pusher" style="margin: 20px;"> #}
+    <div class="twelve wide right attached column">
     
