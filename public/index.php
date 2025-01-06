@@ -36,7 +36,10 @@ elseif (isset($_SERVER['REQUEST_URI']) && strstr($_SERVER['REQUEST_URI'], '/'))
   }
   $basePath = '/' . implode('/', $paths);
 }
-
+if ($basePath == '/')
+{
+  $basePath = '';
+}
 // Run app
 $app = (new App\App())->get();
 $app->run();
