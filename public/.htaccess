@@ -1,0 +1,13 @@
+## Support routing with apache2
+RewriteEngine On
+
+# Set dynamicly RewriteBase
+# Then web app can be set in path root vhost or in any subdirectory
+RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+RewriteRule ^(.*) - [E=BASE:%1]
+
+# Handle Front Controller...
+# If URI is not a file, manage it with router script
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
