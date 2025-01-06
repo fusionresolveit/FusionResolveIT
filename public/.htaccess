@@ -1,0 +1,8 @@
+## Support routing with apache2
+RewriteEngine On
+
+# Handle Front Controller...
+# If URI is not a file, manage it with router script
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
