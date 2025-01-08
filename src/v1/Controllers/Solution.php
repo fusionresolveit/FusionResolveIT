@@ -50,9 +50,7 @@ final class Solution extends Common
       $ticket->status = 6;
       $ticket->save();
     }
-
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   public function postRefuse(Request $request, Response $response, $args): Response
@@ -70,8 +68,6 @@ final class Solution extends Common
       $ticket->status = 2;
       $ticket->save();
     }
-
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 }

@@ -66,8 +66,7 @@ final class Menubookmark extends Common
         $menu->delete();
       }
     }
-    return $response
-      ->withHeader('Location', $_SERVER['HTTP_REFERER']);
+    return $this->goBack($response);
   }
 
   protected function canRightCreate(): bool

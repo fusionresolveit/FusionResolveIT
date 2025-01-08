@@ -117,8 +117,7 @@ final class Displaypreference extends Common
       }
       $dpref->save();
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   public function deleteColumn(Request $request, Response $response, $args): Response
@@ -128,8 +127,7 @@ final class Displaypreference extends Common
     {
       $dpref->delete();
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   public function viewUpColumn(Request $request, Response $response, $args): Response
@@ -139,8 +137,7 @@ final class Displaypreference extends Common
     {
       $this->upColumn($dpref);
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   public function viewDownColumn(Request $request, Response $response, $args): Response
@@ -150,8 +147,7 @@ final class Displaypreference extends Common
     {
       $this->downColumn($dpref);
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   public function viewCreateUserColumn(Request $request, Response $response, $args): Response
@@ -181,8 +177,7 @@ final class Displaypreference extends Common
         'user_id' => $GLOBALS['user_id'],
       ]);
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   public function viewDeleteUserColumn(Request $request, Response $response, $args): Response
@@ -208,8 +203,7 @@ final class Displaypreference extends Common
     {
       $item->delete();
     }
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    return $this->goBack($response);
   }
 
   private function upColumn(\App\Models\Displaypreference $item)
