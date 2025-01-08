@@ -6894,4 +6894,13 @@ class Common
   {
     return $data;
   }
+
+  /**
+   * Redirect to referer page (previous page)
+   */
+  protected function goBack(Response $response): Response
+  {
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER']);
+  }
 }
