@@ -61,13 +61,7 @@ class Common
   protected function getUrlWithoutQuery(Request $request): string
   {
     $uri = $request->getUri();
-    $query = $uri->getQuery();
-    $url = (string) $uri;
-    if (!empty($query))
-    {
-      $url = str_replace('?' . $query, '', $url);
-    }
-    return $url;
+    return $uri->getPath();
   }
 
   protected function commonGetAll(Request $request, Response $response, $args, $item): Response
