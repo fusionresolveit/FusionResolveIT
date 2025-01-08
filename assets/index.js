@@ -5,6 +5,7 @@ import 'fomantic-ui/dist/semantic.css';
 import './main.css';
 
 import background from './img/background.png';
+import error404 from './img/error404.png';
 import logo from './img/logo.png';
 
 global.jQuery = require('jquery');

@@ -72,6 +72,10 @@ module.exports = {
           from: "assets/img/logo_icon.png",
           to: "logo_icon.png",
         },
+        {
+          from: "assets/img/svgicons",
+          to: "svgicons",
+        },
       ],
     }),
   ],

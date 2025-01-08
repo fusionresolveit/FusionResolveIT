@@ -35,6 +35,7 @@ trait HttpTestTrait
     {
       $h->addHeader($name, $value);
     }
+    $h->addHeader('Referer', 'http://localhost/FusionResolveIT/view/home');
     return new SlimRequest($method, $uri, $h, $cookies, $serverParams, $stream);
   }
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block js %}
+  {% webpack_entry_js 'vendor' %}
+{% endblock %}
+
+{% block css %}
+  {% webpack_entry_css 'vendor' %}
+{% endblock %}
+
+  <title>{{ title }}</title>
+</head>
+<body class="error404">
+</body>
+</html>

@@ -123,7 +123,13 @@
       $('#headerChangeEntity').hide();
       $('#headerEntityForm').show();
     });
-  </script>
+
+    $('.menulink').click(function () {
+      $('#menu-' + this.attributes['data-menuid'].value)
+        .modal('show');
+    });
+
+</script>
 </body>
 </html>
 

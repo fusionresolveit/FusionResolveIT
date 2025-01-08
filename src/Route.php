@@ -3291,6 +3291,12 @@ final class Route
           });
         });
       });
+
+      $view->group('/menubookmarks', function (RouteCollectorProxy $menu)
+      {
+        $menu->map(['GET'], '{endpoint:[a-zA-Z/]+}', \App\v1\Controllers\Menubookmark::class . ':newItem');
+        $menu->map(['GET'], '/delete/{id:[0-9]+}', \App\v1\Controllers\Menubookmark::class . ':deleteItem');
+      });
     });
   }
 }
