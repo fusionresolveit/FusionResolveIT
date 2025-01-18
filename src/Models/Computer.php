@@ -206,7 +206,11 @@ class Computer extends Common
   /** @return MorphToMany<\App\Models\Softwareversion, $this> */
   public function softwareversions(): MorphToMany
   {
-    return $this->morphToMany(\App\Models\Softwareversion::class, 'item', 'item_softwareversion');
+    return $this->morphToMany(
+      \App\Models\Softwareversion::class,
+      'item',
+      'item_softwareversion'
+    )->withPivot('date_install');
   }
 
   /** @return MorphToMany<\App\Models\Operatingsystem, $this> */

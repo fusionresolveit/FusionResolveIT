@@ -106,6 +106,20 @@ class Deviceprocessor
         'name'  => 'created_at',
         'readonly'  => 'readonly',
       ],
+      [
+        'id'    => 1001,
+        'title' => $translator->translate('CPU ID'),
+        'type'  => 'input',
+        'name'  => 'cpuid',
+        'fillable' => true,
+      ],
+      [
+        'id'    => 1002,
+        'title' => $translator->translate('Stepping'),
+        'type'  => 'input',
+        'name'  => 'stepping',
+        'fillable' => true,
+      ],
     ];
   }
 

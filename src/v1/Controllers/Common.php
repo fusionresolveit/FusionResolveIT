@@ -1481,6 +1481,11 @@ class Common
       {
         $version = $osv->name;
       }
+      $lts = false;
+      if ($osv !== null)
+      {
+        $lts = $osv->is_lts;
+      }
       $servicepack = '';
       if ($ossp !== null)
       {
@@ -1552,6 +1557,7 @@ class Common
         'wincompany'        => $wincompany,
         'oscomment'         => $oscomment,
         'hostid'            => $hostid,
+        'lts'               => $lts,
       ];
     }
 
@@ -1590,6 +1596,7 @@ class Common
           'id'    => $operatingsystem['edition_id'],
           'name'  => $operatingsystem['edition'],
         ],
+        'lts'             => $operatingsystem['lts'],
         'licenseid'       => $operatingsystem['licenseid'],
         'licensenumber'   => $operatingsystem['licensenumber'],
       ];

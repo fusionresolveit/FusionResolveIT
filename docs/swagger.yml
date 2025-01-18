@@ -36,3 +36,998 @@ paths:
           description: OK
       security:
         - cookieauth: []
+  /api/v1/fusioninventory:
+    post:
+      requestBody:
+        description: Import computer from FusionInventory inventory
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: object
+              properties:
+                CONTENT:
+                  type: object
+                  properties:
+                    BIOS:
+                      type: object
+                      properties:
+                        SMODEL:
+                          type: string
+                        SMANUFACTURER:
+                          type: string
+                        SSN:
+                          type: string
+                        BDATE:
+                          type: string
+                        BVERSION:
+                          type: string
+                        BMANUFACTURER:
+                          type: string
+                        BIOSSERIAL:
+                          type: string
+                        MMANUFACTURER:
+                          type: string
+                        MSN:
+                          type: string
+                        MMODEL:
+                          type: string
+                        ASSETTAG:
+                          type: string
+                        ENCLOSURESERIAL:
+                          type: string
+                        TYPE:
+                          type: string
+                        SKUNUMBER:
+                    HARDWARE:
+                      type: object
+                      properties:
+                        USERID:
+                          type: string
+                        OSVERSION:
+                          type: string
+                        OSCOMMENTS:
+                          type: string
+                        OSNAME:
+                          type: string
+                        CHECKSUM:
+                          type: string
+                        PROCESSORT:
+                          type: string
+                        PROCESSORN:
+                          type: string
+                        PROCESSORS:
+                          type: string
+                        NAME:
+                          type: string
+                        SWAP:
+                          type: string
+                        MEMORY:
+                          type: string
+                        ETIME:
+                          type: string
+                        TYPE:
+                          type: string
+                        CHASSIS_TYPE:
+                          type: string
+                        IPADDR:
+                          type: string
+                        WORKGROUP:
+                          type: string
+                        DESCRIPTION:
+                          type: string
+                        UUID:
+                          type: string
+                        DNS:
+                          type: string
+                        LASTLOGGEDUSER:
+                          type: string
+                        USERDOMAIN:
+                          type: string
+                        DATELASTLOGGEDUSER:
+                          type: string
+                        DEFAULTGATEWAY:
+                          type: string
+                        VMSYSTEM:
+                          type: string
+                        VMNAME:
+                          type: string
+                        WINOWNER:
+                          type: string
+                        WINPRODID:
+                          type: string
+                        WINPRODKEY:
+                          type: string
+                        WINCOMPANY:
+                          type: string
+                        WINLANG:
+                          type: string
+                        VMHOSTSERIAL:
+                          type: string
+                        ARCHNAME:
+                          type: string
+                    OPERATINGSYSTEM:
+                      type: object
+                      properties:
+                        KERNEL_NAME:
+                          type: string
+                        KERNEL_VERSION:
+                          type: string
+                        NAME:
+                          type: string
+                        FULL_NAME:
+                          type: string
+                        VERSION:
+                          type: string
+                        SERVICE_PACK:
+                          type: string
+                        INSTALL_DATE:
+                          type: string
+                        FQDN:
+                          type: string
+                        DNS_DOMAIN:
+                          type: string
+                        HOSTID:
+                          type: string
+                        SSH_KEY:
+                          type: string
+                        ARCH:
+                          type: string
+                        BOOT_TIME:
+                          type: string
+                        TIMEZONE:
+                          type: object
+                          properties:
+                            NAME:
+                              type: string
+                            OFFSET:
+                              type: string
+                    ACCESSLOG:
+                      type: object
+                      properties:
+                        USERID:
+                          type: string
+                        LOGDATE:
+                          type: string
+                    ANTIVIRUS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          COMPANY:
+                            type: string
+                          NAME:
+                            type: string
+                          GUID:
+                            type: string
+                          ENABLED:
+                            type: string
+                          UPTODATE:
+                            type: string
+                          VERSION:
+                            type: string
+                          EXPIRATION:
+                            type: string
+                          BASE_CREATION:
+                            type: string
+                          BASE_VERSION:
+                            type: string
+                    BATTERIES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CHEMISTRY:
+                            type: string
+                          DATE:
+                            type: string
+                          NAME:
+                            type: string
+                          SERIAL:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          CAPACITY:
+                            type: string
+                          REAL_CAPACITY:
+                            type: string
+                          VOLTAGE:
+                            type: string
+                    CONTROLLERS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          DRIVER:
+                            type: string
+                          NAME:
+                            type: string
+                          CAPTION:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          MODEL:
+                            type: string
+                          SERIAL:
+                            type: string
+                          PCICLASS:
+                            type: string
+                          VENDORID:
+                            type: string
+                          PRODUCTID:
+                            type: string
+                          PCISUBSYSTEMID:
+                            type: string
+                          PCISLOT:
+                            type: string
+                          TYPE:
+                            type: string
+                          REV:
+                            type: string
+                    CPUS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CACHE:
+                            type: string
+                          CORE:
+                            type: string
+                          CORECOUNT:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          NAME:
+                            type: string
+                          THREAD:
+                            type: string
+                          SERIAL:
+                            type: string
+                          STEPPING:
+                            type: string
+                          FAMILYNAME:
+                            type: string
+                          FAMILYNUMBER:
+                            type: string
+                          MODEL:
+                            type: string
+                          SPEED:
+                            type: string
+                          ID:
+                            type: string
+                          EXTERNAL_CLOCK:
+                            type: string
+                          ARCH:
+                            type: string
+                    DRIVES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CREATEDATE:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          FREE:
+                            type: string
+                          TOTAL:
+                            type: string
+                          FILESYSTEM:
+                            type: string
+                          LABEL:
+                            type: string
+                          VOLUMN:
+                            type: string
+                          LETTER:
+                            type: string
+                          SERIAL:
+                            type: string
+                          SYSTEMDRIVE:
+                            type: string
+                          TYPE:
+                            type: string
+                          ENCRYPT_NAME:
+                            type: string
+                          ENCRYPT_ALGO:
+                            type: string
+                          ENCRYPT_STATUS:
+                            type: string
+                          ENCRYPT_TYPE:
+                            type: string
+                    ENVS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          KEY:
+                            type: string
+                          VAL:
+                            type: string
+                    FIREWALL:
+                      type: object
+                      properties:
+                        DESCRIPTION:
+                          type: string
+                        IPADDRESS:
+                          type: string
+                        IPADDRESS6:
+                          type: string
+                        PROFILE:
+                          type: string
+                        STATUS:
+                          type: string
+                    INPUTS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          CAPTION:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          INTERFACE:
+                            type: string
+                          LAYOUT:
+                            type: string
+                          POINTINGTYPE:
+                            type: string
+                          TYPE:
+                            type: string
+                    LICENSEINFOS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          FULLNAME:
+                            type: string
+                          KEY:
+                            type: string
+                          COMPONENTS:
+                            type: string
+                          TRIAL:
+                            type: string
+                          UPDATE:
+                            type: string
+                          OEM:
+                            type: string
+                          ACTIVATION_DATE:
+                            type: string
+                          PRODUCTID:
+                            type: string
+                    LOCAL_GROUPS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          ID:
+                            type: string
+                          MEMBER:
+                            type: string
+                    LOCAL_USERS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          LOGIN:
+                            type: string
+                          NAME:
+                            type: string
+                          ID:
+                            type: string
+                          HOME:
+                            type: string
+                          SHELL:
+                            type: string
+                    LOGICAL_VOLUMES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          LV_NAME:
+                            type: string
+                          LV_UUID:
+                            type: string
+                          ATTR:
+                            type: string
+                          SIZE:
+                            type: string
+                          SEG_COUNT:
+                            type: string
+                          VG_NAME:
+                            type: string
+                          VG_UUID:
+                            type: string
+                    MEMORIES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CAPACITY:
+                            type: string
+                          CAPTION:
+                            type: string
+                          FORMFACTOR:
+                            type: string
+                          REMOVABLE:
+                            type: string
+                          PURPOSE:
+                            type: string
+                          SPEED:
+                            type: string
+                          SERIALNUMBER:
+                            type: string
+                          MODEL:
+                            type: string
+                          TYPE:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          NUMSLOTS:
+                            type: string
+                          MEMORYCORRECTION:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                    MODEMS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          TYPE:
+                            type: string
+                          MODEL:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          SERIAL:
+                            type: string
+                          IMEI:
+                            type: string
+                    FIRMWARES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          TYPE:
+                            type: string
+                          VERSION:
+                            type: string
+                          DATE:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                    MONITORS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          BASE64:
+                            type: string
+                          CAPTION:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          SERIAL:
+                            type: string
+                          ALTSERIAL:
+                            type: string
+                          PORT:
+                            type: string
+                          UUENCODE:
+                            type: string
+                          NAME:
+                            type: string
+                          TYPE:
+                            type: string
+                    NETWORKS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          DESCRIPTION:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          MODEL:
+                            type: string
+                          MANAGEMENT:
+                            type: string
+                          TYPE:
+                            type: string
+                          VIRTUALDEV:
+                            type: string
+                          MACADDR:
+                            type: string
+                          WWN:
+                            type: string
+                          DRIVER:
+                            type: string
+                          FIRMWARE:
+                            type: string
+                          PCISLOT:
+                            type: string
+                          PCIID:
+                            type: string
+                          PNPDEVICEID:
+                            type: string
+                          MTU:
+                            type: string
+                          SPEED:
+                            type: string
+                          STATUS:
+                            type: string
+                          SLAVES:
+                            type: string
+                          BASE:
+                            type: string
+                          IPADDRESS:
+                            type: string
+                          IPSUBNET:
+                            type: string
+                          IPMASK:
+                            type: string
+                          IPDHCP:
+                            type: string
+                          IPGATEWAY:
+                            type: string
+                          IPADDRESS6:
+                            type: string
+                          IPSUBNET6:
+                            type: string
+                          IPMASK6:
+                            type: string
+                          WIFI_SSID:
+                            type: string
+                          WIFI_BSSID:
+                            type: string
+                          WIFI_MODE:
+                            type: string
+                          WIFI_VERSION:
+                            type: string
+                    PHYSICAL_VOLUMES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          PV_UUID:
+                            type: string
+                          DEVICE:
+                            type: string
+                          PV_PE_COUNT:
+                            type: string
+                          FORMAT:
+                            type: string
+                          ATTR:
+                            type: string
+                          SIZE:
+                            type: string
+                          FREE:
+                            type: string
+                          PE_SIZE:
+                            type: string
+                          VG_UUID:
+                            type: string
+                    PORTS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CAPTION:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          NAME:
+                            type: string
+                          TYPE:
+                            type: string
+                    PRINTERS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          COMMENT:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          DRIVER:
+                            type: string
+                          NAME:
+                            type: string
+                          NETWORK:
+                            type: string
+                          PORT:
+                            type: string
+                          RESOLUTION:
+                            type: string
+                          SHARED:
+                            type: string
+                          STATUS:
+                            type: string
+                          ERRSTATUS:
+                            type: string
+                          SERVERNAME:
+                            type: string
+                          SHARENAME:
+                            type: string
+                          PRINTPROCESSOR:
+                            type: string
+                          SERIAL:
+                            type: string
+                    PROCESSES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          USER:
+                            type: string
+                          PID:
+                            type: string
+                          CPUUSAGE:
+                            type: string
+                          MEM:
+                            type: string
+                          VIRTUALMEMORY:
+                            type: string
+                          TTY:
+                            type: string
+                          STARTED:
+                            type: string
+                          CMD:
+                            type: string
+                    REGISTRY:
+                      type: object
+                      properties:
+                        NAME:
+                          type: string
+                        REGVALUE:
+                          type: string
+                        HIVE:
+                          type: string
+                    RUDDER:
+                      type: object
+                      properties:
+                        AGENT:
+                          type: string
+                        UUID:
+                          type: string
+                        HOSTNAME:
+                          type: string
+                        SERVER_ROLES:
+                          type: string
+                        AGENT_CAPABILITIES:
+                          type: string
+                    SLOTS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          DESCRIPTION:
+                            type: string
+                          DESIGNATION:
+                            type: string
+                          NAME:
+                            type: string
+                          STATUS:
+                            type: string
+                    SOFTWARES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          COMMENTS:
+                            type: string
+                          FILESIZE:
+                            type: string
+                          FOLDER:
+                            type: string
+                          FROM:
+                            type: string
+                          HELPLINK:
+                            type: string
+                          INSTALLDATE:
+                            type: string
+                          NAME:
+                            type: string
+                          NO_REMOVE:
+                            type: string
+                          RELEASE_TYPE:
+                            type: string
+                          PUBLISHER:
+                            type: string
+                          UNINSTALL_STRING:
+                            type: string
+                          URL_INFO_ABOUT:
+                            type: string
+                          VERSION:
+                            type: string
+                          VERSION_MINOR:
+                            type: string
+                          VERSION_MAJOR:
+                            type: string
+                          GUID:
+                            type: string
+                          ARCH:
+                            type: string
+                          USERNAME:
+                            type: string
+                          USERID:
+                            type: string
+                          SYSTEM_CATEGORY:
+                            type: string
+                    SOUNDS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CAPTION:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          NAME:
+                            type: string
+                    STORAGES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          DESCRIPTION:
+                            type: string
+                          DISKSIZE:
+                            type: string
+                          INTERFACE:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          MODEL:
+                            type: string
+                          TYPE:
+                            type: string
+                          SERIAL:
+                            type: string
+                          SERIALNUMBER:
+                            type: string
+                          FIRMWARE:
+                            type: string
+                          SCSI_COID:
+                            type: string
+                          SCSI_CHID:
+                            type: string
+                          SCSI_UNID:
+                            type: string
+                          SCSI_LUN:
+                            type: string
+                          WWN:
+                            type: string
+                          ENCRYPT_NAME:
+                            type: string
+                          ENCRYPT_ALGO:
+                            type: string
+                          ENCRYPT_STATUS:
+                            type: string
+                          ENCRYPT_TYPE:
+                            type: string
+                    VIDEOS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          CHIPSET:
+                            type: string
+                          MEMORY:
+                            type: string
+                          NAME:
+                            type: string
+                          RESOLUTION:
+                            type: string
+                          PCISLOT:
+                            type: string
+                    USBDEVICES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          VENDORID:
+                            type: string
+                          PRODUCTID:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          CAPTION:
+                            type: string
+                          SERIAL:
+                            type: string
+                          CLASS:
+                            type: string
+                          SUBCLASS:
+                            type: string
+                          NAME:
+                            type: string
+                    USERS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          LOGIN:
+                            type: string
+                          DOMAIN:
+                            type: string
+                    VIRTUALMACHINES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          UUID:
+                            type: string
+                          STATUS:
+                            type: string
+                          SUBSYSTEM:
+                            type: string
+                          VMTYPE:
+                            type: string
+                          MEMORY:
+                            type: string
+                          VCPU:
+                            type: string
+                          VMID:
+                            type: string
+                          MAC:
+                            type: string
+                          COMMENT:
+                            type: string
+                          OWNER:
+                            type: string
+                          SERIAL:
+                            type: string
+                          IMAGE:
+                            type: string
+                    VOLUME_GROUPS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          VG_NAME:
+                            type: string
+                          VG_UUID:
+                            type: string
+                          PV_COUNT:
+                            type: string
+                          LV_COUNT:
+                            type: string
+                          ATTR:
+                            type: string
+                          SIZE:
+                            type: string
+                          FREE:
+                            type: string
+                          VG_EXTENT_SIZE:
+                            type: string
+                    REMOTE_MGMT:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          ID:
+                            type: string
+                          TYPE:
+                            type: string
+                    SIMCARDS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          IMSI:
+                            type: string
+                          PHONE_NUMBER:
+                            type: string
+                          ICCID:
+                            type: string
+                          STATE:
+                            type: string
+                          COUNTRY:
+                            type: string
+                          OPERATOR_CODE:
+                            type: string
+                          OPERATOR_NAME:
+                            type: string
+                    SENSORS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          VERSION:
+                            type: string
+                          TYPE:
+                            type: string
+                    POWERSUPPLIES:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          NAME:
+                            type: string
+                          POWER_MAX:
+                            type: string
+                          SERIALNUMBER:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          PARTNUM:
+                            type: string
+                          MODEL:
+                            type: string
+                          HOTREPLACEABLE:
+                            type: string
+                          PLUGGED:
+                            type: string
+                          STATUS:
+                            type: string
+                          LOCATION:
+                            type: string
+                    CAMERAS:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          RESOLUTION:
+                            type: string
+                          LENSFACING:
+                            type: string
+                          FLASHUNIT:
+                            type: string
+                          IMAGEFORMATS:
+                            type: string
+                          ORIENTATION:
+                            type: string
+                          FOCALLENGHT:
+                            type: string
+                          SENSORSIZE:
+                            type: string
+                          MANUFACTURER:
+                            type: string
+                          RESOLUTIONVIDEO:
+                            type: string
+                          MODEL:
+                            type: string
+                          SUPPORTS:
+                            type: string
+                DEVICEID:
+                  type: string
+                QUERY:
+                  type: string
+              xml:
+                name: "REQUEST"                              
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad data or bad data format

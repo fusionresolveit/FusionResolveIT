@@ -14,4 +14,8 @@ class Operatingsystemversion extends Common
   protected $titles = ['Version of the operating system', 'Versions of the operating systems'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  protected $casts = [
+    'is_lts' => 'boolean',
+  ];
 }

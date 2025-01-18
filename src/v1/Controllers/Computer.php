@@ -163,6 +163,28 @@ final class Computer extends Common
     foreach ($myItem->operatingsystems as $os)
     {
       $operatingsystem = $os->name;
+      $lts = '';
+      if ($os->getRelationValue('pivot')->operatingsystemversion_id > 0)
+      {
+        $version = \App\Models\Operatingsystemversion::find($os->getRelationValue('pivot')->operatingsystemversion_id);
+        if (!is_null($version))
+        {
+          $operatingsystem .= ' ' . $version->name;
+          if ($version->is_lts)
+          {
+            $lts = ' - LTS (Long-Term Support)';
+          }
+        }
+      }
+      if ($os->getRelationValue('pivot')->operatingsystemedition_id > 0)
+      {
+        $edition = \App\Models\Operatingsystemedition::find($os->getRelationValue('pivot')->operatingsystemedition_id);
+        if (!is_null($edition))
+        {
+          $operatingsystem .= ' ' . $edition->name;
+        }
+      }
+      $operatingsystem .= $lts;
     }
     $tabInfos[] = [
       'key'   => 'operatingsystem',
@@ -178,11 +200,28 @@ final class Computer extends Common
         $memoryTotalSize = $memoryTotalSize + $memory->getRelationValue('pivot')->size;
       }
     }
-    $tabInfos[] = [
-      'key'   => 'memorytotalzize',
-      'value' => $translator->translate('Mémoire totale (Mio)') . ' : ' . $memoryTotalSize,
-      'link'  => $basePath . '/view/computers/' . $item->id . '/components',
-    ];
+    if ($memoryTotalSize >= 1048576)
+    {
+      $tabInfos[] = [
+        'key'   => 'memorytotalsize',
+        'value' => $translator->translate('Total memory') . ' : ' . ceil($memoryTotalSize / 1048576) . ' Tio',
+        'link'  => $basePath . '/view/computers/' . $item->id . '/components',
+      ];
+    }
+    elseif ($memoryTotalSize >= 1024)
+    {
+      $tabInfos[] = [
+        'key'   => 'memorytotalsize',
+        'value' => $translator->translate('Total memory') . ' : ' . ceil($memoryTotalSize / 1024) . ' Gio',
+        'link'  => $basePath . '/view/computers/' . $item->id . '/components',
+      ];
+    } else {
+      $tabInfos[] = [
+        'key'   => 'memorytotalsize',
+        'value' => $translator->translate('Total memory') . ' : ' . $memoryTotalSize . ' Mio',
+        'link'  => $basePath . '/view/computers/' . $item->id . '/components',
+      ];
+    }
 
     foreach ($myItem->processors as $processor)
     {

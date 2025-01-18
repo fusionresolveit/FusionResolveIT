@@ -226,6 +226,13 @@ class Computer
         'itemtype' => '\App\Models\Operatingsystemedition',
       ],
       [
+        'id'    => 9,
+        'title' => $translator->translate('Long-Term Support (LTS)'),
+        'type'  => 'boolean',
+        'name'  => 'lts',
+        'readonly'  => 'readonly',
+      ],
+      [
         'id'    => 7,
         'title' => $translator->translate('Product ID'),
         'type'  => 'input',

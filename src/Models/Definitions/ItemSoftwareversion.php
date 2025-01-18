@@ -17,6 +17,14 @@ class ItemSoftwareversion
         'name'    => 'id',
         'display' => false,
       ],
+      [
+        'id'      => 1001,
+        'title'   => $translator->translate('Installation date'),
+        'type'    => 'input',
+        'name'    => 'date_install',
+        'display' => false,
+        'fillable' => true,
+      ],
     ];
   }
 
