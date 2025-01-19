@@ -15,6 +15,29 @@ components:
       in: cookie
       name: token
 paths:
+  /view/login:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+              required:
+                - login
+                - password 
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: 'Unauthorized'
+
+
   /view/dropdown/rule/criteria:
     get:
       description: ''

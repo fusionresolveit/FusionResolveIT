@@ -65,8 +65,7 @@ final class Login extends Common
       {
         throw new \Exception('Login or password error', 401);
       }
-      $this->authOkAndRedirect($user);
-      exit;
+      return $this->authOkAndRedirect($user, $response);
     } else {
       // Search in LDAP
       $users = \App\Models\User::
@@ -79,8 +78,7 @@ final class Login extends Common
         $authRet = \App\v1\Controllers\Authldap::tryAuth($user->auth_id, $user->user_dn, $data->password);
         if ($authRet)
         {
-          $this->authOkAndRedirect($user);
-          exit;
+          return $this->authOkAndRedirect($user, $response);
         }
       }
     }
@@ -99,14 +97,13 @@ final class Login extends Common
         $user->auth_id = $ldap->id;
         $user->user_dn = $foundDN;
         $user->save();
-        $this->authOkAndRedirect($user);
-        exit;
+        return $this->authOkAndRedirect($user, $response);
       }
     }
     throw new \Exception('Login or password error', 401);
   }
 
-  private function authOkAndRedirect($user)
+  private function authOkAndRedirect($user, Response $response)
   {
     global $basePath;
 
@@ -126,8 +123,8 @@ final class Login extends Common
     setcookie('token', $jwt['token'], 0, $basePath . '/view');
     //, $cookie_lifetime, $cookie_path, $cookie_domain, $cookie_secure, true);
 
-    header('Location: ' . $basePath . '/view/home');
-    exit();
+    return $response
+      ->withHeader('Location', $basePath . '/view/home');
   }
 
   public function doSSO(Request $request, Response $response, $args)
@@ -153,7 +150,7 @@ final class Login extends Common
 
     $user = \App\Models\User::firstOrCreate(['name' => $ssoUser->email]);
 
-    $this->authOkAndRedirect($user);
+    $this->authOkAndRedirect($user, $response);
   }
 
   private function prepareSSOService($request, $args)
