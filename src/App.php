@@ -14,6 +14,12 @@ use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use Fullpipe\TwigWebpackExtension\WebpackExtension;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use JimTools\JwtAuth\Middleware\JwtAuthentication;
+use JimTools\JwtAuth\Options;
+use JimTools\JwtAuth\Rules\RequestMethodRule;
+use JimTools\JwtAuth\Rules\RequestPathRule;
+use JimTools\JwtAuth\Secret;
+use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 
 class App
 {
@@ -94,43 +100,13 @@ class App
       }
     }
 
-    $app->add(new \Tuupola\Middleware\JwtAuthentication([
-      "ignore" => $ignoreList,
-      "secure" => false,
-      "secret" => $secret,
-      "before" => function ($request, $arguments)
-      {
-        /** @var \App\Models\User|null */
-        $myUser = \App\Models\User::find($arguments['decoded']['user_id']);
-        // $jwtid = $myUser->getPropertyAttribute('userjwtid');
-        // if (is_null($jwtid) || $jwtid != $arguments['decoded']['jti'])
-        // {
-        //   throw new Exception('jti changed, ask for a new token ' . $myUser['jwtid'] . ' != ' .
-        //                       $arguments['decoded']['jti'], 401);
-        // }
-        $GLOBALS['user_id'] = $arguments['decoded']['user_id'];
-        $GLOBALS['username'] = $myUser->completename;
-        $GLOBALS['profile_id'] = $arguments['decoded']['profile_id'];
-        $GLOBALS['entity_id'] = $arguments['decoded']['entity_id'];
-        $GLOBALS['entity_treepath'] = $arguments['decoded']['entity_treepath'];
-        $GLOBALS['entity_recursive'] = $arguments['decoded']['entity_recursive'];
-      },
-      "error" => function ($response, $arguments)
-      {
-        global $basePath, $phpunit;
-
-        $GLOBALS['user_id'] = null;
-        // for web, redirect to login page
-        if (!$phpunit)
-        {
-          header('Location: ' . $basePath . '/view/login');
-          exit();
-        }
-
-        // for API
-        throw new \Exception($arguments["message"], 401);
-      }
-    ]));
+    $app->add(
+      new JwtAuthentication(
+        new Options(before: new JwtBeforeHandler(), isSecure: false),
+        new FirebaseDecoder(new Secret(sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL), 'HS256')),
+        [new RequestMethodRule(), new RequestPathRule(ignore: $ignoreList)],
+      )
+    );
 
     // Init session
     $app->add(
@@ -153,13 +129,37 @@ class App
       bool $logErrorDetails
     ) use ($app)
     {
-      global $basePath;
+      global $basePath, $phpunit;
 
       $view = Twig::create(__DIR__ . '/v1/Views');
       $view->addExtension(new WebpackExtension(
         __DIR__ . '/../public/assets/manifest.json',
         __DIR__ . '/../public/'
       ));
+
+      // Manage JWT token
+      if (get_class($exception) == 'JimTools\JwtAuth\Exceptions\AuthorizationException')
+      {
+        $GLOBALS['user_id'] = null;
+        // for web, redirect to login page
+
+        $uri = $request->getUri();
+
+        if (!$phpunit && !str_starts_with($uri->getPath(), $basePath . '/api'))
+        {
+          header('Location: ' . $basePath . '/view/login');
+          exit();
+        }
+
+        // for API
+        $error = [
+          "status"  => "error",
+          "message" => "Token error"
+        ];
+        $response = $app->getResponseFactory()->createResponse();
+        $response->getBody()->write(json_encode($error));
+        return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
+      }
 
       if ($exception->getCode() == 401)
       {

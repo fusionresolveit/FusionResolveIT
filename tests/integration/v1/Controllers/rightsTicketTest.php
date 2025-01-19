@@ -11,6 +11,7 @@ use Tests\Traits\HttpTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Notification')]
 #[UsesClass('\App\App')]
+#[UsesClass('\App\JwtBeforeHandler')]
 #[UsesClass('\App\Route')]
 #[UsesClass('\App\Translation')]
 #[UsesClass('\App\Events\EntityCreating')]

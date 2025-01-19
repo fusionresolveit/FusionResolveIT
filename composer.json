@@ -35,6 +35,7 @@
         "illuminate/container": "^11",
         "illuminate/database": "^11",
         "illuminate/events": "^11",
+        "jimtools/jwt-auth": "^2.2",
         "laminas/laminas-i18n": "^2.29",
         "league/commonmark": "^2.5",
         "league/flysystem": "^3.0",
@@ -57,7 +58,6 @@
         "symfony/error-handler": "^6.4",
         "tecnickcom/tcpdf": "^6.2",
         "tuupola/base62": "^2.1",
-        "tuupola/slim-jwt-auth": "^3.8",
         "wapmorgan/unified-archive": "^1.0",
         "webklex/php-imap": "^5.5"
     },

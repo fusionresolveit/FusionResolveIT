@@ -15,6 +15,7 @@ use Tests\Traits\HttpTestTrait;
 #[CoversClass('\App\Models\Menubookmark')]
 #[CoversClass('\App\v1\Controllers\Menu')]
 #[UsesClass('\App\App')]
+#[UsesClass('\App\JwtBeforeHandler')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Certificate')]
 #[UsesClass('\App\Models\Definitions\Document')]
