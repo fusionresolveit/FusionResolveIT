@@ -11,6 +11,6 @@ trait Entity
   /** @return BelongsTo<\App\Models\Entity, $this> */
   public function entity(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\Entity::class);
+    return $this->belongsTo(\App\Models\Entity::class)->withoutEagerLoads();
   }
 }

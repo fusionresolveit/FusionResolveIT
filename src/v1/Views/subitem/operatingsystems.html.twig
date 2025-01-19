@@ -14,11 +14,36 @@
           {% endfor %}
         </div>
         <div class="height wide column">
-          {{ translation.entreprise }}: {{ data.operatingsystem.wincompany }}<br>
-          {{ translation.oscomment }}: {{ data.operatingsystem.oscomment }}<br>
-          {{ translation.hostid }}: {{ data.operatingsystem.hostid }}<br>
-          {{ translation.owner }}: {{ data.operatingsystem.winowner }}<br>
-          {{ translation.install_date }}: {{ data.operatingsystem.installationdate }}<br>
+          <div class="field">
+            <label>{{ translation.entreprise }}</label>
+            <div class="ui transparent input">
+              <input type="text" value="{{ data.operatingsystem.wincompany }}" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ translation.oscomment }}</label>
+            <div class="ui transparent input">
+              <input type="text" value="{{ data.operatingsystem.oscomment }}" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ translation.hostid }}</label>
+            <div class="ui transparent input">
+              <input type="text" value="{{ data.operatingsystem.hostid }}" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ translation.owner }}</label>
+            <div class="ui transparent input">
+              <input type="text" value="{{ data.operatingsystem.winowner }}" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ translation.install_date }}</label>
+            <div class="ui transparent input">
+              <input type="text" value="{{ data.operatingsystem.installationdate }}" readonly>
+            </div>
+          </div>
         </div>
       {% else %}
         <div class="column">

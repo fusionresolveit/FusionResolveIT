@@ -23,12 +23,21 @@ trait HttpTestTrait
     string $path,
     array $headers = [],
     array $cookies = [],
-    array $serverParams = []
+    array $serverParams = [],
+    $content = null,
   ): Request
   {
     $uri = new Uri('', '', 80, $path);
+
     $handle = fopen('php://temp', 'w+');
-    $stream = (new StreamFactory())->createStreamFromResource($handle);
+    if (is_null($content))
+    {
+      $stream = (new StreamFactory())->createStreamFromResource($handle);
+    } else {
+      fwrite($handle, $content);
+      rewind($handle);
+      $stream = (new StreamFactory())->createStreamFromResource($handle);
+    }
 
     $h = new Headers();
     foreach ($headers as $name => $value)

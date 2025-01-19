@@ -15,19 +15,43 @@ final class Communication extends \App\v1\Controllers\Common
     // define default user
     $GLOBALS['user_id'] = 92368;
 
-    $data = gzinflate(substr($request->getBody()->getContents(), 2));
+    $contentType = $request->getHeaderLine('Content-Type');
+    if ($contentType == "application/xml") {
+      $data = $request->getBody()->getContents();
+    }
+    elseif ($contentType == "application/x-compress-zlib")
+    {
+      $data = @gzuncompress($request->getBody()->getContents());
+    } else {
+      $data = @gzinflate(substr($request->getBody()->getContents(), 2));
+    }
+    if ($data === false)
+    {
+      $payload = [
+        'ERROR' => 'Data format not right',
+      ];
+      $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
+      return $response->withHeader('Content-Type', 'application/xml')->withStatus(400);
+    }
+
     if (strstr($data, '<QUERY>INVENTORY</QUERY>'))
     {
       $computer = new Computer();
       $computer->importComputer($data);
       $payload = [];
     }
-    else
+    elseif (strstr($data, '<QUERY>PROLOG</QUERY'))
     {
       $payload = [
         "PROLOG_FREQ" => 24,
         "RESPONSE" => "SEND",
       ];
+    } else {
+      $payload = [
+        'ERROR' => 'Data not right',
+      ];
+      $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
+      return $response->withHeader('Content-Type', 'application/xml')->withStatus(400);
     }
 
     $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));

@@ -80,11 +80,6 @@ class Software extends Common
     'reservations',
   ];
 
-  protected $fillable = [
-    'name',
-    'entity_id'
-  ];
-
   /** @return BelongsTo<\App\Models\Softwarecategory, $this> */
   public function category(): BelongsTo
   {

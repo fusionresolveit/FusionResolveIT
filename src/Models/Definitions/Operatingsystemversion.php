@@ -38,6 +38,13 @@ class Operatingsystemversion
         'name'  => 'created_at',
         'readonly'  => 'readonly',
       ],
+      [
+        'id'    => 1001,
+        'title' => $translator->translate('Long-Term Support (LTS)'),
+        'type'  => 'boolean',
+        'name'  => 'is_lts',
+        'fillable' => true,
+      ],
     ];
   }
 

@@ -44,24 +44,26 @@ class Softwareversion extends Common
   /** @return BelongsToMany<\App\Models\Computer, $this> */
   public function devices(): BelongsToMany
   {
-    return $this->belongsToMany(\App\Models\Computer::class, 'item_softwareversion', 'softwareversion_id', 'item_id');
+    return $this
+      ->belongsToMany(\App\Models\Computer::class, 'item_softwareversion', 'softwareversion_id', 'item_id')
+      ->withoutEagerLoads();
   }
 
   /** @return BelongsTo<\App\Models\Software, $this> */
   public function software(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\Software::class);
+    return $this->belongsTo(\App\Models\Software::class)->withoutEagerLoads();
   }
 
   /** @return BelongsTo<\App\Models\State, $this> */
   public function state(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\State::class);
+    return $this->belongsTo(\App\Models\State::class)->withoutEagerLoads();
   }
 
   /** @return BelongsTo<\App\Models\Operatingsystem, $this> */
   public function operatingsystem(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\Operatingsystem::class, 'operatingsystem_id');
+    return $this->belongsTo(\App\Models\Operatingsystem::class, 'operatingsystem_id')->withoutEagerLoads();
   }
 }
