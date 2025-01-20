@@ -19,7 +19,20 @@ final class Computer extends \App\v1\Controllers\Common
 
     // dictionnaries
 
-    $computer = \App\Models\Computer::where('serial', $dataObj->CONTENT->BIOS->SSN)
+    if (!property_exists($dataObject, 'CONTENT'))
+    {
+      throw new FusioninventoryXmlException('Data not right', 400);
+    }
+
+    if (
+        !Validation::attrStrNotempty('NAME')->isValid($dataObject->CONTENT->HARDWARE) ||
+        !Validation::attrStrNotempty('SSN')->isValid($dataObject->CONTENT->BIOS)
+    )
+    {
+      return;
+    }
+
+    $computer = \App\Models\Computer::where('serial', $dataObject->CONTENT->BIOS->SSN)
     ->withOnly([
       'processors',
       'softwareversions',
@@ -30,9 +43,10 @@ final class Computer extends \App\v1\Controllers\Common
     {
       $computer = new \App\Models\Computer();
     }
-    $computer->name = $dataObj->CONTENT->HARDWARE->NAME;
-    $computer->uuid = $dataObj->CONTENT->HARDWARE->UUID;
-    $computer->serial = $dataObj->CONTENT->BIOS->SSN;
+
+    $computer->name = $dataObject->CONTENT->HARDWARE->NAME;
+    // $computer->uuid = $dataObj->CONTENT->HARDWARE->UUID;
+    $computer->serial = $dataObject->CONTENT->BIOS->SSN;
     $computer->otherserial = $this->getOtherSerial($dataObj);
     $computer->manufacturer_id = $this->getManufacturer($dataObj);
     $computer->computertype_id = $this->getType($dataObj);

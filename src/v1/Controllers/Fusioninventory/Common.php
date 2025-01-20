@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Fusioninventory;
 
-use Exception;
 use SimpleXMLElement;
 
 final class Common extends \App\v1\Controllers\Common
@@ -14,7 +13,7 @@ final class Common extends \App\v1\Controllers\Common
     $dataObj = @simplexml_load_string($value);
     if ($dataObj === false)
     {
-      throw new Exception('XML not well formed', 400);
+      throw new FusioninventoryXmlException('XML not well formed', 400);
     }
     return $dataObj;
   }

@@ -110,9 +110,14 @@ final class FusioninventoryTest extends TestCase
     ];
 
     // Create request with method and url
-    $request = $this->createRequest('POST', '/api/v1/fusioninventory', ['Content-Type' => 'application/json']);
-
-    $request->getBody()->write(json_encode($data));
+    $request = $this->createRequest(
+      'POST',
+      '/api/v1/fusioninventory',
+      ['Content-Type' => 'application/json'],
+      [],
+      [],
+      json_encode($data),
+    );
 
     $response = $this->app->handle($request);
 
@@ -130,9 +135,14 @@ final class FusioninventoryTest extends TestCase
   public function testSendEmptyData(): void
   {
     // Create request with method and url
-    $request = $this->createRequest('POST', '/api/v1/fusioninventory', ['Content-Type' => 'application/xml']);
-
-    $request->getBody()->write('');
+    $request = $this->createRequest(
+      'POST',
+      '/api/v1/fusioninventory',
+      ['Content-Type' => 'application/xml'],
+      [],
+      [],
+      ''
+    );
 
     $response = $this->app->handle($request);
 
@@ -149,13 +159,20 @@ final class FusioninventoryTest extends TestCase
 
   public function testSendInventoryNoContent(): void
   {
-    // Create request with method and url
-    $request = $this->createRequest('POST', '/api/v1/fusioninventory', ['Content-Type' => 'application/xml']);
-
-    $request->getBody()->write('<?xml version="1.0" encoding="UTF-8" ?>
+    $xmlStr = '<?xml version="1.0" encoding="UTF-8" ?>
 <REQUEST>
   <QUERY>INVENTORY</QUERY>
-</REQUEST>');
+</REQUEST>';
+
+    // Create request with method and url
+    $request = $this->createRequest(
+      'POST',
+      '/api/v1/fusioninventory',
+      ['Content-Type' => 'application/xml'],
+      [],
+      [],
+      $xmlStr
+    );
 
     $response = $this->app->handle($request);
 
@@ -172,10 +189,7 @@ final class FusioninventoryTest extends TestCase
 
   public function testSendInventoryXmlNotWellFormed(): void
   {
-    // Create request with method and url
-    $request = $this->createRequest('POST', '/api/v1/fusioninventory', ['Content-Type' => 'application/xml']);
-
-    $request->getBody()->write('<?xml version="1.0" encoding="UTF-8" ?>
+    $xmlStr = '<?xml version="1.0" encoding="UTF-8" ?>
 <REQUEST>
   <CONTENT>
     <HARDWARE>
@@ -183,14 +197,24 @@ final class FusioninventoryTest extends TestCase
     </HARDWARE>
   </CONTENT>
   <QUERY>INVENTORY</QUERY>
-</REQUEST>');
+</REQUEST>';
+
+    // Create request with method and url
+    $request = $this->createRequest(
+      'POST',
+      '/api/v1/fusioninventory',
+      ['Content-Type' => 'application/xml'],
+      [],
+      [],
+      $xmlStr
+    );
 
     $response = $this->app->handle($request);
 
     $this->assertEquals(400, $response->getStatusCode());
     $xml = @simplexml_load_string((string) $response->getBody());
     $this->assertNotFalse($xml, 'answer not XML format');
-    $this->assertEquals('Data not right', $xml->ERROR);
+    $this->assertEquals('XML not well formed', $xml->ERROR);
     $this->assertEquals(
       'application/xml',
       $response->getHeaderLine('Content-Type'),

@@ -20,6 +20,7 @@ use JimTools\JwtAuth\Rules\RequestMethodRule;
 use JimTools\JwtAuth\Rules\RequestPathRule;
 use JimTools\JwtAuth\Secret;
 use JimTools\JwtAuth\Decoder\FirebaseDecoder;
+use Spatie\ArrayToXml\ArrayToXml;
 
 class App
 {
@@ -161,6 +162,15 @@ class App
         $response->getBody()->write(json_encode($error));
         return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
       }
+      elseif (get_class($exception) == 'App\v1\Controllers\Fusioninventory\FusioninventoryXmlException')
+      {
+        $payload = [
+          'ERROR' => $exception->getMessage(),
+        ];
+        $response = $app->getResponseFactory()->createResponse();
+        $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
+        return $response->withStatus($exception->getCode())->withHeader('Content-Type', 'application/xml');
+      }
 
       if ($exception->getCode() == 401)
       {
@@ -196,7 +206,10 @@ class App
     $app->add(function (Request $request, RequestHandler $handler) use ($basePath)
     {
       $response = $handler->handle($request);
-      if ($response->getHeaderLine('Content-Type') == 'application/json')
+      if (
+          $response->getHeaderLine('Content-Type') == 'application/json' ||
+          $response->getHeaderLine('Content-Type') == 'application/xml'
+      )
       {
         return $response;
       }
