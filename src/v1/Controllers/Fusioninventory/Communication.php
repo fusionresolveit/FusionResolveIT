@@ -27,11 +27,7 @@ final class Communication extends \App\v1\Controllers\Common
     }
     if ($data === false)
     {
-      $payload = [
-        'ERROR' => 'Data format not right',
-      ];
-      $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
-      return $response->withHeader('Content-Type', 'application/xml')->withStatus(400);
+      throw new FusioninventoryXmlException('Data format not right', 400);
     }
 
     if (strstr($data, '<QUERY>INVENTORY</QUERY>'))
@@ -47,11 +43,7 @@ final class Communication extends \App\v1\Controllers\Common
         "RESPONSE" => "SEND",
       ];
     } else {
-      $payload = [
-        'ERROR' => 'Data not right',
-      ];
-      $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
-      return $response->withHeader('Content-Type', 'application/xml')->withStatus(400);
+      throw new FusioninventoryXmlException('Data not right', 400);
     }
 
     $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
