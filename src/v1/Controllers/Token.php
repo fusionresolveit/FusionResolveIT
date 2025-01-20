@@ -76,6 +76,7 @@ final class Token
 
   public function generateJWTToken(
     \App\Models\User $user,
+    Response $response,
     $profile_id = null,
     $entity_id = null,
     $entity_recursive = false
@@ -123,8 +124,8 @@ final class Token
 
     if (is_null($profile_id) || is_null($entity_id))
     {
-      header('Location: ' . $basePath);
-      exit();
+      return $response
+        ->withHeader('Location', $basePath);
     }
     $now = new DateTime();
     $future = new DateTime("+2000 minutes");

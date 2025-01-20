@@ -138,8 +138,8 @@ final class User extends Common
     }
 
     $uri = $request->getUri();
-    header('Location: ' . (string) $uri);
-    exit();
+    return $response
+      ->withHeader('Location', (string) $uri);
   }
 
   public function showSubGroups(Request $request, Response $response, $args): Response

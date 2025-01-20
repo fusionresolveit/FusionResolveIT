@@ -330,7 +330,7 @@ final class Profile extends Common
     return $view->render($response, 'subitem/profilecustom.html.twig', (array)$viewData);
   }
 
-  private function itemSubCategory($request, $response, $args, $category)
+  private function itemSubCategory($request, $response, $args, $category): Response
   {
     $data = (object) $request->getParsedBody();
 
@@ -405,8 +405,9 @@ final class Profile extends Common
       }
     }
     $uri = $request->getUri();
-    header('Location: ' . (string) $uri);
-    exit();
+
+    return $response
+      ->withHeader('Location', (string) $uri);
   }
 
   private function getRightsCategory($profile_id, $category)

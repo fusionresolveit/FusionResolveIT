@@ -188,8 +188,9 @@ class Common
     \App\v1\Controllers\Toolbox::addSessionMessage('The item has been updated successfully');
 
     $uri = $request->getUri();
-    header('Location: ' . (string) $uri);
-    exit();
+
+    return $response
+      ->withHeader('Location', (string) $uri);
   }
 
   protected function commonShowITILItem(Request $request, Response $response, $args, $item): Response

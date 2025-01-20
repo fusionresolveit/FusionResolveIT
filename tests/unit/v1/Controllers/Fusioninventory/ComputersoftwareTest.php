@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Computer')]
+#[UsesClass('\App\Models\Ticket')]
 #[UsesClass('\App\Models\Definitions\Appliance')]
 #[UsesClass('\App\Models\Definitions\Autoupdatesystem')]
 #[UsesClass('\App\Models\Definitions\Certificate')]

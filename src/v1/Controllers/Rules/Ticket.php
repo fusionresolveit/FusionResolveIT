@@ -186,8 +186,9 @@ final class Ticket extends Common
 
     $uri = $request->getUri();
     $newUrl = rtrim((string) $uri, '/new');
-    header('Location: ' . $newUrl);
-    exit();
+
+    return $response
+      ->withHeader('Location', $newUrl);
   }
 
   public function showNewAction(Request $request, Response $response, $args): Response
@@ -230,7 +231,7 @@ final class Ticket extends Common
 
     $uri = $request->getUri();
     $newUrl = rtrim((string) $uri, '/new');
-    header('Location: ' . $newUrl);
-    exit();
+    return $response
+      ->withHeader('Location', $newUrl);
   }
 }

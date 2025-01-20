@@ -147,8 +147,9 @@ class App
 
         if (!$phpunit && !str_starts_with($uri->getPath(), $basePath . '/api'))
         {
-          header('Location: ' . $basePath . '/view/login');
-          exit();
+          $response = $app->getResponseFactory()->createResponse();
+          return $response
+            ->withHeader('Location', $basePath . '/view/login');
         }
 
         // for API

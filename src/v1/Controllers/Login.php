@@ -112,7 +112,7 @@ final class Login extends Common
     // generate token
     // put into cookie, key token
 
-    $jwt = $token->generateJWTToken($user);
+    $jwt = $token->generateJWTToken($user, $response);
 
     // Set Cookie
     // $cookie_lifetime = empty($cookie_value) ? time() - 3600 : time() + $CFG_GLPI['login_remember_time'];
@@ -127,13 +127,14 @@ final class Login extends Common
       ->withHeader('Location', $basePath . '/view/home');
   }
 
-  public function doSSO(Request $request, Response $response, $args)
+  public function doSSO(Request $request, Response $response, $args): Response
   {
     $provider = $this->prepareSSOService($request, $args);
 
     try
     {
-      header('Location: ' . $provider->makeAuthUrl());
+      return $response
+        ->withHeader('Location', $provider->makeAuthUrl());
     }
     catch (\Exception $e)
     {
@@ -237,17 +238,17 @@ final class Login extends Common
     return \App\v1\Controllers\Authsso::getProviderInstance($authsso->provider, $configureProviders);
   }
 
-  public function logout(Request $request, Response $response, $args)
+  public function logout(Request $request, Response $response, $args): Response
   {
     global $basePath;
 
     setcookie('token', '', -1, $basePath . '/view');
 
-    header('Location: ' . $basePath);
-    exit();
+    return $response
+      ->withHeader('Location', $basePath);
   }
 
-  public function changeProfileEntity(Request $request, Response $response, $args)
+  public function changeProfileEntity(Request $request, Response $response, $args): Response
   {
     global $basePath;
 
@@ -300,12 +301,18 @@ final class Login extends Common
 
     if ($validation)
     {
-      $jwt = $token->generateJWTToken($user, $data->changeProfile, $data->changeEntity, $data->changeEntityRecursive);
+      $jwt = $token->generateJWTToken(
+        $user,
+        $response,
+        $data->changeProfile,
+        $data->changeEntity,
+        $data->changeEntityRecursive
+      );
 
       setcookie('token', $jwt['token'], 0, $basePath . '/view');
     }
 
-    header('Location: ' . $data->redirectURL);
-    exit();
+    return $response
+      ->withHeader('Location', $data->redirectURL);
   }
 }

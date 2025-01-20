@@ -5,6 +5,7 @@ namespace Tests\Traits;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\Response as slimResponse;
 use Slim\Psr7\Request as SlimRequest;
 use Slim\Psr7\Uri;
 
@@ -50,8 +51,9 @@ trait HttpTestTrait
 
   protected function setTokenForUser($user, $profileId = 1, $entityId = 1)
   {
+    $response = new slimResponse();
     $token = new \App\v1\Controllers\Token();
-    $jwt = $token->generateJWTToken($user, $profileId, $entityId);
+    $jwt = $token->generateJWTToken($user, $response, $profileId, $entityId);
     return $jwt['token'];
   }
 }
