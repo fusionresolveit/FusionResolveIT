@@ -101,9 +101,9 @@ final class MenuTest extends TestCase
   public function testMenuDataHasDisplayField(): void
   {
     $user = \App\Models\User::find(1);
+
     $token = $this->setTokenForUser($user);
     $request = $this->createRequest('GET', '/view/computers', [], ['token' => $token]);
-    $request = $request->withQueryParams([]);
 
     $response = $this->app->handle($request);
     $payload = (string) $response->getBody();

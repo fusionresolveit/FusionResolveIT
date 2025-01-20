@@ -57,8 +57,8 @@ final class Followup extends Common
     // add message to session
     \App\v1\Controllers\Toolbox::addSessionMessage('The followup has been added successfully');
 
-    header('Location: ' . $data->redirect);
-    exit();
+    return $response
+      ->withHeader('Location', $data->redirect);
   }
 
   public function canRightReadPrivateItem(): bool

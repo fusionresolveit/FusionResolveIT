@@ -166,7 +166,7 @@ final class Ticket extends Common
     return $view->render($response, 'subitem/problem.html.twig', (array) $viewData);
   }
 
-  public function postProblem(Request $request, Response $response, $args): void
+  public function postProblem(Request $request, Response $response, $args): Response
   {
     $data = (object) $request->getParsedBody();
 
@@ -185,8 +185,8 @@ final class Ticket extends Common
     }
 
     $uri = $request->getUri();
-    header('Location: ' . (string) $uri);
-    exit();
+    return $response
+      ->withHeader('Location', (string) $uri);
   }
 
   /**

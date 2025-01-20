@@ -228,11 +228,12 @@ final class Mailcollector extends Common
     // ];
   }
 
-  public function doOauth(Request $request, Response $response, $args)
+  public function doOauth(Request $request, Response $response, $args): Response
   {
     $provider = $this->getMyProvider($request, $args);
-    header('Location: ' . $provider->makeAuthUrl());
-    exit;
+
+    return $response
+      ->withHeader('Location', $provider->makeAuthUrl());
   }
 
   public function getMyProvider($request, $args)
@@ -266,7 +267,7 @@ final class Mailcollector extends Common
     return \App\v1\Controllers\Authsso::getProviderInstance('azure-ad', $configureProviders);
   }
 
-  public function callbackOauth(Request $request, Response $response, $args)
+  public function callbackOauth(Request $request, Response $response, $args): Response
   {
     global $basePath;
 
@@ -286,9 +287,9 @@ final class Mailcollector extends Common
 
       $uri = $request->getUri();
 
-      header('Location: ' . $uri->getScheme() . '://' . $uri->getHost() . $basePath . '/view/mailcollectors/' .
-             $mailcollector->id);
-      exit;
+      return $response
+        ->withHeader('Location', $uri->getScheme() . '://' . $uri->getHost() . $basePath . '/view/mailcollectors/' .
+          $mailcollector->id);
     }
     echo "Error :/";
     exit;

@@ -82,7 +82,7 @@ final class Change extends Common
     return $view->render($response, 'subitem/problem.html.twig', (array) $viewData);
   }
 
-  public function postProblem(Request $request, Response $response, $args)
+  public function postProblem(Request $request, Response $response, $args): Response
   {
     $data = (object) $request->getParsedBody();
 
@@ -102,8 +102,8 @@ final class Change extends Common
     }
 
     $uri = $request->getUri();
-    header('Location: ' . (string) $uri);
-    exit();
+    return $response
+      ->withHeader('Location', (string) $uri);
   }
 
   public function showSubItems(Request $request, Response $response, $args): Response
