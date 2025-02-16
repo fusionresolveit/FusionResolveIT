@@ -50,12 +50,16 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#fieldxx').on("change", function() {
+  $(document).ready(function()
+  {
+    $('#fieldxx').on("change", function()
+    {
       $('#actiontype').attr('data-definitionname', $(this).val());
     });
-    $('#actiontypexx').on("change", function() {
-      switch ($(this).val()) {
+    $('#actiontypexx').on("change", function()
+    {
+      switch ($(this).val())
+      {
         case 'assign_dropdown':
         case 'append_dropdown':
           // dropdowns

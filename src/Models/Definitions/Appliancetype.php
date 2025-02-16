@@ -4,44 +4,57 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Appliancetype
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
+
+    $t = [
+      'name'      => $translator->translate('Name'),
+      'comment'   => $translator->translate('Comments'),
+      'entity' => $translator->translatePlural('Entity', 'Entities', 1),
+      'recursive' => $translator->translate('Child entities'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(6, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(
+      80,
+      $t['entity'],
+      'dropdown_remote',
+      'entity',
+      dbname: 'entity_id',
+      itemtype: '\App\Models\Entity',
+      display: false,
+      relationfields: [
+        'id',
+        'name',
+        'completename',
+        'address',
+        'country',
+        'email',
+        'fax',
+        'phonenumber',
+        'postcode',
+        'state',
+        'town',
+        'website',
+      ]
+    ));
+    $defColl->add(new Def(86, $t['recursive'], 'boolean', 'is_recursive', fillable: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

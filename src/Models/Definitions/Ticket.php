@@ -4,321 +4,294 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Ticket
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'            => 1,
-        'title'         => $translator->translate('Title'),
-        'type'          => 'input',
-        'name'          => 'name',
-        'displaygroup'  => 'main',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 21,
-        'title' => $translator->translate('Description'),
-        'type'  => 'textarea',
-        'name'  => 'content',
-        'fillable' => true,
-      ],
-      [
-        'id'      => 2,
-        'title'   => $translator->translate('ID'),
-        'type'    => 'input',
-        'name'    => 'id',
-        'displaygroup'  => 'main',
-        'display' => false,
-      ],
-      [
-        'id'    => 80,
-        'title' => $translator->translatePlural('Entity', 'Entities', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'entity',
-        'dbname' => 'entity_id',
-        'itemtype' => '\App\Models\Entity',
-        'display' => false,
-        'relationfields' => [
-          'id',
-          'name',
-          'completename',
-          'address',
-          'country',
-          'email',
-          'fax',
-          'phonenumber',
-          'postcode',
-          'state',
-          'town',
-          'website',
-        ],
-      ],
-      [
-        'id'            => 14,
-        'title'         => $translator->translate('Type', 'Types', 1),
-        'type'          => 'dropdown',
-        'name'          => 'type',
-        'values'        => self::getTypesArray(),
-        'displaygroup'  => 'main',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 12,
-        'title'         => $translator->translate('Status'),
-        'type'          => 'dropdown',
-        'name'          => 'status',
-        'values'        => self::getStatusArray(),
-        'displaygroup'  => 'main',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 7,
-        'title'         => $translator->translate('Category'),
-        'type'          => 'dropdown_remote',
-        'name'          => 'category',
-        'dbname'        => 'category_id',
-        'itemtype'      => '\App\Models\Category',
-        'displaygroup'  => 'main',
-        'fillable' => true,
-        'relationfields' => ['id', 'name', 'completename'],
-      ],
-      [
-        'id'            => 83,
-        'title'         => $translator->translatePlural('Location', 'Locations', 1),
-        'type'          => 'dropdown_remote',
-        'name'          => 'location',
-        'dbname'        => 'location_id',
-        'itemtype'      => '\App\Models\Location',
-        'displaygroup'  => 'main',
-        'fillable' => true,
-        'relationfields' => ['id', 'name', 'completename'],
-      ],
-      [
-        'id'    => 45,
-        'title' => $translator->translate('Total duration'),
-        // 'type'  => 'dropdown',
-        // 'name'  => 'actiontime',
-        // 'values' => self::getTimestampArray(
-        //   [
-        //     'addfirstminutes' => true
-        //   ]
-        // ),
-        'type'  => 'input',
-        'name'  => 'actiontime',
-        'displaygroup' => 'main',
-        'readonly' => true,
-      ],
-      [
-        'id'    => 10,
-        'title' => $translator->translate('Urgency'),
-        'type'  => 'dropdown',
-        'name'  => 'urgency',
-        'values' => self::getUrgencyArray(),
-        'displaygroup' => 'priority',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translate('Impact'),
-        'type'  => 'dropdown',
-        'name'  => 'impact',
-        'values' => self::getImpactArray(),
-        'displaygroup' => 'priority',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Priority'),
-        'type'  => 'dropdown',
-        'name'  => 'priority',
-        'values' => self::getPriorityArray(),
-        'displaygroup' => 'priority',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Opening date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'displaygroup' => 'dates',
-        'readonly' => 'readonly',
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-        'displaygroup' => 'dates',
-      ],
-      [
-        'id'    => 18,
-        'title' => $translator->translate('Time to resolve'),
-        'type'  => 'datetime',
-        'name'  => 'time_to_resolve',
-        'displaygroup' => 'dates',
-      ],
-      [
-        'id'    => 82,
-        'title' => $translator->translate('Time to resolve exceeded'),
-        'type'  => 'boolean',
-        'name'  => 'is_late',
-        'displaygroup' => 'dates',
-        'readonly' => true,
-        'fillable' => false,
-      ],
-      [
-        'id'    => 17,
-        'title' => $translator->translate('Resolution date'),
-        'type'  => 'datetime',
-        'name'  => 'solved_at',
-        'displaygroup' => 'dates',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Closing date'),
-        'type'  => 'datetime',
-        'name'  => 'closed_at',
-        'displaygroup' => 'dates',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 64,
-        'title' => $translator->translate('Last edit by'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'usersidlastupdater',
-        'dbname' => 'user_id_lastupdater',
-        'itemtype' => '\App\Models\User',
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'readonly' => 'readonly',
-        'relationfields' => ['id', 'completename'],
-      ],
-      [
-        'id'    => 22,
-        'title' => $translator->translate('Writer'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'usersidrecipient',
-        'dbname'  => 'user_id_recipient',
-        'itemtype' => '\App\Models\User',
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'readonly' => 'readonly',
-        'relationfields' => ['id', 'completename'],
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translatePlural('Requester', 'Requesters', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'requester',
-        'itemtype' => '\App\Models\User',
-        'multiple' => true,
-        'pivot' => ['type' => 1],
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'relationfields' => ['id','completename'],
-      ],
-      [
-        'id'    => 71,
-        'title' => $translator->translatePlural('Requester group', 'Requester groups', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'requestergroup',
-        'itemtype' => '\App\Models\Group',
-        'multiple' => true,
-        'pivot' => ['type' => 1],
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'relationfields' => ['id', 'name', 'completename'],
-      ],
-      [
-        'id'    => 66,
-        'title' => $translator->translatePlural('Watcher', 'Watchers', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'watcher',
-        'itemtype' => '\App\Models\User',
-        'multiple' => true,
-        'pivot' => ['type' => 3],
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'relationfields' => ['id', 'completename'],
-      ],
-      [
-        'id'    => 65,
-        'title' => $translator->translatePlural('Watcher group', 'Watcher groups', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'watchergroup',
-        'itemtype' => '\App\Models\Group',
-        'multiple' => true,
-        'pivot' => ['type' => 3],
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'relationfields' => ['id', 'name', 'completename'],
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Technician'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'technician',
-        'itemtype' => '\App\Models\User',
-        'multiple' => true,
-        'pivot' => ['type' => 2],
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'relationfields' => ['id', 'completename'],
-      ],
-      // [ TODO supplier
-      //   'id'    => 6,
-      //   'title' => $translator->translate('Assigned to a supplier'),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'technician:id,name,firstname,lastname',
-      //   'itemtype' => '\App\Models\User',
-      //   'multiple' => true,
-      // ],
-      [
-        'id'    => 8,
-        'title' => $translator->translate('Technician group'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'techniciangroup',
-        'itemtype' => '\App\Models\Group',
-        'multiple' => true,
-        'pivot' => ['type' => 2],
-        'displaygroup' => 'contributor',
-        'fillable' => true,
-        'relationfields' => ['id', 'name', 'completename'],
-      ],
-      [
-        'id'    => 301,
-        'title' => 'Followups',
-        'type'  => 'input',
-        'name'  => 'followups',
-        'itemtype' => '\App\Models\Followup',
-        'multiple' => true,
-        'fillable' => false,
-        'display'  => false,
-        'relationfields' => ['id', 'content', 'user.completename'],
-        'usein' => ['search', 'notification'],
-      ],
-      [
-        'id'    => 300,
-        'title' => $translator->translatePlural('Problem', 'Problems', 2),
-        'type'  => 'dropdown_remote',
-        'name'  => 'problems',
-        'itemtype' => '\App\Models\Problem',
-        'multiple' => true,
-        'fillable' => false,
-        'display'  => false,
-        'relationfields' => ['id', 'name', 'date', 'content'],
-        'usein' => ['search', 'notification'],
-      ],
+
+    $t = [
+      'name' => $translator->translate('Title'),
+      'content' => $translator->translate('Description'),
+      'id' => $translator->translate('ID'),
+      'entity' => $translator->translatePlural('Entity', 'Entities', 1),
+      'type' => $translator->translate('Type', 'Types', 1),
+      'status' => $translator->translate('Status'),
+      'category' => $translator->translate('Category'),
+      'location' => $translator->translatePlural('Location', 'Locations', 1),
+      'actiontime' => $translator->translate('Total duration'),
+      'urgency' => $translator->translate('Urgency'),
+      'impact' => $translator->translate('Impact'),
+      'priority' => $translator->translate('Priority'),
+      'created_at' => $translator->translate('Opening date'),
+      'updated_at' => $translator->translate('Last update'),
+      'time_to_resolve' => $translator->translate('Time to resolve'),
+      'is_late' => $translator->translate('Time to resolve exceeded'),
+      'solved_at' => $translator->translate('Resolution date'),
+      'closed_at' => $translator->translate('Closing date'),
+      'usersidlastupdater' => $translator->translate('Last edit by'),
+      'usersidrecipient' => $translator->translate('Writer'),
+      'requester' => $translator->translatePlural('Requester', 'Requesters', 1),
+      'requestergroup' => $translator->translatePlural('Requester group', 'Requester groups', 1),
+      'watcher' => $translator->translatePlural('Watcher', 'Watchers', 1),
+      'watchergroup' => $translator->translatePlural('Watcher group', 'Watcher groups', 1),
+      'technician' => $translator->translate('Technician'),
+      'techniciangroup' => $translator->translate('Technician group'),
+      'followups' => 'Followups',
+      'problems' => $translator->translatePlural('Problem', 'Problems', 2),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', displaygroup: 'main', fillable: true));
+    $defColl->add(new Def(21, $t['content'], 'textarea', 'content', fillable: true));
+    $defColl->add(new Def(2, $t['id'], 'input', 'id', displaygroup: 'main', display: false, fillable: false));
+    $defColl->add(new Def(
+      80,
+      $t['entity'],
+      'dropdown_remote',
+      'entity',
+      dbname: 'entity_id',
+      itemtype: '\App\Models\Entity',
+      display: false,
+      relationfields: [
+        'id',
+        'name',
+        'completename',
+        'address',
+        'country',
+        'email',
+        'fax',
+        'phonenumber',
+        'postcode',
+        'state',
+        'town',
+        'website',
+      ]
+    ));
+    $defColl->add(new Def(
+      14,
+      $t['type'],
+      'dropdown',
+      'type',
+      values: self::getTypesArray(),
+      displaygroup: 'main',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      12,
+      $t['status'],
+      'dropdown',
+      'status',
+      values: self::getStatusArray(),
+      displaygroup: 'main',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      7,
+      $t['category'],
+      'dropdown_remote',
+      'category',
+      dbname: 'category_id',
+      itemtype: '\App\Models\Category',
+      displaygroup: 'main',
+      fillable: true,
+      relationfields: ['id', 'name', 'completename']
+    ));
+    $defColl->add(new Def(
+      83,
+      $t['location'],
+      'dropdown_remote',
+      'location',
+      dbname: 'location_id',
+      itemtype: '\App\Models\Location',
+      displaygroup: 'main',
+      fillable: true,
+      relationfields: ['id', 'name', 'completename']
+    ));
+    $defColl->add(new Def(45, $t['actiontime'], 'input', 'actiontime', displaygroup: 'main', readonly: true));
+    $defColl->add(new Def(
+      10,
+      $t['urgency'],
+      'dropdown',
+      'urgency',
+      values: self::getUrgencyArray(),
+      displaygroup: 'priority',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      11,
+      $t['impact'],
+      'dropdown',
+      'impact',
+      values: self::getImpactArray(),
+      displaygroup: 'priority',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      3,
+      $t['priority'],
+      'dropdown',
+      'priority',
+      values: self::getPriorityArray(),
+      displaygroup: 'priority',
+      fillable: true
+    ));
+    $defColl->add(new Def(15, $t['created_at'], 'datetime', 'created_at', displaygroup: 'dates', readonly: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true, displaygroup: 'dates'));
+    $defColl->add(new Def(18, $t['time_to_resolve'], 'datetime', 'time_to_resolve', displaygroup: 'dates'));
+    $defColl->add(new Def(
+      82,
+      $t['is_late'],
+      'boolean',
+      'is_late',
+      displaygroup: 'dates',
+      readonly: true,
+      fillable: false
+    ));
+    $defColl->add(new Def(17, $t['solved_at'], 'datetime', 'solved_at', displaygroup: 'dates', readonly: true));
+    $defColl->add(new Def(16, $t['closed_at'], 'datetime', 'closed_at', displaygroup: 'dates', readonly: true));
+    $defColl->add(new Def(
+      64,
+      $t['usersidlastupdater'],
+      'dropdown_remote',
+      'usersidlastupdater',
+      dbname: 'user_id_lastupdater',
+      itemtype: '\App\Models\User',
+      displaygroup: 'contributor',
+      fillable: true,
+      readonly: true,
+      relationfields: ['id', 'completename']
+    ));
+    $defColl->add(new Def(
+      22,
+      $t['usersidrecipient'],
+      'dropdown_remote',
+      'usersidrecipient',
+      dbname: 'user_id_recipient',
+      itemtype: '\App\Models\User',
+      displaygroup: 'contributor',
+      fillable: true,
+      readonly: true,
+      relationfields: ['id', 'completename']
+    ));
+    $defColl->add(new Def(
+      4,
+      $t['requester'],
+      'dropdown_remote',
+      'requester',
+      itemtype: '\App\Models\User',
+      multiple: true,
+      pivot: ['type' => 1],
+      displaygroup: 'contributor',
+      fillable: true,
+      relationfields: ['id', 'completename']
+    ));
+    $defColl->add(new Def(
+      71,
+      $t['requestergroup'],
+      'dropdown_remote',
+      'requestergroup',
+      itemtype: '\App\Models\Group',
+      multiple: true,
+      pivot: ['type' => 1],
+      displaygroup: 'contributor',
+      fillable: true,
+      relationfields: ['id', 'name', 'completename']
+    ));
+    $defColl->add(new Def(
+      66,
+      $t['watcher'],
+      'dropdown_remote',
+      'watcher',
+      itemtype: '\App\Models\User',
+      multiple: true,
+      pivot: ['type' => 3],
+      displaygroup: 'contributor',
+      fillable: true,
+      relationfields: ['id', 'completename']
+    ));
+    $defColl->add(new Def(
+      65,
+      $t['watchergroup'],
+      'dropdown_remote',
+      'watchergroup',
+      itemtype: '\App\Models\Group',
+      multiple: true,
+      pivot: ['type' => 3],
+      displaygroup: 'contributor',
+      fillable: true,
+      relationfields: ['id', 'name', 'completename']
+    ));
+    $defColl->add(new Def(
+      5,
+      $t['technician'],
+      'dropdown_remote',
+      'technician',
+      itemtype: '\App\Models\User',
+      multiple: true,
+      pivot: ['type' => 2],
+      displaygroup: 'contributor',
+      fillable: true,
+      relationfields: ['id', 'completename']
+    ));
+    $defColl->add(new Def(
+      8,
+      $t['techniciangroup'],
+      'dropdown_remote',
+      'techniciangroup',
+      itemtype: '\App\Models\Group',
+      multiple: true,
+      pivot: ['type' => 2],
+      displaygroup: 'contributor',
+      fillable: true,
+      relationfields: ['id', 'name', 'completename']
+    ));
+    $defColl->add(new Def(
+      301,
+      $t['followups'],
+      'input',
+      'followups',
+      itemtype: '\App\Models\Followup',
+      multiple: true,
+      fillable: false,
+      display: false,
+      relationfields: ['id', 'content', 'user.completename'],
+      usein: ['search', 'notification']
+    ));
+    $defColl->add(new Def(
+      300,
+      $t['problems'],
+      'dropdown_remote',
+      'problems',
+      itemtype: '\App\Models\Problem',
+      multiple: true,
+      fillable: false,
+      display: false,
+      relationfields: ['id', 'name', 'date', 'content'],
+      usein: ['search', 'notification']
+    ));
+
+    return $defColl;
+
+    // [ TODO supplier
+    //   'id'    => 6,
+    //   'title' => $translator->translate('Assigned to a supplier'),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'technician:id,name,firstname,lastname',
+    //   'itemtype' => '\App\Models\User',
+    //   'multiple' => true,
+    // ],
+
 
     // TODO others like users
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   public static function getTypesArray(): array
   {
     global $translator;
@@ -333,6 +306,9 @@ class Ticket
     ];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   public static function getStatusArray(): array
   {
     global $translator;
@@ -377,6 +353,9 @@ class Ticket
     ];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   public static function getUrgencyArray(): array
   {
     global $translator;
@@ -399,6 +378,9 @@ class Ticket
     ];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   public static function getImpactArray(): array
   {
     global $translator;
@@ -421,6 +403,9 @@ class Ticket
     ];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   public static function getPriorityArray(): array
   {
     global $translator;
@@ -458,7 +443,12 @@ class Ticket
     ];
   }
 
-  public static function getTimestampArray($options = [])
+  /**
+   * @param array<string, mixed> $options
+   *
+   * @return array<mixed>
+   */
+  public static function getTimestampArray(array $options = []): array
   {
     global $translator;
 
@@ -477,7 +467,7 @@ class Ticket
     $params['toadd']               = [];
     $params['inhours']             = false;
 
-    if (is_array($options) && count($options))
+    if (count($options))
     {
       foreach ($options as $key => $val)
       {
@@ -578,7 +568,10 @@ class Ticket
     return $tab;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

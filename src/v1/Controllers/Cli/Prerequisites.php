@@ -14,16 +14,21 @@ use function DI\string;
 
 class Prerequisites extends Command
 {
+  /** @var array<string, mixed> */
   protected $justGreen = ['second' => ['fg' => \Ahc\Cli\Output\Color::GREEN]];
+
+  /** @var array<string, mixed> */
   protected $justRed = ['second' => ['fg' => \Ahc\Cli\Output\Color::RED]];
-  protected $spaces = 80;
+
+  /** @var string */
+  protected $spaces = '';
 
   public function __construct()
   {
     parent::__construct('prerequisites', 'Check all prerequisites are ok');
   }
 
-  public function execute()
+  public function execute(): void
   {
     $color = new Color();
     $writer = new Writer();
@@ -39,7 +44,8 @@ class Prerequisites extends Command
     if (
         version_compare(PHP_VERSION, '8.2.0', '>=') &&
         version_compare(PHP_VERSION, '8.4.0', '<')
-    ) {
+    )
+    {
       $writer->justify(' PHP Version', PHP_VERSION . $this->spaces, $this->justGreen);
     } else {
       $writer->justify(' PHP Version', PHP_VERSION . $this->spaces, $this->justRed);
@@ -135,7 +141,7 @@ class Prerequisites extends Command
     $writer->write("\n\n");
   }
 
-  private function checkPHPExtension($extensionName, $writer)
+  private function checkPHPExtension(string $extensionName, Writer $writer): void
   {
     if (extension_loaded($extensionName))
     {
@@ -145,7 +151,7 @@ class Prerequisites extends Command
     }
   }
 
-  private function databaseConnect()
+  private function databaseConnect(): Capsule
   {
     $dbConfig = include(__DIR__ . '/../../../../phinx.php');
 

@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass('\App\v1\Controllers\Notification')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Category')]

@@ -18,7 +18,7 @@ class Reset extends Command
     parent::__construct('reset', 'Reset the database');
   }
 
-  public function execute()
+  public function execute(): int
   {
     $color = new Color();
     $writer = new Writer();
@@ -31,7 +31,7 @@ class Reset extends Command
       echo $color->error('The database reset will not run because the database lock is present,' .
         ' check the documentation');
       $writer->write("\n\n");
-      return;
+      return -1;
     }
 
     $capsule = new Capsule();
@@ -58,7 +58,9 @@ class Reset extends Command
     try {
       Capsule::schema()->dropAllTables();
       $writer->boldGreen('OK', true);
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e)
+    {
       $writer->boldRed('Failed', true);
       $writer->error($e->getMessage(), true);
       return -1;

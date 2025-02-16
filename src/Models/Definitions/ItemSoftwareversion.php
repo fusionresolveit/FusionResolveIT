@@ -4,31 +4,31 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class ItemSoftwareversion
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'      => 2,
-        'title'   => $translator->translate('ID'),
-        'type'    => 'input',
-        'name'    => 'id',
-        'display' => false,
-      ],
-      [
-        'id'      => 1001,
-        'title'   => $translator->translate('Installation date'),
-        'type'    => 'input',
-        'name'    => 'date_install',
-        'display' => false,
-        'fillable' => true,
-      ],
+
+    $t = [
+      'id' => $translator->translate('ID'),
+      'date_install' => $translator->translate('Installation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(2, $t['id'], 'input', 'id', display: false));
+    $defColl->add(new Def(1001, $t['date_install'], 'input', 'date_install', display: false, fillable: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [];

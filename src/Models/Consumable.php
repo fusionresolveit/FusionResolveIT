@@ -8,7 +8,7 @@ class Consumable extends Common
 {
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Consumable';
+  protected $definition = \App\Models\Definitions\Consumable::class;
   protected $titles = ['Consumable', 'Consumables'];
   protected $icon = 'box open';
 

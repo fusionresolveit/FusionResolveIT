@@ -4,43 +4,209 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostSoftware;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Appliance;
+use App\Traits\Subs\Contract;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\Domain;
+use App\Traits\Subs\Externallink;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Itil;
+use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Note;
+use App\Traits\Subs\Reservation;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class Software extends Common
+final class Software extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Software';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Reservation;
+  use Note;
+  use Domain;
+  use Appliance;
+  use Externallink;
+  use Knowbaseitem;
+  use Document;
+  use Contract;
+  use Itil;
+  use History;
+  use Infocom;
+
+  protected $model = \App\Models\Software::class;
   protected $rootUrl2 = '/softwares/';
   protected $choose = 'softwares';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Software
   {
-    $item = new \App\Models\Software();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Software();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Software();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostSoftware((object) $request->getParsedBody());
+
+    $software = new \App\Models\Software();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($software))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $software = \App\Models\Software::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The software has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($software, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/softwares/' . $software->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/softwares')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Software();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostSoftware((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $software = \App\Models\Software::where('id', $id)->first();
+    if (is_null($software))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($software))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $software->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The software has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($software, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubVersions(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $software = \App\Models\Software::withTrashed()->where('id', $id)->first();
+    if (is_null($software))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($software->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $software->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The software has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/softwares')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $software->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The software has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $software = \App\Models\Software::withTrashed()->where('id', $id)->first();
+    if (is_null($software))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($software->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $software->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The software has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubVersions(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Software();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('versions')->find($args['id']);
+    $myItem = $item::with('versions')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/versions');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -101,15 +267,21 @@ final class Software extends Common
     return $view->render($response, 'subitem/versions.html.twig', (array)$viewData);
   }
 
-  public function showSubLicenses(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubLicenses(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Software();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $item2 = new \App\Models\Softwarelicense();
     $myItem2 = $item2::where('software_id', $args['id'])->get();
@@ -223,15 +395,21 @@ final class Software extends Common
     return $view->render($response, 'subitem/licenses.html.twig', (array)$viewData);
   }
 
-  public function showSubSoftwareInstall(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubSoftwareInstall(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Software();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('versions')->find($args['id']);
+    $myItem = $item::with('versions')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/softwareinstall');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -262,8 +440,13 @@ final class Software extends Common
       $items_version = \App\Models\ItemSoftwareversion::where('softwareversion_id', $current_version->id)->get();
       foreach ($items_version as $current_item)
       {
+        if ($current_item->item_type !== \App\Models\Computer::class)
+        {
+          continue;
+        }
+
         $item3 = new $current_item->item_type();
-        $myItem3 = $item3->find($current_item->item_id);
+        $myItem3 = $item3->where('id', $current_item->item_id)->first();
         if ($myItem3 !== null)
         {
           $type_fr = $item3->getTitle();

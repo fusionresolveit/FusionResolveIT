@@ -4,34 +4,176 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostNotification;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 
-final class Notification extends Common
+final class Notification extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Notification';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
 
-  public function getAll(Request $request, Response $response, $args): Response
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Notification::class;
+
+  protected function instanciateModel(): \App\Models\Notification
   {
-    $item = new \App\Models\Notification();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Notification();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Notification();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostNotification((object) $request->getParsedBody());
+
+    $notification = new \App\Models\Notification();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($notification))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $notification = \App\Models\Notification::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($notification, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/notifications/' . $notification->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/notifications')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Notification();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostNotification((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $notification = \App\Models\Notification::where('id', $id)->first();
+    if (is_null($notification))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($notification))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $notification->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($notification, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public static function prepareNotification($item, $event)
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $notification = \App\Models\Notification::withTrashed()->where('id', $id)->first();
+    if (is_null($notification))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($notification->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $notification->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/notifications')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $notification->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $notification = \App\Models\Notification::withTrashed()->where('id', $id)->first();
+    if (is_null($notification))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($notification->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $notification->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   */
+  public static function prepareNotification($item, string $event): void
   {
     $item->refresh();
     $events = \App\Models\Definitions\Notification::getEvents();
@@ -73,8 +215,14 @@ final class Notification extends Common
               $queued->replyto = 'xx@xx.xx';
               $queued->replytoname = '';
               $queued->headers = '';
-              $queued->body_html = $notif->render($translation->content_html, $item);
-              $queued->body_text = $notif->render($translation->content_text, $item);
+              if (!is_null($translation->content_html))
+              {
+                $queued->body_html = $notif->render($translation->content_html, $item);
+              }
+              if (!is_null($translation->content_text))
+              {
+                $queued->body_text = $notif->render($translation->content_text, $item);
+              }
               $queued->mode = $template->getRelationValue('pivot')->mode;
               $queued->save();
             }
@@ -84,8 +232,11 @@ final class Notification extends Common
     }
   }
 
-
-  public function render($text, $item)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   */
+  public function render(string $text, $item): string
   {
     $loader = new \Twig\Loader\ArrayLoader([
       'notif.html' => $text,
@@ -109,7 +260,15 @@ final class Notification extends Common
     return $text;
   }
 
-  private function generateDataForNotification($item, $data = [], $fields = null)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   * @param array<mixed> $data
+   * @param array<mixed> $fields
+   *
+   * @return array<mixed>
+   */
+  private function generateDataForNotification($item, array $data = [], array|null $fields = null): array
   {
     $nestedFields = [];
     // Special case for nested, for example have field 'user'completename'
@@ -135,32 +294,32 @@ final class Notification extends Common
       // Special case, for example have user.completename
       if (
           !is_null($fields) &&
-          !in_array($definition['name'], $fields) &&
-          !isset($nestedFields[$definition['name']])
+          !in_array($definition->name, $fields) &&
+          !isset($nestedFields[$definition->name])
       )
       {
         continue;
       }
-      if (isset($definition['relationfields']))
+      if (count($definition->relationfields) > 0)
       {
         $relationFields = [];
-        if (isset($nestedFields[$definition['name']]))
+        if (isset($nestedFields[$definition->name]))
         {
-          $relationFields = $nestedFields[$definition['name']];
+          $relationFields = $nestedFields[$definition->name];
         }
         else
         {
-          $relationFields = $definition['relationfields'];
+          $relationFields = $definition->relationfields;
         }
 
         // it's relationship
-        if (isset($definition['dbname']))
+        if (!is_null($definition->dbname))
         {
           // one to one/many relation
-          if (is_null($item->{$definition['name']}))
+          if (is_null($item->{$definition->name}))
           {
-            $emptyItem = new $definition['itemtype']();
-            $data[$definition['name']] = $this->generateDataForNotification(
+            $emptyItem = new $definition->itemtype();
+            $data[$definition->name] = $this->generateDataForNotification(
               $emptyItem,
               [],
               $relationFields
@@ -169,8 +328,8 @@ final class Notification extends Common
           }
           else
           {
-            $data[$definition['name']] = $this->generateDataForNotification(
-              $item->{$definition['name']},
+            $data[$definition->name] = $this->generateDataForNotification(
+              $item->{$definition->name},
               [],
               $relationFields
             );
@@ -179,46 +338,54 @@ final class Notification extends Common
         else
         {
           // many to may relation
-          $data[$definition['name']] = [];
-          foreach ($item->{$definition['name']}()->get() as $rItem)
+          $data[$definition->name] = [];
+          foreach ($item->{$definition->name}()->get() as $rItem)
           {
             $tempData = $this->generateDataForNotification($rItem, [], $relationFields);
-            $data[$definition['name']][] = $tempData;
+            $data[$definition->name][] = $tempData;
           }
         }
       }
       else
       {
         // it's fields
-        if (is_null($item->{$definition['name']}))
+        if (is_null($item->{$definition->name}))
         {
-          $data[$definition['name']] = null;
+          $data[$definition->name] = null;
         }
-        elseif (isset($definition['values']))
+        elseif (count($definition->values) > 0)
         {
-          if (empty($item->{$definition['name']}))
+          if (empty($item->{$definition->name}))
           {
-            $data[$definition['name']] = null;
+            $data[$definition->name] = null;
           }
           else
           {
-            $data[$definition['name']] = $definition['values'][$item->{$definition['name']}]['title'];
+            $data[$definition->name] = $definition->values[$item->{$definition->name}]['title'];
           }
         }
-        elseif ($definition['type'] == 'datetime' && is_object($item->{$definition['name']}))
+        elseif ($definition->type == 'datetime' && ($item->{$definition->name} instanceof \Illuminate\Support\Carbon))
         {
-          $data[$definition['name']] = $item->{$definition['name']}->toDateTimeString();
+          $data[$definition->name] = $item->{$definition->name}->format('Y-m-d H:i:s');
         }
         else
         {
-          $data[$definition['name']] = $item->{$definition['name']};
+          $data[$definition->name] = $item->{$definition->name};
         }
       }
     }
     return $data;
   }
 
-  private function generateLangdataForNotification($item, $data = [], $fields = null)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   * @param array<mixed> $data
+   * @param array<mixed> $fields
+   *
+   * @return array<mixed>
+   */
+  private function generateLangdataForNotification($item, array $data = [], array|null $fields = null): array
   {
     $nestedFields = [];
     // Special case for nested, for example have field 'user'completename'
@@ -245,27 +412,27 @@ final class Notification extends Common
       // Special case, for example have user.completename
       if (
           !is_null($fields) &&
-          !in_array($definition['name'], $fields) &&
-          !isset($nestedFields[$definition['name']])
+          !in_array($definition->name, $fields) &&
+          !isset($nestedFields[$definition->name])
       )
       {
         continue;
       }
 
-      if (isset($definition['relationfields']))
+      if (count($definition->relationfields) > 0)
       {
         $relationFields = [];
-        if (isset($nestedFields[$definition['name']]))
+        if (isset($nestedFields[$definition->name]))
         {
-          $relationFields = $nestedFields[$definition['name']];
+          $relationFields = $nestedFields[$definition->name];
         }
         else
         {
-          $relationFields = $definition['relationfields'];
+          $relationFields = $definition->relationfields;
         }
 
-        $emptyItem = new $definition['itemtype']();
-        $data[$definition['name']] = $this->generateLangdataForNotification(
+        $emptyItem = new $definition->itemtype();
+        $data[$definition->name] = $this->generateLangdataForNotification(
           $emptyItem,
           [],
           $relationFields
@@ -273,7 +440,7 @@ final class Notification extends Common
       }
       else
       {
-        $data[$definition['name']] = $definition['title'];
+        $data[$definition->name] = $definition->title;
       }
     }
     return $data;

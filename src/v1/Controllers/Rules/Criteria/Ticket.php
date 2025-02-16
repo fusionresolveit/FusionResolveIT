@@ -6,7 +6,10 @@ namespace App\v1\Controllers\Rules\Criteria;
 
 class Ticket
 {
-  public static function get()
+  /**
+   * @return array<mixed>
+   */
+  public static function get(): array
   {
     global $translator;
 

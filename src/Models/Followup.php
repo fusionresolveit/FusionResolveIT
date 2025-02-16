@@ -11,7 +11,7 @@ class Followup extends Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\Followup';
+  protected $definition = \App\Models\Definitions\Followup::class;
   protected $titles = ['Followup', 'Followups'];
   protected $icon = 'hands helping';
   protected $hasEntityField = false;
@@ -42,8 +42,11 @@ class Followup extends Common
     {
       if ($model->item_type == 'App\Models\Ticket')
       {
-        /** @var \App\Models\Ticket|null */
-        $ticket = \App\Models\Ticket::find($model->item_id);
+        $ticket = \App\Models\Ticket::where('id', $model->item_id)->first();
+        if (is_null($ticket))
+        {
+          throw new \Exception('Ticket not found', 400);
+        }
         if ($ticket->status == 1)
         {
           $ticket->status = 2;

@@ -5,14 +5,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Migration\Manager\Environment;
-use Phinx\Config\Config;
-use App\v1\Controllers\Toolbox;
-use Phinx\Db\Adapter\MysqlAdapter;
 
 final class ItilrightsMigration extends AbstractMigration
 {
-  public function up()
+  public function up(): void
   {
     $table = $this->table('profilerights');
     $table->addColumn('readmyitems', 'boolean', ['null' => false, 'default' => false])
@@ -59,7 +55,7 @@ final class ItilrightsMigration extends AbstractMigration
     }
   }
 
-  public function down()
+  public function down(): void
   {
     $table = $this->table('profilerights');
     $table->removeColumn('readmyitems')

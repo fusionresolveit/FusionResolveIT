@@ -6,7 +6,11 @@ namespace App\Events;
 
 final class RuleCreating
 {
-  public function __construct(public $model)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $model
+   */
+  public function __construct($model)
   {
     // $test =& $model;
     // new \App\Events\EntityCreating($test);
@@ -14,6 +18,6 @@ final class RuleCreating
     // $model = $test;
     $className = get_class($model);
     $spl = explode('\\', $className);
-    $model->sub_type = 'Rule' . $spl[array_key_last($spl)];
+    $model->setAttribute('sub_type', 'Rule' . $spl[array_key_last($spl)]);
   }
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicesensor extends Common
@@ -14,7 +16,9 @@ class Devicesensor extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicesensor';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicesensor::class;
   protected $titles = ['Sensor', 'Sensors'];
   protected $icon = 'edit';
 
@@ -26,7 +30,6 @@ class Devicesensor extends Common
     'type',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -34,7 +37,6 @@ class Devicesensor extends Common
     'type:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -49,9 +51,15 @@ class Devicesensor extends Common
     return $this->belongsTo(\App\Models\Devicesensortype::class, 'devicesensortype_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicesensor, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicesensor::class, 'devicesensor_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicesensor');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_devicesensor');
   }
 }

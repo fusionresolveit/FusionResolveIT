@@ -6,7 +6,7 @@ namespace App\Models;
 
 class ChangeTicket extends Common
 {
-  protected $definition = '\App\Models\Definitions\ChangeTicket';
+  protected $definition = \App\Models\Definitions\ChangeTicket::class;
   protected $titles = ['Change Ticket', 'Change Ticket'];
   protected $icon = 'edit';
   protected $table = 'change_ticket';

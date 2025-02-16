@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +21,9 @@ class Domain extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
 
-  protected $definition = '\App\Models\Definitions\Domain';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Domain::class;
   protected $titles = ['Domain', 'Domains'];
   protected $icon = 'globe americas';
 
@@ -29,8 +32,8 @@ class Domain extends Common
 
   protected $visible = [
     'type',
-    'userstech',
-    'groupstech',
+    'usertech',
+    'grouptech',
     'entity',
     'certificates',
     'documents',
@@ -44,8 +47,8 @@ class Domain extends Common
 
   protected $with = [
     'type:id,name',
-    'userstech:id,name,firstname,lastname',
-    'groupstech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
     'entity:id,name,completename',
     'certificates:id,name',
     'documents:id,name',
@@ -64,13 +67,13 @@ class Domain extends Common
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
@@ -91,5 +94,59 @@ class Domain extends Common
   public function records(): HasMany
   {
     return $this->hasMany(\App\Models\Domainrecord::class);
+  }
+
+  /** @return MorphToMany<\App\Models\Appliance, $this> */
+  public function itemAppliances(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Appliance::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Certificate, $this> */
+  public function itemCertificates(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Certificate::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Monitor, $this> */
+  public function itemMonitors(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Monitor::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function itemPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function itemPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'domain_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Software, $this> */
+  public function itemSoftwares(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Software::class, 'item', 'domain_item');
   }
 }

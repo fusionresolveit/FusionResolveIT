@@ -4,311 +4,277 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Change
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Title'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 21,
-        'title' => $translator->translate('Description'),
-        'type'  => 'textarea',
-        'name'  => 'content',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translate('Status'),
-        'type'  => 'dropdown',
-        'name'  => 'status',
-        'dbname'  => 'status',
-        'values' => self::getStatusArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 10,
-        'title' => $translator->translate('Urgency'),
-        'type'  => 'dropdown',
-        'name'  => 'urgency',
-        'dbname'  => 'urgency',
-        'values' => self::getUrgencyArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translate('Impact'),
-        'type'  => 'dropdown',
-        'name'  => 'impact',
-        'dbname'  => 'impact',
-        'values' => self::getImpactArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Priority'),
-        'type'  => 'dropdown',
-        'name'  => 'priority',
-        'dbname'  => 'priority',
-        'values' => self::getPriorityArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Opening date'),
-        'type'  => 'datetime',
-        'name'  => 'date',
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Closing date'),
-        'type'  => 'datetime',
-        'name'  => 'closedate',
-      ],
-      [
-        'id'    => 18,
-        'title' => $translator->translate('Time to resolve'),
-        'type'  => 'datetime',
-        'name'  => 'time_to_resolve',
-      ],
-      // [
-      //   'id'    => 82,
-      //   'title' => $translator->translate('Time to resolve exceeded'),
-      //   'type'  => 'boolean',
-      //   'name'  => 'is_late',
-      // ],
-      [
-        'id'    => 17,
-        'title' => $translator->translate('Resolution date'),
-        'type'  => 'datetime',
-        'name'  => 'solvedate',
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-      ],
-      [
-        'id'    => 7,
-        'title' => $translator->translate('Category'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'itilcategorie',
-        'dbname' => 'category_id',
-        'itemtype' => '\App\Models\Category',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 45,
-        'title' => $translator->translate('Total duration'),
-        'type'  => 'dropdown',
-        'name'  => 'actiontime',
-        'dbname'  => 'actiontime',
-        'values' => self::getTimestampArray(),
-      ],
-      [
-        'id'    => 64,
-        'title' => $translator->translate('Last edit by'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'usersidlastupdater',
-        'dbname' => 'user_id_lastupdater',
-        'itemtype' => '\App\Models\User',
-      ],
-      [
-        'id'    => 22,
-        'title' => $translator->translate('Writer'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'usersidrecipient',
-        'dbname'  => 'user_id_recipient',
-        'itemtype' => '\App\Models\User',
-      ],
-      [
-        'id'    => 60,
-        'title' => $translator->translate('Analysis impact'),
-        'type'  => 'textarea',
-        'name'  => 'impactcontent',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 61,
-        'title' => $translator->translate('Control list'),
-        'type'  => 'textarea',
-        'name'  => 'controlistcontent',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 62,
-        'title' => $translator->translate('Deployment plan'),
-        'type'  => 'textarea',
-        'name'  => 'rolloutplancontent',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 63,
-        'title' => $translator->translate('Backup plan'),
-        'type'  => 'textarea',
-        'name'  => 'backoutplancontent',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 67,
-        'title' => $translator->translate('Checklist'),
-        'type'  => 'textarea',
-        'name'  => 'checklistcontent',
-        'fillable' => true,
-      ],
 
-
-      /*
-      $tab[] = [
-        'id'                 => 'common',
-        'name'               => __('Characteristics')
-      ];
-
-      $tab[] = [
-        'id'                 => '2',
-        'table'              => $this->getTable(),
-        'field'              => 'id',
-        'name'               => __('ID'),
-        'massiveaction'      => false,
-        'datatype'           => 'number'
-      ];
-
-      $tab[] = [
-        'id'                 => '151',
-        'table'              => $this->getTable(),
-        'field'              => 'time_to_resolve',
-        'name'               => __('Time to resolve + Progress'),
-        'massiveaction'      => false,
-        'nosearch'           => true,
-        'additionalfields'   => ['status']
-      ];
-      if (!Session::isCron() // no filter for cron
-      && Session::getCurrentInterface() == 'helpdesk')
-      {
-      $newtab['condition']         = ['is_helpdeskvisible' => 1];
-      }
-      $tab[] = $newtab;
-
-      // Filter search fields for helpdesk
-      if (!Session::isCron() // no filter for cron
-      && Session::getCurrentInterface() != 'central')
-      {
-      // last updater no search
-      $newtab['nosearch'] = true;
-      }
-      $tab[] = $newtab;
-
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-      // For ITIL template
-      $tab[] = [
-        'id'                 => '142',
-        'table'              => 'glpi_documents',
-        'field'              => 'name',
-        'name'               => Document::getTypeName(Session::getPluralNumber()),
-        'forcegroupby'       => true,
-        'usehaving'          => true,
-        'nosearch'           => true,
-        'nodisplay'          => true,
-        'datatype'           => 'dropdown',
-        'massiveaction'      => false,
-        'joinparams'         => [
-        'jointype'           => 'items_id',
-        'beforejoin'         => [
-        'table'              => 'glpi_documents_items',
-        'joinparams'         => [
-        'jointype'           => 'itemtype_item'
-        ]
-        ]
-        ]
-      ];
-
-      $tab[] = [
-        'id'                 => '68',
-        'table'              => 'glpi_changes_items',
-        'field'              => 'id',
-        'name'               => _x('quantity', 'Number of items'),
-        'forcegroupby'       => true,
-        'usehaving'          => true,
-        'datatype'           => 'count',
-        'massiveaction'      => false,
-        'joinparams'         => [
-        'jointype'           => 'child'
-        ]
-      ];
-
-      $tab[] = [
-        'id'                 => '13',
-        'table'              => 'glpi_changes_items',
-        'field'              => 'items_id',
-        'name'               => _n('Associated element', 'Associated elements', Session::getPluralNumber()),
-        'datatype'           => 'specific',
-        'comments'           => true,
-        'nosearch'           => true,
-        'additionalfields'   => ['itemtype'],
-        'joinparams'         => [
-        'jointype'           => 'child'
-        ],
-        'forcegroupby'       => true,
-        'massiveaction'      => false
-      ];
-
-      $tab[] = [
-        'id'                 => '131',
-        'table'              => 'glpi_changes_items',
-        'field'              => 'itemtype',
-        'name'               => _n('Associated item type', 'Associated item types', Session::getPluralNumber()),
-        'datatype'           => 'itemtypename',
-        'itemtype_list'      => 'ticket_types',
-        'nosort'             => true,
-        'additionalfields'   => ['itemtype'],
-        'joinparams'         => [
-        'jointype'           => 'child'
-        ],
-        'forcegroupby'       => true,
-        'massiveaction'      => false
-      ];
-
-      $tab = array_merge($tab, $this->getSearchOptionsActors());
-
-      $tab[] = [
-        'id'                 => 'analysis',
-        'name'               => __('Control list')
-      ];
-
-      $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
-
-      $tab = array_merge($tab, ChangeValidation::rawSearchOptionsToAdd());
-
-      $tab = array_merge($tab, ITILFollowup::rawSearchOptionsToAdd());
-
-      $tab = array_merge($tab, ChangeTask::rawSearchOptionsToAdd());
-
-      $tab = array_merge($tab, $this->getSearchOptionsSolution());
-
-      $tab = array_merge($tab, ChangeCost::rawSearchOptionsToAdd());
-
-      */
+    $t = [
+      'name' => $translator->translate('Title'),
+      'content' => $translator->translate('Description'),
+      'status' => $translator->translate('Status'),
+      'urgency' => $translator->translate('Urgency'),
+      'impact' => $translator->translate('Impact'),
+      'priority' => $translator->translate('Priority'),
+      'date' => $translator->translate('Opening date'),
+      'closedate' => $translator->translate('Closing date'),
+      'time_to_resolve' => $translator->translate('Time to resolve'),
+      'solvedate' => $translator->translate('Resolution date'),
+      'updated_at' => $translator->translate('Last update'),
+      'category' => $translator->translate('Category'),
+      'actiontime' => $translator->translate('Total duration'),
+      'usersidlastupdater' => $translator->translate('Last edit by'),
+      'usersidrecipient' => $translator->translate('Writer'),
+      'impactcontent' => $translator->translate('Analysis impact'),
+      'controlistcontent' => $translator->translate('Control list'),
+      'rolloutplancontent' => $translator->translate('Deployment plan'),
+      'backoutplancontent' => $translator->translate('Backup plan'),
+      'checklistcontent' => $translator->translate('Checklist'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(21, $t['content'], 'textarea', 'content', fillable: true));
+    $defColl->add(new Def(
+      12,
+      $t['status'],
+      'dropdown',
+      'status',
+      dbname: 'status',
+      values: self::getStatusArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      10,
+      $t['urgency'],
+      'dropdown',
+      'urgency',
+      dbname: 'urgency',
+      values: self::getUrgencyArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      11,
+      $t['impact'],
+      'dropdown',
+      'impact',
+      dbname: 'impact',
+      values: self::getImpactArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      3,
+      $t['priority'],
+      'dropdown',
+      'priority',
+      dbname: 'priority',
+      values: self::getPriorityArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(15, $t['date'], 'datetime', 'date'));
+    $defColl->add(new Def(16, $t['closedate'], 'datetime', 'closedate'));
+    $defColl->add(new Def(18, $t['time_to_resolve'], 'datetime', 'time_to_resolve'));
+    $defColl->add(new Def(17, $t['solvedate'], 'datetime', 'solvedate'));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(
+      7,
+      $t['category'],
+      'dropdown_remote',
+      'category',
+      dbname: 'category_id',
+      itemtype: '\App\Models\Category',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      45,
+      $t['actiontime'],
+      'dropdown',
+      'actiontime',
+      dbname: 'actiontime',
+      values: self::getTimestampArray()
+    ));
+    $defColl->add(new Def(
+      64,
+      $t['usersidlastupdater'],
+      'dropdown_remote',
+      'usersidlastupdater',
+      dbname: 'user_id_lastupdater',
+      itemtype: '\App\Models\User'
+    ));
+    $defColl->add(new Def(
+      22,
+      $t['usersidrecipient'],
+      'dropdown_remote',
+      'usersidrecipient',
+      dbname: 'user_id_recipient',
+      itemtype: '\App\Models\User'
+    ));
+    $defColl->add(new Def(60, $t['impactcontent'], 'textarea', 'impactcontent', fillable: true));
+    $defColl->add(new Def(61, $t['controlistcontent'], 'textarea', 'controlistcontent', fillable: true));
+    $defColl->add(new Def(62, $t['rolloutplancontent'], 'textarea', 'rolloutplancontent', fillable: true));
+    $defColl->add(new Def(63, $t['backoutplancontent'], 'textarea', 'backoutplancontent', fillable: true));
+    $defColl->add(new Def(67, $t['checklistcontent'], 'textarea', 'checklistcontent', fillable: true));
+
+    return $defColl;
+
+    // [
+    //   'id'    => 82,
+    //   'title' => $translator->translate('Time to resolve exceeded'),
+    //   'type'  => 'boolean',
+    //   'name'  => 'is_late',
+    // ],
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+
+
+    /*
+    $tab[] = [
+      'id'                 => 'common',
+      'name'               => __('Characteristics')
+    ];
+
+    $tab[] = [
+      'id'                 => '2',
+      'table'              => $this->getTable(),
+      'field'              => 'id',
+      'name'               => __('ID'),
+      'massiveaction'      => false,
+      'datatype'           => 'number'
+    ];
+
+    $tab[] = [
+      'id'                 => '151',
+      'table'              => $this->getTable(),
+      'field'              => 'time_to_resolve',
+      'name'               => __('Time to resolve + Progress'),
+      'massiveaction'      => false,
+      'nosearch'           => true,
+      'additionalfields'   => ['status']
+    ];
+    if (!Session::isCron() // no filter for cron
+    && Session::getCurrentInterface() == 'helpdesk')
+    {
+    $newtab['condition']         = ['is_helpdeskvisible' => 1];
+    }
+    $tab[] = $newtab;
+
+    // Filter search fields for helpdesk
+    if (!Session::isCron() // no filter for cron
+    && Session::getCurrentInterface() != 'central')
+    {
+    // last updater no search
+    $newtab['nosearch'] = true;
+    }
+    $tab[] = $newtab;
+
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+    // For ITIL template
+    $tab[] = [
+      'id'                 => '142',
+      'table'              => 'glpi_documents',
+      'field'              => 'name',
+      'name'               => Document::getTypeName(Session::getPluralNumber()),
+      'forcegroupby'       => true,
+      'usehaving'          => true,
+      'nosearch'           => true,
+      'nodisplay'          => true,
+      'datatype'           => 'dropdown',
+      'massiveaction'      => false,
+      'joinparams'         => [
+      'jointype'           => 'items_id',
+      'beforejoin'         => [
+      'table'              => 'glpi_documents_items',
+      'joinparams'         => [
+      'jointype'           => 'itemtype_item'
+      ]
+      ]
+      ]
+    ];
+
+    $tab[] = [
+      'id'                 => '68',
+      'table'              => 'glpi_changes_items',
+      'field'              => 'id',
+      'name'               => _x('quantity', 'Number of items'),
+      'forcegroupby'       => true,
+      'usehaving'          => true,
+      'datatype'           => 'count',
+      'massiveaction'      => false,
+      'joinparams'         => [
+      'jointype'           => 'child'
+      ]
+    ];
+
+    $tab[] = [
+      'id'                 => '13',
+      'table'              => 'glpi_changes_items',
+      'field'              => 'items_id',
+      'name'               => _n('Associated element', 'Associated elements', Session::getPluralNumber()),
+      'datatype'           => 'specific',
+      'comments'           => true,
+      'nosearch'           => true,
+      'additionalfields'   => ['itemtype'],
+      'joinparams'         => [
+      'jointype'           => 'child'
+      ],
+      'forcegroupby'       => true,
+      'massiveaction'      => false
+    ];
+
+    $tab[] = [
+      'id'                 => '131',
+      'table'              => 'glpi_changes_items',
+      'field'              => 'itemtype',
+      'name'               => _n('Associated item type', 'Associated item types', Session::getPluralNumber()),
+      'datatype'           => 'itemtypename',
+      'itemtype_list'      => 'ticket_types',
+      'nosort'             => true,
+      'additionalfields'   => ['itemtype'],
+      'joinparams'         => [
+      'jointype'           => 'child'
+      ],
+      'forcegroupby'       => true,
+      'massiveaction'      => false
+    ];
+
+    $tab = array_merge($tab, $this->getSearchOptionsActors());
+
+    $tab[] = [
+      'id'                 => 'analysis',
+      'name'               => __('Control list')
+    ];
+
+    $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
+
+    $tab = array_merge($tab, ChangeValidation::rawSearchOptionsToAdd());
+
+    $tab = array_merge($tab, ITILFollowup::rawSearchOptionsToAdd());
+
+    $tab = array_merge($tab, ChangeTask::rawSearchOptionsToAdd());
+
+    $tab = array_merge($tab, $this->getSearchOptionsSolution());
+
+    $tab = array_merge($tab, ChangeCost::rawSearchOptionsToAdd());
+
+    */
   }
 
-  public static function getStatusArray()
+  /**
+   * @return array<mixed>
+   */
+  public static function getStatusArray(): array
   {
     global $translator;
     return [
@@ -351,7 +317,10 @@ class Change
     ];
   }
 
-  public static function getUrgencyArray()
+  /**
+   * @return array<int, mixed>
+   */
+  public static function getUrgencyArray(): array
   {
     global $translator;
     return [
@@ -373,7 +342,10 @@ class Change
     ];
   }
 
-  public static function getImpactArray()
+  /**
+   * @return array<int, mixed>
+   */
+  public static function getImpactArray(): array
   {
     global $translator;
     return [
@@ -395,7 +367,10 @@ class Change
     ];
   }
 
-  public static function getPriorityArray()
+  /**
+   * @return array<int, mixed>
+   */
+  public static function getPriorityArray(): array
   {
     global $translator;
     return [
@@ -432,7 +407,12 @@ class Change
     ];
   }
 
-  public static function getTimestampArray($options = [])
+  /**
+   * @param array<string, mixed> $options
+   *
+   * @return array<mixed>
+   */
+  public static function getTimestampArray(array $options = []): array
   {
     global $translator;
 
@@ -451,7 +431,7 @@ class Change
     $params['toadd']               = [];
     $params['inhours']             = false;
 
-    if (is_array($options) && count($options))
+    if (count($options))
     {
       foreach ($options as $key => $val)
       {
@@ -552,7 +532,10 @@ class Change
     return $tab;
   }
 
-  public static function getDefinitionAnalysis()
+  /**
+   * @return array<mixed>
+   */
+  public static function getDefinitionAnalysis(): array
   {
     global $translator;
     return [
@@ -571,7 +554,10 @@ class Change
     ];
   }
 
-  public static function getDefinitionPlans()
+  /**
+   * @return array<mixed>
+   */
+  public static function getDefinitionPlans(): array
   {
     global $translator;
     return [
@@ -596,7 +582,10 @@ class Change
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

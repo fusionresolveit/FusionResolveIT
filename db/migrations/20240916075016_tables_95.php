@@ -23,16 +23,6 @@ final class Tables95 extends AbstractMigration
   public function change(): void
   {
     // A
-    $table = $this->table('alerts');
-    $table->addColumn('item_type', 'string', ['null' => false, 'length' => 100])
-          ->addColumn('item_id', 'integer', ['null' => false, 'default' => 0])
-          ->addColumn('type', 'integer', ['null' => false, 'default' => 0])
-          ->addColumn('date', 'timestamp', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
-          ->addIndex(['item_type', 'item_id', 'type'], ['unique' => true])
-          ->addIndex(['type'])
-          ->addIndex(['date'])
-          ->create();
-
     $table = $this->table('apiclients');
     $table->addColumn('name', 'string', ['null' => true])
           ->addColumn('comment', 'text', ['null' => true])

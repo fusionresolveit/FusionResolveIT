@@ -4,44 +4,188 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostSlm;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Slm extends Common
+final class Slm extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Slm';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Slm::class;
   protected $rootUrl2 = '/slms/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Slm
   {
-    $item = new \App\Models\Slm();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Slm();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Slm();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostSlm((object) $request->getParsedBody());
+
+    $slm = new \App\Models\Slm();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($slm))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $slm = \App\Models\Slm::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($slm, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/slms/' . $slm->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/slms')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Slm();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostSlm((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $slm = \App\Models\Slm::where('id', $id)->first();
+    if (is_null($slm))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($slm))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $slm->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($slm, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubSlas(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $slm = \App\Models\Slm::withTrashed()->where('id', $id)->first();
+    if (is_null($slm))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($slm->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $slm->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/slms')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $slm->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $slm = \App\Models\Slm::withTrashed()->where('id', $id)->first();
+    if (is_null($slm))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($slm->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $slm->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubSlas(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Slm();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/slas');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -56,7 +200,11 @@ final class Slm extends Common
 
       $type = $this->getTtrTto()[$current_sla->type];
 
-      $max_duration = $this->getValueWithUnit($current_sla->number_time, $current_sla->definition_time, 0);
+      $max_duration = null;
+      if (!is_null($current_sla->definition_time))
+      {
+        $max_duration = $this->getValueWithUnit($current_sla->number_time, $current_sla->definition_time, 0);
+      }
 
       $calendar_name = '';
       $calendar_url = '';
@@ -90,15 +238,21 @@ final class Slm extends Common
     return $view->render($response, 'subitem/slaola.html.twig', (array)$viewData);
   }
 
-  public function showSubOlas(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubOlas(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Slm();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/olas');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -112,8 +266,11 @@ final class Slm extends Common
       // $url = $this->genereRootUrl2Link($rootUrl2, '/olas/', $current_ola->id);   // TODO
 
       $type = $this->getTtrTto()[$current_ola->type];
-
-      $max_duration = $this->getValueWithUnit($current_ola->number_time, $current_ola->definition_time, 0);
+      $max_duration = null;
+      if (!is_null($current_ola->definition_time))
+      {
+        $max_duration = $this->getValueWithUnit($current_ola->number_time, $current_ola->definition_time, 0);
+      }
 
       $calendar_name = '';
       $calendar_url = '';
@@ -147,7 +304,10 @@ final class Slm extends Common
     return $view->render($response, 'subitem/slaola.html.twig', (array)$viewData);
   }
 
-  public function getTtrTto()
+  /**
+   * @return array<mixed>
+   */
+  public function getTtrTto(): array
   {
     global $translator;
 

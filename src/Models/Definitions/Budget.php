@@ -4,116 +4,90 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Budget
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 7,
-        'title' => $translator->translate('price' . "\004" . 'Value'),
-        'type'  => 'input',
-        'name'  => 'value',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Start date'),
-        'type'  => 'date',
-        'name'  => 'begin_date',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translate('End date'),
-        'type'  => 'date',
-        'name'  => 'end_date',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translatePlural('Type', 'Types', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'type',
-        'dbname' => 'budgettype_id',
-        'itemtype' => '\App\Models\Budgettype',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translatePlural('Location', 'Locations', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'location',
-        'dbname' => 'location_id',
-        'itemtype' => '\App\Models\Location',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 50,
-      //   'title' => $translator->translate('Template name'),
-      //   'type'  => 'input',
-      //   'name'  => 'template_name',
-      // ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-
-      /*
-      $tab[] = [
-        'id'                 => 'common',
-        'name'               => __('Characteristics')
-      ];
-
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-      $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'value' => $translator->translate('price' . "\004" . 'Value'),
+      'begin_date' => $translator->translate('Start date'),
+      'end_date' => $translator->translate('End date'),
+      'type' => $translator->translatePlural('Type', 'Types', 1),
+      'comment' => $translator->translate('Comments'),
+      'location' => $translator->translatePlural('Location', 'Locations', 1),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(7, $t['value'], 'input', 'value', fillable: true));
+    $defColl->add(new Def(5, $t['begin_date'], 'date', 'begin_date', fillable: true));
+    $defColl->add(new Def(6, $t['end_date'], 'date', 'end_date', fillable: true));
+    $defColl->add(new Def(
+      4,
+      $t['type'],
+      'dropdown_remote',
+      'type',
+      dbname: 'budgettype_id',
+      itemtype: '\App\Models\Budgettype',
+      fillable: true
+    ));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(
+      3,
+      $t['location'],
+      'dropdown_remote',
+      'location',
+      dbname: 'location_id',
+      itemtype: '\App\Models\Location',
+      fillable: true
+    ));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+
+
+    // [
+    //   'id'    => 50,
+    //   'title' => $translator->translate('Template name'),
+    //   'type'  => 'input',
+    //   'name'  => 'template_name',
+    // ],
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+    /*
+    $tab[] = [
+      'id'                 => 'common',
+      'name'               => __('Characteristics')
+    ];
+
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+    $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
+    */
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

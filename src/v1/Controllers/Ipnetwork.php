@@ -4,44 +4,188 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostIpnetwork;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Ipnetwork extends Common
+final class Ipnetwork extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Ipnetwork';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Ipnetwork::class;
   protected $rootUrl2 = '/dropdowns/ipnetwork/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Ipnetwork
   {
-    $item = new \App\Models\Ipnetwork();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Ipnetwork();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Ipnetwork();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostIpnetwork((object) $request->getParsedBody());
+
+    $ipnetwork = new \App\Models\Ipnetwork();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($ipnetwork))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $ipnetwork = \App\Models\Ipnetwork::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($ipnetwork, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/ipnetworks/' . $ipnetwork->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/ipnetworks')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Ipnetwork();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostIpnetwork((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $ipnetwork = \App\Models\Ipnetwork::where('id', $id)->first();
+    if (is_null($ipnetwork))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($ipnetwork))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $ipnetwork->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($ipnetwork, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubVlans(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $ipnetwork = \App\Models\Ipnetwork::withTrashed()->where('id', $id)->first();
+    if (is_null($ipnetwork))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($ipnetwork->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $ipnetwork->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/ipnetworks')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $ipnetwork->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $ipnetwork = \App\Models\Ipnetwork::withTrashed()->where('id', $id)->first();
+    if (is_null($ipnetwork))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($ipnetwork->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $ipnetwork->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubVlans(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Ipnetwork();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/vlans');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);

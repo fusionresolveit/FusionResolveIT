@@ -12,7 +12,7 @@ class ItemDeviceharddrive extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDeviceharddrive';
+  protected $definition = \App\Models\Definitions\ItemDeviceharddrive::class;
   protected $titles = ['Deviceharddrive Item', 'Deviceharddrive Items'];
   protected $icon = 'edit';
   protected $table = 'item_deviceharddrive';

@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tests\integration\v1\Controllers;
+namespace Tests\integration\v1\Controllers\Rules;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use App\v1\Controllers\Rules\Common;
+use App\v1\Controllers\Rules\Ticket as Common;
 
 #[CoversClass('\App\v1\Controllers\Rules\Criterium')]
-#[CoversClass('\App\v1\Controllers\Rules\Common')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Translation')]
@@ -29,9 +30,12 @@ use App\v1\Controllers\Rules\Common;
 #[UsesClass('\App\Models\Definitions\Problemtemplate')]
 #[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Definitions\Rule')]
+#[UsesClass('\App\Models\Definitions\Ruleaction')]
+#[UsesClass('\App\Models\Definitions\Rulecriterium')]
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Entity')]
 #[UsesClass('\App\Models\Group')]
+#[UsesClass('\App\Models\Rules\Rule')]
 #[UsesClass('\App\Models\Rules\Rulecriterium')]
 #[UsesClass('\App\Models\Ticket')]
 
@@ -42,6 +46,7 @@ final class CriteriumTest extends TestCase
     // reset all
     \App\Models\Category::truncate();
     \App\Models\Group::truncate();
+    \App\Models\Rules\Rule::truncate();
 
     // create categories
     $cat0 = \App\Models\Category::create([
@@ -89,9 +94,8 @@ final class CriteriumTest extends TestCase
       'group_id'    => $grplvl3->id,
     ]);
 
-    \App\Models\Rules\Rule::create([
+    \App\Models\Rules\Ticket::create([
       'name'      => 'test',
-      'sub_type'  => 'RuleTicket',
       'match'     => 'AND',
       'is_active' => true,
     ]);
@@ -477,6 +481,7 @@ final class CriteriumTest extends TestCase
   #[DataProvider('additionProviderBoolean')]
   public function testCheckCriteria($criterium, $condition, $pattern, $inputkey, $value, $expectedRet): void
   {
+    \App\Models\Rules\Rulecriterium::truncate();
     $ctrl = new \App\v1\Controllers\Rules\Criterium();
     $crit = new \App\Models\Rules\Rulecriterium();
     $crit->rule_id = 1;
@@ -488,7 +493,7 @@ final class CriteriumTest extends TestCase
 
     $this->assertNotNull($crit, 'create criterium failed');
 
-    $input = [
+    $input = (object) [
       $inputkey => $value,
     ];
     $ret = $ctrl->checkCriteria($crit, $input);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +16,9 @@ class Contact extends Common
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
 
-  protected $definition = '\App\Models\Definitions\Contact';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Contact::class;
   protected $titles = ['Contact', 'Contacts'];
   protected $icon = 'user tie';
 

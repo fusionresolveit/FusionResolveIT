@@ -8,15 +8,24 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Menu
 {
+  /** @var array<mixed> */
   protected $rights = [];
 
-  public function getMenu(Request $request)
+  /**
+   * @return array<mixed>
+   */
+  public function getMenu(Request $request): array
   {
     $this->loadRights();
     return $this->cleanMenuByDisplay($this->menuData($request));
   }
 
-  public function getMenubookmark($menu)
+  /**
+   * @param array<mixed> $menu
+   *
+   * @return array<mixed>
+   */
+  public function getMenubookmark(array $menu): array
   {
     $bookmarkItems = \App\Models\Menubookmark::where('user_id', $GLOBALS['user_id'])->get();
     $endpoints = [];
@@ -40,9 +49,12 @@ final class Menu
     return $bookmarks;
   }
 
-  private function menuData($request)
+  /**
+   * @return array<mixed>
+   */
+  private function menuData(Request $request): array
   {
-    global $basePath, $translator;
+    global $translator;
 
     $uri = $request->getUri();
 
@@ -152,7 +164,7 @@ final class Menu
           ],
           [
             'name' => $translator->translatePlural('Operating system', 'Operating systems', 2),
-            'endpoint' => '/view/dropdowns/operatingsystems',
+            'endpoint' => '/view/operatingsystems',
             'svgicon' => 'operatingsystem',
             'display' => $this->getRightForModel('\App\Models\Operatingsystem'),
           ],
@@ -488,12 +500,12 @@ final class Menu
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Notification'),
           ],
-          // [
-          //   'name' => $translator->translatePlural('Alert', 'Alerts', 2),
-          //   'endpoint' => '/view/news',
-          //   'icon' => 'bell',
-          //   'display' => $this->getRightForModel('\App\Models\Alert'),
-          // ],
+          [
+            'name' => $translator->translatePlural('Alert', 'Alerts', 2),
+            'endpoint' => '/view/alerts',
+            'icon' => 'bell',
+            'display' => $this->getRightForModel('\App\Models\Alert'),
+          ],
           [
             'name' => $translator->translatePlural('RSS feed', 'RSS feed', 2),
             'endpoint' => '/view/rssfeeds',
@@ -570,211 +582,199 @@ final class Menu
         'sub'  => [
           [
             'name' => $translator->translatePlural('Location', 'Locations', 2),
-            'endpoint' => '/view/dropdowns/locations',
+            'endpoint' => '/view/locations',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Location'),
           ],
           [
             'name' => $translator->translatePlural('Status of items', 'Statuses of items', 2),
-            'endpoint' => '/view/dropdowns/states',
+            'endpoint' => '/view/states',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\State'),
           ],
           [
             'name' => $translator->translatePlural('Manufacturer', 'Manufacturers', 2),
-            'endpoint' => '/view/dropdowns/manufacturers',
+            'endpoint' => '/view/manufacturers',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Manufacturer'),
           ],
           [
             'name' => $translator->translatePlural('Blacklist', 'Blacklists', 2),
-            'endpoint' => '/view/dropdowns/blacklists',
+            'endpoint' => '/view/blacklists',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Blacklist'),
           ],
           [
             'name' => $translator->translate('Blacklisted mail content'),
-            'endpoint' => '/view/dropdowns/blacklistedmailcontents',
+            'endpoint' => '/view/blacklistedmailcontents',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Blacklistedmailcontent'),
           ],
           [
             'name' => $translator->translatePlural('ITIL category', 'ITIL categories', 2),
-            'endpoint' => '/view/dropdowns/categories',
+            'endpoint' => '/view/categories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Category'),
           ],
           [
             'name' => $translator->translatePlural('Ticket template', 'Ticket templates', 2),
-            'endpoint' => '/view/dropdowns/ticketemplates',
+            'endpoint' => '/view/ticketemplates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Tickettemplate'),
           ],
-          // [
-          //   'name' => $translator->translatePlural('Task category', 'Task categories', 2),
-          //   'endpoint' => '/view/dropdowns/taskcategory',
-          //   'icon' => 'edit',
-          //   'display' => $this->getRightForModel('\App\Models\Taskcategories'),
-          // ],
-          // [
-          //   'name' => $translator->translatePlural('Task template', 'Task templates', 2),
-          //   'endpoint' => '/view/dropdowns/tasktemplates',
-          //   'icon' => 'edit',
-          //   'display' => $this->getRightForModel('\App\Models\Tasktemplate'),
-          // ],
           [
             'name' => $translator->translatePlural('Solution type', 'Solution types', 2),
-            'endpoint' => '/view/dropdowns/solutiontypes',
+            'endpoint' => '/view/solutiontypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Solutiontype'),
           ],
           [
             'name' => $translator->translatePlural('Solution template', 'Solution templates', 2),
-            'endpoint' => '/view/dropdowns/solutiontemplates',
+            'endpoint' => '/view/solutiontemplates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Solutiontemplate'),
           ],
           [
             'name' => $translator->translatePlural('Request source', 'Request sources', 2),
-            'endpoint' => '/view/dropdowns/requesttypes',
+            'endpoint' => '/view/requesttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Requesttype'),
           ],
           [
             'name' => $translator->translatePlural('Followup template', 'Followup templates', 2),
-            'endpoint' => '/view/dropdowns/followuptemplates',
+            'endpoint' => '/view/followuptemplates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Followuptemplate'),
           ],
           [
             'name' => $translator->translatePlural('Project state', 'Project states', 2),
-            'endpoint' => '/view/dropdowns/projectstates',
+            'endpoint' => '/view/projectstates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Projectstate'),
           ],
           [
             'name' => $translator->translatePlural('Project type', 'Project types', 2),
-            'endpoint' => '/view/dropdowns/projecttypes',
+            'endpoint' => '/view/projecttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Projecttype'),
           ],
           [
             'name' => $translator->translatePlural('Project task', 'Project tasks', 2),
-            'endpoint' => '/view/dropdowns/projecttasks',
+            'endpoint' => '/view/projecttasks',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Projecttask'),
           ],
           [
             'name' => $translator->translatePlural('Project tasks type', 'Project tasks types', 2),
-            'endpoint' => '/view/dropdowns/projecttasktypes',
+            'endpoint' => '/view/projecttasktypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Projecttasktype'),
           ],
           [
             'name' => $translator->translatePlural('Project task template', 'Project task templates', 2),
-            'endpoint' => '/view/dropdowns/projecttasktemplates',
+            'endpoint' => '/view/projecttasktemplates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Projecttasktemplate'),
           ],
           [
             'name' => $translator->translatePlural('Event category', 'Event categories', 2),
-            'endpoint' => '/view/dropdowns/planningeventcategories',
+            'endpoint' => '/view/planningeventcategories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Planningeventcategory'),
           ],
           [
             'name' => $translator->translatePlural('External events template', 'External events templates', 2),
-            'endpoint' => '/view/dropdowns/planningexternaleventtemplates',
+            'endpoint' => '/view/planningexternaleventtemplates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Planningexternaleventtemplate'),
           ],
           [
             'name' => $translator->translatePlural('Computer type', 'Computer types', 2),
-            'endpoint' => '/view/dropdowns/computertypes',
+            'endpoint' => '/view/computertypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Computertype'),
           ],
           [
             'name' => $translator->translatePlural('Networking equipment type', 'Networking equipment types', 2),
-            'endpoint' => '/view/dropdowns/networkequipmenttypes',
+            'endpoint' => '/view/networkequipmenttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Networkequipmenttype'),
           ],
           [
             'name' => $translator->translatePlural('Printer type', 'Printer types', 2),
-            'endpoint' => '/view/dropdowns/printertypes',
+            'endpoint' => '/view/printertypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Printertype'),
           ],
           [
             'name' => $translator->translatePlural('Monitor type', 'Monitor types', 2),
-            'endpoint' => '/view/dropdowns/monitortypes',
+            'endpoint' => '/view/monitortypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Monitortype'),
           ],
           [
             'name' => $translator->translatePlural('Peripheral type', 'Peripheral types', 2),
-            'endpoint' => '/view/dropdowns/peripheraltypes',
+            'endpoint' => '/view/peripheraltypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Peripheraltype'),
           ],
           [
             'name' => $translator->translatePlural('Phone type', 'Phone types', 2),
-            'endpoint' => '/view/dropdowns/phonetypes',
+            'endpoint' => '/view/phonetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Phonetype'),
           ],
           [
             'name' => $translator->translatePlural('License type', 'License types', 2),
-            'endpoint' => '/view/dropdowns/softwarelicensetypes',
+            'endpoint' => '/view/softwarelicensetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Softwarelicensetype'),
           ],
           [
             'name' => $translator->translatePlural('Cartridge type', 'Cartridge types', 2),
-            'endpoint' => '/view/dropdowns/cartridgeitemtypes',
+            'endpoint' => '/view/cartridgeitemtypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Cartridgeitemtype'),
           ],
           [
             'name' => $translator->translatePlural('Consumable type', 'Consumable types', 2),
-            'endpoint' => '/view/dropdowns/consumableitemtypes',
+            'endpoint' => '/view/consumableitemtypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Consumableitemtype'),
           ],
           [
             'name' => $translator->translatePlural('Contract type', 'Contract types', 2),
-            'endpoint' => '/view/dropdowns/contracttypes',
+            'endpoint' => '/view/contracttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Contracttype'),
           ],
           [
             'name' => $translator->translatePlural('Contact type', 'Contact types', 2),
-            'endpoint' => '/view/dropdowns/contacttypes',
+            'endpoint' => '/view/contacttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Contacttype'),
           ],
           [
             'name' => $translator->translatePlural('Generic type', 'Generic types', 2),
-            'endpoint' => '/view/dropdowns/devicegenerictype',
+            'endpoint' => '/view/devicegenerictypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicegenerictype'),
           ],
           [
             'name' => $translator->translatePlural('Sensor type', 'Sensor types', 2),
-            'endpoint' => '/view/dropdowns/devicesensortype',
+            'endpoint' => '/view/devicesensortype',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicesensortype'),
           ],
           [
             'name' => $translator->translatePlural('Memory type', 'Memory types', 2),
-            'endpoint' => '/view/dropdowns/devicememorytype',
+            'endpoint' => '/view/devicememorytypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicememorytype'),
           ],
           [
             'name' => $translator->translatePlural('Third party type', 'Third party types', 2),
-            'endpoint' => '/view/dropdowns/suppliertypes',
+            'endpoint' => '/view/suppliertypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Suppliertype'),
           ],
@@ -784,271 +784,271 @@ final class Menu
               'Interface types (Hard drive...)',
               2
             ),
-            'endpoint' => '/view/dropdowns/interfacetypes',
+            'endpoint' => '/view/interfacetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Interfacetype'),
           ],
           [
             'name' => $translator->translatePlural('Case type', 'Case types', 2),
-            'endpoint' => '/view/dropdowns/devicecasetype',
+            'endpoint' => '/view/devicecasetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicecasetype'),
           ],
           [
             'name' => $translator->translatePlural('Phone power supply type', 'Phone power supply types', 2),
-            'endpoint' => '/view/dropdowns/phonepowersupplies',
+            'endpoint' => '/view/phonepowersupplies',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Phonepowersupply'),
           ],
           [
             'name' => $translator->translatePlural('File system', 'File systems', 2),
-            'endpoint' => '/view/dropdowns/filesystems',
+            'endpoint' => '/view/filesystems',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Filesystem'),
           ],
           [
             'name' => $translator->translatePlural('Certificate type', 'Certificate types', 2),
-            'endpoint' => '/view/dropdowns/certificatetypes',
+            'endpoint' => '/view/certificatetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Certificatetype'),
           ],
           [
             'name' => $translator->translatePlural('Budget type', 'Budget types', 2),
-            'endpoint' => '/view/dropdowns/budgettypes',
+            'endpoint' => '/view/budgettypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Budgettype'),
           ],
           [
             'name' => $translator->translatePlural('Simcard type', 'Simcard types', 2),
-            'endpoint' => '/view/dropdowns/devicesimcardtypes',
+            'endpoint' => '/view/devicesimcardtypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicesimcardtype'),
           ],
           [
             'name' => $translator->translatePlural('Line type', 'Line types', 2),
-            'endpoint' => '/view/dropdowns/linetypes',
+            'endpoint' => '/view/linetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Linetype'),
           ],
           [
             'name' => $translator->translatePlural('Rack type', 'Rack types', 2),
-            'endpoint' => '/view/dropdowns/racktypes',
+            'endpoint' => '/view/racktypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Racktype'),
           ],
           [
             'name' => $translator->translatePlural('PDU type', 'PDU types', 2),
-            'endpoint' => '/view/dropdowns/pdutypes',
+            'endpoint' => '/view/pdutypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Pdutype'),
           ],
           [
             'name' => $translator->translatePlural('Passive device type', 'Passive device types', 2),
-            'endpoint' => '/view/dropdowns/passivedcequipmenttypes',
+            'endpoint' => '/view/passivedcequipmenttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Passivedcequipmenttype'),
           ],
           [
             'name' => $translator->translatePlural('Cluster type', 'Cluster types', 2),
-            'endpoint' => '/view/dropdowns/clustertypes',
+            'endpoint' => '/view/clustertypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Clustertype'),
           ],
           [
             'name' => $translator->translatePlural('Computer model', 'Computer models', 2),
-            'endpoint' => '/view/dropdowns/computermodels',
+            'endpoint' => '/view/computermodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Computermodel'),
           ],
           [
             'name' => $translator->translatePlural('Networking equipment model', 'Networking equipment models', 2),
-            'endpoint' => '/view/dropdowns/networkequipmentmodels',
+            'endpoint' => '/view/networkequipmentmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Networkequipmentmodel'),
           ],
           [
             'name' => $translator->translatePlural('Printer model', 'Printer models', 2),
-            'endpoint' => '/view/dropdowns/printermodels',
+            'endpoint' => '/view/printermodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Printermodel'),
           ],
           [
             'name' => $translator->translatePlural('Monitor model', 'Monitor models', 2),
-            'endpoint' => '/view/dropdowns/monitormodels',
+            'endpoint' => '/view/monitormodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Monitormodel'),
           ],
           [
             'name' => $translator->translatePlural('Peripheral model', 'Peripheral models', 2),
-            'endpoint' => '/view/dropdowns/peripheralmodels',
+            'endpoint' => '/view/peripheralmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Peripheralmodel'),
           ],
           [
             'name' => $translator->translatePlural('Phone model', 'Phone models', 2),
-            'endpoint' => '/view/dropdowns/phonemodels',
+            'endpoint' => '/view/phonemodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Phonemodel'),
           ],
           [
             'name' => $translator->translatePlural('Device case model', 'Device case models', 2),
-            'endpoint' => '/view/dropdowns/devicecasemodels',
+            'endpoint' => '/view/devicecasemodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicecasemodel'),
           ],
           [
             'name' => $translator->translatePlural('Device control model', 'Device control models', 2),
-            'endpoint' => '/view/dropdowns/devicecontrolmodels',
+            'endpoint' => '/view/devicecontrolmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicecontrolmodel'),
           ],
           [
             'name' => $translator->translatePlural('Device drive model', 'Device drive models', 2),
-            'endpoint' => '/view/dropdowns/devicedrivemodels',
+            'endpoint' => '/view/devicedrivemodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicedrivemodel'),
           ],
           [
             'name' => $translator->translatePlural('Device generic model', 'Device generic models', 2),
-            'endpoint' => '/view/dropdowns/devicegenericmodels',
+            'endpoint' => '/view/devicegenericmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicegenericmodel'),
           ],
           [
             'name' => $translator->translatePlural('Device graphic card model', 'Device graphic card models', 2),
-            'endpoint' => '/view/dropdowns/devicegraphiccardmodels',
+            'endpoint' => '/view/devicegraphiccardmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicegraphiccardmodel'),
           ],
           [
             'name' => $translator->translatePlural('Device hard drive model', 'Device hard drive models', 2),
-            'endpoint' => '/view/dropdowns/deviceharddrivemodels',
+            'endpoint' => '/view/deviceharddrivemodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Deviceharddrivemodel'),
           ],
           [
             'name' => $translator->translatePlural('Device memory model', 'Device memory models', 2),
-            'endpoint' => '/view/dropdowns/devicememorymodels',
+            'endpoint' => '/view/devicememorymodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicememorymodel'),
           ],
           [
             'name' => $translator->translatePlural('System board model', 'System board models', 2),
-            'endpoint' => '/view/dropdowns/devicemotherboardmodels',
+            'endpoint' => '/view/devicemotherboardmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicemotherboardmodel'),
           ],
           [
             'name' => $translator->translatePlural('Network card model', 'Network card models', 2),
-            'endpoint' => '/view/dropdowns/devicenetworkcardmodels',
+            'endpoint' => '/view/devicenetworkcardmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicenetworkcardmodel'),
           ],
           [
             'name' => $translator->translatePlural('Other component model', 'Other component models', 2),
-            'endpoint' => '/view/dropdowns/devicepcimodels',
+            'endpoint' => '/view/devicepcimodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicepcimodel'),
           ],
           [
             'name' => $translator->translatePlural('Device power supply model', 'Device power supply models', 2),
-            'endpoint' => '/view/dropdowns/devicepowersupplymodels',
+            'endpoint' => '/view/devicepowersupplymodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicepowersupplymodel'),
           ],
           [
             'name' => $translator->translatePlural('Device processor model', 'Device processor models', 2),
-            'endpoint' => '/view/dropdowns/deviceprocessormodels',
+            'endpoint' => '/view/deviceprocessormodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Deviceprocessormodel'),
           ],
           [
             'name' => $translator->translatePlural('Device sound card model', 'Device sound card models', 2),
-            'endpoint' => '/view/dropdowns/devicesoundcardmodels',
+            'endpoint' => '/view/devicesoundcardmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicesoundcardmodel'),
           ],
           [
             'name' => $translator->translatePlural('Device sensor model', 'Device sensor models', 2),
-            'endpoint' => '/view/dropdowns/devicesensormodels',
+            'endpoint' => '/view/devicesensormodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Devicesensormodel'),
           ],
           [
             'name' => $translator->translatePlural('Rack model', 'Rack models', 2),
-            'endpoint' => '/view/dropdowns/rackmodels',
+            'endpoint' => '/view/rackmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Rackmodel'),
           ],
           [
             'name' => $translator->translatePlural('Enclosure model', 'Enclosure models', 2),
-            'endpoint' => '/view/dropdowns/enclosuremodels',
+            'endpoint' => '/view/enclosuremodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Enclosuremodel'),
           ],
           [
             'name' => $translator->translatePlural('PDU model', 'PDU models', 2),
-            'endpoint' => '/view/dropdowns/pdumodels',
+            'endpoint' => '/view/pdumodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Pdumodel'),
           ],
           [
             'name' => $translator->translatePlural('Passive device model', 'Passive device models', 2),
-            'endpoint' => '/view/dropdowns/passivedcequipmentmodels',
+            'endpoint' => '/view/passivedcequipmentmodels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Passivedcequipmentmodel'),
           ],
           [
             'name' => $translator->translatePlural('Virtualization system', 'Virtualization systems', 2),
-            'endpoint' => '/view/dropdowns/virtualmachinetypes',
+            'endpoint' => '/view/virtualmachinetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Virtualmachinetype'),
           ],
           [
             'name' => $translator->translatePlural('Virtualization model', 'Virtualization models', 2),
-            'endpoint' => '/view/dropdowns/virtualmachinesystems',
+            'endpoint' => '/view/virtualmachinesystems',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Virtualmachinesystem'),
           ],
           [
             'name' => $translator->translatePlural('State of the virtual machine', 'States of the virtual machine', 2),
-            'endpoint' => '/view/dropdowns/virtualmachinestates',
+            'endpoint' => '/view/virtualmachinestates',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Virtualmachinestate'),
           ],
           [
             'name' => $translator->translatePlural('Document heading', 'Document headings', 2),
-            'endpoint' => '/view/dropdowns/documentcategories',
+            'endpoint' => '/view/documentcategories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Documentcategory'),
           ],
           [
             'name' => $translator->translatePlural('Document type', 'Document types', 2),
-            'endpoint' => '/view/dropdowns/documenttypes',
+            'endpoint' => '/view/documenttypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Documenttype'),
           ],
           [
             'name' => $translator->translatePlural('Business criticity', 'Business criticities', 2),
-            'endpoint' => '/view/dropdowns/businesscriticities',
+            'endpoint' => '/view/businesscriticities',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Businesscriticity'),
           ],
           [
             'name' => $translator->translatePlural('Knowledge base category', 'Knowledge base categories', 2),
-            'endpoint' => '/view/dropdowns/knowbaseitemcategories',
+            'endpoint' => '/view/knowbaseitemcategories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Knowbaseitemcategory'),
           ],
           [
             'name' => $translator->translatePlural('Calendar', 'Calendars', 2),
-            'endpoint' => '/view/dropdowns/calendars',
+            'endpoint' => '/view/calendars',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Calendar'),
           ],
           [
             'name' => $translator->translatePlural('Close time', 'Close times', 2),
-            'endpoint' => '/view/dropdowns/holidays',
+            'endpoint' => '/view/holidays',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Holiday'),
           ],
@@ -1058,13 +1058,13 @@ final class Menu
               'Versions of the operating systems',
               2
             ),
-            'endpoint' => '/view/dropdowns/operatingsystemversions',
+            'endpoint' => '/view/operatingsystemversions',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Operatingsystemversion'),
           ],
           [
             'name' => $translator->translatePlural('Service pack', 'Service packs', 2),
-            'endpoint' => '/view/dropdowns/operatingsystemservicepacks',
+            'endpoint' => '/view/operatingsystemservicepacks',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Operatingsystemservicepack'),
           ],
@@ -1074,127 +1074,127 @@ final class Menu
               'Operating system architectures',
               2
             ),
-            'endpoint' => '/view/dropdowns/operatingsystemarchitectures',
+            'endpoint' => '/view/operatingsystemarchitectures',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Operatingsystemarchitecture'),
           ],
           [
             'name' => $translator->translatePlural('Edition', 'Editions', 2),
-            'endpoint' => '/view/dropdowns/operatingsystemeditions',
+            'endpoint' => '/view/operatingsystemeditions',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Operatingsystemedition'),
           ],
           [
             'name' => $translator->translatePlural('Kernel', 'Kernels', 2),
-            'endpoint' => '/view/dropdowns/operatingsystemkernels',
+            'endpoint' => '/view/operatingsystemkernels',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Operatingsystemkernel'),
           ],
           [
             'name' => $translator->translatePlural('Kernel version', 'Kernel versions', 2),
-            'endpoint' => '/view/dropdowns/operatingsystemkernelversions',
+            'endpoint' => '/view/operatingsystemkernelversions',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Operatingsystemkernelversion'),
           ],
           [
             'name' => $translator->translatePlural('Update Source', 'Update Sources', 2),
-            'endpoint' => '/view/dropdowns/autoupdatesystems',
+            'endpoint' => '/view/autoupdatesystems',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Autoupdatesystem'),
           ],
           [
             'name' => $translator->translatePlural('Network interface', 'Network interfaces', 2),
-            'endpoint' => '/view/dropdowns/networkinterfaces',
+            'endpoint' => '/view/networkinterfaces',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Networkinterface'),
           ],
           [
             'name' => $translator->translatePlural('Network outlet', 'Network outlets', 2),
-            'endpoint' => '/view/dropdowns/netpoints',
+            'endpoint' => '/view/netpoints',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Netpoint'),
           ],
           [
             'name' => $translator->translatePlural('Network', 'Networks', 2),
-            'endpoint' => '/view/dropdowns/networks',
+            'endpoint' => '/view/networks',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Network'),
           ],
           [
             'name' => $translator->translatePlural('VLAN', 'VLANs', 2),
-            'endpoint' => '/view/dropdowns/vlans',
+            'endpoint' => '/view/vlans',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Vlan'),
           ],
           [
             'name' => $translator->translatePlural('Line operator', 'Line operators', 2),
-            'endpoint' => '/view/dropdowns/lineoperators',
+            'endpoint' => '/view/lineoperators',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Lineoperator'),
           ],
           [
             'name' => $translator->translatePlural('Domain type', 'Domain types', 2),
-            'endpoint' => '/view/dropdowns/domaintypes',
+            'endpoint' => '/view/domaintypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Domaintype'),
           ],
           [
             'name' => $translator->translatePlural('Domain relation', 'Domains relations', 2),
-            'endpoint' => '/view/dropdowns/domainrelations',
+            'endpoint' => '/view/domainrelations',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Domainrelation'),
           ],
           [
             'name' => $translator->translatePlural('Record type', 'Records types', 2),
-            'endpoint' => '/view/dropdowns/domainrecordtypes',
+            'endpoint' => '/view/domainrecordtypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Domainrecordtype'),
           ],
           [
             'name' => $translator->translatePlural('IP network', 'IP networks', 2),
-            'endpoint' => '/view/dropdowns/ipnetworks',
+            'endpoint' => '/view/ipnetworks',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Ipnetwork'),
           ],
           [
             'name' => $translator->translatePlural('Internet domain', 'Internet domains', 2),
-            'endpoint' => '/view/dropdowns/fqdns',
+            'endpoint' => '/view/fqdns',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Fqdn'),
           ],
           [
             'name' => $translator->translatePlural('Wifi network', 'Wifi networks', 2),
-            'endpoint' => '/view/dropdowns/wifinetworks',
+            'endpoint' => '/view/wifinetworks',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Wifinetwork'),
           ],
           [
             'name' => $translator->translatePlural('Network name', 'Network names', 2),
-            'endpoint' => '/view/dropdowns/networknames',
+            'endpoint' => '/view/networknames',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Networkname'),
           ],
           [
             'name' => $translator->translatePlural('Software category', 'Software categories', 2),
-            'endpoint' => '/view/dropdowns/softwarecategories',
+            'endpoint' => '/view/softwarecategories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Softwarecategory'),
           ],
           [
             'name' => $translator->translatePlural('User title', 'Users titles', 2),
-            'endpoint' => '/view/dropdowns/usertitles',
+            'endpoint' => '/view/usertitles',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Usertitle'),
           ],
           [
             'name' => $translator->translatePlural('User category', 'User categories', 2),
-            'endpoint' => '/view/dropdowns/usercategories',
+            'endpoint' => '/view/usercategories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Usercategory'),
           ],
           [
             'name' => $translator->translatePlural('LDAP criterion', 'LDAP criteria', 2),
-            'endpoint' => '/view/dropdowns/rulerightparameters',
+            'endpoint' => '/view/rulerightparameters',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Rulerightparameter'),
           ],
@@ -1204,7 +1204,7 @@ final class Menu
               'Ignored values for the unicity',
               2
             ),
-            'endpoint' => '/view/dropdowns/fieldblacklists',
+            'endpoint' => '/view/fieldblacklists',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Fieldblacklist'),
           ],
@@ -1214,48 +1214,42 @@ final class Menu
               'Fields storage of the login in the HTTP request',
               2
             ),
-            'endpoint' => '/view/dropdowns/ssovariables',
+            'endpoint' => '/view/ssovariables',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Ssovariable'),
           ],
           [
             'name' => $translator->translatePlural('Plug', 'Plugs', 2),
-            'endpoint' => '/view/dropdowns/plugs',
+            'endpoint' => '/view/plugs',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Plug'),
           ],
           [
             'name' => $translator->translatePlural('Appliance type', 'Appliance types', 2),
-            'endpoint' => '/view/dropdowns/appliancetypes',
+            'endpoint' => '/view/appliancetypes',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Appliancetype'),
           ],
           [
             'name' => $translator->translatePlural('Appliance environment', 'Appliance environments', 2),
-            'endpoint' => '/view/dropdowns/applianceenvironments',
+            'endpoint' => '/view/applianceenvironments',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Applianceenvironment'),
-          ],
-          [
-            'name' => $translator->translatePlural('Oauth IMAP application', 'Oauth IMAP applications', 2),
-            'endpoint' => '/view/dropdowns/oauthimapapplications',
-            'icon' => 'edit',
-            'display' => $this->getRightForModel('\App\Models\OauthimapApplication'),
           ],
         ],
       ],
     ];
   }
 
-  private function loadRights()
+  private function loadRights(): void
   {
-    $profile = \App\Models\Profile::find($GLOBALS['profile_id']);
+    $profile = \App\Models\Profile::where('id', $GLOBALS['profile_id'])->first();
     if (!is_null($profile))
     {
       $dbRights = \App\Models\Profileright::where('profile_id', $profile->id)->get();
       foreach ($dbRights as $dbRight)
       {
-        if ($dbRight->read || $dbRight->readmyitems || $dbRight->readmygroupitems)
+        if (($dbRight->read || $dbRight->readmyitems || $dbRight->readmygroupitems) && !is_null($dbRight->model))
         {
           $this->setRightForModel($dbRight->model);
         }
@@ -1263,12 +1257,12 @@ final class Menu
     }
   }
 
-  private function setRightForModel($model)
+  private function setRightForModel(string $model): void
   {
     $this->rights['\\' . $model] = true;
   }
 
-  private function getRightForModel($modelName)
+  private function getRightForModel(string $modelName): bool
   {
     if (isset($this->rights[$modelName]))
     {
@@ -1277,7 +1271,12 @@ final class Menu
     return false;
   }
 
-  private function cleanMenuByDisplay($menu)
+  /**
+   * @param array<mixed> $menu
+   *
+   * @return array<mixed>
+   */
+  private function cleanMenuByDisplay(array $menu): array
   {
     $newMenu = [];
     foreach ($menu as $item)

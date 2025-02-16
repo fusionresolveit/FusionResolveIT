@@ -4,30 +4,49 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Rules;
 
+use App\DataInterface\PostRuleAction;
+use App\DataInterface\PostRuleCriterium;
+use App\Traits\ProcessRules;
+use App\Traits\ShowItem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class Ticket extends Common
+final class Ticket extends \App\v1\Controllers\Common
 {
-  protected $use_output_rule_process_as_next_input = true;
-  protected $criteriaDefinitionModel = '\App\v1\Controllers\Rules\Criteria\Ticket';
-  protected $actionsDefinitionModel = '\App\v1\Controllers\Rules\Actions\Ticket';
-  protected $model = '\App\Models\Rules\Ticket';
+  // Rules
+  use ProcessRules;
 
-  public function getAll(Request $request, Response $response, $args): Response
+  // Display
+  use ShowItem;
+
+  /** @var string */
+  protected $criteriaDefinitionModel = '\App\v1\Controllers\Rules\Criteria\Ticket';
+
+  /** @var string */
+  protected $actionsDefinitionModel = '\App\v1\Controllers\Rules\Actions\Ticket';
+
+  protected $model = \App\Models\Rules\Ticket::class;
+
+  protected function instanciateModel(): \App\Models\Rules\Ticket
   {
-    $item = new \App\Models\Rules\Ticket();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Rules\Ticket();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showItem(Request $request, Response $response, array $args): Response
   {
     $item = new \App\Models\Rules\Ticket();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->getUrlWithoutQuery($request);
 
@@ -42,16 +61,23 @@ final class Ticket extends Common
     return $view->render($response, 'genericForm.html.twig', (array)$viewData);
   }
 
-  public function showCriteria(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showCriteria(Request $request, Response $response, array $args): Response
   {
     $item = new \App\Models\Rules\Ticket();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $myItem = $item->find($args['id']);
+    $ruleTicket = \App\Models\Rules\Ticket::where('id', $args['id'])->first();
+    if (is_null($ruleTicket))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rulecriteria = \App\Models\Rules\Rulecriterium::
-        where('rule_id', $myItem->id)
+        where('rule_id', $ruleTicket->id)
       ->get();
     $list = [];
     foreach ($rulecriteria as $rc)
@@ -59,7 +85,7 @@ final class Ticket extends Common
       $condition = \App\v1\Controllers\Rules\Criterium::getConditionForCriterium($rc->criteria, $rc->condition);
       $condition['readonly'] = true;
       $patternviewfield = $rc->patternviewfield;
-      $patternviewfield['readonly'] = true;
+      $patternviewfield->readonly = true;
       $list[] = [
         'id'        => $rc->id,
         'criteria'  => $rc->criteria,
@@ -73,12 +99,12 @@ final class Ticket extends Common
     $rootUrl = rtrim($rootUrl, '/criteria');
 
     // form data
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ruleTicket, $request);
     $viewData->addHeaderColor('red');
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($ruleTicket));
     $viewData->addData('criteria', $list);
 
     $viewData->addData('model', 'Ticket');
@@ -86,16 +112,23 @@ final class Ticket extends Common
     return $view->render($response, 'subitem/Rules/rulecriteria.html.twig', (array)$viewData);
   }
 
-  public function showActions(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showActions(Request $request, Response $response, array $args): Response
   {
     $item = new \App\Models\Rules\Ticket();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $myItem = $item->find($args['id']);
+    $ruleTicket = \App\Models\Rules\Ticket::where('id', $args['id'])->first();
+    if (is_null($ruleTicket))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $ruleActions = \App\Models\Rules\Ruleaction::
-        where('rule_id', $myItem->id)
+        where('rule_id', $ruleTicket->id)
       ->get();
     $list = [];
     $ticket = new \App\Models\Ticket();
@@ -111,19 +144,19 @@ final class Ticket extends Common
       ];
       foreach ($definitions as $definition)
       {
-        $fields['values'][$definition['name']] = [
-          'title' => $definition['title'],
+        $fields['values'][$definition->name] = [
+          'title' => $definition->title,
         ];
-        if ($definition['name'] == $ra->field)
+        if ($definition->name == $ra->field)
         {
           $fields['value'] = $ra->field;
-          $fields['valuename'] = $definition['title'];
+          $fields['valuename'] = $definition->title;
         }
       }
 
       $value = $ra->valueviewfield;
-      $value['readonly'] = true;
-      $value['title'] = 'Value';
+      $value->readonly = true;
+      $value->title = 'Value';
       $list[] = [
         'id'          => $ra->id,
         'action_type' => $ra->action_type,
@@ -135,24 +168,31 @@ final class Ticket extends Common
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/actions');
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ruleTicket, $request);
     $viewData->addHeaderColor('red');
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($ruleTicket));
     $viewData->addData('actions', $list);
 
     return $view->render($response, 'subitem/Rules/ruleactions.html.twig', (array)$viewData);
   }
 
-  public function showNewCriteria(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showNewCriteria(Request $request, Response $response, array $args): Response
   {
     $item = new \App\Models\Rules\Ticket();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/criteria/new');
@@ -170,16 +210,14 @@ final class Ticket extends Common
     return $view->render($response, 'subitem/Rules/newcriteria.html.twig', (array)$viewData);
   }
 
-  public function newCriteria(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newCriteria(Request $request, Response $response, array $args): Response
   {
-    $data = (object) $request->getParsedBody();
+    $data = new PostRuleCriterium((object) $request->getParsedBody());
 
-    $item = new \App\Models\Rules\Rulecriterium();
-    $item->rule_id = $args['id'];
-    $item->criteria = $data->criteria;
-    $item->condition = $data->condition;
-    $item->pattern = $data->pattern;
-    $item->save();
+    \App\Models\Rules\Rulecriterium::create($data->exportToArray());
 
     // add message to session
     \App\v1\Controllers\Toolbox::addSessionMessage('The criterion has been created successfully');
@@ -191,13 +229,20 @@ final class Ticket extends Common
       ->withHeader('Location', $newUrl);
   }
 
-  public function showNewAction(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showNewAction(Request $request, Response $response, array $args): Response
   {
     $item = new \App\Models\Rules\Ticket();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/actions/new');
@@ -215,16 +260,14 @@ final class Ticket extends Common
     return $view->render($response, 'subitem/Rules/newaction.html.twig', (array)$viewData);
   }
 
-  public function newAction(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newAction(Request $request, Response $response, array $args): Response
   {
-    $data = (object) $request->getParsedBody();
+    $data = new PostRuleAction((object) $request->getParsedBody());
 
-    $item = new \App\Models\Rules\Ruleaction();
-    $item->rule_id = $args['id'];
-    $item->action_type = $data->actiontype;
-    $item->field = $data->field;
-    $item->value = $data->value;
-    $item->save();
+    \App\Models\Rules\Ruleaction::create($data->exportToArray());
 
     // add message to session
     \App\v1\Controllers\Toolbox::addSessionMessage('The action has been created successfully');

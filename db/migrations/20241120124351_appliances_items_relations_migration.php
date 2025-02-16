@@ -28,7 +28,14 @@ final class AppliancesItemsRelationsMigration extends AbstractMigration
       // Migration of database
 
       $config = Config::fromPhp('phinx.php');
-      $environment = new Environment('old', $config->getEnvironment('old'));
+
+      $oldEnv = $config->getEnvironment('old');
+      if (is_null($oldEnv))
+      {
+        throw new \Exception('Error', 500);
+      }
+
+      $environment = new Environment('old', $oldEnv);
       $pdo = $environment->getAdapter()->getConnection();
     } else {
       return;
@@ -38,6 +45,10 @@ final class AppliancesItemsRelationsMigration extends AbstractMigration
     if ($this->isMigratingUp())
     {
       $stmt = $pdo->query('SELECT * FROM glpi_appliances_items_relations');
+      if ($stmt === false)
+      {
+        throw new \Exception('Error', 500);
+      }
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
@@ -58,14 +69,16 @@ final class AppliancesItemsRelationsMigration extends AbstractMigration
     }
   }
 
-  public function convertItemtype($itemtype)
+  public function convertItemtype(string $itemtype): string
   {
     $new_itemtype = '';
 
-    if ($itemtype != null) {
+    if ($itemtype != null)
+    {
       $new_itemtype = $itemtype;
       $new_itemtype = ucfirst(strtolower($new_itemtype));
-      if ($new_itemtype == 'Item_devicesimcard') {
+      if ($new_itemtype == 'Item_devicesimcard')
+      {
         $new_itemtype = 'ItemDevicesimcard';
       }
       $new_itemtype = 'App\\Models\\' . $new_itemtype;

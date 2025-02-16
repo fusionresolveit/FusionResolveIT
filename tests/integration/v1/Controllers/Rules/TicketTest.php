@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\integration\v1\Controllers;
+namespace Tests\integration\v1\Controllers\Rules;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Tests\Traits\HttpTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Ticket')]
 #[CoversClass('\App\v1\Controllers\Common')]
@@ -16,11 +17,17 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass('\App\Models\Rules\Rulecriterium')]
 #[CoversClass('\App\Models\Rules\Ticket')]
 #[CoversClass('\App\v1\Controllers\Rules\Action')]
-#[CoversClass('\App\v1\Controllers\Rules\Common')]
 #[CoversClass('\App\v1\Controllers\Rules\Criterium')]
+#[UsesClass('\App\App')]
 #[UsesClass('\App\Route')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
+#[UsesClass('\App\DataInterface\Post')]
+#[UsesClass('\App\DataInterface\PostTicket')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
+#[UsesClass('\App\Events\TreepathUpdating')]
+#[UsesClass('\App\JwtBeforeHandler')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Category')]
 #[UsesClass('\App\Models\Definitions\Certificate')]
@@ -39,6 +46,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Definitions\ProjecttaskTicket')]
 #[UsesClass('\App\Models\Definitions\Rule')]
+#[UsesClass('\App\Models\Definitions\Ruleaction')]
+#[UsesClass('\App\Models\Definitions\Rulecriterium')]
 #[UsesClass('\App\Models\Definitions\Solution')]
 #[UsesClass('\App\Models\Definitions\Ticketcost')]
 #[UsesClass('\App\Models\Definitions\TicketValidation')]
@@ -49,35 +58,42 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[UsesClass('\App\Models\Followup')]
 #[UsesClass('\App\Models\Location')]
 #[UsesClass('\App\Models\Profile')]
+#[UsesClass('\App\Models\Rules\Rule')]
 #[UsesClass('\App\Models\Solution')]
 #[UsesClass('\App\Models\Ticket')]
 #[UsesClass('\App\Models\User')]
+#[UsesClass('\App\Traits\ProcessRules')]
+#[UsesClass('\App\v1\Controllers\Fusioninventory\Validation')]
 #[UsesClass('\App\v1\Controllers\Log')]
 #[UsesClass('\App\v1\Controllers\Profile')]
 #[UsesClass('\App\v1\Controllers\Notification')]
+#[UsesClass('\App\v1\Controllers\Rules\Ticket')]
+#[UsesClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\v1\Controllers\Toolbox')]
-
 
 final class TicketTest extends TestCase
 {
+  use HttpTestTrait;
+
+  protected $app;
+
   public static function setUpBeforeClass(): void
   {
     // create rules
-    $rule = \App\Models\Rules\Rule::create([
+    $rule = \App\Models\Rules\Ticket::create([
       'name'      => 'test priority',
-      'sub_type'  => 'RuleTicket',
       'match'     => 'AND',
       'is_active' => true,
     ]);
     \App\Models\Rules\Rulecriterium::create([
       'rule_id'   => $rule->id,
       'criteria'  => 'name',
-      'condition' => \App\v1\Controllers\Rules\Common::PATTERN_CONTAIN,
+      'condition' => 2, // PATTERN_CONTAIN,
       'pattern'   => 'priority',
     ]);
     \App\Models\Rules\Ruleaction::create([
       'rule_id'     => $rule->id,
-      'action_type' => 'assign_dropdown',
+      'action_type' => 1, //assign_dropdown
       'field'       => 'priority',
       'value'       => '4',
     ]);
@@ -85,59 +101,56 @@ final class TicketTest extends TestCase
     $userDavid = \App\Models\User::create(['name' => 'david']);
     $userJohn = \App\Models\User::create(['name' => 'john']);
 
-    $rule = \App\Models\Rules\Rule::create([
+    $rule = \App\Models\Rules\Ticket::create([
       'name'      => 'test requester 1',
-      'sub_type'  => 'RuleTicket',
       'match'     => 'AND',
       'is_active' => true,
     ]);
     \App\Models\Rules\Rulecriterium::create([
       'rule_id'   => $rule->id,
       'criteria'  => 'name',
-      'condition' => \App\v1\Controllers\Rules\Common::PATTERN_CONTAIN,
+      'condition' => 2, // PATTERN_CONTAIN,
       'pattern'   => 'requester 1',
     ]);
     \App\Models\Rules\Ruleaction::create([
       'rule_id'     => $rule->id,
-      'action_type' => 'assign_dropdown',
+      'action_type' => 1, //assign_dropdown
       'field'       => 'requester',
       'value'       => $userJohn->id,
     ]);
 
-    $rule = \App\Models\Rules\Rule::create([
+    $rule = \App\Models\Rules\Ticket::create([
       'name'      => 'test requester 2',
-      'sub_type'  => 'RuleTicket',
       'match'     => 'AND',
       'is_active' => true,
     ]);
     \App\Models\Rules\Rulecriterium::create([
       'rule_id'   => $rule->id,
       'criteria'  => 'name',
-      'condition' => \App\v1\Controllers\Rules\Common::PATTERN_CONTAIN,
+      'condition' => 2, // PATTERN_CONTAIN,
       'pattern'   => 'requester 2',
     ]);
     \App\Models\Rules\Ruleaction::create([
       'rule_id'     => $rule->id,
-      'action_type' => 'append_dropdown',
+      'action_type' => 3, // append_dropdown
       'field'       => 'requester',
       'value'       => $userJohn->id,
     ]);
 
-    $rule = \App\Models\Rules\Rule::create([
+    $rule = \App\Models\Rules\Ticket::create([
       'name'      => 'test title regex',
-      'sub_type'  => 'RuleTicket',
       'match'     => 'AND',
       'is_active' => true,
     ]);
     \App\Models\Rules\Rulecriterium::create([
       'rule_id'   => $rule->id,
       'criteria'  => 'content',
-      'condition' => \App\v1\Controllers\Rules\Common::REGEX_MATCH,
+      'condition' => 6, // REGEX_MATCH,
       'pattern'   => '(SAP|outlook|mariadb)',
     ]);
     \App\Models\Rules\Ruleaction::create([
       'rule_id'     => $rule->id,
-      'action_type' => 'append_regex_result',
+      'action_type' => 5, // append_regex_result'
       'field'       => 'name',
       'value'       => ' #0',
     ]);
@@ -154,6 +167,12 @@ final class TicketTest extends TestCase
     $user->forceDelete();
     $user = \App\Models\User::where('name', 'john')->first();
     $user->forceDelete();
+  }
+
+  protected function setUp(): void
+  {
+    $this->app = (new \App\App())->get();
+    \App\Models\Ticket::truncate();
   }
 
   public static function providerPriority(): array
@@ -192,10 +211,20 @@ final class TicketTest extends TestCase
   #[DataProvider('providerPriority')]
   public function testRulePriorityCreation($fields, $expected): void
   {
-    $ctrl = new \App\v1\Controllers\Ticket();
-    $data = (object) $fields;
-    $id = $ctrl->saveItem($data);
-    $ticket = \App\Models\Ticket::find($id);
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+
+    $request = $this->createRequest(
+      'POST',
+      '/view/tickets/new',
+      ['Content-Type' => 'application/x-www-form-urlencoded'],
+      ['token' => $token]
+    );
+    $clone = $request->withParsedBody($fields);
+    $response = $this->app->handle($clone);
+
+    $ticket = \App\Models\Ticket::first();
+    $this->assertNotNull($ticket);
     $this->assertEquals($expected, $ticket->priority);
   }
 
@@ -204,11 +233,20 @@ final class TicketTest extends TestCase
   {
     $ticket = \App\Models\Ticket::create($fields);
 
-    $ctrl = new \App\v1\Controllers\Ticket();
-    $data = (object) [
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+
+    $request = $this->createRequest(
+      'POST',
+      '/view/tickets/' . $ticket->id,
+      ['Content-Type' => 'application/x-www-form-urlencoded'],
+      ['token' => $token]
+    );
+    $clone = $request->withParsedBody([
       'name' => $fields['name'],
-    ];
-    $id = $ctrl->saveItem($data, $ticket->id);
+    ]);
+    $response = $this->app->handle($clone);
+
     $ticket->refresh();
     $this->assertEquals($expected, $ticket->priority);
   }
@@ -225,10 +263,19 @@ final class TicketTest extends TestCase
       $fields['requester'] = str_replace('john', (string) $userJohn->id, $fields['requester']);
     }
 
-    $ctrl = new \App\v1\Controllers\Ticket();
-    $data = (object) $fields;
-    $id = $ctrl->saveItem($data);
-    $ticket = \App\Models\Ticket::find($id);
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+
+    $request = $this->createRequest(
+      'POST',
+      '/view/tickets/new',
+      ['Content-Type' => 'application/x-www-form-urlencoded'],
+      ['token' => $token]
+    );
+    $clone = $request->withParsedBody($fields);
+    $response = $this->app->handle($clone);
+
+    $ticket = \App\Models\Ticket::first();
 
     $requester = [];
     foreach ($ticket->requester as $user)
@@ -258,10 +305,19 @@ final class TicketTest extends TestCase
   #[DataProvider('titleAppendRegex')]
   public function testRuleTitleRegexCreation($fields, $expected): void
   {
-    $ctrl = new \App\v1\Controllers\Ticket();
-    $data = (object) $fields;
-    $id = $ctrl->saveItem($data);
-    $ticket = \App\Models\Ticket::find($id);
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+
+    $request = $this->createRequest(
+      'POST',
+      '/view/tickets/new',
+      ['Content-Type' => 'application/x-www-form-urlencoded'],
+      ['token' => $token]
+    );
+    $clone = $request->withParsedBody($fields);
+    $response = $this->app->handle($clone);
+
+    $ticket = \App\Models\Ticket::first();
     $this->assertEquals($expected, $ticket->name);
   }
 
@@ -275,11 +331,20 @@ final class TicketTest extends TestCase
 
     $this->assertEquals($fields['name'], $ticket->name);
 
-    $ctrl = new \App\v1\Controllers\Ticket();
-    $data = (object) [
+    $user = \App\Models\User::find(1);
+    $token = $this->setTokenForUser($user);
+
+    $request = $this->createRequest(
+      'POST',
+      '/view/tickets/' . $ticket->id,
+      ['Content-Type' => 'application/x-www-form-urlencoded'],
+      ['token' => $token]
+    );
+    $clone = $request->withParsedBody([
       'content' => $fields['content'],
-    ];
-    $ctrl->saveItem($data, $ticket->id);
+    ]);
+    $response = $this->app->handle($clone);
+
     $ticket->refresh();
     $this->assertEquals($expected, $ticket->name);
   }

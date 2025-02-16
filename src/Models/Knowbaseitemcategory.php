@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Knowbaseitemcategory extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Knowbaseitemcategory';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Knowbaseitemcategory::class;
   protected $titles = ['Knowledge base category', 'Knowledge base categories'];
   protected $icon = 'edit';
 

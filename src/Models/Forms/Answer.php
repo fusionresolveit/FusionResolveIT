@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Answer extends \App\Models\Common
 {
-  protected $definition = '\App\Models\Definitions\Forms\Answer';
+  protected $definition = \App\Models\Definitions\Forms\Answer::class;
   protected $titles = ['Answer', 'Answers'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;

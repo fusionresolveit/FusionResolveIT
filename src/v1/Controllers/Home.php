@@ -7,7 +7,6 @@ namespace App\v1\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use stdClass;
 
 final class Home extends Common
 {
@@ -16,9 +15,11 @@ final class Home extends Common
   public const SON = 3;
   public const PARENT = 4;
 
-  public function homepage(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function homepage(Request $request, Response $response, array $args): Response
   {
-    global $basePath;
     global $translator;
 
     $nbLast = 8;
@@ -29,10 +30,10 @@ final class Home extends Common
 
     $rootUrl = $this->genereRootUrl($request, '/home');
 
-    $myItem = new \App\Models\Home();
+    $home = new \App\Models\Home();
 
     $items = [];
-    $itemByUserid = $myItem->where('user_id', $GLOBALS['user_id'])->orderBy('row', 'asc')->get();
+    $itemByUserid = $home->where('user_id', $GLOBALS['user_id'])->orderBy('row', 'asc')->get();
     if (count($itemByUserid) > 0)
     {
       foreach ($itemByUserid as $item)
@@ -46,7 +47,7 @@ final class Home extends Common
     }
     else
     {
-      $itemByProfileid = $myItem->where('profile_id', $GLOBALS['profile_id'])->orderBy('row', 'asc')->get();
+      $itemByProfileid = $home->where('profile_id', $GLOBALS['profile_id'])->orderBy('row', 'asc')->get();
       if (count($itemByProfileid) > 0)
       {
         foreach ($itemByProfileid as $item)
@@ -60,7 +61,7 @@ final class Home extends Common
       }
       else
       {
-        $itemByDefaultUseridProfileid = $myItem
+        $itemByDefaultUseridProfileid = $home
           ->where(['user_id' => 0, 'profile_id' => 0])
           ->orderBy('row', 'asc')
           ->get();
@@ -82,234 +83,23 @@ final class Home extends Common
     {
       if ($key == 'mytickets')
       {
-        $myItem2 = \App\Models\Ticket::with('requester')->take(5)->get();
-
-        foreach ($myItem2 as $it)
-        {
-          if ($it->requester !== null)
-          {
-            foreach ($it->requester as $req)
-            {
-              if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
-              {
-                $items[$key]['datas'][$it->id] = [
-                  'name'              => $it->name,
-                  'status'            => $this->getStatusArray()[$it->status],
-                  'priority'          => $this->getPriorityArray()[$it->priority],
-                  'date_open'         => $it->created_at,
-                  'date_last_modif'   => $it->updated_at,
-                ];
-              }
-            }
-          }
-        }
-        $nbValTotal = $nbValTotal + count($items[$key]['datas']);
+        $this->myTickets($items);
       }
       if ($key == 'groupstickets')
       {
-        $itemUser = \App\Models\User::with('group')->find($GLOBALS['user_id']);
-
-        $groups = [];
-        foreach ($itemUser->group as $grp)
-        {
-          $groups[$grp->id] = $grp->name;
-        }
-
-        if (count($groups) > 0)
-        {
-          $myItem2 = \App\Models\Ticket::with('requestergroup', 'watchergroup', 'techniciangroup')->take(5)->get();
-          foreach ($myItem2 as $it)
-          {
-            if ($it->requestergroup !== null)
-            {
-              foreach ($it->requestergroup as $req)
-              {
-                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
-                {
-                  $items[$key]['datas'][$it->id] = [
-                    'name'              => $it->name,
-                    'status'            => $this->getStatusArray()[$it->status],
-                    'priority'          => $this->getPriorityArray()[$it->priority],
-                    'date_open'         => $it->created_at,
-                    'date_last_modif'   => $it->updated_at,
-                  ];
-                }
-              }
-            }
-            if ($it->watchergroup !== null)
-            {
-              foreach ($it->watchergroup as $req)
-              {
-                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
-                {
-                  $items[$key]['datas'][$it->id] = [
-                    'name'              => $it->name,
-                    'status'            => $this->getStatusArray()[$it->status],
-                    'priority'          => $this->getPriorityArray()[$it->priority],
-                    'date_open'         => $it->created_at,
-                    'date_last_modif'   => $it->updated_at,
-                  ];
-                }
-              }
-            }
-            if ($it->techniciangroup !== null)
-            {
-              foreach ($it->techniciangroup as $req)
-              {
-                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
-                {
-                  $items[$key]['datas'][$it->id] = [
-                    'name'              => $it->name,
-                    'status'            => $this->getStatusArray()[$it->status],
-                    'priority'          => $this->getPriorityArray()[$it->priority],
-                    'date_open'         => $it->created_at,
-                    'date_last_modif'   => $it->updated_at,
-                  ];
-                }
-              }
-            }
-          }
-        }
-        $nbValTotal = $nbValTotal + count($items[$key]['datas']);
+        $this->groupstickets($items);
       }
       if ($key == 'lastknowledgeitems')
       {
-        $item2 = new \App\Models\Knowbaseitem();
-        $myItem2 = $item2->orderBy('date', 'desc')->take($nbLast)->take(5)->get();
-        $myItem3 = $item2->orderBy('date', 'desc')->count();
-
-        foreach ($myItem2 as $it)
-        {
-          $user = '';
-          if ($it->user !== null)
-          {
-            $user = $it->user->name;
-          }
-          $category = '';
-          if ($it->category !== null)
-          {
-            $category = $it->category->name;
-          }
-
-          $items[$key]['datas'][$it->id] = [
-            'name'            => $it->name,
-            'user'            => $user,
-            'category'        => $category,
-            'visible_since'   => $it->begin_date,
-            'visible_until'   => $it->end_date,
-          ];
-        }
-        $nbValTotal = $nbValTotal + count($items[$key]['datas']);
-        $limit = false;
-        if ($myItem3 > $nbLast)
-        {
-          $limit = true;
-        }
-        $items[$key]['datas']['#'] = [
-          'limit'   => $limit,
-          'nbLast'  => $nbLast,
-          'nb_res'  => $myItem3,
-        ];
+        $this->lastknowledgeitems($items, $nbLast);
       }
       if ($key == 'lastproblems')
       {
-        $item2 = new \App\Models\Problem();
-        $myItem2 = $item2->orderBy('date', 'desc')->take($nbLast)->get();
-        $myItem3 = $item2->orderBy('date', 'desc')->count();
-
-        foreach ($myItem2 as $it)
-        {
-          $items[$key]['datas'][$it->id] = [
-            'name'              => $it->name,
-            'status'            => $this->getStatusArray()[$it->status],
-            'priority'          => $this->getPriorityArray()[$it->priority],
-            'date_open'         => $it->created_at,
-            'date_last_modif'   => $it->updated_at,
-          ];
-        }
-        $nbValTotal = $nbValTotal + count($items[$key]['datas']);
-        $limit = false;
-        if ($myItem3 > $nbLast)
-        {
-          $limit = true;
-        }
-        $items[$key]['datas']['#'] = [
-          'limit'   => $limit,
-          'nbLast'  => $nbLast,
-          'nb_res'  => $myItem3,
-        ];
+        $this->lastproblems($items, $nbLast);
       }
       if ($key == 'todayincidents')
       {
-        $user = new \App\Models\User();
-        $itemUser = $user::with('group')->find($GLOBALS['user_id']);
-
-        $groups = [];
-        foreach ($itemUser->group as $grp)
-        {
-          $groups[$grp->id] = $grp->name;
-        }
-
-        if (count($groups) > 0)
-        {
-          $nbTodayIncidents = 0;
-
-          $item2 = new \App\Models\Ticket();
-          $myItem2 = $item2::with('requester', 'requestergroup')->take(5)->get();
-          foreach ($myItem2 as $it)
-          {
-            if ($it->requestergroup !== null)
-            {
-              foreach ($it->requestergroup as $req)
-              {
-                if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
-                {
-                  if ($it->created_at->toDateString() == date('Y-m-d'))
-                  {
-                    $nbTodayIncidents = $nbTodayIncidents + 1;
-                  }
-                }
-              }
-            }
-            if ($it->requester !== null)
-            {
-              foreach ($it->requester as $req)
-              {
-                if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
-                {
-                  if ($it->created_at->toDateString() == date('Y-m-d'))
-                  {
-                    $nbTodayIncidents = $nbTodayIncidents + 1;
-                  }
-                }
-                else
-                {
-                  $user2 = new \App\Models\User();
-                  $itemUser2 = $user2::with('group')->find($req->getRelationValue('pivot')->user_id);
-                  $groups2 = [];
-                  foreach ($itemUser2->group as $grp2)
-                  {
-                    $groups2[$grp2->id] = $grp2->name;
-                  }
-
-                  foreach (array_keys($groups2) as $key2)
-                  {
-                    if (array_key_exists($key2, $groups))
-                    {
-                      if ($it->created_at->toDateString() == date('Y-m-d'))
-                      {
-                        $nbTodayIncidents = $nbTodayIncidents + 1;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-
-          $items[$key]['datas']['nb'] = $nbTodayIncidents;
-          $nbValTotal = $nbValTotal + count($items[$key]['datas']);
-        }
+        $this->todayincidents($items);
       }
       // if ($key == 'linkedincidents')
       // {
@@ -351,75 +141,7 @@ final class Home extends Common
       // }
       if ($key == 'lastescaladedtickets')
       {
-        $myItem2 = \App\Models\Ticket::
-            with('requester', 'technician', 'techniciangroup')
-          ->orderBy('created_at', 'desc')
-          ->take(5)
-          ->get();
-
-        $incr = 0;
-        foreach ($myItem2 as $it)
-        {
-          if ($it->requester !== null)
-          {
-            foreach ($it->requester as $req)
-            {
-              if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
-              {
-                $others_tech = false;
-                if ($it->technician !== null)
-                {
-                  foreach ($it->technician as $tec)
-                  {
-                    if ($tec->getRelationValue('pivot')->user_id != $GLOBALS['user_id'])
-                    {
-                      $others_tech = true;
-                      break;
-                    }
-                  }
-                }
-                if ($others_tech === false)
-                {
-                  if ($it->techniciangroup !== null)
-                  {
-                    foreach ($it->techniciangroup as $tec)
-                    {
-                      $others_tech = true;
-                      break;
-                    }
-                  }
-                }
-
-                if ($others_tech)
-                {
-                  $incr = $incr + 1;
-                  if ($incr <= $nbLast)
-                  {
-                    $items[$key]['datas'][$it->id] = [
-                      'name'              => $it->name,
-                      'status'            => $this->getStatusArray()[$it->status],
-                      'priority'          => $this->getPriorityArray()[$it->priority],
-                      'date_open'         => $it->created_at,
-                      'date_last_modif'   => $it->updated_at,
-                    ];
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        $nbValTotal = $nbValTotal + count($items[$key]['datas']);
-        $limit = false;
-        if ($incr > $nbLast)
-        {
-          $limit = true;
-        }
-        $items[$key]['datas']['#'] = [
-          'limit'   => $limit,
-          'nbLast'  => $nbLast,
-          'nb_res'  => $incr,
-        ];
+        $this->lastescaladedtickets($items, $nbLast);
       }
       if ($key == 'knowledgelink')
       {
@@ -431,19 +153,7 @@ final class Home extends Common
       }
       if ($key == 'forms')
       {
-        $myItem2 = \App\Models\Forms\Form::has('category')->get();
-
-        $nb_forms = 0;
-        foreach ($myItem2 as $form)
-        {
-          $items[$key]['datas'][$form->category->id]['category'] = $form->category->name;
-          $items[$key]['datas'][$form->category->id]['forms'][$form->id] = [
-            'name' => $form->name,
-          ];
-          $nb_forms = $nb_forms + 1;
-        }
-
-        $nbValTotal = $nbValTotal + $nb_forms;
+        $this->forms($items);
       }
       if ($key == 'incidentsfromcategory')
       {
@@ -455,7 +165,7 @@ final class Home extends Common
     // die();
 
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($home, $request);
 
     // table homes
     // vérifier si il y a des entrées pour l'utilisateur ($GLOBALS['user_id'])
@@ -516,9 +226,12 @@ final class Home extends Common
     return $view->render($response, 'home.html.twig', (array)$viewData);
   }
 
-
-
-  public static function showLinkedTickets($links)
+  /**
+   * @param array<int, int> $links
+   *
+   * @return array<int, int|string>
+   */
+  public static function showLinkedTickets(array $links): array
   {
     $tab = [];
 
@@ -546,5 +259,354 @@ final class Home extends Common
       }
     }
     return $tab;
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function myTickets(&$items): void
+  {
+    $tickets = \App\Models\Ticket::with('requester')->take(5)->get();
+
+    foreach ($tickets as $it)
+    {
+      if ($it->requester !== null)
+      {
+        foreach ($it->requester as $req)
+        {
+          if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
+          {
+            $items['mytickets']['datas'][$it->id] = [
+              'name'              => $it->name,
+              'status'            => $this->getStatusArray()[$it->status],
+              'priority'          => $this->getPriorityArray()[$it->priority],
+              'date_open'         => $it->created_at,
+              'date_last_modif'   => $it->updated_at,
+            ];
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function groupstickets(&$items): void
+  {
+    $itemUser = \App\Models\User::with('group')->where('id', $GLOBALS['user_id'])->first();
+    if (is_null($itemUser))
+    {
+      return;
+    }
+
+    $groups = [];
+    foreach ($itemUser->group as $grp)
+    {
+      $groups[$grp->id] = $grp->name;
+    }
+
+    if (count($groups) > 0)
+    {
+      $tickets = \App\Models\Ticket::with('requestergroup', 'watchergroup', 'techniciangroup')->take(5)->get();
+      foreach ($tickets as $it)
+      {
+        if ($it->requestergroup !== null)
+        {
+          foreach ($it->requestergroup as $req)
+          {
+            if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
+            {
+              $items['groupstickets']['datas'][$it->id] = [
+                'name'              => $it->name,
+                'status'            => $this->getStatusArray()[$it->status],
+                'priority'          => $this->getPriorityArray()[$it->priority],
+                'date_open'         => $it->created_at,
+                'date_last_modif'   => $it->updated_at,
+              ];
+            }
+          }
+        }
+        if ($it->watchergroup !== null)
+        {
+          foreach ($it->watchergroup as $req)
+          {
+            if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
+            {
+              $items['groupstickets']['datas'][$it->id] = [
+                'name'              => $it->name,
+                'status'            => $this->getStatusArray()[$it->status],
+                'priority'          => $this->getPriorityArray()[$it->priority],
+                'date_open'         => $it->created_at,
+                'date_last_modif'   => $it->updated_at,
+              ];
+            }
+          }
+        }
+        if ($it->techniciangroup !== null)
+        {
+          foreach ($it->techniciangroup as $req)
+          {
+            if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
+            {
+              $items['groupstickets']['datas'][$it->id] = [
+                'name'              => $it->name,
+                'status'            => $this->getStatusArray()[$it->status],
+                'priority'          => $this->getPriorityArray()[$it->priority],
+                'date_open'         => $it->created_at,
+                'date_last_modif'   => $it->updated_at,
+              ];
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function lastknowledgeitems(&$items, int $nbLast): void
+  {
+    $item2 = new \App\Models\Knowbaseitem();
+    $myItem2 = $item2->orderBy('date', 'desc')->take($nbLast)->take(5)->get();
+    $myItem3 = $item2->orderBy('date', 'desc')->count();
+
+    foreach ($myItem2 as $it)
+    {
+      $user = '';
+      if ($it->user !== null)
+      {
+        $user = $it->user->name;
+      }
+      $category = '';
+      if ($it->category !== null)
+      {
+        $category = $it->category->name;
+      }
+
+      $items['lastknowledgeitems']['datas'][$it->id] = [
+        'name'            => $it->name,
+        'user'            => $user,
+        'category'        => $category,
+        'visible_since'   => $it->begin_date,
+        'visible_until'   => $it->end_date,
+      ];
+    }
+    $limit = false;
+    if ($myItem3 > $nbLast)
+    {
+      $limit = true;
+    }
+    $items['lastknowledgeitems']['datas']['#'] = [
+      'limit'   => $limit,
+      'nbLast'  => $nbLast,
+      'nb_res'  => $myItem3,
+    ];
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function lastproblems(&$items, int $nbLast): void
+  {
+    $item2 = new \App\Models\Problem();
+    $myItem2 = $item2->orderBy('date', 'desc')->take($nbLast)->get();
+    $myItem3 = $item2->orderBy('date', 'desc')->count();
+
+    foreach ($myItem2 as $it)
+    {
+      $items['lastproblems']['datas'][$it->id] = [
+        'name'              => $it->name,
+        'status'            => $this->getStatusArray()[$it->status],
+        'priority'          => $this->getPriorityArray()[$it->priority],
+        'date_open'         => $it->created_at,
+        'date_last_modif'   => $it->updated_at,
+      ];
+    }
+    $limit = false;
+    if ($myItem3 > $nbLast)
+    {
+      $limit = true;
+    }
+    $items['lastproblems']['datas']['#'] = [
+      'limit'   => $limit,
+      'nbLast'  => $nbLast,
+      'nb_res'  => $myItem3,
+    ];
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function todayincidents(&$items): void
+  {
+    $user = \App\Models\User::with('group')->where('id', $GLOBALS['user_id'])->first();
+    if (is_null($user))
+    {
+      return;
+    }
+
+    $groups = [];
+    foreach ($user->group as $grp)
+    {
+      $groups[$grp->id] = $grp->name;
+    }
+
+    if (count($groups) > 0)
+    {
+      $nbTodayIncidents = 0;
+
+      $tickets = \App\Models\Ticket::with('requester', 'requestergroup')->take(5)->get();
+      foreach ($tickets as $it)
+      {
+        if ($it->requestergroup !== null)
+        {
+          foreach ($it->requestergroup as $req)
+          {
+            if (array_key_exists($req->getRelationValue('pivot')->group_id, $groups))
+            {
+              if (!is_null($it->created_at) && $it->created_at->format('Y-m-d') == date('Y-m-d'))
+              {
+                $nbTodayIncidents = $nbTodayIncidents + 1;
+              }
+            }
+          }
+        }
+        if ($it->requester !== null)
+        {
+          foreach ($it->requester as $req)
+          {
+            if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
+            {
+              if (!is_null($it->created_at) && $it->created_at->format('Y-m-d') == date('Y-m-d'))
+              {
+                $nbTodayIncidents = $nbTodayIncidents + 1;
+              }
+            }
+            else
+            {
+              $user2 = new \App\Models\User();
+              $itemUser2 = $user2::with('group')->where('id', $req->getRelationValue('pivot')->user_id)->first();
+              if (is_null($itemUser2))
+              {
+                return;
+              }
+              $groups2 = [];
+              foreach ($itemUser2->group as $grp2)
+              {
+                $groups2[$grp2->id] = $grp2->name;
+              }
+
+              foreach (array_keys($groups2) as $key2)
+              {
+                if (array_key_exists($key2, $groups))
+                {
+                  if (!is_null($it->created_at) && $it->created_at->format('Y-m-d') == date('Y-m-d'))
+                  {
+                    $nbTodayIncidents = $nbTodayIncidents + 1;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      $items['todayincidents']['datas']['nb'] = $nbTodayIncidents;
+    }
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function lastescaladedtickets(&$items, int $nbLast): void
+  {
+    $tickets = \App\Models\Ticket::
+        with('requester', 'technician', 'techniciangroup')
+      ->orderBy('created_at', 'desc')
+      ->take(5)
+      ->get();
+
+    $incr = 0;
+    foreach ($tickets as $it)
+    {
+      if ($it->requester !== null)
+      {
+        foreach ($it->requester as $req)
+        {
+          if ($req->getRelationValue('pivot')->user_id == $GLOBALS['user_id'])
+          {
+            $others_tech = false;
+            if ($it->technician !== null)
+            {
+              foreach ($it->technician as $tec)
+              {
+                if ($tec->getRelationValue('pivot')->user_id != $GLOBALS['user_id'])
+                {
+                  $others_tech = true;
+                  break;
+                }
+              }
+            }
+            if ($others_tech === false)
+            {
+              if ($it->techniciangroup !== null)
+              {
+                foreach ($it->techniciangroup as $tec)
+                {
+                  $others_tech = true;
+                  break;
+                }
+              }
+            }
+
+            if ($others_tech)
+            {
+              $incr = $incr + 1;
+              if ($incr <= $nbLast)
+              {
+                $items['lastescaladedtickets']['datas'][$it->id] = [
+                  'name'              => $it->name,
+                  'status'            => $this->getStatusArray()[$it->status],
+                  'priority'          => $this->getPriorityArray()[$it->priority],
+                  'date_open'         => $it->created_at,
+                  'date_last_modif'   => $it->updated_at,
+                ];
+              }
+            }
+          }
+        }
+      }
+    }
+
+    $limit = false;
+    if ($incr > $nbLast)
+    {
+      $limit = true;
+    }
+    $items['lastescaladedtickets']['datas']['#'] = [
+      'limit'   => $limit,
+      'nbLast'  => $nbLast,
+      'nb_res'  => $incr,
+    ];
+  }
+
+  /**
+   * @param array<mixed> &$items
+   */
+  private function forms(&$items): void
+  {
+    $forms = \App\Models\Forms\Form::has('category')->get();
+
+    foreach ($forms as $form)
+    {
+      if (!is_null($form->category))
+      {
+        $items['forms']['datas'][$form->category->id]['category'] = $form->category->name;
+        $items['forms']['datas'][$form->category->id]['forms'][$form->id] = [
+          'name' => $form->name,
+        ];
+      }
+    }
   }
 }

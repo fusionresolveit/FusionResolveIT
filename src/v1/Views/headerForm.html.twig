@@ -36,14 +36,39 @@
               {{ translation.newbutton }}
             </button>
           </a>
-          <button
-            class="ui labeled icon primary button"
-            type="submit"
-            form="myform"
-          >
-            <i class="save icon"></i>
-            {{ translation.savebutton }}
-          </button>
+          {% if not header.trashed %}
+            <button
+              class="ui labeled icon primary button"
+              type="submit"
+              form="myform"
+            >
+              <i class="save icon"></i>
+              {{ translation.savebutton }}
+            </button>
+          {% endif %}
+          {% if header.id > 0 %}
+            {% if header.trashed %}
+              <a href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/restore">
+                <button class="ui labeled icon green button" type="button">
+                  <i class="trash restore icon"></i>
+                  Restore
+                </button>
+              </a>
+              <a href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
+                <button class="ui labeled icon red button" type="button">
+                  <i class="eraser icon"></i>
+                  Delete
+                </button>
+              </a>
+            {% else %}
+              <a href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
+                <button class="ui labeled icon basic red  button" type="button">
+                  <i class="trash icon"></i>
+                  Soft delete
+                </button>
+              </a>
+            {% endif %}
+          {% endif %}
         </span>
         {% else %}
         <span style="float: right;">
@@ -76,8 +101,8 @@
     {% for item in relatedPages %}
       {% if item.link != '' %}
         <a class="item" href="{{ item.link }}">
-          <i class="icon {% if get_uri() == item.link %}orange{% else %}blue{% endif %} {{ item.icon }}"></i>
-          <span class="ui {% if get_uri() == item.link %}orange{% else %}blue{% endif %} {{ item.icon }} text">{{ item.title }}</span>
+          <i class="icon {% if get_uri() == item.link %}orange{% else %}{% if header.trashed %}red{% else %}blue{% endif %}{% endif %} {{ item.icon }}"></i>
+          <span class="ui {% if get_uri() == item.link %}orange{% else %}{% if header.trashed %}red{% else %}blue{% endif %}{% endif %} {{ item.icon }} text">{{ item.title }}</span>
           <!-- <div class="floating ui blue label">22</div> -->
         </a>
       {% else %}

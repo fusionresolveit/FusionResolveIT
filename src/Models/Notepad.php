@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notepad extends Common
 {
-  protected $definition = '\App\Models\Definitions\Notepad';
+  protected $definition = \App\Models\Definitions\Notepad::class;
   protected $titles = ['Notepad', 'Notepads'];
   protected $icon = 'virus slash';
   protected $hasEntityField = false;

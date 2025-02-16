@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Itemdisk extends Common
 {
-  protected $definition = '\App\Models\Definitions\Itemdisk';
+  protected $definition = \App\Models\Definitions\Itemdisk::class;
   protected $titles = ['Volume', 'Volumes'];
   protected $icon = 'virus slash';
 

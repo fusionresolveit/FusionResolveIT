@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\api\v1;
+namespace Tests\view;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +16,12 @@ use Tests\Traits\HttpTestTrait;
 #[CoversClass('\App\v1\Controllers\Login')]
 #[CoversClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\App')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
+#[UsesClass('\App\DataInterface\Post')]
+#[UsesClass('\App\DataInterface\PostTicket')]
+#[UsesClass('\App\JwtBeforeHandler')]
+#[UsesClass('\App\Route')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Authldap')]
 #[UsesClass('\App\Models\Definitions\Certificate')]
@@ -34,11 +40,16 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Location')]
 #[UsesClass('\App\Models\Profile')]
 #[UsesClass('\App\Models\User')]
+#[UsesClass('\App\Traits\ProcessRules')]
 #[UsesClass('\App\Traits\Relationships\Documents')]
 #[UsesClass('\App\Traits\Relationships\Entity')]
 #[UsesClass('\App\Traits\Relationships\Knowbaseitems')]
 #[UsesClass('\App\Traits\Relationships\Location')]
 #[UsesClass('\App\Traits\Relationships\Notes')]
+#[UsesClass('\App\v1\Controllers\Fusioninventory\Validation')]
+#[UsesClass('\App\v1\Controllers\Profile')]
+#[UsesClass('\App\v1\Controllers\Rules\Ticket')]
+#[UsesClass('\App\v1\Controllers\Token')]
 
 final class LoginTest extends TestCase
 {

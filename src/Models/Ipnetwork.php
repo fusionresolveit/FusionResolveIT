@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -12,7 +13,9 @@ class Ipnetwork extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Ipnetwork';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Ipnetwork::class;
   protected $titles = ['IP network', 'IP networks'];
   protected $icon = 'edit';
 

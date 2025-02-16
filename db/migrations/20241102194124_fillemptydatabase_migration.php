@@ -26,7 +26,7 @@ final class FillemptydatabaseMigration extends AbstractMigration
       $data = [
         [
           'name' => 'main',
-          'treepath' => 00001,
+          'treepath' => '00001',
         ]
       ];
       $item->insert($data)

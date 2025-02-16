@@ -4,98 +4,65 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Planningexternaleventtemplate
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
 
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Status'),
-        'type'  => 'dropdown',
-        'name'  => 'state',
-        'dbname' => 'state_id',
-        'values' => self::getStateArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translatePlural('Type', 'Types', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'category',
-        'dbname' => 'planningeventcategory_id',
-        'itemtype' => '\App\Models\Planningeventcategory',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 201,
-        'title' => $translator->translate('Background event'),
-        'type'  => 'boolean',
-        'name'  => 'background',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 211,
-        'title' => $translator->translate('Period'),
-        'type'  => 'input',
-        'name'  => 'duration',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 212,
-        'title' => $translator->translate('Planning' . "\004" . 'Reminder'),
-        'type'  => 'input',
-        'name'  => 'before_time',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 202,
-        'title' => $translator->translate('Repeat'),
-        'type'  => 'input',
-        'name'  => 'rrule',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 203,
-        'title' => $translator->translate('Description'),
-        'type'  => 'textarea',
-        'name'  => 'text',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 204,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+    $t = [
+      'name' => $translator->translate('Name'),
+      'state' => $translator->translate('Status'),
+      'category' => $translator->translatePlural('Type', 'Types', 1),
+      'background' => $translator->translate('Background event'),
+      'duration' => $translator->translate('Period'),
+      'before_time' => $translator->translate('Planning' . "\004" . 'Reminder'),
+      'rrule' => $translator->translate('Repeat'),
+      'text' => $translator->translate('Description'),
+      'comment' => $translator->translate('Comments'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      4,
+      $t['state'],
+      'dropdown',
+      'state',
+      dbname: 'state_id',
+      values: self::getStateArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      5,
+      $t['category'],
+      'dropdown_remote',
+      'category',
+      dbname: 'planningeventcategory_id',
+      itemtype: '\App\Models\Planningeventcategory',
+      fillable: true
+    ));
+    $defColl->add(new Def(201, $t['background'], 'boolean', 'background', fillable: true));
+    $defColl->add(new Def(211, $t['duration'], 'input', 'duration', fillable: true));
+    $defColl->add(new Def(212, $t['before_time'], 'input', 'before_time', fillable: true));
+    $defColl->add(new Def(202, $t['rrule'], 'input', 'rrule', fillable: true));
+    $defColl->add(new Def(203, $t['text'], 'textarea', 'text', fillable: true));
+    $defColl->add(new Def(204, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
   }
 
-  public static function getStateArray()
+  /**
+   * @return array<int, mixed>
+   */
+  public static function getStateArray(): array
   {
     global $translator;
     return [
@@ -111,7 +78,10 @@ class Planningexternaleventtemplate
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

@@ -4,105 +4,61 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Pdumodel
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 130,
-        'title' => $translator->translate('Product Number'),
-        'type'  => 'input',
-        'name'  => 'product_number',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 131,
-        'title' => $translator->translate('Weight'),
-        'type'  => 'input',
-        'name'  => 'weight',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 132,
-        'title' => $translator->translate('Required units'),
-        'type'  => 'input',
-        'name'  => 'required_units',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 133,
-        'title' => $translator->translate('Depth'),
-        'type'  => 'input',
-        'name'  => 'depth',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 134,
-        'title' => $translator->translate('Power connections'),
-        'type'  => 'input',
-        'name'  => 'power_connections',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 135,
-        'title' => $translator->translate('Max. power (in watts)'),
-        'type'  => 'input',
-        'name'  => 'power_consumption',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 136,
-        'title' => $translator->translate('Is half rack'),
-        'type'  => 'boolean',
-        'name'  => 'is_half_rack',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 137,
-      //   'title' => $translator->translate('Front picture'),
-      //   'type'  => 'file',
-      //   'name'  => 'picture_front',
-      // ],
-      // [
-      //   'id'    => 138,
-      //   'title' => $translator->translate('Rear picture'),
-      //   'type'  => 'file',
-      //   'name'  => 'picture_rear',
-      // ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'product_number' => $translator->translate('Product Number'),
+      'weight' => $translator->translate('Weight'),
+      'required_units' => $translator->translate('Required units'),
+      'depth' => $translator->translate('Depth'),
+      'power_connections' => $translator->translate('Power connections'),
+      'power_consumption' => $translator->translate('Max. power (in watts)'),
+      'is_half_rack' => $translator->translate('Is half rack'),
+      'comment' => $translator->translate('Comments'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(130, $t['product_number'], 'input', 'product_number', fillable: true));
+    $defColl->add(new Def(131, $t['weight'], 'input', 'weight', fillable: true));
+    $defColl->add(new Def(132, $t['required_units'], 'input', 'required_units', fillable: true));
+    $defColl->add(new Def(133, $t['depth'], 'input', 'depth', fillable: true));
+    $defColl->add(new Def(134, $t['power_connections'], 'input', 'power_connections', fillable: true));
+    $defColl->add(new Def(135, $t['power_consumption'], 'input', 'power_consumption', fillable: true));
+    $defColl->add(new Def(136, $t['is_half_rack'], 'boolean', 'is_half_rack', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 137,
+    //   'title' => $translator->translate('Front picture'),
+    //   'type'  => 'file',
+    //   'name'  => 'picture_front',
+    // ],
+    // [
+    //   'id'    => 138,
+    //   'title' => $translator->translate('Rear picture'),
+    //   'type'  => 'file',
+    //   'name'  => 'picture_rear',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

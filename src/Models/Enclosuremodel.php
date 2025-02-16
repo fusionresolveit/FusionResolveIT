@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Enclosuremodel extends Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\Enclosuremodel';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Enclosuremodel::class;
   protected $titles = ['Enclosure model', 'Enclosure models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;

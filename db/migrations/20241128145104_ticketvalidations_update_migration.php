@@ -8,7 +8,7 @@ use Phinx\Migration\AbstractMigration;
 
 final class TicketvalidationsUpdateMigration extends AbstractMigration
 {
-  public function up()
+  public function up(): void
   {
     $table = $this->table('ticketvalidations');
     $table->addColumn('created_at', 'timestamp', ['null' => true, 'after' => 'id'])
@@ -18,7 +18,7 @@ final class TicketvalidationsUpdateMigration extends AbstractMigration
           ->update();
   }
 
-  public function down()
+  public function down(): void
   {
     $table = $this->table('ticketvalidations');
     $table->removeColumn('created_at')

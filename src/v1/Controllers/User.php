@@ -4,58 +4,218 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostUser;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Certificate;
+use App\Traits\Subs\Change;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\Externallink;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Problem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class User extends Common
+final class User extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\User';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Certificate;
+  use Externallink;
+  use Document;
+  use History;
+  use Problem;
+  use Change;
+
+  protected $model = \App\Models\User::class;
   protected $rootUrl2 = '/users/';
   protected $choose = 'users';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\User
   {
-    $item = new \App\Models\User();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\User();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\User();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostUser((object) $request->getParsedBody());
+
+    $user = new \App\Models\User();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($user))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $user = \App\Models\User::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The user has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($user, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/users/' . $user->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/users')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\User();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostUser((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $user = \App\Models\User::where('id', $id)->first();
+    if (is_null($user))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($user))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $user->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The user has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($user, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubAuthorization(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $user = \App\Models\User::withTrashed()->where('id', $id)->first();
+    if (is_null($user))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($user->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $user->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The user has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/users')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $user->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The user has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $user = \App\Models\User::withTrashed()->where('id', $id)->first();
+    if (is_null($user))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($user->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $user->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The user has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubAuthorization(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
     $item = new \App\Models\User();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('profiles')->find($args['id']);
+    $myItem = $item::with('profiles')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('User not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/authorization');
 
     $profiles = [];
     foreach ($myItem->profiles as $profile)
     {
-      $entity = \App\Models\Entity::find($profile->getRelationValue('pivot')->entity_id);
-      $profiles[] = [
-        'id'      => $profile->id,
-        'name'    => $profile->name,
-        'entity'  => [
-          'id'    => $profile->getRelationValue('pivot')->entity_id,
-          'name'  => $entity->name,
-        ],
-        'is_recursive' => $profile->getRelationValue('pivot')->is_recursive,
-      ];
+      $entity = \App\Models\Entity::where('id', $profile->getRelationValue('pivot')->entity_id)->first();
+      if (!is_null($entity))
+      {
+        $profiles[] = [
+          'id'      => $profile->id,
+          'name'    => $profile->name,
+          'entity'  => [
+            'id'    => $profile->getRelationValue('pivot')->entity_id,
+            'name'  => $entity->name,
+          ],
+          'is_recursive' => $profile->getRelationValue('pivot')->is_recursive,
+        ];
+      }
     }
 
     $form = [
@@ -99,40 +259,35 @@ final class User extends Common
     return $view->render($response, 'subitem/authorization.html.twig', (array)$viewData);
   }
 
-  public function itemSubAuthorization(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function itemSubAuthorization(Request $request, Response $response, array $args): Response
   {
-    $data = (object) $request->getParsedBody();
+    $data = new \App\DataInterface\PostUserItemSubAuthorization((object) $request->getParsedBody());
 
-    if (property_exists($data, 'delete'))
+    if ($data->delete)
     {
-      if (
-          property_exists($data, 'entity_id') &&
-          property_exists($data, 'is_recursive') &&
-          property_exists($data, 'profile_id')
-      )
+      $user = \App\Models\User::where('id', $args['id'])->first();
+      if (is_null($user))
       {
-        $user = \App\Models\User::find($args['id']);
-        $user->profiles()
-          ->wherePivot('entity_id', $data->entity_id)
-          ->wherePivot('is_recursive', $data->is_recursive)
-          ->detach($data->profile_id);
+        throw new \Exception('User not found', 404);
       }
+      $user->profiles()
+        ->wherePivot('entity_id', $data->entityId)
+        ->wherePivot('is_recursive', $data->recursive)
+        ->detach($data->profileId);
     }
     else
     {
-      $user = \App\Models\User::find($args['id']);
-      $profile = \App\Models\Profile::find($data->profile);
-      $entity = \App\Models\Entity::find($data->entity);
+      $user = \App\Models\User::where('id', $args['id'])->first();
+      $profile = \App\Models\Profile::where('id', $data->profileId)->first();
+      $entity = \App\Models\Entity::where('id', $data->entityId)->first();
       if (!is_null($user) && !is_null($profile) && !is_null($entity))
       {
-        $recursive = false;
-        if (property_exists($data, 'is_recursive') && $data->is_recursive == 'on')
-        {
-          $recursive = true;
-        }
         $user->profiles()->attach(
           $profile->id,
-          ['is_recursive' => $recursive, 'entity_id' => $entity->id]
+          ['is_recursive' => $data->recursive, 'entity_id' => $entity->id]
         );
       }
     }
@@ -142,15 +297,21 @@ final class User extends Common
       ->withHeader('Location', (string) $uri);
   }
 
-  public function showSubGroups(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubGroups(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\User();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('group')->find($args['id']);
+    $myItem = $item::with('group')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('User not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/groups');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -214,16 +375,21 @@ final class User extends Common
     return $view->render($response, 'subitem/groups.html.twig', (array)$viewData);
   }
 
-  public function showSubReservations(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubReservations(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\User();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
-
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
     $myItem2 = \App\Models\Reservation::where('user_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/reservations');
@@ -233,18 +399,32 @@ final class User extends Common
     $myReservations_old = [];
     foreach ($myItem2 as $current_reservation)
     {
-      $myItem3 = \App\Models\Reservationitem::where('id', $current_reservation->reservationitem_id)->get();
-      foreach ($myItem3 as $current_reservationitem)
+      $reservationitem = \App\Models\Reservationitem::where('id', $current_reservation->reservationitem_id)->first();
+      if (!is_null($reservationitem))
       {
-        $item4 = new $current_reservationitem->item_type();
-        $myItem4 = $item4->find($current_reservationitem->item_id);
+        $item_type = $reservationitem->item_type;
+        if (!class_exists($item_type))
+        {
+          continue;
+        }
+
+        if (
+            $item_type !== \App\Models\Computer::class &&
+            $item_type !== \App\Models\Networkequipment::class &&
+            $item_type !== \App\Models\Passivedcequipment::class &&
+            $item_type !== \App\Models\Computer::class &&
+            $item_type !== \App\Models\Peripheral::class &&
+            $item_type !== \App\Models\Phone::class &&
+            $item_type !== \App\Models\Printer::class
+        )
+        {
+          continue;
+        }
+        $item4 = new $item_type();
+        $myItem4 = $item4->where('id', $reservationitem->item_id)->first();
         if ($myItem4 !== null)
         {
-          $type_fr = $item4->getTitle();
           $type = $item4->getTable();
-
-          $current_id = $myItem4->id;
-
 
           $begin = $current_reservation->begin;
 
@@ -264,21 +444,20 @@ final class User extends Common
 
           $comment = $current_reservation->comment;
 
-
-          $item_name = $myItem4->name;
+          $item_name = $myItem4->getAttribute('name');
           if ($item_name == '')
           {
-            $item_name = '(' . $myItem4->id . ')';
+            $item_name = '(' . $myItem4->getAttribute('id') . ')';
           }
 
-          $item_url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem4->id);
+          $item_url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem4->getAttribute('id'));
 
           $entity = '';
           $entity_url = '';
-          if ($current_reservationitem->entity !== null)
+          if ($reservationitem->entity !== null)
           {
-            $entity = $current_reservationitem->entity->completename;
-            $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $current_reservationitem->entity->id);
+            $entity = $reservationitem->entity->completename;
+            $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $reservationitem->entity->id);
           }
 
           if ($end < date('Y-m-d H:i:s'))

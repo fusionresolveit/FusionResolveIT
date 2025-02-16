@@ -11,7 +11,7 @@ class Projectcost extends Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\Projectcost';
+  protected $definition = \App\Models\Definitions\Projectcost::class;
   protected $titles = ['Project cost', 'Project costs'];
   protected $icon = 'edit';
   protected $hasEntityField = false;

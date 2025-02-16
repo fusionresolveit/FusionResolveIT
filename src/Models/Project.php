@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Common
@@ -17,7 +19,9 @@ class Project extends Common
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Knowbaseitems;
 
-  protected $definition = '\App\Models\Definitions\Project';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Project::class;
   protected $titles = ['Project', 'Projects'];
   protected $icon = 'columns';
 
@@ -95,5 +99,65 @@ class Project extends Common
   public function costs(): HasMany
   {
     return $this->hasMany(\App\Models\Projectcost::class);
+  }
+
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Monitor, $this> */
+  public function itemMonitors(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Monitor::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function itemPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function itemPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Software, $this> */
+  public function itemSoftwares(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Software::class, 'item', 'item_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Ticket, $this> */
+  public function itilTickets(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Ticket::class, 'item', 'itil_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Problem, $this> */
+  public function itilProblems(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Problem::class, 'item', 'itil_project');
+  }
+
+  /** @return MorphToMany<\App\Models\Change, $this> */
+  public function itilChanges(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Change::class, 'item', 'itil_project');
   }
 }

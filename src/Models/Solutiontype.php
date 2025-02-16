@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Solutiontype extends Common
@@ -11,7 +12,9 @@ class Solutiontype extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Solutiontype';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Solutiontype::class;
   protected $titles = ['Solution type', 'Solution types'];
   protected $icon = 'edit';
 

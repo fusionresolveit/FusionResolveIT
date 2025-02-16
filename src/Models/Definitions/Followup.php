@@ -4,117 +4,89 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Followup
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'      => 2,
-        'title'   => $translator->translate('ID'),
-        'type'    => 'input',
-        'name'    => 'id',
-        'display' => false,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Content'),
-        'type'  => 'textarea',
-        'name'  => 'content',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 1000,
-        'title' => $translator->translate('Source of followup'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'source',
-        'dbname' => 'requesttype_id',
-        'itemtype' => '\App\Models\Requesttype',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translate('Private'),
-        'type'  => 'boolean',
-        'name'  => 'is_private',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translatePlural('User', 'Users', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'user',
-        'dbname' => 'user_id',
-        'itemtype' => '\App\Models\User',
-        'fillable' => true,
-        'relationfields' => ['id', 'name', 'completename'],
-      ],
 
-
-      /*
-      $tab[] = [
-        'id'   => 'common',
-        'name' => __('Characteristics')
-      ];
-
-      $tab[] = [
-        'id'                => '2',
-        'table'             => $this->getTable(),
-        'field'             => 'id',
-        'name'              => __('ID'),
-        'massiveaction'     => false,
-        'datatype'          => 'number'
-      ];
-
-      if ($DB->fieldExists($this->getTable(), 'product_number'))
-      {
-      $tab[] = [
-        'id'  => '3',
-        'table'  => $this->getTable(),
-        'field'  => 'product_number',
-        'name'   => __('Product number'),
-        'autocomplete' => true,
-      ];
-      }
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-      */
+    $t = [
+      'id' => $translator->translate('ID'),
+      'content' => $translator->translate('Content'),
+      'source' => $translator->translate('Source of followup'),
+      'is_private' => $translator->translate('Private'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
+      'user' => $translator->translatePlural('User', 'Users', 1),
+      'is_tech' => $translator->translate('Technician has written'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(2, $t['id'], 'input', 'id', display: false));
+    $defColl->add(new Def(4, $t['content'], 'textarea', 'content', fillable: true));
+    $defColl->add(new Def(
+      1000,
+      $t['source'],
+      'dropdown_remote',
+      'source',
+      dbname: 'requesttype_id',
+      itemtype: '\App\Models\Requesttype',
+      fillable: true
+    ));
+    $defColl->add(new Def(6, $t['is_private'], 'boolean', 'is_private', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+    $defColl->add(new Def(
+      5,
+      $t['user'],
+      'dropdown_remote',
+      'user',
+      dbname: 'user_id',
+      itemtype: '\App\Models\User',
+      fillable: true,
+      relationfields: ['id', 'name', 'completename']
+    ));
+    $defColl->add(new Def(1001, $t['is_tech'], 'boolean', 'is_private', fillable: true, display: false));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+    /*
+    $tab[] = [
+      'id'   => 'common',
+      'name' => __('Characteristics')
+    ];
+
+    $tab[] = [
+      'id'                => '2',
+      'table'             => $this->getTable(),
+      'field'             => 'id',
+      'name'              => __('ID'),
+      'massiveaction'     => false,
+      'datatype'          => 'number'
+    ];
+
+    if ($DB->fieldExists($this->getTable(), 'product_number'))
+    {
+    $tab[] = [
+      'id'  => '3',
+      'table'  => $this->getTable(),
+      'field'  => 'product_number',
+      'name'   => __('Product number'),
+      'autocomplete' => true,
+    ];
+    }
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+    */
   }
 }

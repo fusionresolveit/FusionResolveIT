@@ -11,7 +11,7 @@ class ItemSoftwareversion extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\ItemSoftwareversion';
+  protected $definition = \App\Models\Definitions\ItemSoftwareversion::class;
   protected $titles = ['Softwareversion Item', 'Softwareversion Items'];
   protected $icon = 'edit';
   protected $table = 'item_softwareversion';

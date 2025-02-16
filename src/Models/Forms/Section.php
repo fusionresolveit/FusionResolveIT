@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Forms;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,7 +12,9 @@ class Section extends \App\Models\Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\Forms\Section';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Forms\Section::class;
   protected $titles = ['Section', 'Sections'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;

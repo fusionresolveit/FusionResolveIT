@@ -4,39 +4,41 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Softwarecategory
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translate('As child of'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'category',
-        'dbname' => 'softwarecategory_id',
-        'itemtype' => '\App\Models\Softwarecategory',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'category' => $translator->translate('As child of'),
+      'comment' => $translator->translate('Comments'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      12,
+      $t['category'],
+      'dropdown_remote',
+      'category',
+      dbname: 'softwarecategory_id',
+      itemtype: '\App\Models\Softwarecategory',
+      fillable: true
+    ));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

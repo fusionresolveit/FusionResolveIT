@@ -35,9 +35,11 @@
     $('.searchfield')
       .dropdown({
         action: 'activate',
-        onChange: function(text, value, element) {
+        onChange: function(text, value, element)
+        {
           type = element[0].attributes['data-type'].value;
-          if (type === 'input') {
+          if (type === 'input')
+          {
             $('#search-input').prop({
               hidden: false
             });
@@ -82,7 +84,8 @@
         .sticky();
 
 
-    function toggleDarkMode () {
+    function toggleDarkMode ()
+    {
       // add fomantic's inverted class to all ui elements
       $('body').find('.ui').addClass('inverted');
       // add custom inverted class to body
@@ -95,7 +98,8 @@
       return;
     }
 
-    function toggleLightMode() {
+    function toggleLightMode()
+    {
       // remove fomantic's inverted from all ui elements
       $('body').find('.ui').removeClass('inverted');
       // remove custom inverted class to body
@@ -109,8 +113,10 @@
     }
 
     darkmodeEnabled = false;
-    $('#darkmode').click(function () {
-      if (darkmodeEnabled) {
+    $('#darkmode').click(function ()
+    {
+      if (darkmodeEnabled)
+      {
         toggleLightMode();
         darkmodeEnabled = false;
       } else {
@@ -119,12 +125,14 @@
       }
     });
 
-    $('#headerChangeEntity').click(function () {
+    $('#headerChangeEntity').click(function ()
+    {
       $('#headerChangeEntity').hide();
       $('#headerEntityForm').show();
     });
 
-    $('.menulink').click(function () {
+    $('.menulink').click(function ()
+    {
       $('#menu-' + this.attributes['data-menuid'].value)
         .modal('show');
     });

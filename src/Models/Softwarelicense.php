@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,7 +24,9 @@ class Softwarelicense extends Common
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Knowbaseitems;
 
-  protected $definition = '\App\Models\Definitions\Softwarelicense';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Softwarelicense::class;
   protected $titles = ['License', 'Licenses'];
   protected $icon = 'key';
 
@@ -33,8 +36,8 @@ class Softwarelicense extends Common
   protected $visible = [
     'location',
     'softwarelicensetype',
-    'userstech',
-    'groupstech',
+    'usertech',
+    'grouptech',
     'user',
     'group',
     'state',
@@ -58,8 +61,8 @@ class Softwarelicense extends Common
   protected $with = [
     'location:id,name',
     'softwarelicensetype',
-    'userstech:id,name,firstname,lastname',
-    'groupstech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
     'state',
@@ -87,13 +90,13 @@ class Softwarelicense extends Common
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }

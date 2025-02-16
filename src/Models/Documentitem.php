@@ -10,7 +10,7 @@ class Documentitem extends Common
 {
   use PivotEventTrait;
 
-  protected $definition = '\App\Models\Definitions\Documentitem';
+  protected $definition = \App\Models\Definitions\Documentitem::class;
   protected $titles = ['Document item', 'Document items'];
   protected $icon = 'file';
   protected $table = 'document_item';

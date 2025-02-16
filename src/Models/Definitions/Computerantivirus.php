@@ -4,66 +4,49 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Computerantivirus
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 2,
-        'title' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'manufacturer',
-        'dbname' => 'manufacturer_id',
-        'itemtype' => '\App\Models\Manufacturer',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Antivirus version'),
-        'type'  => 'input',
-        'name'  => 'antivirus_version',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Expiration date'),
-        'type'  => 'date',
-        'name'  => 'date_expiration',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Signature database version'),
-        'type'  => 'input',
-        'name'  => 'signature_version',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translate('Active'),
-        'type'  => 'boolean',
-        'name'  => 'is_active',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 7,
-        'title' => $translator->translate('Up to date'),
-        'type'  => 'boolean',
-        'name'  => 'is_uptodate',
-        'fillable' => true,
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'antivirus_version' => $translator->translate('Antivirus version'),
+      'date_expiration' => $translator->translate('Expiration date'),
+      'signature_version' => $translator->translate('Signature database version'),
+      'is_active' => $translator->translate('Active'),
+      'is_uptodate' => $translator->translate('Up to date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      2,
+      $t['manufacturer'],
+      'dropdown_remote',
+      'manufacturer',
+      dbname: 'manufacturer_id',
+      itemtype: '\App\Models\Manufacturer',
+      fillable: true
+    ));
+    $defColl->add(new Def(3, $t['antivirus_version'], 'input', 'antivirus_version', fillable: true));
+    $defColl->add(new Def(4, $t['date_expiration'], 'date', 'date_expiration', fillable: true));
+    $defColl->add(new Def(5, $t['signature_version'], 'input', 'signature_version', fillable: true));
+    $defColl->add(new Def(6, $t['is_active'], 'boolean', 'is_active', fillable: true));
+    $defColl->add(new Def(7, $t['is_uptodate'], 'boolean', 'is_uptodate', fillable: true));
+
+    return $defColl;
   }
-  public static function getRelatedPages($rootUrl): array
+
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [];

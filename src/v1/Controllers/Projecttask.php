@@ -4,45 +4,195 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostProjecttask;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Note;
+use App\Traits\Subs\Ticket;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Projecttask extends Common
+final class Projecttask extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Projecttask';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Note;
+  use Document;
+  use History;
+  use Ticket;
+
+  protected $model = \App\Models\Projecttask::class;
   protected $rootUrl2 = '/projecttasks/';
   protected $choose = 'projecttasks';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Projecttask
   {
-    $item = new \App\Models\Projecttask();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Projecttask();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Projecttask();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostProjecttask((object) $request->getParsedBody());
+
+    $projecttask = new \App\Models\Projecttask();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($projecttask))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $projecttask = \App\Models\Projecttask::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($projecttask, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/projecttasks/' . $projecttask->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/projecttasks')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Projecttask();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostProjecttask((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $projecttask = \App\Models\Projecttask::where('id', $id)->first();
+    if (is_null($projecttask))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($projecttask))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $projecttask->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($projecttask, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubProjecttasks(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $projecttask = \App\Models\Projecttask::withTrashed()->where('id', $id)->first();
+    if (is_null($projecttask))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($projecttask->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $projecttask->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/projecttasks')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $projecttask->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $projecttask = \App\Models\Projecttask::withTrashed()->where('id', $id)->first();
+    if (is_null($projecttask))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($projecttask->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $projecttask->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubProjecttasks(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Projecttask();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $item2 = new \App\Models\Projecttask();
     $myItem2 = $item2::where('projecttask_id', $args['id'])->get();
@@ -129,15 +279,21 @@ final class Projecttask extends Common
     return $view->render($response, 'subitem/projecttasks.html.twig', (array)$viewData);
   }
 
-  public function showSubProjecttaskteams(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubProjecttaskteams(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Projecttask();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $item2 = new \App\Models\Projecttaskteam();
     $myItem2 = $item2::where('projecttask_id', $args['id'])->get();
@@ -149,7 +305,7 @@ final class Projecttask extends Common
     foreach ($myItem2 as $current_item)
     {
       $item3 = new $current_item->item_type();
-      $myItem3 = $item3->find($current_item->item_id);
+      $myItem3 = $item3->where('id', $current_item->item_id)->first();
 
       if ($myItem3 !== null)
       {

@@ -9,7 +9,7 @@ use Respect\Validation\Rules;
 
 final class Validation
 {
-  public static function attrStrNotempty($key)
+  public static function attrStrNotempty(string $key): Validator
   {
     $sub = Validator::create(
       new Rules\StringType(),
@@ -20,17 +20,34 @@ final class Validation
     );
   }
 
-  public static function attrDate($key, $format)
+  public static function attrStr(string $key): Validator
   {
     $sub = Validator::create(
-      new Rules\Date($format),
+      new Rules\StringType(),
     );
     return Validator::create(
       new Rules\Attribute($key, $sub),
     );
   }
 
-  public static function attrDateTime($key)
+  public static function attrDate(string $key, string $format = ''): Validator
+  {
+    if ($format == '')
+    {
+      $sub = Validator::create(
+        new Rules\Date(),
+      );
+    } else {
+      $sub = Validator::create(
+        new Rules\Date($format),
+      );
+    }
+    return Validator::create(
+      new Rules\Attribute($key, $sub),
+    );
+  }
+
+  public static function attrDateTime(string $key): Validator
   {
     $sub = Validator::create(
       new Rules\DateTime(),
@@ -40,10 +57,50 @@ final class Validation
     );
   }
 
-  public static function strInArray(array $values)
+  /**
+   * @param array<string> $values
+   */
+  public static function strInArray(array $values): Validator
   {
     return Validator::create(
       new Rules\In($values),
+    );
+  }
+
+  public static function attrNumericVal(string $key): Validator
+  {
+    $sub = Validator::create(
+      new Rules\NumericVal(),
+    );
+    return Validator::create(
+      new Rules\Attribute($key, $sub),
+    );
+  }
+
+  public static function attrFloatVal(string $key): Validator
+  {
+    $sub = Validator::create(
+      new Rules\FloatVal(),
+    );
+    return Validator::create(
+      new Rules\Attribute($key, $sub),
+    );
+  }
+
+  public static function attrIsArray(string $key): Validator
+  {
+    $sub = Validator::create(
+      new Rules\ArrayType(),
+    );
+    return Validator::create(
+      new Rules\Attribute($key, $sub),
+    );
+  }
+
+  public static function numericVal(): Validator
+  {
+    return Validator::create(
+      new Rules\NumericVal(),
     );
   }
 }

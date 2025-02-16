@@ -4,92 +4,62 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Notification
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translatePlural('Type', 'Types', 1),
-        'type'  => 'dropdown',
-        'name'  => 'item_type',
-        'values' => self::getTypeArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translate('Active'),
-        'type'  => 'boolean',
-        'name'  => 'is_active',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 206,
-        'title' => $translator->translate('Allow response'),
-        'type'  => 'boolean',
-        'name'  => 'allow_response',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-      /*
-      [
-      'id'    => 2,
-      'title' => $translator->translatePlural('Event', 'Events', 1),
-      'type'  => 'dropdown',
-      'name'  => 'event',
-      'dbname'  => 'event',
-      'values' => self::getEvents(),
-      // 'additionalfields'  => 'itemtype',
-      ],
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'item_type' => $translator->translatePlural('Type', 'Types', 1),
+      'is_active' => $translator->translate('Active'),
+      'allow_response' => $translator->translate('Allow response'),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(5, $t['item_type'], 'dropdown', 'item_type', values: self::getTypeArray(), fillable: true));
+    $defColl->add(new Def(6, $t['is_active'], 'boolean', 'is_active', fillable: true));
+    $defColl->add(new Def(206, $t['allow_response'], 'boolean', 'allow_response', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+    /*
+    [
+    'id'    => 2,
+    'title' => $translator->translatePlural('Event', 'Events', 1),
+    'type'  => 'dropdown',
+    'name'  => 'event',
+    'dbname'  => 'event',
+    'values' => self::getEvents(),
+    // 'additionalfields'  => 'itemtype',
+    ],
+    */
   }
 
-  public static function getTypeArray()
+  /**
+   * @return array<string, mixed>
+   */
+  public static function getTypeArray(): array
   {
     global $translator;
 
@@ -162,8 +132,10 @@ class Notification
     return $types;
   }
 
-
-  public static function getEvents()
+  /**
+   * @return array<mixed>
+   */
+  public static function getEvents(): array
   {
     global $translator;
 
@@ -295,7 +267,10 @@ class Notification
     return $newEvents;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

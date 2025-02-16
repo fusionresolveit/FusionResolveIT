@@ -4,161 +4,102 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Mailcollector
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Email address'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 22,
-        'title' => $translator->translate('Connection errors'),
-        'type'  => 'input',
-        'name'  => 'errors',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 2,
-        'title' => $translator->translate('Active'),
-        'type'  => 'boolean',
-        'name'  => 'is_active',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 20,
-        'title' => $translator->translate('Accepted mail archive folder (optional)'),
-        'type'  => 'input',
-        'name'  => 'accepted',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 21,
-        'title' => $translator->translate('Refused mail archive folder (optional)'),
-        'type'  => 'input',
-        'name'  => 'refused',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 5,
-      //   'title' => $translator->translate('Maximum size of each file imported by the mails receiver'),
-      //   'type'  => 'dropdown',
-      //   'name'  => 'filesize_max',
-      //   'dbname'  => 'filesize_max',
-      //   'values' => self::showMaxFilesize(),
-      //   'fillable' => true,
-      // ],
-      [
-        'id'    => 201,
-        'title' => $translator->translate('Use mail date, instead of collect one'),
-        'type'  => 'boolean',
-        'name'  => 'use_mail_date',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 202,
-        'title' => $translator->translate('Use Reply-To as requester (when available)'),
-        'type'  => 'boolean',
-        'name'  => 'requester_field',
-        'values' => self::getRequesterField(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 203,
-        'title' => $translator->translate('Add CC users as observer'),
-        'type'  => 'boolean',
-        'name'  => 'add_cc_to_observer',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 204,
-        'title' => $translator->translate('Collect only unread mail'),
-        'type'  => 'boolean',
-        'name'  => 'collect_only_unread',
-        'fillable' => true,
-      ],
 
+    $t = [
+      'name' => $translator->translate('Email address'),
+      'errors' => $translator->translate('Connection errors'),
+      'is_active' => $translator->translate('Active'),
+      'accepted' => $translator->translate('Accepted mail archive folder (optional)'),
+      'refused' => $translator->translate('Refused mail archive folder (optional)'),
+      'use_mail_date' => $translator->translate('Use mail date, instead of collect one'),
+      'requester_field' => $translator->translate('Use Reply-To as requester (when available)'),
+      'add_cc_to_observer' => $translator->translate('Add CC users as observer'),
+      'collect_only_unread' => $translator->translate('Collect only unread mail'),
+      'comment' => $translator->translate('Comments'),
+      'is_oauth' => $translator->translate('Use Oauth'),
+      'oauth_provider' => $translator->translate('Provider'),
+      'oauth_applicationid' => $translator->translate('ApplicationID'),
+      'oauth_directoryid' => $translator->translate('DirectoryID (Only for Microsoft Azure)'),
+      'oauth_applicationsecret' => $translator->translate('ApplicationSecret'),
+    ];
 
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(22, $t['errors'], 'input', 'errors', readonly: true));
+    $defColl->add(new Def(2, $t['is_active'], 'boolean', 'is_active', fillable: true));
+    $defColl->add(new Def(20, $t['accepted'], 'input', 'accepted', fillable: true));
+    $defColl->add(new Def(21, $t['refused'], 'input', 'refused', fillable: true));
+    $defColl->add(new Def(201, $t['use_mail_date'], 'boolean', 'use_mail_date', fillable: true));
+    $defColl->add(new Def(202, $t['requester_field'], 'boolean', 'requester_field', fillable: true));
+    $defColl->add(new Def(203, $t['add_cc_to_observer'], 'boolean', 'add_cc_to_observer', fillable: true));
+    $defColl->add(new Def(204, $t['collect_only_unread'], 'boolean', 'collect_only_unread', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(301, $t['is_oauth'], 'boolean', 'is_oauth', fillable: true));
+    $defColl->add(new Def(
+      302,
+      $t['oauth_provider'],
+      'dropdown',
+      'oauth_provider',
+      dbname: 'oauth_provider',
+      values: self::getProvidersArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(303, $t['oauth_applicationid'], 'input', 'oauth_applicationid', fillable: true));
+    $defColl->add(new Def(304, $t['oauth_directoryid'], 'input', 'oauth_directoryid', fillable: true));
+    $defColl->add(new Def(
+      305,
+      $t['oauth_applicationsecret'],
+      'inputpassword',
+      'oauth_applicationsecret',
+      fillable: true
+    ));
 
-
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-
-      [
-        'id'    => 301,
-        'title' => $translator->translate('Use Oauth'),
-        'type'  => 'boolean',
-        'name'  => 'is_oauth',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 302,
-        'title'         => $translator->translate('Provider'),
-        'type'          => 'dropdown',
-        'name'          => 'oauth_provider',
-        'dbname'        => 'oauth_provider',
-        'values'        => self::getProvidersArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 303,
-        'title' => $translator->translate('ApplicationID'),
-        'type'  => 'input',
-        'name'  => 'oauth_applicationid',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 304,
-        'title' => $translator->translate('DirectoryID (Only for Microsoft Azure)'),
-        'type'  => 'input',
-        'name'  => 'oauth_directoryid',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 305,
-        'title' => $translator->translate('ApplicationSecret'),
-        'type'  => 'inputpassword',
-        'name'  => 'oauth_applicationsecret',
-        'fillable' => true,
-      ],
-
+    return $defColl;
+    // [
+    //   'id'    => 5,
+    //   'title' => $translator->translate('Maximum size of each file imported by the mails receiver'),
+    //   'type'  => 'dropdown',
+    //   'name'  => 'filesize_max',
+    //   'dbname'  => 'filesize_max',
+    //   'values' => self::showMaxFilesize(),
+    //   'fillable' => true,
+    // ],
 
 /*
-      $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'host',
-         'name'               => __('Connection string'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
-      ];
+    $tab[] = [
+        'id'                 => '3',
+        'table'              => $this->getTable(),
+        'field'              => 'host',
+        'name'               => __('Connection string'),
+        'massiveaction'      => false,
+        'datatype'           => 'string'
+    ];
 
-      $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'login',
-         'name'               => __('Login'),
-         'massiveaction'      => false,
-         'datatype'           => 'string',
-         'autocomplete'       => true,
-      ];
+    $tab[] = [
+        'id'                 => '4',
+        'table'              => $this->getTable(),
+        'field'              => 'login',
+        'name'               => __('Login'),
+        'massiveaction'      => false,
+        'datatype'           => 'string',
+        'autocomplete'       => true,
+    ];
 
 */
-    ];
   }
 
-  public static function showMaxFilesize()
+  /**
+   * @return array<mixed>
+   */
+  public static function showMaxFilesize(): array
   {
     global $translator;
 
@@ -171,20 +112,10 @@ class Mailcollector
     return $tab;
   }
 
-  public static function getRequesterField()
-  {
-    global $translator;
-    return [
-      0 => [
-        'title' => $translator->translate('No'),
-      ],
-      1 => [
-        'title' => $translator->translate('Yes'),
-      ],
-    ];
-  }
-
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [
@@ -206,7 +137,10 @@ class Mailcollector
     ];
   }
 
-  public static function getProvidersArray()
+  /**
+   * @return array<mixed>
+   */
+  public static function getProvidersArray(): array
   {
     global $translator;
 

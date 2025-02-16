@@ -4,135 +4,215 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostAppliance;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Certificate;
+use App\Traits\Subs\Contract;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\Domain;
+use App\Traits\Subs\Externallink;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Item;
+use App\Traits\Subs\Itil;
+use App\Traits\Subs\Knowbaseitem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class Appliance extends Common
+final class Appliance extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Appliance';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Domain;
+  use Certificate;
+  use Externallink;
+  use Knowbaseitem;
+  use Document;
+  use Contract;
+  use Itil;
+  use History;
+  use Infocom;
+  use Item;
+
+  protected $model = \App\Models\Appliance::class;
   protected $rootUrl2 = '/appliances/';
   protected $choose = 'appliances';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Appliance
   {
-    $item = new \App\Models\Appliance();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Appliance();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @return array{
+   *          'itemComputers': \App\Models\Computer,
+   *          'itemMonitors': \App\Models\Monitor,
+   *          'itemNetworkequipments': \App\Models\Networkequipment,
+   *          'itemPeripherals': \App\Models\Peripheral,
+   *          'itemPhones': \App\Models\Phone,
+   *          'itemPrinters': \App\Models\Printer,
+   *          'itemSoftwares': \App\Models\Software,
+   *          'itemClusters': \App\Models\Cluster
+   *         }
+   */
+  protected function modelsForSubItem()
   {
-    $item = new \App\Models\Appliance();
-    return $this->commonShowItem($request, $response, $args, $item);
+    return [
+      'itemComputers'         => new \App\Models\Computer(),
+      'itemMonitors'          => new \App\Models\Monitor(),
+      'itemNetworkequipments' => new \App\Models\Networkequipment(),
+      'itemPeripherals'       => new \App\Models\Peripheral(),
+      'itemPhones'            => new \App\Models\Phone(),
+      'itemPrinters'          => new \App\Models\Printer(),
+      'itemSoftwares'         => new \App\Models\Software(),
+      'itemClusters'          => new \App\Models\Cluster(),
+    ];
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Appliance();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
+    global $basePath;
 
-  public function showSubItems(Request $request, Response $response, $args): Response
-  {
-    global $translator;
+    $data = new PostAppliance((object) $request->getParsedBody());
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
-    $view = Twig::fromRequest($request);
+    $appliance = new \App\Models\Appliance();
 
-    $myItem = $item->find($args['id']);
-
-    $item2 = new \App\Models\Applianceitem();
-    $myItem2 = $item2::where('appliance_id', $args['id'])->get();
-
-    $rootUrl = $this->genereRootUrl($request, '/items');
-    $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
-
-    $myItems = [];
-    foreach ($myItem2 as $appliance_item)
+    if (!$this->canRightCreate())
     {
-      $item3 = new $appliance_item->item_type();
-      $myItem3 = $item3->find($appliance_item->item_id);
-      if ($myItem3 !== null)
-      {
-        $type_fr = $item3->getTitle();
-        $type = $item3->getTable();
-
-        $name = $myItem3->name;
-        if ($name == '')
-        {
-          $name = '(' . $myItem3->id . ')';
-        }
-
-        $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
-
-        $serial_number = $myItem3->serial;
-
-        $inventaire_number = $myItem3->otherserial;
-
-        $relations = [];
-        $item4 = new \App\Models\Applianceitemrelation();
-        $myItem4 = $item4::where('appliance_item_id', $appliance_item->id)->get();
-        foreach ($myItem4 as $appliance_item_relation)
-        {
-          $item5 = new $appliance_item_relation->item_type();
-          $myItem5 = $item5->find($appliance_item_relation->item_id);
-          if ($myItem5 !== null)
-          {
-            $relation_type_fr = $item5->getTitle();
-            $relation_type = $item5->getTable();
-
-            $relation_name = $myItem5->name;
-            if ($relation_name == '')
-            {
-              $relation_name = '(' . $myItem5->id . ')';
-            }
-
-            $relation_url = $this->genereRootUrl2Link($rootUrl2, '/' . $relation_type . '/', $myItem5->id);
-
-            $relations[] = [
-              'type'        => $relation_type_fr,
-              'name'        => $relation_name,
-              'url'         => $relation_url,
-            ];
-          }
-        }
-
-        // tri ordre alpha
-        array_multisort(array_column($relations, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $relations);
-        array_multisort(array_column($relations, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $relations);
-
-        $myItems[] = [
-          'type'                 => $type_fr,
-          'name'                 => $name,
-          'url'                  => $url,
-          'serial_number'        => $serial_number,
-          'inventaire_number'    => $inventaire_number,
-          'relations'            => $relations,
-        ];
-      }
+      throw new \Exception('Unauthorized access', 401);
     }
 
-    // tri ordre alpha
-    array_multisort(array_column($myItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
-    array_multisort(array_column($myItems, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
+    if (!\App\v1\Controllers\Profile::canRightReadItem($appliance))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    $appliance = \App\Models\Appliance::create($data->exportToArray());
 
-    $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('items', $myItems);
-    $viewData->addData('show', $this->choose);
+    \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($appliance, 'new');
 
-    $viewData->addTranslation('type', $translator->translate('Item type'));
-    $viewData->addTranslation('name', $translator->translatePlural('Item', 'Items', 1));
-    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
-    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
-    $viewData->addTranslation(
-      'relations',
-      $translator->translatePlural('appliance' . "\004" . 'Relation', 'appliance' . "\004" . 'Relations', 2)
-    );
+    $data = (object) $request->getParsedBody();
 
-    return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/appliances/' . $appliance->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/appliances')
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
+  {
+    $data = new PostAppliance((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $appliance = \App\Models\Appliance::where('id', $id)->first();
+    if (is_null($appliance))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($appliance))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $appliance->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($appliance, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $appliance = \App\Models\Appliance::withTrashed()->where('id', $id)->first();
+    if (is_null($appliance))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($appliance->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $appliance->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/appliances')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $appliance->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $appliance = \App\Models\Appliance::withTrashed()->where('id', $id)->first();
+    if (is_null($appliance))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($appliance->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $appliance->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 }

@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use Tests\Traits\HttpTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Menubookmark')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[CoversClass('\App\Route')]
 #[CoversClass('\App\Models\Definitions\Menubookmark')]
 #[CoversClass('\App\Models\Menubookmark')]
@@ -41,7 +43,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
-
 
 final class MenubookmarkTest extends TestCase
 {

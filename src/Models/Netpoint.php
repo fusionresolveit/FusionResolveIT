@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Netpoint extends Common
@@ -12,7 +13,9 @@ class Netpoint extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
 
-  protected $definition = '\App\Models\Definitions\Netpoint';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Netpoint::class;
   protected $titles = ['Network outlet', 'Network outlets'];
   protected $icon = 'edit';
 

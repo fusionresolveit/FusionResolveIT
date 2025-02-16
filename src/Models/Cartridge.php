@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Cartridge extends Common
 {
-  protected $definition = '\App\Models\Definitions\Cartridge';
+  protected $definition = \App\Models\Definitions\Cartridge::class;
   protected $titles = ['Cartridge', 'Cartridges'];
   protected $icon = 'fill drip';
   protected $hasEntityField = false;

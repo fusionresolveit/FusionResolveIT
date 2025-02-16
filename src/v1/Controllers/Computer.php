@@ -4,43 +4,219 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostComputer;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Appliance;
+use App\Traits\Subs\Certificate;
+use App\Traits\Subs\Component;
+use App\Traits\Subs\Contract;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\Domain;
+use App\Traits\Subs\Externallink;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Itil;
+use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Note;
+use App\Traits\Subs\Operatingsystem;
+use App\Traits\Subs\Reservation;
+use App\Traits\Subs\Software;
+use App\Traits\Subs\Volume;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Slim\Routing\RouteContext;
 
-final class Computer extends Common
+final class Computer extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Computer';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Reservation;
+  use Note;
+  use Domain;
+  use Appliance;
+  use Certificate;
+  use Externallink;
+  use Knowbaseitem;
+  use Document;
+  use Contract;
+  use Software;
+  use Operatingsystem;
+  use Itil;
+  use History;
+  use Component;
+  use Volume;
+  use Infocom;
+
+  protected $model = \App\Models\Computer::class;
   protected $rootUrl2 = '/computers/';
   protected $choose = 'computers';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Computer
   {
-    $item = new \App\Models\Computer();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Computer();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = \App\Models\Computer::find($args['id']);
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostComputer((object) $request->getParsedBody());
+
+    $computer = new \App\Models\Computer();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($computer))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $computer = \App\Models\Computer::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($computer, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/computers/' . $computer->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/computers')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Computer();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostComputer((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $computer = \App\Models\Computer::where('id', $id)->first();
+    if (is_null($computer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($computer))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $computer->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($computer, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubSoftwares(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $computer = \App\Models\Computer::withTrashed()->where('id', $id)->first();
+    if (is_null($computer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($computer->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $computer->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/computers')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $computer->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $computer = \App\Models\Computer::withTrashed()->where('id', $id)->first();
+    if (is_null($computer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($computer->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $computer->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubSoftwares(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
     $item = new \App\Models\Computer();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('softwareversions', 'antiviruses')->find($args['id']);
+    $myItem = $item::with('softwareversions', 'antiviruses')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/softwares');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -111,6 +287,10 @@ final class Computer extends Common
     $softwares = [];
     foreach ($myItem->softwareversions as $softwareversion)
     {
+      if (is_null($softwareversion->software))
+      {
+        throw new \Exception('Wrong data request', 400);
+      }
       $softwareversion_url = $this->genereRootUrl2Link($rootUrl2, '/softwareversions/', $softwareversion->id);
 
       $software_url = $this->genereRootUrl2Link($rootUrl2, '/softwares/', $softwareversion->software->id);
@@ -151,11 +331,24 @@ final class Computer extends Common
     return $view->render($response, 'subitem/softwares.html.twig', (array)$viewData);
   }
 
-  protected function getInformationTop($item, $request)
+  /**
+   * @param \App\Models\Computer $item
+   *
+   * @return array<mixed>
+   */
+  protected function getInformationTop($item, Request $request): array
   {
     global $translator, $basePath;
 
-    $myItem = $item::with('operatingsystems', 'memories', 'processors', 'harddrives')->find($item->id);
+    $myItem = \App\Models\Computer::
+        with('operatingsystems', 'memories', 'processors', 'harddrives')
+      ->withTrashed()
+      ->where('id', $item->id)
+      ->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $tabInfos = [];
 
@@ -166,7 +359,10 @@ final class Computer extends Common
       $lts = '';
       if ($os->getRelationValue('pivot')->operatingsystemversion_id > 0)
       {
-        $version = \App\Models\Operatingsystemversion::find($os->getRelationValue('pivot')->operatingsystemversion_id);
+        $version = \App\Models\Operatingsystemversion::
+            where('id', $os->getRelationValue('pivot')
+          ->operatingsystemversion_id)
+          ->first();
         if (!is_null($version))
         {
           $operatingsystem .= ' ' . $version->name;
@@ -178,7 +374,10 @@ final class Computer extends Common
       }
       if ($os->getRelationValue('pivot')->operatingsystemedition_id > 0)
       {
-        $edition = \App\Models\Operatingsystemedition::find($os->getRelationValue('pivot')->operatingsystemedition_id);
+        $edition = \App\Models\Operatingsystemedition::
+            where('id', $os->getRelationValue('pivot')
+          ->operatingsystemedition_id)
+          ->first();
         if (!is_null($edition))
         {
           $operatingsystem .= ' ' . $edition->name;
@@ -264,14 +463,21 @@ final class Computer extends Common
     return $tabInfos;
   }
 
-  public function showSubVirtualization(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubVirtualization(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
     $item = new \App\Models\Computer();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('virtualization')->find($args['id']);
+    $myItem = $item::with('virtualization')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/virtualization');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -386,15 +592,21 @@ final class Computer extends Common
     return $view->render($response, 'subitem/virtualization.html.twig', (array)$viewData);
   }
 
-  public function showSubConnections(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubConnections(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Computer();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $item2 = new \App\Models\Computeritem();
     $myItem2 = $item2::where('computer_id', $args['id'])->get();
@@ -405,55 +617,67 @@ final class Computer extends Common
     $myConnections = [];
     foreach ($myItem2 as $connection)
     {
-      $item3 = new $connection->item_type();
-      $myItem3 = $item3->find($connection->item_id);
-      if ($myItem3 !== null)
+      if (
+          $connection->item_type != \App\Models\Monitor::class &&
+          $connection->item_type != \App\Models\Peripheral::class &&
+          $connection->item_type != \App\Models\Phone::class &&
+          $connection->item_type != \App\Models\Printer::class
+      )
       {
-        $type_fr = $item3->getTitle();
-        $type = $item3->getTable();
-
-        $name = $myItem3->name;
-        if ($name == '')
-        {
-          $name = '(' . $myItem3->id . ')';
-        }
-
-        $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
-
-        $entity = '';
-        $entity_url = '';
-        if ($myItem3->entity !== null)
-        {
-          $entity = $myItem3->entity->completename;
-          $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
-        }
-
-        if ($connection->is_dynamic == 1)
-        {
-          $auto_val = $translator->translate('Yes');
-        }
-        else
-        {
-          $auto_val = $translator->translate('No');
-        }
-
-
-        $serial_number = $myItem3->serial;
-
-        $inventaire_number = $myItem3->otherserial;
-
-        $myConnections[] = [
-          'type'                 => $type_fr,
-          'name'                 => $name,
-          'url'                  => $url,
-          'auto'                 => $connection->is_dynamic,
-          'auto_val'             => $auto_val,
-          'entity'               => $entity,
-          'entity_url'           => $entity_url,
-          'serial_number'        => $serial_number,
-          'inventaire_number'    => $inventaire_number,
-        ];
+        continue;
       }
+
+      $item3 = new $connection->item_type();
+      $myItem3 = $item3->where('id', $connection->item_id)->first();
+      if (is_null($myItem3))
+      {
+        throw new \Exception('Wrong data request', 400);
+      }
+
+      $type_fr = $item3->getTitle();
+      $type = $item3->getTable();
+
+      $name = $myItem3->name;
+      if ($name == '')
+      {
+        $name = '(' . $myItem3->id . ')';
+      }
+
+      $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
+
+      $entity = '';
+      $entity_url = '';
+      if ($myItem3->entity !== null)
+      {
+        $entity = $myItem3->entity->completename;
+        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
+      }
+
+      if ($connection->is_dynamic == 1)
+      {
+        $auto_val = $translator->translate('Yes');
+      }
+      else
+      {
+        $auto_val = $translator->translate('No');
+      }
+
+
+      $serial_number = $myItem3->serial;
+
+      $inventaire_number = $myItem3->otherserial;
+
+      $myConnections[] = [
+        'type'                 => $type_fr,
+        'name'                 => $name,
+        'url'                  => $url,
+        'auto'                 => $connection->is_dynamic,
+        'auto_val'             => $auto_val,
+        'entity'               => $entity,
+        'entity_url'           => $entity_url,
+        'serial_number'        => $serial_number,
+        'inventaire_number'    => $inventaire_number,
+      ];
     }
 
     // tri ordre alpha

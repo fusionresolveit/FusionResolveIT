@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Reminder extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Reminder';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Reminder::class;
   protected $titles = ['Reminder', 'Reminders'];
   protected $icon = 'sticky note';
   protected $hasEntityField = false;

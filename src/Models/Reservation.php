@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reservation extends Common
 {
-  protected $definition = '\App\Models\Definitions\Reservation';
+  protected $definition = \App\Models\Definitions\Reservation::class;
   protected $titles = ['Reservation', 'Reservations'];
   protected $icon = 'edit';
   protected $hasEntityField = false;

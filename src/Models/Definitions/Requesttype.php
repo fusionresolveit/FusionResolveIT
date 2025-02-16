@@ -4,140 +4,90 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Requesttype
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 8,
-        'title' => $translator->translate('Active'),
-        'type'  => 'boolean',
-        'name'  => 'is_active',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 14,
-        'title' => $translator->translate('Default for tickets'),
-        'type'  => 'boolean',
-        'name'  => 'is_helpdesk_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 182,
-        'title' => $translator->translate('Default for followups'),
-        'type'  => 'boolean',
-        'name'  => 'is_followup_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Default for mail recipients'),
-        'type'  => 'boolean',
-        'name'  => 'is_mail_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 183,
-        'title' => $translator->translate('Default for followup mail recipients'),
-        'type'  => 'boolean',
-        'name'  => 'is_mailfollowup_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 180,
-        'title' => $translator->translate('Request source visible for tickets'),
-        'type'  => 'boolean',
-        'name'  => 'is_ticketheader',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 181,
-        'title' => $translator->translate('Request source visible for followups'),
-        'type'  => 'boolean',
-        'name'  => 'is_itilfollowup',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-      /*
-      $tab[] = [
-         'id'   => 'common',
-         'name' => __('Characteristics')
-      ];
-
-      $tab[] = [
-         'id'                => '2',
-         'table'             => $this->getTable(),
-         'field'             => 'id',
-         'name'              => __('ID'),
-         'massiveaction'     => false,
-         'datatype'          => 'number'
-      ];
-
-      if ($DB->fieldExists($this->getTable(), 'product_number'))
-      {
-         $tab[] = [
-            'id'  => '3',
-            'table'  => $this->getTable(),
-            'field'  => 'product_number',
-            'name'   => __('Product number'),
-            'autocomplete' => true,
-         ];
-      }
-
-
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'comment' => $translator->translate('Comments'),
+      'is_active' => $translator->translate('Active'),
+      'is_helpdesk_default' => $translator->translate('Default for tickets'),
+      'is_followup_default' => $translator->translate('Default for followups'),
+      'is_mail_default' => $translator->translate('Default for mail recipients'),
+      'is_mailfollowup_default' => $translator->translate('Default for followup mail recipients'),
+      'is_ticketheader' => $translator->translate('Request source visible for tickets'),
+      'is_itilfollowup' => $translator->translate('Request source visible for followups'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(8, $t['is_active'], 'boolean', 'is_active', fillable: true));
+    $defColl->add(new Def(14, $t['is_helpdesk_default'], 'boolean', 'is_helpdesk_default', fillable: true));
+    $defColl->add(new Def(182, $t['is_followup_default'], 'boolean', 'is_followup_default', fillable: true));
+    $defColl->add(new Def(15, $t['is_mail_default'], 'boolean', 'is_mail_default', fillable: true));
+    $defColl->add(new Def(183, $t['is_mailfollowup_default'], 'boolean', 'is_mailfollowup_default', fillable: true));
+    $defColl->add(new Def(180, $t['is_ticketheader'], 'boolean', 'is_ticketheader', fillable: true));
+    $defColl->add(new Def(181, $t['is_itilfollowup'], 'boolean', 'is_itilfollowup', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+
+    /*
+    $tab[] = [
+        'id'   => 'common',
+        'name' => __('Characteristics')
+    ];
+
+    $tab[] = [
+        'id'                => '2',
+        'table'             => $this->getTable(),
+        'field'             => 'id',
+        'name'              => __('ID'),
+        'massiveaction'     => false,
+        'datatype'          => 'number'
+    ];
+
+    if ($DB->fieldExists($this->getTable(), 'product_number'))
+    {
+        $tab[] = [
+          'id'  => '3',
+          'table'  => $this->getTable(),
+          'field'  => 'product_number',
+          'name'   => __('Product number'),
+          'autocomplete' => true,
+        ];
+    }
+
+
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+
+    */
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

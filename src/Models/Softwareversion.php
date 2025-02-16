@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,9 @@ class Softwareversion extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Softwareversion';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Softwareversion::class;
   protected $titles = ['Software version', 'Software versions'];
   protected $icon = 'edit';
 

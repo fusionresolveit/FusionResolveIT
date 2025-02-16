@@ -12,7 +12,7 @@ class ItemDevicegraphiccard extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicegraphiccard';
+  protected $definition = \App\Models\Definitions\ItemDevicegraphiccard::class;
   protected $titles = ['Devicegraphiccard Item', 'Devicegraphiccard Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicegraphiccard';

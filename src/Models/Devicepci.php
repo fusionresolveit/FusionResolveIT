@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicepci extends Common
@@ -14,7 +16,9 @@ class Devicepci extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicepci';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicepci::class;
   protected $titles = ['PCI device', 'PCI devices'];
   protected $icon = 'edit';
 
@@ -26,7 +30,6 @@ class Devicepci extends Common
     'model',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -34,7 +37,6 @@ class Devicepci extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -49,9 +51,9 @@ class Devicepci extends Common
     return $this->belongsTo(\App\Models\Devicepcimodel::class, 'devicepcimodel_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicepci, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicepci::class, 'devicepci_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicepci');
   }
 }

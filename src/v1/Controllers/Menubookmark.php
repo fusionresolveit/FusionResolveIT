@@ -6,17 +6,17 @@ namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\Twig;
-use Slim\Routing\RouteContext;
-use stdClass;
 
 final class Menubookmark extends Common
 {
-  protected $model = '\App\Models\Menubookmark';
+  protected $model = \App\Models\Menubookmark::class;
   protected $rootUrl2 = '/menubookmarks/';
   protected $choose = 'menubookmarks';
 
-  public function newItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
     // check if endpoint and have access
     if (isset($args['endpoint']))
@@ -47,7 +47,7 @@ final class Menubookmark extends Common
             'endpoint' => $args['endpoint'],
             'user_id'  => $GLOBALS['user_id'],
           ];
-          $this->model::create($data);
+          \App\Models\Menubookmark::create($data);
         }
       }
     }
@@ -56,9 +56,12 @@ final class Menubookmark extends Common
       ->withHeader('Location', $request->getHeaderLine('Referer'));
   }
 
-  public function deleteItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
   {
-    $menu = \App\Models\Menubookmark::find($args['id']);
+    $menu = \App\Models\Menubookmark::where('id', $args['id'])->first();
     if (!is_null($menu))
     {
       if ($menu->user_id == $GLOBALS['user_id'])

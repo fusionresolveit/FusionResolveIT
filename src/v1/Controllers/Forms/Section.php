@@ -4,42 +4,43 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Forms;
 
+use App\Traits\ShowItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Slim\Routing\RouteContext;
 
 final class Section extends \App\v1\Controllers\Common
 {
-  protected $model = '\App\Models\Forms\Section';
+  // Display
+  use ShowItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Forms\Section::class;
   protected $rootUrl2 = '/sections/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Forms\Section
   {
-    $item = new \App\Models\Forms\Section();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Forms\Section();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
-  {
-    $item = \App\Models\Forms\Section::find($args['id']);
-    return $this->commonShowItem($request, $response, $args, $item);
-  }
-
-  public function updateItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Forms\Section();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
-
-  public function showSubQuestions(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubQuestions(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
+    $item = new \App\Models\Forms\Section();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('questions')->find($args['id']);
+    $myItem = $item::with('questions')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/questions');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -66,14 +67,21 @@ final class Section extends \App\v1\Controllers\Common
     return $view->render($response, 'subitem/questions.html.twig', (array)$viewData);
   }
 
-  public function showSubForms(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubForms(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
+    $item = new \App\Models\Forms\Section();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('forms')->find($args['id']);
+    $myItem = $item::with('forms')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/forms');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -100,11 +108,20 @@ final class Section extends \App\v1\Controllers\Common
     return $view->render($response, 'subitem/forms.html.twig', (array)$viewData);
   }
 
-  protected function getInformationTop($item, $request)
+  /**
+   * @param \App\Models\Forms\Section $item
+   *
+   * @return array<mixed>
+   */
+  protected function getInformationTop($item, Request $request): array
   {
     global $translator;
 
-    $myItem = $item::with('forms')->find($item->id);
+    $myItem = $item::with('forms')->where('id', $item->id)->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $tabInfos = [];
     foreach ($myItem->forms as $form)

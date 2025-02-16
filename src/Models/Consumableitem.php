@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +18,9 @@ class Consumableitem extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Notes;
 
-  protected $definition = '\App\Models\Definitions\Consumableitem';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Consumableitem::class;
   protected $titles = ['Consumable', 'Consumables'];
   protected $icon = 'box open';
 
@@ -27,8 +30,8 @@ class Consumableitem extends Common
   protected $visible = [
     'type',
     'manufacturer',
-    'groupstech',
-    'userstech',
+    'grouptech',
+    'usertech',
     'location',
     'entity',
     'notes',
@@ -40,8 +43,8 @@ class Consumableitem extends Common
   protected $with = [
     'type:id,name',
     'manufacturer:id,name',
-    'groupstech:id,name,completename',
-    'userstech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
     'location:id,name',
     'entity:id,name,completename',
     'notes:id',
@@ -64,13 +67,13 @@ class Consumableitem extends Common
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }

@@ -346,16 +346,19 @@ editorsolution = new Editor({
 {% endif %}
 
 <script>
-toggle = function() {
+toggle = function()
+{
 
   // selector cache
   var
     $buttons = $('.ribbon'),
     // alias
     handler = {
-      activate: function() {
+      activate: function()
+      {
         $panel = $(this).attr('data-value');
-        if ($('[name="'+$panel+'"]').css('display') == 'block') {
+        if ($('[name="'+$panel+'"]').css('display') == 'block')
+        {
           $('[name="'+$panel+'"]').css('display', 'none');
           $(this).removeClass('{{ header.color }}').addClass('grey');
           $(this).parent().removeClass('{{ header.color }}').addClass('grey');

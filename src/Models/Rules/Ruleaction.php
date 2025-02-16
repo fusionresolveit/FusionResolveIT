@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Rules;
 
+use App\DataInterface\Definition;
+use App\DataInterface\DefinitionCollection;
+
 class Ruleaction extends \App\Models\Common
 {
-  protected $definition = '\App\Models\Definitions\Ruleaction';
+  protected $definition = \App\Models\Definitions\Ruleaction::class;
   protected $titles = ['Action', 'Actions'];
   protected $icon = 'magic';
   protected $hasEntityField = false;
@@ -22,52 +25,60 @@ class Ruleaction extends \App\Models\Common
     'valueviewfield',
   ];
 
-  protected $fillable = [
-    'rule_id',
-    'action_type',
-    'field',
-    'value',
-  ];
-
-  public function getFieldviewfieldAttribute(): array
+  public function getFieldviewfieldAttribute(): Definition
   {
-    /** @var \App\Models\Rules\Rule|null */
-    $rule = \App\Models\Rules\Rule::find($this->attributes['rule_id']);
+    $rule = \App\Models\Rules\Rule::where('id', $this->attributes['rule_id'])->first();
+    if (is_null($rule))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
     $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
 
     $model = new $modelName();
+    if (!is_subclass_of($model, \App\Models\Common::class))
+    {
+      throw new \Exception('Error in rule action', 500);
+    }
+
     // get definitions
     $definitions = $model->getDefinitions();
     foreach ($definitions as $def)
     {
-      if ($def['name'] == $this->field)
+      if ($def->name == $this->field)
       {
         return $def;
       }
     }
-    return [];
+    throw new \Exception('Error in rule action', 500);
   }
 
-  public function getValueviewfieldAttribute(): array
+  public function getValueviewfieldAttribute(): Definition
   {
     $field = $this->getFieldviewfieldAttribute();
 
-    $field['name'] = 'value';
-    $field['value'] = $this->attributes['value'];
-    if (isset($field['multiple']))
+    $field->name = 'value';
+    $field->value = $this->attributes['value'];
+    if (isset($field->multiple))
     {
-      unset($field['multiple']);
+      unset($field->multiple);
     }
-    if ($field['type'] == 'dropdown' || $field['type'] == 'dropdown_remote')
+    if (!is_null($this->value) && ($field->type == 'dropdown' || $field->type == 'dropdown_remote'))
     {
-      if (isset($field['values']))
+      if (count($field->values) > 0)
       {
-        $field['name'] = (int) $this->value;
-        $field['valuename'] = $field['values'][$this->value]['title'];
-      } else {
-        $item = $field['itemtype']::find((int) $this->value);
-        $field['name'] = $item->id;
-        $field['valuename'] = $item->name;
+        $field->name = $this->value;
+        $field->valuename = $field->values[$this->value]['title'];
+      }
+      elseif (is_numeric($this->value) && !is_null($field->itemtype))
+      {
+        $item = $field->itemtype::where('id', $this->value)->first();
+        if (is_null($item))
+        {
+          throw new \Exception('Error in rule action', 500);
+        }
+        $field->name = $item->id;
+        $field->valuename = $item->name;
       }
     }
     return $field;

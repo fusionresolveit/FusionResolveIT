@@ -4,48 +4,67 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostFollowup;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Followup extends Common
 {
-  protected $model = '\App\Models\Followup';
+  protected $model = \App\Models\Followup::class;
 
-  public function postItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postItem(Request $request, Response $response, array $args): Response
   {
-    $data = (object) $request->getParsedBody();
-    // TODO if not have $data->followup, error
+    $requestData = (object) $request->getParsedBody();
+    $data = new PostFollowup($requestData);
 
+    $followup = new \App\Models\Followup();
 
-    $item = new \App\Models\Followup();
-    $item->item_type = $data->item_type;
-    $item->item_id = $data->item_id;
-    $item->content = $data->followup;
-    if (property_exists($data, 'private') && $data->private == 'on')
+    if (!$this->canRightCreate())
     {
-      $item->is_private = true;
+      throw new \Exception('Unauthorized access', 401);
     }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($followup))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $fData = $data->exportToArray();
     if ($this->canRightReadPrivateItem())
     {
-      $item->is_tech = true;
+      $fData['is_tech'] = true;
     }
-    $item->user_id = $GLOBALS['user_id'];
+    $fData['user_id'] = $GLOBALS['user_id'];
 
-    $item->save();
+    if (!isset($requestData->item_type) || !isset($requestData->item_id))
+    {
+      throw new \Exception('Wrong data request', 400);
+    }
 
-    $relatedItem = $data->item_type::find($data->item_id);
+    $relatedItem = $requestData->item_type::where('id', $requestData->item_id)->first();
+    if (is_null($relatedItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    $fData['item_type'] = $requestData->item_type;
+    $fData['item_id'] = $requestData->item_id;
+
+    $followup = \App\Models\Followup::create($fData);
 
     // Manage time
-    if (property_exists($data, 'time'))
+    if (property_exists($requestData, 'time') && property_exists($requestData, 'timetype'))
     {
-      $time = (int) $data->time;
+      $time = (int) $requestData->time;
       if ($time > 0)
       {
-        if ($data->timetype == 'minutes')
+        if ($requestData->timetype == 'minutes')
         {
           $time = $time * 60;
         }
-        if ($data->timetype == 'hours')
+        if ($requestData->timetype == 'hours')
         {
           $time = $time * 3600;
         }
@@ -58,7 +77,8 @@ final class Followup extends Common
     \App\v1\Controllers\Toolbox::addSessionMessage('The followup has been added successfully');
 
     return $response
-      ->withHeader('Location', $data->redirect);
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 
   public function canRightReadPrivateItem(): bool

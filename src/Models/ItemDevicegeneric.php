@@ -12,7 +12,7 @@ class ItemDevicegeneric extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicegeneric';
+  protected $definition = \App\Models\Definitions\ItemDevicegeneric::class;
   protected $titles = ['Devicegeneric Item', 'Devicegeneric Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicegeneric';

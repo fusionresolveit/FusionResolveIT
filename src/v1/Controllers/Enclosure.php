@@ -4,92 +4,182 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostEnclosure;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Component;
+use App\Traits\Subs\Contract;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Item;
+use App\Traits\Subs\Itil;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Enclosure extends Common
+final class Enclosure extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Enclosure';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Document;
+  use Contract;
+  use Itil;
+  use History;
+  use Component;
+  use Infocom;
+
+  protected $model = \App\Models\Enclosure::class;
   protected $rootUrl2 = '/enclosures/';
   protected $choose = 'enclosures';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Enclosure
   {
-    $item = new \App\Models\Enclosure();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Enclosure();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Enclosure();
-    return $this->commonShowItem($request, $response, $args, $item);
-  }
+    global $basePath;
 
-  public function updateItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Enclosure();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
+    $data = new PostEnclosure((object) $request->getParsedBody());
 
-  public function showSubItems(Request $request, Response $response, $args): Response
-  {
-    global $translator;
+    $enclosure = new \App\Models\Enclosure();
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
-    $view = Twig::fromRequest($request);
-
-    $myItem = $item->find($args['id']);
-
-    $rootUrl = $this->genereRootUrl($request, '/items');
-    $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
-
-    $myItems = [];
-    foreach ($myItem->items as $current_item)
+    if (!$this->canRightCreate())
     {
-      $item3 = new $current_item->item_type();
-      $myItem3 = $item3->find($current_item->item_id);
-
-      if ($myItem3 !== null)
-      {
-        $type = $item3->getTable();
-
-        $current_id = $myItem3->id;
-
-        $name = $myItem3->name;
-        if ($name == '')
-        {
-          $name = '(' . $current_id . ')';
-        }
-
-        $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $current_id);
-
-        $position = $current_item->position;
-
-        $myItems[$current_item->id] = [
-          'name'        => $name,
-          'url'         => $url,
-          'position'    => $position,
-        ];
-      }
+      throw new \Exception('Unauthorized access', 401);
     }
 
-    // tri ordre alpha
-    array_multisort(array_column($myItems, 'position'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
+    if (!\App\v1\Controllers\Profile::canRightReadItem($enclosure))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    $enclosure = \App\Models\Enclosure::create($data->exportToArray());
 
-    $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('items', $myItems);
-    $viewData->addData('show', $this->choose);
+    \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($enclosure, 'new');
 
-    $viewData->addTranslation('name', $translator->translatePlural('Item', 'Items', 1));
-    $viewData->addTranslation('position', $translator->translate('Position'));
+    $data = (object) $request->getParsedBody();
 
-    return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/enclosures/' . $enclosure->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/enclosures')
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
+  {
+    $data = new PostEnclosure((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $enclosure = \App\Models\Enclosure::where('id', $id)->first();
+    if (is_null($enclosure))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($enclosure))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $enclosure->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($enclosure, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $enclosure = \App\Models\Enclosure::withTrashed()->where('id', $id)->first();
+    if (is_null($enclosure))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($enclosure->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $enclosure->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/enclosures')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $enclosure->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $enclosure = \App\Models\Enclosure::withTrashed()->where('id', $id)->first();
+    if (is_null($enclosure))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($enclosure->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $enclosure->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 }

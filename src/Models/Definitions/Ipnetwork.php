@@ -4,86 +4,52 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Ipnetwork
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translatePlural('IP address', 'IP addresses', 1),
-        'type'  => 'input',
-        'name'  => 'address',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translatePlural('Subnet mask', 'Subnet masks', 1),
-        'type'  => 'input',
-        'name'  => 'netmask',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 17,
-        'title' => $translator->translate('Gateway'),
-        'type'  => 'input',
-        'name'  => 'gateway',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 18,
-        'title' => $translator->translate('Addressable network'),
-        'type'  => 'boolean',
-        'name'  => 'addressable',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'address' => $translator->translatePlural('IP address', 'IP addresses', 1),
+      'netmask' => $translator->translatePlural('Subnet mask', 'Subnet masks', 1),
+      'gateway' => $translator->translate('Gateway'),
+      'addressable' => $translator->translate('Addressable network'),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(11, $t['address'], 'input', 'address', fillable: true));
+    $defColl->add(new Def(12, $t['netmask'], 'input', 'netmask', fillable: true));
+    $defColl->add(new Def(17, $t['gateway'], 'input', 'gateway', fillable: true));
+    $defColl->add(new Def(18, $t['addressable'], 'boolean', 'addressable', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

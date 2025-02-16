@@ -12,7 +12,7 @@ class ItemDevicememory extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicememory';
+  protected $definition = \App\Models\Definitions\ItemDevicememory::class;
   protected $titles = ['Devicememory Item', 'Devicememory Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicememory';

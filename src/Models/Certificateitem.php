@@ -10,7 +10,7 @@ class Certificateitem extends Common
 {
   use PivotEventTrait;
 
-  protected $definition = '\App\Models\Definitions\Certificateitem';
+  protected $definition = \App\Models\Definitions\Certificateitem::class;
   protected $titles = ['Certificate item', 'Certificate items'];
   protected $icon = 'certificate';
   protected $table = 'certificate_item';

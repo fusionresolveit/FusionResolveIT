@@ -46,12 +46,16 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#criteriaxx').on("change", function() {
+  $(document).ready(function()
+  {
+    $('#criteriaxx').on("change", function()
+    {
       $('#conditiondiv').attr('data-definitionname', $(this).val());
     });
-    $('#conditionxx').on("change", function() {
-      switch ($(this).val()) {
+    $('#conditionxx').on("change", function()
+    {
+      switch ($(this).val())
+      {
         case '0':
         case '1':
         case '8':

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Computervirtualmachine extends Common
 {
+  use GetDropdownValues;
+
   protected $table = 'computervirtualmachines';
-  protected $definition = '\App\Models\Definitions\Computervirtualmachine';
+  protected $definition = \App\Models\Definitions\Computervirtualmachine::class;
   protected $titles = ['Virtual machine', 'Virtual machines'];
   protected $icon = 'virus slash';
 

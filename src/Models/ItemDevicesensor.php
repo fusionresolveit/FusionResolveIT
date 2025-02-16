@@ -12,7 +12,7 @@ class ItemDevicesensor extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicesensor';
+  protected $definition = \App\Models\Definitions\ItemDevicesensor::class;
   protected $titles = ['Devicesensor Item', 'Devicesensor Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicesensor';

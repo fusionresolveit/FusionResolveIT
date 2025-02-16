@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,8 +16,11 @@ class User extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
+  use \App\Traits\Relationships\Changes;
 
-  protected $definition = '\App\Models\Definitions\User';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\User::class;
   protected $titles = ['User', 'Users'];
   protected $icon = 'user';
 

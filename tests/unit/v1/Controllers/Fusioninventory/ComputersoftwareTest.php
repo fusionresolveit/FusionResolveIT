@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass('\App\v1\Controllers\Fusioninventory\Computersoftware')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Common')]
@@ -63,9 +65,12 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Definitions\Usercategory')]
 #[UsesClass('\App\Models\Definitions\Usertitle')]
+#[UsesClass('\App\Models\Profile')]
 #[UsesClass('\App\Models\Software')]
 #[UsesClass('\App\Models\Softwareversion')]
 #[UsesClass('\App\Models\User')]
+#[UsesClass('\App\v1\Controllers\Common')]
+#[UsesClass('\App\v1\Controllers\Dropdown')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Common')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Validation')]
 #[UsesClass('\App\v1\Controllers\Log')]

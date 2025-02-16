@@ -7,27 +7,100 @@ namespace App\v1\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Slim\Routing\RouteContext;
+use App\DataInterface\PostTicket;
+use App\Traits\ShowItem;
+use App\Traits\Subs\Approval;
+use App\Traits\Subs\Change;
+use App\Traits\Subs\Cost;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Item;
+use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Project;
 
-final class Ticket extends Common
+final class Ticket extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Ticket';
+  // Display
+  use ShowItem;
+
+  // Sub
+  use Knowbaseitem;
+  use History;
+  use Cost;
+  use Approval;
+  use Change;
+  use Project;
+  use Item;
+
+  protected $model = \App\Models\Ticket::class;
   protected $rootUrl2 = '/tickets/';
   protected $choose = 'tickets';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Ticket
   {
-    $item = new \App\Models\Ticket();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Ticket();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @return array{
+   *          'itemComputers': \App\Models\Computer,
+   *          'itemMonitors': \App\Models\Monitor,
+   *          'itemNetworkequipments': \App\Models\Networkequipment,
+   *          'itemPeripherals': \App\Models\Peripheral,
+   *          'itemPhones': \App\Models\Phone,
+   *          'itemPrinters': \App\Models\Printer,
+   *          'itemSoftwares': \App\Models\Software,
+   *          'itemSoftwarelicenses': \App\Models\Softwarelicense,
+   *          'itemCertificates': \App\Models\Certificate,
+   *          'itemLines': \App\Models\Line,
+   *          'itemDcrooms': \App\Models\Dcroom,
+   *          'itemRacks': \App\Models\Rack,
+   *          'itemEnclosures': \App\Models\Enclosure,
+   *          'itemClusters': \App\Models\Cluster,
+   *          'itemPdus': \App\Models\Pdu,
+   *          'itemDomains': \App\Models\Domain,
+   *          'itemDomainrecords': \App\Models\Domainrecord,
+   *          'itemAppliances': \App\Models\Appliance,
+   *          'itemPassivedcequipments': \App\Models\Passivedcequipment
+   *         }
+   */
+  protected function modelsForSubItem()
+  {
+    return [
+      'itemComputers'           => new \App\Models\Computer(),
+      'itemMonitors'            => new \App\Models\Monitor(),
+      'itemNetworkequipments'   => new \App\Models\Networkequipment(),
+      'itemPeripherals'         => new \App\Models\Peripheral(),
+      'itemPhones'              => new \App\Models\Phone(),
+      'itemPrinters'            => new \App\Models\Printer(),
+      'itemSoftwares'           => new \App\Models\Software(),
+      'itemSoftwarelicenses'    => new \App\Models\Softwarelicense(),
+      'itemCertificates'        => new \App\Models\Certificate(),
+      'itemLines'               => new \App\Models\Line(),
+      'itemDcrooms'             => new \App\Models\Dcroom(),
+      'itemRacks'               => new \App\Models\Rack(),
+      'itemEnclosures'          => new \App\Models\Enclosure(),
+      'itemClusters'            => new \App\Models\Cluster(),
+      'itemPdus'                => new \App\Models\Pdu(),
+      'itemDomains'             => new \App\Models\Domain(),
+      'itemDomainrecords'       => new \App\Models\Domainrecord(),
+      'itemAppliances'          => new \App\Models\Appliance(),
+      'itemPassivedcequipments' => new \App\Models\Passivedcequipment(),
+    ];
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showItem(Request $request, Response $response, array $args): Response
   {
     $item = new \App\Models\Ticket();
     return $this->commonShowITILItem($request, $response, $args, $item);
   }
 
-  public function showNewItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showNewItem(Request $request, Response $response, array $args): Response
   {
     $session = new \SlimSession\Helper();
     $session['ticketCreationDate'] = gmdate('Y-m-d H:i:s');
@@ -36,13 +109,101 @@ final class Ticket extends Common
     return $this->commonShowITILNewItem($request, $response, $args, $item);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
+    global $basePath;
+
+    $data = new PostTicket((object) $request->getParsedBody());
+
+    $data = $this->prepareDataSave($data);
+
+    $ticket = new \App\Models\Ticket();
+
+    // manage rules
+    $data = $this->runRules($data);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($ticket))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $dataCreate = $data->exportToArray();
+    $ticket = \App\Models\Ticket::create($dataCreate);
+
+    $this->updateRelationshipsMany($dataCreate, 'requester', $ticket, 1);
+    $this->updateRelationshipsMany($dataCreate, 'requestergroup', $ticket, 1);
+    $this->updateRelationshipsMany($dataCreate, 'watcher', $ticket, 3);
+    $this->updateRelationshipsMany($dataCreate, 'watchergroup', $ticket, 3);
+    $this->updateRelationshipsMany($dataCreate, 'technician', $ticket, 2);
+    $this->updateRelationshipsMany($dataCreate, 'techniciangroup', $ticket, 2);
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($ticket, 'new');
+
     $data = (object) $request->getParsedBody();
 
-    $data = $this->prepareDataSave($data, $args['id']);
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/tickets/' . $ticket->id)
+        ->withStatus(302);
+    }
 
-    $this->saveItem($data, $args['id']);
+    return $response
+      ->withHeader('Location', $basePath . '/view/tickets')
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
+  {
+    $data = new PostTicket((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    $data = $this->prepareDataSave($data, $id);
+
+    // manage rules
+    $data = $this->runRules($data, $id);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $ticket = \App\Models\Ticket::where('id', $id)->first();
+    if (is_null($ticket))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($ticket))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $dataUpdate = $data->exportToArray();
+    $ticket->update($dataUpdate);
+
+    $this->updateRelationshipsMany($dataUpdate, 'requester', $ticket, 1);
+    $this->updateRelationshipsMany($dataUpdate, 'requestergroup', $ticket, 1);
+    $this->updateRelationshipsMany($dataUpdate, 'watcher', $ticket, 3);
+    $this->updateRelationshipsMany($dataUpdate, 'watchergroup', $ticket, 3);
+    $this->updateRelationshipsMany($dataUpdate, 'technician', $ticket, 2);
+    $this->updateRelationshipsMany($dataUpdate, 'techniciangroup', $ticket, 2);
+
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($ticket, 'update');
 
     $uri = $request->getUri();
     return $response
@@ -50,7 +211,115 @@ final class Ticket extends Common
       ->withStatus(302);
   }
 
-  public function runRules($data, $id)
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $ticket = \App\Models\Ticket::withTrashed()->where('id', $id)->first();
+    if (is_null($ticket))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($ticket->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $ticket->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/tickets')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $ticket->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $ticket = \App\Models\Ticket::withTrashed()->where('id', $id)->first();
+    if (is_null($ticket))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($ticket->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $ticket->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array{name?: string, content?: string, entity?: \App\Models\Entity, type?: int, status?: int,
+   *              category?: \App\Models\Category, location?: \App\Models\Location, urgency?: int, impact?: int,
+   *              priority?: int, time_to_resolve?: int, usersidlastupdater?: \App\Models\User,
+   *              usersidrecipient?: \App\Models\User, requester?: array<\App\Models\User>,
+   *              requestergroup?: array<\App\Models\Group>, watcher?: array<\App\Models\User>,
+   *              watchergroup?: array<\App\Models\Group>, technician?: array<\App\Models\User>,
+   *              techniciangroup?: array<\App\Models\Group>} $dataUpdate
+   * @param 'requester'|'requestergroup'|'watcher'|'watchergroup'|'technician'|'techniciangroup' $relationship
+   */
+  public static function updateRelationshipsMany(
+    array $dataUpdate,
+    string $relationship,
+    \App\Models\Ticket $ticket,
+    int $type
+  ): void
+  {
+    if (isset($dataUpdate[$relationship]))
+    {
+      $dbItems = [];
+      foreach ($ticket->{$relationship} as $relationItem)
+      {
+        $dbItems[] = $relationItem->id;
+      }
+
+      // To delete
+      $toDelete = array_diff($dbItems, $dataUpdate[$relationship]);
+      foreach ($toDelete as $groupId)
+      {
+        $ticket->{$relationship}()->detach($groupId, ['type' => $type]);
+      }
+
+      // To add
+      $toAdd = array_diff($dataUpdate[$relationship], $dbItems);
+      foreach ($toAdd as $groupId)
+      {
+        $ticket->{$relationship}()->attach($groupId, ['type' => $type]);
+      }
+    }
+  }
+
+  public function runRules(PostTicket $data, int|null $id = null): PostTicket
   {
     // Run ticket rules
     $rule = new \App\v1\Controllers\Rules\Ticket();
@@ -58,23 +327,31 @@ final class Ticket extends Common
     {
       $ticket = new \App\Models\Ticket();
     } else {
-      $ticket = \App\Models\Ticket::find($id);
+      $ticket = \App\Models\Ticket::where('id', $id)->first();
+      if (is_null($ticket))
+      {
+        throw new \Exception('Id not found', 404);
+      }
     }
 
-    $preparedData = $rule->prepareData($ticket, $data);
-    $ruledData = $rule->processAllRules($ticket, $preparedData);
-
-    $data = $rule->parseNewData($ticket, $data, $ruledData);
-    return $data;
+    $data = $rule->prepareData($ticket, $data);
+    return $rule->processAllRules($data);
   }
 
-  public function showStats(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showStats(Request $request, Response $response, array $args): Response
   {
     global $translator;
     $item = new \App\Models\Ticket();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::find($args['id']);
+    $myItem = $item::where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/stats');
@@ -119,17 +396,23 @@ final class Ticket extends Common
 
     $viewData->addData('feeds', $feeds);
 
-
     return $view->render($response, 'subitem/stats.html.twig', (array) $viewData);
   }
 
-  public function showProblem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showProblem(Request $request, Response $response, array $args): Response
   {
     global $translator;
     $item = new \App\Models\Ticket();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with(['problems'])->find($args['id']);
+    $myItem = $item::with(['problems'])->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/problem');
 
@@ -150,8 +433,12 @@ final class Ticket extends Common
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
     $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('feeds', $item->getFeeds($args['id']));
-    $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($myItem->content));
+    $viewData->addData('feeds', $item->getFeeds(intval($args['id'])));
+    $content = null;
+    if (!is_null($myItem->content))
+    {
+      $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($myItem->content));
+    }
     $viewData->addData('problems', $problems);
 
     $viewData->addTranslation('attachItem', $translator->translate('Attach to an existant problem'));
@@ -166,13 +453,20 @@ final class Ticket extends Common
     return $view->render($response, 'subitem/problem.html.twig', (array) $viewData);
   }
 
-  public function postProblem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postProblem(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getParsedBody();
 
     if (property_exists($data, 'problem') && is_numeric($data->problem))
     {
-      $myItem = \App\Models\Ticket::find($args['id']);
+      $myItem = \App\Models\Ticket::where('id', $args['id'])->first();
+      if (is_null($myItem))
+      {
+        throw new \Exception('Id not found', 404);
+      }
       $myItem->problems()->attach((int)$data->problem);
 
       // add message to session
@@ -197,10 +491,10 @@ final class Ticket extends Common
     *
     * @return integer from 1 to 5 (priority)
    **/
-  public static function computePriority($urgency, $impact)
+  public static function computePriority(int $urgency, int $impact): int
   {
     $priority_matrix = \App\Models\Config::where('context', 'core')->where('name', 'priority_matrix')->first();
-    if (!is_null($priority_matrix))
+    if (!is_null($priority_matrix) && !is_null($priority_matrix->value))
     {
       $matrix = json_decode($priority_matrix->value, true);
       if (isset($matrix[(int) $urgency][(int) $impact]))
@@ -218,7 +512,7 @@ final class Ticket extends Common
    *   * manage rules
    *   * store in DB the ticket, the users, the groups... so all linked to ticket
    */
-  public function prepareDataSave($data, $id = null)
+  public function prepareDataSave(PostTicket $data, int|null $id = null): PostTicket
   {
     if (is_null($id))
     {
@@ -226,18 +520,25 @@ final class Ticket extends Common
     }
     else
     {
-      $myItem = \App\Models\Ticket::find($id);
-    }
-    $definitions = $myItem->getDefinitions();
-
-
-    if (!property_exists($data, 'priority') || ($myItem->priority == $data->priority))
-    {
-      if (!property_exists($data, 'impact'))
+      $myItem = \App\Models\Ticket::where('id', $id)->first();
+      if (is_null($myItem))
       {
-        $data->impact = 3;
+        throw new \Exception('Id not found', 404);
       }
+    }
 
+    if (is_null($data->impact))
+    {
+      $data->impact = 3;
+    }
+
+    if (is_null($data->urgency))
+    {
+      $data->urgency = 3;
+    }
+
+    if ($myItem->priority == $data->priority)
+    {
       $data->priority = self::computePriority($data->urgency, $data->impact);
     }
 
@@ -245,92 +546,21 @@ final class Ticket extends Common
     return $data;
   }
 
-  public function showSubItems(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubProjecttasks(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Ticket();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
-
-    $rootUrl = $this->genereRootUrl($request, '/items');
-    $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
-
-    $myItems = [];
-    foreach ($myItem->items as $current_item)
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
     {
-      $item3 = new $current_item->item_type();
-      $myItem3 = $item3->find($current_item->item_id);
-      if ($myItem3 !== null)
-      {
-        $type_fr = $item3->getTitle();
-        $type = $item3->getTable();
-
-        $current_id = $myItem3->id;
-
-        $name = $myItem3->name;
-        if (is_null($name) || $name == '')
-        {
-          $name = '(' . $current_id . ')';
-        }
-
-        $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $current_id);
-
-        $entity = '';
-        $entity_url = '';
-        if ($myItem3->entity !== null)
-        {
-          $entity = $myItem3->entity->completename;
-          $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
-        }
-
-        $serial_number = $myItem3->serial;
-
-        $inventaire_number = $myItem3->otherserial;
-
-        $myItems[] = [
-          'type'                 => $type_fr,
-          'name'                 => $name,
-          'url'                  => $url,
-          'entity'               => $entity,
-          'entity_url'           => $entity_url,
-          'serial_number'        => $serial_number,
-          'inventaire_number'    => $inventaire_number,
-        ];
-      }
+      throw new \Exception('Id not found', 404);
     }
-
-    // tri ordre alpha
-    array_multisort(array_column($myItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
-    array_multisort(array_column($myItems, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
-
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
-
-    $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('items', $myItems);
-    $viewData->addData('show', $this->choose);
-
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
-    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
-
-    return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
-  }
-
-  public function showSubProjecttasks(Request $request, Response $response, $args): Response
-  {
-    global $translator;
-
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
-    $view = Twig::fromRequest($request);
-
-    $myItem = $item->find($args['id']);
 
     $item2 = new \App\Models\Project();
     $myItem2 = $item2->get();

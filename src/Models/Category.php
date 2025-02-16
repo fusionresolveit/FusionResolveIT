@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Category extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Category';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Category::class;
   protected $titles = ['Category', 'Categories'];
   protected $icon = 'edit';
   protected $tree = true;
@@ -23,26 +26,26 @@ class Category extends Common
 
   protected $visible = [
     'category',
-    'users',
-    'groups',
-    'knowbaseitemcategories',
-    'tickettemplatesDemand',
-    'tickettemplatesIncident',
-    'changetemplates',
-    'problemtemplates',
+    'user',
+    'group',
+    'knowbaseitemcategory',
+    'tickettemplateDemand',
+    'tickettemplateIncident',
+    'changetemplate',
+    'problemtemplate',
     'entity',
     'completename',
   ];
 
   protected $with = [
     'category:id,name',
-    'users:id,name,firstname,lastname',
-    'groups:id,name,completename',
-    'knowbaseitemcategories:id,name',
-    'tickettemplatesDemand:id,name',
-    'tickettemplatesIncident:id,name',
-    'changetemplates:id,name',
-    'problemtemplates:id,name',
+    'user:id,name,firstname,lastname',
+    'group:id,name,completename',
+    'knowbaseitemcategory:id,name',
+    'tickettemplateDemand:id,name',
+    'tickettemplateIncident:id,name',
+    'changetemplate:id,name',
+    'problemtemplate:id,name',
     'entity:id,name,completename',
   ];
 
@@ -74,43 +77,43 @@ class Category extends Common
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function users(): BelongsTo
+  public function user(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id');
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groups(): BelongsTo
+  public function group(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id');
   }
 
   /** @return BelongsTo<\App\Models\Knowbaseitemcategory, $this> */
-  public function knowbaseitemcategories(): BelongsTo
+  public function knowbaseitemcategory(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Knowbaseitemcategory::class, 'knowbaseitemcategory_id');
   }
 
   /** @return BelongsTo<\App\Models\Tickettemplate, $this> */
-  public function tickettemplatesDemand(): BelongsTo
+  public function tickettemplateDemand(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Tickettemplate::class, 'tickettemplate_id_demand');
   }
 
   /** @return BelongsTo<\App\Models\Tickettemplate, $this> */
-  public function tickettemplatesIncident(): BelongsTo
+  public function tickettemplateIncident(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Tickettemplate::class, 'tickettemplate_id_incident');
   }
 
   /** @return BelongsTo<\App\Models\Changetemplate, $this> */
-  public function changetemplates(): BelongsTo
+  public function changetemplate(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Changetemplate::class, 'changetemplate_id');
   }
 
   /** @return BelongsTo<\App\Models\Problemtemplate, $this> */
-  public function problemtemplates(): BelongsTo
+  public function problemtemplate(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Problemtemplate::class, 'problemtemplate_id');
   }

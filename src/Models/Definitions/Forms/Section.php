@@ -4,36 +4,33 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions\Forms;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Section
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'date_creation',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'date_mod',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'date_creation' => $translator->translate('Creation date'),
+      'date_mod' => $translator->translate('Last update'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name'));
+    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
+    $defColl->add(new Def(16, $t['date_mod'], 'datetime', 'date_mod', readonly: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

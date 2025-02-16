@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -23,7 +24,9 @@ class Monitor extends Common
   use \App\Traits\Relationships\Knowbaseitems;
   use \App\Traits\Relationships\Reservations;
 
-  protected $definition = '\App\Models\Definitions\Monitor';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Monitor::class;
   protected $titles = ['Monitor', 'Monitors'];
   protected $icon = 'desktop';
 
@@ -37,8 +40,8 @@ class Monitor extends Common
     'manufacturer',
     'user',
     'group',
-    'groupstech',
-    'userstech',
+    'grouptech',
+    'usertech',
     'location',
     'entity',
     'domains',
@@ -64,8 +67,8 @@ class Monitor extends Common
     'manufacturer:id,name',
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
-    'userstech:id,name,firstname,lastname',
-    'groupstech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
     'location:id,name',
     'entity:id,name,completename',
     'domains:id,name',
@@ -123,13 +126,13 @@ class Monitor extends Common
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }

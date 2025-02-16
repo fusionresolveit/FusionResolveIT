@@ -4,32 +4,39 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Menubookmark
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 2,
-        'title' => $translator->translatePlural('User', 'Users', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'user',
-        'dbname' => 'user_id',
-        'itemtype' => '\App\Models\User',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Endpoint'),
-        'type'  => 'input',
-        'name'  => 'endpoint',
-        'fillable' => true,
-      ],
+
+    $t = [
+      'user' => $translator->translatePlural('User', 'Users', 1),
+      'endpoint' => $translator->translate('Endpoint'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(
+      2,
+      $t['user'],
+      'dropdown_remote',
+      'user',
+      dbname: 'user_id',
+      itemtype: '\App\Models\User',
+      fillable: true
+    ));
+    $defColl->add(new Def(3, $t['endpoint'], 'input', 'endpoint', fillable: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

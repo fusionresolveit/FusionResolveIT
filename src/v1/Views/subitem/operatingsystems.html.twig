@@ -13,38 +13,6 @@
             {% endif %}
           {% endfor %}
         </div>
-        <div class="height wide column">
-          <div class="field">
-            <label>{{ translation.entreprise }}</label>
-            <div class="ui transparent input">
-              <input type="text" value="{{ data.operatingsystem.wincompany }}" readonly>
-            </div>
-          </div>
-          <div class="field">
-            <label>{{ translation.oscomment }}</label>
-            <div class="ui transparent input">
-              <input type="text" value="{{ data.operatingsystem.oscomment }}" readonly>
-            </div>
-          </div>
-          <div class="field">
-            <label>{{ translation.hostid }}</label>
-            <div class="ui transparent input">
-              <input type="text" value="{{ data.operatingsystem.hostid }}" readonly>
-            </div>
-          </div>
-          <div class="field">
-            <label>{{ translation.owner }}</label>
-            <div class="ui transparent input">
-              <input type="text" value="{{ data.operatingsystem.winowner }}" readonly>
-            </div>
-          </div>
-          <div class="field">
-            <label>{{ translation.install_date }}</label>
-            <div class="ui transparent input">
-              <input type="text" value="{{ data.operatingsystem.installationdate }}" readonly>
-            </div>
-          </div>
-        </div>
       {% else %}
         <div class="column">
           {% for item in data.fields %}

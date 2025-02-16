@@ -4,38 +4,26 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Traits\ShowItem;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 final class Queuednotification extends Common
 {
-  protected $model = '\App\Models\Queuednotification';
+  // Display
+  use ShowItem;
 
-  public function getAll(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Queuednotification();
-    return $this->commonGetAll($request, $response, $args, $item);
-  }
+  protected $model = \App\Models\Queuednotification::class;
 
-  public function showItem(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Queuednotification
   {
-    $item = new \App\Models\Queuednotification();
-    return $this->commonShowItem($request, $response, $args, $item);
-  }
-
-  public function updateItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Queuednotification();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    return new \App\Models\Queuednotification();
   }
 
   /**
    * Run the scheduled to send mails
    */
-  public static function scheduleSendmails()
+  public static function scheduleSendmails(): bool
   {
     $crontask = \App\Models\Crontask::where('name', 'queuednotification')->first();
     if (is_null($crontask))
@@ -60,7 +48,7 @@ final class Queuednotification extends Common
     return true;
   }
 
-  private function sendMails()
+  private function sendMails(): int
   {
     $mailer = new PHPMailer(true);
 
@@ -69,6 +57,17 @@ final class Queuednotification extends Common
     foreach ($mails as $mail)
     {
       // TODO send mail
+      if (
+          is_null($mail->sender) ||
+          is_null($mail->sendername) ||
+          is_null($mail->recipient) ||
+          is_null($mail->recipientname) ||
+          is_null($mail->name) ||
+          is_null($mail->body_html)
+      )
+      {
+        continue;
+      }
 
       try
       {
@@ -86,7 +85,10 @@ final class Queuednotification extends Common
         //Recipients
         $mailer->setFrom($mail->sender, $mail->sendername);
         $mailer->addAddress($mail->recipient, $mail->recipientname);
-        $mailer->addReplyTo($mail->replyto, $mail->replytoname);
+        if (!is_null($mail->replyto) && !is_null($mail->replytoname))
+        {
+          $mailer->addReplyTo($mail->replyto, $mail->replytoname);
+        }
 
         //Attachments
         // $mailer->addAttachment('/var/tmp/file.tar.gz');         //Add attachments

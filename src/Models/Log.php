@@ -12,8 +12,13 @@ class Log extends Model
   use SoftDeletes;
 
   // protected $definition = '\App\Models\Definitions\Log';
+  /** @var string[] */
   protected $titles = ['Historical', 'Historical'];
+
+  /** @var string */
   protected $icon = 'history';
+
+  /** @var boolean */
   protected $hasEntityField = false;
 
   public const CREATED_AT = null;

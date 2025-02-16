@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\unit\v1\Controllers;
+namespace Tests\unit\v1\Controllers\Rules;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -10,7 +10,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass('\App\v1\Controllers\Rules\Criterium')]
-#[CoversClass('\App\v1\Controllers\Rules\Common')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Translation')]
 #[UsesClass('\App\Models\Category')]
 #[UsesClass('\App\Models\Common')]

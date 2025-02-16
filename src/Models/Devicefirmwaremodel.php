@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicefirmwaremodel extends Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\Devicefirmwaremodel';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicefirmwaremodel::class;
   protected $titles = ['Device firmware model', 'Device firmware models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;

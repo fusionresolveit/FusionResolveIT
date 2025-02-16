@@ -6,7 +6,7 @@ namespace App\v1\Controllers\Fusioninventory;
 
 final class Computersoftware extends \App\v1\Controllers\Common
 {
-  public static function parse(object $dataObj, \App\Models\Computer $computer)
+  public static function parse(object $dataObj, \App\Models\Computer $computer): void
   {
     $vs = [
       'ARCH'              => Validation::attrStrNotempty('ARCH'),
@@ -21,7 +21,10 @@ final class Computersoftware extends \App\v1\Controllers\Common
       'VERSION'           => Validation::attrStrNotempty('VERSION'),
     ];
 
-    if (property_exists($dataObj->CONTENT, 'SOFTWARES'))
+    if (
+        property_exists($dataObj, 'CONTENT') &&
+        property_exists($dataObj->CONTENT, 'SOFTWARES')
+    )
     {
       $versionIds = [];
       $content = Common::getArrayData($dataObj->CONTENT->SOFTWARES);

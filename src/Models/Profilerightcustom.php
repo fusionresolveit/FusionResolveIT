@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Profilerightcustom extends Common
 {
-  protected $definition = '\App\Models\Definitions\Profilerightcustom';
+  protected $definition = \App\Models\Definitions\Profilerightcustom::class;
   protected $titles = ['Profile', 'Profiles'];
   protected $icon = 'user check';
   protected $hasEntityField = false;

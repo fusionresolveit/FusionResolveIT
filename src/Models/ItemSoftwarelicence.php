@@ -10,7 +10,7 @@ class ItemSoftwarelicence extends Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\ItemSoftwarelicence';
+  protected $definition = \App\Models\Definitions\ItemSoftwarelicence::class;
   protected $titles = ['Softwarelicence Item', 'Softwarelicence Items'];
   protected $icon = 'edit';
   protected $table = 'item_softwarelicense';

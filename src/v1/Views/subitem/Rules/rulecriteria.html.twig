@@ -31,8 +31,10 @@
   </div>
 {% endfor %}
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#criteriaxx').on("change", function() {
+  $(document).ready(function()
+  {
+    $('#criteriaxx').on("change", function()
+    {
       console.log('test1');
       console.log($(this).val());
       $('#conditiondiv').attr('data-criteria', $(this).val());

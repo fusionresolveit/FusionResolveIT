@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Displaypreference extends Common
 {
+  use SoftDeletes;
+
   public $timestamps = false;
   protected $hasEntityField = false;
   protected $titles = ['Manage columns', 'Manage columns'];
@@ -24,9 +28,9 @@ class Displaypreference extends Common
    * @param string  $itemtype  itemtype
    * @param integer $user_id   user ID
    *
-   * @return array
+   * @return array<mixed>
   **/
-  public static function getForTypeUser($itemtype, $user_id)
+  public static function getForTypeUser(string $itemtype, int $user_id)
   {
     $items = \App\Models\Displaypreference::where('itemtype', $itemtype)
       ->where('user_id', $user_id)

@@ -12,7 +12,7 @@ class ItemDevicefirmware extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicefirmware';
+  protected $definition = \App\Models\Definitions\ItemDevicefirmware::class;
   protected $titles = ['Devicefirmware Item', 'Devicefirmware Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicefirmware';

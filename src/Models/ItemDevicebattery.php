@@ -12,7 +12,7 @@ class ItemDevicebattery extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicebattery';
+  protected $definition = \App\Models\Definitions\ItemDevicebattery::class;
   protected $titles = ['Devicebattery Item', 'Devicebattery Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicebattery';

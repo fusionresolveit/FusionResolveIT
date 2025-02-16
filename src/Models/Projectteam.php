@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Projectteam extends Common
 {
-  protected $definition = '\App\Models\Definitions\Projectteam';
+  protected $definition = \App\Models\Definitions\Projectteam::class;
   protected $titles = ['Project team', 'Project teams'];
   protected $icon = 'columns';
   protected $hasEntityField = false;

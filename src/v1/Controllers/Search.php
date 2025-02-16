@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\Definition;
+use App\DataInterface\DefinitionCollection;
 use Illuminate\Database\Eloquent\Builder;
 
 final class Search extends Common
 {
-  public function getData($item, $uri, $page = 1, $filters = [])
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   * @param array<mixed> $filters
+   * @return array<mixed>
+   */
+  public function getData($item, string $uri, int $page = 1, array $filters = []): array
   {
     $itemtype = get_class($item);
     $prefs = \App\Models\Displaypreference::getForTypeUser($itemtype, $GLOBALS['user_id']);
@@ -21,10 +29,8 @@ final class Search extends Common
       ->first();
     if (is_null($profileright))
     {
-      return;
+      return [];
     }
-
-    $hasEntity = $item->isEntity();
 
     // echo "<pre>";
     // print_r($itemDef);
@@ -35,26 +41,26 @@ final class Search extends Common
     $newItemDef = [];
     foreach ($itemDef as $field)
     {
-      if (!isset($field['display']) || !$field['display'])
+      if (is_null($field->display) || $field->display === false)
       {
         continue;
       }
-      if (isset($prefs[$field['id']]))
+      if (isset($prefs[$field->id]))
       {
         $newItemDef[] = $field;
       }
       // add name field if not in preferences
-      if ($field['name'] == 'name' && !isset($prefs[$field['id']]))
+      if ($field->name == 'name' && !isset($prefs[$field->id]))
       {
         $newItemDef[] = $field;
       }
       // add name field if not in preferences
-      if ($field['name'] == 'completename' && !isset($prefs[$field['id']]))
+      if ($field->name == 'completename' && !isset($prefs[$field->id]))
       {
         $newItemDef[] = $field;
       }
       // Same for entity
-      if ($GLOBALS['entity_recursive'] && $field['name'] == 'entity' && !isset($prefs[$field['id']]))
+      if ($GLOBALS['entity_recursive'] && $field->name == 'entity' && !isset($prefs[$field->id]))
       {
         $newItemDef[] = $field;
       }
@@ -82,28 +88,30 @@ final class Search extends Common
     // echo "</pre>";
     // die();
 
-    if ($hasEntity)
-    {
-      $item = $item->with('entity')->whereHas('entity', function (Builder $query)
-      {
-        if ($GLOBALS['entity_recursive'])
-        {
-          $query->where('treepath', 'LIKE', $GLOBALS['entity_treepath'] . '%');
-        }
-        else
-        {
-          $query->where('treepath', $GLOBALS['entity_treepath']);
-        }
-      });
-    }
-
-    if ($itemtype == "App\Models\Ticket")
+    if (get_class($item) == \App\Models\Ticket::class)
     {
       if ($profileright->readmyitems && !$profileright->read)
       {
         $item = $item->where('user_id_recipient', $GLOBALS['user_id']);
       }
       $item = $item->orderBy('id', 'desc');
+    }
+
+    if (method_exists($item, 'entity'))
+    {
+      $item = $item->with('entity')->whereHas('entity', function (Builder $query)
+      {
+        if ($GLOBALS['entity_recursive'])
+        {
+          // @phpstan-ignore argument.type
+          $query->where('treepath', 'LIKE', $GLOBALS['entity_treepath'] . '%');
+        }
+        else
+        {
+          // @phpstan-ignore argument.type
+          $query->where('treepath', $GLOBALS['entity_treepath']);
+        }
+      });
     }
 
     $cnt = $item->count();
@@ -131,12 +139,18 @@ final class Search extends Common
     return $itemDbData;
   }
 
-  private function prepareValues($itemDef, $data, $uri)
+  /**
+   * @template C of \App\Models\Common
+   * @param array<Definition> $itemDef
+   * @param \Illuminate\Database\Eloquent\Collection<int, C> $data
+   * @return array<mixed>
+   */
+  private function prepareValues(array $itemDef, $data, string $uri): array
   {
     $header = ['id'];
     foreach ($itemDef as $field)
     {
-      $header[] = $field['title'];
+      $header[] = $field->title;
     }
 
     $allData = [];
@@ -144,81 +158,76 @@ final class Search extends Common
     {
       $myData = [];
       $myData['id'] = [
-        'value' => $item->id,
-        'link'  => $uri . '/' . $item['id'],
+        'value' => $item->getAttribute('id'),
+        'link'  => $uri . '/' . $item->getAttribute('id'),
       ];
 
       foreach ($itemDef as $field)
       {
-        if ($field['type'] == 'dropdown_remote')
+        if ($field->type == 'dropdown_remote')
         {
-          if (is_null($item->{$field['name']}) || empty($item->{$field['name']}))
+          if (is_null($item->{$field->name}) || empty($item->{$field->name}))
           {
-            $myData[$field['name']] = [
+            $myData[$field->name] = [
               'value' => '',
             ];
           }
           else
           {
-            if (isset($field['count']))
+            // if (!is_null($field->count))
+            // {
+            //   $elements = [];
+            //   foreach ($item->{$field->name} as $t)
+            //   {
+            //     $elements[] = $t->{$field->count};
+            //   }
+            //   $myData[$field->name] = [
+            //     'value' => array_sum($elements),
+            //   ];
+            // }
+            // elseif (!is_null($field->multiple))
+            if (!is_null($field->multiple))
             {
               $elements = [];
-              foreach ($item->{$field['name']} as $t)
-              {
-                $elements[] = $t->{$field['count']};
-              }
-              $myData[$field['name']] = [
-                'value' => array_sum($elements),
-              ];
-            }
-            elseif (isset($field['multiple']))
-            {
-              $elements = [];
-              foreach ($item->{$field['name']} as $t)
+              foreach ($item->{$field->name} as $t)
               {
                 $elements[] = $t->name;
               }
-              $myData[$field['name']] = [
+              $myData[$field->name] = [
                 'value' => implode(', ', $elements),
               ];
             }
             else
             {
-              $myData[$field['name']] = [
-                'value' => $item->{$field['name']}->name,
+              $myData[$field->name] = [
+                'value' => $item->{$field->name}->name,
               ];
             }
           }
         }
-        elseif ($field['type'] == 'dropdown')
+        elseif ($field->type == 'dropdown')
         {
-          if (isset($field['values'][$item->{$field['name']}]))
+          if (!is_null($field->values[$item->{$field->name}]))
           {
-            $myData[$field['name']] = [
-              'value' => $field['values'][$item->{$field['name']}],
+            $myData[$field->name] = [
+              'value' => $field->values[$item->{$field->name}],
             ];
           }
           else
           {
-            $myData[$field['name']] = [];
+            $myData[$field->name] = [];
           }
         }
-        elseif ($field['type'] == 'description')
+        elseif ($field->type == 'boolean')
         {
-          $myData[$field['name']] = [
-            'value' => $field['values'][$item->{$field['name']}],
-          ];
-        }
-        elseif ($field['type'] == 'boolean')
-        {
-          $myData[$field['name']] = [
-            'value' => boolval($item->{$field['name']}),
+          $myData[$field->name] = [
+            'value' => boolval($item->{$field->name}),
           ];
         }
         else
         {
-          $myData[$field['name']] = [
-            'value' => $item->{$field['name']},
+          $myData[$field->name] = [
+            'value' => $item->{$field->name},
           ];
         }
       }
@@ -231,21 +240,25 @@ final class Search extends Common
     ];
   }
 
-  private function manageFilters($itemDef, $params)
+  /**
+   * @param array<mixed> $params
+   * @return array<mixed>
+   */
+  private function manageFilters(DefinitionCollection $itemDef, array $params): array
   {
     if (isset($params['field']) && is_numeric($params['field']))
     {
       foreach ($itemDef as $field)
       {
-        if ($field['id'] == $params['field'])
+        if ($field->id == $params['field'])
         {
-          if ($field['type'] == 'dropdown_remote')
+          if ($field->type == 'dropdown_remote')
           {
-            return [$field['name'] => $params['value']];
+            return [$field->name => $params['value']];
           }
           else
           {
-            return [$field['name'] => ['LIKE', '%' . $params['value'] . '%']];
+            return [$field->name => ['LIKE', '%' . $params['value'] . '%']];
           }
         }
       }
@@ -253,14 +266,20 @@ final class Search extends Common
     return [];
   }
 
-  private function orderColumns($itemDef, $prefs)
+  /**
+   * @param array<Definition> $itemDef
+   * @param array<mixed> $prefs
+   *
+   * @return array<Definition>
+   */
+  private function orderColumns(array $itemDef, array $prefs): array
   {
     $orderedItemDef = [];
     foreach ($prefs as $id)
     {
       foreach ($itemDef as $field)
       {
-        if ($field['id'] == $id)
+        if ($field->id == $id)
         {
           $orderedItemDef[] = $field;
           continue;

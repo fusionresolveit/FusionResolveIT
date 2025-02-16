@@ -6,7 +6,7 @@ namespace App\Models\Forms;
 
 class Answerquestion extends \App\Models\Common
 {
-  protected $definition = '\App\Models\Definitions\Forms\Answerquestion';
+  protected $definition = \App\Models\Definitions\Forms\Answerquestion::class;
   protected $titles = ['Answerquestion', 'Answerquestions'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;

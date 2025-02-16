@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Projectitem extends Common
 {
-  protected $definition = '\App\Models\Definitions\Projectitem';
+  protected $definition = \App\Models\Definitions\Projectitem::class;
   protected $titles = ['Project item', 'Project items'];
   protected $icon = 'columns';
   protected $table = 'item_project';

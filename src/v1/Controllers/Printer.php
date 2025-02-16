@@ -4,45 +4,221 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostPrinter;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Appliance;
+use App\Traits\Subs\Certificate;
+use App\Traits\Subs\Component;
+use App\Traits\Subs\Connection;
+use App\Traits\Subs\Contract;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\Domain;
+use App\Traits\Subs\Externallink;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Itil;
+use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Note;
+use App\Traits\Subs\Operatingsystem;
+use App\Traits\Subs\Reservation;
+use App\Traits\Subs\Software;
+use App\Traits\Subs\Volume;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Printer extends Common
+final class Printer extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Printer';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Reservation;
+  use Note;
+  use Domain;
+  use Appliance;
+  use Certificate;
+  use Externallink;
+  use Knowbaseitem;
+  use Document;
+  use Contract;
+  use Software;
+  use Operatingsystem;
+  use Itil;
+  use History;
+  use Component;
+  use Volume;
+  use Connection;
+  use Infocom;
+
+  protected $model = \App\Models\Printer::class;
   protected $rootUrl2 = '/printers/';
   protected $choose = 'printers';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Printer
   {
-    $item = new \App\Models\Printer();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Printer();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Printer();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostPrinter((object) $request->getParsedBody());
+
+    $printer = new \App\Models\Printer();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($printer))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $printer = \App\Models\Printer::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($printer, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/printers/' . $printer->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/printers')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Printer();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostPrinter((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $printer = \App\Models\Printer::where('id', $id)->first();
+    if (is_null($printer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($printer))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $printer->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($printer, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubCartridges(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $printer = \App\Models\Printer::withTrashed()->where('id', $id)->first();
+    if (is_null($printer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($printer->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $printer->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/printers')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $printer->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $printer = \App\Models\Printer::withTrashed()->where('id', $id)->first();
+    if (is_null($printer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($printer->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $printer->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubCartridges(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Printer();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('cartridges')->find($args['id']);
+    $myItem = $item::with('cartridges')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/cartridges');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);

@@ -18,6 +18,11 @@ final class Common extends \App\v1\Controllers\Common
     return $dataObj;
   }
 
+  /**
+   * @param object|array<mixed> $value
+   *
+   * @return array<mixed>
+   */
   public static function getArrayData(object|array $value): array
   {
     if (gettype($value) === 'array')
@@ -33,7 +38,15 @@ final class Common extends \App\v1\Controllers\Common
   public static function cleanString(string $value): string
   {
     $value = filter_var($value, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
+    if ($value === false)
+    {
+      return '';
+    }
     $value = preg_replace('!\s+!', ' ', $value);
+    if (is_null($value))
+    {
+      return '';
+    }
     $value = str_replace('®', '', $value);
     return trim($value);
   }

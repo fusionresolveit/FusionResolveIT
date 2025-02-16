@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,8 +14,11 @@ class Group extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Notes;
+  use \App\Traits\Relationships\Changes;
 
-  protected $definition = '\App\Models\Definitions\Group';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Group::class;
   protected $titles = ['Group', 'Groups'];
   protected $icon = 'users';
   protected $tree = true;

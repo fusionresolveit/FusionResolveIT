@@ -4,196 +4,138 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Supplier
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Address'),
-        'type'  => 'textarea',
-        'name'  => 'address',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 10,
-        'title' => $translator->translate('Fax'),
-        'type'  => 'input',
-        'name'  => 'fax',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translate('City'),
-        'type'  => 'input',
-        'name'  => 'town',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 14,
-        'title' => $translator->translate('Postal code'),
-        'type'  => 'input',
-        'name'  => 'postcode',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translate('location' . "\004" . 'State'),
-        'type'  => 'input',
-        'name'  => 'state',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 13,
-        'title' => $translator->translate('Country'),
-        'type'  => 'input',
-        'name'  => 'country',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Website'),
-        'type'  => 'input',
-        'name'  => 'website',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translatePlural('Phone', 'Phones', 1),
-        'type'  => 'input',
-        'name'  => 'phonenumber',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translatePlural('Email', 'Emails', 1),
-        'type'  => 'email',
-        'name'  => 'email',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 9,
-        'title' => $translator->translatePlural('Third party type', 'Third party types', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'type',
-        'dbname' => 'suppliertype_id',
-        'itemtype' => '\App\Models\Suppliertype',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-      /*
-
-
-      $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Characteristics')
-      ];
-
-      if ($_SESSION["glpinames_format"] == User::FIRSTNAME_BEFORE)
-      {
-         $name1 = 'firstname';
-         $name2 = 'name';
-      }
-         else
-         {
-         $name1 = 'name';
-         $name2 = 'firstname';
-      }
-
-      $tab[] = [
-         'id'                 => '8',
-         'table'              => 'glpi_contacts',
-         'field'              => 'completename',
-         'name'               => _n('Associated contact', 'Associated contacts', Session::getPluralNumber()),
-         'forcegroupby'       => true,
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false,
-         'computation'        => "CONCAT(".$DB->quoteName("TABLE.$name1").", ' ', ".$DB->quoteName("TABLE.$name2").")",
-         'computationgroupby' => true,
-         'joinparams'         => [
-            'beforejoin'         => [
-               'table'              => 'glpi_contacts_suppliers',
-               'joinparams'         => [
-                  'jointype'           => 'child'
-               ]
-            ]
-         ]
-      ];
-
-
-
-      $tab[] = [
-         'id'                 => '29',
-         'table'              => 'glpi_contracts',
-         'field'              => 'name',
-         'name'               => _n('Associated contract', 'Associated contracts', Session::getPluralNumber()),
-         'forcegroupby'       => true,
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false,
-         'joinparams'         => [
-            'beforejoin'         => [
-               'table'              => 'glpi_contracts_suppliers',
-               'joinparams'         => [
-                  'jointype'           => 'child'
-               ]
-            ]
-         ]
-      ];
-
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-      $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
-
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'address' => $translator->translate('Address'),
+      'fax' => $translator->translate('Fax'),
+      'town' => $translator->translate('City'),
+      'postcode' => $translator->translate('Postal code'),
+      'state' => $translator->translate('location' . "\004" . 'State'),
+      'country' => $translator->translate('Country'),
+      'website' => $translator->translate('Website'),
+      'phonenumber' => $translator->translatePlural('Phone', 'Phones', 1),
+      'email' => $translator->translatePlural('Email', 'Emails', 1),
+      'type' => $translator->translatePlural('Third party type', 'Third party types', 1),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(3, $t['address'], 'textarea', 'address', fillable: true));
+    $defColl->add(new Def(10, $t['fax'], 'input', 'fax', fillable: true));
+    $defColl->add(new Def(11, $t['town'], 'input', 'town', fillable: true));
+    $defColl->add(new Def(14, $t['postcode'], 'input', 'postcode', fillable: true));
+    $defColl->add(new Def(12, $t['state'], 'input', 'state', fillable: true));
+    $defColl->add(new Def(13, $t['country'], 'input', 'country', fillable: true));
+    $defColl->add(new Def(4, $t['website'], 'input', 'website', fillable: true));
+    $defColl->add(new Def(5, $t['phonenumber'], 'input', 'phonenumber', fillable: true));
+    $defColl->add(new Def(6, $t['email'], 'email', 'email', fillable: true));
+    $defColl->add(new Def(
+      9,
+      $t['type'],
+      'dropdown_remote',
+      'type',
+      dbname: 'suppliertype_id',
+      itemtype: '\App\Models\Suppliertype',
+      fillable: true
+    ));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+    /*
+
+
+    $tab[] = [
+        'id'                 => 'common',
+        'name'               => __('Characteristics')
+    ];
+
+    if ($_SESSION["glpinames_format"] == User::FIRSTNAME_BEFORE)
+    {
+        $name1 = 'firstname';
+        $name2 = 'name';
+    }
+        else
+        {
+        $name1 = 'name';
+        $name2 = 'firstname';
+    }
+
+    $tab[] = [
+        'id'                 => '8',
+        'table'              => 'glpi_contacts',
+        'field'              => 'completename',
+        'name'               => _n('Associated contact', 'Associated contacts', Session::getPluralNumber()),
+        'forcegroupby'       => true,
+        'datatype'           => 'itemlink',
+        'massiveaction'      => false,
+        'computation'        => "CONCAT(".$DB->quoteName("TABLE.$name1").", ' ', ".$DB->quoteName("TABLE.$name2").")",
+        'computationgroupby' => true,
+        'joinparams'         => [
+          'beforejoin'         => [
+              'table'              => 'glpi_contacts_suppliers',
+              'joinparams'         => [
+                'jointype'           => 'child'
+              ]
+          ]
+        ]
+    ];
+
+
+
+    $tab[] = [
+        'id'                 => '29',
+        'table'              => 'glpi_contracts',
+        'field'              => 'name',
+        'name'               => _n('Associated contract', 'Associated contracts', Session::getPluralNumber()),
+        'forcegroupby'       => true,
+        'datatype'           => 'itemlink',
+        'massiveaction'      => false,
+        'joinparams'         => [
+          'beforejoin'         => [
+              'table'              => 'glpi_contracts_suppliers',
+              'joinparams'         => [
+                'jointype'           => 'child'
+              ]
+          ]
+        ]
+    ];
+
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+    $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
+
+    */
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

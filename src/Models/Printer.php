@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -24,7 +25,9 @@ class Printer extends Common
   use \App\Traits\Relationships\Knowbaseitems;
   use \App\Traits\Relationships\Reservations;
 
-  protected $definition = '\App\Models\Definitions\Printer';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Printer::class;
   protected $titles = ['Printer', 'Printers'];
   protected $icon = 'print';
 
@@ -39,8 +42,8 @@ class Printer extends Common
     'user',
     'group',
     'network',
-    'groupstech',
-    'userstech',
+    'grouptech',
+    'usertech',
     'location',
     'entity',
     'certificates',
@@ -87,8 +90,8 @@ class Printer extends Common
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
     'network:id,name',
-    'groupstech:id,name,completename',
-    'userstech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
     'location:id,name',
     'entity:id,name,completename',
     'certificates:id,name',
@@ -171,13 +174,13 @@ class Printer extends Common
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }

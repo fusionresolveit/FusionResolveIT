@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Ticket extends Common
 {
@@ -17,7 +19,9 @@ class Ticket extends Common
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Knowbaseitems;
 
-  protected $definition = '\App\Models\Definitions\Ticket';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Ticket::class;
   protected $titles = ['Ticket', 'Tickets'];
   protected $icon = 'hands helping';
 
@@ -41,7 +45,6 @@ class Ticket extends Common
     'knowbaseitems',
     'followups',
     'costs',
-    'items',
     'projecttasks',
     'approvals',
   ];
@@ -65,7 +68,6 @@ class Ticket extends Common
     'followups:id,content',
     'solutions',
     'costs:id,name,ticket_id,begin_date,end_date,actiontime,cost_time,cost_fixed,cost_material,budget_id,entity_id',
-    'items',
     'projecttasks',
     'approvals',
   ];
@@ -221,13 +223,16 @@ class Ticket extends Common
     return $this->morphMany(\App\Models\Solution::class, 'item');
   }
 
-  public function getFeeds($id): array
+  /**
+   * @return array<mixed>
+   */
+  public function getFeeds(int $id): array
   {
     global $translator;
     $feeds = [];
 
     /** @var \App\Models\Ticket|null */
-    $ticket = \App\Models\Ticket::find($id);
+    $ticket = \App\Models\Ticket::where('id', $id)->first();
     if (
         is_null($this->definition) ||
         !class_exists($this->definition) ||
@@ -333,6 +338,10 @@ class Ticket extends Common
       ->get();
     foreach ($logs as $log)
     {
+      if (is_null($log->user_name))
+      {
+        continue;
+      }
       if ($log->id_search_option == 12)
       {
         $userActionSpl = explode(" (", $log->user_name);
@@ -351,6 +360,10 @@ class Ticket extends Common
       elseif ($log->id_search_option == 5)
       {
         $userActionSpl = explode(" (", $log->user_name);
+        if (is_null($log->new_value))
+        {
+          continue;
+        }
         $userSpl = explode(" (", $log->new_value);
 
         $feeds[] = [
@@ -381,6 +394,10 @@ class Ticket extends Common
         }
         else
         {
+          if (is_null($log->old_value))
+          {
+            continue;
+          }
           $groupSpl = explode(" (", $log->old_value);
           $feeds[] = [
             "user"     => $userActionSpl[0],
@@ -433,12 +450,6 @@ class Ticket extends Common
     return $this->hasMany(\App\Models\Ticketcost::class, 'ticket_id');
   }
 
-  /** @return HasMany<\App\Models\ItemTicket, $this> */
-  public function items(): HasMany
-  {
-    return $this->hasMany(\App\Models\ItemTicket::class, 'ticket_id');
-  }
-
   /** @return HasMany<\App\Models\ProjecttaskTicket, $this> */
   public function projecttasks(): HasMany
   {
@@ -449,5 +460,125 @@ class Ticket extends Common
   public function approvals(): HasMany
   {
     return $this->hasMany(\App\Models\Ticketvalidation::class, 'ticket_id');
+  }
+
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Monitor, $this> */
+  public function itemMonitors(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Monitor::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function itemPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function itemPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Software, $this> */
+  public function itemSoftwares(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Software::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Softwarelicense, $this> */
+  public function itemSoftwarelicenses(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Softwarelicense::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Certificate, $this> */
+  public function itemCertificates(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Certificate::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Line, $this> */
+  public function itemLines(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Line::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Dcroom, $this> */
+  public function itemDcrooms(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Dcroom::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Rack, $this> */
+  public function itemRacks(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Rack::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Enclosure, $this> */
+  public function itemEnclosures(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Enclosure::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Cluster, $this> */
+  public function itemClusters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Cluster::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Pdu, $this> */
+  public function itemPdus(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Pdu::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Domain, $this> */
+  public function itemDomains(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Domain::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Domainrecord, $this> */
+  public function itemDomainrecords(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Domainrecord::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Appliance, $this> */
+  public function itemAppliances(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Appliance::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Passivedcequipment, $this> */
+  public function itemPassivedcequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Passivedcequipment::class, 'item', 'item_ticket');
+  }
+
+  /** @return MorphToMany<\App\Models\Project, $this> */
+  public function projects(): MorphToMany
+  {
+    return $this->morphToMany(\App\Models\Project::class, 'item', 'itil_project');
   }
 }

@@ -4,93 +4,49 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Authsso
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'            => 1,
-        'title'         => $translator->translate('Name'),
-        'type'          => 'input',
-        'name'          => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Active'),
-        'type'  => 'boolean',
-        'name'  => 'is_active',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 5,
-        'title'         => $translator->translate('Provider'),
-        'type'          => 'dropdown',
-        'name'          => 'provider',
-        'values'        => self::getProviderArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'            => 6,
-        'title'         => $translator->translate('callback id'),
-        'type'          => 'input',
-        'name'          => 'callbackid',
-      ],
-      [
-        'id'            => 7,
-        'title'         => $translator->translate('application id'),
-        'type'          => 'input',
-        'name'          => 'applicationid',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 8,
-        'title'         => $translator->translate('application secret'),
-        'type'          => 'inputpassword',
-        'name'          => 'applicationsecret',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 9,
-        'title'         => $translator->translate('application public'),
-        'type'          => 'input',
-        'name'          => 'applicationpublic',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 10,
-        'title'         => $translator->translate('directory id'),
-        'type'          => 'input',
-        'name'          => 'directoryid',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 11,
-        'title'         => $translator->translate('baseurl'),
-        'type'          => 'input',
-        'name'          => 'baseurl',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 12,
-        'title'         => $translator->translate('realm'),
-        'type'          => 'input',
-        'name'          => 'realm',
-        'fillable' => true,
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'comment' => $translator->translate('Comments'),
+      'is_active' => $translator->translate('Active'),
+      'provider' => $translator->translate('Provider'),
+      'callbackid' => $translator->translate('callback id'),
+      'applicationid' => $translator->translate('application id'),
+      'applicationsecret' => $translator->translate('application secret'),
+      'applicationpublic' => $translator->translate('application public'),
+      'directoryid' => $translator->translate('directory id'),
+      'baseurl' => $translator->translate('baseurl'),
+      'realm' => $translator->translate('realm'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(3, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(4, $t['is_active'], 'boolean', 'is_active', fillable: true));
+    $defColl->add(new Def(5, $t['provider'], 'dropdown', 'provider', values: self::getProviderArray(), fillable: true));
+    $defColl->add(new Def(6, $t['callbackid'], 'input', 'callbackid'));
+    $defColl->add(new Def(7, $t['applicationid'], 'input', 'applicationid', fillable: true));
+    $defColl->add(new Def(8, $t['applicationsecret'], 'inputpassword', 'applicationsecret', fillable: true));
+    $defColl->add(new Def(9, $t['applicationpublic'], 'input', 'applicationpublic', fillable: true));
+    $defColl->add(new Def(10, $t['directoryid'], 'input', 'directoryid', fillable: true));
+    $defColl->add(new Def(11, $t['baseurl'], 'input', 'baseurl', fillable: true));
+    $defColl->add(new Def(12, $t['realm'], 'input', 'realm', fillable: true));
+
+    return $defColl;
   }
 
-  public static function getProviderArray()
+  /**
+   * @return array<mixed>
+   */
+  public static function getProviderArray(): array
   {
     global $translator;
 
@@ -468,7 +424,10 @@ class Authsso
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

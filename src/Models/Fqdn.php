@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Fqdn extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Fqdn';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Fqdn::class;
   protected $titles = ['Internet domain', 'Internet domains'];
   protected $icon = 'edit';
 

@@ -14,8 +14,11 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\JwtBeforeHandler')]
 #[UsesClass('\App\Route')]
 #[UsesClass('\App\Translation')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
+#[UsesClass('\App\Events\TreepathUpdating')]
 #[UsesClass('\App\Models\Category')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Category')]
@@ -60,7 +63,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\v1\Controllers\Search')]
 #[UsesClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\v1\Controllers\Toolbox')]
-
 
 final class RightsTicketTest extends TestCase
 {

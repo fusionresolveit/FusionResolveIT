@@ -4,88 +4,93 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Forms;
 
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Slim\Routing\RouteContext;
 
 final class Answer extends \App\v1\Controllers\Common
 {
-  protected $model = '\App\Models\Forms\Answer';
+  use History;
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected $model = \App\Models\Forms\Answer::class;
+
+  protected function instanciateModel(): \App\Models\Forms\Answer
   {
-    $item = new \App\Models\Forms\Answer();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Forms\Answer();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Forms\Answer();
-    return $this->commonShowItem($request, $response, $args, $item);
-  }
-
-  public function updateItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Forms\Answer();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
-
-  public function showAnswer(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showAnswer(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
+    $item = new \App\Models\Forms\Answer();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('form', 'answerquestions')->find($args['id']);
+    $answer = \App\Models\Forms\Answer::with('form', 'answerquestions')->where('id', $args['id'])->first();
+    if (is_null($answer))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new \App\Models\Forms\Form();
-    $myItem2 = $item2::with('sections')->find($myItem->form->id);
+    if (is_null($answer->form))
+    {
+      throw new \Exception('Form not found', 404);
+    }
+    $form = \App\Models\Forms\Form::with('sections')->where('id', $answer->form->id)->first();
+    if (is_null($form))
+    {
+      throw new \Exception('Form not found', 404);
+    }
 
     $answers = [
-      'form_id'     => $myItem->form->id,
-      'form_name'   => $myItem->form->name,
+      'form_id'     => $answer->form->id,
+      'form_name'   => $answer->form->name,
       'sections'    => [],
     ];
 
     $rootUrl = $this->genereRootUrl($request, '');
     // $rootUrl = $this->getUrlWithoutQuery($request);
 
-    foreach ($myItem2->sections as $section)
+    foreach ($form->sections as $section)
     {
       $answers['sections'][$section->id] = [];
       $answers['sections'][$section->id]['id'] = $section->id;
       $answers['sections'][$section->id]['name'] = $section->name;
       $answers['sections'][$section->id]['questions'] = [];
 
-      $item3 = new \App\Models\Forms\Section();
-      $myItem3 = $item3::with('questions')->find($section->id);
-      foreach ($myItem3->questions as $question)
+      $section = \App\Models\Forms\Section::with('questions')->where('id', $section->id)->first();
+      if (!is_null($section))
       {
-        $answer = '';
-        foreach ($myItem->answerquestions as $answerquestion)
+        foreach ($section->questions as $question)
         {
-          if ($answerquestion->question_id ==  $question->id)
+          $myAnswer = '';
+          foreach ($answer->answerquestions as $answerquestion)
           {
-            $answer = $answerquestion->answer;
-            break;
+            if ($answerquestion->question_id ==  $question->id)
+            {
+              $myAnswer = $answerquestion->answer;
+              break;
+            }
           }
-        }
 
-        $answers['sections'][$section->id]['questions'][$question->id] = [
-          'id'          => $question->id,
-          'name'        => $question->name,
-          'fieldtype'   => $question->fieldtype,
-          'answer'      => $answer,
-        ];
+          $answers['sections'][$section->id]['questions'][$question->id] = [
+            'id'          => $question->id,
+            'name'        => $question->name,
+            'fieldtype'   => $question->fieldtype,
+            'answer'      => $myAnswer,
+          ];
+        }
       }
     }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($answer, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($answer));
     $viewData->addData('answers', $answers);
     $viewData->addData('src', 'answer');
 

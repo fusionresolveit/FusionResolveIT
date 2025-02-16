@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,7 +14,9 @@ class Projecttasktemplate extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Projecttasktemplate';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Projecttasktemplate::class;
   protected $titles = ['Project task template', 'Project task templates'];
   protected $icon = 'edit';
 

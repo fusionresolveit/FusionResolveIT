@@ -12,7 +12,7 @@ class ItemDevicemotherboard extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicemotherboard';
+  protected $definition = \App\Models\Definitions\ItemDevicemotherboard::class;
   protected $titles = ['Devicemotherboard Item', 'Devicemotherboard Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicemotherboard';

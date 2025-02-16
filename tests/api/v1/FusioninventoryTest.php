@@ -14,6 +14,8 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\App')]
 #[CoversClass('\App\Route')]
 #[CoversClass('\App\v1\Controllers\Fusioninventory\Communication')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Common')]
@@ -64,6 +66,8 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\State')]
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Devicememory')]
+#[UsesClass('\App\Models\Location')]
+#[UsesClass('\App\Models\Ticket')]
 #[UsesClass('\App\Traits\Relationships\Changes')]
 #[UsesClass('\App\Traits\Relationships\Contract')]
 #[UsesClass('\App\Traits\Relationships\Documents')]
@@ -75,6 +79,8 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Traits\Relationships\Problems')]
 #[UsesClass('\App\Traits\Relationships\Reservations')]
 #[UsesClass('\App\Traits\Relationships\Tickets')]
+#[UsesClass('\App\v1\Controllers\Common')]
+#[UsesClass('\App\v1\Controllers\Dropdown')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Common')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Computer')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Computermemory')]
@@ -281,7 +287,7 @@ final class FusioninventoryTest extends TestCase
     $response = $this->app->handle($request);
 
     $this->assertEquals(200, $response->getStatusCode());
-    $expected = '<?xml version="1.0"?>
+    $expected = '<?xml version="1.0" encoding="UTF-8"?>
 <REPLY/>
 ';
     $this->assertEquals($expected, (string) $response->getBody());

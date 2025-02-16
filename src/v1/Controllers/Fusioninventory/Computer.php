@@ -6,10 +6,14 @@ namespace App\v1\Controllers\Fusioninventory;
 
 final class Computer extends \App\v1\Controllers\Common
 {
-  public function importComputer($dataStr)
+  public function importComputer(string $dataStr): void
   {
     $dataObj = Common::xmlToObj($dataStr);
     $json = json_encode($dataObj);
+    if ($json === false)
+    {
+      throw new FusioninventoryXmlException('Data error', 400);
+    }
     $dataObject = json_decode($json);
     // file_put_contents('/tmp/fusion.log', print_r($dataObj, true));
 
@@ -47,9 +51,9 @@ final class Computer extends \App\v1\Controllers\Common
     $computer->name = $dataObject->CONTENT->HARDWARE->NAME;
     // $computer->uuid = $dataObj->CONTENT->HARDWARE->UUID;
     $computer->serial = $dataObject->CONTENT->BIOS->SSN;
-    $computer->otherserial = $this->getOtherSerial($dataObj);
-    $computer->manufacturer_id = $this->getManufacturer($dataObj);
-    $computer->computertype_id = $this->getType($dataObj);
+    $computer->otherserial = $this->getOtherSerial($dataObject);
+    $computer->manufacturer_id = $this->getManufacturer($dataObject);
+    $computer->computertype_id = $this->getType($dataObject);
     // computermodel_id
 
     $computer->save();
@@ -62,9 +66,10 @@ final class Computer extends \App\v1\Controllers\Common
     Computermemory::parse($dataObject, $computer);
   }
 
-  private function getOtherSerial(object $dataObj)
+  private function getOtherSerial(object $dataObj): string|null
   {
     if (
+        property_exists($dataObj, 'CONTENT') &&
         property_exists($dataObj->CONTENT, 'BIOS') &&
         property_exists($dataObj->CONTENT->BIOS, 'ASSETTAG')
     )
@@ -74,9 +79,12 @@ final class Computer extends \App\v1\Controllers\Common
     return null;
   }
 
-  private function getManufacturer($dataObj)
+  private function getManufacturer(object $dataObj): int
   {
-    if (property_exists($dataObj->CONTENT, 'BIOS'))
+    if (
+        property_exists($dataObj, 'CONTENT') &&
+        property_exists($dataObj->CONTENT, 'BIOS')
+    )
     {
       $fields = ['SMANUFACTURER', 'MMANUFACTURER', 'BMANUFACTURER'];
       foreach ($fields as $field)
@@ -101,7 +109,7 @@ final class Computer extends \App\v1\Controllers\Common
     return 0;
   }
 
-  private function getType($dataObj)
+  private function getType(object $dataObj): int
   {
     $fields = [
       ['HARDWARE', 'CHASSIS_TYPE'],
@@ -112,6 +120,7 @@ final class Computer extends \App\v1\Controllers\Common
     foreach ($fields as $field)
     {
       if (
+          property_exists($dataObj, 'CONTENT') &&
           property_exists($dataObj->CONTENT, $field[0]) &&
           property_exists($dataObj->CONTENT->{$field[0]}, $field[1]) &&
           !empty($dataObj->CONTENT->{$field[0]}->{$field[1]})

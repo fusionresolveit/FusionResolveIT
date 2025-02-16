@@ -4,136 +4,99 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Document
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 7,
-        'title' => $translator->translate('Heading'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'categorie',
-        'dbname' => 'documentcategory_id',
-        'itemtype' => '\App\Models\Documentcategory',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('File'),
-        'type'  => 'input',
-        'name'  => 'filename',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Web link'),
-        'type'  => 'input',
-        'name'  => 'link',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('MIME type'),
-        'type'  => 'input',
-        'name'  => 'mime',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translate('Tag'),
-        'type'  => 'input',
-        'name'  => 'tag',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 20,
-        'title' => sprintf(
-          $translator->translate('%1$s (%2$s)'),
-          $translator->translate('Checksum'),
-          $translator->translate('SHA1')
-        ),
-        'type'  => 'input',
-        'name'  => 'sha1sum',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-      /*
-      $tab[] = [
-        'id'                 => '2',
-        'table'              => $this->getTable(),
-        'field'              => 'id',
-        'name'               => __('ID'),
-        'massiveaction'      => false,
-        'datatype'           => 'number'
-      ];
-
-      $tab[] = [
-        'id'                 => '72',
-        'table'              => 'glpi_documents_items',
-        'field'              => 'id',
-        'name'               => _x('quantity', 'Number of associated items'),
-        'forcegroupby'       => true,
-        'usehaving'          => true,
-        'datatype'           => 'count',
-        'massiveaction'      => false,
-        'joinparams'         => [
-        'jointype'           => 'child'
-        ]
-      ];
-
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-      $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'categorie' => $translator->translate('Heading'),
+      'filename' => $translator->translate('File'),
+      'link' => $translator->translate('Web link'),
+      'mime' => $translator->translate('MIME type'),
+      'tag' => $translator->translate('Tag'),
+      'sha1sum' => sprintf(
+        $translator->translate('%1$s (%2$s)'),
+        $translator->translate('Checksum'),
+        $translator->translate('SHA1')
+      ),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      7,
+      $t['categorie'],
+      'dropdown_remote',
+      'categorie',
+      dbname: 'documentcategory_id',
+      itemtype: '\App\Models\Documentcategory',
+      fillable: true
+    ));
+    $defColl->add(new Def(3, $t['filename'], 'input', 'filename', readonly: true));
+    $defColl->add(new Def(4, $t['link'], 'input', 'link', fillable: true));
+    $defColl->add(new Def(5, $t['mime'], 'input', 'mime', fillable: true));
+    $defColl->add(new Def(6, $t['tag'], 'input', 'tag', readonly: true));
+    $defColl->add(new Def(20, $t['sha1sum'], 'input', 'sha1sum', readonly: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
+
+
+    /*
+    $tab[] = [
+      'id'                 => '2',
+      'table'              => $this->getTable(),
+      'field'              => 'id',
+      'name'               => __('ID'),
+      'massiveaction'      => false,
+      'datatype'           => 'number'
+    ];
+
+    $tab[] = [
+      'id'                 => '72',
+      'table'              => 'glpi_documents_items',
+      'field'              => 'id',
+      'name'               => _x('quantity', 'Number of associated items'),
+      'forcegroupby'       => true,
+      'usehaving'          => true,
+      'datatype'           => 'count',
+      'massiveaction'      => false,
+      'joinparams'         => [
+      'jointype'           => 'child'
+      ]
+    ];
+
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+    $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
+    */
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [
