@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicememory extends Common
@@ -14,7 +16,9 @@ class Devicememory extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicememory';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicememory::class;
   protected $titles = ['Memory', 'Memory'];
   protected $icon = 'edit';
 
@@ -27,7 +31,6 @@ class Devicememory extends Common
     'model',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -36,7 +39,6 @@ class Devicememory extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -57,9 +59,27 @@ class Devicememory extends Common
     return $this->belongsTo(\App\Models\Devicememorymodel::class, 'devicememorymodel_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicememory, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicememory::class, 'devicememory_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicememory');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_devicememory');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_devicememory');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function itemPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_devicememory');
   }
 }

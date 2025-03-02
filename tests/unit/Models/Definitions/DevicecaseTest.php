@@ -6,6 +6,10 @@ namespace Tests\unit\Models\Definitions;
 
 /**
  * @covers \App\Models\Definitions\Devicecase
+ * @uses \App\DataInterface\Definition
+ * @uses \App\DataInterface\DefinitionCollection
+ * @uses \App\v1\Controllers\Common
+ * @uses \App\v1\Controllers\Dropdown
  */
 final class DevicecaseTest extends Common
 {

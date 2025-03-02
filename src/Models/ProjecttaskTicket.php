@@ -6,7 +6,7 @@ namespace App\Models;
 
 class ProjecttaskTicket extends Common
 {
-  protected $definition = '\App\Models\Definitions\ProjecttaskTicket';
+  protected $definition = \App\Models\Definitions\ProjecttaskTicket::class;
   protected $titles = ['Project task', 'Project tasks'];
   protected $icon = 'columns';
   protected $table = 'projecttask_ticket';

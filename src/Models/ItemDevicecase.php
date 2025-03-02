@@ -12,7 +12,7 @@ class ItemDevicecase extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicecase';
+  protected $definition = \App\Models\Definitions\ItemDevicecase::class;
   protected $titles = ['Devicecase Item', 'Devicecase Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicecase';

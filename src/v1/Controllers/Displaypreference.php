@@ -7,13 +7,15 @@ namespace App\v1\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Slim\Routing\RouteContext;
 
 final class Displaypreference extends Common
 {
-  protected $model = '\App\Models\Displaypreference';
+  protected $model = \App\Models\Displaypreference::class;
 
-  public function manageColumnsOfModel(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function manageColumnsOfModel(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getQueryParams();
     $view = Twig::fromRequest($request);
@@ -30,11 +32,16 @@ final class Displaypreference extends Common
     }
 
     $item = new $model();
+    if (!method_exists($item, 'getDefinitions'))
+    {
+      throw new \Exception('Wrong request', 400);
+    }
+
     $definitions = $item->getDefinitions(true);
     $defIds = [];
     foreach ($definitions as $definition)
     {
-      $defIds[$definition['id']] = $definition['title'];
+      $defIds[$definition->id] = $definition->title;
     }
 
     $preferences = \App\Models\Displaypreference::
@@ -83,7 +90,10 @@ final class Displaypreference extends Common
     return $view->render($response, 'columns.html.twig', (array)$viewData);
   }
 
-  public function postColumnOfModel(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postColumnOfModel(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getParsedBody();
     $datap = (object) $request->getQueryParams();
@@ -120,9 +130,12 @@ final class Displaypreference extends Common
     return $this->goBack($response);
   }
 
-  public function deleteColumn(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteColumn(Request $request, Response $response, array $args): Response
   {
-    $dpref = \App\Models\Displaypreference::find($args['id']);
+    $dpref = \App\Models\Displaypreference::where('id', $args['id'])->first();
     if (!is_null($dpref))
     {
       $dpref->delete();
@@ -130,9 +143,12 @@ final class Displaypreference extends Common
     return $this->goBack($response);
   }
 
-  public function viewUpColumn(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function viewUpColumn(Request $request, Response $response, array $args): Response
   {
-    $dpref = \App\Models\Displaypreference::find($args['id']);
+    $dpref = \App\Models\Displaypreference::where('id', $args['id'])->first();
     if (!is_null($dpref))
     {
       $this->upColumn($dpref);
@@ -140,9 +156,12 @@ final class Displaypreference extends Common
     return $this->goBack($response);
   }
 
-  public function viewDownColumn(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function viewDownColumn(Request $request, Response $response, array $args): Response
   {
-    $dpref = \App\Models\Displaypreference::find($args['id']);
+    $dpref = \App\Models\Displaypreference::where('id', $args['id'])->first();
     if (!is_null($dpref))
     {
       $this->downColumn($dpref);
@@ -150,7 +169,10 @@ final class Displaypreference extends Common
     return $this->goBack($response);
   }
 
-  public function viewCreateUserColumn(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function viewCreateUserColumn(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getQueryParams();
 
@@ -180,7 +202,10 @@ final class Displaypreference extends Common
     return $this->goBack($response);
   }
 
-  public function viewDeleteUserColumn(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function viewDeleteUserColumn(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getQueryParams();
 
@@ -206,7 +231,7 @@ final class Displaypreference extends Common
     return $this->goBack($response);
   }
 
-  private function upColumn(\App\Models\Displaypreference $item)
+  private function upColumn(\App\Models\Displaypreference $item): void
   {
     $previous = \App\Models\Displaypreference::
         where('itemtype', $item->itemtype)
@@ -214,6 +239,10 @@ final class Displaypreference extends Common
       ->where('user_id', $item->user_id)
       ->orderBy('rank', 'desc')
       ->first();
+    if (is_null($previous))
+    {
+      return;
+    }
 
     $currentRank = $item->rank;
     $item->rank = $previous->rank;
@@ -222,7 +251,7 @@ final class Displaypreference extends Common
     $previous->save();
   }
 
-  private function downColumn(\App\Models\Displaypreference $item)
+  private function downColumn(\App\Models\Displaypreference $item): void
   {
     $next = \App\Models\Displaypreference::
         where('itemtype', $item->itemtype)
@@ -230,6 +259,10 @@ final class Displaypreference extends Common
       ->where('user_id', $item->user_id)
       ->orderBy('rank', 'asc')
       ->first();
+    if (is_null($next))
+    {
+      return;
+    }
 
     $currentRank = $item->rank;
     $item->rank = $next->rank;

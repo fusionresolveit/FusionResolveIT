@@ -4,44 +4,188 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostStandardentity;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Calendar extends Common
+final class Calendar extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Calendar';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Calendar::class;
   protected $rootUrl2 = '/dropdowns/calendars/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Calendar
   {
-    $item = new \App\Models\Calendar();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Calendar();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Calendar();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostStandardentity((object) $request->getParsedBody(), \App\Models\Calendar::class);
+
+    $calendar = new \App\Models\Calendar();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($calendar))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $calendar = \App\Models\Calendar::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($calendar, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/calendars/' . $calendar->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/calendars')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Calendar();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostStandardentity((object) $request->getParsedBody(), \App\Models\Calendar::class);
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $calendar = \App\Models\Calendar::where('id', $id)->first();
+    if (is_null($calendar))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($calendar))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $calendar->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($calendar, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubTimeranges(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $calendar = \App\Models\Calendar::withTrashed()->where('id', $id)->first();
+    if (is_null($calendar))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($calendar->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $calendar->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/calendars')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $calendar->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $calendar = \App\Models\Calendar::withTrashed()->where('id', $id)->first();
+    if (is_null($calendar))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($calendar->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $calendar->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubTimeranges(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Calendar();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/timeranges');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -78,21 +222,27 @@ final class Calendar extends Common
     return $view->render($response, 'subitem/timeranges.html.twig', (array)$viewData);
   }
 
-  public function showSubHolidays(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubHolidays(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Calendar();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $calendar = \App\Models\Calendar::where('id', $args['id'])->first();
+    if (is_null($calendar))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/holidays');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $myHolidays = [];
-    foreach ($myItem->holidays as $holiday)
+    foreach ($calendar->holidays as $holiday)
     {
       $name = $holiday->name;
 
@@ -102,13 +252,11 @@ final class Calendar extends Common
 
       $end = $holiday->end_date;
 
-      $recurrent = $holiday->recurrent;
-      if ($recurrent == 1)
+      $recurrent = $holiday->is_perpetual;
+      if ($recurrent)
       {
         $recurrent_val = $translator->translate('Yes');
-      }
-      else
-      {
+      } else {
         $recurrent_val = $translator->translate('No');
       }
 
@@ -125,10 +273,10 @@ final class Calendar extends Common
     // tri ordre alpha
     array_multisort(array_column($myHolidays, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myHolidays);
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($calendar, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($calendar));
     $viewData->addData('holidays', $myHolidays);
 
     $viewData->addTranslation('name', $translator->translatePlural('Day', 'Days', 1));

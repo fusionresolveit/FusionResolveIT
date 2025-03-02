@@ -6,7 +6,7 @@ namespace App\v1\Controllers\Fusioninventory;
 
 final class Computeroperatingsystem extends \App\v1\Controllers\Common
 {
-  public static function parse(object $dataObj, \App\Models\Computer $computer)
+  public static function parse(object $dataObj, \App\Models\Computer $computer): void
   {
     $vs = [
       'NAME'            => Validation::attrStrNotempty('NAME'),
@@ -24,7 +24,10 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
     ];
 
     $versionIds = [];
-    if (property_exists($dataObj->CONTENT, 'OPERATINGSYSTEM'))
+    if (
+        property_exists($dataObj, 'CONTENT') &&
+        property_exists($dataObj->CONTENT, 'OPERATINGSYSTEM')
+    )
     {
       $contentOS = $dataObj->CONTENT->OPERATINGSYSTEM;
       if ($vs['NAME']->isValid($contentOS))
@@ -138,7 +141,7 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
     $computer->operatingsystems()->sync($versionIds);
   }
 
-  public static function getVersion(object $dataObj)
+  public static function getVersion(object $dataObj): int
   {
     $version = null;
     $vs = [
@@ -146,11 +149,18 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
       'FULL_NAME' => Validation::attrStrNotempty('FULL_NAME'),
       'VERSION'   => Validation::attrStrNotempty('VERSION'),
     ];
-    if ($vs['VERSION']->isValid($dataObj))
+    if (
+        $vs['VERSION']->isValid($dataObj) &&
+        isset($dataObj->VERSION)
+    )
     {
       $version = Common::cleanString($dataObj->VERSION);
     }
-    if ($vs['NAME']->isValid($dataObj) && $dataObj->NAME == 'Windows')
+    if (
+        $vs['NAME']->isValid($dataObj) &&
+        isset($dataObj->NAME) &&
+        $dataObj->NAME == 'Windows'
+    )
     {
       // we do this for Windows because we have a version like 3109 instead 10
       $version = null;
@@ -160,47 +170,56 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
     if (!is_null($version))
     {
       preg_match("/^([\d\.]+)/", $version, $matches);
-      if (count($matches) == 2) {
+      if (count($matches) == 2)
+      {
         $version = $matches[1];
       }
     }
 
-    if ($vs['FULL_NAME']->isValid($dataObj))
+    if (
+        $vs['FULL_NAME']->isValid($dataObj) &&
+        isset($dataObj->FULL_NAME)
+    )
     {
       $full_name = Common::cleanString($dataObj->FULL_NAME);
       $matches = [];
       if (is_null($version))
       {
         preg_match("/\w[\s\S]{0,4} (?:Windows[\s\S]{0,4} |)(?:.*) (\d{4} R2|[\d\.]+|Vista|XP)/", $full_name, $matches);
-        if (count($matches) == 2) {
+        if (count($matches) == 2)
+        {
           $version = $matches[1];
         }
       }
       if (is_null($version))
       {
         preg_match("/^(.*) GNU\/Linux (\d{1,2}|\d{1,2}\.\d{1,2}) \((.*)\)$/", $full_name, $matches);
-        if (count($matches) == 4) {
+        if (count($matches) == 4)
+        {
           $version = $matches[2] . " (" . $matches[3] . ")";
         }
       }
       if (is_null($version))
       {
         preg_match("/Linux (.*) (\d{1,2}|\d{1,2}\.\d{1,2}) \((.*)\)$/", $full_name, $matches);
-        if (count($matches) == 4) {
+        if (count($matches) == 4)
+        {
           $version = $matches[2];
         }
       }
       if (is_null($version))
       {
         preg_match("/^(?:\w+) ([\d\.]+)/", $full_name, $matches);
-        if (count($matches) == 2) {
+        if (count($matches) == 2)
+        {
           $version = $matches[1];
         }
       }
       if (is_null($version))
       {
         preg_match("/^([\d\.]+)/", $full_name, $matches);
-        if (count($matches) == 2) {
+        if (count($matches) == 2)
+        {
           $version = $matches[1];
         }
       }
@@ -219,7 +238,7 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
     return $operatingsystemversion->id;
   }
 
-  public static function getEdition(object $dataObj)
+  public static function getEdition(object $dataObj): int
   {
     $edition = null;
     $vs = [
@@ -227,7 +246,10 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
       'VERSION'   => Validation::attrStrNotempty('VERSION'),
     ];
 
-    if ($vs['FULL_NAME']->isValid($dataObj))
+    if (
+        $vs['FULL_NAME']->isValid($dataObj) &&
+        isset($dataObj->FULL_NAME)
+    )
     {
       $fullName = Common::cleanString($dataObj->FULL_NAME);
       $matches = [];
@@ -240,7 +262,8 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
       if (is_null($edition))
       {
         preg_match("/.+ Windows (XP |\d\.\d |\d{1,4} |Vista(™)? )(.*)/", $fullName, $matches);
-        if (count($matches) == 4) {
+        if (count($matches) == 4)
+        {
           $edition = $matches[3];
         }
         elseif (count($matches) == 2)
@@ -252,7 +275,8 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
       if (is_null($edition))
       {
         preg_match("/Linux (.*) (\d{1,2}|\d{1,2}\.\d{1,2}) \((.*)\)$/", $fullName, $matches);
-        if (count($matches) == 4) {
+        if (count($matches) == 4)
+        {
           $edition = $matches[1];
         }
       }
@@ -264,7 +288,8 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
           $fullName,
           $matches
         );
-        if (count($matches) == 4) {
+        if (count($matches) == 4)
+        {
           $edition = trim($matches[1] . " " . $matches[3], ' x64');
         }
       }
@@ -272,7 +297,8 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
       if (is_null($edition))
       {
         preg_match("/\((\w+) Edition\)/", $fullName, $matches);
-        if (count($matches) == 2) {
+        if (count($matches) == 2)
+        {
           $edition = $matches[1];
         }
       }
@@ -289,13 +315,17 @@ final class Computeroperatingsystem extends \App\v1\Controllers\Common
     return $operatingsystemedition->id;
   }
 
-  public static function getLts(object $dataObj)
+  public static function getLts(object $dataObj): bool
   {
-    if (Validation::attrStrNotempty('FULL_NAME')->isValid($dataObj))
+    if (
+        Validation::attrStrNotempty('FULL_NAME')->isValid($dataObj) &&
+        isset($dataObj->FULL_NAME)
+    )
     {
       $fullName = Common::cleanString($dataObj->FULL_NAME);
       preg_match("/(LTS)/", $fullName, $matches);
-      if (count($matches) == 2) {
+      if (count($matches) == 2)
+      {
         return true;
       }
     }

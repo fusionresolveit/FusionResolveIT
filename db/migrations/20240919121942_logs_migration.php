@@ -11,7 +11,7 @@ use App\v1\Controllers\Toolbox;
 
 final class LogsMigration extends AbstractMigration
 {
-  public function change()
+  public function change(): void
   {
     $configArray = require('phinx.php');
     $environments = array_keys($configArray['environments']);
@@ -20,7 +20,14 @@ final class LogsMigration extends AbstractMigration
       // Migration of database
 
       $config = Config::fromPhp('phinx.php');
-      $environment = new Environment('old', $config->getEnvironment('old'));
+
+      $oldEnv = $config->getEnvironment('old');
+      if (is_null($oldEnv))
+      {
+        throw new \Exception('Error', 500);
+      }
+
+      $environment = new Environment('old', $oldEnv);
       $pdo = $environment->getAdapter()->getConnection();
 
       $chunkSize = 30000;
@@ -35,13 +42,27 @@ final class LogsMigration extends AbstractMigration
 
     if ($this->isMigratingUp())
     {
-      $nbRows = $pdo->query('SELECT count(*) FROM glpi_logs')->fetchColumn();
-      $nbLoops = ceil($nbRows / $chunkSize);
+      $query = $pdo->query('SELECT count(*) FROM glpi_logs');
+      if ($query === false)
+      {
+        throw new \Exception('Error', 500);
+      }
+
+      $nbRows = $query->fetchColumn();
+      if ($nbRows === false || is_null($nbRows))
+      {
+        throw new \Exception('Error', 500);
+      }
+      $nbLoops = ceil(intval($nbRows) / $chunkSize);
 
       for ($i = 0; $i < $nbLoops; $i++)
       {
         $stmt = $pdo->query('SELECT * FROM glpi_logs ORDER BY id LIMIT ' . $chunkSize . ' OFFSET ' .
           ($i * $chunkSize));
+        if ($stmt === false)
+        {
+          throw new \Exception('Error', 500);
+        }
         $rows = $stmt->fetchAll();
         $data = [];
         foreach ($rows as $row)
@@ -79,14 +100,16 @@ final class LogsMigration extends AbstractMigration
     }
   }
 
-  public function convertItemtype($itemtype)
+  public function convertItemtype(string $itemtype): string
   {
     $new_itemtype = '';
 
-    if ($itemtype != null) {
+    if ($itemtype != null)
+    {
       $new_itemtype = $itemtype;
       $new_itemtype = ucfirst(strtolower($new_itemtype));
-      if ($new_itemtype == 'Item_devicesimcard') {
+      if ($new_itemtype == 'Item_devicesimcard')
+      {
         $new_itemtype = 'ItemDevicesimcard';
       }
       $new_itemtype = 'App\\Models\\' . $new_itemtype;

@@ -1,7 +1,9 @@
 {{ include('header.html.twig') }}
 {{ include('headerForm.html.twig') }}
 
-<form method="post" class="ui form">
+<form action="{{ basePath }}/view/infocoms" method="post" class="ui form">
+  <input type="hidden" name="item_type" value="{{ data.item_type }}">
+  <input type="hidden" name="item_id" value="{{ data.item_id }}">
   <button class="ui button right floated" type="submit">{{ translation.savebutton }}</button>
   <div class="ui internally celled grid">
     <div class="row">

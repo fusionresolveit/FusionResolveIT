@@ -12,7 +12,7 @@ class Changevalidation extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Changevalidation';
+  protected $definition = \App\Models\Definitions\Changevalidation::class;
   protected $titles = ['Change validation', 'Change validations'];
   protected $icon = 'edit';
 

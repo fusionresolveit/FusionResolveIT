@@ -6,11 +6,15 @@ namespace App\Events;
 
 final class EntityCreating
 {
-  public function __construct(public $model)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $model
+   */
+  public function __construct($model)
   {
-    if ($model->hasEntityField)
+    if ($model->isEntity())
     {
-      $model->entity_id = $GLOBALS['entity_id'];
+      $model->setAttribute('entity_id', $GLOBALS['entity_id']);
     }
   }
 }

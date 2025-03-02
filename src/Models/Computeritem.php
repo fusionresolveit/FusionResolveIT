@@ -10,7 +10,7 @@ class Computeritem extends Common
 {
   use PivotEventTrait;
 
-  protected $definition = '\App\Models\Definitions\Computeritem';
+  protected $definition = \App\Models\Definitions\Computeritem::class;
   protected $titles = ['Computer item', 'Computer items'];
   protected $icon = 'laptop';
   protected $table = 'computer_item';

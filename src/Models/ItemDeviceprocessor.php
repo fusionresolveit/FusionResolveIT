@@ -12,7 +12,7 @@ class ItemDeviceprocessor extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDeviceprocessor';
+  protected $definition = \App\Models\Definitions\ItemDeviceprocessor::class;
   protected $titles = ['Deviceprocessor Item', 'Deviceprocessor Items'];
   protected $icon = 'edit';
   protected $table = 'item_deviceprocessor';

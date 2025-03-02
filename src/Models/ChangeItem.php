@@ -6,7 +6,7 @@ namespace App\Models;
 
 class ChangeItem extends Common
 {
-  protected $definition = '\App\Models\Definitions\ChangeItem';
+  protected $definition = \App\Models\Definitions\ChangeItem::class;
   protected $titles = ['Change Item', 'Change Items'];
   protected $icon = 'edit';
   protected $table = 'change_item';

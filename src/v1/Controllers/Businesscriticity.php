@@ -4,46 +4,190 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostBusinesscriticity;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Businesscriticity extends Common
+final class Businesscriticity extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Businesscriticity';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Businesscriticity::class;
   protected $rootUrl2 = '/dropdowns/businesscriticities/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Businesscriticity
   {
-    $item = new \App\Models\Businesscriticity();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Businesscriticity();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Businesscriticity();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostBusinesscriticity((object) $request->getParsedBody());
+
+    $businesscriticity = new \App\Models\Businesscriticity();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($businesscriticity))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $businesscriticity = \App\Models\Businesscriticity::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($businesscriticity, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/businesscriticities/' . $businesscriticity->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/businesscriticities')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Businesscriticity();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostBusinesscriticity((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $businesscriticity = \App\Models\Businesscriticity::where('id', $id)->first();
+    if (is_null($businesscriticity))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($businesscriticity))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $businesscriticity->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($businesscriticity, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubBusinesscriticities(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $businesscriticity = \App\Models\Businesscriticity::withTrashed()->where('id', $id)->first();
+    if (is_null($businesscriticity))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($businesscriticity->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $businesscriticity->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/businesscriticities')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $businesscriticity->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $businesscriticity = \App\Models\Businesscriticity::withTrashed()->where('id', $id)->first();
+    if (is_null($businesscriticity))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($businesscriticity->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $businesscriticity->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubBusinesscriticities(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Businesscriticity();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
+    $item2 = new \App\Models\Businesscriticity();
     $myItem2 = $item2::where('businesscriticity_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/businesscriticities');

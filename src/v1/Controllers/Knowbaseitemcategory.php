@@ -4,46 +4,190 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostKnowbaseitemcategory;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
 final class Knowbaseitemcategory extends Common
 {
-  protected $model = '\App\Models\Knowbaseitemcategory';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Knowbaseitemcategory::class;
   protected $rootUrl2 = '/dropdowns/knowbaseitemcategories/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Knowbaseitemcategory
   {
-    $item = new \App\Models\Knowbaseitemcategory();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Knowbaseitemcategory();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Knowbaseitemcategory();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostKnowbaseitemcategory((object) $request->getParsedBody());
+
+    $knowbaseitemcategory = new \App\Models\Knowbaseitemcategory();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($knowbaseitemcategory))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $knowbaseitemcategory = \App\Models\Knowbaseitemcategory::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The knowbase category has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($knowbaseitemcategory, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/knowbaseitemcategories/' . $knowbaseitemcategory->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/knowbaseitemcategories')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Knowbaseitemcategory();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostKnowbaseitemcategory((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $knowbaseitemcategory = \App\Models\Knowbaseitemcategory::where('id', $id)->first();
+    if (is_null($knowbaseitemcategory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($knowbaseitemcategory))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $knowbaseitemcategory->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The knowbase category has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($knowbaseitemcategory, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubKnowbaseitemcategories(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $knowbaseitemcategory = \App\Models\Knowbaseitemcategory::withTrashed()->where('id', $id)->first();
+    if (is_null($knowbaseitemcategory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($knowbaseitemcategory->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $knowbaseitemcategory->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The knowbase category has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/knowbaseitemcategories')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $knowbaseitemcategory->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The knowbase category has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $knowbaseitemcategory = \App\Models\Knowbaseitemcategory::withTrashed()->where('id', $id)->first();
+    if (is_null($knowbaseitemcategory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($knowbaseitemcategory->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $knowbaseitemcategory->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The knowbase category has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubKnowbaseitemcategories(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Knowbaseitemcategory();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
+    $item2 = new \App\Models\Knowbaseitemcategory();
     $myItem2 = $item2::where('knowbaseitemcategory_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/knowbaseitemcategories');

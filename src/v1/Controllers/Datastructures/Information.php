@@ -6,21 +6,23 @@ namespace App\v1\Controllers\Datastructures;
 
 trait Information
 {
-  public function initInformationData()
+  public function initInformationData(): void
   {
-    $this->information->top = [];
-    $this->information->bottom = [];
+    $this->information = (object)[
+      'top'    => [],
+      'bottom' => [],
+    ];
   }
 
   /**
    * Add information into form
    *
-   * @param $type string top|bottom
-   * @param $key string unique key
-   * @param $value string value to display (often translation)
-   * @param $link string the link to the webpage, null to disable it
+   * @param string  $type top|bottom
+   * @param string  $key unique key
+   * @param string  $value value to display (often translation)
+   * @param string  $link the link to the webpage, null to disable it
    */
-  public function addInformation($type, $key, $value, $link)
+  public function addInformation($type, $key, $value, $link): void
   {
     $this->information->{$type}[$key] = ['value' => $value, 'link' => $link];
   }

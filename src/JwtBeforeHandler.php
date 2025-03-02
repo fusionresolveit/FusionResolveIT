@@ -15,7 +15,11 @@ class JwtBeforeHandler implements BeforeHandlerInterface
   public function __invoke(ServerRequestInterface $request, array $arguments): ServerRequestInterface
   {
     /** @var \App\Models\User|null */
-    $myUser = \App\Models\User::find($arguments['decoded']['user_id']);
+    $myUser = \App\Models\User::where('id', $arguments['decoded']['user_id'])->first();
+    if (is_null($myUser))
+    {
+      throw new \Exception('JWT error, user not exists', 400);
+    }
     // $jwtid = $myUser->getPropertyAttribute('userjwtid');
     // if (is_null($jwtid) || $jwtid != $arguments['decoded']['jti'])
     // {

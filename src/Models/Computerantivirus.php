@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Computerantivirus extends Common
 {
+  use SoftDeletes;
+
+  use GetDropdownValues;
+
   protected $table = 'computerantiviruses';
-  protected $definition = '\App\Models\Definitions\Computerantivirus';
+  protected $definition = \App\Models\Definitions\Computerantivirus::class;
   protected $titles = ['Antivirus', 'Antivirus'];
   protected $icon = 'virus slash';
   protected $hasEntityField = false;

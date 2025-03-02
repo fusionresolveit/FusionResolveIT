@@ -12,7 +12,7 @@ class ItemDevicenetworkcard extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicenetworkcard';
+  protected $definition = \App\Models\Definitions\ItemDevicenetworkcard::class;
   protected $titles = ['Devicenetworkcard Item', 'Devicenetworkcard Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicenetworkcard';

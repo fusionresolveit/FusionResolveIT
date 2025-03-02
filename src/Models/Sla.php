@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Sla extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Sla';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Sla::class;
   protected $titles = ['SLA', 'SLA'];
   protected $icon = 'edit';
 

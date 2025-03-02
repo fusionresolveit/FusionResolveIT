@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -12,7 +13,9 @@ class Domainrelation extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Domainrelation';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Domainrelation::class;
   protected $titles = ['Domain relation', 'Domains relations'];
   protected $icon = 'edit';
 

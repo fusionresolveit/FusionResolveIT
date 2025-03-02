@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Crontaskexecution extends Common
 {
-  protected $definition = '\App\Models\Definitions\Crontaskexecution';
+  protected $definition = \App\Models\Definitions\Crontaskexecution::class;
   protected $titles = ['Execution', 'Executions'];
   protected $icon = 'cogs';
   protected $hasEntityField = false;

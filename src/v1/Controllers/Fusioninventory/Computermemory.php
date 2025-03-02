@@ -6,7 +6,7 @@ namespace App\v1\Controllers\Fusioninventory;
 
 final class Computermemory extends \App\v1\Controllers\Common
 {
-  public static function parse(object $dataObj, \App\Models\Computer $computer)
+  public static function parse(object $dataObj, \App\Models\Computer $computer): void
   {
     $vs = [
       'TYPE'          => Validation::attrStrNotempty('TYPE'),
@@ -22,7 +22,10 @@ final class Computermemory extends \App\v1\Controllers\Common
 
     $dbMemories = $computer->memories;
 
-    if (property_exists($dataObj->CONTENT, 'MEMORIES'))
+    if (
+        property_exists($dataObj, 'CONTENT') &&
+        property_exists($dataObj->CONTENT, 'MEMORIES')
+    )
     {
       $content = Common::getArrayData($dataObj->CONTENT->MEMORIES);
 
@@ -51,7 +54,8 @@ final class Computermemory extends \App\v1\Controllers\Common
           $speed = Common::cleanString($contentMemory->SPEED);
           $matches = [];
           preg_match("/^(\d+)/", $speed, $matches);
-          if (count($matches) == 2) {
+          if (count($matches) == 2)
+          {
             $frequence = $matches[1];
           }
         }

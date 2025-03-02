@@ -12,7 +12,7 @@ class ItemDevicecontrol extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicecontrol';
+  protected $definition = \App\Models\Definitions\ItemDevicecontrol::class;
   protected $titles = ['Devicecontrol Item', 'Devicecontrol Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicecontrol';

@@ -4,44 +4,196 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostConsumableitem;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\Externallink;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Note;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Consumableitem extends Common
+final class Consumableitem extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Consumableitem';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Note;
+  use Externallink;
+  use Document;
+  use History;
+  use Infocom;
+
+  protected $model = \App\Models\Consumableitem::class;
   protected $rootUrl2 = '/consumableitems/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Consumableitem
   {
-    $item = new \App\Models\Consumableitem();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Consumableitem();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Consumableitem();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostConsumableitem((object) $request->getParsedBody());
+
+    $consumableitem = new \App\Models\Consumableitem();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($consumableitem))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $consumableitem = \App\Models\Consumableitem::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($consumableitem, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/consumableitems/' . $consumableitem->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/consumableitems')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Consumableitem();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostConsumableitem((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $consumableitem = \App\Models\Consumableitem::where('id', $id)->first();
+    if (is_null($consumableitem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($consumableitem))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $consumableitem->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($consumableitem, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubConsumables(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $consumableitem = \App\Models\Consumableitem::withTrashed()->where('id', $id)->first();
+    if (is_null($consumableitem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($consumableitem->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $consumableitem->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/consumableitems')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $consumableitem->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $consumableitem = \App\Models\Consumableitem::withTrashed()->where('id', $id)->first();
+    if (is_null($consumableitem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($consumableitem->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $consumableitem->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubConsumables(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Consumableitem();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('consumables')->find($args['id']);
+    $myItem = $item::with('consumables')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/consumables');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -74,15 +226,26 @@ final class Consumableitem extends Common
       $given_to = '';
       if (($consumable->item_type != '') && ($consumable->item_id != 0))
       {
-        $item3 = new $consumable->item_type();
-        $myItem3 = $item3->find($consumable->item_id);
-        if ($myItem3 !== null)
+        $item3 = null;
+        if ($consumable->item_type == \App\Models\User::class)
         {
-          $type = $item3->getTable();
+          $item3 = new \App\Models\User();
+        }
+        if ($consumable->item_type == \App\Models\Group::class)
+        {
+          $item3 = new \App\Models\Group();
+        }
+        if (!is_null($item3))
+        {
+          $myItem3 = $item3->where('id', $consumable->item_id)->first();
+          if ($myItem3 !== null)
+          {
+            $type = $item3->getTable();
 
-          $given_to = $myItem3->name;
+            $given_to = $myItem3->name;
 
-          $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
+            $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
+          }
         }
       }
 

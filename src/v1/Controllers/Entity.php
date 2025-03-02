@@ -4,63 +4,209 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostEntity;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Note;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class Entity extends Common
+final class Entity extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Entity';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Note;
+  use Knowbaseitem;
+  use Document;
+  use History;
+
+  protected $model = \App\Models\Entity::class;
   protected $rootUrl2 = '/entities/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Entity
   {
-    $item = new \App\Models\Entity();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Entity();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Entity();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostEntity((object) $request->getParsedBody());
+
+    $entity = new \App\Models\Entity();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($entity))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $entity = \App\Models\Entity::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($entity, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/entities/' . $entity->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/entities')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Entity();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostEntity((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $entity = \App\Models\Entity::where('id', $id)->first();
+    if (is_null($entity))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($entity))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $entity->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($entity, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubAddress(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
+    global $basePath;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $id = intval($args['id']);
+    $entity = \App\Models\Entity::withTrashed()->where('id', $id)->first();
+    if (is_null($entity))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($entity->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $entity->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/entities')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $entity->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $entity = \App\Models\Entity::withTrashed()->where('id', $id)->first();
+    if (is_null($entity))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($entity->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $entity->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubAddress(Request $request, Response $response, array $args): Response
+  {
+    $item = new \App\Models\Entity();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = \App\Models\Entity::where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/address');
 
-    $address = [];
-    foreach ($myItem as $os)
-    {
-      $address = [
-        'phonenumber'   => $myItem->phonenumber,
-        'fax'           => $myItem->fax,
-        'website'       => $myItem->website,
-        'email'         => $myItem->email,
-        'address'       => $myItem->address,
-        'postcode'      => $myItem->postcode,
-        'town'          => $myItem->town,
-        'state'         => $myItem->state,
-        'country'       => $myItem->country,
-        'longitude'     => $myItem->longitude,
-        'latitude'      => $myItem->latitude,
-        'altitude'      => $myItem->altitude,
-      ];
-    }
+    $address = [
+      'phonenumber'   => $myItem->phonenumber,
+      'fax'           => $myItem->fax,
+      'website'       => $myItem->website,
+      'email'         => $myItem->email,
+      'address'       => $myItem->address,
+      'postcode'      => $myItem->postcode,
+      'town'          => $myItem->town,
+      'state'         => $myItem->state,
+      'country'       => $myItem->country,
+      'longitude'     => $myItem->longitude,
+      'latitude'      => $myItem->latitude,
+      'altitude'      => $myItem->altitude,
+    ];
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
@@ -80,24 +226,35 @@ final class Entity extends Common
       'latitude'      => $address['latitude'],
       'altitude'      => $address['altitude'],
     ];
-    $myItemDataObject = json_decode(json_encode($myItemData));
+    $jsonStr = json_encode($myItemData);
+    if ($jsonStr === false)
+    {
+      $jsonStr = '{}';
+    }
+    $myItemDataObject = json_decode($jsonStr);
 
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
 
     return $view->render($response, 'subitem/adress.html.twig', (array)$viewData);
   }
 
-  public function showSubEntities(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubEntities(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Entity();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
+    $item2 = new \App\Models\Entity();
     $myItem2 = $item2::where('entity_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/entities');
@@ -142,15 +299,21 @@ final class Entity extends Common
     return $view->render($response, 'subitem/entities.html.twig', (array)$viewData);
   }
 
-  public function showSubUsers(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubUsers(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Entity();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('profilesusers')->find($args['id']);
+    $myItem = $item::with('profilesusers')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/users');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -158,8 +321,8 @@ final class Entity extends Common
     $myProfilesUsers = [];
     foreach ($myItem->profilesusers as $profileuser)
     {
-      $user = \App\Models\User::find($profileuser->user_id);
-      $profile = \App\Models\Profile::find($profileuser->profile_id);
+      $user = \App\Models\User::where('id', $profileuser->user_id)->first();
+      $profile = \App\Models\Profile::where('id', $profileuser->profile_id)->first();
       if (($user !== null) && ($profile !== null))
       {
         if (array_key_exists($profile->id, $myProfilesUsers) !== true)

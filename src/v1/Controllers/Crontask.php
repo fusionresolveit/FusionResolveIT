@@ -4,36 +4,40 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\Traits\ShowItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
 final class Crontask extends Common
 {
-  protected $model = '\App\Models\Crontask';
+  // Display
+  use ShowItem;
 
-  public function getAll(Request $request, Response $response, $args): Response
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Crontask::class;
+
+  protected function instanciateModel(): \App\Models\Crontask
   {
-    $item = new \App\Models\Crontask();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Crontask();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubExecutions(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Crontask();
-    return $this->commonShowItem($request, $response, $args, $item);
-  }
-
-  public function updateItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Crontask();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
-
-
-  public function showSubExecutions(Request $request, Response $response, $args): Response
-  {
-    $myItem = \App\Models\Crontask::with('crontaskexecutions')->find($args['id']);
+    $myItem = \App\Models\Crontask::
+        with('crontaskexecutions')
+      ->where('id', $args['id'])
+      ->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
     $view = Twig::fromRequest($request);
     $rootUrl = $this->getUrlWithoutQuery($request);
 
@@ -77,9 +81,16 @@ final class Crontask extends Common
     return $view->render($response, 'subitem/crontaskexecutions.html.twig', (array)$viewData);
   }
 
-  public function showSubExecutionlogs(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubExecutionlogs(Request $request, Response $response, array $args): Response
   {
-    $myItem = \App\Models\Crontask::with('crontaskexecutions')->find($args['id']);
+    $myItem = \App\Models\Crontask::with('crontaskexecutions')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
     $view = Twig::fromRequest($request);
     $rootUrl = $this->getUrlWithoutQuery($request);
 

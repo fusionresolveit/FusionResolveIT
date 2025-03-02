@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace App\v1\Controllers\Datastructures;
 
 use Illuminate\Support\Pluralizer;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 trait Header
 {
-  public function initHeaderData($item, $request)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   */
+  public function initHeaderData($item, Request $request): void
   {
     $this->header->title = 'Fusion Resolve IT - ' . $item->getTitle(1);
     $menu = new \App\v1\Controllers\Menu();
@@ -22,60 +27,79 @@ trait Header
     $this->header->route = Pluralizer::plural(strtolower((new \ReflectionClass($item))->getShortName()));
     $this->header->username = $GLOBALS['username'];
     $this->header->modelname = get_class($item);
+    $this->header->trashed = false;
+    if (method_exists($item, 'trashed'))
+    {
+      $this->header->trashed = $item->trashed();
+    }
 
     $this->setProfile();
 
-    $this->addHeaderId($item->id);
+    if (!is_null($item->getAttribute('id')))
+    {
+      $this->addHeaderId($item->getAttribute('id'));
+    }
     $this->addHeaderIcon($item->getIcon());
-    if (property_exists($item, 'getColor'))
+    if (method_exists($item, 'getColor'))
     {
       $this->addHeaderColor($item->getColor());
     }
+    if ($this->header->trashed)
+    {
+      $this->header->color = 'red';
+    }
   }
 
-  public function addHeaderTitle($title)
+  public function addHeaderTitle(string $title): void
   {
     $this->header->title = $title;
   }
 
-  public function addHeaderMenu($menu)
+  /**
+   * @param array<mixed> $menu
+   */
+  public function addHeaderMenu(array $menu): void
   {
     $this->header->menu = $menu;
   }
 
-  public function addHeaderRootpath($rootpath)
+  public function addHeaderRootpath(string $rootpath): void
   {
     $this->header->rootpath = $rootpath;
   }
 
-  public function addHeaderName($name)
+  public function addHeaderName(string $name): void
   {
     $this->header->name = $name;
   }
 
-  public function addHeaderId($id)
+  public function addHeaderId(int $id): void
   {
     $this->header->id = $id;
   }
 
-  public function addHeaderIcon($icon)
+  public function addHeaderIcon(string $icon): void
   {
     $this->header->icon = $icon;
   }
 
-  public function addHeaderColor($color)
+  public function addHeaderColor(string $color): void
   {
     $this->header->color = $color;
   }
 
-  private function setProfile()
+  private function setProfile(): void
   {
     global $translator;
 
     $profiles = [];
     $entities = [];
 
-    $user = \App\Models\User::find($GLOBALS['user_id']);
+    $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+    if (is_null($user))
+    {
+      throw new \Exception('Id not found', 404);
+    }
     foreach ($user->profiles()->get() as $profile)
     {
       $profiles[$profile->id] = [
@@ -86,6 +110,10 @@ trait Header
     $dbEntities = \App\Models\Entity::orderBy('treepath')->orderBy('name')->get();
     foreach ($dbEntities as $entity)
     {
+      if (is_null($entity->treepath))
+      {
+        throw new \Exception('Error in entities', 500);
+      }
       $nb = strlen($entity->treepath) / 5;
       $class = 'treelvl' . $nb;
 

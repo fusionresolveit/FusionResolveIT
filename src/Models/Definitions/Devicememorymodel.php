@@ -4,51 +4,37 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Devicememorymodel
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 130,
-        'title' => $translator->translate('Product Number'),
-        'type'  => 'input',
-        'name'  => 'product_number',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'product_number' => $translator->translate('Product Number'),
+      'comment' => $translator->translate('Comments'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(130, $t['product_number'], 'input', 'product_number', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

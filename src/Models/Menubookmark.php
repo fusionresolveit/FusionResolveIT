@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Menubookmark extends Common
 {
   public $timestamps = false;
-  protected $definition = '\App\Models\Definitions\Menubookmark';
+  protected $definition = \App\Models\Definitions\Menubookmark::class;
   protected $titles = ['Menu bookmark', 'Menu bookmarks'];
   protected $icon = 'bookmark';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];

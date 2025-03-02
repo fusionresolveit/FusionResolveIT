@@ -11,7 +11,7 @@ class LinkItemtype extends Common
 {
   use PivotEventTrait;
 
-  protected $definition = '\App\Models\Definitions\LinkItemtype';
+  protected $definition = \App\Models\Definitions\LinkItemtype::class;
   protected $titles = ['Link Itemtype', 'Link Itemtype'];
   protected $icon = 'virus slash';
 

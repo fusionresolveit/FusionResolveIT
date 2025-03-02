@@ -14,6 +14,8 @@ use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertGreaterThan;
 
 #[CoversClass('\App\v1\Controllers\Fusioninventory\Computeroperatingsystem')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Common')]

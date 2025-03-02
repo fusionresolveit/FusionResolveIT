@@ -10,7 +10,10 @@ use Slim\Views\Twig;
 
 final class Login extends Common
 {
-  public function getLogin(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function getLogin(Request $request, Response $response, array $args): Response
   {
     global $basePath;
 
@@ -35,7 +38,10 @@ final class Login extends Common
     return $view->render($response, 'login.html.twig', $viewData);
   }
 
-  public function postLogin(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postLogin(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getParsedBody();
     $token = new \App\v1\Controllers\Token();
@@ -75,6 +81,10 @@ final class Login extends Common
       ->get();
       foreach ($users as $user)
       {
+        if (is_null($user->user_dn))
+        {
+          continue;
+        }
         $authRet = \App\v1\Controllers\Authldap::tryAuth($user->auth_id, $user->user_dn, $data->password);
         if ($authRet)
         {
@@ -103,7 +113,7 @@ final class Login extends Common
     throw new \Exception('Login or password error', 401);
   }
 
-  private function authOkAndRedirect($user, Response $response)
+  private function authOkAndRedirect(\App\Models\User $user, Response $response): Response
   {
     global $basePath;
 
@@ -113,6 +123,10 @@ final class Login extends Common
     // put into cookie, key token
 
     $jwt = $token->generateJWTToken($user, $response);
+    if (gettype($jwt) != 'array')
+    {
+      return $jwt;
+    }
 
     // Set Cookie
     // $cookie_lifetime = empty($cookie_value) ? time() - 3600 : time() + $CFG_GLPI['login_remember_time'];
@@ -127,7 +141,10 @@ final class Login extends Common
       ->withHeader('Location', $basePath . '/view/home');
   }
 
-  public function doSSO(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function doSSO(Request $request, Response $response, array $args): Response
   {
     $provider = $this->prepareSSOService($request, $args);
 
@@ -143,7 +160,10 @@ final class Login extends Common
     exit;
   }
 
-  public function callbackSSO(Request $request, Response $response, $args)
+  /**
+   * @param array<string, string> $args
+   */
+  public function callbackSSO(Request $request, Response $response, array $args): void
   {
     $provider = $this->prepareSSOService($request, $args);
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
@@ -154,7 +174,10 @@ final class Login extends Common
     $this->authOkAndRedirect($user, $response);
   }
 
-  private function prepareSSOService($request, $args)
+  /**
+   * @param array<string, string> $args
+   */
+  private function prepareSSOService(Request $request, array $args): \SocialConnect\Provider\AbstractBaseProvider
   {
     global $basePath;
 
@@ -170,7 +193,7 @@ final class Login extends Common
     }
     $providers = \App\Models\Definitions\Authsso::getProviderArray();
     $dataProvider = [];
-    if (!isset($providers[$authsso->provider]))
+    if (is_null($authsso->provider) || !isset($providers[$authsso->provider]))
     {
       echo "error";
       exit;
@@ -238,7 +261,10 @@ final class Login extends Common
     return \App\v1\Controllers\Authsso::getProviderInstance($authsso->provider, $configureProviders);
   }
 
-  public function logout(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function logout(Request $request, Response $response, array $args): Response
   {
     global $basePath;
 
@@ -248,22 +274,20 @@ final class Login extends Common
       ->withHeader('Location', $basePath);
   }
 
-  public function changeProfileEntity(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function changeProfileEntity(Request $request, Response $response, array $args): Response
   {
     global $basePath;
 
-    $data = (object) $request->getParsedBody();
+    $data = new \App\DataInterface\PostLoginChangeProfileEntity((object) $request->getParsedBody());
     $token = new \App\v1\Controllers\Token();
 
-    $user = \App\Models\User::find($GLOBALS['user_id']);
-
-    if ($data->changeEntityRecursive == 'on')
+    $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+    if (is_null($user))
     {
-      $data->changeEntityRecursive = true;
-    }
-    else
-    {
-      $data->changeEntityRecursive = false;
+      throw new \Exception('Id not found', 404);
     }
 
     // Check if the entity is associated to this profile
@@ -271,24 +295,27 @@ final class Login extends Common
     $validation = false;
     foreach ($user->profiles()->get() as $profile)
     {
-      if ($profile->id == $data->changeProfile)
+      if ($profile->id == $data->profileId)
       {
-        if ($profile->getRelationValue('pivot')->entity_id == $data->changeEntity)
+        if ($profile->getRelationValue('pivot')->entity_id == $data->entityId)
         {
           $validation = true;
-          if ($data->changeEntityRecursive == true && !$profile->getRelationValue('pivot')->is_recursive)
+          if ($data->recursive == true && !$profile->getRelationValue('pivot')->is_recursive)
           {
-            $data->changeEntityRecursive = false;
+            $data->recursive = false;
           }
           break;
         }
-        elseif
-        ($profile->getRelationValue('pivot')->is_recursive)
+        elseif ($profile->getRelationValue('pivot')->is_recursive)
         {
           // search if $data->changeEntity is in sub
-          $profileEntity = \App\Models\Entity::find($profile->getRelationValue('pivot')->entity_id);
+          $profileEntity = \App\Models\Entity::where('id', $profile->getRelationValue('pivot')->entity_id)->first();
+          if (is_null($profileEntity))
+          {
+            continue;
+          }
           $entity = \App\Models\Entity::
-              where('id', $data->changeEntity)
+              where('id', $data->entityId)
             ->where('treepath', 'LIKE', $profileEntity->treepath . '%')
             ->first();
           if (!is_null($entity))
@@ -304,15 +331,19 @@ final class Login extends Common
       $jwt = $token->generateJWTToken(
         $user,
         $response,
-        $data->changeProfile,
-        $data->changeEntity,
-        $data->changeEntityRecursive
+        $data->profileId,
+        $data->entityId,
+        $data->recursive
       );
+      if (gettype($jwt) != 'array')
+      {
+        return $jwt;
+      }
 
       setcookie('token', $jwt['token'], 0, $basePath . '/view');
     }
 
     return $response
-      ->withHeader('Location', $data->redirectURL);
+      ->withHeader('Location', $_SERVER['HTTP_REFERER']);
   }
 }

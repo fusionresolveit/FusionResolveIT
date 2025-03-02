@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Rules;
 
+use App\DataInterface\Definition;
+use App\DataInterface\DefinitionCollection;
+
 final class Criterium
 {
+  /** @var array<string> */
   protected $regexResults = [];
 
   // TODO rename in criterion
 
-  public function checkCriteria(\App\Models\Rules\Rulecriterium $crit, $input)
+  /**
+   * @template D of \App\DataInterface\Post
+   * @param D $data
+   */
+  public function checkCriteria(\App\Models\Rules\Rulecriterium $crit, $data): bool
   {
     $criterium = new self();
     // separate condition on multiple groups
@@ -18,36 +26,36 @@ final class Criterium
     // group 2: check value (contain, not contain, begin, end, regex*)
     // group 3: (find)
 
-    if (!isset($crit->criteria['name']))
+    if (!isset($crit->criteria->name))
     {
       return false;
     }
 
     switch ($crit->condition)
     {
-      case Common::PATTERN_EXISTS:
-        if (isset($input[$crit->criteria['name']]))
+      case 8: // pattern exists
+        if (isset($data->{$crit->criteria->name}))
         {
           return true;
         }
           return false;
 
-      case Common::PATTERN_DOES_NOT_EXISTS:
-        if (!isset($input[$crit->criteria['name']]))
+      case 9: // pattern does not exists
+        if (!isset($data->{$crit->criteria->name}))
         {
           return true;
         }
           return false;
     }
 
-    if (!isset($input[$crit->criteria['name']]))
+    if (!isset($data->{$crit->criteria->name}))
     {
       return false;
     }
 
-    $inputVal = $input[$crit->criteria['name']];
+    $inputVal = $data->{$crit->criteria->name};
     $patternId = null;
-    if ($crit->criteria['type'] == 'boolean')
+    if ($crit->criteria->type == 'boolean')
     {
       if (is_bool($crit->pattern) === true)
       {
@@ -57,7 +65,7 @@ final class Criterium
       }
     }
     elseif (
-        ($crit->criteria['type'] == 'dropdown' || $crit->criteria['type'] == 'dropdown_remote') &&
+        ($crit->criteria->type == 'dropdown' || $crit->criteria->type == 'dropdown_remote') &&
         is_array($crit->pattern)
     )
     {
@@ -73,24 +81,32 @@ final class Criterium
     // Check group based on id
     switch ($crit->condition)
     {
-      case Common::PATTERN_IS:
+      case 0: // pattern is
           return $this->patternIs($inputVal, $patternId);
 
-      case Common::PATTERN_IS_NOT:
+      case 1: // pattern is not
           return $this->patternIsNot($inputVal, $patternId);
 
-      case Common::PATTERN_IS_EMPTY:
-        if (empty($input[$crit->criteria['name']]))
+      case 30: // pattern is empty
+        if (empty($data->{$crit->criteria->name}))
         {
           return true;
         }
           return false;
 
-      case Common::PATTERN_UNDER:
-          return $this->patternUnder($crit->criteria['itemtype'], $inputVal, $patternId);
+      case 11: // pattern under
+        if (!is_null($crit->criteria->itemtype))
+        {
+          return $this->patternUnder($crit->criteria->itemtype, $inputVal, $patternId);
+        }
+          return false;
 
-      case Common::PATTERN_NOT_UNDER:
-          return $this->patternNotUnder($crit->criteria['itemtype'], $inputVal, $patternId);
+      case 12: // pattern not under
+        if (!is_null($crit->criteria->itemtype))
+        {
+          return $this->patternNotUnder($crit->criteria->itemtype, $inputVal, $patternId);
+        }
+          return false;
     }
 
     $patternValue = '';
@@ -107,15 +123,15 @@ final class Criterium
     }
       // $patternValue = $crit->pattern;
     // }
-    if (isset($crit->criteria['itemtype']))
+    if (isset($crit->criteria->itemtype))
     {
-      $modelName = $crit->criteria['itemtype'];
+      $modelName = $crit->criteria->itemtype;
       if (is_array($inputVal))
       {
         $tmpInputVal = [];
         foreach ($inputVal as $id)
         {
-          $item = $modelName::find((int) $id);
+          $item = $modelName::where('id', (int) $id)->first();
           if (!is_null($item))
           {
             $tmpInputVal[] = $item->name;
@@ -123,7 +139,7 @@ final class Criterium
         }
         $inputVal = $tmpInputVal;
       } else {
-        $item = $modelName::find($inputVal);
+        $item = $modelName::where('id', $inputVal)->first();
         if (is_null($item))
         {
           $inputVal = null;
@@ -132,11 +148,11 @@ final class Criterium
         }
       }
     }
-    elseif (isset($crit->criteria['values']))
+    elseif (count($crit->criteria->values) > 0)
     {
-      if (isset($crit->criteria['values'][$inputVal]))
+      if (isset($crit->criteria->values[$inputVal]))
       {
-        $inputVal = $crit->criteria['values'][$inputVal]['title'];
+        $inputVal = $crit->criteria->values[$inputVal]['title'];
       } else {
         $inputVal = null;
       }
@@ -144,22 +160,22 @@ final class Criterium
 
     switch ($crit->condition)
     {
-      case Common::PATTERN_CONTAIN:
+      case 2: // pattern contain
           return $this->patternContain($inputVal, $patternValue);
 
-      case Common::PATTERN_NOT_CONTAIN:
+      case 3: // Pattern not contain
           return $this->patternNotContain($inputVal, $patternValue);
 
-      case Common::PATTERN_BEGIN:
+      case 4: // Pattern begin
           return $this->patternBegin($inputVal, $patternValue);
 
-      case Common::PATTERN_END:
+      case 5: // Pattern end
           return $this->patternEnd($inputVal, $patternValue);
 
-      case Common::REGEX_MATCH:
+      case 6: // regex match
           return $this->patternRegexMatch($inputVal, $patternValue);
 
-      case Common::REGEX_NOT_MATCH:
+      case 7: // regex not match
           return $this->patternRegexNotMatch($inputVal, $patternValue);
     }
     return false;
@@ -167,56 +183,19 @@ final class Criterium
     // TODO regex result
   }
 
-  public static function getConditionForCriterium($criteria, $condition)
+  /**
+   * @return array<mixed>
+   */
+  public static function getConditionForCriterium(Definition $criteria, int $condition): array
   {
     global $translator;
 
-    $values = [];
-    if ($criteria['type'] == 'dropdown' || $criteria['type'] == 'dropdown_remote')
+    $values = \App\Models\Definitions\Rulecriterium::getConditionArray();
+    if ($criteria->type != 'dropdown' && $criteria->type != 'dropdown_remote')
     {
-      $values[Common::PATTERN_IS] = [
-        'title' => $translator->translate('is')
-      ];
-      $values[Common::PATTERN_IS_NOT] = [
-        'title' => $translator->translate('is not')
-      ];
+      unset($values[0]);
+      unset($values[1]);
     }
-    $values[Common::PATTERN_CONTAIN] = [
-      'title' => $translator->translate('contains')
-    ];
-    $values[Common::PATTERN_NOT_CONTAIN] = [
-      'title' => $translator->translate('does not contain')
-    ];
-    $values[Common::PATTERN_BEGIN] = [
-      'title' => $translator->translate('starting with')
-    ];
-    $values[Common::PATTERN_END] = [
-      'title' => $translator->translate('finished by')
-    ];
-    $values[Common::REGEX_MATCH] = [
-      'title' => $translator->translate('regular expression matches')
-    ];
-    $values[Common::REGEX_NOT_MATCH] = [
-      'title' => $translator->translate('regular expression does not match')
-    ];
-    $values[Common::PATTERN_EXISTS] = [
-      'title' => $translator->translate('exists')
-    ];
-    $values[Common::PATTERN_DOES_NOT_EXISTS] = [
-      'title' => $translator->translate('does not exist')
-    ];
-    $values[Common::PATTERN_FIND] = [
-      'title' => $translator->translate('find')
-    ];
-    $values[Common::PATTERN_UNDER] = [
-      'title' => $translator->translate('under')
-    ];
-    $values[Common::PATTERN_NOT_UNDER] = [
-      'title' => $translator->translate('not under')
-    ];
-    $values[Common::PATTERN_IS_EMPTY] = [
-      'title' => $translator->translate('is empty')
-    ];
 
     return [
       'title'   => $translator->translate('Condition'),
@@ -500,7 +479,7 @@ final class Criterium
     }
 
     // check the id exists
-    $parent = $modelName::find($patternId);
+    $parent = $modelName::where('id', $patternId)->first();
     if (is_null($parent))
     {
       return false;
@@ -514,7 +493,7 @@ final class Criterium
     {
       foreach ($value as $valId)
       {
-        $item = $modelName::find($valId);
+        $item = $modelName::where('id', $valId)->first();
         if (is_null($item))
         {
           continue;
@@ -529,7 +508,7 @@ final class Criterium
         }
       }
     } else {
-      $item = $modelName::find($value);
+      $item = $modelName::where('id', $value)->first();
       if (is_null($item))
       {
         return false;
@@ -563,7 +542,7 @@ final class Criterium
     }
 
     // check the id exists
-    $parent = $modelName::find($patternId);
+    $parent = $modelName::where('id', $patternId)->first();
     if (is_null($parent))
     {
       return false;
@@ -578,7 +557,7 @@ final class Criterium
       $under = false;
       foreach ($value as $valId)
       {
-        $item = $modelName::find($valId);
+        $item = $modelName::where('id', $valId)->first();
         if (is_null($item))
         {
           continue;
@@ -594,7 +573,7 @@ final class Criterium
       }
       return !$under;
     } else {
-      $item = $modelName::find($value);
+      $item = $modelName::where('id', $value)->first();
       if (is_null($item))
       {
         return true;
@@ -611,7 +590,10 @@ final class Criterium
     return true;
   }
 
-  private function parseRegexMatchesValues($data)
+  /**
+   * @param array<string> $data
+   */
+  private function parseRegexMatchesValues(array $data): void
   {
     // remove the first element (because it's the complete value)
     array_shift($data);
@@ -621,12 +603,18 @@ final class Criterium
     }
   }
 
-  public function getRegexResults()
+  /**
+   * @return array<string>
+   */
+  public function getRegexResults(): array
   {
     return $this->regexResults;
   }
 
-  public static function getConditionsForDefinition($model, $name)
+  /**
+   * @return array<int>
+   */
+  public static function getConditionsForDefinition(string $model, string $name): array
   {
     $completeModelName = '\App\Models\\' . $model;
     if (!class_exists($completeModelName))
@@ -634,20 +622,29 @@ final class Criterium
       return [];
     }
     $item = new $completeModelName();
+    if (!is_subclass_of($item, \App\Models\Common::class))
+    {
+      return [];
+    }
+
     $definitions = $item->getDefinitions();
 
     $type = null;
     $typeModelTree = false;
     foreach ($definitions as $definition)
     {
-      if ($definition['name'] == $name)
+      if ($definition->name == $name)
       {
-        $type = $definition['type'];
-        if (isset($definition['itemtype']))
+        $type = $definition->type;
+        if (!is_null($definition->itemtype))
         {
-          $typeModel = $definition['itemtype'];
-          $item = new $typeModel();
-          $typeModelTree = $item->isTree();
+          $typeModel = $definition->itemtype;
+          $defItem = new $typeModel();
+          if (!is_subclass_of($defItem, \App\Models\Common::class))
+          {
+            continue;
+          }
+          $typeModelTree = $defItem->isTree();
         }
         break;
       }
@@ -668,46 +665,46 @@ final class Criterium
       case 'date':
       case 'datetime':
         $conditions = [
-          \App\v1\Controllers\Rules\Common::PATTERN_CONTAIN,
-          \App\v1\Controllers\Rules\Common::PATTERN_NOT_CONTAIN,
-          \App\v1\Controllers\Rules\Common::PATTERN_BEGIN,
-          \App\v1\Controllers\Rules\Common::PATTERN_END,
-          \App\v1\Controllers\Rules\Common::REGEX_MATCH,
-          \App\v1\Controllers\Rules\Common::REGEX_NOT_MATCH,
-          \App\v1\Controllers\Rules\Common::PATTERN_EXISTS,
-          \App\v1\Controllers\Rules\Common::PATTERN_DOES_NOT_EXISTS,
-          \App\v1\Controllers\Rules\Common::PATTERN_IS_EMPTY,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          30
         ];
           break;
 
       case 'boolean':
         $conditions = [
-          \App\v1\Controllers\Rules\Common::PATTERN_IS,
-          \App\v1\Controllers\Rules\Common::PATTERN_IS_NOT,
-          \App\v1\Controllers\Rules\Common::PATTERN_EXISTS,
-          \App\v1\Controllers\Rules\Common::PATTERN_DOES_NOT_EXISTS,
+          0,
+          1,
+          8,
+          9,
         ];
           break;
 
       case 'dropdown':
       case 'dropdown_remote':
         $conditions = [
-          \App\v1\Controllers\Rules\Common::PATTERN_IS,
-          \App\v1\Controllers\Rules\Common::PATTERN_IS_NOT,
-          \App\v1\Controllers\Rules\Common::PATTERN_CONTAIN,
-          \App\v1\Controllers\Rules\Common::PATTERN_NOT_CONTAIN,
-          \App\v1\Controllers\Rules\Common::PATTERN_BEGIN,
-          \App\v1\Controllers\Rules\Common::PATTERN_END,
-          \App\v1\Controllers\Rules\Common::REGEX_MATCH,
-          \App\v1\Controllers\Rules\Common::REGEX_NOT_MATCH,
-          \App\v1\Controllers\Rules\Common::PATTERN_EXISTS,
-          \App\v1\Controllers\Rules\Common::PATTERN_DOES_NOT_EXISTS,
-          \App\v1\Controllers\Rules\Common::PATTERN_IS_EMPTY,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          30,
         ];
         if ($typeModelTree)
         {
-          $conditions[] = \App\v1\Controllers\Rules\Common::PATTERN_UNDER;
-          $conditions[] = \App\v1\Controllers\Rules\Common::PATTERN_NOT_UNDER;
+          $conditions[] = 11; // Pattern under
+          $conditions[] = 12; // Pattern not under
         }
           break;
     }

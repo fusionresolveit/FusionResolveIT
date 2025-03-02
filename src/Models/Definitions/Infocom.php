@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\DefinitionCollection;
+
 class Infocom
 {
-  public static function getDefinition()
+  use \App\Traits\Definitions\Infocoms;
+
+  public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-    return [
-      [
-        'id'      => 2,
-        'title'   => $translator->translate('ID'),
-        'type'    => 'input',
-        'name'    => 'id',
-        'display' => false,
-      ],
-    ];
+    return self::getDefinitionInfocom();
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [];

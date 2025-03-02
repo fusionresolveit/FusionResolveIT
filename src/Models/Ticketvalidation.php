@@ -12,7 +12,7 @@ class Ticketvalidation extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Ticketvalidation';
+  protected $definition = \App\Models\Definitions\Ticketvalidation::class;
   protected $titles = ['Ticket validation', 'Ticket validations'];
   protected $icon = 'edit';
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tickettemplatemandatoryfields extends Common
 {
-  protected $definition = '\App\Models\Definitions\Tickettemplatemandatoryfields';
+  protected $definition = \App\Models\Definitions\Tickettemplatemandatoryfields::class;
   protected $titles = ['Ticket template', 'Ticket templates'];
   protected $icon = 'edit';
   protected $hasEntityField = false;

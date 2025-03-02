@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Rules;
 
+use App\DataInterface\Definition;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Rulecriterium extends \App\Models\Common
 {
-  protected $definition = '\App\Models\Definitions\Rulecriterium';
+  protected $definition = \App\Models\Definitions\Rulecriterium::class;
   protected $titles = ['Criterium', 'Criteria'];
   protected $icon = 'magic';
   protected $hasEntityField = false;
@@ -17,93 +20,105 @@ class Rulecriterium extends \App\Models\Common
   ];
 
   protected $visible = [
+    'rule',
     'patternviewfield',
   ];
 
-  protected $fillable = [
-    'rule_id',
-    'criteria',
-    'condition',
-    'pattern',
-  ];
-
-  public function getCriteriaAttribute(): array
+  public function getCriteriaAttribute(): Definition
   {
-    /** @var \App\Models\Rules\Rule|null */
-    $rule = \App\Models\Rules\Rule::find($this->attributes['rule_id']);
-    $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
-
-    $model = new $modelName();
-    // get definitions
-    $definitions = $model->getDefinitions();
-    foreach ($definitions as $def)
+    $rule = \App\Models\Rules\Rule::where('id', $this->attributes['rule_id'])->first();
+    if (is_null($rule))
     {
-      if ($def['name'] == $this->attributes['criteria'])
+      throw new \Exception('Rule not found', 400);
+    }
+    $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
+    if (!class_exists($modelName))
+    {
+      throw new \Exception('Rule not found', 400);
+    }
+    $model = new $modelName();
+    if (is_subclass_of($model, \App\Models\Common::class))
+    {
+      // get definitions
+      $definitions = $model->getDefinitions();
+      foreach ($definitions as $def)
       {
-        return $def;
+        if ($def->name == $this->attributes['criteria'])
+        {
+          return $def;
+        }
       }
     }
-    return [];
+    throw new \Exception('Rule criterium not exists', 400);
   }
 
   public function getPatternAttribute(): mixed
   {
     $pattern = $this->attributes['pattern'];
     $criteria = $this->getCriteriaAttribute();
-    if ($criteria['type'] == 'dropdown' || $criteria['type'] == 'dropdown_remote')
+    if ($criteria->type == 'dropdown' || $criteria->type == 'dropdown_remote')
     {
       if (
-          $this->attributes['condition'] == \App\v1\Controllers\Rules\Common::PATTERN_IS ||
-          $this->attributes['condition'] == \App\v1\Controllers\Rules\Common::PATTERN_IS_NOT ||
-          $this->attributes['condition'] == \App\v1\Controllers\Rules\Common::PATTERN_UNDER ||
-          $this->attributes['condition'] == \App\v1\Controllers\Rules\Common::PATTERN_NOT_UNDER
+          $this->attributes['condition'] == 0 || // Pattern is
+          $this->attributes['condition'] == 1 || // Pattern is not
+          $this->attributes['condition'] == 11 || // Pattern under
+          $this->attributes['condition'] == 12 // Pattern not under
       )
       {
-        if (isset($criteria['values']))
+        if (!empty($criteria->values))
         {
-          if (!isset($criteria['values'][$pattern]))
+          if (!isset($criteria->values[$pattern]))
           {
             return null;
           }
           return [
             'id' => (int) $pattern,
-            'value' => $criteria['values'][$pattern]['title'],
+            'value' => $criteria->values[$pattern]['title'],
           ];
         }
-        $item = $criteria['itemtype']::find($pattern);
-        if (is_null($item))
+        if (!is_null($criteria->itemtype))
         {
-          return null;
+          $item = $criteria->itemtype::where('id', $pattern)->first();
+          if (is_null($item))
+          {
+            return null;
+          }
+          return [
+            'id'    => (int) $pattern,
+            'value' => $item->name,
+          ];
         }
-        return [
-          'id'    => (int) $pattern,
-          'value' => $item->name,
-        ];
       }
     }
     return $this->attributes['pattern'];
     // TODO problem when condition is IS or ISNOT
   }
 
-  public function getPatternviewfieldAttribute(): array
+  public function getPatternviewfieldAttribute(): Definition
   {
     $criteria = $this->getCriteriaAttribute();
-    $criteria['title'] = 'Pattern';
-    $criteria['name'] = 'pattern';
-    $criteria['value'] = $this->attributes['pattern'];
-    if (isset($criteria['multiple']))
+    $criteria->title = 'Pattern';
+    $criteria->name = 'pattern';
+    $criteria->value = $this->attributes['pattern'];
+    if (!is_null($criteria->multiple))
     {
-      unset($criteria['multiple']);
+      $criteria->multiple = false;
     }
-    if ($criteria['type'] == 'dropdown' || $criteria['type'] == 'dropdown_remote')
+    if ($criteria->type == 'dropdown' || $criteria->type == 'dropdown_remote')
     {
       $pattern = $this->getPatternAttribute();
       if (is_array($pattern))
       {
-        $criteria['value'] = $pattern['id'];
-        $criteria['valuename'] = $pattern['value'];
+        $criteria->value = $pattern['id'];
+        $criteria->valuename = $pattern['value'];
       }
     }
     return $criteria;
+  }
+
+  /** @return BelongsTo<\App\Models\Rules\Rule, $this> */
+  public function rule(): BelongsTo
+  {
+    return $this->belongsTo(\App\Models\Rules\Rule::class);
   }
 }

@@ -36,7 +36,12 @@ final class Token
     {
       return false;
     }
-    $hashpassword = self::hashPasword($password, hex2bin($spl[0]));
+    $bin = hex2bin($spl[0]);
+    if ($bin === false)
+    {
+      return false;
+    }
+    $hashpassword = self::hashPasword($password, $bin);
 
     if ($hashpassword === $spl[1])
     {
@@ -45,14 +50,19 @@ final class Token
     return false;
   }
 
-  public static function generateSalt()
+  public static function generateSalt(): string
   {
     $salt = random_bytes(SODIUM_CRYPTO_PWHASH_SALTBYTES);
     return $salt;
   }
 
-  // recommandations of OWASP: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-  public static function hashPasword($password, $salt)
+  /**
+   * recommandations of OWASP: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+   *
+   * @param string $password
+   * @param string $salt
+   */
+  public static function hashPasword($password, $salt): string
   {
     // Using bin2hex to keep output readable
     return bin2hex(
@@ -67,20 +77,32 @@ final class Token
     );
   }
 
-  public static function generateDBHashPassword($password)
+  /**
+   * @param string $password
+   */
+  public static function generateDBHashPassword($password): string
   {
     $salt = self::generateSalt();
     $hash = self::hashPasword($password, $salt);
     return bin2hex($salt) . '.' . $hash;
   }
 
+  /**
+   * @param \App\Models\User  $user
+   * @param Response $response
+   * @param int|null $profileId
+   * @param int|null $entityId
+   * @param boolean $entityRecursive
+   *
+   * @return array<mixed>
+   */
   public function generateJWTToken(
     \App\Models\User $user,
     Response $response,
-    $profile_id = null,
-    $entity_id = null,
-    $entity_recursive = false
-  )
+    $profileId = null,
+    $entityId = null,
+    $entityRecursive = false
+  ): array|Response
   {
     global $basePath;
 
@@ -110,23 +132,29 @@ final class Token
       // $jti = $jwtid;
     // }
 
-    if (is_null($profile_id))
+    if (is_null($profileId))
     {
       foreach ($user->profiles()->get() as $profile)
       {
-        $profile_id = $profile->id;
-        $entity_id = $profile->getRelationValue('pivot')->entity_id;
-        $entity_recursive = $profile->getRelationValue('pivot')->is_recursive;
+        $profileId = $profile->id;
+        $entityId = $profile->getRelationValue('pivot')->entity_id;
+        $entityRecursive = $profile->getRelationValue('pivot')->is_recursive;
         break;
       }
     }
-    $entity = \App\Models\Entity::find($entity_id);
 
-    if (is_null($profile_id) || is_null($entity_id))
+    if (is_null($profileId) || is_null($entityId))
     {
       return $response
         ->withHeader('Location', $basePath);
     }
+
+    $entity = \App\Models\Entity::where('id', $entityId)->first();
+    if (is_null($entity))
+    {
+      throw new \Exception('Wrong request', 400);
+    }
+
     $now = new DateTime();
     $future = new DateTime("+2000 minutes");
     // For test / DEBUG
@@ -152,10 +180,10 @@ final class Token
       'apiversion'       => "v1",
       // 'entities_id'      => $user->entities_id,
       'sub_organization' => true,
-      'profile_id'       => $profile_id,
-      'entity_id'        => $entity_id,
+      'profile_id'       => $profileId,
+      'entity_id'        => $entityId,
       'entity_treepath'  => $entity->treepath,
-      'entity_recursive' => $entity_recursive,
+      'entity_recursive' => $entityRecursive,
     ];
     // $configSecret = include(__DIR__ . '/../../../config/current/config.php');
     $secret = sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL);
@@ -168,8 +196,14 @@ final class Token
     return $responseData;
   }
 
-  // get rights of this user.
-  private function getScope($userId)
+  /**
+   * get rights of this user.
+   *
+   * @param int $userId
+   *
+   * @return array<string>
+   */
+  private function getScope(int $userId): array
   {
     $scope = [
     ];
@@ -177,7 +211,7 @@ final class Token
     return $scope;
   }
 
-  private function generateToken()
+  private function generateToken(): string
   {
      return (new Base62())->encode(random_bytes(16));
   }

@@ -4,44 +4,196 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostPdu;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Contract;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Infocom;
+use App\Traits\Subs\Itil;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Pdu extends Common
+final class Pdu extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Pdu';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Document;
+  use Contract;
+  use Itil;
+  use History;
+  use Infocom;
+
+  protected $model = \App\Models\Pdu::class;
   protected $rootUrl2 = '/pdus/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Pdu
   {
-    $item = new \App\Models\Pdu();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Pdu();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Pdu();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostPdu((object) $request->getParsedBody());
+
+    $pdu = new \App\Models\Pdu();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($pdu))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $pdu = \App\Models\Pdu::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($pdu, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/pdus/' . $pdu->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/pdus')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Pdu();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostPdu((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $pdu = \App\Models\Pdu::where('id', $id)->first();
+    if (is_null($pdu))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($pdu))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $pdu->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($pdu, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubPlugs(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $pdu = \App\Models\Pdu::withTrashed()->where('id', $id)->first();
+    if (is_null($pdu))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($pdu->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $pdu->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/pdus')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $pdu->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $pdu = \App\Models\Pdu::withTrashed()->where('id', $id)->first();
+    if (is_null($pdu))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($pdu->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $pdu->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubPlugs(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Pdu();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/plugs');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);

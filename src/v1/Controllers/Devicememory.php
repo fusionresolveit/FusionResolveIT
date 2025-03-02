@@ -4,143 +4,193 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostDevicememory;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Item;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Devicememory extends Common
+final class Devicememory extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Devicememory';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Document;
+  use History;
+  use Item;
+
+  protected $model = \App\Models\Devicememory::class;
   protected $rootUrl2 = '/devices/devicememories/';
   protected $choose = 'devicememories';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Devicememory
   {
-    $item = new \App\Models\Devicememory();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Devicememory();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @return array{
+   *          'itemComputers': \App\Models\Computer,
+   *          'itemNetworkequipments': \App\Models\Networkequipment,
+   *          'itemPeripherals': \App\Models\Peripheral,
+   *          'itemPrinters': \App\Models\Printer,
+   *         }
+   */
+  protected function modelsForSubItem()
   {
-    $item = new \App\Models\Devicememory();
-    return $this->commonShowItem($request, $response, $args, $item);
+    return [
+      'itemComputers'         => new \App\Models\Computer(),
+      'itemNetworkequipments' => new \App\Models\Networkequipment(),
+      'itemPeripherals'       => new \App\Models\Peripheral(),
+      'itemPrinters'          => new \App\Models\Printer(),
+    ];
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Devicememory();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
+    global $basePath;
 
-  public function showSubItems(Request $request, Response $response, $args): Response
-  {
-    global $translator;
+    $data = new PostDevicememory((object) $request->getParsedBody());
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
-    $view = Twig::fromRequest($request);
+    $devicememory = new \App\Models\Devicememory();
 
-    $myItem = $item->find($args['id']);
-
-    $rootUrl = $this->genereRootUrl($request, '/items');
-    $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
-
-    $myItems = [];
-    foreach ($myItem->items as $current_item)
+    if (!$this->canRightCreate())
     {
-      $item3 = new $current_item->item_type();
-      $myItem3 = $item3->find($current_item->item_id);
-      if ($myItem3 !== null)
-      {
-        $type_fr = $item3->getTitle();
-        $type = $item3->getTable();
-
-        if (array_key_exists($type, $myItems) !== true)
-        {
-          $myItems[$type] = [
-            'type'  => $type,
-            'name'  => $type_fr,
-            'items' => [],
-          ];
-        }
-
-        $current_id = $myItem3->id;
-
-        $name = $myItem3->name;
-        if ($name == '')
-        {
-          $name = '(' . $current_id . ')';
-        }
-
-        $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $current_id);
-
-        $location = '';
-        $location_url = '';
-        if ($myItem3->location !== null)
-        {
-          $location = $myItem3->location->name;
-          $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $myItem3->location->id);
-        }
-
-        $documents = [];
-        if ($myItem3->documents !== null)
-        {
-          foreach ($myItem3->documents as $document)
-          {
-            $url_document = $this->genereRootUrl2Link($rootUrl2, '/documents/', $document->id);
-
-            $documents[$document->id] = [
-              'name'  => $document->name,
-              'url'   => $url_document,
-            ];
-          }
-        }
-
-        $serial = '';
-        if ($type == 'computers')
-        {
-          if (isset($current_item->serial))
-          {
-            $serial = $current_item->serial;
-          }
-        }
-
-        $size = $current_item->size;
-
-        $myItems[$type]['items'][$current_id][$current_item->id] = [
-          'name'            => $name,
-          'url'             => $url,
-          'location'        => $location,
-          'location_url'    => $location_url,
-          'documents'       => $documents,
-          'serial'          => $serial,
-          'size'            => $size,
-        ];
-      }
+      throw new \Exception('Unauthorized access', 401);
     }
 
-    // tri ordre alpha
-    array_multisort(array_column($myItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
+    if (!\App\v1\Controllers\Profile::canRightReadItem($devicememory))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    $devicememory = \App\Models\Devicememory::create($data->exportToArray());
 
-    $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('items', $myItems);
-    $viewData->addData('show', $this->choose);
+    \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($devicememory, 'new');
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('location', $translator->translatePlural('Location', 'Locations', 2));
-    $viewData->addTranslation('documents', $translator->translatePlural('Document', 'Documents', 2));
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('size_mio', sprintf(
-      '%1$s (%2$s)',
-      $translator->translate('Size'),
-      $translator->translate('Mio')
-    ));
+    $data = (object) $request->getParsedBody();
 
-    return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/devicememorys/' . $devicememory->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/devicememories')
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
+  {
+    $data = new PostDevicememory((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $devicememory = \App\Models\Devicememory::where('id', $id)->first();
+    if (is_null($devicememory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($devicememory))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $devicememory->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($devicememory, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $devicememory = \App\Models\Devicememory::withTrashed()->where('id', $id)->first();
+    if (is_null($devicememory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($devicememory->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $devicememory->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/devicememories')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $devicememory->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $devicememory = \App\Models\Devicememory::withTrashed()->where('id', $id)->first();
+    if (is_null($devicememory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($devicememory->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $devicememory->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 }

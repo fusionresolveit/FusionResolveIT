@@ -11,6 +11,8 @@ use Tests\Traits\HttpTestTrait;
 
 #[CoversClass('\App\v1\Controllers\Menu')]
 #[UsesClass('\App\App')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\JwtBeforeHandler')]
 #[UsesClass('\App\Route')]
 #[UsesClass('\App\Translation')]
@@ -41,6 +43,7 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\v1\Controllers\Datastructures\Information')]
 #[UsesClass('\App\v1\Controllers\Datastructures\Translation')]
 #[UsesClass('\App\v1\Controllers\Datastructures\Viewdata')]
+#[UsesClass('\App\v1\Controllers\Dropdown')]
 #[UsesClass('\App\v1\Controllers\Search')]
 #[UsesClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\v1\Controllers\Toolbox')]

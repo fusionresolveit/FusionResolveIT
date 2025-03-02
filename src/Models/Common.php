@@ -6,9 +6,9 @@ namespace App\Models;
 
 use GeneaLabs\LaravelPivotEvents\Traits\PivotEventTrait;
 use Illuminate\Database\Eloquent\Model;
-use stdClass;
+use App\DataInterface\DefinitionCollection;
 
-class Common extends Model
+abstract class Common extends Model
 {
   use PivotEventTrait;
 
@@ -33,9 +33,13 @@ class Common extends Model
   /** @var string[] */
   protected $dispatchesEvents = [
     'creating' => \App\Events\EntityCreating::class,
+    'updating' => \App\Events\TreepathUpdating::class,
     'created'  => \App\Events\TreepathCreated::class,
   ];
 
+  /**
+   * @param array<mixed> $attributes
+   */
   public function __construct(array $attributes = [])
   {
     parent::__construct($attributes);
@@ -46,48 +50,46 @@ class Common extends Model
       $definitions = $this->getDefinitions(true);
       foreach ($definitions as $definition)
       {
-        if (isset($definition['fillable']) && $definition['fillable'])
+        if ($definition->fillable)
         {
-          if (isset($definition['dbname']))
+          if (!is_null($definition->dbname))
           {
-            $this->fillable[] = $definition['dbname'];
-          }
-          else
-          {
-            $this->fillable[] = $definition['name'];
+            $this->fillable[] = $definition->dbname;
+          } else {
+            $this->fillable[] = $definition->name;
           }
         }
       }
     }
   }
 
-  protected static function booted(): void
-  {
-    parent::booted();
+  // protected static function booted(): void
+  // {
+  //   parent::booted();
 
-    static::updated(function ($model)
-    {
-      if (get_class($model) != 'App\Models\Log')
-      {
-        $model->changesOnUpdated();
-      }
-    });
+  //   static::updated(function ($model)
+  //   {
+  //     if (get_class($model) != 'App\Models\Log')
+  //     {
+  //       $model->changesOnUpdated();
+  //     }
+  //   });
 
-    static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes)
-    {
-      $model->changesOnPivotUpdated($relationName, $pivotIds, 'add');
-    });
+  //   static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes)
+  //   {
+  //     $model->changesOnPivotUpdated($relationName, $pivotIds, 'add');
+  //   });
 
-    static::pivotDetached(function ($model, $relationName, $pivotIds)
-    {
-      $model->changesOnPivotUpdated($relationName, $pivotIds, 'delete');
-    });
-  }
+  //   static::pivotDetached(function ($model, $relationName, $pivotIds)
+  //   {
+  //     $model->changesOnPivotUpdated($relationName, $pivotIds, 'delete');
+  //   });
+  // }
 
   /**
    * @param $nb int number of elements
    */
-  public function getTitle($nb = 1): string
+  public function getTitle(int $nb = 1): string
   {
     global $translator;
 
@@ -99,91 +101,20 @@ class Common extends Model
     return $this->icon;
   }
 
-  public function getDropdownValues($filter = null): array
-  {
-    $item = $this;
-    $className = '\\' . get_class($this);
-    $trees = [];
-    if ($this->tree)
-    {
-      $item = $item->orderBy('treepath');
-    }
-
-    $item->orderBy('name');
-    if (!is_null($filter) && !empty($filter))
-    {
-      $item = $item->where('name', 'LIKE', '%' . $filter . '%');
-      if (is_numeric($filter))
-      {
-        $item = $item->orWhere('id', 'LIKE', '%' . $filter . '%');
-      }
-    }
-
-    $items = $item->take(50)->get();
-    $data = [];
-    foreach ($items as $item)
-    {
-      $name = '';
-      if (property_exists($item, 'name'))
-      {
-        $name = $item->name;
-        if ($item->name == '')
-        {
-          $name = $item->id;
-        }
-        elseif (is_numeric($filter))
-        {
-          $name .= ' - ' . $item->id;
-        }
-      }
-      $class = '';
-      if ($this->isTree() && property_exists($item, 'treepath'))
-      {
-        $trees[$item->treepath] = true;
-        // $parents = $this->getParentLevelsForTree($item->treepath, $trees);
-
-        $itemsId = str_split($item->treepath, 5);
-        array_pop($itemsId);
-        foreach ($itemsId as $id)
-        {
-          $parentItem = $className::find((int) $id);
-          if (!isset($trees[$parentItem->treepath]))
-          {
-            $nb = strlen($parentItem->treepath) / 5;
-            $class = ' treelvl' . $nb;
-            $data[] = [
-              "name"  => $parentItem->name,
-              "value" => $parentItem->id,
-              "class" => 'item' . $class,
-            ];
-            $trees[$parentItem->treepath] = true;
-          }
-        }
-        $nb = strlen($item->treepath) / 5;
-        $class = ' treelvl' . $nb;
-      }
-      $data[] = [
-        "name"  => $name,
-        "value" => $item->id,
-        "class" => 'item' . $class,
-      ];
-    }
-    return $data;
-  }
-
   /**
    * Get definition fields of model
+   *
    * @param $bypassRights  boolean  Set true is not want manage rights (only on some features like notifications)
    * @param $usein  string=search|form|notification|rule  Force to get only definition for this part of the app
    */
-  public function getDefinitions($bypassRights = false, $usein = null): array
+  public function getDefinitions(bool $bypassRights = false, string|null $usein = null): DefinitionCollection
   {
     if (is_null($this->definition))
     {
-      return [];
+      return new DefinitionCollection();
     }
 
-    $definitions = call_user_func($this->definition . '::getDefinition');
+    $definitions = $this->definition::getDefinition();
     if (get_class($this) == 'App\\Models\\Profileright') // || get_class($this) == 'App\\Models\\Profile')
     {
       return $definitions;
@@ -192,16 +123,16 @@ class Common extends Model
     // manage usein
     if (!is_null($usein))
     {
-      $newDefinitions = [];
+      $newDefinitions = new DefinitionCollection();
       foreach ($definitions as $def)
       {
         if (!isset($def['usein']))
         {
-          $newDefinitions[] = $def;
+          $newDefinitions->add($def);
         }
         elseif (isset($def['usein'][$usein]))
         {
-          $newDefinitions[] = $def;
+          $newDefinitions->add($def);
         }
       }
       $definitions = $newDefinitions;
@@ -213,13 +144,12 @@ class Common extends Model
     }
     $canOnlyReadItem = $this->canOnlyReadItem();
 
-    $profileright = \App\Models\Profileright::
-        where('profile_id', $GLOBALS['profile_id'])
+    $profileright = \App\Models\Profileright::where('profile_id', $GLOBALS['profile_id'])
       ->where('model', get_class($this))
       ->first();
     if (is_null($profileright))
     {
-      return [];
+      return new DefinitionCollection();
     }
     if ($profileright->custom)
     {
@@ -234,15 +164,15 @@ class Common extends Model
       }
       foreach ($definitions as &$def)
       {
-        if (isset($ids[$def["id"]]))
+        if (isset($ids[$def->id]))
         {
-          if (!isset($def['display']) || $def['display'])
+          if ($def->display)
           {
-            $def['display'] = $ids[$def["id"]]['read'];
+            $def->display = $ids[$def->id]['read'];
           }
-          if (!$ids[$def["id"]]['write'] || $canOnlyReadItem)
+          if (!$ids[$def->id]['write'] || $canOnlyReadItem)
           {
-            $def['readonly'] = 'readonly';
+            $def->readonly = true;
           }
         }
       }
@@ -252,21 +182,24 @@ class Common extends Model
     {
       foreach ($definitions as &$def)
       {
-        if (!isset($def['display']))
+        if (is_null($def->display))
         {
-          $def['display'] = true;
+          $def->display = true;
         }
         if (!$profileright->update || $canOnlyReadItem)
         {
-          $def['readonly'] = 'readonly';
+          $def->readonly = true;
         }
       }
       return $definitions;
     }
-    return [];
+    return new DefinitionCollection();
   }
 
-  public function getRelatedPages($rootUrl): array
+  /**
+   * @return array<int, mixed>
+   */
+  public function getRelatedPages(string $rootUrl): array
   {
     global $translator;
 
@@ -274,7 +207,7 @@ class Common extends Model
     {
       return [];
     }
-    $pages = call_user_func($this->definition . '::getRelatedPages', $rootUrl);
+    $pages = $this->definition::getRelatedPages($rootUrl);
     $listUrl = preg_replace('/\/(\d+)$/', '', $rootUrl);
     foreach ($pages as $idx => $page)
     {
@@ -297,56 +230,83 @@ class Common extends Model
     return $pages;
   }
 
-  public function getSpecificFunction($functionName): array
+  public function getSpecificFunction(string $functionName): DefinitionCollection|false
   {
-    if (is_null($this->definition) || !method_exists($this->definition, $functionName))
+    if (
+        is_null($this->definition) ||
+        !class_exists($this->definition) ||
+        !method_exists($this->definition, $functionName)
+    )
     {
-      return [];
+      return new DefinitionCollection();
     }
-    return call_user_func($this->definition . '::' . $functionName);
+    $item = new $this->definition();
+    $ret = $item->$functionName();
+    if ($ret instanceof DefinitionCollection)
+    {
+      return $ret;
+    }
+    return new DefinitionCollection();
   }
 
   /**
-   * Get form data for this item
+   * @template C of \App\Models\Common
+   * @param C|null $myItem
    *
-   * @return array
+   * Get form data for this item
    */
-  public function getFormData($myItem, $otherDefs = false): array
+  public function getFormData($myItem, DefinitionCollection|false $otherDefs = false): DefinitionCollection
   {
+    if ($myItem == null)
+    {
+      throw new \Exception('Error get form data', 500);
+    }
     if ($otherDefs !== false)
     {
       $def = $otherDefs;
-    }
-    else
-    {
+    } else {
       $def = $myItem->getDefinitions();
-    }
-    if ($myItem == null)
-    {
-      return $def;
     }
 
     foreach ($def as $idx => &$field)
     {
       // Special case for entity, must not displayed in forms
-      if ($field['name'] == 'entity' && get_class($myItem) !== 'App\Models\Entity')
+      if ($field->name == 'entity' && get_class($myItem) !== 'App\Models\Entity')
       {
-        unset($def[$idx]);
+        $def->remove($field);
         continue;
       }
-      if (isset($field['display']) && $field['display'] == false)
+      if (!is_null($field->display) && $field->display == false)
       {
-        unset($def[$idx]);
+        $def->remove($field);
         continue;
       }
-      if ($field['type'] == 'dropdown_remote')
+      $myItemFieldValue = '';
+      if ($field->isPivot)
       {
-        if (is_null($myItem->{$field['name']}) || $myItem->{$field['name']} == false)
+        if ($field->type == 'dropdown_remote' && !is_null($field->dbname) && !is_null($field->itemtype))
         {
-          $field['value'] = 0;
-          $field['valuename'] = '';
+          $modelName = $field->itemtype;
+          $pivotItem = $modelName::where('id', $myItem->getRelationValue('pivot')->{$field->dbname})->first();
+          if (!is_null($pivotItem))
+          {
+            $myItemFieldValue = $pivotItem;
+          }
+        } else {
+          $myItemFieldValue = $myItem->getRelationValue('pivot')->{$field->name};
         }
-        elseif (isset($field['multiple']))
+      } else {
+        $myItemFieldValue = $myItem->{$field->name};
+      }
+
+      if ($field->type == 'dropdown_remote')
+      {
+        if (is_null($myItemFieldValue) || $myItemFieldValue == false)
+        {
+          $field->value = 0;
+          $field->valuename = '';
+        }
+        elseif (!is_null($field->multiple) && $field->multiple)
         {
           // if ($field['name'] == 'requester')
           // {
@@ -355,42 +315,35 @@ class Common extends Model
           // TODO manage multiple select
           $values = [];
           $valuenames = [];
-          foreach ($myItem->{$field['name']} as $val)
+          foreach ($myItemFieldValue as $val)
           {
             $values[] = $val->id;
             $valuenames[] = $val->name;
           }
-          $field['value'] = implode(',', $values);
-          $field['valuename'] = implode(',', $valuenames);
-        }
-        else
-        {
-          // var_dump($field['name']);                   // #EB
-          // var_dump($myItem->{$field['name']}->id);    // #EB
-
-          $field['value'] = $myItem->{$field['name']}->id;
-          $field['valuename'] = $myItem->{$field['name']}->name;
+          $field->value = implode(',', $values);
+          $field->valuename = implode(',', $valuenames);
+        } else {
+          if ($field->name == 'id')
+          {
+            $field->value = $myItem->getAttribute('id');
+            $field->valuename = $myItem->getAttribute('name');
+          } else {
+            $field->value = $myItemFieldValue->id;
+            $field->valuename = $myItemFieldValue->name;
+          }
         }
       }
-      elseif ($field['type'] == 'textarea')
+      elseif ($field->type == 'textarea')
       {
-        if (is_null($myItem->{$field['name']}))
+        if (is_null($myItemFieldValue))
         {
-          $field['value'] = '';
-        }
-        else
-        {
+          $field->value = '';
+        } else {
           // We convert html to markdown
-          $field['value'] = \App\v1\Controllers\Toolbox::convertHtmlToMarkdown($myItem->{$field['name']});
+          $field->value = \App\v1\Controllers\Toolbox::convertHtmlToMarkdown($myItemFieldValue);
         }
-      }
-      else
-      {
-        $field['value'] = $myItem->{$field['name']};
-      }
-      if (isset($field['readonly']))
-      {
-        $field['readonly'] = 'readonly';
+      } else {
+        $field->value = $myItemFieldValue;
       }
     }
     return $def;
@@ -431,19 +384,20 @@ class Common extends Model
       $idSearchOption = 0;
       foreach ($definitions as $definition)
       {
-        if ($definition['name'] == $key)
+        if ($definition->name == $key)
         {
-          $idSearchOption = $definition['id'];
+          $idSearchOption = $definition->id;
           break;
         }
-        elseif (isset($definition['dbname']) && $definition['dbname'] == $key)
+        elseif (!is_null($definition->dbname) && $definition->dbname == $key)
         {
-          $idSearchOption = $definition['id'];
+          $idSearchOption = $definition->id;
           break;
         }
       }
       \App\v1\Controllers\Log::addEntry(
-        $this,
+        get_class($this),
+        $this->getAttribute('id'),
         '{username} changed ' . $key . ' to "{new_value}"',
         $newValue,
         $oldValue,
@@ -454,9 +408,10 @@ class Common extends Model
 
   /**
    * Add in changes when update fields
-   * @param $name string  name of the field (=name in definition)
+   *
+   * @param array<int> $pivotIds
    */
-  public function changesOnPivotUpdated($name, $pivotIds, $type = 'add'): void
+  public function changesOnPivotUpdated(string $name, array $pivotIds, string $type = 'add'): void
   {
     return;
     // get the id_search_option
@@ -478,7 +433,7 @@ class Common extends Model
     // {
     //   foreach ($pivotIds as $id)
     //   {
-    //     $myItem = $item->find($id);
+    //     $myItem = $item->where('id', $id)->first();
     //     \App\v1\Controllers\Log::addEntry(
     //       $this,
     //       '{username} Add ' . $title . ' to "{new_value}"',
@@ -492,7 +447,7 @@ class Common extends Model
     // {
     //   foreach ($pivotIds as $id)
     //   {
-    //     $myItem = $item->find($id);
+    //     $myItem = $item->where('id', $id)->first();
     //     \App\v1\Controllers\Log::addEntry(
     //       $this,
     //       '{username} delete ' . $title . ' to "{new_value}"',

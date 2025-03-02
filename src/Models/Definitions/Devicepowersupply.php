@@ -4,90 +4,68 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Devicepowersupply
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 23,
-        'title' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'manufacturer',
-        'dbname' => 'manufacturer_id',
-        'itemtype' => '\App\Models\Manufacturer',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translate('ATX'),
-        'type'  => 'boolean',
-        'name'  => 'is_atx',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translate('Power'),
-        'type'  => 'input',
-        'name'  => 'power',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 13,
-        'title' => $translator->translatePlural('Model', 'Models', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'model',
-        'dbname' => 'devicepowersupplymodel_id',
-        'itemtype' => '\App\Models\Devicepowersupplymodel',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'is_atx' => $translator->translate('ATX'),
+      'power' => $translator->translate('Power'),
+      'model' => $translator->translatePlural('Model', 'Models', 1),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      23,
+      $t['manufacturer'],
+      'dropdown_remote',
+      'manufacturer',
+      dbname: 'manufacturer_id',
+      itemtype: '\App\Models\Manufacturer',
+      fillable: true
+    ));
+    $defColl->add(new Def(11, $t['is_atx'], 'boolean', 'is_atx', fillable: true));
+    $defColl->add(new Def(12, $t['power'], 'input', 'power', fillable: true));
+    $defColl->add(new Def(
+      13,
+      $t['model'],
+      'dropdown_remote',
+      'model',
+      dbname: 'devicepowersupplymodel_id',
+      itemtype: '\App\Models\Devicepowersupplymodel',
+      fillable: true
+    ));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

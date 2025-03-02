@@ -12,7 +12,7 @@ class ItemDevicepci extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicepci';
+  protected $definition = \App\Models\Definitions\ItemDevicepci::class;
   protected $titles = ['Devicepci Item', 'Devicepci Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicepci';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,7 +27,9 @@ class Computer extends Common
   use \App\Traits\Relationships\Knowbaseitems;
   use \App\Traits\Relationships\Reservations;
 
-  protected $definition = '\App\Models\Definitions\Computer';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Computer::class;
   protected $titles = ['Computer', 'Computers'];
   protected $icon = 'laptop';
 
@@ -39,8 +42,8 @@ class Computer extends Common
     'state',
     'manufacturer',
     'network',
-    'groupstech',
-    'userstech',
+    'grouptech',
+    'usertech',
     'user',
     'group',
     'location',
@@ -78,8 +81,8 @@ class Computer extends Common
     'state:id,name',
     'manufacturer:id,name',
     'network:id,name',
-    'groupstech:id,name,completename',
-    'userstech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
     'location:id,name',
@@ -132,11 +135,15 @@ class Computer extends Common
         foreach($softwareversions as $softwareversion)
         {
           $software = $softwareversion->software()->first();
-          \App\v1\Controllers\Log::addEntry(
-            $model,
-            'version ' . $softwareversion->name . ' of software ' . $software->name . ' installed',
-            $softwareversion->name . ' (' . $softwareversion->id . ')',
-          );
+          if (!is_null($software))
+          {
+            \App\v1\Controllers\Log::addEntry(
+              \App\Models\Computer::class,
+              $model->id,
+              'version ' . $softwareversion->name . ' of software ' . $software->name . ' installed',
+              $softwareversion->name . ' (' . $softwareversion->id . ')',
+            );
+          }
         }
       }
     });
@@ -174,13 +181,13 @@ class Computer extends Common
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }

@@ -6,7 +6,7 @@ namespace App\Models;
 
 class ChangeProblem extends Common
 {
-  protected $definition = '\App\Models\Definitions\ChangeProblem';
+  protected $definition = \App\Models\Definitions\ChangeProblem::class;
   protected $titles = ['Change Problem', 'Change Problem'];
   protected $icon = 'edit';
   protected $table = 'change_problem';

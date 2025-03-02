@@ -4,96 +4,63 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions\Forms;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Form
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-      ],
-      [
-        'id'    => 2,
-        'title' => $translator->translatePlural('Header', 'Headers', 1),
-        'type'  => 'textarea',
-        'name'  => 'content',
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Description'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Category'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'category',
-        'dbname' => 'category_id',
-        'itemtype' => '\App\Models\Category',
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Active'),
-        'type'  => 'boolean',
-        'name'  => 'is_active',
-        'dbname'  => 'is_active',
-      ],
-      // [
-      //   'id'    => 6,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 7,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'dbname'  => 'is_recursive',
-      ],
-      [
-        'id'    => 9,
-        'title' => $translator->translate('Default form in service catalog'),
-        'type'  => 'boolean',
-        'name'  => 'is_homepage',
-        'dbname'  => 'is_homepage',
-      ],
-      [
-        'id'    => 10,
-        'title' => $translator->translate('Icon'),
-        'type'  => 'input',
-        'name'  => 'icon',
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translate('Icon color'),
-        'type'  => 'input',
-        'name'  => 'icon_color',
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'date_creation',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'date_mod',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'content' => $translator->translatePlural('Header', 'Headers', 1),
+      'comment' => $translator->translate('Description'),
+      'category' => $translator->translate('Category'),
+      'is_active' => $translator->translate('Active'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'is_homepage' => $translator->translate('Default form in service catalog'),
+      'icon' => $translator->translate('Icon'),
+      'icon_color' => $translator->translate('Icon color'),
+      'date_creation' => $translator->translate('Creation date'),
+      'date_mod' => $translator->translate('Last update'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name'));
+    $defColl->add(new Def(2, $t['content'], 'textarea', 'content'));
+    $defColl->add(new Def(3, $t['comment'], 'textarea', 'comment'));
+    $defColl->add(new Def(
+      4,
+      $t['category'],
+      'dropdown_remote',
+      'category',
+      dbname: 'category_id',
+      itemtype: '\App\Models\Category'
+    ));
+    $defColl->add(new Def(5, $t['is_active'], 'boolean', 'is_active', dbname: 'is_active'));
+    $defColl->add(new Def(7, $t['is_recursive'], 'boolean', 'is_recursive', dbname: 'is_recursive'));
+    $defColl->add(new Def(9, $t['is_homepage'], 'boolean', 'is_homepage', dbname: 'is_homepage'));
+    $defColl->add(new Def(10, $t['icon'], 'input', 'icon'));
+    $defColl->add(new Def(11, $t['icon_color'], 'input', 'icon_color'));
+    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
+    $defColl->add(new Def(16, $t['date_mod'], 'datetime', 'date_mod', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 6,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

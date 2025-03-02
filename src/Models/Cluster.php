@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -18,7 +20,9 @@ class Cluster extends Common
   use \App\Traits\Relationships\Changes;
   use \App\Traits\Relationships\Contract;
 
-  protected $definition = '\App\Models\Definitions\Cluster';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Cluster::class;
   protected $titles = ['Cluster', 'Clusters'];
   protected $icon = 'project diagram';
 
@@ -28,8 +32,8 @@ class Cluster extends Common
   protected $visible = [
     'type',
     'state',
-    'userstech',
-    'groupstech',
+    'usertech',
+    'grouptech',
     'entity',
     'appliances',
     'documents',
@@ -42,8 +46,8 @@ class Cluster extends Common
   protected $with = [
     'type:id,name',
     'state:id,name',
-    'userstech:id,name,firstname,lastname',
-    'groupstech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
     'entity:id,name,completename',
     'appliances:id,name',
     'documents:id,name',
@@ -66,13 +70,13 @@ class Cluster extends Common
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
@@ -85,5 +89,17 @@ class Cluster extends Common
       'item',
       'appliance_item'
     );
+  }
+
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_cluster');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_cluster');
   }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,10 +16,13 @@ class Entity extends Common
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Knowbaseitems;
 
-  protected $definition = '\App\Models\Definitions\Entity';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Entity::class;
   protected $titles = ['Entity', 'Entities'];
   protected $icon = 'layer group';
   protected $hasEntityField = false;
+  protected $tree = true;
 
   protected $appends = [
     // 'completename',

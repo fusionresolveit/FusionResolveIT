@@ -4,117 +4,71 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions\Forms;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Question
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-      ],
-      [
-        'id'    => 2,
-        'title' => $translator->translate('Description'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translatePlural('Type', 'Types', 1),
-        'type'  => 'dropdown',
-        'name'  => 'fieldtype',
-        'dbname'  => 'fieldtype',
-        'values' => self::getFieldtype(),
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translatePlural('Mandatory field', 'Mandatory fields', 1),
-        'type'  => 'boolean',
-        'name'  => 'is_required',
-        'dbname'  => 'is_required',
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Show empty'),
-        'type'  => 'boolean',
-        'name'  => 'show_empty',
-        'dbname'  => 'show_empty',
-      ],
-      [
-        'id'    => 6,
-        'title' => sprintf(
-          '%1$s <small>(%2$s)</small>',
-          $translator->translate('Default values'),
-          $translator->translate('One per line')
-        ),
-        'type'  => 'textarea',
-        'name'  => 'default_values',
-      ],
-      [
-        'id'    => 7,
-        'title' => sprintf(
-          '%1$s <small>(%2$s)</small>',
-          $translator->translatePlural('Value', 'Values', 2),
-          $translator->translate('One per line')
-        ),
-        'type'  => 'textarea',
-        'name'  => 'values',
-      ],
-      [
-        'id'    => 8,
-        'title' => sprintf(
-          '%1$s (%2$s)',
-          $translator->translate('Size'),
-          $translator->translate('Min')
-        ),
-        'type'  => 'input',
-        'name'  => 'range_min',
-      ],
-      [
-        'id'    => 9,
-        'title' => sprintf(
-          '%1$s (%2$s)',
-          $translator->translate('Size'),
-          $translator->translate('Max')
-        ),
-        'type'  => 'input',
-        'name'  => 'range_max',
-      ],
-      [
-        'id'    => 10,
-        'title' => sprintf(
-          '%1$s <small><a href="http://php.net/manual/reference.pcre.pattern.syntax.php" ' .
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'comment' => $translator->translate('Description'),
+      'fieldtype' => $translator->translatePlural('Type', 'Types', 1),
+      'is_required' => $translator->translatePlural('Mandatory field', 'Mandatory fields', 1),
+      'show_empty' => $translator->translate('Show empty'),
+      'default_values' => sprintf(
+        '%1$s <small>(%2$s)</small>',
+        $translator->translate('Default values'),
+        $translator->translate('One per line')
+      ),
+      'values' => sprintf(
+        '%1$s <small>(%2$s)</small>',
+        $translator->translatePlural('Value', 'Values', 2),
+        $translator->translate('One per line')
+      ),
+      'range_min' => sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Min')),
+      'range_max' => sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Max')),
+      'regex' => sprintf(
+        '%1$s <small><a href="http://php.net/manual/reference.pcre.pattern.syntax.php" ' .
           'target="_blank">(%2$s)</a></small>',
-          $translator->translate('Additional validation'),
-          $translator->translate('Regular expression')
-        ),
-        'type'  => 'input',
-        'name'  => 'regex',
-      ],
-
-
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'date_creation',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'date_mod',
-        'readonly'  => 'readonly',
-      ],
+        $translator->translate('Additional validation'),
+        $translator->translate('Regular expression')
+      ),
+      'date_creation' => $translator->translate('Creation date'),
+      'date_mod' => $translator->translate('Last update'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name'));
+    $defColl->add(new Def(2, $t['comment'], 'textarea', 'comment'));
+    $defColl->add(new Def(
+      3,
+      $t['fieldtype'],
+      'dropdown',
+      'fieldtype',
+      dbname: 'fieldtype',
+      values: self::getFieldtype()
+    ));
+    $defColl->add(new Def(4, $t['is_required'], 'boolean', 'is_required', dbname: 'is_required'));
+    $defColl->add(new Def(5, $t['show_empty'], 'boolean', 'show_empty', dbname: 'show_empty'));
+    $defColl->add(new Def(6, $t['default_values'], 'textarea', 'default_values'));
+    $defColl->add(new Def(7, $t['values'], 'textarea', 'values'));
+    $defColl->add(new Def(8, $t['range_min'], 'input', 'range_min'));
+    $defColl->add(new Def(9, $t['range_max'], 'input', 'range_max'));
+    $defColl->add(new Def(10, $t['regex'], 'input', 'regex'));
+    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
+    $defColl->add(new Def(16, $t['date_mod'], 'datetime', 'date_mod', readonly: true));
+
+    return $defColl;
   }
 
-  public static function getFieldtype()
+  /**
+   * @return array<string, mixed>
+   */
+  public static function getFieldtype(): array
   {
     global $translator;
     return [
@@ -172,7 +126,10 @@ class Question
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

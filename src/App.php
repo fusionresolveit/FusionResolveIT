@@ -21,13 +21,14 @@ use JimTools\JwtAuth\Rules\RequestPathRule;
 use JimTools\JwtAuth\Secret;
 use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 use Spatie\ArrayToXml\ArrayToXml;
+use Psr\Container\ContainerInterface as TContainerInterface;
 
 class App
 {
   /**
    * Stores an instance of the Slim application.
    *
-   * @var \Slim\App
+   * @var \Slim\App<TContainerInterface|null>
    */
   private $app;
 
@@ -52,16 +53,6 @@ class App
 
     $app->addRoutingMiddleware();
     $app->setBasePath($basePath);
-
-    // See https://github.com/tuupola/slim-jwt-auth
-    $container = $app->getContainer();
-
-    $container["jwt"] = function ($container)
-    {
-      return new \StdClass();
-    };
-
-    $secret = sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL);
 
     $capsule = new Capsule();
     $dbConfig = include(__DIR__ . '/../phinx.php');
@@ -159,7 +150,13 @@ class App
           "message" => "Token error"
         ];
         $response = $app->getResponseFactory()->createResponse();
-        $response->getBody()->write(json_encode($error));
+        $jsonError = json_encode($error);
+        if ($jsonError === false)
+        {
+          $response->getBody()->write('[]');
+        } else {
+          $response->getBody()->write($jsonError);
+        }
         return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
       }
       elseif (get_class($exception) == 'App\v1\Controllers\Fusioninventory\FusioninventoryXmlException')
@@ -182,7 +179,7 @@ class App
 
         return $view->render($response, 'error401.html.twig', $viewData);
       }
-      elseif ($exception->getCode() == 405)
+      elseif ($exception->getCode() == 405 || $exception->getCode() == 404)
       {
         $response = $app->getResponseFactory()->createResponse()->withStatus(404);
         return $view->render($response, 'error404.html.twig', []);
@@ -228,7 +225,7 @@ class App
   /**
    * Get an instance of the application.
    *
-   * @return \Slim\App
+   * @return \Slim\App<TContainerInterface|null>
    */
   public function get()
   {

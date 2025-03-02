@@ -6,6 +6,10 @@ namespace Tests\unit\Models\Definitions;
 
 /**
  * @covers \App\Models\Definitions\Contacttype
+ * @uses \App\DataInterface\Definition
+ * @uses \App\DataInterface\DefinitionCollection
+ * @uses \App\v1\Controllers\Common
+ * @uses \App\v1\Controllers\Dropdown
  */
 final class ContacttypeTest extends Common
 {

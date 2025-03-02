@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicemotherboard extends Common
@@ -14,7 +16,9 @@ class Devicemotherboard extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicemotherboard';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicemotherboard::class;
   protected $titles = ['System board', 'System boards'];
   protected $icon = 'edit';
 
@@ -26,7 +30,6 @@ class Devicemotherboard extends Common
     'model',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -34,7 +37,6 @@ class Devicemotherboard extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -49,9 +51,9 @@ class Devicemotherboard extends Common
     return $this->belongsTo(\App\Models\Devicemotherboardmodel::class, 'devicemotherboardmodel_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicemotherboard, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicemotherboard::class, 'devicemotherboard_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicemotherboard');
   }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,7 +19,9 @@ class Supplier extends Common
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Knowbaseitems;
 
-  protected $definition = '\App\Models\Definitions\Supplier';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Supplier::class;
   protected $titles = ['Supplier', 'Suppliers'];
   protected $icon = 'dolly';
 

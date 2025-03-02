@@ -4,46 +4,190 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostSoftwarecategory;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Softwarecategory extends Common
+final class Softwarecategory extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Softwarecategory';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Softwarecategory::class;
   protected $rootUrl2 = '/dropdowns/softwarecategories/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Softwarecategory
   {
-    $item = new \App\Models\Softwarecategory();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Softwarecategory();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Softwarecategory();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostSoftwarecategory((object) $request->getParsedBody());
+
+    $softwarecategory = new \App\Models\Softwarecategory();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($softwarecategory))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $softwarecategory = \App\Models\Softwarecategory::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($softwarecategory, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/softwarecategorys/' . $softwarecategory->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/softwarecategorys')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Softwarecategory();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostSoftwarecategory((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $softwarecategory = \App\Models\Softwarecategory::where('id', $id)->first();
+    if (is_null($softwarecategory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($softwarecategory))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $softwarecategory->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($softwarecategory, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubSoftwarecategories(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $softwarecategory = \App\Models\Softwarecategory::withTrashed()->where('id', $id)->first();
+    if (is_null($softwarecategory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($softwarecategory->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $softwarecategory->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/softwarecategorys')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $softwarecategory->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $softwarecategory = \App\Models\Softwarecategory::withTrashed()->where('id', $id)->first();
+    if (is_null($softwarecategory))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($softwarecategory->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $softwarecategory->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubSoftwarecategories(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Softwarecategory();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
+    $item2 = new \App\Models\Softwarecategory();
     $myItem2 = $item2::where('softwarecategory_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/softwarecategories');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Location extends Common
@@ -13,7 +14,9 @@ class Location extends Common
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Location';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Location::class;
   protected $titles = ['Location', 'Locations'];
   protected $icon = 'edit';
   protected $tree = true;
@@ -42,14 +45,21 @@ class Location extends Common
     static::created(function ($model)
     {
       // Manage tree
-      $currItem = (new self())->find($model->id);
+      $currItem = (new self())->where('id', $model->id)->first();
+      if (is_null($currItem))
+      {
+        throw new \Exception('location not found', 400);
+      }
       $currItem->treepath = sprintf("%05d", $currItem->id);
       if ($currItem->location_id > 0)
       {
-        $parentItem = (new self())->find($currItem->location_id);
+        $parentItem = (new self())->where('id', $currItem->location_id)->first();
+        if (is_null($parentItem))
+        {
+          throw new \Exception('location parent not found', 400);
+        }
         $currItem->treepath = $parentItem->treepath . $currItem->treepath;
       }
-      $currItem->name = 'YOLO';
       $currItem->save();
     });
   }

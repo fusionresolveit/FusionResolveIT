@@ -4,36 +4,174 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostMailcollector;
+use App\DataInterface\PostTicket;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Webklex\PHPIMAP\ClientManager;
-use Webklex\PHPIMAP\Client;
 
-final class Mailcollector extends Common
+final class Mailcollector extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Mailcollector';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
 
-  public function getAll(Request $request, Response $response, $args): Response
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Mailcollector::class;
+
+  protected function instanciateModel(): \App\Models\Mailcollector
   {
-    $item = new \App\Models\Mailcollector();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Mailcollector();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Mailcollector();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostMailcollector((object) $request->getParsedBody());
+
+    $mailcollector = new \App\Models\Mailcollector();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($mailcollector))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $mailcollector = \App\Models\Mailcollector::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($mailcollector, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/mailcollectors/' . $mailcollector->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/mailcollectors')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Mailcollector();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostMailcollector((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $mailcollector = \App\Models\Mailcollector::where('id', $id)->first();
+    if (is_null($mailcollector))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($mailcollector))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $mailcollector->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($mailcollector, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function collect(\App\Models\Mailcollector $collector)
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $mailcollector = \App\Models\Mailcollector::withTrashed()->where('id', $id)->first();
+    if (is_null($mailcollector))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($mailcollector->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $mailcollector->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/mailcollectors')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $mailcollector->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $mailcollector = \App\Models\Mailcollector::withTrashed()->where('id', $id)->first();
+    if (is_null($mailcollector))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($mailcollector->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $mailcollector->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  public function collect(\App\Models\Mailcollector $collector): int
   {
     $createdTickets = 0;
 
@@ -94,6 +232,10 @@ final class Mailcollector extends Common
 
 
     $folder = $client->getFolderByPath('Tests Fusion Resolve IT'); // INBOX');
+    if (is_null($folder))
+    {
+      return $createdTickets;
+    }
     $messages = $folder->messages()->unseen()->setFetchOrder('desc')->limit($limit = 10, $page = 0)->get();
     //                             ->all()->count();
 
@@ -155,26 +297,48 @@ final class Mailcollector extends Common
         }
       }
 
-
-      $data = (object) [
+      $tData = (object) [
         'name'        => $message->getSubject(),
         'content'     => \App\v1\Controllers\Toolbox::convertHtmlToMarkdown($message->getHTMLBody()),
         'requester'   => implode(',', $requesters),
         'urgency'     => $urgency,
       ];
 
+      $data = new PostTicket((object) $tData);
+
       $t = new \App\v1\Controllers\Ticket();
       $data = $t->prepareDataSave($data);
-      $t->saveItem($data);
+
+      $dataCreate = $data->exportToArray();
+      $ticket = \App\Models\Ticket::create($dataCreate);
+
+      $t->updateRelationshipsMany($dataCreate, 'requester', $ticket, 1);
+      $t->updateRelationshipsMany($dataCreate, 'requestergroup', $ticket, 1);
+      $t->updateRelationshipsMany($dataCreate, 'watcher', $ticket, 3);
+      $t->updateRelationshipsMany($dataCreate, 'watchergroup', $ticket, 3);
+      $t->updateRelationshipsMany($dataCreate, 'technician', $ticket, 2);
+      $t->updateRelationshipsMany($dataCreate, 'techniciangroup', $ticket, 2);
+
       $createdTickets++;
       $message->setFlag('Seen');
     }
     return $createdTickets;
   }
 
-  protected function getInformationTop($item, $request)
+  /**
+   * @template C of \App\Models\Common
+   * @param C $item
+   *
+   * @return array<mixed>
+   */
+  protected function getInformationTop($item, Request $request): array
   {
     global $translator, $basePath;
+
+    if (get_class($item) !== 'App\Models\Mailcollector')
+    {
+      return [];
+    }
 
     $uri = $request->getUri();
 
@@ -228,7 +392,10 @@ final class Mailcollector extends Common
     // ];
   }
 
-  public function doOauth(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function doOauth(Request $request, Response $response, array $args): Response
   {
     $provider = $this->getMyProvider($request, $args);
 
@@ -236,11 +403,18 @@ final class Mailcollector extends Common
       ->withHeader('Location', $provider->makeAuthUrl());
   }
 
-  public function getMyProvider($request, $args)
+  /**
+   * @param array<string, string> $args
+   */
+  public function getMyProvider(Request $request, array $args): \SocialConnect\Provider\AbstractBaseProvider
   {
     global $basePath;
 
-    $collector = \App\Models\Mailcollector::find($args['id']);
+    $collector = \App\Models\Mailcollector::where('id', $args['id'])->first();
+    if (is_null($collector))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $dataProvider = [
       'title'             => 'Azure AD',
@@ -267,19 +441,27 @@ final class Mailcollector extends Common
     return \App\v1\Controllers\Authsso::getProviderInstance('azure-ad', $configureProviders);
   }
 
-  public function callbackOauth(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function callbackOauth(Request $request, Response $response, array $args): Response
   {
     global $basePath;
 
     $provider = $this->getMyProvider($request, $args);
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
     $token = $accessToken->getToken();
-    $refreshtoken = $accessToken->getRefreshToken();
-    if (!is_null($token) && !is_null($refreshtoken))
+    // $refreshtoken = $accessToken->getRefreshToken();
+    $refreshtoken = null;
+    if (!is_null($token)) // && !is_null($refreshtoken))
     {
-      $mailcollector = \App\Models\Mailcollector::find($args['id']);
+      $mailcollector = \App\Models\Mailcollector::where('id', $args['id'])->first();
+      if (is_null($mailcollector))
+      {
+        throw new \Exception('Id not found', 404);
+      }
       $mailcollector->oauth_token = $token;
-      $mailcollector->oauth_refresh_token = $refreshtoken;
+//      $mailcollector->oauth_refresh_token = $refreshtoken;
       $mailcollector->save();
 
       // add message to session
@@ -295,7 +477,7 @@ final class Mailcollector extends Common
     exit;
   }
 
-  public function refreshToken(\App\Models\Mailcollector $collector)
+  public function refreshToken(\App\Models\Mailcollector $collector): void
   {
     $parameters = [
       'refresh_token' => $collector->oauth_refresh_token,
@@ -326,7 +508,7 @@ final class Mailcollector extends Common
   /**
    * Run the scheduled collect mails
    */
-  public static function scheduleCollects()
+  public static function scheduleCollects(): bool
   {
     $crontask = \App\Models\Crontask::where('name', 'mailgate')->first();
     if (is_null($crontask))

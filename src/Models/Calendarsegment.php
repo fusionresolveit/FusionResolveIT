@@ -11,7 +11,7 @@ class Calendarsegment extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Calendarsegment';
+  protected $definition = \App\Models\Definitions\Calendarsegment::class;
   protected $titles = ['Calendar segment', 'Calendar segments'];
   protected $icon = 'edit';
 

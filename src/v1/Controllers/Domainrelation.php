@@ -4,45 +4,191 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostStandardentity;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Domain;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Domainrelation extends Common
+final class Domainrelation extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Domainrelation';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Domain;
+  use History;
+
+  protected $model = \App\Models\Domainrelation::class;
   protected $rootUrl2 = '/dropdowns/domainrelations/';
   protected $choose = 'domainrelations';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Domainrelation
   {
-    $item = new \App\Models\Domainrelation();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Domainrelation();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Domainrelation();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostStandardentity((object) $request->getParsedBody(), \App\Models\Domainrelation::class);
+
+    $domainrelation = new \App\Models\Domainrelation();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($domainrelation))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $domainrelation = \App\Models\Domainrelation::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($domainrelation, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/domainrelations/' . $domainrelation->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/domainrelations')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Domainrelation();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostStandardentity((object) $request->getParsedBody(), \App\Models\Domainrelation::class);
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $domainrelation = \App\Models\Domainrelation::where('id', $id)->first();
+    if (is_null($domainrelation))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($domainrelation))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $domainrelation->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($domainrelation, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubDomains(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $domainrelation = \App\Models\Domainrelation::withTrashed()->where('id', $id)->first();
+    if (is_null($domainrelation))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($domainrelation->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $domainrelation->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/domainrelations')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $domainrelation->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $domainrelation = \App\Models\Domainrelation::withTrashed()->where('id', $id)->first();
+    if (is_null($domainrelation))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($domainrelation->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $domainrelation->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubDomains(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Domainrelation();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/domains');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
@@ -64,22 +210,22 @@ final class Domainrelation extends Common
 
       $group = '';
       $group_url = '';
-      if ($domain->groupstech !== null)
+      if ($domain->grouptech !== null)
       {
-        $group = $domain->groupstech->completename;
-        $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $domain->groupstech->id);
+        $group = $domain->grouptech->completename;
+        $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $domain->grouptech->id);
       }
 
       $user = '';
       $user_url = '';
-      if ($domain->userstech !== null)
+      if ($domain->usertech !== null)
       {
         $user = $this->genereUserName(
-          $domain->userstech->name,
-          $domain->userstech->lastname,
-          $domain->userstech->firstname
+          $domain->usertech->name,
+          $domain->usertech->lastname,
+          $domain->usertech->firstname
         );
-        $user_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $domain->userstech->id);
+        $user_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $domain->usertech->id);
       }
 
       $type = '';

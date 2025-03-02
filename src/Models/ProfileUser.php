@@ -6,7 +6,7 @@ namespace App\Models;
 
 class ProfileUser extends Common
 {
-  protected $definition = '\App\Models\Definitions\ProfileUser';
+  protected $definition = \App\Models\Definitions\ProfileUser::class;
   protected $titles = ['Profile User', 'Profiles Users'];
   protected $icon = 'user check';
   protected $table = 'profile_user';

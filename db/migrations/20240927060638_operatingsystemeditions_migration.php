@@ -11,7 +11,7 @@ use App\v1\Controllers\Toolbox;
 
 final class OperatingsystemeditionsMigration extends AbstractMigration
 {
-  public function change()
+  public function change(): void
   {
     $configArray = require('phinx.php');
     $environments = array_keys($configArray['environments']);
@@ -20,7 +20,14 @@ final class OperatingsystemeditionsMigration extends AbstractMigration
       // Migration of database
 
       $config = Config::fromPhp('phinx.php');
-      $environment = new Environment('old', $config->getEnvironment('old'));
+
+      $oldEnv = $config->getEnvironment('old');
+      if (is_null($oldEnv))
+      {
+        throw new \Exception('Error', 500);
+      }
+
+      $environment = new Environment('old', $oldEnv);
       $pdo = $environment->getAdapter()->getConnection();
     } else {
       return;
@@ -30,6 +37,10 @@ final class OperatingsystemeditionsMigration extends AbstractMigration
     if ($this->isMigratingUp())
     {
       $stmt = $pdo->query('SELECT * FROM glpi_operatingsystemeditions');
+      if ($stmt === false)
+      {
+        throw new \Exception('Error', 500);
+      }
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {

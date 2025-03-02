@@ -5,16 +5,14 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Migration\Manager\Environment;
-use Phinx\Config\Config;
-use App\v1\Controllers\Toolbox;
 use Phinx\Db\Adapter\MysqlAdapter;
 
 final class TreepathsMigration extends AbstractMigration
 {
+  /** @var array<mixed> */
   protected $treepaths = [];
 
-  public function up()
+  public function up(): void
   {
     // we set fields and recalculate treepath for items in tree
     $table = $this->table('entities');
@@ -218,7 +216,7 @@ final class TreepathsMigration extends AbstractMigration
     }
   }
 
-  public function down()
+  public function down(): void
   {
     $table = $this->table('entities');
     if (!$table->hasColumn('level'))
@@ -311,7 +309,7 @@ final class TreepathsMigration extends AbstractMigration
     }
   }
 
-  private function generateTreepath($id, $table, $foreignkey)
+  private function generateTreepath(string $id, string $table, string $foreignkey): void
   {
     $stmt = $this->query('SELECT * FROM ' . $table . ' WHERE ? = ?', [$foreignkey, $id]);
     $items = $stmt->fetchAll();

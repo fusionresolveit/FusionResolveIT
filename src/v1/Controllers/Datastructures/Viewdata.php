@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Datastructures;
 
+use Psr\Http\Message\ServerRequestInterface as Request;
+use stdClass;
+
 class Viewdata
 {
   use Header;
@@ -11,19 +14,23 @@ class Viewdata
   use Information;
 
   // Attributes
-  public object $header;
+  public stdClass $header;
   public object $data;
+
+  /** @var array<mixed> */
   public array $relatedPages;
   public object $translation;
   public object $information;
+
+  /** @var array<mixed> */
   public array $message;
   public string $basePath;
 
-  public function __construct($item, $request)
+  public function __construct(\App\Models\Common $item, Request $request)
   {
     global $basePath, $translator;
 
-    $this->header = (object)[];
+    $this->header = new stdClass();
     $this->data = (object)[];
     $this->relatedPages = [];
     $this->translation = (object)[];
@@ -46,12 +53,15 @@ class Viewdata
     }
   }
 
-  public function addData($key, $value)
+  public function addData(string $key, mixed $value): void
   {
     $this->data->{$key} = $value;
   }
 
-  public function addRelatedPages($data)
+  /**
+   * @param array<mixed> $data
+   */
+  public function addRelatedPages(array $data): void
   {
     $this->relatedPages = $data;
   }

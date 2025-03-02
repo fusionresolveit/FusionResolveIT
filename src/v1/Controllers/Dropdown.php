@@ -9,7 +9,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Dropdown extends Common
 {
-  public function getAll(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function getAll(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getQueryParams();
     $dropData = [];
@@ -18,6 +21,10 @@ final class Dropdown extends Common
     if (property_exists($data, 'itemtype') && class_exists($data->itemtype))
     {
       $item = new $data->itemtype();
+      if (!method_exists($item, 'getDropdownValues'))
+      {
+        throw new \Exception('Error', 500);
+      }
       $dropData = $item->getDropdownValues($data->q);
       $success = true;
     }
@@ -32,14 +39,22 @@ final class Dropdown extends Common
       "results" => $dropData,
     ];
 
-    $response->getBody()->write(json_encode($respdata));
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
   }
 
   /**
    * Get the criteria for a rule
+   *
+   * @param array<string, string> $args
    */
-  public function getRuleCriteria(Request $request, Response $response, $args): Response
+  public function getRuleCriteria(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getQueryParams();
 
@@ -52,12 +67,17 @@ final class Dropdown extends Common
     // TODO manage usein = rule
     // TODO manage only fields have display = true
 
+    if (!method_exists($item, 'getDefinitions'))
+    {
+      throw new \Exception('Error', 500);
+    }
+
     $criteria = $item->getDefinitions();
     foreach ($criteria as $crit)
     {
       $dropData[] = [
-        'name'  => $crit['title'],
-        'value' => $crit['name'],
+        'name'  => $crit->title,
+        'value' => $crit->name,
       ];
     }
 
@@ -66,14 +86,22 @@ final class Dropdown extends Common
       "results" => $dropData,
     ];
 
-    $response->getBody()->write(json_encode($respdata));
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
   }
 
   /**
    * Get the condition rule, for the criteria selected
+   *
+   * @param array<string, string> $args
    */
-  public function getRuleCriteriaCondition(Request $request, Response $response, $args): Response
+  public function getRuleCriteriaCondition(Request $request, Response $response, array $args): Response
   {
     global $translator;
     $data = (object) $request->getQueryParams();
@@ -86,92 +114,93 @@ final class Dropdown extends Common
     $dropData  = [];
     foreach ($conditions as $condition)
     {
-      switch ($condition) {
-        case \App\v1\Controllers\Rules\Common::PATTERN_IS:
+      switch ($condition)
+      {
+        case 0: // Pattern is
           $dropData[] = [
             'name'  => $translator->translate('is'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_IS_NOT:
+        case 1: // Pattern is not
           $dropData[] = [
             'name'  => $translator->translate('is not'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_CONTAIN:
+        case 2: // Pattern contain
           $dropData[] = [
             'name'  => $translator->translate('contains'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_NOT_CONTAIN:
+        case 3: // Pattern not contain
           $dropData[] = [
             'name'  => $translator->translate('does not contains'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_BEGIN:
+        case 4: // Pattern begin
           $dropData[] = [
             'name'  => $translator->translate('starting with'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_END:
+        case 5: // Pattern end
           $dropData[] = [
             'name'  => $translator->translate('finished by'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::REGEX_MATCH:
+        case 6: // Regex match
           $dropData[] = [
             'name'  => $translator->translate('regular expression matches'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::REGEX_NOT_MATCH:
+        case 7: // Regex not match
           $dropData[] = [
             'name'  => $translator->translate('regular expression does not match'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_EXISTS:
+        case 8: // Pattern exists
           $dropData[] = [
             'name'  => $translator->translate('exists'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_DOES_NOT_EXISTS:
+        case 9: // Pattern not exists
           $dropData[] = [
             'name'  => $translator->translate('does not exist'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_UNDER:
+        case 11: // Pattern under
           $dropData[] = [
             'name'  => $translator->translate('is under'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_NOT_UNDER:
+        case 12: // Pattern not under
           $dropData[] = [
             'name'  => $translator->translate('is not under'),
             'value' => $condition,
           ];
             break;
 
-        case \App\v1\Controllers\Rules\Common::PATTERN_IS_EMPTY:
+        case 30: // Pattern is empty
           $dropData[] = [
             'name'  => $translator->translate('is empty'),
             'value' => $condition,
@@ -185,14 +214,22 @@ final class Dropdown extends Common
       "results" => $dropData,
     ];
 
-    $response->getBody()->write(json_encode($respdata));
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
   }
 
   /**
    * Get the rule pattern, based on criteria and condition
+   *
+   * @param array<string, string> $args
    */
-  public function getRuleCriteriaPattern(Request $request, Response $response, $args): Response
+  public function getRuleCriteriaPattern(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
@@ -202,11 +239,12 @@ final class Dropdown extends Common
     // condition
 
     $returnData = [];
-    switch ($data->condition) {
-      case \App\v1\Controllers\Rules\Common::PATTERN_IS:
-      case \App\v1\Controllers\Rules\Common::PATTERN_IS_NOT:
-      case \App\v1\Controllers\Rules\Common::PATTERN_UNDER:
-      case \App\v1\Controllers\Rules\Common::PATTERN_NOT_UNDER:
+    switch ($data->condition)
+    {
+      case 0: // Pattern is
+      case 1: // Pattern is not
+      case 11: // Pattern under
+      case 12: // Pattern not under
         $completeModelName = '\App\Models\\' . $data->itemtype;
         if (!class_exists($completeModelName))
         {
@@ -214,15 +252,20 @@ final class Dropdown extends Common
         }
         $itemCriteria = new $completeModelName();
 
+        if (!method_exists($itemCriteria, 'getDefinitions'))
+        {
+          throw new \Exception('Error', 500);
+        }
+
         $definitions = $itemCriteria->getDefinitions();
         foreach ($definitions as $definition)
         {
-          if ($definition['name'] == $data->definitionname)
+          if ($definition->name == $data->definitionname)
           {
-            if (isset($definition['values']))
+            if (!is_null($definition->values))
             {
               $valuesForDrodown = [];
-              foreach ($definition['values'] as $key => $value)
+              foreach ($definition->values as $key => $value)
               {
                 $valuesForDrodown[] = [
                   'name'  => $value['title'],
@@ -234,24 +277,42 @@ final class Dropdown extends Common
                 "success" => true,
                 "results" => $valuesForDrodown,
               ];
-              $response->getBody()->write(json_encode($respdata));
+              $json = json_encode($respdata);
+              if ($json === false)
+              {
+                $response->getBody()->write('[]');
+              } else {
+                $response->getBody()->write($json);
+              }
+
               return $response->withHeader('Content-Type', 'application/json');
             }
-            $item = new $definition['itemtype']();
+            $item = new $definition->itemtype();
+            if (!method_exists($item, 'getDropdownValues'))
+            {
+              throw new \Exception('Error', 500);
+            }
+
             $returnData = $item->getDropdownValues($data->q);
             $respdata = [
               "success" => true,
               "results" => $returnData,
             ];
-            $response->getBody()->write(json_encode($respdata));
+            $json = json_encode($respdata);
+            if ($json === false)
+            {
+              $response->getBody()->write('[]');
+            } else {
+              $response->getBody()->write($json);
+            }
             return $response->withHeader('Content-Type', 'application/json');
           }
         }
           break;
 
-      case \App\v1\Controllers\Rules\Common::PATTERN_EXISTS:
-      case \App\v1\Controllers\Rules\Common::PATTERN_DOES_NOT_EXISTS:
-      case \App\v1\Controllers\Rules\Common::PATTERN_IS_EMPTY:
+      case 8: // Pattern exists
+      case 9: // Pattern not exists
+      case 30: // Pattern is empty
         $returnData[] = [
           'name'  => $translator->translate('yes'),
           'value' => true,
@@ -262,16 +323,29 @@ final class Dropdown extends Common
       "success" => true,
       "results" => $returnData,
     ];
-    $response->getBody()->write(json_encode($respdata));
+
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
   }
 
-  public function getRuleActionsField(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function getRuleActionsField(Request $request, Response $response, array $args): Response
   {
     return $this->getRuleCriteria($request, $response, $args);
   }
 
-  public function getRuleActionsType(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function getRuleActionsType(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
@@ -282,13 +356,19 @@ final class Dropdown extends Common
       return $this->returnNoSuccess($response);
     }
     $item = new $completeModelName();
+    if (!method_exists($item, 'getDefinitions'))
+    {
+      throw new \Exception('Error', 500);
+    }
+
     $definitions = $item->getDefinitions();
     $types = [];
     foreach ($definitions as $definition)
     {
-      if ($definition['name'] == $data->definitionname)
+      if ($definition->name == $data->definitionname)
       {
-        switch ($definition['type']) {
+        switch ($definition->type)
+        {
           case 'dropdown_remote':
           case 'dropdown':
           case 'boolean':
@@ -298,7 +378,7 @@ final class Dropdown extends Common
                 'value' => 'assign_dropdown'
               ]
             ];
-            if (isset($definition['multiple']))
+            if (!is_null($definition->multiple) && $definition->multiple)
             {
               $types[] = [
                 'name'  => $translator->translate('append'),
@@ -338,11 +418,21 @@ final class Dropdown extends Common
       "success" => true,
       "results" => $types,
     ];
-    $response->getBody()->write(json_encode($respdata));
+
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
   }
 
-  public function getRuleActionsValue(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function getRuleActionsValue(Request $request, Response $response, array $args): Response
   {
     $data = (object) $request->getQueryParams();
     $completeModelName = '\App\Models\\' . $data->itemtype;
@@ -355,15 +445,23 @@ final class Dropdown extends Common
     $success = false;
 
     $item = new $completeModelName();
+    if (!method_exists($item, 'getDefinitions'))
+    {
+      throw new \Exception('Error', 500);
+    }
     $definitions = $item->getDefinitions();
 
     foreach ($definitions as $definition)
     {
-      if ($definition['name'] == $data->field)
+      if ($definition->name == $data->field)
       {
-        if (class_exists($definition['itemtype']))
+        if (class_exists($definition->itemtype))
         {
-          $item = new $definition['itemtype']();
+          $item = new $definition->itemtype();
+          if (!method_exists($item, 'getDropdownValues'))
+          {
+            throw new \Exception('Error', 500);
+          }
           $dropData = $item->getDropdownValues($data->q);
           $success = true;
         }
@@ -374,17 +472,52 @@ final class Dropdown extends Common
       "success" => $success,
       "results" => $dropData,
     ];
-    $response->getBody()->write(json_encode($respdata));
+
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
   }
 
-  private function returnNoSuccess($response)
+  private function returnNoSuccess(Response $response): Response
   {
     $respdata = [
       "success" => false,
       "results" => [],
     ];
-    $response->getBody()->write(json_encode($respdata));
+
+    $json = json_encode($respdata);
+    if ($json === false)
+    {
+      $response->getBody()->write('[]');
+    } else {
+      $response->getBody()->write($json);
+    }
     return $response->withHeader('Content-Type', 'application/json');
+  }
+
+  /**
+   * @param array<int, string> $toadd
+   *
+   * @return array<mixed>
+   */
+  public static function generateNumbers(int $min, int $max, int $step = 1, array $toadd = [], string $unit = ''): array
+  {
+    $dropdown = new self();
+    $tab = [];
+    foreach (array_keys($toadd) as $key)
+    {
+      $tab[$key]['title'] = $toadd[$key];
+    }
+
+    for ($i = $min; $i <= $max; $i = $i + $step)
+    {
+      $tab[$i]['title'] = $dropdown->getValueWithUnit($i, $unit, 0);
+    }
+    return $tab;
   }
 }

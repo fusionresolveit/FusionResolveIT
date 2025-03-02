@@ -12,7 +12,7 @@ class ItemDevicepowersupply extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicepowersupply';
+  protected $definition = \App\Models\Definitions\ItemDevicepowersupply::class;
   protected $titles = ['Devicepowersupply Item', 'Devicepowersupply Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicepowersupply';

@@ -10,7 +10,7 @@ class Clusteritem extends Common
 {
   use PivotEventTrait;
 
-  protected $definition = '\App\Models\Definitions\Clusteritem';
+  protected $definition = \App\Models\Definitions\Clusteritem::class;
   protected $titles = ['Cluster item', 'Cluster items'];
   protected $icon = 'project diagram';
   protected $table = 'item_cluster';

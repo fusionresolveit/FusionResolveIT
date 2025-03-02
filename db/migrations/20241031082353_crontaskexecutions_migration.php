@@ -5,14 +5,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Migration\Manager\Environment;
-use Phinx\Config\Config;
-use App\v1\Controllers\Toolbox;
-use Phinx\Db\Adapter\MysqlAdapter;
 
 final class CrontaskexecutionsMigration extends AbstractMigration
 {
-  public function up()
+  public function up(): void
   {
     $table = $this->table('crontasklogs');
     $table->rename('crontaskexecutions')
@@ -62,7 +58,7 @@ final class CrontaskexecutionsMigration extends AbstractMigration
           // `content` varchar(255) DEFAULT NULL,
   }
 
-  public function down()
+  public function down(): void
   {
     $table = $this->table('crontaskexecutions');
     $table->rename('crontasklogs')

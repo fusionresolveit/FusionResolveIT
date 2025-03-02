@@ -4,71 +4,47 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Documenttype
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translate('Extension'),
-        'type'  => 'input',
-        'name'  => 'ext',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 6,
-      //   'title' => $translator->translate('Icon'),
-      //   'type'  => 'input',
-      //   'name'  => 'icon',
-      // ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('MIME type'),
-        'type'  => 'input',
-        'name'  => 'mime',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Authorized upload'),
-        'type'  => 'boolean',
-        'name'  => 'is_uploadable',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'ext' => $translator->translate('Extension'),
+      'mime' => $translator->translate('MIME type'),
+      'is_uploadable' => $translator->translate('Authorized upload'),
+      'comment' => $translator->translate('Comments'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(3, $t['ext'], 'input', 'ext', fillable: true));
+    $defColl->add(new Def(4, $t['mime'], 'input', 'mime', fillable: true));
+    $defColl->add(new Def(5, $t['is_uploadable'], 'boolean', 'is_uploadable', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 6,
+    //   'title' => $translator->translate('Icon'),
+    //   'type'  => 'input',
+    //   'name'  => 'icon',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

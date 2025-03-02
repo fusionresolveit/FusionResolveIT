@@ -4,121 +4,115 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Savedsearch
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translatePlural('User', 'Users', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'user',
-        'dbname' => 'user_id',
-        'itemtype' => '\App\Models\User',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Visibility'),
-        'type'  => 'dropdown',
-        'name'  => 'is_private',
-        'dbname' => 'is_private',
-        'values' => self::getVisibilityArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 10,
-        'title' => $translator->translate('Do count'),
-        'type'  => 'dropdown',
-        'name'  => 'do_count',
-        'dbname' => 'do_count',
-        'values' => self::getCountArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 9,
-        'title' => $translator->translate('Last duration (ms)'),
-        'type'  => 'input',
-        'name'  => 'last_execution_time',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 13,
-        'title' => $translator->translate('Last execution date'),
-        'type'  => 'datetime',
-        'name'  => 'last_execution_date',
-        'readonly'  => 'readonly',
-      ],
 
-      /*
-
-
-
-
-
-      $tab = [];
-
-      $tab[] = ['id'                 => 'common',
-                'name'               => __('Characteristics')
-               ];
-
-
-      $tab[] = ['id'                 => '2',
-                'table'              => $this->getTable(),
-                'field'              => 'id',
-                'name'               => __('ID'),
-                'massiveaction'      => false, // implicit field is id
-                'datatype'           => 'number'
-               ];
-
-
-      $tab[] = ['id'                 => '8',
-                'table'              => $this->getTable(),
-                'field'              => 'itemtype',
-                'name'               => __('Item type'),
-                'massiveaction'      => false,
-                'datatype'           => 'itemtypename',
-                'types'              => self::getUsedItemtypes()
-               ];
-      $tab[] = [
-         'id'            => 11,
-         'table'         => SavedSearch_User::getTable(),
-         'field'         => 'users_id',
-         'name'          => __('Default'),
-         'massiveaction' => false,
-         'joinparams'    => [
-            'jointype'  => 'child',
-            'condition' => "AND NEWTABLE.users_id = " . Session::getLoginUserID()
-         ],
-         'datatype'      => 'specific',
-         'searchtype'    => [
-            0 => 'equals',
-            1 => 'notequals'
-         ],
-      ];
-
-      $tab[] = ['id'                 => 12,
-                'table'              => $this->getTable(),
-                'field'              => 'counter',
-                'name'               => __('Counter'),
-                'massiveaction'      => false,
-                'datatype'           => 'number'
-               ];
-
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'user' => $translator->translatePlural('User', 'Users', 1),
+      'is_private' => $translator->translate('Visibility'),
+      'do_count' => $translator->translate('Do count'),
+      'last_execution_time' => $translator->translate('Last duration (ms)'),
+      'last_execution_date' => $translator->translate('Last execution date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      3,
+      $t['user'],
+      'dropdown_remote',
+      'user',
+      dbname: 'user_id',
+      itemtype: '\App\Models\User',
+      readonly: true
+    ));
+    $defColl->add(new Def(
+      4,
+      $t['is_private'],
+      'dropdown',
+      'is_private',
+      dbname: 'is_private',
+      values: self::getVisibilityArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      10,
+      $t['do_count'],
+      'dropdown',
+      'do_count',
+      dbname: 'do_count',
+      values: self::getCountArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(9, $t['last_execution_time'], 'input', 'last_execution_time', readonly: true));
+    $defColl->add(new Def(13, $t['last_execution_date'], 'datetime', 'last_execution_date', readonly: true));
+
+    return $defColl;
+    /*
+
+    $tab = [];
+
+    $tab[] = ['id'                 => 'common',
+              'name'               => __('Characteristics')
+              ];
+
+
+    $tab[] = ['id'                 => '2',
+              'table'              => $this->getTable(),
+              'field'              => 'id',
+              'name'               => __('ID'),
+              'massiveaction'      => false, // implicit field is id
+              'datatype'           => 'number'
+              ];
+
+
+    $tab[] = ['id'                 => '8',
+              'table'              => $this->getTable(),
+              'field'              => 'itemtype',
+              'name'               => __('Item type'),
+              'massiveaction'      => false,
+              'datatype'           => 'itemtypename',
+              'types'              => self::getUsedItemtypes()
+              ];
+    $tab[] = [
+        'id'            => 11,
+        'table'         => SavedSearch_User::getTable(),
+        'field'         => 'users_id',
+        'name'          => __('Default'),
+        'massiveaction' => false,
+        'joinparams'    => [
+          'jointype'  => 'child',
+          'condition' => "AND NEWTABLE.users_id = " . Session::getLoginUserID()
+        ],
+        'datatype'      => 'specific',
+        'searchtype'    => [
+          0 => 'equals',
+          1 => 'notequals'
+        ],
+    ];
+
+    $tab[] = ['id'                 => 12,
+              'table'              => $this->getTable(),
+              'field'              => 'counter',
+              'name'               => __('Counter'),
+              'massiveaction'      => false,
+              'datatype'           => 'number'
+              ];
+
+    */
   }
 
-  public static function getVisibilityArray()
+  /**
+   * @return array<int, mixed>
+   */
+  public static function getVisibilityArray(): array
   {
     global $translator;
     return [
@@ -131,7 +125,10 @@ class Savedsearch
     ];
   }
 
-  public static function getCountArray()
+  /**
+   * @return array<int, mixed>
+   */
+  public static function getCountArray(): array
   {
     global $translator;
     return [
@@ -147,7 +144,10 @@ class Savedsearch
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

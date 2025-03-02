@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Certificate extends Common
@@ -21,7 +23,9 @@ class Certificate extends Common
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Knowbaseitems;
 
-  protected $definition = '\App\Models\Definitions\Certificate';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Certificate::class;
   protected $titles = ['Certificate', 'Certificates'];
   protected $icon = 'certificate';
 
@@ -34,8 +38,8 @@ class Certificate extends Common
     'state',
     'user',
     'group',
-    'userstech',
-    'groupstech',
+    'usertech',
+    'grouptech',
     'manufacturer',
     'entity',
     'notes',
@@ -54,8 +58,8 @@ class Certificate extends Common
     'state:id,name',
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
-    'userstech:id,name,firstname,lastname',
-    'groupstech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
     'manufacturer:id,name',
     'entity:id,name,completename',
     'notes:id',
@@ -93,13 +97,13 @@ class Certificate extends Common
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
@@ -108,5 +112,59 @@ class Certificate extends Common
   public function manufacturer(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Manufacturer::class);
+  }
+
+  /** @return MorphToMany<\App\Models\Appliance, $this> */
+  public function associatedAppliances(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Appliance::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function associatedComputers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function associatedPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Domain, $this> */
+  public function associatedDomains(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Domain::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Softwarelicense, $this> */
+  public function associatedSoftwarelicenses(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Softwarelicense::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function associatedNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function associatedPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function associatedPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'certificate_item');
+  }
+
+  /** @return MorphToMany<\App\Models\User, $this> */
+  public function associatedUsers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\User::class, 'item', 'certificate_item');
   }
 }

@@ -27,7 +27,7 @@ class Rollback extends Command
       );
   }
 
-  public function execute($target)
+  public function execute(string|null $target): int
   {
     $color = new Color();
     $writer = new Writer();
@@ -55,7 +55,7 @@ class Rollback extends Command
     {
       echo $color->error('The rollback will not run because the database lock is present, check the documentation');
       $writer->write("\n\n");
-      return;
+      return -1;
     }
 
     $returnCode = $phinxCommand->run(new ArrayInput($arguments), $output);
@@ -71,5 +71,6 @@ class Rollback extends Command
 
     echo $color->warn('With the rollback, the application can\'t works');
     $writer->write("\n\n");
+    return 0;
   }
 }

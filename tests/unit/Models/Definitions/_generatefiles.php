@@ -24,6 +24,10 @@ foreach ($files as $file)
     $content .= "\n";
     $content .= "/**\n";
     $content .= " * @covers \App\Models\Definitions\\" . $className . "\n";
+    $content .= " * @uses \App\DataInterface\Definition\n";
+    $content .= " * @uses \App\DataInterface\DefinitionCollection\n";
+    $content .= " * @uses \App\\v1\Controllers\Common\n";
+    $content .= " * @uses \App\\v1\Controllers\Dropdown\n";
     $content .= " */\n";
     $content .= "final class " . $className . "Test extends Common\n";
     $content .= "{\n";

@@ -4,47 +4,190 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostCategory;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Category extends Common
+final class Category extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Category';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\Category::class;
   protected $rootUrl2 = '/dropdown/categories/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Category
   {
-    $item = new \App\Models\Category();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Category();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Category();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostCategory((object) $request->getParsedBody());
+
+    $category = new \App\Models\Category();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($category))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $category = \App\Models\Category::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The category has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($category, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/categories/' . $category->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/categories')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Category();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostCategory((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $category = \App\Models\Category::where('id', $id)->first();
+    if (is_null($category))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($category))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $category->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The category has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($category, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubCategories(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $category = \App\Models\Category::withTrashed()->where('id', $id)->first();
+    if (is_null($category))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($category->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $category->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The category has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/categories')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $category->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The category has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $category = \App\Models\Category::withTrashed()->where('id', $id)->first();
+    if (is_null($category))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($category->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $category->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The category has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubCategories(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Category();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
-    $myItem2 = $item2::
+    $categories = \App\Models\Category::
         with('templaterequest', 'templateincident', 'templatechange', 'templateproblem')
       ->where('category_id', $args['id'])
       ->get();
@@ -53,55 +196,55 @@ final class Category extends Common
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $myCategories = [];
-    foreach ($myItem2 as $current_category)
+    foreach ($categories as $category)
     {
-      $name = $current_category->name;
+      $name = $category->name;
 
-      $url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/categories/', $current_category->id);
+      $url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/categories/', $category->id);
 
       $entity = '';
       $entity_url = '';
-      if ($current_category->entity !== null)
+      if ($category->entity !== null)
       {
-        $entity = $current_category->entity->completename;
-        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $current_category->entity->id);
+        $entity = $category->entity->completename;
+        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $category->entity->id);
       }
 
       $user = '';
       $user_url = '';
-      if ($current_category->users !== null)
+      if ($category->user !== null)
       {
         $user = $this->genereUserName(
-          $current_category->users->name,
-          $current_category->users->lastname,
-          $current_category->users->firstname,
+          $category->user->name,
+          $category->user->lastname,
+          $category->user->firstname,
           false
         );
-        $user_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $current_category->users->id);
+        $user_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $category->user->id);
       }
 
       $group = '';
       $group_url = '';
-      if ($current_category->groups !== null)
+      if ($category->group !== null)
       {
-        $group = $current_category->groups->completename;
-        $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $current_category->groups->id);
+        $group = $category->group->completename;
+        $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $category->group->id);
       }
 
       $knowbaseitemcategory = '';
       $knowbaseitemcategory_url = '';
-      if ($current_category->knowbaseitemcategories !== null)
+      if ($category->knowbaseitemcategory !== null)
       {
-        $knowbaseitemcategory = $current_category->knowbaseitemcategories->name;
+        $knowbaseitemcategory = $category->knowbaseitemcategory->name;
         $knowbaseitemcategory_url = $this->genereRootUrl2Link(
           $rootUrl2,
           '/dropdowns/knowbaseitemcategories/',
-          $current_category->knowbaseitemcategories->id
+          $category->knowbaseitemcategory->id
         );
       }
 
-      $visible_simplified_interface = $current_category->is_helpdeskvisible;
-      if ($current_category->is_helpdeskvisible == 1)
+      $visible_simplified_interface = $category->is_helpdeskvisible;
+      if ($category->is_helpdeskvisible == 1)
       {
         $visible_simplified_interface_val = $translator->translate('Yes');
       }
@@ -110,8 +253,8 @@ final class Category extends Common
         $visible_simplified_interface_val = $translator->translate('No');
       }
 
-      $visible_incident = $current_category->is_incident;
-      if ($current_category->is_incident == 1)
+      $visible_incident = $category->is_incident;
+      if ($category->is_incident == 1)
       {
         $visible_incident_val = $translator->translate('Yes');
       }
@@ -120,8 +263,8 @@ final class Category extends Common
         $visible_incident_val = $translator->translate('No');
       }
 
-      $visible_request = $current_category->is_request;
-      if ($current_category->is_request == 1)
+      $visible_request = $category->is_request;
+      if ($category->is_request == 1)
       {
         $visible_request_val = $translator->translate('Yes');
       }
@@ -130,8 +273,8 @@ final class Category extends Common
         $visible_request_val = $translator->translate('No');
       }
 
-      $visible_problem = $current_category->is_problem;
-      if ($current_category->is_request == 1)
+      $visible_problem = $category->is_problem;
+      if ($category->is_request == 1)
       {
         $visible_problem_val = $translator->translate('Yes');
       }
@@ -140,8 +283,8 @@ final class Category extends Common
         $visible_problem_val = $translator->translate('No');
       }
 
-      $visible_change = $current_category->is_change;
-      if ($current_category->is_request == 1)
+      $visible_change = $category->is_change;
+      if ($category->is_request == 1)
       {
         $visible_change_val = $translator->translate('Yes');
       }
@@ -152,55 +295,55 @@ final class Category extends Common
 
       $template_request = '';
       $template_request_url = '';
-      if ($current_category->tickettemplatesDemand !== null)
+      if ($category->tickettemplateDemand !== null)
       {
-        $template_request = $current_category->tickettemplatesDemand->name;
+        $template_request = $category->tickettemplateDemand->name;
         $template_request_url = $this->genereRootUrl2Link(
           $rootUrl2,
           '/dropdowns/ticketemplates/',
-          $current_category->tickettemplatesDemand->id
+          $category->tickettemplateDemand->id
         );
       }
 
       $template_incident = '';
       $template_incident_url = '';
-      if ($current_category->tickettemplatesIncident !== null)
+      if ($category->tickettemplateIncident !== null)
       {
-        $template_incident = $current_category->tickettemplatesIncident->name;
+        $template_incident = $category->tickettemplateIncident->name;
         $template_incident_url = $this->genereRootUrl2Link(
           $rootUrl2,
           '/dropdowns/ticketemplates/',
-          $current_category->tickettemplatesIncident->id
+          $category->tickettemplateIncident->id
         );
       }
 
       $template_change = '';
       $template_change_url = '';
-      if ($current_category->changetemplates !== null)
+      if ($category->changetemplate !== null)
       {
-        $template_change = $current_category->changetemplates->name;
+        $template_change = $category->changetemplate->name;
         $template_change_url = $this->genereRootUrl2Link(
           $rootUrl2,
           '/dropdowns/changetemplates/',
-          $current_category->changetemplates->id
+          $category->changetemplate->id
         );
       }
 
       $template_problem = '';
       $template_problem_url = '';
-      if ($current_category->problemtemplates !== null)
+      if ($category->problemtemplate !== null)
       {
-        $template_problem = $current_category->problemtemplates->name;
+        $template_problem = $category->problemtemplate->name;
         $template_problem_url = $this->genereRootUrl2Link(
           $rootUrl2,
           '/dropdowns/problemtemplates/',
-          $current_category->problemtemplates->id
+          $category->problemtemplate->id
         );
       }
 
-      $comment = $current_category->comment;
+      $comment = $category->comment;
 
-      $myCategories[$current_category->id] = [
+      $myCategories[$category->id] = [
         'name'                                => $name,
         'url'                                 => $url,
         'entity'                              => $entity,

@@ -15,7 +15,7 @@ class Documentation extends Command
     parent::__construct('documentation', 'Give the link of the documentation');
   }
 
-  public function execute()
+  public function execute(): void
   {
     $color = new Color();
     $writer = new Writer();

@@ -22,10 +22,15 @@ final class Toolbox
    **/
   public static function cleanInteger($integer)
   {
-    return preg_replace("/[^0-9-]/", "", $integer);
+    $newValue = preg_replace("/[^0-9-]/", "", $integer);
+    if (is_null($newValue))
+    {
+      return '';
+    }
+    return $newValue;
   }
 
-  public static function getRootPath(Request $request)
+  public static function getRootPath(Request $request): string
   {
     $routeContext = RouteContext::fromRequest($request);
     return $routeContext->getBasePath();
@@ -38,7 +43,7 @@ final class Toolbox
    *
    * @return string|null  lower case string
   **/
-  public static function strtolower($str)
+  public static function strtolower(string|null $str)
   {
     if (is_null($str))
     {
@@ -50,7 +55,7 @@ final class Toolbox
   /**
    * Convert HTML text into markdown
    */
-  public static function convertHtmlToMarkdown($text)
+  public static function convertHtmlToMarkdown(string $text): string
   {
     $converter = new HtmlConverter();
     $converter->getConfig()->setOption('strip_tags', true);
@@ -61,19 +66,23 @@ final class Toolbox
   /**
    * Convert markdown text into HTML
    */
-  public static function convertMarkdownToHtml($text)
+  public static function convertMarkdownToHtml(string|null $text): string
   {
+    if (is_null($text))
+    {
+      return '';
+    }
     $converter = new CommonMarkConverter([
       'html_input' => 'strip',
       'allow_unsafe_links' => false,
     ]);
-    return $converter->convert($text);
+    return $converter->convert($text)->getContent();
   }
 
   /**
    * used in migration
    */
-  public static function fixDate($myDate)
+  public static function fixDate(string $myDate): string|null
   {
     if (
         $myDate == '0000-00-00 00:00:00' ||
@@ -90,7 +99,7 @@ final class Toolbox
    * @param $message string
    * @param $type string=success|error
    */
-  public static function addSessionMessage($message, $type = 'success')
+  public static function addSessionMessage(string $message, string $type = 'success'): void
   {
     // add message to session
     $session = new \SlimSession\Helper();

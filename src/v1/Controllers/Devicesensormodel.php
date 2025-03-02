@@ -4,30 +4,21 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
+use App\Traits\ShowItem;
+use App\Traits\Subs\History;
 
 final class Devicesensormodel extends Common
 {
-  protected $model = '\App\Models\Devicesensormodel';
+  // Display
+  use ShowItem;
 
-  public function getAll(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Devicesensormodel();
-    return $this->commonGetAll($request, $response, $args, $item);
-  }
+  // Sub
+  use History;
 
-  public function showItem(Request $request, Response $response, $args): Response
-  {
-    $item = new \App\Models\Devicesensormodel();
-    return $this->commonShowItem($request, $response, $args, $item);
-  }
+  protected $model = \App\Models\Devicesensormodel::class;
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Devicesensormodel
   {
-    $item = new \App\Models\Devicesensormodel();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    return new \App\Models\Devicesensormodel();
   }
 }

@@ -4,23 +4,29 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions\Forms;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Answerquestion
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 15,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'date_creation',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'date_creation' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
+
+    return $defColl;
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

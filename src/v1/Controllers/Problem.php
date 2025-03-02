@@ -4,122 +4,251 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostProblem;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Change;
+use App\Traits\Subs\Cost;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Item;
+use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Note;
+use App\Traits\Subs\Project;
+use App\Traits\Subs\Ticket;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Problem extends Common
+final class Problem extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Problem';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Note;
+  use Knowbaseitem;
+  use History;
+  use Cost;
+  use Ticket;
+  use Change;
+  use Project;
+  use Item;
+
+  protected $model = \App\Models\Problem::class;
   protected $rootUrl2 = '/problems/';
   protected $choose = 'problems';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Problem
   {
-    $item = new \App\Models\Problem();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Problem();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+    /**
+   * @return array{
+   *          'itemComputers': \App\Models\Computer,
+   *          'itemMonitors': \App\Models\Monitor,
+   *          'itemNetworkequipments': \App\Models\Networkequipment,
+   *          'itemPeripherals': \App\Models\Peripheral,
+   *          'itemPhones': \App\Models\Phone,
+   *          'itemPrinters': \App\Models\Printer,
+   *          'itemSoftwares': \App\Models\Software,
+   *          'itemSoftwarelicenses': \App\Models\Softwarelicense,
+   *          'itemCertificates': \App\Models\Certificate,
+   *          'itemLines': \App\Models\Line,
+   *          'itemDcrooms': \App\Models\Dcroom,
+   *          'itemRacks': \App\Models\Rack,
+   *          'itemEnclosures': \App\Models\Enclosure,
+   *          'itemClusters': \App\Models\Cluster,
+   *          'itemPdus': \App\Models\Pdu,
+   *          'itemDomains': \App\Models\Domain,
+   *          'itemDomainrecords': \App\Models\Domainrecord,
+   *          'itemAppliances': \App\Models\Appliance,
+   *          'itemPassivedcequipments': \App\Models\Passivedcequipment
+   *         }
+   */
+  protected function modelsForSubItem()
   {
-    $item = new \App\Models\Problem();
-    return $this->commonShowItem($request, $response, $args, $item);
+    return [
+      'itemComputers'           => new \App\Models\Computer(),
+      'itemMonitors'            => new \App\Models\Monitor(),
+      'itemNetworkequipments'   => new \App\Models\Networkequipment(),
+      'itemPeripherals'         => new \App\Models\Peripheral(),
+      'itemPhones'              => new \App\Models\Phone(),
+      'itemPrinters'            => new \App\Models\Printer(),
+      'itemSoftwares'           => new \App\Models\Software(),
+      'itemSoftwarelicenses'    => new \App\Models\Softwarelicense(),
+      'itemCertificates'        => new \App\Models\Certificate(),
+      'itemLines'               => new \App\Models\Line(),
+      'itemDcrooms'             => new \App\Models\Dcroom(),
+      'itemRacks'               => new \App\Models\Rack(),
+      'itemEnclosures'          => new \App\Models\Enclosure(),
+      'itemClusters'            => new \App\Models\Cluster(),
+      'itemPdus'                => new \App\Models\Pdu(),
+      'itemDomains'             => new \App\Models\Domain(),
+      'itemDomainrecords'       => new \App\Models\Domainrecord(),
+      'itemAppliances'          => new \App\Models\Appliance(),
+      'itemPassivedcequipments' => new \App\Models\Passivedcequipment(),
+    ];
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Problem();
-    return $this->commonUpdateItem($request, $response, $args, $item);
-  }
+    global $basePath;
 
-  public function showSubItems(Request $request, Response $response, $args): Response
-  {
-    global $translator;
+    $data = new PostProblem((object) $request->getParsedBody());
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
-    $view = Twig::fromRequest($request);
+    $problem = new \App\Models\Problem();
 
-    $myItem = $item->find($args['id']);
-
-    $rootUrl = $this->genereRootUrl($request, '/items');
-    $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
-
-    $myItems = [];
-    foreach ($myItem->items as $current_item)
+    if (!$this->canRightCreate())
     {
-      $item3 = new $current_item->item_type();
-      $myItem3 = $item3->find($current_item->item_id);
-      if ($myItem3 !== null)
-      {
-        $type_fr = $item3->getTitle();
-        $type = $item3->getTable();
-
-        $current_id = $myItem3->id;
-
-        $name = $myItem3->name;
-        if ($name == '')
-        {
-          $name = '(' . $current_id . ')';
-        }
-
-        $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $current_id);
-
-        $entity = '';
-        $entity_url = '';
-        if ($myItem3->entity !== null)
-        {
-          $entity = $myItem3->entity->completename;
-          $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
-        }
-
-        $serial_number = $myItem3->serial;
-
-        $inventaire_number = $myItem3->otherserial;
-
-        $myItems[] = [
-          'type'                 => $type_fr,
-          'name'                 => $name,
-          'url'                  => $url,
-          'entity'               => $entity,
-          'entity_url'           => $entity_url,
-          'serial_number'        => $serial_number,
-          'inventaire_number'    => $inventaire_number,
-        ];
-      }
+      throw new \Exception('Unauthorized access', 401);
     }
 
-    // tri ordre alpha
-    array_multisort(array_column($myItems, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
-    array_multisort(array_column($myItems, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myItems);
+    if (!\App\v1\Controllers\Profile::canRightReadItem($problem))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    $problem = \App\Models\Problem::create($data->exportToArray());
 
-    $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('items', $myItems);
-    $viewData->addData('show', $this->choose);
+    \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($problem, 'new');
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
-    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
+    $data = (object) $request->getParsedBody();
 
-    return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/problems/' . $problem->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/problems')
+      ->withStatus(302);
   }
 
-  public function showAnalysis(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
+  {
+    $data = new PostProblem((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $problem = \App\Models\Problem::where('id', $id)->first();
+    if (is_null($problem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($problem))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $problem->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($problem, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $problem = \App\Models\Problem::withTrashed()->where('id', $id)->first();
+    if (is_null($problem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($problem->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $problem->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/problems')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $problem->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $problem = \App\Models\Problem::withTrashed()->where('id', $id)->first();
+    if (is_null($problem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($problem->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $problem->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showAnalysis(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Problem();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/analysis');
 
@@ -139,7 +268,12 @@ final class Problem extends Common
       'causecontent'    => $myAnalysis['causecontent'],
       'symptomcontent'  => $myAnalysis['symptomcontent'],
     ];
-    $myItemDataObject = json_decode(json_encode($myItemData));
+    $jsonStr = json_encode($myItemData);
+    if ($jsonStr === false)
+    {
+      $jsonStr = '{}';
+    }
+    $myItemDataObject = json_decode($jsonStr);
 
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
 
@@ -148,5 +282,65 @@ final class Problem extends Common
     $viewData->addTranslation('symptomcontent', $translator->translate('Symptoms'));
 
     return $view->render($response, 'subitem/analysis.html.twig', (array)$viewData);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showStats(Request $request, Response $response, array $args): Response
+  {
+    global $translator;
+
+    $item = $this->instanciateModel();
+    $view = Twig::fromRequest($request);
+
+    $myItem = $item::where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    $rootUrl = $this->genereRootUrl($request, '/stats');
+
+    $feeds = [];
+
+    $feeds[] = [
+      'date'  => $myItem->created_at,
+      'text'  => $translator->translate('Opening date'),
+      'icon'  => 'pencil alternate',
+      'color' => 'blue'
+    ];
+
+    $feeds[] = [
+      'date'  => $myItem->time_to_resolve,
+      'text'  => $translator->translate('Time to resolve'),
+      'icon'  => 'hourglass half',
+      'color' => 'blue'
+    ];
+    if ($myItem->status >= 5)
+    {
+      $feeds[] = [
+        'date'  => $myItem->solvedate,
+        'text'  => $translator->translate('Resolution date'),
+        'icon'  => 'check circle',
+        'color' => 'blue'
+      ];
+    }
+    if ($myItem->status == 6)
+    {
+      $feeds[] = [
+        'date'  => $myItem->closedate,
+        'text'  => $translator->translate('Closing date'),
+        'icon'  => 'flag checkered',
+        'color' => 'blue'
+      ];
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+    $viewData->addData('feeds', $feeds);
+
+    return $view->render($response, 'subitem/stats.html.twig', (array) $viewData);
   }
 }

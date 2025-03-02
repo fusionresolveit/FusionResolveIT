@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Infocom extends Common
@@ -12,7 +13,7 @@ class Infocom extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Infocom';
+  protected $definition = \App\Models\Definitions\Infocom::class;
   protected $titles = ['Infocom', 'Infocoms'];
   protected $icon = 'edit';
 
@@ -49,5 +50,14 @@ class Infocom extends Common
   public function businesscriticity(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Businesscriticity::class, 'businesscriticity_id');
+  }
+
+  /**
+   * Get the parent item model.
+   * @return MorphTo<\Illuminate\Database\Eloquent\Model, $this>
+  */
+  public function items(): MorphTo
+  {
+    return $this->morphTo(null, 'item');
   }
 }

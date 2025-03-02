@@ -4,46 +4,190 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostState;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class State extends Common
+final class State extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\State';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use History;
+
+  protected $model = \App\Models\State::class;
   protected $rootUrl2 = '/dropdown/categories/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\State
   {
-    $item = new \App\Models\State();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\State();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\State();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostState((object) $request->getParsedBody());
+
+    $state = new \App\Models\State();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($state))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $state = \App\Models\State::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The state has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($state, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/states/' . $state->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/states')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\State();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostState((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $state = \App\Models\State::where('id', $id)->first();
+    if (is_null($state))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($state))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $state->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The state has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($state, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubStates(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $state = \App\Models\State::withTrashed()->where('id', $id)->first();
+    if (is_null($state))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($state->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $state->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The state has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/states')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $state->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The state has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $state = \App\Models\State::withTrashed()->where('id', $id)->first();
+    if (is_null($state))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($state->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $state->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The state has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubStates(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\State();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = \App\Models\State::where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
+    $item2 = new \App\Models\State();
     $myItem2 = $item2->where('state_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/categories');

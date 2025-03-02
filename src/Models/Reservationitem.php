@@ -12,7 +12,7 @@ class Reservationitem extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Reservationitem';
+  protected $definition = \App\Models\Definitions\Reservationitem::class;
   protected $titles = ['Reservation item', 'Reservation items'];
   protected $icon = 'edit';
   protected $table = 'reservationitems';

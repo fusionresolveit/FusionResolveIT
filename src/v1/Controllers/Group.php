@@ -4,43 +4,195 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostGroup;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Change;
+use App\Traits\Subs\History;
+use App\Traits\Subs\Note;
+use App\Traits\Subs\Problem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class Group extends Common
+final class Group extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Group';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Note;
+  use History;
+  use Problem;
+  use Change;
+
+  protected $model = \App\Models\Group::class;
   protected $rootUrl2 = '/groups/';
   protected $choose = 'groups';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Group
   {
-    $item = new \App\Models\Group();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Group();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Group();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostGroup((object) $request->getParsedBody());
+
+    $group = new \App\Models\Group();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($group))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $group = \App\Models\Group::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The group has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($group, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/groups/' . $group->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/groups')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Group();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostGroup((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $group = \App\Models\Group::where('id', $id)->first();
+    if (is_null($group))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($group))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $group->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The group has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($group, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubUsers(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $group = \App\Models\Group::withTrashed()->where('id', $id)->first();
+    if (is_null($group))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($group->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $group->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The group has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/groups')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $group->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The group has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $group = \App\Models\Group::withTrashed()->where('id', $id)->first();
+    if (is_null($group))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($group->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $group->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The group has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubUsers(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Group();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $item2 = new \App\Models\User();
     $myItem2 = $item2::with('group')->get();
@@ -130,15 +282,21 @@ final class Group extends Common
     return $view->render($response, 'subitem/users.html.twig', (array)$viewData);
   }
 
-  public function showSubGroups(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubGroups(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Group();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('parents')->find($args['id']);
+    $myItem = $item::with('parents')->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
     $rootUrl = $this->genereRootUrl($request, '/groups');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);

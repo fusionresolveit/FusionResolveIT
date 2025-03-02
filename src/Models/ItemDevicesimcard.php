@@ -16,7 +16,7 @@ class ItemDevicesimcard extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicesimcard';
+  protected $definition = \App\Models\Definitions\ItemDevicesimcard::class;
   protected $titles = ['Simcard', 'Simcards'];
   protected $icon = 'sim card';
 

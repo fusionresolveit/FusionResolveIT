@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,7 +22,9 @@ class Enclosure extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
 
-  protected $definition = '\App\Models\Definitions\Enclosure';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Enclosure::class;
   protected $titles = ['Enclosure', 'Enclosures'];
   protected $icon = 'th';
 
@@ -32,8 +35,8 @@ class Enclosure extends Common
     'model',
     'state',
     'manufacturer',
-    'groupstech',
-    'userstech',
+    'grouptech',
+    'usertech',
     'location',
     'entity',
     'documents',
@@ -66,8 +69,8 @@ class Enclosure extends Common
     'model:id,name',
     'state:id,name',
     'manufacturer:id,name',
-    'groupstech:id,name,completename',
-    'userstech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
     'location:id,name',
     'entity:id,name,completename',
     'documents:id,name',
@@ -115,13 +118,13 @@ class Enclosure extends Common
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }

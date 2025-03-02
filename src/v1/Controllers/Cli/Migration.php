@@ -18,7 +18,7 @@ class Migration extends Command
     parent::__construct('migrate', 'Install / update FusionResolveIT');
   }
 
-  public function execute()
+  public function execute(): int
   {
     $color = new Color();
     $writer = new Writer();
@@ -47,5 +47,6 @@ class Migration extends Command
     $writer->green('FusionResolveIT is up to date.');
     $writer->boldGreen(' Enjoy!');
     $writer->write("\n\n");
+    return 0;
   }
 }

@@ -10,7 +10,7 @@ use Ahc\Cli\Output\Writer;
 
 class Common
 {
-  public function displayLogo()
+  public function displayLogo(): void
   {
     $writer = new Writer();
 

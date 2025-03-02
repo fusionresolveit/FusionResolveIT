@@ -4,126 +4,84 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Deviceprocessor
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'manufacturer',
-        'dbname' => 'manufacturer_id',
-        'itemtype' => '\App\Models\Manufacturer',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => sprintf(
-          $translator->translate('%1$s (%2$s)'),
-          $translator->translate('Frequency by default'),
-          $translator->translate('MHz')
-        ),
-        'type'  => 'input',
-        'name'  => 'frequency_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => sprintf(
-          $translator->translate('%1$s (%2$s)'),
-          $translator->translate('Frequency'),
-          $translator->translate('MHz')
-        ),
-        'type'  => 'input',
-        'name'  => 'frequence',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 13,
-        'title' => $translator->translate('Number of cores'),
-        'type'  => 'input',
-        'name'  => 'nbcores_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 14,
-        'title' => $translator->translate('Number of threads'),
-        'type'  => 'input',
-        'name'  => 'nbthreads_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translatePlural('Model', 'Models', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'model',
-        'dbname' => 'deviceprocessormodel_id',
-        'itemtype' => '\App\Models\Deviceprocessortype',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 1001,
-        'title' => $translator->translate('CPU ID'),
-        'type'  => 'input',
-        'name'  => 'cpuid',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 1002,
-        'title' => $translator->translate('Stepping'),
-        'type'  => 'input',
-        'name'  => 'stepping',
-        'fillable' => true,
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'frequency_default' => sprintf(
+        $translator->translate('%1$s (%2$s)'),
+        $translator->translate('Frequency by default'),
+        $translator->translate('MHz')
+      ),
+      'frequence' => sprintf(
+        $translator->translate('%1$s (%2$s)'),
+        $translator->translate('Frequency'),
+        $translator->translate('MHz')
+      ),
+      'nbcores_default' => $translator->translate('Number of cores'),
+      'nbthreads_default' => $translator->translate('Number of threads'),
+      'model' => $translator->translatePlural('Model', 'Models', 1),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
+      'cpuid' => $translator->translate('CPU ID'),
+      'stepping' => $translator->translate('Stepping'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      3,
+      $t['manufacturer'],
+      'dropdown_remote',
+      'manufacturer',
+      dbname: 'manufacturer_id',
+      itemtype: '\App\Models\Manufacturer',
+      fillable: true
+    ));
+    $defColl->add(new Def(11, $t['frequency_default'], 'input', 'frequency_default', fillable: true));
+    $defColl->add(new Def(12, $t['frequence'], 'input', 'frequence', fillable: true));
+    $defColl->add(new Def(13, $t['nbcores_default'], 'input', 'nbcores_default', fillable: true));
+    $defColl->add(new Def(14, $t['nbthreads_default'], 'input', 'nbthreads_default', fillable: true));
+    $defColl->add(new Def(
+      15,
+      $t['model'],
+      'dropdown_remote',
+      'model',
+      dbname: 'deviceprocessormodel_id',
+      itemtype: '\App\Models\Deviceprocessortype',
+      fillable: true
+    ));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+    $defColl->add(new Def(1001, $t['cpuid'], 'input', 'cpuid', fillable: true));
+    $defColl->add(new Def(1002, $t['stepping'], 'input', 'stepping', fillable: true));
+
+    return $defColl;
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

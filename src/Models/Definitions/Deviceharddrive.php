@@ -4,114 +4,89 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Deviceharddrive
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 3,
-        'title' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'manufacturer',
-        'dbname' => 'manufacturer_id',
-        'itemtype' => '\App\Models\Manufacturer',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 11,
-        'title' => sprintf(
-          $translator->translate('%1$s (%2$s)'),
-          $translator->translate('Capacity by default'),
-          $translator->translate('Mio')
-        ),
-        'type'  => 'input',
-        'name'  => 'capacity_default',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translate('Rpm'),
-        'type'  => 'input',
-        'name'  => 'rpm',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 13,
-        'title' => sprintf(
-          $translator->translate('%1$s (%2$s)'),
-          $translator->translate('Cache'),
-          $translator->translate('Mio')
-        ),
-        'type'  => 'input',
-        'name'  => 'cache',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 15,
-        'title' => $translator->translatePlural('Model', 'Models', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'model',
-        'dbname' => 'deviceharddrivemodel_id',
-        'itemtype' => '\App\Models\Deviceharddrivemodel',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 14,
-        'title' => $translator->translate('Interface'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'interface',
-        'dbname' => 'interfacetype_id',
-        'itemtype' => '\App\Models\Interfacetype',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      // [
-      //   'id'    => 80,
-      //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
-      //   'type'  => 'dropdown_remote',
-      //   'name'  => 'completename',
-      //   'itemtype' => '\App\Models\Entity',
-      // ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'name' => $translator->translate('Name'),
+      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'capacity_default' => sprintf(
+        $translator->translate('%1$s (%2$s)'),
+        $translator->translate('Capacity by default'),
+        $translator->translate('Mio')
+      ),
+      'rpm' => $translator->translate('Rpm'),
+      'cache' => sprintf(
+        $translator->translate('%1$s (%2$s)'),
+        $translator->translate('Cache'),
+        $translator->translate('Mio')
+      ),
+      'model' => $translator->translatePlural('Model', 'Models', 1),
+      'interface' => $translator->translate('Interface'),
+      'comment' => $translator->translate('Comments'),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      3,
+      $t['manufacturer'],
+      'dropdown_remote',
+      'manufacturer',
+      dbname: 'manufacturer_id',
+      itemtype: '\App\Models\Manufacturer',
+      fillable: true
+    ));
+    $defColl->add(new Def(11, $t['capacity_default'], 'input', 'capacity_default', fillable: true));
+    $defColl->add(new Def(12, $t['rpm'], 'input', 'rpm', fillable: true));
+    $defColl->add(new Def(13, $t['cache'], 'input', 'cache', fillable: true));
+    $defColl->add(new Def(
+      15,
+      $t['model'],
+      'dropdown_remote',
+      'model',
+      dbname: 'deviceharddrivemodel_id',
+      itemtype: '\App\Models\Deviceharddrivemodel',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      14,
+      $t['interface'],
+      'dropdown_remote',
+      'interface',
+      dbname: 'interfacetype_id',
+      itemtype: '\App\Models\Interfacetype',
+      fillable: true
+    ));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+
+    // [
+    //   'id'    => 80,
+    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'type'  => 'dropdown_remote',
+    //   'name'  => 'completename',
+    //   'itemtype' => '\App\Models\Entity',
+    // ],
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

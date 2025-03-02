@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deviceprocessor extends Common
@@ -14,7 +16,9 @@ class Deviceprocessor extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Deviceprocessor';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Deviceprocessor::class;
   protected $titles = ['Processor', 'Processors'];
   protected $icon = 'edit';
 
@@ -26,7 +30,6 @@ class Deviceprocessor extends Common
     'model',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -34,7 +37,6 @@ class Deviceprocessor extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -49,9 +51,9 @@ class Deviceprocessor extends Common
     return $this->belongsTo(\App\Models\Deviceprocessormodel::class, 'deviceprocessormodel_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDeviceprocessor, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDeviceprocessor::class, 'deviceprocessor_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_deviceprocessor');
   }
 }

@@ -12,7 +12,7 @@ class ItemDevicesoundcard extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\ItemDevicesoundcard';
+  protected $definition = \App\Models\Definitions\ItemDevicesoundcard::class;
   protected $titles = ['Devicesoundcard Item', 'Devicesoundcard Items'];
   protected $icon = 'edit';
   protected $table = 'item_devicesoundcard';

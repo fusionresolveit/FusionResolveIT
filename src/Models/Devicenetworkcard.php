@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicenetworkcard extends Common
@@ -14,7 +16,9 @@ class Devicenetworkcard extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicenetworkcard';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicenetworkcard::class;
   protected $titles = ['Network card', 'Network cards'];
   protected $icon = 'edit';
 
@@ -26,7 +30,6 @@ class Devicenetworkcard extends Common
     'model',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -34,7 +37,6 @@ class Devicenetworkcard extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -49,9 +51,33 @@ class Devicenetworkcard extends Common
     return $this->belongsTo(\App\Models\Devicenetworkcardmodel::class, 'devicenetworkcardmodel_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicenetworkcard, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicenetworkcard::class, 'devicenetworkcard_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicenetworkcard');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_devicenetworkcard');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_devicenetworkcard');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function itemPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'item_devicenetworkcard');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function itemPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_devicenetworkcard');
   }
 }

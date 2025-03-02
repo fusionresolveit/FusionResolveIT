@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -24,7 +25,9 @@ class Phone extends Common
   use \App\Traits\Relationships\Knowbaseitems;
   use \App\Traits\Relationships\Reservations;
 
-  protected $definition = '\App\Models\Definitions\Phone';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Phone::class;
   protected $titles = ['Phone', 'Phones'];
   protected $icon = 'phone';
 
@@ -40,8 +43,8 @@ class Phone extends Common
     'user',
     'group',
     'network',
-    'groupstech',
-    'userstech',
+    'grouptech',
+    'usertech',
     'location',
     'entity',
     'domains',
@@ -76,6 +79,7 @@ class Phone extends Common
     'connections',
     'infocom',
     'reservations',
+    'certificates',
   ];
 
   protected $with = [
@@ -87,8 +91,8 @@ class Phone extends Common
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
     'network:id,name',
-    'groupstech:id,name,completename',
-    'userstech:id,name,firstname,lastname',
+    'grouptech:id,name,completename',
+    'usertech:id,name,firstname,lastname',
     'location:id,name',
     'entity:id,name,completename',
     'domains:id,name',
@@ -123,6 +127,7 @@ class Phone extends Common
     'connections:id,name',
     'infocom',
     'reservations',
+    'certificates:id,name',
   ];
 
 
@@ -175,13 +180,13 @@ class Phone extends Common
   }
 
   /** @return BelongsTo<\App\Models\Group, $this> */
-  public function groupstech(): BelongsTo
+  public function grouptech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id_tech');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */
-  public function userstech(): BelongsTo
+  public function usertech(): BelongsTo
   {
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
@@ -563,6 +568,18 @@ class Phone extends Common
     )->withPivot(
       'computer_id',
       'is_dynamic',
+    );
+  }
+
+  /** @return MorphToMany<\App\Models\Certificate, $this> */
+  public function certificates(): MorphToMany
+  {
+    return $this->morphToMany(
+      \App\Models\Certificate::class,
+      'item',
+      'certificate_item'
+    )->withPivot(
+      'certificate_id',
     );
   }
 }

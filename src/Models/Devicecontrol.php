@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicecontrol extends Common
@@ -14,7 +16,9 @@ class Devicecontrol extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicecontrol';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicecontrol::class;
   protected $titles = ['Controller', 'Controllers'];
   protected $icon = 'edit';
 
@@ -27,7 +31,6 @@ class Devicecontrol extends Common
     'interface',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -36,7 +39,6 @@ class Devicecontrol extends Common
     'interface:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -57,9 +59,9 @@ class Devicecontrol extends Common
     return $this->belongsTo(\App\Models\Interfacetype::class, 'interfacetype_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicecontrol, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicecontrol::class, 'devicecontrol_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicecontrol');
   }
 }

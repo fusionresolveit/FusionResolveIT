@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Followuptemplate extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Followuptemplate';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Followuptemplate::class;
   protected $titles = ['Followup template', 'Followup templates'];
   protected $icon = 'edit';
 

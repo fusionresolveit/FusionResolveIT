@@ -28,7 +28,14 @@ final class AnswerquestionsMigration extends AbstractMigration
       // Migration of database
 
       $config = Config::fromPhp('phinx.php');
-      $environment = new Environment('old', $config->getEnvironment('old'));
+
+      $oldEnv = $config->getEnvironment('old');
+      if (is_null($oldEnv))
+      {
+        throw new \Exception('Error', 500);
+      }
+
+      $environment = new Environment('old', $oldEnv);
       $pdo = $environment->getAdapter()->getConnection();
     } else {
       return;
@@ -41,12 +48,27 @@ final class AnswerquestionsMigration extends AbstractMigration
       {
         return;
       }
-      $nbRows = $pdo->query('SELECT count(*) FROM glpi_plugin_formcreator_formanswers')->fetchColumn();
-      $nbLoops = ceil($nbRows / 5000);
+      $query = $pdo->query('SELECT count(*) FROM glpi_plugin_formcreator_formanswers');
+      if ($query === false)
+      {
+        throw new \Exception('Error', 500);
+      }
 
-      for ($i = 0; $i < $nbLoops; $i++) {
+      $nbRows = $query->fetchColumn();
+      if ($nbRows === false || is_null($nbRows))
+      {
+        throw new \Exception('Error', 500);
+      }
+      $nbLoops = ceil(intval($nbRows) / 5000);
+
+      for ($i = 0; $i < $nbLoops; $i++)
+      {
         $stmt = $pdo->query('SELECT * FROM glpi_plugin_formcreator_answers ORDER BY id LIMIT 5000 OFFSET ' .
                 ($i * 5000));
+        if ($stmt === false)
+        {
+          throw new \Exception('Error', 500);
+        }
         $rows = $stmt->fetchAll();
         foreach ($rows as $row)
         {

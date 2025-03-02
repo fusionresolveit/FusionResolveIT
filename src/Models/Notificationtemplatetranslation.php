@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Notificationtemplatetranslation extends Common
 {
-  protected $definition = '\App\Models\Definitions\Notificationtemplatetranslation';
+  protected $definition = \App\Models\Definitions\Notificationtemplatetranslation::class;
   protected $titles = ['Notification template translation', 'Notification template translations'];
   protected $icon = 'edit';
   protected $hasEntityField = false;

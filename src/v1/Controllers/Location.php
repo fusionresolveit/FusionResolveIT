@@ -4,46 +4,192 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostLocation;
+use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
+use App\Traits\Subs\Document;
+use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-final class Location extends Common
+final class Location extends Common implements \App\Interfaces\Crud
 {
-  protected $model = '\App\Models\Location';
+  // Display
+  use ShowItem;
+  use ShowNewItem;
+
+  // Sub
+  use Document;
+  use History;
+
+  protected $model = \App\Models\Location::class;
   protected $rootUrl2 = '/dropdowns/locations/';
 
-  public function getAll(Request $request, Response $response, $args): Response
+  protected function instanciateModel(): \App\Models\Location
   {
-    $item = new \App\Models\Location();
-    return $this->commonGetAll($request, $response, $args, $item);
+    return new \App\Models\Location();
   }
 
-  public function showItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Location();
-    return $this->commonShowItem($request, $response, $args, $item);
+    global $basePath;
+
+    $data = new PostLocation((object) $request->getParsedBody());
+
+    $location = new \App\Models\Location();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($location))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $location = \App\Models\Location::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The location has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($location, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/locations/' . $location->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/locations')
+      ->withStatus(302);
   }
 
-  public function updateItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Location();
-    return $this->commonUpdateItem($request, $response, $args, $item);
+    $data = new PostLocation((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $location = \App\Models\Location::where('id', $id)->first();
+    if (is_null($location))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($location))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $location->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The location has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($location, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
   }
 
-  public function showSubLocations(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $location = \App\Models\Location::withTrashed()->where('id', $id)->first();
+    if (is_null($location))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($location->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $location->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The location has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/locations')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $location->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The location has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $location = \App\Models\Location::withTrashed()->where('id', $id)->first();
+    if (is_null($location))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($location->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $location->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The location has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showSubLocations(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
-    $item = new $this->model();
-    $definitions = $item->getDefinitions();
+    $item = new \App\Models\Location();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->find($args['id']);
+    $myItem = $item->where('id', $args['id'])->first();
+    if (is_null($myItem))
+    {
+      throw new \Exception('Id not found', 404);
+    }
 
-    $item2 = new $this->model();
+    $item2 = new \App\Models\Location();
     $myItem2 = $item2->where('location_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/locations');

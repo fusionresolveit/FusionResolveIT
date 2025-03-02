@@ -3,19 +3,21 @@
     <label>{{ item.title|raw }}</label>
   {% endif %}
   {% if item.type == 'input' %}
-    {% if item.readonly is defined %}
-      {{ item.value }}
+    {% if item.readonly %}
+      <div class="ui transparent input">
+        <input type="text" readonly value="{{ item.value }}">
+      </div>
     {% else %}
       <input type="text" name="{{ item.name }}" value="{{ item.value }}">
     {% endif %}
   {% endif %}
 
   {% if item.type == 'inputpassword' %}
-    <input type="password" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
+    <input type="password" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
   {% endif %}
 
   {% if item.type == 'dropdown' %}
-    {% if item.readonly is defined %}
+    {% if item.readonly %}
       {% for key, val in item.values %}
         {% if key == item.value %}
           <div class="item {{ val.class }}" data-value="{{ key }}">
@@ -30,7 +32,7 @@
       {% endfor %}
     {% else %}
       <div class="ui search selection dropdown">
-        <input type="hidden" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
+        <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
         <i class="dropdown icon"></i>
         <div class="default text">Select value...</div>
         <div class="menu">
@@ -50,25 +52,25 @@
   {% endif %}
 
   {% if item.type == 'dropdown_remote' %}
-    {% if item.readonly is defined %}
+    {% if item.readonly %}
       {% if item.value > 0 %}
         <div class="text">{{ item.valuename }}</div>
       {% endif %}
     {% else %}
       <div
-        class="ui {% if item.multiple is defined %}multiple {% endif %}selection dropdown search remotedropdown"
+        class="ui {% if item.multiple %}multiple {% endif %}selection dropdown search remotedropdown"
         data-url="{{ basePath }}/view/dropdown"
         data-itemtype="{{ item.itemtype }}"
       >
-        <input type="hidden" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
+        <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
         <i class="dropdown icon"></i>
-        {% if item.value == 0 or item.value == '' %}
+        {% if item.value == 0 %}
           <div class="default text">{{ translation.selectvalue }}</div>
-        {% elseif item.value > 0 %}
+        {% else %}
           <div class="text">{{ item.valuename }}</div>
         {% endif %}
         <div class="menu">
-          {% if item.multiple is defined %}
+          {% if item.multiple %}
             {% if item.value != '' %}
               {% for i in 0..item.value|split(',')|length %}
                 <div class="item" data-value="{{ item.value|split(',')[i] }}">{{ item.valuename|split(',')[i] }}</div>
@@ -82,7 +84,7 @@
 
   {% if item.type == 'textarea' %}
     <div id="editor{{ item.name }}">{{ item.value }}</div>
-    <textarea rows="3" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} style="display: none">{{ item.value }}</textarea>
+    <textarea rows="3" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} style="display: none">{{ item.value }}</textarea>
 <script type="text/javascript">
 editor{{ item.name }} = new Editor({
   el: document.querySelector('#editor{{ item.name }}'),
@@ -99,13 +101,13 @@ editor{{ item.name }} = new Editor({
   {% endif %}
 
   {% if item.type == 'boolean' %}
-    <div class="ui toggle {% if item.readonly is defined %}read-only{% endif %} checkbox">
+    <div class="ui toggle {% if item.readonly %}read-only{% endif %} checkbox">
       <input type="hidden" name="{{ item.name }}" value="off">
       <input type="checkbox" name="{{ item.name }}" {% if item.value %}checked{% endif %}>
       <label>{{ item.title }}</label>
     </div>
 
-    {# {% if item.readonly is defined %}
+    {# {% if item.readonly %}
       {% if item.value == 1 %}{{ translation.yes }}{% endif %}
       {% if item.value == 0 %}{{ translation.no }}{% endif %}
     {% else %}
@@ -117,20 +119,24 @@ editor{{ item.name }} = new Editor({
   {% endif %}
 
   {% if item.type == 'date' %}
-    {% if item.readonly is defined %}
-      {{ item.value }}
+    {% if item.readonly %}
+      <div class="ui transparent input">
+        <input type="text" readonly value="{{ item.value }}">
+      </div>
     {% else %}
       <input type="date" name="{{ item.name }}" value="{{ item.value }}">
     {% endif %}
   {% endif %}
 
   {% if item.type == 'email' %}
-    <input type="email" name="{{ item.name }}" {% if item.readonly is defined %}readonly="{{ item.readonly }}"{% endif %} value="{{ item.value }}">
+    <input type="email" name="{{ item.name }}" {% if item.readonly %}readonly"{% endif %} value="{{ item.value }}">
   {% endif %}
 
   {% if item.type == 'datetime' %}
-    {% if item.readonly is defined %}
-      {{ item.value }}
+    {% if item.readonly %}
+      <div class="ui transparent input">
+        <input type="text" readonly value="{{ item.value }}">
+      </div>
     {% else %}
       <input type="text" name="{{ item.name }}" value="{{ item.value }}">
     {% endif %}

@@ -4,55 +4,53 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Event
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 10,
-        'title' => $translator->translate('Source'),
-        'type'  => 'dropdown',
-        'name'  => 'type',
-        'dbname'  => 'type',
-        'values' => self::getTypeArray(),
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 11,
-        'title' => $translator->translatePlural('Date', 'Dates', 1),
-        'type'  => 'datetime',
-        'name'  => 'date',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 12,
-        'title' => $translator->translate('Service'),
-        'type'  => 'dropdown',
-        'name'  => 'service',
-        'dbname'  => 'service',
-        'values' => self::getServiceArray(),
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 13,
-        'title' => $translator->translate('Level'),
-        'type'  => 'input',
-        'name'  => 'level',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 14,
-        'title' => $translator->translate('Message'),
-        'type'  => 'input',
-        'name'  => 'message',
-        'readonly'  => 'readonly',
-      ],
+
+    $t = [
+      'type' => $translator->translate('Source'),
+      'date' => $translator->translatePlural('Date', 'Dates', 1),
+      'service' => $translator->translate('Service'),
+      'level' => $translator->translate('Level'),
+      'message' => $translator->translate('Message'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(
+      10,
+      $t['type'],
+      'dropdown',
+      'type',
+      dbname: 'type',
+      values: self::getTypeArray(),
+      readonly: true
+    ));
+    $defColl->add(new Def(11, $t['date'], 'datetime', 'created_at', readonly: true));
+    $defColl->add(new Def(
+      12,
+      $t['service'],
+      'dropdown',
+      'service',
+      dbname: 'service',
+      values: self::getServiceArray(),
+      readonly: true
+    ));
+    $defColl->add(new Def(13, $t['level'], 'input', 'level', readonly: true));
+    $defColl->add(new Def(14, $t['message'], 'input', 'message', readonly: true));
+
+    return $defColl;
   }
 
-  public static function getTypeArray()
+  /**
+   * @return array<mixed>
+   */
+  public static function getTypeArray(): array
   {
     global $translator;
     return [
@@ -77,7 +75,10 @@ class Event
     ];
   }
 
-  public static function getServiceArray()
+  /**
+   * @return array<mixed>
+   */
+  public static function getServiceArray(): array
   {
     global $translator;
     return [
@@ -126,7 +127,10 @@ class Event
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

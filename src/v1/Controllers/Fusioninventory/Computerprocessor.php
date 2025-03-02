@@ -6,13 +6,13 @@ namespace App\v1\Controllers\Fusioninventory;
 
 final class Computerprocessor extends \App\v1\Controllers\Common
 {
-  public static function parse(object $dataObj, \App\Models\Computer $computer)
+  public static function parse(object $dataObj, \App\Models\Computer $computer): void
   {
     $vs = [
       'NAME'          => Validation::attrStrNotempty('NAME'),
       'MANUFACTURER'  => Validation::attrStrNotempty('MANUFACTURER'),
       'ID'            => Validation::attrStrNotempty('ID'),
-      'SPEED'         => Validation::attrStrNotempty('SPEED'),
+      'SPEED'         => Validation::attrNumericVal('SPEED'),
       'DESCRIPTION'   => Validation::attrStrNotempty('DESCRIPTION'),
       'STEPPING'      => Validation::attrStrNotempty('STEPPING'),
       'CORE'          => Validation::attrStrNotempty('CORE'),
@@ -20,7 +20,10 @@ final class Computerprocessor extends \App\v1\Controllers\Common
       'SERIAL'        => Validation::attrStrNotempty('SERIAL'),
     ];
 
-    if (property_exists($dataObj->CONTENT, 'CPUS'))
+    if (
+        property_exists($dataObj, 'CONTENT') &&
+        property_exists($dataObj->CONTENT, 'CPUS')
+    )
     {
       $prepareData = [];
 
@@ -69,7 +72,7 @@ final class Computerprocessor extends \App\v1\Controllers\Common
         $supp = [];
         if ($vs['SPEED']->isValid($contentCpu))
         {
-          $supp['frequence'] = Common::cleanString($contentCpu->SPEED);
+          $supp['frequence'] = intval($contentCpu->SPEED);
         }
         if ($vs['DESCRIPTION']->isValid($contentCpu))
         {
@@ -101,6 +104,7 @@ final class Computerprocessor extends \App\v1\Controllers\Common
         $prepareData[] = [
           'id'      => $processor->id,
           'serial'  => $serial,
+          'pivot'   => $supp,
         ];
       }
 
@@ -133,11 +137,38 @@ final class Computerprocessor extends \App\v1\Controllers\Common
       // attach in DB
       foreach ($prepareData as $data)
       {
-        $pivot = ['is_dynamic' => true];
+        $pivot = $data['pivot'];
+        $pivot['is_dynamic'] = true;
         if (!is_null($data['serial']))
         {
           $pivot['serial'] = $data['serial'];
         }
+
+        $mapping = [
+          'frequence'         => 'frequency',
+          'nbcores_default'   => 'nbcores',
+          'nbthreads_default' => 'nbthreads',
+        ];
+
+        foreach ($mapping as $oldKey => $newKey)
+        {
+          if (isset($pivot[$oldKey]))
+          {
+            $pivot[$newKey] = $pivot[$oldKey];
+            unset($pivot[$oldKey]);
+          }
+        }
+
+        if (isset($pivot['stepping']))
+        {
+          unset($pivot['stepping']);
+        }
+
+        if (isset($pivot['comment']))
+        {
+          unset($pivot['comment']);
+        }
+
         $computer->processors()->attach($data['id'], $pivot);
       }
     }

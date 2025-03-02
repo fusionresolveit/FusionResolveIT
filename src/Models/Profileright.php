@@ -6,7 +6,7 @@ namespace App\Models;
 
 class Profileright extends Common
 {
-  protected $definition = '\App\Models\Definitions\Profileright';
+  protected $definition = \App\Models\Definitions\Profileright::class;
   protected $titles = ['Right', 'Rights'];
   protected $icon = 'user check';
   protected $hasEntityField = false;

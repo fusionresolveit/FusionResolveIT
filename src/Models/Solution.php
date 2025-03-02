@@ -11,7 +11,7 @@ class Solution extends Common
 {
   use SoftDeletes;
 
-  protected $definition = '\App\Models\Definitions\Solution';
+  protected $definition = \App\Models\Definitions\Solution::class;
   protected $titles = ['Solution', 'Solutions'];
   protected $icon = 'hands helping';
   protected $hasEntityField = false;
@@ -39,7 +39,7 @@ class Solution extends Common
       if ($model->item_type == 'App\Models\Ticket')
       {
         /** @var \App\Models\Ticket|null */
-        $ticket = \App\Models\Ticket::find($model->item_id);
+        $ticket = \App\Models\Ticket::where('id', $model->item_id)->first();
         if (!is_null($ticket))
         {
           $ticket->status = 5;

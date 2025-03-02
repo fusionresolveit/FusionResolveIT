@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Devicefirmware extends Common
@@ -14,7 +16,9 @@ class Devicefirmware extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
-  protected $definition = '\App\Models\Definitions\Devicefirmware';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Devicefirmware::class;
   protected $titles = ['Firmware', 'Firmware'];
   protected $icon = 'edit';
 
@@ -29,7 +33,6 @@ class Devicefirmware extends Common
     'model',
     'entity',
     'documents',
-    'items',
   ];
 
   protected $with = [
@@ -38,7 +41,6 @@ class Devicefirmware extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
-    'items',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -59,9 +61,33 @@ class Devicefirmware extends Common
     return $this->belongsTo(\App\Models\Devicefirmwaremodel::class, 'devicefirmwaremodel_id');
   }
 
-  /** @return HasMany<\App\Models\ItemDevicefirmware, $this> */
-  public function items(): HasMany
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function itemComputers(): MorphToMany
   {
-    return $this->hasMany(\App\Models\ItemDevicefirmware::class, 'devicefirmware_id');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_devicefirmware');
+  }
+
+  /** @return MorphToMany<\App\Models\Networkequipment, $this> */
+  public function itemNetworkequipments(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_devicefirmware');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function itemPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_devicefirmware');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function itemPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'item_devicefirmware');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function itemPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_devicefirmware');
   }
 }

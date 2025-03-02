@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass('\App\v1\Controllers\Displaypreference')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
+#[UsesClass('\App\Events\TreepathUpdating')]
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Certificate')]
 #[UsesClass('\App\Models\Definitions\Document')]
@@ -66,7 +67,7 @@ final class DisplaypreferenceTest extends TestCase
     $items = \App\Models\Displaypreference::where('itemtype', '\App\Models\Testdisplaypref')->get();
     foreach ($items as $item)
     {
-      $item->delete();
+      $item->forceDelete();
     }
   }
 

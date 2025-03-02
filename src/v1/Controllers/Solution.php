@@ -4,40 +4,55 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostSolution;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\PhpRenderer;
-use Slim\Routing\RouteContext;
 
 final class Solution extends Common
 {
-  protected $model = '\App\Models\Solution';
+  protected $model = \App\Models\Solution::class;
 
-  public function postItem(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postItem(Request $request, Response $response, array $args): Response
   {
-    $data = (object) $request->getParsedBody();
-    // TODO if not have $data->followup, error
-
+    $data = new PostSolution((object) $request->getParsedBody());
 
     $item = new \App\Models\Solution();
-    $item->item_type = $data->item_type;
-    $item->item_id = $data->item_id;
-    $item->content = $data->solution;
-    $item->user_id = $GLOBALS['user_id'];
-    $item->status = 2;
+    if (
+        !is_null($data->solution) &&
+        !is_null($data->item_id) &&
+        !is_null($data->item_type)
+    )
+    {
+      $item->item_type = $data->item_type;
+      $item->item_id = $data->item_id;
+      $item->content = $data->solution;
+      $item->user_id = $GLOBALS['user_id'];
+      $item->status = 2;
 
-    $item->save();
+      $item->save();
 
-    // add message to session
-    \App\v1\Controllers\Toolbox::addSessionMessage('The solution has been added successfully');
+      // add message to session
+      \App\v1\Controllers\Toolbox::addSessionMessage('The solution has been added successfully');
+    }
 
     return $response
-      ->withHeader('Location', $data->redirect);
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 
-  public function postAccept(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postAccept(Request $request, Response $response, array $args): Response
   {
-    $item = \App\Models\Solution::find($args['solutionid']);
+    $item = \App\Models\Solution::where('id', $args['solutionid'])->first();
+    if (is_null($item))
+    {
+      throw new \Exception('Id not found', 404);
+    }
     $item->status = 3;
     $item->date_approval = date('Y-m-d H:i:s');
     $item->user_id_approval = $GLOBALS['user_id'];
@@ -46,16 +61,28 @@ final class Solution extends Common
 
     if ($item->item_type == 'App\Models\Ticket')
     {
-      $ticket = \App\Models\Ticket::find($item->item_id);
+      $ticket = \App\Models\Ticket::where('id', $item->item_id)->first();
+      if (is_null($ticket))
+      {
+        throw new \Exception('Id not found', 404);
+      }
+
       $ticket->status = 6;
       $ticket->save();
     }
     return $this->goBack($response);
   }
 
-  public function postRefuse(Request $request, Response $response, $args): Response
+  /**
+   * @param array<string, string> $args
+   */
+  public function postRefuse(Request $request, Response $response, array $args): Response
   {
-    $item = \App\Models\Solution::find($args['solutionid']);
+    $item = \App\Models\Solution::where('id', $args['solutionid'])->first();
+    if (is_null($item))
+    {
+      throw new \Exception('Id not found', 404);
+    }
     $item->status = 4;
     $item->date_approval = date('Y-m-d H:i:s');
     $item->user_id_approval = $GLOBALS['user_id'];
@@ -64,7 +91,12 @@ final class Solution extends Common
 
     if ($item->item_type == 'App\Models\Ticket')
     {
-      $ticket = \App\Models\Ticket::find($item->item_id);
+      $ticket = \App\Models\Ticket::where('id', $item->item_id)->first();
+      if (is_null($ticket))
+      {
+        throw new \Exception('Id not found', 404);
+      }
+
       $ticket->status = 2;
       $ticket->save();
     }

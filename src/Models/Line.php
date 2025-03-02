@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,7 +18,9 @@ class Line extends Common
   use \App\Traits\Relationships\Contract;
   use \App\Traits\Relationships\Notes;
 
-  protected $definition = '\App\Models\Definitions\Line';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Line::class;
   protected $titles = ['Line', 'Lines'];
   protected $icon = 'phone';
 

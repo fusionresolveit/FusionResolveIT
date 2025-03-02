@@ -10,7 +10,7 @@ class Applianceitemrelation extends Common
 {
   use PivotEventTrait;
 
-  protected $definition = '\App\Models\Definitions\Applianceitemrelation';
+  protected $definition = \App\Models\Definitions\Applianceitemrelation::class;
   protected $titles = ['Appliance item relation', 'Appliance item relations'];
   protected $icon = 'cubes';
   protected $table = 'appliance_item_relation';

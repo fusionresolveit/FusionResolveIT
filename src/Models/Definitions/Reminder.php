@@ -4,110 +4,76 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Reminder
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Title'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translate('Description'),
-        'type'  => 'textarea',
-        'name'  => 'text',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('Visibility start date'),
-        'type'  => 'datetime',
-        'name'  => 'begin_view_date',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 6,
-        'title' => $translator->translate('Visibility end date'),
-        'type'  => 'datetime',
-        'name'  => 'end_view_date',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 32,
-        'title' => $translator->translate('Status'),
-        'type'  => 'dropdown',
-        'name'  => 'state',
-        'dbname' => 'state_id',
-        'values' => self::getStateArray(),
-        'fillable' => true,
-      ],
-      [
-        'id'    => 7,
-        'title' => $translator->translate('Planning'),
-        'type'  => 'boolean',
-        'name'  => 'is_planned',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 8,
-        'title' => $translator->translate('Planning start date'),
-        'type'  => 'datetime',
-        'name'  => 'begin',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 9,
-        'title' => $translator->translate('Planning end date'),
-        'type'  => 'datetime',
-        'name'  => 'end',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 2,
-        'title' => $translator->translate('Writer'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'user',
-        'dbname' => 'user_id',
-        'itemtype' => '\App\Models\User',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-
-      /*
-
-      $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Characteristics')
-      ];
-
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-      */
+    $t = [
+      'name' => $translator->translate('Title'),
+      'text' => $translator->translate('Description'),
+      'begin_view_date' => $translator->translate('Visibility start date'),
+      'end_view_date' => $translator->translate('Visibility end date'),
+      'state' => $translator->translate('Status'),
+      'is_planned' => $translator->translate('Planning'),
+      'begin' => $translator->translate('Planning start date'),
+      'end' => $translator->translate('Planning end date'),
+      'user' => $translator->translate('Writer'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(4, $t['text'], 'textarea', 'text', fillable: true));
+    $defColl->add(new Def(5, $t['begin_view_date'], 'datetime', 'begin_view_date', fillable: true));
+    $defColl->add(new Def(6, $t['end_view_date'], 'datetime', 'end_view_date', fillable: true));
+    $defColl->add(new Def(
+      32,
+      $t['state'],
+      'dropdown',
+      'state',
+      dbname: 'state_id',
+      values: self::getStateArray(),
+      fillable: true
+    ));
+    $defColl->add(new Def(7, $t['is_planned'], 'boolean', 'is_planned', fillable: true));
+    $defColl->add(new Def(8, $t['begin'], 'datetime', 'begin', fillable: true));
+    $defColl->add(new Def(9, $t['end'], 'datetime', 'end', fillable: true));
+    $defColl->add(new Def(
+      2,
+      $t['user'],
+      'dropdown_remote',
+      'user',
+      dbname: 'user_id',
+      itemtype: '\App\Models\User',
+      fillable: true
+    ));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+    /*
+
+    $tab[] = [
+        'id'                 => 'common',
+        'name'               => __('Characteristics')
+    ];
+
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+    */
   }
 
-  public static function getStateArray()
+  /**
+   * @return array<mixed>
+   */
+  public static function getStateArray(): array
   {
     global $translator;
     return [
@@ -129,7 +95,10 @@ class Reminder
     ];
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

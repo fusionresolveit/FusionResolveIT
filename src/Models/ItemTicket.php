@@ -6,7 +6,7 @@ namespace App\Models;
 
 class ItemTicket extends Common
 {
-  protected $definition = '\App\Models\Definitions\ItemTicket';
+  protected $definition = \App\Models\Definitions\ItemTicket::class;
   protected $titles = ['Ticket Item', 'Ticket Items'];
   protected $icon = 'edit';
   protected $table = 'item_ticket';

@@ -4,112 +4,92 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Cluster
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'    => 1,
-        'title' => $translator->translate('Name'),
-        'type'  => 'input',
-        'name'  => 'name',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 31,
-        'title' => $translator->translate('Status'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'state',
-        'dbname' => 'state_id',
-        'itemtype' => '\App\Models\State',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 4,
-        'title' => $translator->translatePlural('Type', 'Types', 1),
-        'type'  => 'dropdown_remote',
-        'name'  => 'type',
-        'dbname' => 'clustertype_id',
-        'itemtype' => '\App\Models\Clustertype',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 5,
-        'title' => $translator->translate('UUID'),
-        'type'  => 'input',
-        'name'  => 'uuid',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 16,
-        'title' => $translator->translate('Comments'),
-        'type'  => 'textarea',
-        'name'  => 'comment',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 24,
-        'title' => $translator->translate('Technician in charge of the hardware'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'userstech',
-        'dbname' => 'user_id_tech',
-        'itemtype' => '\App\Models\User',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 49,
-        'title' => $translator->translate('Group in charge of the hardware'),
-        'type'  => 'dropdown_remote',
-        'name'  => 'groupstech',
-        'dbname' => 'group_id_tech',
-        'itemtype' => '\App\Models\Group',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 200,
-        'title' => $translator->translatePlural('Version', 'Versions', 1),
-        'type'  => 'input',
-        'name'  => 'version',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 86,
-        'title' => $translator->translate('Child entities'),
-        'type'  => 'boolean',
-        'name'  => 'is_recursive',
-        'fillable' => true,
-      ],
-      [
-        'id'    => 19,
-        'title' => $translator->translate('Last update'),
-        'type'  => 'datetime',
-        'name'  => 'updated_at',
-        'readonly'  => 'readonly',
-      ],
-      [
-        'id'    => 121,
-        'title' => $translator->translate('Creation date'),
-        'type'  => 'datetime',
-        'name'  => 'created_at',
-        'readonly'  => 'readonly',
-      ],
 
-      /*
-      $tab[] = [
-        'id'   => 'common',
-        'name' => __('Characteristics')
-      ];
-      // add objectlock search options
-      $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
-
-      $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
-      */
+    $t = [
+      'name' => $translator->translate('Name'),
+      'state' => $translator->translate('Status'),
+      'type' => $translator->translatePlural('Type', 'Types', 1),
+      'uuid' => $translator->translate('UUID'),
+      'comment' => $translator->translate('Comments'),
+      'usertech' => $translator->translate('Technician in charge of the hardware'),
+      'grouptech' => $translator->translate('Group in charge of the hardware'),
+      'version' => $translator->translatePlural('Version', 'Versions', 1),
+      'is_recursive' => $translator->translate('Child entities'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(
+      31,
+      $t['state'],
+      'dropdown_remote',
+      'state',
+      dbname: 'state_id',
+      itemtype: '\App\Models\State',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      4,
+      $t['type'],
+      'dropdown_remote',
+      'type',
+      dbname: 'clustertype_id',
+      itemtype: '\App\Models\Clustertype',
+      fillable: true
+    ));
+    $defColl->add(new Def(5, $t['uuid'], 'input', 'uuid', fillable: true));
+    $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(
+      24,
+      $t['usertech'],
+      'dropdown_remote',
+      'usertech',
+      dbname: 'user_id_tech',
+      itemtype: '\App\Models\User',
+      fillable: true
+    ));
+    $defColl->add(new Def(
+      49,
+      $t['grouptech'],
+      'dropdown_remote',
+      'grouptech',
+      dbname: 'group_id_tech',
+      itemtype: '\App\Models\Group',
+      fillable: true
+    ));
+    $defColl->add(new Def(200, $t['version'], 'input', 'version', fillable: true));
+    $defColl->add(new Def(86, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
+
+    return $defColl;
+
+    /*
+    $tab[] = [
+      'id'   => 'common',
+      'name' => __('Characteristics')
+    ];
+    // add objectlock search options
+    $tab = array_merge($tab, ObjectLock::rawSearchOptionsToAdd(get_class($this)));
+
+    $tab = array_merge($tab, Notepad::rawSearchOptionsToAdd());
+    */
   }
 
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

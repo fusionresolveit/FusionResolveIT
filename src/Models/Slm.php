@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,9 @@ class Slm extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Slm';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Slm::class;
   protected $titles = ['Service level', 'Service levels'];
   protected $icon = 'edit';
 

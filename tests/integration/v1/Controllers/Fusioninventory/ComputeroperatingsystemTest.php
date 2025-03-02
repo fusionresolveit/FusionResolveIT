@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\integration\v1\Controllers;
+namespace Tests\integration\v1\Controllers\Fusioninventory;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +22,8 @@ use function PHPUnit\Framework\assertGreaterThan;
 #[CoversClass('\App\Models\Definitions\Operatingsystemkernel')]
 #[CoversClass('\App\Models\Definitions\Operatingsystemkernelversion')]
 #[CoversClass('\App\Models\Operatingsystemkernelversion')]
+#[UsesClass('\App\DataInterface\Definition')]
+#[UsesClass('\App\DataInterface\DefinitionCollection')]
 #[UsesClass('\App\Events\EntityCreating')]
 #[UsesClass('\App\Events\TreepathCreated')]
 #[UsesClass('\App\Models\Common')]
@@ -70,13 +72,15 @@ use function PHPUnit\Framework\assertGreaterThan;
 #[UsesClass('\App\Models\Definitions\Reservationitem')]
 #[UsesClass('\App\Models\Definitions\State')]
 #[UsesClass('\App\Models\Definitions\User')]
+#[UsesClass('\App\Models\Definitions\Deviceprocessormodel')]
+#[UsesClass('\App\Models\Definitions\ItemDeviceprocessor')]
 #[UsesClass('\App\Models\Devicememory')]
+#[UsesClass('\App\Models\Deviceprocessor')]
 #[UsesClass('\App\Models\Problemtemplate')]
 #[UsesClass('\App\Models\Software')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Validation')]
-#[UsesClass('\App\Models\Definitions\Deviceprocessormodel')]
-#[UsesClass('\App\Models\Definitions\ItemDeviceprocessor')]
-#[UsesClass('\App\Models\Deviceprocessor')]
+#[UsesClass('\App\v1\Controllers\Common')]
+#[UsesClass('\App\v1\Controllers\Dropdown')]
 
 final class ComputeroperatingsystemTest extends TestCase
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Problemtemplate extends Common
@@ -11,7 +12,9 @@ class Problemtemplate extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Problemtemplate';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Problemtemplate::class;
 
   protected $appends = [
   ];

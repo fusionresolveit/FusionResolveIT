@@ -4,46 +4,35 @@ declare(strict_types=1);
 
 namespace App\Models\Definitions;
 
+use App\DataInterface\Definition as Def;
+use App\DataInterface\DefinitionCollection;
+
 class Notificationtemplatetranslation
 {
-  public static function getDefinition()
+  public static function getDefinition(): DefinitionCollection
   {
     global $translator;
-    return [
-      [
-        'id'            => 1,
-        'title'         => $translator->translate('Language'),
-        'type'          => 'input',
-        'name'          => 'language',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 2,
-        'title'         => $translator->translate('Subject'),
-        'type'          => 'input',
-        'name'          => 'subject',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 3,
-        'title'         => $translator->translate('Text format'),
-        'type'          => 'textarea',
-        'name'          => 'content_text',
-        'fillable' => true,
-      ],
-      [
-        'id'            => 4,
-        'title'         => $translator->translate('HTML format'),
-        'type'          => 'textarea',
-        'name'          => 'content_html',
-        'fillable' => true,
-      ],
 
+    $t = [
+      'language' => $translator->translate('Language'),
+      'subject' => $translator->translate('Subject'),
+      'content_text' => $translator->translate('Text format'),
+      'content_html' => $translator->translate('HTML format'),
     ];
+
+    $defColl = new DefinitionCollection();
+    $defColl->add(new Def(1, $t['language'], 'input', 'language', fillable: true));
+    $defColl->add(new Def(2, $t['subject'], 'input', 'subject', fillable: true));
+    $defColl->add(new Def(3, $t['content_text'], 'textarea', 'content_text', fillable: true));
+    $defColl->add(new Def(4, $t['content_html'], 'textarea', 'content_html', fillable: true));
+
+    return $defColl;
   }
 
-
-  public static function getRelatedPages($rootUrl): array
+  /**
+   * @return array<mixed>
+   */
+  public static function getRelatedPages(string $rootUrl): array
   {
     global $translator;
     return [

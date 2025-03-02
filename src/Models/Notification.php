@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +13,9 @@ class Notification extends Common
   use SoftDeletes;
   use \App\Traits\Relationships\Entity;
 
-  protected $definition = '\App\Models\Definitions\Notification';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Notification::class;
   protected $titles = ['Notification', 'Notifications'];
   protected $icon = 'edit';
 

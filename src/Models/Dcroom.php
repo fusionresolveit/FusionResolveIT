@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,7 +20,9 @@ class Dcroom extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
 
-  protected $definition = '\App\Models\Definitions\Dcroom';
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Dcroom::class;
   protected $titles = ['Server room', 'Server rooms'];
   protected $icon = 'warehouse';
 

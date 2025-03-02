@@ -4,9 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\GetDropdownValues;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Authsso extends Common
 {
-  protected $definition = '\App\Models\Definitions\Authsso';
+  use SoftDeletes;
+
+  use GetDropdownValues;
+
+  protected $definition = \App\Models\Definitions\Authsso::class;
   protected $titles = ['SSO', 'SSO'];
   protected $icon = 'id card alternate';
   protected $hasEntityField = false;

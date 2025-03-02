@@ -8,6 +8,7 @@ use Laminas\I18n\Translator\Translator;
 
 final class Translation
 {
+  /** @var array<string, mixed> */
   public $languages = [
     //Code       Name in native lang          LANG FILE      jquery tinymce english name            standard plural nb
     'ar_SA'  => ['العَرَبِيَّةُ',                     'ar_SA.mo',    'ar',    'ar', 'arabic',               103],
@@ -72,7 +73,7 @@ final class Translation
     'es_CL'  => ['Español chileno',           'es_CL',       'es',    'es', 'spanish chilean',      2]
   ];
 
-  public function loadLanguage($lang = null)
+  public function loadLanguage(string|null $lang = null): Translator
   {
     if (is_null($lang))
     {
