@@ -18,7 +18,6 @@ class Rulecriterium
       'criteria' => $translator->translate('Criterium'),
       'condition' => $translator->translate('Condition'),
       'pattern' => $translator->translate('Patern'),
-
     ];
 
     $defColl = new DefinitionCollection();
