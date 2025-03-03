@@ -45,7 +45,6 @@ class Ticket extends Common
     'knowbaseitems',
     'followups',
     'costs',
-    'projecttasks',
     'approvals',
   ];
 
@@ -68,7 +67,6 @@ class Ticket extends Common
     'followups:id,content',
     'solutions',
     'costs:id,name,ticket_id,begin_date,end_date,actiontime,cost_time,cost_fixed,cost_material,budget_id,entity_id',
-    'projecttasks',
     'approvals',
   ];
 
@@ -450,10 +448,10 @@ class Ticket extends Common
     return $this->hasMany(\App\Models\Ticketcost::class, 'ticket_id');
   }
 
-  /** @return HasMany<\App\Models\ProjecttaskTicket, $this> */
-  public function projecttasks(): HasMany
+  /** @return BelongsToMany<\App\Models\Projecttask, $this> */
+  public function projecttasks(): BelongsToMany
   {
-    return $this->hasMany(\App\Models\ProjecttaskTicket::class, 'ticket_id');
+    return $this->belongsToMany(\App\Models\Projecttask::class);
   }
 
   /** @return HasMany<\App\Models\Ticketvalidation, $this> */

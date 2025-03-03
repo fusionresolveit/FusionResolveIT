@@ -243,38 +243,34 @@ final class Change extends Common implements \App\Interfaces\Crud
     $item = new \App\Models\Change();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
+    $change = \App\Models\Change::where('id', $args['id'])->first();
+    if (is_null($change))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    $item2 = new \App\Models\ChangeProblem();
-    $myItem2 = $item2->where(['change_id' => $args['id']])->get();
-
     $rootUrl = $this->genereRootUrl($request, '/problem');
 
     $problems = [];
-    foreach ($myItem2 as $problem)
+    foreach ($change->problems as $problem)
     {
-      $item3 = new \App\Models\Problem();
-      $myItem3 = $item3->where('id', $problem->problem_id)->first();
-      if ($myItem3 !== null)
+      $problem = \App\Models\Problem::where('id', $problem->id)->first();
+      if ($problem !== null)
       {
         $problems[] = [
-          'id'          => $myItem3->id,
-          'name'        => $myItem3->name,
-          'updated_at'  => $myItem3->updated_at,
+          'id'          => $problem->id,
+          'name'        => $problem->name,
+          'updated_at'  => $problem->updated_at,
         ];
       }
     }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($change, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($change));
     $viewData->addData('feeds', $item->getFeeds(intval($args['id'])));
-    $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($myItem->content));
+    $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($change->content));
     $viewData->addData('problems', $problems);
 
     $viewData->addTranslation('attachItem', $translator->translate('Attach to an existant problem'));

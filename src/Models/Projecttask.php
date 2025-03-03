@@ -33,6 +33,7 @@ class Projecttask extends Common
     'tickets',
     'notes',
     'documents',
+    'project',
   ];
 
   protected $with = [
@@ -43,6 +44,7 @@ class Projecttask extends Common
     'tickets:id,name',
     'notes:id',
     'documents:id,name',
+    'project:id,name',
   ];
 
   /** @return BelongsTo<\App\Models\Projecttask, $this> */
@@ -66,6 +68,12 @@ class Projecttask extends Common
   /** @return BelongsToMany<\App\Models\Ticket, $this> */
   public function tickets(): BelongsToMany
   {
-    return $this->belongsToMany(\App\Models\Ticket::class, 'projecttask_ticket', 'projecttask_id', 'ticket_id');
+    return $this->belongsToMany(\App\Models\Ticket::class);
+  }
+
+  /** @return BelongsTo<\App\Models\Project, $this> */
+  public function project(): BelongsTo
+  {
+    return $this->belongsTo(\App\Models\Project::class);
   }
 }

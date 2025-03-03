@@ -99,20 +99,23 @@ trait Itil
       }
 
       $associated_items = [];
-      $item4 = new \App\Models\ItemTicket();
-      $myItem4 = $item4::where('ticket_id', $ticket->id)->get();
-      foreach ($myItem4 as $val)
+      $ctrlTicket = new \App\v1\Controllers\Ticket();
+      $modelsForSub = $ctrlTicket->modelsForSubItem();
+      foreach (array_keys($modelsForSub) as $relationKey)
       {
-        $item5 = new $val->item_type();
-        $myItem5 = $item5->where('id', $val->item_id)->first();
-        if ($myItem5 !== null)
+        $relTicket = \App\Models\Ticket::where('id', $ticket->id)->with($relationKey)->first();
+        if (is_null($relTicket))
         {
-          $type5_fr = $item5->getTitle();
-          $type5 = $item5->getTable();
+          continue;
+        }
+        foreach ($relTicket->{$relationKey} as $relItem)
+        {
+          $type5_fr = $relItem->getTitle();
+          $type5 = $relItem->getTable();
 
-          $name5 = $myItem5->name;
+          $name5 = $relItem->name;
 
-          $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
+          $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $relItem->id);
 
           if ($type5_fr != '')
           {

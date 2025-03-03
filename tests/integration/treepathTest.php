@@ -21,7 +21,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Entity')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
-#[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Entity')]
 #[UsesClass('\App\Traits\Relationships\Documents')]
 #[UsesClass('\App\Traits\Relationships\Entity')]

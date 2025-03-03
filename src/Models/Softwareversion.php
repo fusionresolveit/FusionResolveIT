@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Softwareversion extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
 
   use GetDropdownValues;
@@ -19,6 +21,8 @@ class Softwareversion extends Common
   protected $definition = \App\Models\Definitions\Softwareversion::class;
   protected $titles = ['Software version', 'Software versions'];
   protected $icon = 'edit';
+  /** @var string[] */
+  protected $cascadeDeletes = ['devices'];
 
   protected $appends = [
   ];
@@ -49,6 +53,7 @@ class Softwareversion extends Common
   {
     return $this
       ->belongsToMany(\App\Models\Computer::class, 'item_softwareversion', 'softwareversion_id', 'item_id')
+      ->withPivot('date_install')
       ->withoutEagerLoads();
   }
 

@@ -28,7 +28,6 @@ use App\v1\Controllers\Rules\Ticket as Common;
 #[UsesClass('\App\Models\Definitions\Knowbaseitemcategory')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
 #[UsesClass('\App\Models\Definitions\Problemtemplate')]
-#[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Definitions\Rule')]
 #[UsesClass('\App\Models\Definitions\Ruleaction')]
 #[UsesClass('\App\Models\Definitions\Rulecriterium')]

@@ -248,4 +248,10 @@ class Change extends Common
   {
     return $this->belongsToMany(\App\Models\Problem::class, 'change_problem', 'change_id', 'problem_id');
   }
+
+  /** @return BelongsToMany<\App\Models\Ticket, $this> */
+  public function tickets(): BelongsToMany
+  {
+    return $this->belongsToMany(\App\Models\Ticket::class);
+  }
 }

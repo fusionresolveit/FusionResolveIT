@@ -33,7 +33,6 @@ class Entity extends Common
     'knowbaseitems',
     'documents',
     'completename',
-    'profilesusers',
   ];
 
   protected $with = [
@@ -41,7 +40,6 @@ class Entity extends Common
     'notes:id',
     'knowbaseitems:id,name',
     'documents:id,name',
-    'profilesusers',
   ];
 
   public function getCompletenameAttribute(): string
@@ -63,11 +61,5 @@ class Entity extends Common
     }
     $names[] = $this->name;
     return implode(' > ', $names);
-  }
-
-  /** @return hasMany<\App\Models\ProfileUser, $this> */
-  public function profilesusers(): HasMany
-  {
-    return $this->hasMany(\App\Models\ProfileUser::class, 'entity_id');
   }
 }

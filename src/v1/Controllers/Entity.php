@@ -46,13 +46,11 @@ final class Entity extends Common implements \App\Interfaces\Crud
 
     $entity = new \App\Models\Entity();
 
-    if (!$this->canRightCreate())
-    {
+    if (!$this->canRightCreate()) {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    if (!\App\v1\Controllers\Profile::canRightReadItem($entity))
-    {
+    if (!\App\v1\Controllers\Profile::canRightReadItem($entity)) {
       throw new \Exception('Unauthorized access', 401);
     }
 
@@ -63,8 +61,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
 
     $data = (object) $request->getParsedBody();
 
-    if (property_exists($data, 'save') && $data->save == 'view')
-    {
+    if (property_exists($data, 'save') && $data->save == 'view') {
       $uri = $request->getUri();
       return $response
         ->withHeader('Location', $basePath . '/view/entities/' . $entity->id)
@@ -84,18 +81,15 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $data = new PostEntity((object) $request->getParsedBody());
     $id = intval($args['id']);
 
-    if (!$this->canRightCreate())
-    {
+    if (!$this->canRightCreate()) {
       throw new \Exception('Unauthorized access', 401);
     }
 
     $entity = \App\Models\Entity::where('id', $id)->first();
-    if (is_null($entity))
-    {
+    if (is_null($entity)) {
       throw new \Exception('Id not found', 404);
     }
-    if (!\App\v1\Controllers\Profile::canRightReadItem($entity))
-    {
+    if (!\App\v1\Controllers\Profile::canRightReadItem($entity)) {
       throw new \Exception('Unauthorized access', 401);
     }
 
@@ -119,15 +113,12 @@ final class Entity extends Common implements \App\Interfaces\Crud
 
     $id = intval($args['id']);
     $entity = \App\Models\Entity::withTrashed()->where('id', $id)->first();
-    if (is_null($entity))
-    {
+    if (is_null($entity)) {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($entity->trashed())
-    {
-      if (!$this->canRightDelete())
-      {
+    if ($entity->trashed()) {
+      if (!$this->canRightDelete()) {
         throw new \Exception('Unauthorized access', 401);
       }
       $entity->forceDelete();
@@ -137,8 +128,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
         ->withHeader('Location', $basePath . '/view/entities')
         ->withStatus(302);
     } else {
-      if (!$this->canRightSoftdelete())
-      {
+      if (!$this->canRightSoftdelete()) {
         throw new \Exception('Unauthorized access', 401);
       }
       $entity->delete();
@@ -157,15 +147,12 @@ final class Entity extends Common implements \App\Interfaces\Crud
   {
     $id = intval($args['id']);
     $entity = \App\Models\Entity::withTrashed()->where('id', $id)->first();
-    if (is_null($entity))
-    {
+    if (is_null($entity)) {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($entity->trashed())
-    {
-      if (!$this->canRightSoftdelete())
-      {
+    if ($entity->trashed()) {
+      if (!$this->canRightSoftdelete()) {
         throw new \Exception('Unauthorized access', 401);
       }
       $entity->restore();
@@ -186,8 +173,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $view = Twig::fromRequest($request);
 
     $myItem = \App\Models\Entity::where('id', $args['id'])->first();
-    if (is_null($myItem))
-    {
+    if (is_null($myItem)) {
       throw new \Exception('Id not found', 404);
     }
 
@@ -227,8 +213,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
       'altitude'      => $address['altitude'],
     ];
     $jsonStr = json_encode($myItemData);
-    if ($jsonStr === false)
-    {
+    if ($jsonStr === false) {
       $jsonStr = '{}';
     }
     $myItemDataObject = json_decode($jsonStr);
@@ -249,8 +234,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $view = Twig::fromRequest($request);
 
     $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
-    {
+    if (is_null($myItem)) {
       throw new \Exception('Id not found', 404);
     }
 
@@ -261,16 +245,14 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $myEntities = [];
-    foreach ($myItem2 as $child)
-    {
+    foreach ($myItem2 as $child) {
       $name = $child->name;
 
       $url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $child->id);
 
       $entity = '';
       $entity_url = '';
-      if ($child->entity !== null)
-      {
+      if ($child->entity !== null) {
         $entity = $child->entity->completename;
         $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $child->entity->id);
       }
@@ -309,51 +291,31 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $item = new \App\Models\Entity();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('profilesusers')->where('id', $args['id'])->first();
-    if (is_null($myItem))
-    {
-      throw new \Exception('Id not found', 404);
-    }
-
     $rootUrl = $this->genereRootUrl($request, '/users');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
+    $myItem = $item->where('id', $args['id'])->first();
+
+    $profiles = \App\Models\Profile::
+        with('users')
+      ->whereRelation('users', 'profile_user.entity_id', $args['id'])
+      ->get();
     $myProfilesUsers = [];
-    foreach ($myItem->profilesusers as $profileuser)
-    {
-      $user = \App\Models\User::where('id', $profileuser->user_id)->first();
-      $profile = \App\Models\Profile::where('id', $profileuser->profile_id)->first();
-      if (($user !== null) && ($profile !== null))
-      {
-        if (array_key_exists($profile->id, $myProfilesUsers) !== true)
-        {
-          $myProfilesUsers[$profile->id] = [
-            'name'    => $profile->name,
-            'users'   => [],
-          ];
-        }
 
-        $auto = $profileuser->is_dynamic;
-        if ($profileuser->is_dynamic == 1)
-        {
-          $auto_val = $translator->translate('Yes');
-        }
-        else
-        {
-          $auto_val = $translator->translate('No');
-        }
+    foreach ($profiles as $profile) {
+      $myProfilesUsers[$profile->id] = [
+        'name'    => $profile->name,
+        'users'   => [],
+      ];
 
-        $recursive = $profileuser->is_recursive;
-        if ($profileuser->is_recursive == 1)
-        {
-          $recursive_val = $translator->translate('Yes');
-        }
-        else
-        {
-          $recursive_val = $translator->translate('No');
-        }
-
+      foreach ($profile->users as $user) {
+        $auto = false;
+        $recursive = false;
         $user_name = $this->genereUserName($user->name, $user->lastname, $user->firstname);
+        $auto_val = $translator->translate('No');
+        $recursive_val = $translator->translate('No');
+
+
 
         $myProfilesUsers[$profile->id]['users'][$user->id] = [
           'name'             => $user_name,
@@ -368,7 +330,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
     // tri ordre alpha
     array_multisort(array_column($myProfilesUsers, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myProfilesUsers);
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($item, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
     $viewData->addData('fields', $item->getFormData($myItem));

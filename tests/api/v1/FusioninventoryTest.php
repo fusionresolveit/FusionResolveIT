@@ -53,7 +53,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Entity')]
 #[UsesClass('\App\Models\Definitions\Group')]
 #[UsesClass('\App\Models\Definitions\Infocom')]
-#[UsesClass('\App\Models\Definitions\ItemDevicememory')]
 #[UsesClass('\App\Models\Definitions\Itemdisk')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Location')]
@@ -89,7 +88,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Computersoftware')]
 #[UsesClass('\App\v1\Controllers\Fusioninventory\Validation')]
 #[UsesClass('\App\Models\Definitions\Deviceprocessormodel')]
-#[UsesClass('\App\Models\Definitions\ItemDeviceprocessor')]
 #[UsesClass('\App\Models\Deviceprocessor')]
 
 final class FusioninventoryTest extends TestCase

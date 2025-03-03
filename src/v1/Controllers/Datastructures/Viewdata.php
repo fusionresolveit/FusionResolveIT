@@ -46,9 +46,9 @@ class Viewdata
     $this->addTranslation('newbutton', $translator->translate('New'));
 
     $session = new \SlimSession\Helper();
-    if (isset($session->message))
+    if ($session->exists('message'))
     {
-      $this->message = $session->message;
+      $this->message = $session->get('message');
       $session->delete('message');
     }
   }

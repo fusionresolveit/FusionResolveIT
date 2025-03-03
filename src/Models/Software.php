@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Software extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -31,6 +33,8 @@ class Software extends Common
   protected $definition = \App\Models\Definitions\Software::class;
   protected $titles = ['Software', 'Software'];
   protected $icon = 'cube';
+  /** @var string[] */
+  protected $cascadeDeletes = ['versions'];
 
   protected $appends = [
   ];

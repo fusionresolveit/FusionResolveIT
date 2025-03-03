@@ -126,26 +126,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $memory->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicememory'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myMemories[] = [
@@ -226,26 +206,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $firmware->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicefirmware'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myFirmwares[] = [
@@ -317,26 +277,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $processor->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_deviceprocessor'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -418,26 +358,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $harddrive->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_deviceharddrive'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myHarddrives[] = [
@@ -518,26 +438,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $battery->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicebattery'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myBatteries[] = [
@@ -610,26 +510,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $soundcard->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicesoundcard'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -709,26 +589,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $controller->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicecontrol'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myControllers[] = [
@@ -798,26 +658,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $powersupply->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicepowersupply'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myPowerSupplies[] = [
@@ -884,26 +724,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $sensor->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicesensor'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $mySensors[] = [
@@ -959,26 +779,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicepci->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicepci'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -1044,26 +844,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicegeneric->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicegeneric'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -1134,26 +914,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicenetworkcard->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicenetworkcard'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -1243,26 +1003,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicesimcard->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\ItemDevicesimcard'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myDevicesimcards[] = [
@@ -1334,26 +1074,6 @@ trait Component
             'url'   => $url,
           ];
         }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicemotherboard->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicemotherboard'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
-        }
       }
 
       $myDevicemotherboards[] = [
@@ -1419,26 +1139,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicecase->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicecase'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -1519,26 +1219,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicegraphiccard->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicegraphiccard'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 
@@ -1634,26 +1314,6 @@ trait Component
             'name'  => $document->name,
             'url'   => $url,
           ];
-        }
-
-        $item5 = new \App\Models\Documentitem();
-        $myItem5 = $item5::where([
-          'item_id' => $devicedrive->getRelationValue('pivot')->id,
-          'item_type' => 'App\\Models\\Item_devicedrive'
-        ])->get();
-        foreach ($myItem5 as $current_documentitem)
-        {
-          $item6 = new \App\Models\Document();
-          $myItem6 = $item6::where('id', $current_documentitem->document_id)->get();
-          foreach ($myItem6 as $current_document)
-          {
-            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $current_document->id);
-
-            $documents[$current_document->id] = [
-              'name'  => $current_document->name,
-              'url'   => $url,
-            ];
-          }
         }
       }
 

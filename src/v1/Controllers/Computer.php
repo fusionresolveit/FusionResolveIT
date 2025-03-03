@@ -599,58 +599,58 @@ final class Computer extends Common implements \App\Interfaces\Crud
   {
     global $translator;
 
-    $item = new \App\Models\Computer();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
+    $computer = \App\Models\Computer::
+        where('id', $args['id'])
+      ->with(['connectionMonitors', 'connectionPeripherals', 'connectionPhones', 'connectionPrinters'])
+      ->first();
+    if (is_null($computer))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    $item2 = new \App\Models\Computeritem();
-    $myItem2 = $item2::where('computer_id', $args['id'])->get();
-
     $rootUrl = $this->genereRootUrl($request, '/connections');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
-    $myConnections = [];
-    foreach ($myItem2 as $connection)
+    $items = [];
+    foreach ($computer->connectionMonitors as $connection)
     {
-      if (
-          $connection->item_type != \App\Models\Monitor::class &&
-          $connection->item_type != \App\Models\Peripheral::class &&
-          $connection->item_type != \App\Models\Phone::class &&
-          $connection->item_type != \App\Models\Printer::class
-      )
-      {
-        continue;
-      }
+      $items[] = $connection;
+    }
+    foreach ($computer->connectionPeripherals as $connection)
+    {
+      $items[] = $connection;
+    }
+    foreach ($computer->connectionPhones as $connection)
+    {
+      $items[] = $connection;
+    }
+    foreach ($computer->connectionPrinters as $connection)
+    {
+      $items[] = $connection;
+    }
 
-      $item3 = new $connection->item_type();
-      $myItem3 = $item3->where('id', $connection->item_id)->first();
-      if (is_null($myItem3))
-      {
-        throw new \Exception('Wrong data request', 400);
-      }
+    $myConnections = [];
+    foreach ($items as $connection)
+    {
+      $type_fr = $connection->getTitle();
+      $type = $connection->getTable();
 
-      $type_fr = $item3->getTitle();
-      $type = $item3->getTable();
-
-      $name = $myItem3->name;
+      $name = $connection->name;
       if ($name == '')
       {
-        $name = '(' . $myItem3->id . ')';
+        $name = '(' . $connection->id . ')';
       }
 
-      $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $myItem3->id);
+      $url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $connection->id);
 
       $entity = '';
       $entity_url = '';
-      if ($myItem3->entity !== null)
+      if ($connection->entity !== null)
       {
-        $entity = $myItem3->entity->completename;
-        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
+        $entity = $connection->entity->completename;
+        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $connection->entity->id);
       }
 
       if ($connection->is_dynamic == 1)
@@ -663,9 +663,9 @@ final class Computer extends Common implements \App\Interfaces\Crud
       }
 
 
-      $serial_number = $myItem3->serial;
+      $serial_number = $connection->serial;
 
-      $inventaire_number = $myItem3->otherserial;
+      $inventaire_number = $connection->otherserial;
 
       $myConnections[] = [
         'type'                 => $type_fr,
@@ -684,10 +684,10 @@ final class Computer extends Common implements \App\Interfaces\Crud
     array_multisort(array_column($myConnections, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myConnections);
     array_multisort(array_column($myConnections, 'type'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myConnections);
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($computer, $request);
+    $viewData->addRelatedPages($computer->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $computer->getFormData($computer));
     $viewData->addData('connections', $myConnections);
     $viewData->addData('show', 'computer');
 

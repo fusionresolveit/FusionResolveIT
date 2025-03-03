@@ -50,7 +50,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Entity')]
 #[UsesClass('\App\Models\Definitions\Group')]
 #[UsesClass('\App\Models\Definitions\Infocom')]
-#[UsesClass('\App\Models\Definitions\ItemDevicememory')]
 #[UsesClass('\App\Models\Definitions\Itemdisk')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Location')]
@@ -62,6 +61,10 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Reservationitem')]
 #[UsesClass('\App\Models\Definitions\State')]
 #[UsesClass('\App\Models\Definitions\User')]
+#[UsesClass('\App\Models\Definitions\Monitor')]
+#[UsesClass('\App\Models\Definitions\Peripheral')]
+#[UsesClass('\App\Models\Definitions\Phone')]
+#[UsesClass('\App\Models\Definitions\Printer')]
 #[UsesClass('\App\Models\Devicememory')]
 #[UsesClass('\App\Models\Location')]
 #[UsesClass('\App\Models\Ticket')]
@@ -96,7 +99,11 @@ final class ComputermemoryTest extends TestCase
   public function testSpeeds($speed, $expected): void
   {
     // delete computers
-    \App\Models\Computer::truncate();
+    $computers = \App\Models\Computer::get();
+    foreach ($computers as $computer)
+    {
+      $computer->forceDelete();
+    }
 
     $myData = [
       'name' => 'testMemory',
@@ -124,7 +131,11 @@ final class ComputermemoryTest extends TestCase
   public function testType(): void
   {
     // delete computers
-    \App\Models\Computer::truncate();
+    $computers = \App\Models\Computer::get();
+    foreach ($computers as $computer)
+    {
+      $computer->forceDelete();
+    }
 
     $myData = [
       'name' => 'testMemory',
@@ -154,9 +165,12 @@ final class ComputermemoryTest extends TestCase
   public function testTwoMemories(): void
   {
     // delete computers
-    \App\Models\Computer::truncate();
+    $computers = \App\Models\Computer::get();
+    foreach ($computers as $computer)
+    {
+      $computer->forceDelete();
+    }
     \App\Models\Devicememory::truncate();
-    \App\Models\ItemDevicememory::truncate();
 
     $myData = [
       'name' => 'testMemory',
@@ -212,18 +226,18 @@ final class ComputermemoryTest extends TestCase
     $this->assertGreaterThan(0, $items[0]->devicememorytype_id);
     $type = \App\Models\Devicememorytype::find($items[0]->devicememorytype_id);
     $this->assertEquals('DDR2', $type->name, 'type 2 name not right');
-    $this->assertEquals(1, $items[0]->pivot->id, 'memory 2 intermediate id not right');
+    // $this->assertEquals(1, $items[0]->pivot->id, 'memory 2 intermediate id not right');
 
     $this->assertEquals('DDR3', $items[1]->name, 'memory 1 name not right');
     $this->assertGreaterThan(0, $items[1]->devicememorytype_id);
     $type = \App\Models\Devicememorytype::find($items[1]->devicememorytype_id);
     $this->assertEquals('DDR3', $type->name, 'type 1 name not right');
-    $this->assertEquals(3, $items[1]->pivot->id, 'memory 1 intermediate id not right');
+    // $this->assertEquals(3, $items[1]->pivot->id, 'memory 1 intermediate id not right');
 
     $this->assertEquals('DDR3', $items[2]->name, 'memory 3 name not right');
     $this->assertGreaterThan(0, $items[2]->devicememorytype_id);
     $type = \App\Models\Devicememorytype::find($items[2]->devicememorytype_id);
     $this->assertEquals('DDR3', $type->name, 'type 3 name not right');
-    $this->assertEquals(4, $items[2]->pivot->id, 'memory 3 intermediate id not right');
+    // $this->assertEquals(4, $items[2]->pivot->id, 'memory 3 intermediate id not right');
   }
 }

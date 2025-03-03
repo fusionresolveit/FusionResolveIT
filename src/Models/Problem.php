@@ -234,4 +234,10 @@ class Problem extends Common
   {
     return $this->morphToMany(\App\Models\Project::class, 'item', 'itil_project');
   }
+
+  /** @return BelongsToMany<\App\Models\Ticket, $this> */
+  public function tickets(): BelongsToMany
+  {
+    return $this->belongsToMany(\App\Models\Ticket::class);
+  }
 }

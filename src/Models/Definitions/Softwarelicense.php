@@ -67,7 +67,7 @@ class Softwarelicense
       'number',
       dbname: 'number',
       values: \App\v1\Controllers\Dropdown::generateNumbers(
-        1,
+        0,
         10000,
         1,
         ['-1' => $translator->translate('Unlimited')],
