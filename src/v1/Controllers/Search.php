@@ -32,11 +32,6 @@ final class Search extends Common
       return [];
     }
 
-    // echo "<pre>";
-    // print_r($itemDef);
-    // echo "</pre>";
-    // die();
-
     // columns
     $newItemDef = [];
     foreach ($itemDef as $field)
@@ -45,7 +40,8 @@ final class Search extends Common
       {
         continue;
       }
-      if (isset($prefs[$field->id]))
+
+      if (in_array($field->id, $prefs))
       {
         $newItemDef[] = $field;
       }
@@ -83,10 +79,6 @@ final class Search extends Common
         $item = $item->where($key, $value);
       }
     }
-    // echo "<pre>";
-    // print_r($item);
-    // echo "</pre>";
-    // die();
 
     if (get_class($item) == \App\Models\Ticket::class)
     {
@@ -118,17 +110,7 @@ final class Search extends Common
 
     $items = $item->offset($start)->take($limit)->get();
 
-    // echo "<pre>";
-    // print_r($items);
-    // echo "</pre>";
-    // die();
-
     $itemDbData = $this->prepareValues($newItemDef, $items, $uri);
-
-    // echo "<pre>";
-    // print_r($itemDbData);
-    // echo "</pre>";
-    // die();
 
     $itemDbData['paging'] = [
       'total'     => $cnt,
@@ -186,9 +168,10 @@ final class Search extends Common
             //   ];
             // }
             // elseif (!is_null($field->multiple))
-            if (!is_null($field->multiple))
+            if ($field->multiple === true)
             {
               $elements = [];
+
               foreach ($item->{$field->name} as $t)
               {
                 $elements[] = $t->name;
