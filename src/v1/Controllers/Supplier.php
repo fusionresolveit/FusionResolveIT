@@ -37,8 +37,6 @@ final class Supplier extends Common implements \App\Interfaces\Crud
   protected $model = \App\Models\Supplier::class;
   protected $rootUrl2 = '/suppliers/';
   protected $choose = 'suppliers';
-  protected $associateditems_model = '\App\Models\Infocom';
-  protected $associateditems_model_id = 'supplier_id';
 
   protected function instanciateModel(): \App\Models\Supplier
   {

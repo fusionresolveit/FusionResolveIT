@@ -63,7 +63,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
    *          'itemPassivedcequipments': \App\Models\Passivedcequipment
    *         }
    */
-  protected function modelsForSubItem()
+  public function modelsForSubItem()
   {
     return [
       'itemComputers'           => new \App\Models\Computer(),
@@ -553,105 +553,89 @@ final class Ticket extends Common implements \App\Interfaces\Crud
   {
     global $translator;
 
-    $item = new \App\Models\Ticket();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
+    $ticket = \App\Models\Ticket::where('id', $args['id'])->with('projecttasks')->first();
+    if (is_null($ticket))
     {
       throw new \Exception('Id not found', 404);
     }
-
-    $item2 = new \App\Models\Project();
-    $myItem2 = $item2->get();
 
     $rootUrl = $this->genereRootUrl($request, '/projecttasks');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $myProjecttasks = [];
-    $tabProjecttasksId = [];
-    foreach ($myItem->projecttasks as $projecttask)
+    foreach ($ticket->projecttasks as $task)
     {
-      $projecttask_id = $projecttask->projecttask_id;
-      $tabProjecttasksId[] = $projecttask_id;
-    }
+      $name = $task->name;
 
-    foreach ($myItem2 as $current_item)
-    {
-      if ($current_item->tasks !== null)
+      $url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/projecttasks/', $task->id);
+
+      $type = '';
+      $type_url = '';
+      if ($task->type !== null)
       {
-        foreach ($current_item->tasks as $task)
-        {
-          if (in_array($task->id, $tabProjecttasksId))
-          {
-            $name = $task->name;
-
-            $url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/projecttasks/', $task->id);
-
-            $type = '';
-            $type_url = '';
-            if ($task->type !== null)
-            {
-              $type = $task->type->name;
-              $type_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/projecttasktypes/', $task->type->id);
-            }
-
-            $status = '';
-            $status_color = '';
-            if ($task->state !== null)
-            {
-              $status = $task->state->name;
-              $status_color = $task->state->color;
-            }
-
-            $percent_done = $task->percent_done;
-            $percent_done = $this->getValueWithUnit($percent_done, '%', 0);
-
-            $planned_start_date = $task->plan_start_date;
-
-            $planned_end_date = $task->plan_end_date;
-
-            $planned_duration = $this->timestampToString($task->planned_duration, false);
-
-            $effective_duration = $this->timestampToString($task->effective_duration, false);
-
-            $father = '';
-            $father_url = '';
-            if ($task->parent !== null)
-            {
-              $father = $task->parent->name;
-              $father_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/projecttasks/', $task->parent->id);
-            }
-
-            $project = $current_item->name;
-            $project_url = $this->genereRootUrl2Link($rootUrl2, '/projects/', $current_item->id);
-
-            $myProjecttasks[] = [
-              'name'                  => $name,
-              'url'                   => $url,
-              'type'                  => $type,
-              'type_url'              => $type_url,
-              'status'                => $status,
-              'status_color'          => $status_color,
-              'percent_done'          => $percent_done,
-              'planned_start_date'    => $planned_start_date,
-              'planned_end_date'      => $planned_end_date,
-              'planned_duration'      => $planned_duration,
-              'effective_duration'    => $effective_duration,
-              'father'                => $father,
-              'father_url'            => $father_url,
-              'project'               => $project,
-              'project_url'           => $project_url,
-            ];
-          }
-        }
+        $type = $task->type->name;
+        $type_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/projecttasktypes/', $task->type->id);
       }
+
+      $status = '';
+      $status_color = '';
+      if ($task->state !== null)
+      {
+        $status = $task->state->name;
+        $status_color = $task->state->color;
+      }
+
+      $percent_done = $task->percent_done;
+      $percent_done = $this->getValueWithUnit($percent_done, '%', 0);
+
+      $planned_start_date = $task->plan_start_date;
+
+      $planned_end_date = $task->plan_end_date;
+
+      $planned_duration = $this->timestampToString($task->planned_duration, false);
+
+      $effective_duration = $this->timestampToString($task->effective_duration, false);
+
+      $father = '';
+      $father_url = '';
+      if ($task->parent !== null)
+      {
+        $father = $task->parent->name;
+        $father_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/projecttasks/', $task->parent->id);
+      }
+
+      $project = $task->project;
+      $project_url = null;
+      if (!is_null($project))
+      {
+        $project_url = $this->genereRootUrl2Link($rootUrl2, '/projects/', $project->id);
+      }
+
+      $myProjecttasks[] = [
+        'name'                  => $name,
+        'url'                   => $url,
+        'type'                  => $type,
+        'type_url'              => $type_url,
+        'status'                => $status,
+        'status_color'          => $status_color,
+        'percent_done'          => $percent_done,
+        'planned_start_date'    => $planned_start_date,
+        'planned_end_date'      => $planned_end_date,
+        'planned_duration'      => $planned_duration,
+        'effective_duration'    => $effective_duration,
+        'father'                => $father,
+        'father_url'            => $father_url,
+        'project'               => $project,
+        'project_url'           => $project_url,
+      ];
     }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ticket, $request);
+    $viewData->addRelatedPages($ticket->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $ticket->getFormData($ticket));
     $viewData->addData('projecttasks', $myProjecttasks);
     $viewData->addData('show', $this->choose);
 

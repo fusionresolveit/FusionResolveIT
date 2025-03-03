@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Rule extends \App\Models\Common
 {
+  // need declare here for child class extends this class
   protected $table = 'rules';
   protected $definition = \App\Models\Definitions\Rule::class;
   protected $titles = ['Rule', 'Rules'];

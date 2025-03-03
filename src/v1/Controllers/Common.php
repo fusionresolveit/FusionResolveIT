@@ -19,12 +19,6 @@ abstract class Common
   /** @var string */
   protected $choose = '';
 
-  /** @var string */
-  protected $associateditems_model = '';
-
-  /** @var string */
-  protected $associateditems_model_id = '';
-
   /** @var int */
   protected $MINUTE_TIMESTAMP = 60;
 
@@ -850,11 +844,11 @@ abstract class Common
     $names = [];
     if (!is_null($lastname))
     {
-      $$names[] = $lastname;
+      $names[] = $lastname;
     }
     if (!is_null($firstname))
     {
-      $$names[] = $firstname;
+      $names[] = $firstname;
     }
 
     $ret = implode(' ', $names);

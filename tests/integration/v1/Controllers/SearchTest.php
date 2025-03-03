@@ -32,8 +32,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Notification')]
 #[UsesClass('\App\Models\Definitions\Problem')]
 #[UsesClass('\App\Models\Definitions\Profile')]
-#[UsesClass('\App\Models\Definitions\ProfileUser')]
-#[UsesClass('\App\Models\Definitions\ProjecttaskTicket')]
 #[UsesClass('\App\Models\Definitions\Rule')]
 #[UsesClass('\App\Models\Definitions\Solution')]
 #[UsesClass('\App\Models\Definitions\Ticket')]

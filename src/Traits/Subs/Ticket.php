@@ -20,170 +20,151 @@ trait Ticket
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->where('id', $args['id'])->first();
+    $myItem = $item->where('id', $args['id'])->with('tickets')->first();
     if (is_null($myItem))
     {
       throw new \Exception('Id not found', 404);
-    }
-
-    $myItem2 = [];
-    if ($this->choose == 'changes')
-    {
-      $item2 = new \App\Models\ChangeTicket();
-      $myItem2 = $item2::where('change_id', $args['id'])->get();
-    }
-    if ($this->choose == 'problems')
-    {
-      $item2 = new \App\Models\ProblemTicket();
-      $myItem2 = $item2::where('problem_id', $args['id'])->get();
-    }
-    if ($this->choose == 'projecttasks')
-    {
-      $item2 = new \App\Models\ProjecttaskTicket();
-      $myItem2 = $item2::where('projecttask_id', $args['id'])->get();
     }
 
     $rootUrl = $this->genereRootUrl($request, '/tickets');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $tickets = [];
-    foreach ($myItem2 as $current_item)
+    foreach ($myItem->tickets as $ticket)
     {
-      $item3 = new \App\Models\Ticket();
-      $myItem3 = $item3->where('id', $current_item->ticket_id)->first();
-      if ($myItem3 !== null)
+      $url = $this->genereRootUrl2Link($rootUrl2, '/tickets/', $ticket->id);
+
+      $status = $this->getStatusArray()[$ticket->status];
+
+      $entity = '';
+      $entity_url = '';
+      if ($ticket->entity !== null)
       {
-        $url = $this->genereRootUrl2Link($rootUrl2, '/tickets/', $myItem3->id);
+        $entity = $ticket->entity->completename;
+        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $ticket->entity->id);
+      }
 
-        $status = $this->getStatusArray()[$myItem3->status];
+      $priority = $this->getPriorityArray()[$ticket->priority];
 
-        $entity = '';
-        $entity_url = '';
-        if ($myItem3->entity !== null)
+      $requesters = [];
+      if ($ticket->requester !== null)
+      {
+        foreach ($ticket->requester as $requester)
         {
-          $entity = $myItem3->entity->completename;
-          $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
-        }
+          $requester_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $requester->id);
 
-        $priority = $this->getPriorityArray()[$myItem3->priority];
-
-        $requesters = [];
-        if ($myItem3->requester !== null)
-        {
-          foreach ($myItem3->requester as $requester)
-          {
-            $requester_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $requester->id);
-
-            $requesters[] = [
-              'url'   => $requester_url,
-              'name'  => $this->genereUserName($requester->name, $requester->lastname, $requester->firstname),
-            ];
-          }
-        }
-        if ($myItem3->requestergroup !== null)
-        {
-          foreach ($myItem3->requestergroup as $requestergroup)
-          {
-            $requester_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $requestergroup->id);
-
-            $requesters[] = [
-              'url'   => $requester_url,
-              'name'  => $requestergroup->completename,
-            ];
-          }
-        }
-
-        $technicians = [];
-        if ($myItem3->technician !== null)
-        {
-          foreach ($myItem3->technician as $technician)
-          {
-            $technician_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $technician->id);
-
-            $technicians[] = [
-              'url'   => $technician_url,
-              'name'  => $this->genereUserName($technician->name, $technician->lastname, $technician->firstname),
-            ];
-          }
-        }
-        if ($myItem3->techniciangroup !== null)
-        {
-          foreach ($myItem3->techniciangroup as $techniciangroup)
-          {
-            $technician_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $techniciangroup->id);
-
-            $technicians[] = [
-              'url'   => $technician_url,
-              'name'  => $techniciangroup->completename,
-            ];
-          }
-        }
-
-        $associated_items = [];
-        $item4 = new \App\Models\ItemTicket();
-        $myItem4 = $item4::where('ticket_id', $current_item->ticket_id)->get();
-        foreach ($myItem4 as $val)
-        {
-          $item5 = new $val->item_type();
-          $myItem5 = $item5->where('id', $val->item_id)->first();
-          if ($myItem5 !== null)
-          {
-            $type5_fr = $item5->getTitle();
-            $type5 = $item5->getTable();
-
-            $name5 = $myItem5->name;
-
-            $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $myItem5->id);
-
-            if ($type5_fr != '')
-            {
-              $type5_fr = $type5_fr . ' - ';
-            }
-
-            $associated_items[] = [
-              'type'     => $type5_fr,
-              'name'     => $name5,
-              'url'      => $url5,
-            ];
-          }
-        }
-
-        if (empty($associated_items))
-        {
-          $associated_items[] = [
-            'type'     => '',
-            'name'     => $translator->translate('General'),
-            'url'      => '',
+          $requesters[] = [
+            'url'   => $requester_url,
+            'name'  => $this->genereUserName($requester->name, $requester->lastname, $requester->firstname),
           ];
         }
-
-        $category = '';
-        $category_url = '';
-        if ($myItem3->category !== null)
+      }
+      if ($ticket->requestergroup !== null)
+      {
+        foreach ($ticket->requestergroup as $requestergroup)
         {
-          $category = $myItem3->category->name;
-          $category_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/categories/', $myItem3->category->id);
+          $requester_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $requestergroup->id);
+
+          $requesters[] = [
+            'url'   => $requester_url,
+            'name'  => $requestergroup->completename,
+          ];
         }
+      }
 
-        $planification = 0; // TODO
+      $technicians = [];
+      if ($ticket->technician !== null)
+      {
+        foreach ($ticket->technician as $technician)
+        {
+          $technician_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $technician->id);
 
-        $tickets[$myItem3->id] = [
-          'url'                 => $url,
-          'status'              => $status,
-          'date'                => $myItem3->created_at,
-          'last_update'         => $myItem3->updated_at,
-          'entity'              => $entity,
-          'entity_url'          => $entity_url,
-          'priority'            => $priority,
-          'requesters'          => $requesters,
-          'technicians'         => $technicians,
-          'associated_items'    => $associated_items,
-          'title'               => $myItem3->name,
-          'category'            => $category,
-          'category_url'        => $category_url,
-          'planification'       => $planification,
+          $technicians[] = [
+            'url'   => $technician_url,
+            'name'  => $this->genereUserName($technician->name, $technician->lastname, $technician->firstname),
+          ];
+        }
+      }
+      if ($ticket->techniciangroup !== null)
+      {
+        foreach ($ticket->techniciangroup as $techniciangroup)
+        {
+          $technician_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $techniciangroup->id);
+
+          $technicians[] = [
+            'url'   => $technician_url,
+            'name'  => $techniciangroup->completename,
+          ];
+        }
+      }
+
+      $associated_items = [];
+      $ctrlTicket = new \App\v1\Controllers\Ticket();
+      $modelsForSub = $ctrlTicket->modelsForSubItem();
+      foreach (array_keys($modelsForSub) as $relationKey)
+      {
+        $relTicket = \App\Models\Ticket::where('id', $ticket->id)->with($relationKey)->first();
+        if (is_null($relTicket))
+        {
+          continue;
+        }
+        foreach ($relTicket->{$relationKey} as $relItem)
+        {
+          $type5_fr = $relItem->getTitle();
+          $type5 = $relItem->getTable();
+
+          $name5 = $relItem->name;
+
+          $url5 = $this->genereRootUrl2Link($rootUrl2, '/' . $type5 . '/', $relItem->id);
+
+          if ($type5_fr != '')
+          {
+            $type5_fr = $type5_fr . ' - ';
+          }
+
+          $associated_items[] = [
+            'type'     => $type5_fr,
+            'name'     => $name5,
+            'url'      => $url5,
+          ];
+        }
+      }
+
+      if (empty($associated_items))
+      {
+        $associated_items[] = [
+          'type'     => '',
+          'name'     => $translator->translate('General'),
+          'url'      => '',
         ];
       }
+
+      $category = '';
+      $category_url = '';
+      if ($ticket->category !== null)
+      {
+        $category = $ticket->category->name;
+        $category_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/categories/', $ticket->category->id);
+      }
+
+      $planification = 0; // TODO
+
+      $tickets[$ticket->id] = [
+        'url'                 => $url,
+        'status'              => $status,
+        'date'                => $ticket->created_at,
+        'last_update'         => $ticket->updated_at,
+        'entity'              => $entity,
+        'entity_url'          => $entity_url,
+        'priority'            => $priority,
+        'requesters'          => $requesters,
+        'technicians'         => $technicians,
+        'associated_items'    => $associated_items,
+        'title'               => $ticket->name,
+        'category'            => $category,
+        'category_url'        => $category_url,
+        'planification'       => $planification,
+      ];
     }
 
     // tri de la + récente à la + ancienne

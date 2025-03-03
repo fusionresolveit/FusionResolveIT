@@ -37,8 +37,6 @@ final class Domain extends Common implements \App\Interfaces\Crud
   protected $model = \App\Models\Domain::class;
   protected $rootUrl2 = '/domains/';
   protected $choose = 'domains';
-  protected $associateditems_model = '\App\Models\DomainItem';
-  protected $associateditems_model_id = 'domain_id';
 
   protected function instanciateModel(): \App\Models\Domain
   {

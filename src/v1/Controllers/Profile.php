@@ -794,22 +794,19 @@ final class Profile extends Common implements \App\Interfaces\Crud
     $item = new \App\Models\Profile();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
+    $profile = \App\Models\Profile::where('id', $args['id'])->with('users')->first();
+    if (is_null($profile))
     {
       throw new \Exception('Id not found', 404);
     }
-
-    $item2 = new \App\Models\ProfileUser();
-    $myItem2 = $item2::where('profile_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/users');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $myUsers = [];
-    foreach ($myItem2 as $current_item)
+    foreach ($profile->users as $current_item)
     {
-      $entity_id = $current_item->entity_id;
+      $entity_id = $current_item->getRelationValue('pivot')->entity_id;
       $entity = '';
       $findentity = \App\Models\Entity::where('id', $entity_id)->first();
       if ($findentity !== null)
@@ -817,16 +814,10 @@ final class Profile extends Common implements \App\Interfaces\Crud
         $entity = $findentity->completename;
       }
 
-      $user_id = $current_item->user_id;
-      $user = '';
-      $finduser = \App\Models\User::where('id', $user_id)->first();
-      if ($finduser !== null)
-      {
-        $user = $this->genereUserName($finduser->name, $finduser->lastname, $finduser->firstname);
-      }
+      $user = $this->genereUserName($current_item->name, $current_item->lastname, $current_item->firstname);
 
       $is_recursive = '';
-      if ($current_item->is_recursive == 1)
+      if ($current_item->getRelationValue('pivot')->is_recursive == 1)
       {
         $is_recursive_val = $translator->translate('Yes');
       }
@@ -836,7 +827,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
       }
 
       $is_dynamic = '';
-      if ($current_item->is_dynamic == 1)
+      if ($current_item->getRelationValue('pivot')->is_dynamic == 1)
       {
         $is_dynamic_val = $translator->translate('Yes');
       }
@@ -855,9 +846,9 @@ final class Profile extends Common implements \App\Interfaces\Crud
           ];
         }
 
-        $url = $this->genereRootUrl2Link($rootUrl2, '/users/', $user_id);
+        $url = $this->genereRootUrl2Link($rootUrl2, '/users/', $current_item->id);
 
-        $myUsers[$entity_id]['users'][$user_id] = [
+        $myUsers[$entity_id]['users'][$current_item->id] = [
           'name'                  => $user,
           'url'                   => $url,
           'is_recursive'          => $is_recursive,
@@ -871,10 +862,10 @@ final class Profile extends Common implements \App\Interfaces\Crud
     // tri ordre alpha
     array_multisort(array_column($myUsers, 'name'), SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE, $myUsers);
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($profile, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($profile));
     $viewData->addData('users', $myUsers);
     $viewData->addData('show', $this->choose);
 

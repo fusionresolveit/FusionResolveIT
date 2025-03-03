@@ -37,8 +37,6 @@ final class Contract extends Common implements \App\Interfaces\Crud
   protected $model = \App\Models\Contract::class;
   protected $rootUrl2 = '/contracts/';
   protected $choose = 'contracts';
-  protected $associateditems_model = '\App\Models\ContractItem';
-  protected $associateditems_model_id = 'contract_id';
 
   protected function instanciateModel(): \App\Models\Contract
   {

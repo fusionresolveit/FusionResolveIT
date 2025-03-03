@@ -23,8 +23,6 @@ final class Document extends Common
 
   protected $model = \App\Models\Document::class;
   protected $rootUrl2 = '/documents/';
-  protected $associateditems_model = '\App\Models\Documentitem';
-  protected $associateditems_model_id = 'document_id';
 
   protected function instanciateModel(): \App\Models\Document
   {

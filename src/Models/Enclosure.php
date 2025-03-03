@@ -61,7 +61,6 @@ class Enclosure extends Common
     'devicecases',
     'devicegraphiccards',
     'devicedrives',
-    'items',
     'infocom',
   ];
 
@@ -95,7 +94,6 @@ class Enclosure extends Common
     'devicecases:id,name',
     'devicegraphiccards:id,name',
     'devicedrives:id,name',
-    'items',
     'infocom',
   ];
 
@@ -437,11 +435,5 @@ class Enclosure extends Common
       'busID',
       'id',
     );
-  }
-
-  /** @return HasMany<\App\Models\ItemEnclosure, $this> */
-  public function items(): HasMany
-  {
-    return $this->hasMany(\App\Models\ItemEnclosure::class, 'enclosure_id');
   }
 }

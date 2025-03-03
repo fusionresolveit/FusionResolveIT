@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Computer extends Common
 {
   use PivotEventTrait;
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -32,6 +34,35 @@ class Computer extends Common
   protected $definition = \App\Models\Definitions\Computer::class;
   protected $titles = ['Computer', 'Computers'];
   protected $icon = 'laptop';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'softwareversions',
+    'operatingsystems',
+    'memories',
+    'firmwares',
+    'processors',
+    'harddrives',
+    'batteries',
+    'soundcards',
+    'controllers',
+    'certificates',
+    'domains',
+    'appliances',
+    'powersupplies',
+    'sensors',
+    'devicepcis',
+    'devicegenerics',
+    'devicenetworkcards',
+    'devicesimcards',
+    'devicemotherboards',
+    'devicecases',
+    'devicegraphiccards',
+    'devicedrives',
+    'connectionMonitors',
+    'connectionPeripherals',
+    'connectionPhones',
+    'connectionPrinters',
+  ];
 
   protected $appends = [
   ];
@@ -603,5 +634,29 @@ class Computer extends Common
       'busID',
       'id',
     );
+  }
+
+  /** @return MorphToMany<\App\Models\Monitor, $this> */
+  public function connectionMonitors(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Monitor::class, 'item', 'computer_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Peripheral, $this> */
+  public function connectionPeripherals(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'computer_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Phone, $this> */
+  public function connectionPhones(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'computer_item');
+  }
+
+  /** @return MorphToMany<\App\Models\Printer, $this> */
+  public function connectionPrinters(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'computer_item');
   }
 }

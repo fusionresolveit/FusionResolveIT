@@ -42,8 +42,6 @@ final class Certificate extends Common implements \App\Interfaces\Crud
   protected $model = \App\Models\Certificate::class;
   protected $rootUrl2 = '/certificates/';
   protected $choose = 'certificates';
-  protected $associateditems_model = '\App\Models\Certificateitem';
-  protected $associateditems_model_id = 'certificate_id';
 
   protected function instanciateModel(): \App\Models\Certificate
   {
@@ -230,128 +228,105 @@ final class Certificate extends Common implements \App\Interfaces\Crud
     $item = new \App\Models\Certificate();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
+    $certificate = \App\Models\Certificate::where('id', $args['id'])->with('domains')->first();
+    if (is_null($certificate))
     {
       throw new \Exception('Id not found', 404);
     }
-
-    $item2 = new \App\Models\Domain();
-    $myItem2 = $item2::with('certificates')->get();
 
     $rootUrl = $this->genereRootUrl($request, '/domains');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
     $myDomains = [];
-    foreach ($myItem2 as $domain)
+
+    foreach ($certificate->domains as $domain)
     {
-      $add_domain = false;
-      if ($domain->certificates !== null)
+      $entity = '';
+      $entity_url = '';
+      if ($domain->entity !== null)
       {
-        foreach ($domain->certificates as $certificate)
+        $entity = $domain->entity->completename;
+        $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $domain->entity->id);
+      }
+
+      $grouptech = '';
+      $grouptech_url = '';
+      if ($domain->grouptech !== null)
+      {
+        $grouptech = $domain->grouptech->completename;
+        $grouptech_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $domain->grouptech->id);
+      }
+
+      $usertech = '';
+      $usertech_url = '';
+      if ($domain->usertech !== null)
+      {
+        $usertech = $this->genereUserName(
+          $domain->usertech->name,
+          $domain->usertech->lastname,
+          $domain->usertech->firstname
+        );
+        $usertech_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $domain->usertech->id);
+      }
+
+      $type = '';
+      $type_url = '';
+      if ($domain->type !== null)
+      {
+        $type = $domain->type->name;
+        $type_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/domaintypes/', $domain->type->id);
+      }
+
+      $relation = '';
+      $relation_url = '';
+
+      $domainrelation_id = $domain->getRelationValue('pivot')->domainrelation_id;
+      if ($domainrelation_id > 0)
+      {
+        $domainrelation = \App\Models\Domainrelation::where('id', 1)->first();
+        if (!is_null($domainrelation))
         {
-          if ($args['id'] == $certificate->id)
-          {
-            $add_domain = true;
-            break;
-          }
+          $relation = $domainrelation->name;
+          $relation_url = $this->genereRootUrl2Link($rootUrl2, '/domainrelations/', $domainrelation->id);
         }
       }
 
-      if ($add_domain)
+      $alert_expiration = false;
+      $date_expiration = $domain->date_expiration;
+      if ($date_expiration == null)
       {
-        $entity = '';
-        $entity_url = '';
-        if ($domain->entity !== null)
-        {
-          $entity = $domain->entity->completename;
-          $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $domain->entity->id);
-        }
-
-        $grouptech = '';
-        $grouptech_url = '';
-        if ($domain->grouptech !== null)
-        {
-          $grouptech = $domain->grouptech->completename;
-          $grouptech_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $domain->grouptech->id);
-        }
-
-        $usertech = '';
-        $usertech_url = '';
-        if ($domain->usertech !== null)
-        {
-          $usertech = $this->genereUserName(
-            $domain->usertech->name,
-            $domain->usertech->lastname,
-            $domain->usertech->firstname
-          );
-          $usertech_url = $this->genereRootUrl2Link($rootUrl2, '/users/', $domain->usertech->id);
-        }
-
-        $type = '';
-        $type_url = '';
-        if ($domain->type !== null)
-        {
-          $type = $domain->type->name;
-          $type_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/domaintypes/', $domain->type->id);
-        }
-
-        $relation = '';
-        $relation_url = '';
-
-        $item3 = new \App\Models\DomainItem();
-        $myItem3 = $item3::with('relation')->where('domain_id', $domain->id)->get();
-        foreach ($myItem3 as $domainitem)
-        {
-          if (($args['id'] == $domainitem->item_id) && ('\\' . $domainitem->item_type == $this->model))
-          {
-            /** @var \App\Models\Domainrelation|null */
-            $domainrelation = \App\Models\Domainrelation::where('id', $domainitem->domainrelation_id)->first();
-            if ($domainrelation !== null)
-            {
-              $relation = $domainrelation->name;
-              $relation_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/domainrelations/', $domainrelation->id);
-            }
-          }
-        }
-
-        $alert_expiration = false;
-        $date_expiration = $domain->date_expiration;
-        if ($date_expiration == null)
-        {
-          $date_expiration = $translator->translate("N'expire pas");
-        }
-        else
-        {
-          if ($date_expiration < date('Y-m-d H:i:s'))
-          {
-            $alert_expiration = true;
-          }
-        }
-
-        $myDomains[] = [
-          'name'              => $domain->name,
-          'entity'            => $entity,
-          'entity_url'        => $entity_url,
-          'group'             => $grouptech,
-          'group_url'         => $grouptech_url,
-          'user'              => $usertech,
-          'user_url'          => $usertech_url,
-          'type'              => $type,
-          'type_url'          => $type_url,
-          'relation'          => $relation,
-          'relation_url'      => $relation_url,
-          'date_create'       => $domain->created_at,
-          'date_exp'          => $date_expiration,
-          'alert_expiration'  => $alert_expiration,
-        ];
+        $date_expiration = $translator->translate("N'expire pas");
       }
+      else
+      {
+        if ($date_expiration < date('Y-m-d H:i:s'))
+        {
+          $alert_expiration = true;
+        }
+      }
+
+      $myDomains[] = [
+        'name'              => $domain->name,
+        'entity'            => $entity,
+        'entity_url'        => $entity_url,
+        'group'             => $grouptech,
+        'group_url'         => $grouptech_url,
+        'user'              => $usertech,
+        'user_url'          => $usertech_url,
+        'type'              => $type,
+        'type_url'          => $type_url,
+        'relation'          => $relation,
+        'relation_url'      => $relation_url,
+        'date_create'       => $domain->created_at,
+        'date_exp'          => $date_expiration,
+        'alert_expiration'  => $alert_expiration,
+      ];
     }
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($certificate, $request);
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $viewData->addData('fields', $item->getFormData($certificate));
     $viewData->addData('domains', $myDomains);
     $viewData->addData('show', $this->choose);
 

@@ -167,4 +167,10 @@ class Certificate extends Common
   {
     return $this->morphedByMany(\App\Models\User::class, 'item', 'certificate_item');
   }
+
+  /** @return MorphToMany<\App\Models\Domain, $this> */
+  public function domains(): MorphToMany
+  {
+    return $this->morphToMany(\App\Models\Domain::class, 'item', 'domain_item')->withPivot('domainrelation_id');
+  }
 }

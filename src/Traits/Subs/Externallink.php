@@ -31,9 +31,6 @@ trait Externallink
     $item2 = new \App\Models\LinkItemtype();
     $externallinks = $item2::with('links')->where('item_type', $computermodelclass)->get();
 
-    $item3 = new \App\Models\DomainItem();
-    $domainitems = $item3->where(['item_id' => $args['id'], 'item_type' => $computermodelclass])->get();
-
     $rootUrl = $this->genereRootUrl($request, '/externallinks');
 
     $myExternalLinks = [];

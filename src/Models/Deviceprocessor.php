@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Deviceprocessor extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
@@ -21,6 +23,8 @@ class Deviceprocessor extends Common
   protected $definition = \App\Models\Definitions\Deviceprocessor::class;
   protected $titles = ['Processor', 'Processors'];
   protected $icon = 'edit';
+  /** @var string[] */
+  protected $cascadeDeletes = ['itemComputers'];
 
   protected $appends = [
   ];

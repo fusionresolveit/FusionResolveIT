@@ -32,8 +32,6 @@ final class Budget extends Common implements \App\Interfaces\Crud
   protected $model = \App\Models\Budget::class;
   protected $rootUrl2 = '/budgets/';
   protected $choose = 'budgets';
-  protected $associateditems_model = \App\Models\Infocom::class;
-  protected $associateditems_model_id = 'budget_id';
 
   protected function instanciateModel(): \App\Models\Budget
   {
@@ -198,7 +196,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
       throw new \Exception('Id not found', 404);
     }
 
-    $infocoms = \App\Models\Infocom::where($this->associateditems_model_id, $args['id'])->get();
+    $infocoms = \App\Models\Infocom::where('budget_id', $args['id'])->get();
 
     $rootUrl = $this->genereRootUrl($request, '/budgetmain');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);

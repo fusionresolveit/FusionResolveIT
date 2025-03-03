@@ -49,7 +49,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Entity')]
 #[UsesClass('\App\Models\Definitions\Group')]
 #[UsesClass('\App\Models\Definitions\Infocom')]
-#[UsesClass('\App\Models\Definitions\ItemSoftwareversion')]
 #[UsesClass('\App\Models\Definitions\Itemdisk')]
 #[UsesClass('\App\Models\Definitions\Knowbaseitem')]
 #[UsesClass('\App\Models\Definitions\Location')]
@@ -80,9 +79,11 @@ final class ComputersoftwareTest extends TestCase
   public function testSoftwaresWithNoName(): void
   {
     // delete softwares
-    \App\Models\Software::truncate();
-    // delete software versionss
-    \App\Models\Softwareversion::truncate();
+    $softwares = \App\Models\Software::get();
+    foreach ($softwares as $software)
+    {
+      $software->forceDelete();
+    }
 
     $myData = [
       'name' => 'testSoftwaresWithNoName',
@@ -135,9 +136,11 @@ final class ComputersoftwareTest extends TestCase
   public function testSoftwareCreated(): void
   {
     // delete softwares
-    \App\Models\Software::truncate();
-    // delete software versionss
-    \App\Models\Softwareversion::truncate();
+    $softwares = \App\Models\Software::get();
+    foreach ($softwares as $software)
+    {
+      $software->forceDelete();
+    }
 
     $myData = [
       'name' => 'testSoftwaresWithNoName',
@@ -194,11 +197,11 @@ final class ComputersoftwareTest extends TestCase
   public function testSoftwareUpdateWithNewVersion(): void
   {
     // delete softwares
-    \App\Models\Software::truncate();
-    // delete software versions
-    \App\Models\Softwareversion::truncate();
-    // delete linked table
-    \App\Models\ItemSoftwareversion::truncate();
+    $softwares = \App\Models\Software::get();
+    foreach ($softwares as $software)
+    {
+      $software->forceDelete();
+    }
 
     $myData = [
       'name' => 'testSoftwaresWithNoName',
@@ -270,9 +273,7 @@ final class ComputersoftwareTest extends TestCase
     $items = \App\Models\Software::get();
 
     $this->assertEquals(2, count($items), 'two softwares must be present in database');
-    $this->assertEquals(1, $items[0]->id, 'software 1 id not same');
     $this->assertEquals('FusionInventory Agent', $items[0]->name, 'software 1 name not same');
-    $this->assertEquals(2, $items[1]->id, 'software 2 id not same');
     $this->assertEquals('Branding', $items[1]->name, 'software 2 name not same');
 
     $this->assertGreaterThan(0, $items[0]->manufacturer_id, 'Software 1 manufacturer not same');
@@ -298,18 +299,24 @@ final class ComputersoftwareTest extends TestCase
     $this->assertEquals('2.2.8', $computer->softwareversions[1]->name);
 
     // check only have 2 items in item_softwareversion (relations table)
-    $itemlinks = \App\Models\ItemSoftwareversion::get();
-    $this->assertEquals(2, count($itemlinks), 'must have 2 lines in relations table');
+    $softwareVersions = \App\Models\Softwareversion::with('devices')->get();
+    $nb = 0;
+    foreach ($softwareVersions as $softwareVersion)
+    {
+      $nb += count($softwareVersion->devices);
+    }
+
+    $this->assertEquals(2, $nb, 'must have 2 lines in relations table');
   }
 
   public function testSoftwareUpdateWithoutSoftwareAndWithNewSoftware(): void
   {
     // delete softwares
-    \App\Models\Software::truncate();
-    // delete software versions
-    \App\Models\Softwareversion::truncate();
-    // delete linked table
-    \App\Models\ItemSoftwareversion::truncate();
+    $softwares = \App\Models\Software::get();
+    foreach ($softwares as $software)
+    {
+      $software->forceDelete();
+    }
 
     $myData = [
       'name' => 'testSoftwaresWithNoName',
@@ -380,11 +387,8 @@ final class ComputersoftwareTest extends TestCase
     $items = \App\Models\Software::get();
 
     $this->assertEquals(3, count($items), 'three softwares must be present in database');
-    $this->assertEquals(1, $items[0]->id, 'software 1 id not same');
     $this->assertEquals('FusionInventory Agent', $items[0]->name, 'software 1 name not same');
-    $this->assertEquals(2, $items[1]->id, 'software 2 id not same');
     $this->assertEquals('Branding', $items[1]->name, 'software 2 name not same');
-    $this->assertEquals(3, $items[2]->id, 'software 3 id not same');
     $this->assertEquals('Microsoft .NET Framework 3.5 SP1', $items[2]->name, 'software 3 name not same');
 
     $this->assertGreaterThan(0, $items[0]->manufacturer_id, 'Software 1 manufacturer not same');
@@ -413,18 +417,23 @@ final class ComputersoftwareTest extends TestCase
     $this->assertEquals($items[2]->id, $computer->softwareversions[1]->software_id);
 
     // check only have 2 items in item_softwareversion (relations table)
-    $itemlinks = \App\Models\ItemSoftwareversion::get();
-    $this->assertEquals(2, count($itemlinks), 'must have 2 lines in relations table');
+    $softwareVersions = \App\Models\Softwareversion::with('devices')->get();
+    $nb = 0;
+    foreach ($softwareVersions as $softwareVersion)
+    {
+      $nb += count($softwareVersion->devices);
+    }
+    $this->assertEquals(2, $nb, 'must have 2 lines in relations table');
   }
 
   public function testSoftwareUpdatePivotField(): void
   {
     // delete softwares
-    \App\Models\Software::truncate();
-    // delete software versions
-    \App\Models\Softwareversion::truncate();
-    // delete linked table
-    \App\Models\ItemSoftwareversion::truncate();
+    $softwares = \App\Models\Software::get();
+    foreach ($softwares as $software)
+    {
+      $software->forceDelete();
+    }
 
     $myData = [
       'name' => 'testSoftware pivot',

@@ -25,7 +25,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[UsesClass('\App\Models\Definitions\Knowbaseitemcategory')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
 #[UsesClass('\App\Models\Definitions\Problemtemplate')]
-#[UsesClass('\App\Models\Definitions\ProfileUser')]
 #[UsesClass('\App\Models\Definitions\Rule')]
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Entity')]

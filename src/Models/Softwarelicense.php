@@ -160,4 +160,10 @@ class Softwarelicense extends Common
   {
     return $this->hasMany(\App\Models\Softwarelicense::class);
   }
+
+  /** @return MorphToMany<\App\Models\Computer, $this> */
+  public function computers(): MorphToMany
+  {
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_softwarelicense');
+  }
 }

@@ -32,7 +32,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[UsesClass('\App\Models\Definitions\User')]
 #[UsesClass('\App\Models\Definitions\Usercategory')]
 #[UsesClass('\App\Models\Definitions\Usertitle')]
-#[UsesClass('\App\Models\ItemDeviceprocessor')]
 #[UsesClass('\App\Models\Rules\Rule')]
 #[UsesClass('\App\Models\Ticket')]
 #[UsesClass('\App\Models\User')]
