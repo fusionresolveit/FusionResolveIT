@@ -213,7 +213,7 @@ final class V20250303092857 extends AbstractMigration
         foreach ($nums as $num)
         {
           $this->execute(
-            "INSERT INTO displaypreferences (`itemtype`, `num`, `rank`) VALUES (?, ?, ?)",
+            "INSERT INTO displaypreferences (itemtype, num, rank) VALUES (?, ?, ?)",
             [$modelName, $num, $rank]
           );
           $rank += 1;
