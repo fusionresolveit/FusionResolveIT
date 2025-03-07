@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Slm extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
 
   use GetDropdownValues;
@@ -19,6 +21,11 @@ class Slm extends Common
   protected $definition = \App\Models\Definitions\Slm::class;
   protected $titles = ['Service level', 'Service levels'];
   protected $icon = 'edit';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'slas',
+    'olas',
+  ];
 
   protected $appends = [
   ];

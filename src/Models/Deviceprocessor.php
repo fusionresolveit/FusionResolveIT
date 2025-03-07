@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -24,7 +23,9 @@ class Deviceprocessor extends Common
   protected $titles = ['Processor', 'Processors'];
   protected $icon = 'edit';
   /** @var string[] */
-  protected $cascadeDeletes = ['itemComputers'];
+  protected $cascadeDeletes = [
+    'itemComputers',
+  ];
 
   protected $appends = [
   ];

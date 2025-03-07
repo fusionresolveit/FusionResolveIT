@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Problem extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Knowbaseitems;
@@ -23,6 +25,38 @@ class Problem extends Common
   protected $definition = \App\Models\Definitions\Problem::class;
   protected $titles = ['Problem', 'Problems'];
   protected $icon = 'drafting compass';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'notes',
+    'knowbaseitems',
+    'requester',
+    'requestergroup',
+    'technician',
+    'techniciangroup',
+    'changes',
+    'costs',
+    'itemComputers',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPeripherals',
+    'itemPhones',
+    'itemPrinters',
+    'itemSoftwares',
+    'itemSoftwarelicenses',
+    'itemCertificates',
+    'itemLines',
+    'itemDcrooms',
+    'itemRacks',
+    'itemEnclosures',
+    'itemClusters',
+    'itemPdus',
+    'itemDomains',
+    'itemDomainrecords',
+    'itemAppliances',
+    'itemPassivedcequipments',
+    'projects',
+    'tickets',
+  ];
 
   protected $appends = [
   ];

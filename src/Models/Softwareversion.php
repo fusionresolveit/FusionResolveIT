@@ -22,7 +22,9 @@ class Softwareversion extends Common
   protected $titles = ['Software version', 'Software versions'];
   protected $icon = 'edit';
   /** @var string[] */
-  protected $cascadeDeletes = ['devices'];
+  protected $cascadeDeletes = [
+    'devices',
+  ];
 
   protected $appends = [
   ];

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Domain extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Tickets;
@@ -26,6 +28,26 @@ class Domain extends Common
   protected $definition = \App\Models\Definitions\Domain::class;
   protected $titles = ['Domain', 'Domains'];
   protected $icon = 'globe americas';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'certificates',
+    'records',
+    'itemAppliances',
+    'itemCertificates',
+    'itemComputers',
+    'itemPeripherals',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPhones',
+    'itemPrinters',
+    'itemSoftwares',
+  ];
 
   protected $appends = [
   ];

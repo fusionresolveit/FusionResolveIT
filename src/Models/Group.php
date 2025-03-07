@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Group extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Notes;
   use \App\Traits\Relationships\Changes;
@@ -22,6 +24,12 @@ class Group extends Common
   protected $titles = ['Group', 'Groups'];
   protected $icon = 'users';
   protected $tree = true;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'notes',
+    'changes',
+    'parents'
+  ];
 
   protected $appends = [
     // 'completename',

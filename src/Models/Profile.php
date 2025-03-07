@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Profile extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
 
   use GetDropdownValues;
 
@@ -18,6 +20,10 @@ class Profile extends Common
   protected $titles = ['Profile', 'Profiles'];
   protected $icon = 'user check';
   protected $hasEntityField = false;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'users',
+  ];
 
   protected $appends = [
   ];

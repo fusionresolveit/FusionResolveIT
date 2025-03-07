@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Crontask extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
 
   use GetDropdownValues;
 
@@ -18,6 +20,10 @@ class Crontask extends Common
   protected $titles = ['Automatic action', 'Automatic actions'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'crontaskexecutions',
+  ];
 
   /** @return HasMany<\App\Models\Crontaskexecution, $this> */
   public function crontaskexecutions(): HasMany

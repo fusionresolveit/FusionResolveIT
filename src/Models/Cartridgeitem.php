@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Cartridgeitem extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -24,6 +26,14 @@ class Cartridgeitem extends Common
   protected $definition = \App\Models\Definitions\Cartridgeitem::class;
   protected $titles = ['Cartridge', 'Cartridges'];
   protected $icon = 'fill drip';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'infocom',
+    'notes',
+    'cartridges',
+    'printermodels',
+  ];
 
   protected $appends = [
   ];

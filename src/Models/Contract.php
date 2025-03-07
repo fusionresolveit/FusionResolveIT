@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Contract extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
@@ -24,6 +26,34 @@ class Contract extends Common
   protected $definition = \App\Models\Definitions\Contract::class;
   protected $titles = ['Contract', 'Contracts'];
   protected $icon = 'file signature';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'notes',
+    'knowbaseitems',
+    'suppliers',
+    'costs',
+    'itemAppliances',
+    'itemCertificates',
+    'itemClusters',
+    'itemComputers',
+    'itemDcrooms',
+    'itemDomains',
+    'itemEnclosures',
+    'itemLines',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPassivedcequipments',
+    'itemPdus',
+    'itemPeripherals',
+    'itemPhones',
+    'itemPrinters',
+    'itemProjects',
+    'itemRacks',
+    'itemSoftwares',
+    'itemSoftwarelicenses',
+    'itemSuppliers',
+  ];
 
   protected $appends = [
   ];

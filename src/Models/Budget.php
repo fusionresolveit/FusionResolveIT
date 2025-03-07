@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Budget extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -24,6 +26,36 @@ class Budget extends Common
   protected $definition = \App\Models\Definitions\Budget::class;
   protected $titles = ['Budget', 'Budgets'];
   protected $icon = 'calculator';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'itemAppliances',
+    'itemCartridgeitems',
+    'itemCertificates',
+    'itemComputers',
+    'itemConsumableitems',
+    'itemDcrooms',
+    'itemDomains',
+    'itemEnclosures',
+    'itemLines',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPassivedcequipments',
+    'itemPdus',
+    'itemPeripherals',
+    'itemPhones',
+    'itemPrinters',
+    'itemRacks',
+    'itemSoftwares',
+    'itemSoftwarelicenses',
+    'itemContracts',
+    'itemTickets',
+    'itemProblems',
+    'itemChanges',
+    'itemProjects',
+    'documents',
+    'notes',
+    'knowbaseitems',
+  ];
 
   protected $appends = [
   ];

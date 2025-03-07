@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Appliance extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -28,6 +30,26 @@ class Appliance extends Common
   protected $definition = \App\Models\Definitions\Appliance::class;
   protected $titles = ['Appliance', 'Appliances'];
   protected $icon = 'cubes';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'certificates',
+    'domains',
+    'itemComputers',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPeripherals',
+    'itemPhones',
+    'itemPrinters',
+    'itemSoftwares',
+    'itemClusters',
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'Infocom',
+    'contracts',
+    'knowbaseitems',
+  ];
 
   protected $appends = [
   ];

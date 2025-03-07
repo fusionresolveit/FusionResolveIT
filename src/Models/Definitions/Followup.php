@@ -50,6 +50,8 @@ class Followup
       relationfields: ['id', 'name', 'completename']
     ));
     $defColl->add(new Def(1001, $t['is_tech'], 'boolean', 'is_private', fillable: true, display: false));
+    $defColl->add(new Def(1002, '', 'input', 'item_id', fillable: true, display: false));
+    $defColl->add(new Def(1003, '', 'input', 'item_type', fillable: true, display: false));
 
     return $defColl;
     // [

@@ -7,10 +7,12 @@ namespace App\Models\Forms;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Question extends \App\Models\Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
 
   use GetDropdownValues;
 
@@ -18,6 +20,10 @@ class Question extends \App\Models\Common
   protected $titles = ['Question', 'Questions'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'sections',
+  ];
 
   /** @return BelongsToMany<\App\Models\Forms\Section, $this> */
   public function sections(): BelongsToMany

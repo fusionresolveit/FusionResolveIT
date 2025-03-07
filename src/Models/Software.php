@@ -34,7 +34,20 @@ class Software extends Common
   protected $titles = ['Software', 'Software'];
   protected $icon = 'cube';
   /** @var string[] */
-  protected $cascadeDeletes = ['versions'];
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'reservations',
+    'versions',
+    'domains',
+    'appliances',
+  ];
 
   protected $appends = [
   ];

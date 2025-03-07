@@ -23,11 +23,41 @@ class PostFollowup extends Post
   /** @var ?\App\Models\User */
   public $user;
 
+  /** @var ?int */
+  protected $item_id;
+
+  /** @var ?string */
+  protected $item_type;
+
   public function __construct(object $data)
   {
     $this->loadRights('App\Models\Followup');
     $followup = new \App\Models\Followup();
     $this->definitions = $followup->getDefinitions();
+
+    // check have item_id and item_type in $data
+    if (
+        Validation::attrNumericVal('item_id')->isValid($data) &&
+        isset($data->item_id) &&
+        Validation::attrStr('item_type')->isValid($data) &&
+        isset($data->item_type)
+    )
+    {
+      if ($data->item_type == \App\Models\Ticket::class)
+      {
+        $parentItem = \App\Models\Ticket::where('id', $data->item_id)->first();
+        if (is_null($parentItem))
+        {
+          throw new \Exception('Wrong data request12', 400);
+        }
+        $this->item_id = intval($data->item_id);
+        $this->item_type = $data->item_type;
+      } else {
+        throw new \Exception('Wrong data request', 400);
+      }
+    } else {
+      throw new \Exception('Wrong data request', 400);
+    }
 
     if (
         Validation::attrStr('content')->isValid($data) &&
@@ -89,7 +119,10 @@ class PostFollowup extends Post
   public function exportToArray(bool $filterRights = false): array
   {
     $vars = get_object_vars($this);
-    $data = [];
+    $data = [
+      'item_id'   => $this->item_id,
+      'item_type' => $this->item_type,
+    ];
     foreach (array_keys($vars) as $key)
     {
       if (!is_null($this->{$key}))

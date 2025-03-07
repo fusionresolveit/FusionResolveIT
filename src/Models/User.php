@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class User extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -23,6 +25,14 @@ class User extends Common
   protected $definition = \App\Models\Definitions\User::class;
   protected $titles = ['User', 'Users'];
   protected $icon = 'user';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'changes',
+    'group',
+    'profiles',
+    'certificates',
+  ];
 
   protected $appends = [
     // 'category',

@@ -44,19 +44,17 @@ final class Followup extends Common
       throw new \Exception('Wrong data request', 400);
     }
 
-    $relatedItem = $requestData->item_type::where('id', $requestData->item_id)->first();
-    if (is_null($relatedItem))
-    {
-      throw new \Exception('Id not found', 404);
-    }
-    $fData['item_type'] = $requestData->item_type;
-    $fData['item_id'] = $requestData->item_id;
-
     $followup = \App\Models\Followup::create($fData);
 
     // Manage time
     if (property_exists($requestData, 'time') && property_exists($requestData, 'timetype'))
     {
+      $relatedItem = $requestData->item_type::where('id', $requestData->item_id)->first();
+      if (is_null($relatedItem))
+      {
+        throw new \Exception('Id not found', 404);
+      }
+
       $time = (int) $requestData->time;
       if ($time > 0)
       {
@@ -71,8 +69,8 @@ final class Followup extends Common
         $relatedItem->actiontime = $relatedItem->actiontime + $time;
         $relatedItem->save();
       }
+      $relatedItem->touch();
     }
-    $relatedItem->touch();
     // add message to session
     \App\v1\Controllers\Toolbox::addSessionMessage('The followup has been added successfully');
 

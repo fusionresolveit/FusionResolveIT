@@ -156,7 +156,7 @@ editorcontent = new Editor({
                 <div class="wide column">
                 {% endif %}
                   <div id="editorfollowup"></div>
-                  <textarea rows="3" name="followup" style="display: none"></textarea>
+                  <textarea rows="3" name="content" style="display: none"></textarea>
 <script type="text/javascript">
 editorfollowup = new Editor({
   el: document.querySelector('#editorfollowup'),
@@ -167,7 +167,7 @@ editorfollowup = new Editor({
   minHeight: '200px',
   events: {
     blur: () => {
-      document.querySelector(`textarea[name='followup']`).value = editorfollowup.getMarkdown();
+      document.querySelector(`textarea[name='content']`).value = editorfollowup.getMarkdown();
     },
   },
 });
