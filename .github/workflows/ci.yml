@@ -255,11 +255,10 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
       - name: install nginx
         run: |
-          sudo apt install nginx certbot python3-certbot-nginx -y
-          systemctl status nginx
-          sudo systemctl enable nginx 
+          sudo apt install nginx -y
           cp cypress/ci-nginx.conf /etc/nginx/conf.d/
-          sudo systemctl start nginx
+          systemctl enable nginx 
+          systemctl start nginx
 
       - name: Set phinx.php
         run: cp phinx.php.dist phinx.php
