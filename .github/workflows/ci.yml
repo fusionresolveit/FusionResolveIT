@@ -257,7 +257,8 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
       - name: install nginx
         run: |
-          pwd
+          sudo systemctl stop apache2
+          sudo systemctl disable apache2
           sudo apt install nginx -y
           sudo cp cypress/ci-nginx.conf /etc/nginx/conf.d/
           sudo systemctl enable nginx 
