@@ -242,7 +242,9 @@ jobs:
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: install dependencies
-        run: yarn install
+        run: |
+          yarn install
+          yarn run production
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
