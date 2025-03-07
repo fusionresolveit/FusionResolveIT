@@ -2,6 +2,8 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost'
-  }
+    experimentalStudio: true,
+    baseUrl: 'http://localhost',
+  },
+  viewportWidth: 1280,
 });
