@@ -232,9 +232,9 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MARIADB_DATABASE: frittests
-          MARIADB_USER: frittests
-          MARIADB_PASSWORD: frittests
+          MARIADB_DATABASE: fusionresolveit
+          MARIADB_USER: fusionresolveit
+          MARIADB_PASSWORD: mypass
           MARIADB_ROOT_PASSWORD: rootpassword  
     steps:
       - name: Checkout
@@ -259,6 +259,13 @@ jobs:
           systemctl status nginx
           sudo systemctl enable nginx 
           cp cypress/ci-nginx.conf /etc/nginx/conf.d/
-          sudo systemctl start nginx 
+          sudo systemctl start nginx
+
+      - name: Set phinx.php
+        run: cp phinx.php.dist phinx.php
+
+      - name: Install
+        run: php bin/cli migrate
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
