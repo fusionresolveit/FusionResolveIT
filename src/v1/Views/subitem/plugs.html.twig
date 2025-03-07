@@ -13,9 +13,9 @@
       <tr>
         <td>
           {% if plug.url != '' %}
-              <a href="{{ plug.url }}">{{ plug.name }}</a>
+            <a href="{{ plug.url }}">{{ plug.name }}</a>
           {% else %}
-              {{ plug.name }}
+            <span>{{ plug.name }}</span>
           {% endif %}
         </td>
         <td>{{ plug.number_plugs }}</td>

@@ -14,16 +14,16 @@
       <tr>
         <td>
           {% if vlan.url != '' %}
-              <a href="{{ vlan.url }}">{{ vlan.name }}</a>
+            <a href="{{ vlan.url }}">{{ vlan.name }}</a>
           {% else %}
-              {{ vlan.name }}
+            <span>{{ vlan.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if vlan.entity_url != '' %}
-              <a href="{{ vlan.entity_url }}">{{ vlan.entity }}</a>
+            <a href="{{ vlan.entity_url }}">{{ vlan.entity }}</a>
           {% else %}
-              {{ vlan.entity }}
+            <span>{{ vlan.entity }}</span>
           {% endif %}
         </td>
         <td>{{ vlan.tagid }}</td>

@@ -10,15 +10,15 @@
         <div class="ui form {{ header.color }} segment">
         <a class="ui {{ header.color }} ribbon label" style="text-transform: capitalize" data-value="contentdescription">
           <i class="angle up icon"></i>
-          {{ translation.description }}
+          <span>{{ translation.description }}</span>
         </a>
         <div name="contentdescription" class="field" style="display: block">
           <div class="itilcontent">
             {% if header.id > 0 %}
-              {{ data.content | raw }}
+              <span data-cy="form-field-content">{{ data.content | raw }}</span>
             {% else %}
               <div id="editorcontent"></div>
-              <textarea rows="3" name="content" style="display: none"></textarea>
+              <textarea data-cy="form-field-content" rows="3" name="content" style="display: none"></textarea>
             <script type="text/javascript">
 editorcontent = new Editor({
   el: document.querySelector('#editorcontent'),
@@ -41,28 +41,28 @@ editorcontent = new Editor({
         <!-- Tabs: followup, solutions -->
         {% if header.id > 0 %}
           <div class="ui secondary menu tabsystem">
-            <a class="{{ header.color }} item active" data-tab="feeds">
+            <a data-cy="form-tabs-feeds" class="{{ header.color }} item active" data-tab="feeds">
               <i class="comment dots outline icon"></i>
-              {{ translation.feeds }}
+              <span>{{ translation.feeds }}</span>
             </a>
             {% if data.canAddFollowup %}
-              <a class="yellow item" data-tab="followup">
+              <a data-cy="form-tabs-followup" class="yellow item" data-tab="followup">
                 <i class="plus square outline icon"></i>
-                {{ translation.followup }}
+                <span>{{ translation.followup }}</span>
               </a>
             {% endif %}
             {% if data.canAddSolution %}
-              <a class="blue item" data-tab="solution">
+              <a data-cy="form-tabs-solution" class="blue item" data-tab="solution">
                 <i class="plus square outline icon"></i>
-                {{ translation.solution }}
+                <span>{{ translation.solution }}</span>
               </a>
             {% endif %}
           </div>
-        <div class="ui {{ header.color }} tab segment" data-tab="feeds">
+        <div data-cy="form-tab-feeds" class="ui {{ header.color }} tab segment" data-tab="feeds">
           <!-- Feeds -->
           <div class="ui connected feed">
             {% for feed in data.feeds %}
-              <div class="event">
+              <div data-cy="form-tab-feeds-event{{ loop.index }}" class="event">
                 <div class="label">
                   {% if feed.type == 'event' %}
                     <i class="circular colored inverted exchange alternate brown icon"></i>
@@ -83,17 +83,11 @@ editorcontent = new Editor({
                 </div>
                 <div class="content">
                   <div class="summary">
-                    <a class="user">
-                      {{ feed.user }}
-                    </a> {{ feed.summary | raw }}
-                    <div class="date">
-                      {{ feed.date }}
-                    </div>
+                    <a class="user">{{ feed.user }}</a> {{ feed.summary | raw }}
+                    <div class="date">{{ feed.date }}</div>
                   </div>
                   {% if not feed.content is null %}
-                    <div class="extra text">
-                      {{ feed.content | raw }}
-                    </div>
+                    <div class="extra text">{{ feed.content | raw }}</div>
                   {% endif %}
                   {% if feed.type == 'solution' %}
                   <div class="meta">
@@ -134,9 +128,7 @@ editorcontent = new Editor({
                 {% endif %}
                   {% if not feed.time is null %}
                     <div class="meta">
-                      <a class="like">
-                        {{ translation.timespent }}: {{ feed.time }} {{ translation.seconds }}
-                      </a>
+                      <a class="like">{{ translation.timespent }}: {{ feed.time }} {{ translation.seconds }}</a>
                     </div>
                     {% endif %}
                 </div>
@@ -145,7 +137,7 @@ editorcontent = new Editor({
           </div>
         </div>
         {% if data.canAddFollowup %}
-          <div class="ui active tab yellow segment" data-tab="followup">
+          <div data-cy="form-tab-followup" class="ui active yellow tab segment" data-tab="followup">
             {% if header.id > 0 %}
             <form method="post" action="{{ current_url() }}/followups" class="ui form">
             {# {% endif %} #}
@@ -156,7 +148,7 @@ editorcontent = new Editor({
                 <div class="wide column">
                 {% endif %}
                   <div id="editorfollowup"></div>
-                  <textarea rows="3" name="content" style="display: none"></textarea>
+                  <textarea data-cy="form-tab-followup-content" rows="3" name="content" style="display: none"></textarea>
 <script type="text/javascript">
 editorfollowup = new Editor({
   el: document.querySelector('#editorfollowup'),
@@ -248,7 +240,7 @@ editorfollowup = new Editor({
                 <input type="hidden" name="item_id" value="{{ header.id }}"/>
                 <input type="hidden" name="item_type" value="App\Models\Ticket"/>
                 <input type="hidden" name="redirect" value="{{ get_uri() }}"/>
-                <button class="ui primary button" type="submit">{{ translation.addfollowup }}</button>
+                <button data-cy="form-tab-followup-submit" class="ui primary button" type="submit">{{ translation.addfollowup }}</button>
               </div>
             {# {% if header.id > 0 %} #}
             </form>
@@ -256,7 +248,7 @@ editorfollowup = new Editor({
           </div>
         {% endif %}
         {% if data.canAddSolution %}
-          <div class="ui tab segment" data-tab="solution">
+          <div data-cy="form-tab-solution" class="ui tab segment" data-tab="solution">
             {% if header.id > 0 %}
               <form method="post" action="{{ current_url() }}/solutions" class="ui form">
                 <div class="ui grid">
@@ -325,7 +317,7 @@ editorsolution = new Editor({
             <div class="ui form {{ header.color }} segment">
               <a class="ui {{ header.color }} right ribbon label" style="text-transform: capitalize" data-value="{{ item.displaygroup }}">
                 <i class="angle up icon"></i>
-                {{ item.displaygroup }}
+                <span>{{ item.displaygroup }}</span>
               </a>
               <div name="{{ item.displaygroup }}" class="field" style="display: block">
             {% endif %}

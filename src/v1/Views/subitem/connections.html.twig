@@ -24,26 +24,25 @@
           {% endif %}
           <td>
             {% if connection.url != '' %}
-                <a href="{{ connection.url }}">{{ connection.name }}</a>
+              <a href="{{ connection.url }}">{{ connection.name }}</a>
             {% else %}
-                {{ connection.name }}
+              <span>{{ connection.name }}</span>
             {% endif %}
           </td>
           {% if connection.auto == 1 %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ connection.auto_val }}
+              <i class="check circle outline icon"></i>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ connection.auto_val }}
+              <i class="times circle outline icon"></i>
           {% endif %}
+            <span>{{ connection.auto_val }}</span>
           </td>
           <td>
             {% if connection.entity_url != '' %}
-                <a href="{{ connection.entity_url }}">{{ connection.entity }}</a>
+              <a href="{{ connection.entity_url }}">{{ connection.entity }}</a>
             {% else %}
-                {{ connection.entity }}
+              <span>{{ connection.entity }}</span>
             {% endif %}
           </td>
           <td>{{ connection.serial_number }}</td>

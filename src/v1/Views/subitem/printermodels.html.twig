@@ -12,9 +12,9 @@
       <tr>
         <td>
           {% if printermodel.url != '' %}
-              <a href="{{ printermodel.url }}">{{ printermodel.name }}</a>
+            <a href="{{ printermodel.url }}">{{ printermodel.name }}</a>
           {% else %}
-              {{ printermodel.name }}
+            <span>{{ printermodel.name }}</span>
           {% endif %}
         </td>
       </tr>

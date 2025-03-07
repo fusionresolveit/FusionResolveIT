@@ -18,9 +18,9 @@
         <tr>
           <td>
             {% if user.url != '' %}
-                <a href="{{ user.url }}">{{ user.name }}</a>
+              <a href="{{ user.url }}">{{ user.name }}</a>
             {% else %}
-                {{ user.name }}
+              <span>{{ user.name }}</span>
             {% endif %}
           </td>
           {% if user.auto %}
@@ -30,7 +30,7 @@
             <td class="negative">
             <i class="times circle outline icon"></i>
           {% endif %}
-          {{ user.auto_val }}
+          <span>{{ user.auto_val }}</span>
           </td>
           {% if user.recursive %}
             <td class="positive">
@@ -39,7 +39,7 @@
             <td class="negative">
             <i class="times circle outline icon"></i>
           {% endif %}
-          {{ user.auto_val }}
+          <span>{{ user.auto_val }}</span>
           </td>
         </tr>
       {% endfor %}

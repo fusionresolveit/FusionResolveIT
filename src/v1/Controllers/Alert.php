@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostAlert;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,6 +16,7 @@ final class Alert extends Common implements \App\Interfaces\Crud
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   protected $model = \App\Models\Alert::class;
 

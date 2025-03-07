@@ -38,9 +38,9 @@
         <td>{{ cartridge.date_use }}</td>
         <td>
           {% if cartridge.url != '' %}
-              <a href="{{ cartridge.url }}">{{ cartridge.use_on }}</a>
+            <a href="{{ cartridge.url }}">{{ cartridge.use_on }}</a>
           {% else %}
-              {{ cartridge.use_on }}
+            <span>{{ cartridge.use_on }}</span>
           {% endif %}
         </td>
       </tr>
@@ -71,9 +71,9 @@
         <td>{{ cartridge.date_end }}</td>
         <td>
           {% if cartridge.url != '' %}
-              <a href="{{ cartridge.url }}">{{ cartridge.use_on }}</a>
+            <a href="{{ cartridge.url }}">{{ cartridge.use_on }}</a>
           {% else %}
-              {{ cartridge.use_on }}
+            <span>{{ cartridge.use_on }}</span>
           {% endif %}
         </td>
         <td>{{ cartridge.printer_counter }}</td>

@@ -20,18 +20,18 @@
         <td>{{ approval.request_date }}</td>
         <td>
           {% if approval.request_user_url != '' %}
-              <a href="{{ approval.request_user_url }}">{{ approval.request_user }}</a>
+            <a href="{{ approval.request_user_url }}">{{ approval.request_user }}</a>
           {% else %}
-              {{ approval.request_user }}
+            <span>{{ approval.request_user }}</span>
           {% endif %}
         </td>
         <td>{{ approval.request_comment }}</td>
         <td>{{ approval.approval_date }}</td>
         <td>
           {% if approval.approval_user_url != '' %}
-              <a href="{{ approval.approval_user_url }}">{{ approval.approval_user }}</a>
+            <a href="{{ approval.approval_user_url }}">{{ approval.approval_user }}</a>
           {% else %}
-              {{ approval.approval_user }}
+            <span>{{ approval.approval_user }}</span>
           {% endif %}
         </td>
         <td>{{ approval.approval_comment }}</td>

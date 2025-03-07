@@ -41,9 +41,9 @@
         <td>{{ consumable.date_out }}</td>
         <td>
           {% if consumable.url != '' %}
-              <a href="{{ consumable.url }}">{{ consumable.given_to }}</a>
+            <a href="{{ consumable.url }}">{{ consumable.given_to }}</a>
           {% else %}
-              {{ consumable.given_to }}
+            <span>{{ consumable.given_to }}</span>
           {% endif %}
         </td>
       </tr>

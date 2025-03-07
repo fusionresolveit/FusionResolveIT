@@ -26,3 +26,5 @@ phpunit.xml
 .package.hash
 /public/assets/
 phinx.php
+cypress/videos
+cypress/screenshots

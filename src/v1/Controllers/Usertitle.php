@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostStandard;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,6 +14,7 @@ final class Usertitle extends Common implements \App\Interfaces\Crud
 {
   // Display
   use ShowItem;
+  use ShowAll;
 
   protected $model = \App\Models\Usertitle::class;
 

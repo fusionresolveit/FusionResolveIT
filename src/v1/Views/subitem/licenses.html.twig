@@ -20,9 +20,9 @@
       <tr>
         <td>
           {% if license.url != '' %}
-              <a href="{{ license.url }}">{{ license.name }}</a>
+            <a href="{{ license.url }}">{{ license.name }}</a>
           {% else %}
-              {{ license.name }}
+            <span>{{ license.name }}</span>
           {% endif %}
         </td>
         <td>{{ license.serial }}</td>
@@ -30,9 +30,9 @@
         <td>{{ license.affected_items }}</td>
         <td>
           {% if license.type_url != '' %}
-              <a href="{{ license.type_url }}">{{ license.type }}</a>
+            <a href="{{ license.type_url }}">{{ license.type }}</a>
           {% else %}
-              {{ license.type }}
+            <span>{{ license.type }}</span>
           {% endif %}
         </td>
         <td>{{ license.version_buy }}</td>
@@ -40,9 +40,9 @@
         <td {% if license.alert_expiration %}style="background-color: #f27960;"{% endif %}>{{ license.date_expiration }}</td>
         <td>
           {% if license.status_url != '' %}
-              <a href="{{ license.status_url }}">{{ license.status }}</a>
+            <a href="{{ license.status_url }}">{{ license.status }}</a>
           {% else %}
-              {{ license.status }}
+            <span>{{ license.status }}</span>
           {% endif %}
         </td>
       </tr>

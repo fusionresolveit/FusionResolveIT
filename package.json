@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@toast-ui/editor": "^3.2.2",
-    "fomantic-ui": "https://github.com/fomantic/Fomantic-UI#22d2d0da"
+    "cypress": "^14.1.0",
+    "fomantic-ui": "https://github.com/fomantic/Fomantic-UI#22d2d0da",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "autoprefixer": "^10.4.20",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^12.0.2",

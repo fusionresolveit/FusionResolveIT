@@ -25,26 +25,26 @@
               <div class="column">
                 <div class="ui icon header">
                   <i class="sign in alternate icon"></i>
-                  Sign in
+                  <span data-cy="login-title">Sign in</span>
                 </div>
                 <form method="post" class="ui form">
                   <div class="field">
-                    <label>Login</label>
-                    <input type="text" name="login">
+                    <label data-cy="login-login-label">Login</label>
+                    <input data-cy="login-login" type="text" name="login">
                   </div>
                   <div class="field">
-                    <label>Password</label>
-                    <input type="password" name="password">
+                    <label data-cy="login-password-label">Password</label>
+                    <input data-cy="login-password" type="password" name="password">
                   </div>
                   <div>
-                    <button class="ui primary button" type="submit">Send</button>
+                    <button data-cy="login-submit" class="ui primary button" type="submit">Send</button>
                   </div>
                 </form>
               </div>
               <div class="column">
                 <div class="ui icon header">
                 <i class="address card outline icon"></i>
-                  Auto-login / SSO
+                  <span data-cy="login-sso-label">Auto-login / SSO</span>
                 </div>
                 {% if sso|length == 0 %}
                   <div class="ui labeled icon button">
@@ -56,7 +56,7 @@
                   <a href="{{ basePath }}/view/login/sso/{{ item.id }}">
                     <div class="ui labeled icon primary button" style="margin-bottom: 5px;">
                       <i class="right arrow icon"></i>
-                      {{ item.name }}
+                      <span>{{ item.name }}</span>
                     </div>
                   </a>
                 {% endfor %}

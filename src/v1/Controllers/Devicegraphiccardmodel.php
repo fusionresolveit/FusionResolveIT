@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostStandardDevicemodel;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use App\Traits\Subs\History;
@@ -16,6 +17,7 @@ final class Devicegraphiccardmodel extends Common implements \App\Interfaces\Cru
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   // Sub
   use History;

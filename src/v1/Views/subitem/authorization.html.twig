@@ -43,14 +43,10 @@
     {% for profile in data.profiles %}
       <tr>
         <td>
-          <a href="{{ basePath }}/view/profiles/{{ profile.id }}">
-            {{ profile.name }}
-          </a>
+          <a href="{{ basePath }}/view/profiles/{{ profile.id }}">{{ profile.name }}</a>
         </td>
         <td>
-          <a href="{{ basePath }}/view/entities/{{ profile.entity.id }}">
-            {{ profile.entity.name }}
-          </a>
+          <a href="{{ basePath }}/view/entities/{{ profile.entity.id }}">{{ profile.entity.name }}</a>
         </td>
         <td>
           <div class="ui invisible read-only checkbox">

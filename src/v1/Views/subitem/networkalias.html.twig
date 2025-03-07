@@ -15,16 +15,16 @@
         <tr>
           <td>
             {% if networkalias.url != '' %}
-                <a href="{{ networkalias.url }}">{{ networkalias.name }}</a>
+              <a href="{{ networkalias.url }}">{{ networkalias.name }}</a>
             {% else %}
-                {{ networkalias.name }}
+              <span>{{ networkalias.name }}</span>
             {% endif %}
           </td>
           <td>
             {% if networkalias.computername_url != '' %}
-                <a href="{{ networkalias.computername_url }}">{{ networkalias.computername }}</a>
+              <a href="{{ networkalias.computername_url }}">{{ networkalias.computername }}</a>
             {% else %}
-                {{ networkalias.computername }}
+              <span>{{ networkalias.computername }}</span>
             {% endif %}
           </td>
           <td>{{ networkalias.comment }}</td>
@@ -48,23 +48,23 @@
         <tr>
           <td>
             {% if networkalias.url != '' %}
-                <a href="{{ networkalias.url }}">{{ networkalias.name }}</a>
+              <a href="{{ networkalias.url }}">{{ networkalias.name }}</a>
             {% else %}
-                {{ networkalias.name }}
+              <span>{{ networkalias.name }}</span>
             {% endif %}
           </td>
           <td>
             {% if networkalias.domain_url != '' %}
-                <a href="{{ networkalias.domain_url }}">{{ networkalias.domain }}</a>
+              <a href="{{ networkalias.domain_url }}">{{ networkalias.domain }}</a>
             {% else %}
-                {{ networkalias.domain }}
+              <span>{{ networkalias.domain }}</span>
             {% endif %}
           </td>
           <td>
             {% if networkalias.entity_url != '' %}
-                <a href="{{ networkalias.entity_url }}">{{ networkalias.entity }}</a>
+              <a href="{{ networkalias.entity_url }}">{{ networkalias.entity }}</a>
             {% else %}
-                {{ networkalias.entity }}
+              <span>{{ networkalias.entity }}</span>
             {% endif %}
           </td>
         </tr>

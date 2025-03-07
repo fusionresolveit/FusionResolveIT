@@ -17,23 +17,23 @@
         <tr>
           <td>
             {% if version.url != '' %}
-                <a href="{{ version.url }}">{{ version.name }}</a>
+              <a href="{{ version.url }}">{{ version.name }}</a>
             {% else %}
-                {{ version.name }}
+              <span>{{ version.name }}</span>
             {% endif %}
           </td>
           <td>
             {% if version.status_url != '' %}
-                <a href="{{ version.status_url }}">{{ version.status }}</a>
+              <a href="{{ version.status_url }}">{{ version.status }}</a>
             {% else %}
-                {{ version.status }}
+              <span>{{ version.status }}</span>
             {% endif %}
           </td>
           <td>
             {% if version.os_url != '' %}
-                <a href="{{ version.os_url }}">{{ version.os }}</a>
+              <a href="{{ version.os_url }}">{{ version.os }}</a>
             {% else %}
-                {{ version.os }}
+              <span>{{ version.os }}</span>
             {% endif %}
           </td>
           <td>{{ version.nb_install }}</td>

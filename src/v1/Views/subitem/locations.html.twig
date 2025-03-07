@@ -24,16 +24,16 @@
       <tr>
         <td>
           {% if location.url != '' %}
-              <a href="{{ location.url }}">{{ location.name }}</a>
+            <a href="{{ location.url }}">{{ location.name }}</a>
           {% else %}
-              {{ location.name }}
+            <span>{{ location.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if location.entity_url != '' %}
-              <a href="{{ location.entity_url }}">{{ location.entity }}</a>
+            <a href="{{ location.entity_url }}">{{ location.entity }}</a>
           {% else %}
-              {{ location.entity }}
+            <span>{{ location.entity }}</span>
           {% endif %}
         </td>
         <td>{{ location.address }}</td>

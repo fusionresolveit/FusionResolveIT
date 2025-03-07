@@ -14,16 +14,16 @@
       <tr>
         <td>
           {% if softwarelicense.url != '' %}
-              <a href="{{ softwarelicense.url }}">{{ softwarelicense.name }}</a>
+            <a href="{{ softwarelicense.url }}">{{ softwarelicense.name }}</a>
           {% else %}
-              {{ softwarelicense.name }}
+            <span>{{ softwarelicense.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if softwarelicense.entity_url != '' %}
-              <a href="{{ softwarelicense.entity_url }}">{{ softwarelicense.entity }}</a>
+            <a href="{{ softwarelicense.entity_url }}">{{ softwarelicense.entity }}</a>
           {% else %}
-              {{ softwarelicense.entity }}
+            <span>{{ softwarelicense.entity }}</span>
           {% endif %}
         </td>
         <td>{{ softwarelicense.comment }}</td>

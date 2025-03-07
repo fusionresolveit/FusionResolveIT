@@ -14,16 +14,16 @@
       <tr>
         <td>
           {% if businesscriticity.url != '' %}
-              <a href="{{ businesscriticity.url }}">{{ businesscriticity.name }}</a>
+            <a href="{{ businesscriticity.url }}">{{ businesscriticity.name }}</a>
           {% else %}
-              {{ businesscriticity.name }}
+            <span>{{ businesscriticity.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if businesscriticity.entity_url != '' %}
-              <a href="{{ businesscriticity.entity_url }}">{{ businesscriticity.entity }}</a>
+            <a href="{{ businesscriticity.entity_url }}">{{ businesscriticity.entity }}</a>
           {% else %}
-              {{ businesscriticity.entity }}
+            <span>{{ businesscriticity.entity }}</span>
           {% endif %}
         </td>
         <td>{{ businesscriticity.comment }}</td>

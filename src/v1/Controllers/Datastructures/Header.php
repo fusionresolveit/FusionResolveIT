@@ -88,6 +88,11 @@ trait Header
     $this->header->color = $color;
   }
 
+  public function addHeaderTrashed(): void
+  {
+    $this->header->trashed = true;
+  }
+
   private function setProfile(): void
   {
     global $translator;

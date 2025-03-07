@@ -24,16 +24,16 @@
           {% if data.show == 'users' %}
           <td>
             {% if reservation.item_url != '' %}
-                <a href="{{ reservation.item_url }}">{{ reservation.item_name }}</a>
+              <a href="{{ reservation.item_url }}">{{ reservation.item_name }}</a>
             {% else %}
-                {{ reservation.item_name }}
+              <span>{{ reservation.item_name }}</span>
             {% endif %}
           </td>
           <td>
             {% if reservation.entity_url != '' %}
-                <a href="{{ reservation.entity_url }}">{{ reservation.entity }}</a>
+              <a href="{{ reservation.entity_url }}">{{ reservation.entity }}</a>
             {% else %}
-                {{ reservation.entity }}
+              <span>{{ reservation.entity }}</span>
             {% endif %}
           </td>
           {% endif %}
@@ -42,9 +42,9 @@
           {% else %}
           <td>
             {% if reservation.user_url != '' %}
-                <a href="{{ reservation.user_url }}">{{ reservation.user }}</a>
+              <a href="{{ reservation.user_url }}">{{ reservation.user }}</a>
             {% else %}
-                {{ reservation.user }}
+              <span>{{ reservation.user }}</span>
             {% endif %}
           </td>
           {% endif %}
@@ -80,16 +80,16 @@
           {% if data.show == 'users' %}
           <td>
             {% if reservation_old.item_url != '' %}
-                <a href="{{ reservation_old.item_url }}">{{ reservation_old.item_name }}</a>
+              <a href="{{ reservation_old.item_url }}">{{ reservation_old.item_name }}</a>
             {% else %}
-                {{ reservation_old.item_name }}
+              <span>{{ reservation_old.item_name }}</span>
             {% endif %}
           </td>
           <td>
             {% if reservation_old.entity_url != '' %}
-                <a href="{{ reservation_old.entity_url }}">{{ reservation_old.entity }}</a>
+              <a href="{{ reservation_old.entity_url }}">{{ reservation_old.entity }}</a>
             {% else %}
-                {{ reservation_old.entity }}
+              <span>{{ reservation_old.entity }}</span>
             {% endif %}
           </td>
           {% endif %}
@@ -98,9 +98,9 @@
           {% else %}
           <td>
             {% if reservation_old.user_url != '' %}
-                <a href="{{ reservation_old.user_url }}">{{ reservation_old.user }}</a>
+              <a href="{{ reservation_old.user_url }}">{{ reservation_old.user }}</a>
             {% else %}
-                {{ reservation_old.user }}
+              <span>{{ reservation_old.user }}</span>
             {% endif %}
           </td>
           {% endif %}

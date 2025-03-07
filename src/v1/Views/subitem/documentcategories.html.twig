@@ -13,9 +13,9 @@
       <tr>
         <td>
           {% if documentcategory.url != '' %}
-              <a href="{{ documentcategory.url }}">{{ documentcategory.name }}</a>
+            <a href="{{ documentcategory.url }}">{{ documentcategory.name }}</a>
           {% else %}
-              {{ documentcategory.name }}
+            <span>{{ documentcategory.name }}</span>
           {% endif %}
         </td>
         <td>{{ documentcategory.comment }}</td>

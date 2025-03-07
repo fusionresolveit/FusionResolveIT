@@ -17,12 +17,12 @@
                   {% if virtualmachine.auto == 1 %}
                     <div style="box-shadow: 0 0 0 #a3c293 inset;background: #fcfff5;color: #2c662d;">
                       <i class="check circle outline icon"></i>
-                      {{ virtualmachine.auto_val }}
+                      <span>{{ virtualmachine.auto_val }}</span>
                     </div>
                   {% else %}
                     <div style="box-shadow: 0 0 0 #e0b4b4 inset;background: #fff6f6;color: #9f3a38;">
                       <i class="times circle outline icon"></i>
-                      {{ virtualmachine.auto_val }}
+                      <span>{{ virtualmachine.auto_val }}</span>
                     </div>
                   {% endif %}
                 </div>
@@ -33,9 +33,9 @@
                 <a class="header">{{ translation.virtualmachinemodel }}</a>
                 <div class="description">
                   {% if virtualmachine.virtualmachinesystem_url != '' %}
-                      <a href="{{ virtualmachine.virtualmachinesystem_url }}">{{ virtualmachine.virtualmachinesystem }}</a>
+                    <a href="{{ virtualmachine.virtualmachinesystem_url }}">{{ virtualmachine.virtualmachinesystem }}</a>
                   {% else %}
-                      {{ virtualmachine.virtualmachinesystem }}
+                    <span>{{ virtualmachine.virtualmachinesystem }}</span>
                   {% endif %}
                 </div>
               </div>
@@ -45,9 +45,9 @@
                 <a class="header">{{ translation.virtualmachinesystem }}</a>
                 <div class="description">
                   {% if virtualmachine.virtualmachinemodel_url != '' %}
-                      <a href="{{ virtualmachine.virtualmachinemodel_url }}">{{ virtualmachine.virtualmachinemodel }}</a>
+                    <a href="{{ virtualmachine.virtualmachinemodel_url }}">{{ virtualmachine.virtualmachinemodel }}</a>
                   {% else %}
-                      {{ virtualmachine.virtualmachinemodel }}
+                    <span>{{ virtualmachine.virtualmachinemodel }}</span>
                   {% endif %}
                 </div>
               </div>
@@ -57,9 +57,9 @@
                 <a class="header">{{ translation.virtualmachinestate }}</a>
                 <div class="description">
                   {% if virtualmachine.virtualmachinestate_url != '' %}
-                      <a href="{{ virtualmachine.virtualmachinestate_url }}">{{ virtualmachine.virtualmachinestate }}</a>
+                    <a href="{{ virtualmachine.virtualmachinestate_url }}">{{ virtualmachine.virtualmachinestate }}</a>
                   {% else %}
-                      {{ virtualmachine.virtualmachinestate }}
+                    <span>{{ virtualmachine.virtualmachinestate }}</span>
                   {% endif %}
                 </div>
               </div>

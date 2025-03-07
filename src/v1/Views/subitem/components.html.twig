@@ -17,9 +17,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if firmware.manufacturer_url != '' %}
-                    <a href="{{ firmware.manufacturer_url }}">{{ firmware.manufacturer }}</a>
+                  <a href="{{ firmware.manufacturer_url }}">{{ firmware.manufacturer }}</a>
                 {% else %}
-                    {{ firmware.manufacturer }}
+                  <span>{{ firmware.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -29,9 +29,9 @@
               <a class="header">{{ translation.type }}</a>
               <div class="description">
                 {% if firmware.type_url != '' %}
-                    <a href="{{ firmware.type_url }}">{{ firmware.type }}</a>
+                  <a href="{{ firmware.type_url }}">{{ firmware.type }}</a>
                 {% else %}
-                    {{ firmware.type }}
+                  <span>{{ firmware.type }}</span>
                 {% endif %}
               </div>
             </div>
@@ -65,9 +65,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if firmware.location_url != '' %}
-                    <a href="{{ firmware.location_url }}">{{ firmware.location }}</a>
+                  <a href="{{ firmware.location_url }}">{{ firmware.location }}</a>
                 {% else %}
-                    {{ firmware.location }}
+                  <span>{{ firmware.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -77,9 +77,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if firmware.state_url != '' %}
-                    <a href="{{ firmware.state_url }}">{{ firmware.state }}</a>
+                  <a href="{{ firmware.state_url }}">{{ firmware.state }}</a>
                 {% else %}
-                    {{ firmware.state }}
+                  <span>{{ firmware.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -90,9 +90,9 @@
               {% for document in firmware.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -116,9 +116,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if processor.manufacturer_url != '' %}
-                    <a href="{{ processor.manufacturer_url }}">{{ processor.manufacturer }}</a>
+                  <a href="{{ processor.manufacturer_url }}">{{ processor.manufacturer }}</a>
                 {% else %}
-                    {{ processor.manufacturer }}
+                  <span>{{ processor.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -146,9 +146,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if processor.location_url != '' %}
-                    <a href="{{ processor.location_url }}">{{ processor.location }}</a>
+                  <a href="{{ processor.location_url }}">{{ processor.location }}</a>
                 {% else %}
-                    {{ processor.location }}
+                  <span>{{ processor.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -158,9 +158,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if processor.state_url != '' %}
-                    <a href="{{ processor.state_url }}">{{ processor.state }}</a>
+                  <a href="{{ processor.state_url }}">{{ processor.state }}</a>
                 {% else %}
-                    {{ processor.state }}
+                  <span>{{ processor.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -189,9 +189,9 @@
               {% for document in processor.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -215,9 +215,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if memory.manufacturer_url != '' %}
-                    <a href="{{ memory.manufacturer_url }}">{{ memory.manufacturer }}</a>
+                  <a href="{{ memory.manufacturer_url }}">{{ memory.manufacturer }}</a>
                 {% else %}
-                    {{ memory.manufacturer }}
+                  <span>{{ memory.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -227,9 +227,9 @@
               <a class="header">{{ translation.type }}</a>
               <div class="description">
                 {% if memory.type_url != '' %}
-                    <a href="{{ memory.type_url }}">{{ memory.type }}</a>
+                  <a href="{{ memory.type_url }}">{{ memory.type }}</a>
                 {% else %}
-                    {{ memory.type }}
+                  <span>{{ memory.type }}</span>
                 {% endif %}
               </div>
             </div>
@@ -263,9 +263,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if memory.location_url != '' %}
-                    <a href="{{ memory.location_url }}">{{ memory.location }}</a>
+                  <a href="{{ memory.location_url }}">{{ memory.location }}</a>
                 {% else %}
-                    {{ memory.location }}
+                  <span>{{ memory.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -275,9 +275,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if memory.state_url != '' %}
-                    <a href="{{ memory.state_url }}">{{ memory.state }}</a>
+                  <a href="{{ memory.state_url }}">{{ memory.state }}</a>
                 {% else %}
-                    {{ memory.state }}
+                  <span>{{ memory.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -294,9 +294,9 @@
               {% for document in memory.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -320,9 +320,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if harddrive.manufacturer_url != '' %}
-                    <a href="{{ harddrive.manufacturer_url }}">{{ harddrive.manufacturer }}</a>
+                  <a href="{{ harddrive.manufacturer_url }}">{{ harddrive.manufacturer }}</a>
                 {% else %}
-                    {{ harddrive.manufacturer }}
+                  <span>{{ harddrive.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -344,9 +344,9 @@
               <a class="header">{{ translation.interface }}</a>
               <div class="description">
                 {% if harddrive.interface_url != '' %}
-                    <a href="{{ harddrive.interface_url }}">{{ harddrive.interface }}</a>
+                  <a href="{{ harddrive.interface_url }}">{{ harddrive.interface }}</a>
                 {% else %}
-                    {{ harddrive.interface }}
+                  <span>{{ harddrive.interface }}</span>
                 {% endif %}
               </div>
             </div>
@@ -374,9 +374,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if harddrive.location_url != '' %}
-                    <a href="{{ harddrive.location_url }}">{{ harddrive.location }}</a>
+                  <a href="{{ harddrive.location_url }}">{{ harddrive.location }}</a>
                 {% else %}
-                    {{ harddrive.location }}
+                  <span>{{ harddrive.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -386,9 +386,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if harddrive.state_url != '' %}
-                    <a href="{{ harddrive.state_url }}">{{ harddrive.state }}</a>
+                  <a href="{{ harddrive.state_url }}">{{ harddrive.state }}</a>
                 {% else %}
-                    {{ harddrive.state }}
+                  <span>{{ harddrive.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -405,9 +405,9 @@
               {% for document in harddrive.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -431,9 +431,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if battery.manufacturer_url != '' %}
-                    <a href="{{ battery.manufacturer_url }}">{{ battery.manufacturer }}</a>
+                  <a href="{{ battery.manufacturer_url }}">{{ battery.manufacturer }}</a>
                 {% else %}
-                    {{ battery.manufacturer }}
+                  <span>{{ battery.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -443,9 +443,9 @@
               <a class="header">{{ translation.type }}</a>
               <div class="description">
                 {% if battery.type_url != '' %}
-                    <a href="{{ battery.type_url }}">{{ battery.type }}</a>
+                  <a href="{{ battery.type_url }}">{{ battery.type }}</a>
                 {% else %}
-                    {{ battery.type }}
+                  <span>{{ battery.type }}</span>
                 {% endif %}
               </div>
             </div>
@@ -479,9 +479,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if battery.location_url != '' %}
-                    <a href="{{ battery.location_url }}">{{ battery.location }}</a>
+                  <a href="{{ battery.location_url }}">{{ battery.location }}</a>
                 {% else %}
-                    {{ battery.location }}
+                  <span>{{ battery.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -491,9 +491,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if battery.state_url != '' %}
-                    <a href="{{ battery.state_url }}">{{ battery.state }}</a>
+                  <a href="{{ battery.state_url }}">{{ battery.state }}</a>
                 {% else %}
-                    {{ battery.state }}
+                  <span>{{ battery.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -510,9 +510,9 @@
               {% for document in battery.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -536,9 +536,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if soundcard.manufacturer_url != '' %}
-                    <a href="{{ soundcard.manufacturer_url }}">{{ soundcard.manufacturer }}</a>
+                  <a href="{{ soundcard.manufacturer_url }}">{{ soundcard.manufacturer }}</a>
                 {% else %}
-                    {{ soundcard.manufacturer }}
+                  <span>{{ soundcard.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -566,9 +566,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if soundcard.location_url != '' %}
-                    <a href="{{ soundcard.location_url }}">{{ soundcard.location }}</a>
+                  <a href="{{ soundcard.location_url }}">{{ soundcard.location }}</a>
                 {% else %}
-                    {{ soundcard.location }}
+                  <span>{{ soundcard.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -578,9 +578,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if soundcard.state_url != '' %}
-                    <a href="{{ soundcard.state_url }}">{{ soundcard.state }}</a>
+                  <a href="{{ soundcard.state_url }}">{{ soundcard.state }}</a>
                 {% else %}
-                    {{ soundcard.state }}
+                  <span>{{ soundcard.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -597,9 +597,9 @@
               {% for document in soundcard.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -623,9 +623,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if controller.manufacturer_url != '' %}
-                    <a href="{{ controller.manufacturer_url }}">{{ controller.manufacturer }}</a>
+                  <a href="{{ controller.manufacturer_url }}">{{ controller.manufacturer }}</a>
                 {% else %}
-                    {{ controller.manufacturer }}
+                  <span>{{ controller.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -635,9 +635,9 @@
               <a class="header">{{ translation.interface }}</a>
               <div class="description">
                 {% if controller.interface_url != '' %}
-                    <a href="{{ controller.interface_url }}">{{ controller.interface }}</a>
+                  <a href="{{ controller.interface_url }}">{{ controller.interface }}</a>
                 {% else %}
-                    {{ controller.interface }}
+                  <span>{{ controller.interface }}</span>
                 {% endif %}
               </div>
             </div>
@@ -659,9 +659,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if controller.location_url != '' %}
-                    <a href="{{ controller.location_url }}">{{ controller.location }}</a>
+                  <a href="{{ controller.location_url }}">{{ controller.location }}</a>
                 {% else %}
-                    {{ controller.location }}
+                  <span>{{ controller.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -671,9 +671,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if controller.state_url != '' %}
-                    <a href="{{ controller.state_url }}">{{ controller.state }}</a>
+                  <a href="{{ controller.state_url }}">{{ controller.state }}</a>
                 {% else %}
-                    {{ controller.state }}
+                  <span>{{ controller.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -690,9 +690,9 @@
               {% for document in controller.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -716,9 +716,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if powersupply.manufacturer_url != '' %}
-                    <a href="{{ powersupply.manufacturer_url }}">{{ powersupply.manufacturer }}</a>
+                  <a href="{{ powersupply.manufacturer_url }}">{{ powersupply.manufacturer }}</a>
                 {% else %}
-                    {{ powersupply.manufacturer }}
+                  <span>{{ powersupply.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -740,9 +740,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if powersupply.location_url != '' %}
-                    <a href="{{ powersupply.location_url }}">{{ powersupply.location }}</a>
+                  <a href="{{ powersupply.location_url }}">{{ powersupply.location }}</a>
                 {% else %}
-                    {{ powersupply.location }}
+                  <span>{{ powersupply.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -752,9 +752,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if powersupply.state_url != '' %}
-                    <a href="{{ powersupply.state_url }}">{{ powersupply.state }}</a>
+                  <a href="{{ powersupply.state_url }}">{{ powersupply.state }}</a>
                 {% else %}
-                    {{ powersupply.state }}
+                  <span>{{ powersupply.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -765,9 +765,9 @@
               {% for document in powersupply.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -791,9 +791,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if sensor.manufacturer_url != '' %}
-                    <a href="{{ sensor.manufacturer_url }}">{{ sensor.manufacturer }}</a>
+                  <a href="{{ sensor.manufacturer_url }}">{{ sensor.manufacturer }}</a>
                 {% else %}
-                    {{ sensor.manufacturer }}
+                  <span>{{ sensor.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -815,9 +815,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if sensor.location_url != '' %}
-                    <a href="{{ sensor.location_url }}">{{ sensor.location }}</a>
+                  <a href="{{ sensor.location_url }}">{{ sensor.location }}</a>
                 {% else %}
-                    {{ sensor.location }}
+                  <span>{{ sensor.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -827,9 +827,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if sensor.state_url != '' %}
-                    <a href="{{ sensor.state_url }}">{{ sensor.state }}</a>
+                  <a href="{{ sensor.state_url }}">{{ sensor.state }}</a>
                 {% else %}
-                    {{ sensor.state }}
+                  <span>{{ sensor.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -840,9 +840,9 @@
               {% for document in sensor.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -878,9 +878,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicepci.location_url != '' %}
-                    <a href="{{ devicepci.location_url }}">{{ devicepci.location }}</a>
+                  <a href="{{ devicepci.location_url }}">{{ devicepci.location }}</a>
                 {% else %}
-                    {{ devicepci.location }}
+                  <span>{{ devicepci.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -890,9 +890,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicepci.state_url != '' %}
-                    <a href="{{ devicepci.state_url }}">{{ devicepci.state }}</a>
+                  <a href="{{ devicepci.state_url }}">{{ devicepci.state }}</a>
                 {% else %}
-                    {{ devicepci.state }}
+                  <span>{{ devicepci.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -909,9 +909,9 @@
               {% for document in devicepci.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -935,9 +935,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if devicegeneric.manufacturer_url != '' %}
-                    <a href="{{ devicegeneric.manufacturer_url }}">{{ devicegeneric.manufacturer }}</a>
+                  <a href="{{ devicegeneric.manufacturer_url }}">{{ devicegeneric.manufacturer }}</a>
                 {% else %}
-                    {{ devicegeneric.manufacturer }}
+                  <span>{{ devicegeneric.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -959,9 +959,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicegeneric.location_url != '' %}
-                    <a href="{{ devicegeneric.location_url }}">{{ devicegeneric.location }}</a>
+                  <a href="{{ devicegeneric.location_url }}">{{ devicegeneric.location }}</a>
                 {% else %}
-                    {{ devicegeneric.location }}
+                  <span>{{ devicegeneric.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -971,9 +971,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicegeneric.state_url != '' %}
-                    <a href="{{ devicegeneric.state_url }}">{{ devicegeneric.state }}</a>
+                  <a href="{{ devicegeneric.state_url }}">{{ devicegeneric.state }}</a>
                 {% else %}
-                    {{ devicegeneric.state }}
+                  <span>{{ devicegeneric.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -984,9 +984,9 @@
               {% for document in devicegeneric.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -1010,9 +1010,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if devicenetworkcard.manufacturer_url != '' %}
-                    <a href="{{ devicenetworkcard.manufacturer_url }}">{{ devicenetworkcard.manufacturer }}</a>
+                  <a href="{{ devicenetworkcard.manufacturer_url }}">{{ devicenetworkcard.manufacturer }}</a>
                 {% else %}
-                    {{ devicenetworkcard.manufacturer }}
+                  <span>{{ devicenetworkcard.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1046,9 +1046,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicenetworkcard.location_url != '' %}
-                    <a href="{{ devicenetworkcard.location_url }}">{{ devicenetworkcard.location }}</a>
+                  <a href="{{ devicenetworkcard.location_url }}">{{ devicenetworkcard.location }}</a>
                 {% else %}
-                    {{ devicenetworkcard.location }}
+                  <span>{{ devicenetworkcard.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1058,9 +1058,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicenetworkcard.state_url != '' %}
-                    <a href="{{ devicenetworkcard.state_url }}">{{ devicenetworkcard.state }}</a>
+                  <a href="{{ devicenetworkcard.state_url }}">{{ devicenetworkcard.state }}</a>
                 {% else %}
-                    {{ devicenetworkcard.state }}
+                  <span>{{ devicenetworkcard.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1077,9 +1077,9 @@
               {% for document in devicenetworkcard.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -1115,9 +1115,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicesimcard.location_url != '' %}
-                    <a href="{{ devicesimcard.location_url }}">{{ devicesimcard.location }}</a>
+                  <a href="{{ devicesimcard.location_url }}">{{ devicesimcard.location }}</a>
                 {% else %}
-                    {{ devicesimcard.location }}
+                  <span>{{ devicesimcard.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1127,9 +1127,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicesimcard.state_url != '' %}
-                    <a href="{{ devicesimcard.state_url }}">{{ devicesimcard.state }}</a>
+                  <a href="{{ devicesimcard.state_url }}">{{ devicesimcard.state }}</a>
                 {% else %}
-                    {{ devicesimcard.state }}
+                  <span>{{ devicesimcard.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1139,9 +1139,9 @@
               <a class="header">{{ translation.line }}</a>
               <div class="description">
                 {% if devicesimcard.line_url != '' %}
-                    <a href="{{ devicesimcard.line_url }}">{{ devicesimcard.line }}</a>
+                  <a href="{{ devicesimcard.line_url }}">{{ devicesimcard.line }}</a>
                 {% else %}
-                    {{ devicesimcard.line }}
+                  <span>{{ devicesimcard.line }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1157,9 +1157,9 @@
               <a class="header">{{ translation.user }}</a>
               <div class="description">
                 {% if devicesimcard.user_url != '' %}
-                    <a href="{{ devicesimcard.user_url }}">{{ devicesimcard.user }}</a>
+                  <a href="{{ devicesimcard.user_url }}">{{ devicesimcard.user }}</a>
                 {% else %}
-                    {{ devicesimcard.user }}
+                  <span>{{ devicesimcard.user }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1169,9 +1169,9 @@
               <a class="header">{{ translation.group }}</a>
               <div class="description">
                 {% if devicesimcard.group_url != '' %}
-                    <a href="{{ devicesimcard.group_url }}">{{ devicesimcard.group }}</a>
+                  <a href="{{ devicesimcard.group_url }}">{{ devicesimcard.group }}</a>
                 {% else %}
-                    {{ devicesimcard.group }}
+                  <span>{{ devicesimcard.group }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1182,9 +1182,9 @@
               {% for document in devicesimcard.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -1208,9 +1208,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if devicemotherboard.manufacturer_url != '' %}
-                    <a href="{{ devicemotherboard.manufacturer_url }}">{{ devicemotherboard.manufacturer }}</a>
+                  <a href="{{ devicemotherboard.manufacturer_url }}">{{ devicemotherboard.manufacturer }}</a>
                 {% else %}
-                    {{ devicemotherboard.manufacturer }}
+                  <span>{{ devicemotherboard.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1232,9 +1232,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicemotherboard.location_url != '' %}
-                    <a href="{{ devicemotherboard.location_url }}">{{ devicemotherboard.location }}</a>
+                  <a href="{{ devicemotherboard.location_url }}">{{ devicemotherboard.location }}</a>
                 {% else %}
-                    {{ devicemotherboard.location }}
+                  <span>{{ devicemotherboard.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1244,9 +1244,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicemotherboard.state_url != '' %}
-                    <a href="{{ devicemotherboard.state_url }}">{{ devicemotherboard.state }}</a>
+                  <a href="{{ devicemotherboard.state_url }}">{{ devicemotherboard.state }}</a>
                 {% else %}
-                    {{ devicemotherboard.state }}
+                  <span>{{ devicemotherboard.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1257,9 +1257,9 @@
               {% for document in devicemotherboard.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -1283,9 +1283,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if devicecase.manufacturer_url != '' %}
-                    <a href="{{ devicecase.manufacturer_url }}">{{ devicecase.manufacturer }}</a>
+                  <a href="{{ devicecase.manufacturer_url }}">{{ devicecase.manufacturer }}</a>
                 {% else %}
-                    {{ devicecase.manufacturer }}
+                  <span>{{ devicecase.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1307,9 +1307,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicecase.location_url != '' %}
-                    <a href="{{ devicecase.location_url }}">{{ devicecase.location }}</a>
+                  <a href="{{ devicecase.location_url }}">{{ devicecase.location }}</a>
                 {% else %}
-                    {{ devicecase.location }}
+                  <span>{{ devicecase.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1319,9 +1319,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicecase.state_url != '' %}
-                    <a href="{{ devicecase.state_url }}">{{ devicecase.state }}</a>
+                  <a href="{{ devicecase.state_url }}">{{ devicecase.state }}</a>
                 {% else %}
-                    {{ devicecase.state }}
+                  <span>{{ devicecase.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1333,9 +1333,9 @@
               {% for document in devicecase.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -1360,9 +1360,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if devicegraphiccard.manufacturer_url != '' %}
-                    <a href="{{ devicegraphiccard.manufacturer_url }}">{{ devicegraphiccard.manufacturer }}</a>
+                  <a href="{{ devicegraphiccard.manufacturer_url }}">{{ devicegraphiccard.manufacturer }}</a>
                 {% else %}
-                    {{ devicegraphiccard.manufacturer }}
+                  <span>{{ devicegraphiccard.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1372,9 +1372,9 @@
               <a class="header">{{ translation.interface }}</a>
               <div class="description">
                 {% if devicegraphiccard.interface_url != '' %}
-                    <a href="{{ devicegraphiccard.interface_url }}">{{ devicegraphiccard.interface }}</a>
+                  <a href="{{ devicegraphiccard.interface_url }}">{{ devicegraphiccard.interface }}</a>
                 {% else %}
-                    {{ devicegraphiccard.interface }}
+                  <span>{{ devicegraphiccard.interface }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1408,9 +1408,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicegraphiccard.location_url != '' %}
-                    <a href="{{ devicegraphiccard.location_url }}">{{ devicegraphiccard.location }}</a>
+                  <a href="{{ devicegraphiccard.location_url }}">{{ devicegraphiccard.location }}</a>
                 {% else %}
-                    {{ devicegraphiccard.location }}
+                  <span>{{ devicegraphiccard.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1420,9 +1420,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicegraphiccard.state_url != '' %}
-                    <a href="{{ devicegraphiccard.state_url }}">{{ devicegraphiccard.state }}</a>
+                  <a href="{{ devicegraphiccard.state_url }}">{{ devicegraphiccard.state }}</a>
                 {% else %}
-                    {{ devicegraphiccard.state }}
+                  <span>{{ devicegraphiccard.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1439,9 +1439,9 @@
               {% for document in devicegraphiccard.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}
@@ -1465,9 +1465,9 @@
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
                 {% if devicedrive.manufacturer_url != '' %}
-                    <a href="{{ devicedrive.manufacturer_url }}">{{ devicedrive.manufacturer }}</a>
+                  <a href="{{ devicedrive.manufacturer_url }}">{{ devicedrive.manufacturer }}</a>
                 {% else %}
-                    {{ devicedrive.manufacturer }}
+                  <span>{{ devicedrive.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1479,12 +1479,12 @@
                 {% if devicedrive.write %}
                   <div style="box-shadow: 0 0 0 #a3c293 inset;background: #fcfff5;color: #2c662d;">
                     <i class="check circle outline icon"></i>
-                    {{ devicedrive.write_val }}
+                    <span>{{ devicedrive.write_val }}</span>
                   </div>
                 {% else %}
                   <div style="box-shadow: 0 0 0 #e0b4b4 inset;background: #fff6f6;color: #9f3a38;">
                     <i class="times circle outline icon"></i>
-                    {{ devicedrive.write_val }}
+                    <span>{{ devicedrive.write_val }}</span>
                   </div>
                 {% endif %}
               </div>
@@ -1501,9 +1501,9 @@
               <a class="header">{{ translation.interface }}</a>
               <div class="description">
                 {% if devicedrive.interface_url != '' %}
-                    <a href="{{ devicedrive.interface_url }}">{{ devicedrive.interface }}</a>
+                  <a href="{{ devicedrive.interface_url }}">{{ devicedrive.interface }}</a>
                 {% else %}
-                    {{ devicedrive.interface }}
+                  <span>{{ devicedrive.interface }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1525,9 +1525,9 @@
               <a class="header">{{ translation.location }}</a>
               <div class="description">
                 {% if devicedrive.location_url != '' %}
-                    <a href="{{ devicedrive.location_url }}">{{ devicedrive.location }}</a>
+                  <a href="{{ devicedrive.location_url }}">{{ devicedrive.location }}</a>
                 {% else %}
-                    {{ devicedrive.location }}
+                  <span>{{ devicedrive.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1537,9 +1537,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if devicedrive.state_url != '' %}
-                    <a href="{{ devicedrive.state_url }}">{{ devicedrive.state }}</a>
+                  <a href="{{ devicedrive.state_url }}">{{ devicedrive.state }}</a>
                 {% else %}
-                    {{ devicedrive.state }}
+                  <span>{{ devicedrive.state }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1556,9 +1556,9 @@
               {% for document in devicedrive.documents %}
                 <div class="description">
                   {% if document.url != '' %}
-                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    <a href="{{ document.url }}">{{ document.name }}</a>
                   {% else %}
-                      {{ document.name }}
+                    <span>{{ document.name }}</span>
                   {% endif %}
                 </div>
               {% endfor %}

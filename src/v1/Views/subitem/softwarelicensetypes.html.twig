@@ -14,16 +14,16 @@
       <tr>
         <td>
           {% if licensetype.url != '' %}
-              <a href="{{ licensetype.url }}">{{ licensetype.name }}</a>
+            <a href="{{ licensetype.url }}">{{ licensetype.name }}</a>
           {% else %}
-              {{ licensetype.name }}
+            <span>{{ licensetype.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if licensetype.entity_url != '' %}
-              <a href="{{ licensetype.entity_url }}">{{ licensetype.entity }}</a>
+            <a href="{{ licensetype.entity_url }}">{{ licensetype.entity }}</a>
           {% else %}
-              {{ licensetype.entity }}
+            <span>{{ licensetype.entity }}</span>
           {% endif %}
         </td>
         <td>{{ licensetype.comment }}</td>

@@ -18,16 +18,16 @@
       <tr>
         <td>
           {% if cartridge.model_url != '' %}
-              <a href="{{ cartridge.model_url }}">{{ cartridge.model }}</a>
+            <a href="{{ cartridge.model_url }}">{{ cartridge.model }}</a>
           {% else %}
-              {{ cartridge.model }}
+            <span>{{ cartridge.model }}</span>
           {% endif %}
         </td>
         <td>
           {% if cartridge.type_url != '' %}
-              <a href="{{ cartridge.type_url }}">{{ cartridge.type }}</a>
+            <a href="{{ cartridge.type_url }}">{{ cartridge.type }}</a>
           {% else %}
-              {{ cartridge.type }}
+            <span>{{ cartridge.type }}</span>
           {% endif %}
         </td>
         <td>{{ cartridge.date_add }}</td>
@@ -57,16 +57,16 @@
       <tr>
         <td>
           {% if cartridge.model_url != '' %}
-              <a href="{{ cartridge.model_url }}">{{ cartridge.model }}</a>
+            <a href="{{ cartridge.model_url }}">{{ cartridge.model }}</a>
           {% else %}
-              {{ cartridge.model }}
+            <span>{{ cartridge.model }}</span>
           {% endif %}
         </td>
         <td>
           {% if cartridge.type_url != '' %}
-              <a href="{{ cartridge.type_url }}">{{ cartridge.type }}</a>
+            <a href="{{ cartridge.type_url }}">{{ cartridge.type }}</a>
           {% else %}
-              {{ cartridge.type }}
+            <span>{{ cartridge.type }}</span>
           {% endif %}
         </td>
         <td>{{ cartridge.date_add }}</td>

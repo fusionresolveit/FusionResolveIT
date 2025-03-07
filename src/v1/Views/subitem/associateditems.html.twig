@@ -17,16 +17,16 @@
         <td>{{ associateditem.type }}</td>
         <td>
           {% if associateditem.url != '' %}
-              <a href="{{ associateditem.url }}">{{ associateditem.name }}</a>
+            <a href="{{ associateditem.url }}">{{ associateditem.name }}</a>
           {% else %}
-              {{ associateditem.name }}
+            <span>{{ associateditem.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if associateditem.entity_url != '' %}
-              <a href="{{ associateditem.entity_url }}">{{ associateditem.entity }}</a>
+            <a href="{{ associateditem.entity_url }}">{{ associateditem.entity }}</a>
           {% else %}
-              {{ associateditem.entity }}
+            <span>{{ associateditem.entity }}</span>
           {% endif %}
         </td>
         <td>{{ associateditem.serial_number }}</td>

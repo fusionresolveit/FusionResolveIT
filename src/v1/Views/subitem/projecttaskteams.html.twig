@@ -14,9 +14,9 @@
         <td>{{ projecttaskteam.type }}</td>
         <td>
           {% if projecttaskteam.url != '' %}
-              <a href="{{ projecttaskteam.url }}">{{ projecttaskteam.member }}</a>
+            <a href="{{ projecttaskteam.url }}">{{ projecttaskteam.member }}</a>
           {% else %}
-              {{ projecttaskteam.member }}
+            <span>{{ projecttaskteam.member }}</span>
           {% endif %}
         </td>
       </tr>

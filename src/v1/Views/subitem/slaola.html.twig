@@ -15,18 +15,18 @@
       <tr>
         <td>
           {% if slaola.url != '' %}
-              <a href="{{ slaola.url }}">{{ slaola.name }}</a>
+            <a href="{{ slaola.url }}">{{ slaola.name }}</a>
           {% else %}
-              {{ slaola.name }}
+            <span>{{ slaola.name }}</span>
           {% endif %}
         </td>
         <td>{{ slaola.type.title }}</td>
         <td>{{ slaola.max_duration }}</td>
         <td>
           {% if slaola.calendar_url != '' %}
-              <a href="{{ slaola.calendar_url }}">{{ slaola.calendar_name }}</a>
+            <a href="{{ slaola.calendar_url }}">{{ slaola.calendar_name }}</a>
           {% else %}
-              {{ slaola.calendar_name }}
+            <span>{{ slaola.calendar_name }}</span>
           {% endif %}
         </td>
       </tr>

@@ -15,22 +15,24 @@
       <tr>
         <td>
           {% if holiday.url != '' %}
-              <a href="{{ holiday.url }}">{{ holiday.name }}</a>
+            <a href="{{ holiday.url }}">{{ holiday.name }}</a>
           {% else %}
-              {{ holiday.name }}
+            <span>{{ holiday.name }}</span>
           {% endif %}
         </td>
         <td>{{ holiday.begin }}</td>
         <td>{{ holiday.end }}</td>
         {% if holiday.recurrent %}
           <td class="positive">
-          <i class="check circle outline icon"></i>
+            <i class="check circle outline icon"></i>
+            <span>{{ holiday.recurrent_val }}</span>
+          </td>
         {% else %}
           <td class="negative">
-          <i class="times circle outline icon"></i>
+            <i class="times circle outline icon"></i>
+            <span>{{ holiday.recurrent_val }}</span>
+          </td>
         {% endif %}
-        {{ holiday.recurrent_val }}
-        </td>
       </tr>
     {% endfor %}
   </tbody>

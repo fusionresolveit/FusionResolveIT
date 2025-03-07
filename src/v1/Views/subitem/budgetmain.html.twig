@@ -16,16 +16,16 @@
     <tr>
       <td>
         {% if budgetmain.entity_url != '' %}
-            <a href="{{ budgetmain.entity_url }}">{{ budgetmain.name }}</a>
+          <a href="{{ budgetmain.entity_url }}">{{ budgetmain.name }}</a>
         {% else %}
-            {{ budgetmain.name }}
+          <span>{{ budgetmain.name }}</span>
         {% endif %}
       </td>
       {% for key,budgetmaintype in data.budgetmaintype %}
         {% for key2,budgetmain2 in budgetmain.items %}
-            {% if key == key2 %}
-              <td>{{ budgetmain2.total }}</td>
-            {% endif %}
+          {% if key == key2 %}
+            <td>{{ budgetmain2.total }}</td>
+          {% endif %}
         {% endfor %}
       {% endfor %}
       <td>{{ budgetmain.total }}</td>

@@ -23,16 +23,16 @@
         <tr>
           <td>
             {% if change.url != '' %}
-                <a href="{{ change.url }}">{{ change.title }}</a>
+              <a href="{{ change.url }}">{{ change.title }}</a>
             {% else %}
-                {{ change.title }}
+              <span>{{ change.title }}</span>
             {% endif %}
           </td>
           <td>
             {% if change.category_url != '' %}
-                <a href="{{ change.category_url }}">{{ change.category }}</a>
+              <a href="{{ change.category_url }}">{{ change.category }}</a>
             {% else %}
-                {{ change.category }}
+              <span>{{ change.category }}</span>
             {% endif %}
           </td>
           {% if change.status is iterable %}
@@ -48,10 +48,10 @@
                   {% if change.status.icon is defined %}
                     <i class="{{ change.status.icon }} icon"></i>
                   {% endif %}
-                  {{ change.status.title }}
+                  <span>{{ change.status.title }}</span>
                 </span>
               {% else %}
-                  {{ change.status.title }}
+                <span>{{ change.status.title }}</span>
               {% endif %}
             </td>
           {% else %}
@@ -61,9 +61,9 @@
           <td>{{ change.last_update }}</td>
           <td>
             {% if change.entity_url != '' %}
-                <a href="{{ change.entity_url }}">{{ change.entity }}</a>
+              <a href="{{ change.entity_url }}">{{ change.entity }}</a>
             {% else %}
-                {{ change.entity }}
+              <span>{{ change.entity }}</span>
             {% endif %}
           </td>
           </td>
@@ -80,10 +80,10 @@
                   {% if change.priority.icon is defined %}
                     <i class="{{ change.priority.icon }} icon"></i>
                   {% endif %}
-                  {{ change.priority.title }}
+                  <span>{{ change.priority.title }}</span>
                 </span>
               {% else %}
-                  {{ change.priority.title }}
+                <span>{{ change.priority.title }}</span>
               {% endif %}
             </td>
           {% else %}
@@ -93,9 +93,9 @@
           {% for requester in change.requesters %}
             <p>
               {% if requester.url != '' %}
-                  <a href="{{ requester.url }}">{{ requester.name }}</a>
+                <a href="{{ requester.url }}">{{ requester.name }}</a>
               {% else %}
-                  {{ requester.name }}
+                <span>{{ requester.name }}</span>
               {% endif %}
             </p>
           {% endfor %}
@@ -104,9 +104,9 @@
           {% for technician in change.technicians %}
           <p>
             {% if technician.url != '' %}
-                <a href="{{ technician.url }}">{{ technician.name }}</a>
+              <a href="{{ technician.url }}">{{ technician.name }}</a>
             {% else %}
-                {{ technician.name }}
+              <span>{{ technician.name }}</span>
             {% endif %}
           </p>
           {% endfor %}

@@ -14,9 +14,9 @@
                 <a class="header">{{ translation.type }}</a>
                 <div class="description">
                   {% if record.type_url != '' %}
-                      <a href="{{ record.type_url }}">{{ record.type }}</a>
+                    <a href="{{ record.type_url }}">{{ record.type }}</a>
                   {% else %}
-                      {{ record.type }}
+                    <span>{{ record.type }}</span>
                   {% endif %}
                 </div>
               </div>

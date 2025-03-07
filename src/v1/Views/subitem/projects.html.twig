@@ -19,9 +19,9 @@
       <tr>
         <td>
           {% if project.url != '' %}
-              <a href="{{ project.url }}">{{ project.name }}</a>
+            <a href="{{ project.url }}">{{ project.name }}</a>
           {% else %}
-              {{ project.name }}
+            <span>{{ project.name }}</span>
           {% endif %}
         </td>
         <td style="background-color: {{ project.status_color }};">{{ project.status }}</td>
@@ -29,9 +29,9 @@
         <td>{{ project.last_update }}</td>
         <td>
           {% if project.entity_url != '' %}
-              <a href="{{ project.entity_url }}">{{ project.entity }}</a>
+            <a href="{{ project.entity_url }}">{{ project.entity }}</a>
           {% else %}
-              {{ project.entity }}
+            <span>{{ project.entity }}</span>
           {% endif %}
         </td>
         {% if project.priority is iterable %}
@@ -47,10 +47,10 @@
                 {% if project.priority.icon is defined %}
                   <i class="{{ project.priority.icon }} icon"></i>
                 {% endif %}
-                {{ project.priority.title }}
+                <span>{{ project.priority.title }}</span>
               </span>
             {% else %}
-                {{ project.priority.title }}
+              <span>{{ project.priority.title }}</span>
             {% endif %}
           </td>
         {% else %}
@@ -58,16 +58,16 @@
         {% endif %}
         <td>
           {% if project.manager_url != '' %}
-              <a href="{{ project.manager_url }}">{{ project.manager }}</a>
+            <a href="{{ project.manager_url }}">{{ project.manager }}</a>
           {% else %}
-              {{ project.manager }}
+            <span>{{ project.manager }}</span>
           {% endif %}
         </td>
         <td>
           {% if project.manager_group_url != '' %}
-              <a href="{{ project.manager_group_url }}">{{ project.manager_group }}</a>
+            <a href="{{ project.manager_group_url }}">{{ project.manager_group }}</a>
           {% else %}
-              {{ project.manager_group }}
+            <span>{{ project.manager_group }}</span>
           {% endif %}
         </td>
       </tr>

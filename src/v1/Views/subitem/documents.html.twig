@@ -19,16 +19,16 @@
       <tr>
         <td>
           {% if document.url != '' %}
-              <a href="{{ document.url }}">{{ document.name }}</a>
+            <a href="{{ document.url }}">{{ document.name }}</a>
           {% else %}
-              {{ document.name }}
+            <span>{{ document.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if document.entity_url != '' %}
-              <a href="{{ document.entity_url }}">{{ document.entity }}</a>
+            <a href="{{ document.entity_url }}">{{ document.entity }}</a>
           {% else %}
-              {{ document.entity }}
+            <span>{{ document.entity }}</span>
           {% endif %}
         </td>
         <td>{{ document.file }}</td>
@@ -39,9 +39,9 @@
         </td>
         <td>
           {% if document.rubrique_url != '' %}
-              <a href="{{ document.rubrique_url }}">{{ document.rubrique }}</a>
+            <a href="{{ document.rubrique_url }}">{{ document.rubrique }}</a>
           {% else %}
-              {{ document.rubrique }}
+            <span>{{ document.rubrique }}</span>
           {% endif %}
         </td>
         <td>{{ document.mimetype }}</td>

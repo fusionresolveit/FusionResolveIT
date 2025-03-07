@@ -42,24 +42,24 @@
           {% endif %}
           <td>
             {% if attacheditem2.nom_url != '' %}
-                <a href="{{ attacheditem2.nom_url }}">{{ attacheditem2.nom }}</a>
+              <a href="{{ attacheditem2.nom_url }}">{{ attacheditem2.nom }}</a>
             {% else %}
-                {{ attacheditem2.nom }}
+              <span>{{ attacheditem2.nom }}</span>
             {% endif %}
           </td>
           <td>
             {% if attacheditem2.entity_url != '' %}
-                <a href="{{ attacheditem2.entity_url }}">{{ attacheditem2.entity }}</a>
+              <a href="{{ attacheditem2.entity_url }}">{{ attacheditem2.entity }}</a>
             {% else %}
-                {{ attacheditem2.entity }}
+              <span>{{ attacheditem2.entity }}</span>
             {% endif %}
           </td>
           {% if data.show == 'domains' %}
           <td>
             {% if attacheditem2.domain_relation_url != '' %}
-                <a href="{{ attacheditem2.domain_relation_url }}">{{ attacheditem2.domain_relation }}</a>
+              <a href="{{ attacheditem2.domain_relation_url }}">{{ attacheditem2.domain_relation }}</a>
             {% else %}
-                {{ attacheditem2.domain_relation }}
+              <span>{{ attacheditem2.domain_relation }}</span>
             {% endif %}
           </td>
           {% endif %}

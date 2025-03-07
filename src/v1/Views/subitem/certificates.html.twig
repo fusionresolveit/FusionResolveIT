@@ -14,9 +14,9 @@
               <a class="header">{{ translation.entity }}</a>
               <div class="description">
                 {% if certificate.entity_url != '' %}
-                    <a href="{{ certificate.entity_url }}">{{ certificate.entity }}</a>
+                  <a href="{{ certificate.entity_url }}">{{ certificate.entity }}</a>
                 {% else %}
-                    {{ certificate.entity }}
+                  <span>{{ certificate.entity }}</span>
                 {% endif %}
               </div>
             </div>
@@ -26,9 +26,9 @@
               <a class="header">{{ translation.type }}</a>
               <div class="description">
                 {% if certificate.type_url != '' %}
-                    <a href="{{ certificate.type_url }}">{{ certificate.type }}</a>
+                  <a href="{{ certificate.type_url }}">{{ certificate.type }}</a>
                 {% else %}
-                    {{ certificate.type }}
+                  <span>{{ certificate.type }}</span>
                 {% endif %}
               </div>
             </div>
@@ -62,9 +62,9 @@
               <a class="header">{{ translation.status }}</a>
               <div class="description">
                 {% if certificate.state_url != '' %}
-                    <a href="{{ certificate.state_url }}">{{ certificate.state }}</a>
+                  <a href="{{ certificate.state_url }}">{{ certificate.state }}</a>
                 {% else %}
-                    {{ certificate.state }}
+                  <span>{{ certificate.state }}</span>
                 {% endif %}
               </div>
             </div>
