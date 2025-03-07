@@ -3,11 +3,8 @@ name: "FusionResolveIT End2End tests"
 on:
   push:
     branches:
-      - master
-      - '*/bugfixes'
-      - 'feature/*'
-      - 'fix/*'
-      - 'security/*'
+      - main
+      - '*'
     tags:
        - '*'
 
