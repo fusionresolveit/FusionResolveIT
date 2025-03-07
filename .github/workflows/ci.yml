@@ -256,9 +256,9 @@ jobs:
       - name: install nginx
         run: |
           sudo apt install nginx -y
-          cp cypress/ci-nginx.conf /etc/nginx/conf.d/
-          systemctl enable nginx 
-          systemctl start nginx
+          sudo cp cypress/ci-nginx.conf /etc/nginx/conf.d/
+          sudo systemctl enable nginx 
+          sudo systemctl restart nginx
 
       - name: Set phinx.php
         run: cp phinx.php.dist phinx.php
