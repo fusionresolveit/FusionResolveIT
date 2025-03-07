@@ -28,7 +28,7 @@ class Domain extends Common
   protected $definition = \App\Models\Definitions\Domain::class;
   protected $titles = ['Domain', 'Domains'];
   protected $icon = 'globe americas';
-
+  /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
     'tickets',

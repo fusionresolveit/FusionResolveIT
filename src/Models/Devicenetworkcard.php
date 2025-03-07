@@ -22,6 +22,7 @@ class Devicenetworkcard extends Common
   protected $definition = \App\Models\Definitions\Devicenetworkcard::class;
   protected $titles = ['Network card', 'Network cards'];
   protected $icon = 'edit';
+  /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
     'itemComputers',

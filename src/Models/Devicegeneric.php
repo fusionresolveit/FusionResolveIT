@@ -22,6 +22,7 @@ class Devicegeneric extends Common
   protected $definition = \App\Models\Definitions\Devicegeneric::class;
   protected $titles = ['Generic device', 'Generic devices'];
   protected $icon = 'edit';
+  /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
     'itemComputers',

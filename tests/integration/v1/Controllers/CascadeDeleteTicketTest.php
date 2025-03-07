@@ -13,6 +13,12 @@ use PHPUnit\Framework\Attributes\UsesClass;
 
 final class CascadeDeleteTicketTest extends TestCase
 {
+  protected function setUp(): void
+  {
+    // Needed to reset events
+    \App\Models\Ticket::boot();
+  }
+
   public function testFollowupDelete(): void
   {
     // Create ticket
@@ -22,21 +28,25 @@ final class CascadeDeleteTicketTest extends TestCase
 
     // create followup
     $followup = \App\Models\Followup::create([
-      'content'   => 'test followup',
+      'content'   => 'test cascade followup',
       'item_id'   => $ticket->id,
       'item_type' => \App\Models\Ticket::class,
     ]);
 
     // check followup is in database
-    $followup = \App\Models\Followup::where('content', 'test followup')->first();
+    $followup = \App\Models\Followup::where('content', 'test cascade followup')->first();
     $this->assertNotNull($followup);
 
     // delete ticket
     $ticket->refresh();
     $ticket->forceDelete();
 
+    // ticket must be deleted
+    $ticket = \App\Models\Ticket::where('name', 'test cascade delete')->first();
+    $this->assertNull($ticket);
+
     // check followup is deleted
-    $followup = \App\Models\Followup::where('content', 'test followup')->first();
+    $followup = \App\Models\Followup::where('content', 'test cascade followup')->first();
     $this->assertNull($followup);
   }
 }

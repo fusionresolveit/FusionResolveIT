@@ -43,10 +43,9 @@ class PostFollowup extends Post
         isset($data->item_type)
     )
     {
-      if (class_exists($data->item_type) && str_starts_with($data->item_type, 'App\Models'))
+      if ($data->item_type == \App\Models\Ticket::class)
       {
-        $model = new $data->item_type();
-        $parentItem = $model->where('id', $data->item_id)->first();
+        $parentItem = \App\Models\Ticket::where('id', $data->item_id)->first();
         if (is_null($parentItem))
         {
           throw new \Exception('Wrong data request12', 400);

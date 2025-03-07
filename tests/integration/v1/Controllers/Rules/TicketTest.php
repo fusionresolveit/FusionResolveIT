@@ -169,7 +169,11 @@ final class TicketTest extends TestCase
   protected function setUp(): void
   {
     $this->app = (new \App\App())->get();
-    \App\Models\Ticket::truncate();
+    $tickets = \App\Models\Ticket::get();
+    foreach ($tickets as $ticket)
+    {
+      $ticket->forceDelete();
+    }
   }
 
   public static function providerPriority(): array

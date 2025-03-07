@@ -49,7 +49,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\User')]
 #[UsesClass('\App\v1\Controllers\Common')]
 #[UsesClass('\App\v1\Controllers\Ticket')]
-
 #[UsesClass('\App\Models\Definitions\Document')]
 #[UsesClass('\App\Models\Displaypreference')]
 #[UsesClass('\App\v1\Controllers\Datastructures\Header')]
@@ -124,7 +123,7 @@ final class RightsTicketTest extends TestCase
     $this->assertEquals(200, $response->getStatusCode());
   }
 
-  public function testRenderTicketsNoRights(): void
+  public function testRenderTicketsNoRight(): void
   {
     $GLOBALS['profile_id'] = 2;
 

@@ -115,7 +115,7 @@ abstract class Common extends Model
     }
 
     $definitions = $this->definition::getDefinition();
-    if (get_class($this) == 'App\\Models\\Profileright') // || get_class($this) == 'App\\Models\\Profile')
+    if (get_class($this) == \App\Models\Profileright::class) // || get_class($this) == 'App\\Models\\Profile')
     {
       return $definitions;
     }

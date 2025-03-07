@@ -54,7 +54,7 @@ final class Followup extends Common
       {
         throw new \Exception('Id not found', 404);
       }
-  
+
       $time = (int) $requestData->time;
       if ($time > 0)
       {

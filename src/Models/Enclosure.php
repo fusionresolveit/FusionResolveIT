@@ -28,6 +28,7 @@ class Enclosure extends Common
   protected $definition = \App\Models\Definitions\Enclosure::class;
   protected $titles = ['Enclosure', 'Enclosures'];
   protected $icon = 'th';
+  /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
     'tickets',
