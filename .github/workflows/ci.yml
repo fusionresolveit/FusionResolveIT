@@ -223,3 +223,42 @@ jobs:
 
     - name: PHPUnit tests
       run: ./vendor/bin/phpunit --coverage-text
+
+  cypress-run:
+    runs-on: 'ubuntu-latest'
+    services:
+      mariadb:
+        image: mariadb:11.4
+        ports:
+          - 3306:3306
+        env:
+          MARIADB_DATABASE: frittests
+          MARIADB_USER: frittests
+          MARIADB_PASSWORD: frittests
+          MARIADB_ROOT_PASSWORD: rootpassword  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: install dependencies
+        run: yarn install
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+      - name: install nginx
+        run: |
+          sudo apt install nginx certbot python3-certbot-nginx -y
+          systemctl status nginx
+          sudo systemctl enable nginx 
+          cp cypress/ci-nginx.conf /etc/nginx/conf.d/
+          sudo systemctl start nginx 
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
