@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Peripheral extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -29,6 +31,41 @@ class Peripheral extends Common
   protected $definition = \App\Models\Definitions\Peripheral::class;
   protected $titles = ['Device', 'Devices'];
   protected $icon = 'usb';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'reservations',
+    'certificates',
+    'domains',
+    'appliances',
+    'softwareversions',
+    'operatingsystems',
+    'memories',
+    'firmwares',
+    'processors',
+    'harddrives',
+    'batteries',
+    'soundcards',
+    'controllers',
+    'powersupplies',
+    'sensors',
+    'devicepcis',
+    'devicegenerics',
+    'devicenetworkcards',
+    'devicesimcards',
+    'devicemotherboards',
+    'devicecases',
+    'devicegraphiccards',
+    'devicedrives',
+    'connections',
+  ];
 
   protected $appends = [
   ];

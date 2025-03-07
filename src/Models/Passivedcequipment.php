@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Passivedcequipment extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -25,6 +27,15 @@ class Passivedcequipment extends Common
   protected $definition = \App\Models\Definitions\Passivedcequipment::class;
   protected $titles = ['Passive device', 'Passive devices'];
   protected $icon = 'th list';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+  ];
 
   protected $appends = [
   ];

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Networkequipment extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -30,6 +32,41 @@ class Networkequipment extends Common
   protected $definition = \App\Models\Definitions\Networkequipment::class;
   protected $titles = ['Network device', 'Network devices'];
   protected $icon = 'network wired';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'reservations',
+    'certificates',
+    'domains',
+    'appliances',
+    'softwareversions',
+    'operatingsystems',
+    'memories',
+    'firmwares',
+    'processors',
+    'harddrives',
+    'batteries',
+    'soundcards',
+    'controllers',
+    'powersupplies',
+    'sensors',
+    'devicepcis',
+    'devicegenerics',
+    'devicenetworkcards',
+    'devicesimcards',
+    'devicemotherboards',
+    'devicecases',
+    'devicegraphiccards',
+    'devicedrives',
+    'volumes',
+  ];
 
   protected $appends = [
   ];

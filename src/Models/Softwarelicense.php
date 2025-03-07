@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Softwarelicense extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -29,6 +31,20 @@ class Softwarelicense extends Common
   protected $definition = \App\Models\Definitions\Softwarelicense::class;
   protected $titles = ['License', 'Licenses'];
   protected $icon = 'key';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'certificates',
+    'childs',
+    'computers',
+  ];
 
   protected $appends = [
   ];

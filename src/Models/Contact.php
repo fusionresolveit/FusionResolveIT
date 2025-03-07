@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Contact extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
@@ -21,6 +23,12 @@ class Contact extends Common
   protected $definition = \App\Models\Definitions\Contact::class;
   protected $titles = ['Contact', 'Contacts'];
   protected $icon = 'user tie';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'notes',
+    'suppliers',
+  ];
 
   protected $appends = [
   ];

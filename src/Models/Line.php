@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Line extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -23,6 +25,13 @@ class Line extends Common
   protected $definition = \App\Models\Definitions\Line::class;
   protected $titles = ['Line', 'Lines'];
   protected $icon = 'phone';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'infocom',
+    'contracts',
+    'notes',
+  ];
 
   protected $appends = [
   ];

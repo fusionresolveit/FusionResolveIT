@@ -6,13 +6,20 @@ namespace App\Models\Forms;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Answer extends \App\Models\Common
 {
+  use CascadesDeletes;
+
   protected $definition = \App\Models\Definitions\Forms\Answer::class;
   protected $titles = ['Answer', 'Answers'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'answerquestions',
+  ];
 
   /** @return BelongsTo<\App\Models\Forms\Form, $this> */
   public function form(): BelongsTo

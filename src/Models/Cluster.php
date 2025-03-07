@@ -6,13 +6,14 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Cluster extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Tickets;
@@ -25,6 +26,17 @@ class Cluster extends Common
   protected $definition = \App\Models\Definitions\Cluster::class;
   protected $titles = ['Cluster', 'Clusters'];
   protected $icon = 'project diagram';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'contracts',
+    'appliances',
+    'itemComputers',
+    'itemNetworkequipments',
+  ];
 
   protected $appends = [
   ];

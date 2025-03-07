@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Monitor extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -29,6 +31,23 @@ class Monitor extends Common
   protected $definition = \App\Models\Definitions\Monitor::class;
   protected $titles = ['Monitor', 'Monitors'];
   protected $icon = 'desktop';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'reservations',
+    'domains',
+    'appliances',
+    'softwareversions',
+    'operatingsystems',
+    'connections',
+  ];
 
   protected $appends = [
   ];

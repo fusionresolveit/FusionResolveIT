@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Calendar extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
 
   use GetDropdownValues;
@@ -19,6 +21,11 @@ class Calendar extends Common
   protected $definition = \App\Models\Definitions\Calendar::class;
   protected $titles = ['Calendar', 'Calendars'];
   protected $icon = 'edit';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'timeranges',
+    'holidays',
+  ];
 
   protected $appends = [
   ];

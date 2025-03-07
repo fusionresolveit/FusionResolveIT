@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Document extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
@@ -21,6 +23,59 @@ class Document extends Common
   protected $definition = \App\Models\Definitions\Document::class;
   protected $titles = ['Document', 'Documents'];
   protected $icon = 'file';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'notes',
+    'associatedAppliances',
+    'associatedBudgets',
+    'associatedCartridgeitems',
+    'associatedCertificates',
+    'associatedClusters',
+    'associatedComputers',
+    'associatedConsumableitems',
+    'associatedContacts',
+    'associatedContracts',
+    'associatedDcrooms',
+    'associatedDevicebatteries',
+    'associatedDevicecases',
+    'associatedDevicecontrols',
+    'associatedDevicedrives',
+    'associatedDevicefirmwares',
+    'associatedDevicegenerics',
+    'associatedDevicegraphiccards',
+    'associatedDeviceharddrives',
+    'associatedDevicememories',
+    'associatedDevicemotherboards',
+    'associatedDevicenetworkcards',
+    'associatedDevicepcis',
+    'associatedDevicepowersupplies',
+    'associatedDeviceprocessors',
+    'associatedDevicesensors',
+    'associatedDevicesimcards',
+    'associatedDevicesoundcards',
+    'associatedDomains',
+    'associatedEnclosures',
+    'associatedEntities',
+    'associatedLines',
+    'associatedLocations',
+    'associatedMonitors',
+    'associatedNetworkequipments',
+    'associatedPassivedcequipments',
+    'associatedPdus',
+    'associatedPeripherals',
+    'associatedPhones',
+    'associatedPrinters',
+    'associatedProjects',
+    'associatedProjecttasks',
+    'associatedProjecttasktemplates',
+    'associatedRacks',
+    'associatedReminders',
+    'associatedSoftwares',
+    'associatedSoftwarelicenses',
+    'associatedSuppliers',
+    'associatedUsers',
+  ];
 
   protected $appends = [];
 

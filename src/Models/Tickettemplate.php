@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Tickettemplate extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
 
   use GetDropdownValues;
@@ -18,6 +20,12 @@ class Tickettemplate extends Common
   protected $definition = \App\Models\Definitions\Tickettemplate::class;
   protected $titles = ['Ticket template', 'Ticket templates'];
   protected $icon = 'edit';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'mandatoryfields',
+    'predefinedfields',
+    'hiddenfields',
+  ];
 
   protected $appends = [
   ];

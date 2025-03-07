@@ -36,6 +36,15 @@ class Computer extends Common
   protected $icon = 'laptop';
   /** @var string[] */
   protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'reservations',
     'softwareversions',
     'operatingsystems',
     'memories',

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\GetDropdownValues;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Entity extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
@@ -23,6 +24,12 @@ class Entity extends Common
   protected $icon = 'layer group';
   protected $hasEntityField = false;
   protected $tree = true;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'notes',
+    'knowbaseitems',
+  ];
 
   protected $appends = [
     // 'completename',

@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Certificate extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -28,9 +30,29 @@ class Certificate extends Common
   protected $definition = \App\Models\Definitions\Certificate::class;
   protected $titles = ['Certificate', 'Certificates'];
   protected $icon = 'certificate';
-
-  protected $appends = [
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'associatedAppliances',
+    'associatedComputers',
+    'associatedPeripherals',
+    'associatedDomains',
+    'associatedSoftwarelicenses',
+    'associatedNetworkequipments',
+    'associatedPhones',
+    'associatedPrinters',
+    'associatedUsers',
+    'domains',
   ];
+
+  protected $appends = [];
 
   protected $visible = [
     'location',

@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Supplier extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Tickets;
@@ -24,6 +26,15 @@ class Supplier extends Common
   protected $definition = \App\Models\Definitions\Supplier::class;
   protected $titles = ['Supplier', 'Suppliers'];
   protected $icon = 'dolly';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'notes',
+    'knowbaseitems',
+  ];
 
   protected $appends = [
   ];

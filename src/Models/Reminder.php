@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Reminder extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Documents;
 
   use GetDropdownValues;
@@ -19,6 +21,10 @@ class Reminder extends Common
   protected $titles = ['Reminder', 'Reminders'];
   protected $icon = 'sticky note';
   protected $hasEntityField = false;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+  ];
 
   protected $appends = [
   ];

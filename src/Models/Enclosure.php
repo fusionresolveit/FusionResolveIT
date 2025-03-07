@@ -6,13 +6,14 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Enclosure extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -27,6 +28,31 @@ class Enclosure extends Common
   protected $definition = \App\Models\Definitions\Enclosure::class;
   protected $titles = ['Enclosure', 'Enclosures'];
   protected $icon = 'th';
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'memories',
+    'firmwares',
+    'processors',
+    'harddrives',
+    'batteries',
+    'soundcards',
+    'controllers',
+    'powersupplies',
+    'sensors',
+    'devicepcis',
+    'devicegenerics',
+    'devicenetworkcards',
+    'devicesimcards',
+    'devicemotherboards',
+    'devicecases',
+    'devicegraphiccards',
+    'devicedrives',
+  ];
 
   protected $appends = [
   ];

@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Ticket extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Knowbaseitems;
@@ -24,6 +26,44 @@ class Ticket extends Common
   protected $definition = \App\Models\Definitions\Ticket::class;
   protected $titles = ['Ticket', 'Tickets'];
   protected $icon = 'hands helping';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'knowbaseitems',
+    'requester',
+    'requestergroup',
+    'watcher',
+    'watchergroup',
+    'technician',
+    'techniciangroup',
+    'problems',
+    'changes',
+    'linkedtickets',
+    'followups',
+    'solutions',
+    'costs',
+    'projecttasks',
+    'approvals',
+    'itemComputers',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPeripherals',
+    'itemPhones',
+    'itemPrinters',
+    'itemSoftwares',
+    'itemSoftwarelicenses',
+    'itemCertificates',
+    'itemLines',
+    'itemDcrooms',
+    'itemRacks',
+    'itemEnclosures',
+    'itemClusters',
+    'itemPdus',
+    'itemDomains',
+    'itemDomainrecords',
+    'itemAppliances',
+    'itemPassivedcequipments',
+    'projects',
+  ];
 
   protected $appends = [
   ];

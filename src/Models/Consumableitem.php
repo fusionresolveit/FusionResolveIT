@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Consumableitem extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -23,6 +25,13 @@ class Consumableitem extends Common
   protected $definition = \App\Models\Definitions\Consumableitem::class;
   protected $titles = ['Consumable', 'Consumables'];
   protected $icon = 'box open';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'infocom',
+    'notes',
+    'consumables',
+  ];
 
   protected $appends = [
   ];

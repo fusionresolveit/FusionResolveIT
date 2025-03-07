@@ -8,10 +8,12 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Form extends \App\Models\Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
 
   use GetDropdownValues;
@@ -19,6 +21,10 @@ class Form extends \App\Models\Common
   protected $definition = \App\Models\Definitions\Forms\Form::class;
   protected $titles = ['Form', 'Forms'];
   protected $icon = 'cubes';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'sections',
+  ];
 
   protected $appends = [
   ];

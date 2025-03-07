@@ -6,10 +6,12 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Location extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -20,6 +22,10 @@ class Location extends Common
   protected $titles = ['Location', 'Locations'];
   protected $icon = 'edit';
   protected $tree = true;
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+  ];
 
   protected $appends = [
     // 'completename',

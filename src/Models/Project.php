@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Project extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Contract;
@@ -24,6 +26,26 @@ class Project extends Common
   protected $definition = \App\Models\Definitions\Project::class;
   protected $titles = ['Project', 'Projects'];
   protected $icon = 'columns';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'tasks',
+    'parents',
+    'costs',
+    'itemComputers',
+    'itemMonitors',
+    'itemNetworkequipments',
+    'itemPeripherals',
+    'itemPhones',
+    'itemPrinters',
+    'itemSoftwares',
+    'itilTickets',
+    'itilProblems',
+    'itilChanges',
+  ];
 
   protected $appends = [
   ];

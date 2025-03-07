@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Printer extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
@@ -30,6 +32,43 @@ class Printer extends Common
   protected $definition = \App\Models\Definitions\Printer::class;
   protected $titles = ['Printer', 'Printers'];
   protected $icon = 'print';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'tickets',
+    'problems',
+    'changes',
+    'infocom',
+    'contracts',
+    'notes',
+    'knowbaseitems',
+    'reservations',
+    'certificates',
+    'domains',
+    'appliances',
+    'softwareversions',
+    'operatingsystems',
+    'volumes',
+    'memories',
+    'firmwares',
+    'processors',
+    'harddrives',
+    'batteries',
+    'soundcards',
+    'controllers',
+    'powersupplies',
+    'sensors',
+    'devicepcis',
+    'devicegenerics',
+    'devicenetworkcards',
+    'devicesimcards',
+    'devicemotherboards',
+    'devicecases',
+    'devicegraphiccards',
+    'devicedrives',
+    'connections',
+    'cartridges',
+  ];
 
   protected $appends = [
   ];

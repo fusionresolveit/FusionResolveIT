@@ -6,13 +6,14 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Devicepowersupply extends Common
 {
   use SoftDeletes;
+  use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
 
@@ -21,6 +22,13 @@ class Devicepowersupply extends Common
   protected $definition = \App\Models\Definitions\Devicepowersupply::class;
   protected $titles = ['Power supply', 'Power supplies'];
   protected $icon = 'edit';
+  /** @var string[] */
+  protected $cascadeDeletes = [
+    'documents',
+    'itemComputers',
+    'itemNetworkequipments',
+    'itemEnclosures',
+  ];
 
   protected $appends = [
   ];
