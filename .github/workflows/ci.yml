@@ -267,8 +267,8 @@ jobs:
           sudo systemctl disable apache2
           sudo apt remove apache2
           sudo dpkg --get-selections | grep apache | cut -f 1
-          sudo apt-get remove --purge ...
-          sudo apt-get autoremove
+          # sudo apt-get remove --purge ...
+          # sudo apt-get autoremove
           sudo rm -rf /etc/apache2/
           sudo rm /etc/systemd/system/apache2.service
       - name: install nginx
