@@ -2,6 +2,9 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost'
-  }
+    experimentalStudio: true,
+    baseUrl: 'http://localhost',
+    video: true,
+  },
+  viewportWidth: 1280,
 });

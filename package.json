@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@toast-ui/editor": "^3.2.2",
-    "fomantic-ui": "https://github.com/fomantic/Fomantic-UI#22d2d0da"
+    "cypress": "^14.1.0",
+    "fomantic-ui": "https://github.com/fomantic/Fomantic-UI#22d2d0da",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
