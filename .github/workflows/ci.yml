@@ -262,7 +262,8 @@ jobs:
           sudo apt remove apache2
           sudo apt autoremove
           sudo apt install nginx -y
-          sudo cp cypress/ci-nginx.conf /etc/nginx/conf.d/
+          sudo cp cypress/ci-nginx.conf /etc/nginx/sites-enabled/
+          sudo rm /etc/nginx/sites-enabled/default
           sudo systemctl enable nginx 
           sudo systemctl restart nginx
 
