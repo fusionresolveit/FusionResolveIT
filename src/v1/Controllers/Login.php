@@ -138,7 +138,8 @@ final class Login extends Common
     //, $cookie_lifetime, $cookie_path, $cookie_domain, $cookie_secure, true);
 
     return $response
-      ->withHeader('Location', $basePath . '/view/home');
+      ->withHeader('Location', $basePath . '/view/home')
+      ->withStatus(302);
   }
 
   /**
@@ -151,7 +152,8 @@ final class Login extends Common
     try
     {
       return $response
-        ->withHeader('Location', $provider->makeAuthUrl());
+        ->withHeader('Location', $provider->makeAuthUrl())
+        ->withStatus(302);
     }
     catch (\Exception $e)
     {
@@ -271,7 +273,8 @@ final class Login extends Common
     setcookie('token', '', -1, $basePath . '/view');
 
     return $response
-      ->withHeader('Location', $basePath);
+      ->withHeader('Location', $basePath . '/')
+      ->withStatus(302);
   }
 
   /**
@@ -344,6 +347,7 @@ final class Login extends Common
     }
 
     return $response
-      ->withHeader('Location', $_SERVER['HTTP_REFERER']);
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 }

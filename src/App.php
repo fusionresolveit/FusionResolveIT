@@ -79,6 +79,7 @@ class App
     $ignoreList = [
       $basePath . "/ping",
       $basePath . "/view/login",
+      $basePath . "/view/logout",
       $basePath . "/view/sso",
       $basePath . "/view/sso/cb",
       $basePath . "/api/v1/fusioninventory",
@@ -92,13 +93,23 @@ class App
       }
     }
 
-    $app->add(
-      new JwtAuthentication(
-        new Options(before: new JwtBeforeHandler(), isSecure: false),
-        new FirebaseDecoder(new Secret(sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL), 'HS256')),
-        [new RequestMethodRule(), new RequestPathRule(ignore: $ignoreList)],
-      )
-    );
+    // Needed in some cases, depends on webserver, because add redirect in App\Route
+    if (
+        !isset($_SERVER['REQUEST_URI']) ||
+        (
+          $_SERVER['REQUEST_URI'] != $basePath . '' &&
+          $_SERVER['REQUEST_URI'] != $basePath . '/'
+        )
+    )
+    {
+      $app->add(
+        new JwtAuthentication(
+          new Options(before: new JwtBeforeHandler(), isSecure: false),
+          new FirebaseDecoder(new Secret(sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL), 'HS256')),
+          [new RequestMethodRule(), new RequestPathRule(ignore: $ignoreList)],
+        )
+      );
+    }
 
     // Init session
     $app->add(
@@ -141,7 +152,8 @@ class App
         {
           $response = $app->getResponseFactory()->createResponse();
           return $response
-            ->withHeader('Location', $basePath . '/view/login');
+            ->withHeader('Location', $basePath . '/view/login')
+            ->withStatus(302);
         }
 
         // for API
