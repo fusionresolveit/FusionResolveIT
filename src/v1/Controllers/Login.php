@@ -7,6 +7,7 @@ namespace App\v1\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use Illuminate\Support\Facades\Date;
 
 final class Login extends Common
 {
@@ -65,12 +66,33 @@ final class Login extends Common
       ->first();
     if (!is_null($user))
     {
+      $this->checkAttempt($user);
+
       // check passwords
       $check = $token->checkPassword($data->password, $user->password);
       if (!$check)
       {
-        throw new \Exception('Login or password error', 401);
+        \App\v1\Controllers\Audit::addEntry(
+          $request,
+          'CONNECTION',
+          'fail, login: ' . $data->login,
+          null,
+          0,
+          401,
+          'FAIL'
+        );
       }
+      $this->setAttempt($user, $check);
+      \App\v1\Controllers\Audit::addEntry(
+        $request,
+        'CONNECTION',
+        'successfull, login: ' . $data->login,
+        null,
+        0,
+        401,
+        'SUCCESSFULL'
+      );
+
       return $this->authOkAndRedirect($user, $response);
     } else {
       // Search in LDAP
@@ -110,7 +132,7 @@ final class Login extends Common
         return $this->authOkAndRedirect($user, $response);
       }
     }
-    throw new \Exception('Login or password error', 401);
+    throw new \Exception('Login or password error, first attempt, wait 30 seconds before try again', 401);
   }
 
   private function authOkAndRedirect(\App\Models\User $user, Response $response): Response
@@ -349,5 +371,86 @@ final class Login extends Common
     return $response
       ->withHeader('Location', $_SERVER['HTTP_REFERER'])
       ->withStatus(302);
+  }
+
+  private function checkAttempt(\App\Models\User $user)
+  {
+    if ($user->security_locked)
+    {
+      throw new \Exception('This account is security locked, contact your app administrator', 401);
+    }
+    if ($user->security_attempt > 0)
+    {
+      $timeElapsed = (Date::now()->timestamp) - strtotime($user->security_last_attempt);
+      switch ($user->security_attempt) {
+        case 1:
+          if ($timeElapsed < 30)
+          {
+            throw new \Exception('Security, wait ' . (30 - $timeElapsed) . ' seconds before try again', 401);
+          }
+            return;
+  
+        case 2:
+          if ($timeElapsed < 120)
+          {
+            throw new \Exception('Security, wait ' . (120 - $timeElapsed) . ' seconds before try again', 401);
+          }
+            return;
+  
+        case 3:
+          if ($timeElapsed < 300)
+          {
+            throw new \Exception('Security, wait ' . (300 - $timeElapsed) . ' seconds before try again', 401);
+          }
+            return;
+
+        case 4:
+          if ($timeElapsed < 600)
+          {
+            throw new \Exception('Security, wait ' . (600 - $timeElapsed) . ' seconds before try again', 401);
+          }
+            return;
+      }
+    }
+  }
+
+  private function setAttempt(\App\Models\User $user, bool $passwordCheck)
+  {
+    if ($passwordCheck)
+    {
+      $user->security_attempt = 0;
+      $user->save();
+      return;
+    }
+
+    // we are here because the auth was fail (not right password)
+    $user->security_last_attempt = Date::now();
+    switch ($user->security_attempt) {
+      case 0:
+        $user->security_attempt = 1;
+        $user->save();
+        throw new \Exception('Login or password error, first attempt, wait 30 seconds before try again', 401);
+
+      case 1:
+        $user->security_attempt = 2;
+        $user->save();
+        throw new \Exception('Login or password error, second attempt, wait 2 minutes before try again', 401);
+
+      case 2:
+        $user->security_attempt = 3;
+        $user->save();
+        throw new \Exception('Login or password error, third attempt, wait 5 minutes before try again', 401);
+
+      case 3:
+        $user->security_attempt = 4;
+        $user->save();
+        throw new \Exception('Login or password error, fourth attempt, wait 10 minutes before try again', 401);
+
+      case 4:
+        $user->security_attempt = 5;
+        $user->security_locked = true;
+        $user->save();
+        throw new \Exception('Login or password error, the account is locked', 401);
+    }
   }
 }

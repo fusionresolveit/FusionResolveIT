@@ -7,11 +7,27 @@ namespace App\Models\Definitions;
 use App\DataInterface\Definition as Def;
 use App\DataInterface\DefinitionCollection;
 
-class Event
+class Audit
 {
   public static function getDefinition(): DefinitionCollection
   {
     global $translator;
+
+    // `item_id` int(11) NOT NULL DEFAULT 0,
+      // `action` varchar(255) DEFAULT NULL,
+      // `created_at` timestamp NULL DEFAULT NULL,
+      // `message` text DEFAULT NULL,
+    // `updated_at` timestamp NULL DEFAULT NULL,
+    // `deleted_at` timestamp NULL DEFAULT NULL,
+      // `user_id` int(11) NOT NULL DEFAULT 0,
+      // `username` varchar(255) DEFAULT NULL,
+      // `ip` varchar(255) DEFAULT NULL,
+      // `httpmethod` varchar(255) DEFAULT NULL,
+      // `endpoint` varchar(255) DEFAULT NULL,
+      // `httpcode` int(11) DEFAULT NULL,
+    // `item_type` varchar(255) DEFAULT NULL,
+  
+
 
     $t = [
       'type' => $translator->translate('Source'),
@@ -22,27 +38,51 @@ class Event
     ];
 
     $defColl = new DefinitionCollection();
-    $defColl->add(new Def(
-      10,
-      $t['type'],
-      'dropdown',
-      'type',
-      dbname: 'type',
-      values: self::getTypeArray(),
-      readonly: true
-    ));
+
+
     $defColl->add(new Def(11, $t['date'], 'datetime', 'created_at', readonly: true));
+    $defColl->add(new Def(14, $t['message'], 'input', 'message', readonly: true));
+    $defColl->add(new Def(1001, 'action', 'input', 'action', readonly: true));
+    $defColl->add(new Def(1008, 'subaction', 'input', 'subaction', readonly: true));
     $defColl->add(new Def(
-      12,
-      $t['service'],
-      'dropdown',
-      'service',
-      dbname: 'service',
-      values: self::getServiceArray(),
+      1002,
+      'user',
+      'dropdown_remote',
+      'user',
+      dbname: 'user_id',
+      itemtype: '\App\Models\User',
       readonly: true
     ));
-    $defColl->add(new Def(13, $t['level'], 'input', 'level', readonly: true));
-    $defColl->add(new Def(14, $t['message'], 'input', 'message', readonly: true));
+    $defColl->add(new Def(1003, 'username', 'input', 'username', readonly: true));
+    $defColl->add(new Def(1004, 'ip', 'input', 'ip', readonly: true));
+    $defColl->add(new Def(1005, 'HTTP method', 'input', 'httpmethod', readonly: true));
+    $defColl->add(new Def(1006, 'endpoint', 'input', 'endpoint', readonly: true));
+    $defColl->add(new Def(1007, 'HTTP code', 'input', 'httpcode', readonly: true));
+
+
+
+
+    // $defColl->add(new Def(
+    //   10,
+    //   $t['type'],
+    //   'dropdown',
+    //   'type',
+    //   dbname: 'type',
+    //   values: self::getTypeArray(),
+    //   readonly: true
+    // ));
+    // $defColl->add(new Def(11, $t['date'], 'datetime', 'created_at', readonly: true));
+    // $defColl->add(new Def(
+    //   12,
+    //   $t['service'],
+    //   'dropdown',
+    //   'service',
+    //   dbname: 'service',
+    //   values: self::getServiceArray(),
+    //   readonly: true
+    // ));
+    // $defColl->add(new Def(13, $t['level'], 'input', 'level', readonly: true));
+    // $defColl->add(new Def(14, $t['message'], 'input', 'message', readonly: true));
 
     return $defColl;
   }
