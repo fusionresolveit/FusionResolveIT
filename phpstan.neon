@@ -9,3 +9,4 @@ parameters:
     checkModelProperties: true
     squashedMigrationsPath: ['tests/schema']
     databaseMigrationsPath: ['tests/schema']
+    noEnvCallsOutsideOfConfig: false

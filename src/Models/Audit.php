@@ -6,12 +6,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Event extends Common
+class Audit extends Common
 {
   use SoftDeletes;
 
-  protected $definition = \App\Models\Definitions\Event::class;
-  protected $titles = ['Log', 'Logs'];
+  protected $definition = \App\Models\Definitions\Audit::class;
+  protected $titles = ['Audit', 'Audits'];
   protected $icon = 'scroll';
   protected $hasEntityField = false;
 }

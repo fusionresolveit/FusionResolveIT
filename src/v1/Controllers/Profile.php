@@ -234,7 +234,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
       \App\Models\Rules\Ticket::class,
       \App\Models\Profile::class,
       \App\Models\Queuednotification::class,
-      \App\Models\Event::class,
+      \App\Models\Audit::class,
       \App\Models\Displaypreference::class,
     ],
     'setup' => [

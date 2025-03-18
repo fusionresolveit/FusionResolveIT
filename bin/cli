@@ -5,6 +5,22 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+// Load the application
+global $translation;
+global $basePath;
+
+$lang = new \App\Translation();
+$translator = $lang->loadLanguage('en_GB');
+$basePath = '';
+try {
+  // @phpstan-ignore method.resultUnused
+  (new \App\App())->get();
+} catch (Exception $e) {
+  echo "App can't be loaded\n";
+}
+
+// Now load Cli
+
 use App\v1\Controllers\Cli\Common;
 use Ahc\Cli\Output\Cursor;
 
@@ -22,5 +38,6 @@ $app->add(new \App\v1\Controllers\Cli\Migration);
 $app->add(new \App\v1\Controllers\Cli\Rollback);
 $app->add(new \App\v1\Controllers\Cli\Documentation);
 $app->add(new \App\v1\Controllers\Cli\Reset);
+$app->add(new \App\v1\Controllers\Cli\Securitylogin);
 
 $app->handle($_SERVER['argv']);

@@ -56,15 +56,15 @@ trait Associateditem
 
         $entity = '';
         $entity_url = '';
-        if ($myItem3->entity !== null)
+        if ($myItem3->getAttribute('entity') !== null)
         {
-          $entity = $myItem3->entity->completename;
+          $entity = $myItem3->getAttribute('entity')->completename;
           // $entity_url = $this->genereRootUrl2Link($rootUrl2, '/entities/', $myItem3->entity->id);
         }
 
-        $serial_number = $myItem3->serial;
+        $serial_number = $myItem3->getAttribute('serial');
 
-        $inventaire_number = $myItem3->otherserial;
+        $inventaire_number = $myItem3->getAttribute('otherserial');
 
         $myAssociatedItems[] = [
           'type'                 => $type_fr,

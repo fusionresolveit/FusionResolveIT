@@ -249,12 +249,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
-      - name: install php fpm
-        run: |
-          sudo apt-get install php8.3-fpm php8.3-mysql php8.3-curl
-          sudo cp /usr/sbin/php-fpm8.3 /usr/bin/php-fpm # copy to /usr/bin
-          sudo service php8.3-fpm start
-          sudo service php8.3-fpm status
+          extensions: mysql, curl
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v4
