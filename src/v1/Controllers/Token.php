@@ -146,7 +146,8 @@ final class Token
     if (is_null($profileId) || is_null($entityId))
     {
       return $response
-        ->withHeader('Location', $basePath);
+        ->withHeader('Location', $basePath)
+        ->withStatus(302);
     }
 
     $entity = \App\Models\Entity::where('id', $entityId)->first();

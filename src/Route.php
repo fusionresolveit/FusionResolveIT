@@ -14,6 +14,9 @@ final class Route
    */
   public static function setRoutes(&$app): void
   {
+    $app->redirect('', '/view/login');
+    $app->redirect('/', '/view/login');
+
     // Enable OPTIONS method for all routes
     $app->options('/{routes:.+}', function ($request, $response, $args)
     {
