@@ -20,48 +20,48 @@
         <tr>
           <td>
             {% if antivirus.antivirus_url != '' %}
-                <a href="{{ antivirus.antivirus_url }}">{{ antivirus.name }}</a>
+              <a href="{{ antivirus.antivirus_url }}">{{ antivirus.name }}</a>
             {% else %}
-                {{ antivirus.name }}
+              <span>{{ antivirus.name }}</span>
             {% endif %}
           </td>
           <td>
             {% if antivirus.manufacturer_url != '' %}
-                <a href="{{ antivirus.manufacturer_url }}">{{ antivirus.manufacturer }}</a>
+              <a href="{{ antivirus.manufacturer_url }}">{{ antivirus.manufacturer }}</a>
             {% else %}
-                {{ antivirus.manufacturer }}
+              <span>{{ antivirus.manufacturer }}</span>
             {% endif %}
           </td>
           <td>{{ antivirus.version }}</td>
           <td>{{ antivirus.signature }}</td>
           {% if antivirus.is_dynamic %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ antivirus.is_dynamic_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ antivirus.is_dynamic_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ antivirus.is_dynamic_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ antivirus.is_dynamic_val }}</span>
           {% endif %}
           </td>
           {% if antivirus.is_active %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ antivirus.is_active_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ antivirus.is_active_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ antivirus.is_active_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ antivirus.is_active_val }}</span>
           {% endif %}
           </td>
           {% if not antivirus.is_uptodate %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ antivirus.is_uptodate_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ antivirus.is_uptodate_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ antivirus.is_uptodate_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ antivirus.is_uptodate_val }}</span>
           {% endif %}
           </td>
         </tr>
@@ -82,16 +82,16 @@
       <tr>
         <td>
           {% if softwareversion.software.url != '' %}
-              <a href="{{ softwareversion.software.url }}">{{ softwareversion.software.name }}</a>
+            <a href="{{ softwareversion.software.url }}">{{ softwareversion.software.name }}</a>
           {% else %}
-            {{ softwareversion.software.name }}
+            <span>{{ softwareversion.software.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if softwareversion.url != '' %}
-              <a href="{{ softwareversion.url }}">{{ softwareversion.name }}</a>
+            <a href="{{ softwareversion.url }}">{{ softwareversion.name }}</a>
           {% else %}
-              {{ softwareversion.name }}
+            <span>{{ softwareversion.name }}</span>
           {% endif %}
         </td>
       </tr>

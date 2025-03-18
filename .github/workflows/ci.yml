@@ -223,3 +223,91 @@ jobs:
 
     - name: PHPUnit tests
       run: ./vendor/bin/phpunit --coverage-text
+
+  cypress-run:
+    runs-on: 'ubuntu-latest'
+    services:
+      mariadb:
+        image: mariadb:11.4
+        ports:
+          - 3306:3306
+        env:
+          MARIADB_DATABASE: fusionresolveit
+          MARIADB_USER: fusionresolveit
+          MARIADB_PASSWORD: mypass
+          MARIADB_ROOT_PASSWORD: rootpassword  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: install dependencies
+        run: |
+          yarn install
+          yarn run production
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - name: install php fpm
+        run: |
+          sudo apt-get install php8.3-fpm php8.3-mysql php8.3-curl
+          sudo cp /usr/sbin/php-fpm8.3 /usr/bin/php-fpm # copy to /usr/bin
+          sudo service php8.3-fpm start
+          sudo service php8.3-fpm status
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+      - name: remove apache2
+        run: |
+          sudo systemctl stop apache2
+          sudo systemctl disable apache2
+          sudo apt remove apache2
+          sudo dpkg --get-selections | grep apache | cut -f 1
+          # sudo apt-get remove --purge ...
+          # sudo apt-get autoremove
+          sudo rm -rf /etc/apache2/
+          # sudo rm /etc/systemd/system/apache2.service
+      - name: install nginx
+        run: |
+          sudo apt install nginx -y
+          sudo cp cypress/ci-nginx.conf /etc/nginx/sites-enabled/
+          sudo rm /etc/nginx/sites-enabled/default
+          sudo systemctl enable nginx 
+          sudo systemctl restart nginx
+
+      - name: Set phinx.php
+        run: cp phinx.php.dist phinx.php
+
+      - name: Install
+        run: php bin/cli migrate
+
+      - name: Set rights for nginx
+        run: |
+          sudo setfacl -m g:www-data:rx /home/runner
+          sudo chown -R www-data public
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+
+      - uses: actions/upload-artifact@v4
+        # add the line below to store screenshots only on failures
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: |
+            cypress/screenshots
+            /var/log/nginx/
+          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+
+
+        

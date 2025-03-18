@@ -6,9 +6,7 @@
     <div style="display: flex; justify-content: space-between">
       <div>
         <i class="big {{ header.icon }} icon"></i>
-        <div class="content">
-          {{ header.title }}
-        </div>
+        <div class="content">{{ header.title }}</div>
       </div>
     </div>
   </div>
@@ -24,9 +22,7 @@
       <div class="default text">Select value...</div>
       <div class="menu">
         {% for key, val in data.dropdown %}
-          <div class="item" data-value="{{ key }}">
-            {{ val }}
-          </div>
+          <div class="item" data-value="{{ key }}">{{ val }}</div>
         {% endfor %}
       </div>
     </div>

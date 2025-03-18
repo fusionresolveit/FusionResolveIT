@@ -24,16 +24,16 @@
         <tr>
           <td>
             {% if ticket.url != '' %}
-                <a href="{{ ticket.url }}">{{ ticket.title }}</a>
+              <a href="{{ ticket.url }}">{{ ticket.title }}</a>
             {% else %}
-                {{ ticket.title }}
+              <span>{{ ticket.title }}</span>
             {% endif %}
           </td>
           <td>
             {% if ticket.category_url != '' %}
-                <a href="{{ ticket.category_url }}">{{ ticket.category }}</a>
+              <a href="{{ ticket.category_url }}">{{ ticket.category }}</a>
             {% else %}
-                {{ ticket.category }}
+              <span>{{ ticket.category }}</span>
             {% endif %}
           </td>
           {% if ticket.status is iterable %}
@@ -49,10 +49,10 @@
                   {% if ticket.status.icon is defined %}
                     <i class="{{ ticket.status.icon }} icon"></i>
                   {% endif %}
-                  {{ ticket.status.title }}
+                  <span>{{ ticket.status.title }}</span>
                 </span>
               {% else %}
-                  {{ ticket.status.title }}
+                <span>{{ ticket.status.title }}</span>
               {% endif %}
             </td>
           {% else %}
@@ -62,9 +62,9 @@
           <td>{{ ticket.last_update }}</td>
           <td>
             {% if ticket.entity_url != '' %}
-                <a href="{{ ticket.entity_url }}">{{ ticket.entity }}</a>
+              <a href="{{ ticket.entity_url }}">{{ ticket.entity }}</a>
             {% else %}
-                {{ ticket.entity }}
+              <span>{{ ticket.entity }}</span>
             {% endif %}
           </td>
           </td>
@@ -81,10 +81,10 @@
                   {% if ticket.priority.icon is defined %}
                     <i class="{{ ticket.priority.icon }} icon"></i>
                   {% endif %}
-                  {{ ticket.priority.title }}
+                <span>{{ ticket.priority.title }}</span>
                 </span>
               {% else %}
-                  {{ ticket.priority.title }}
+                <span>{{ ticket.priority.title }}</span>
               {% endif %}
             </td>
           {% else %}
@@ -94,9 +94,9 @@
           {% for requester in ticket.requesters %}
             <p>
               {% if requester.url != '' %}
-                  <a href="{{ requester.url }}">{{ requester.name }}</a>
+                <a href="{{ requester.url }}">{{ requester.name }}</a>
               {% else %}
-                  {{ requester.name }}
+                <span>{{ requester.name }}</span>
               {% endif %}
             </p>
           {% endfor %}
@@ -105,9 +105,9 @@
           {% for technician in ticket.technicians %}
           <p>
             {% if technician.url != '' %}
-                <a href="{{ technician.url }}">{{ technician.name }}</a>
+              <a href="{{ technician.url }}">{{ technician.name }}</a>
             {% else %}
-                {{ technician.name }}
+              <span>{{ technician.name }}</span>
             {% endif %}
           </p>
           {% endfor %}

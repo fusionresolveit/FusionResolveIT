@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -12,6 +13,7 @@ final class Queuednotification extends Common
 {
   // Display
   use ShowItem;
+  use ShowAll;
 
   protected $model = \App\Models\Queuednotification::class;
 

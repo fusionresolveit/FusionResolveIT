@@ -26,24 +26,24 @@
         {% if data.show == 'tickets' %}
         <td>
           {% if projecttask.project_url != '' %}
-              <a href="{{ projecttask.project_url }}">{{ projecttask.project }}</a>
+            <a href="{{ projecttask.project_url }}">{{ projecttask.project }}</a>
           {% else %}
-              {{ projecttask.project }}
+            <span>{{ projecttask.project }}</span>
           {% endif %}
         </td>
         {% endif %}
         <td>
           {% if projecttask.url != '' %}
-              <a href="{{ projecttask.url }}">{{ projecttask.name }}</a>
+            <a href="{{ projecttask.url }}">{{ projecttask.name }}</a>
           {% else %}
-              {{ projecttask.name }}
+            <span>{{ projecttask.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if projecttask.type_url != '' %}
-              <a href="{{ projecttask.type_url }}">{{ projecttask.type }}</a>
+            <a href="{{ projecttask.type_url }}">{{ projecttask.type }}</a>
           {% else %}
-              {{ projecttask.type }}
+            <span>{{ projecttask.type }}</span>
           {% endif %}
         </td>
         <td style="background-color: {{ projecttask.status_color }};">{{ projecttask.status }}</td>
@@ -54,9 +54,9 @@
         <td>{{ projecttask.effective_duration }}</td>
         <td>
           {% if projecttask.father_url != '' %}
-              <a href="{{ projecttask.father_url }}">{{ projecttask.father }}</a>
+            <a href="{{ projecttask.father_url }}">{{ projecttask.father }}</a>
           {% else %}
-              {{ projecttask.father }}
+            <span>{{ projecttask.father }}</span>
           {% endif %}
         </td>
       </tr>

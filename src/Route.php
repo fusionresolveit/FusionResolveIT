@@ -95,7 +95,7 @@ final class Route
 
       $view->group('/computers', function (RouteCollectorProxy $computers)
       {
-        $computers->map(['GET'], '', \App\v1\Controllers\Computer::class . ':getAll');
+        $computers->map(['GET'], '', \App\v1\Controllers\Computer::class . ':showAll');
         $computers->group("/new", function (RouteCollectorProxy $computerNew)
         {
           $computerNew->map(['GET'], '', \App\v1\Controllers\Computer::class . ':showNewItem');
@@ -136,7 +136,7 @@ final class Route
 
       $view->group('/computerantivirus', function (RouteCollectorProxy $computerantivirus)
       {
-        $computerantivirus->map(['GET'], '', \App\v1\Controllers\Computerantivirus::class . ':getAll');
+        $computerantivirus->map(['GET'], '', \App\v1\Controllers\Computerantivirus::class . ':showAll');
         $computerantivirus->group("/new", function (RouteCollectorProxy $caNew)
         {
           $caNew->map(['GET'], '', \App\v1\Controllers\Computerantivirus::class . ':showNewItem');
@@ -157,7 +157,7 @@ final class Route
 
       $view->group('/monitors', function (RouteCollectorProxy $monitors)
       {
-        $monitors->map(['GET'], '', \App\v1\Controllers\Monitor::class . ':getAll');
+        $monitors->map(['GET'], '', \App\v1\Controllers\Monitor::class . ':showAll');
         $monitors->group("/new", function (RouteCollectorProxy $monitorNew)
         {
           $monitorNew->map(['GET'], '', \App\v1\Controllers\Monitor::class . ':showNewItem');
@@ -193,7 +193,7 @@ final class Route
       });
       $view->group('/softwares', function (RouteCollectorProxy $softwares)
       {
-        $softwares->map(['GET'], '', \App\v1\Controllers\Software::class . ':getAll');
+        $softwares->map(['GET'], '', \App\v1\Controllers\Software::class . ':showAll');
         $softwares->group("/new", function (RouteCollectorProxy $softwareNew)
         {
           $softwareNew->map(['GET'], '', \App\v1\Controllers\Software::class . ':showNewItem');
@@ -229,7 +229,7 @@ final class Route
 
       $view->group('/softwareversions', function (RouteCollectorProxy $softwareversions)
       {
-        $softwareversions->map(['GET'], '', \App\v1\Controllers\Softwareversion::class . ':getAll');
+        $softwareversions->map(['GET'], '', \App\v1\Controllers\Softwareversion::class . ':showAll');
         $softwareversions->group("/new", function (RouteCollectorProxy $sversionNew)
         {
           $sversionNew->map(['GET'], '', \App\v1\Controllers\Softwareversion::class . ':showNewItem');
@@ -250,7 +250,7 @@ final class Route
 
       $view->group('/networkequipments', function (RouteCollectorProxy $networkequipments)
       {
-        $networkequipments->map(['GET'], '', \App\v1\Controllers\Networkequipment::class . ':getAll');
+        $networkequipments->map(['GET'], '', \App\v1\Controllers\Networkequipment::class . ':showAll');
         $networkequipments->group("/new", function (RouteCollectorProxy $networkequipmentNew)
         {
           $networkequipmentNew->map(['GET'], '', \App\v1\Controllers\Networkequipment::class . ':showNewItem');
@@ -292,7 +292,7 @@ final class Route
 
       $view->group('/peripherals', function (RouteCollectorProxy $peripherals)
       {
-        $peripherals->map(['GET'], '', \App\v1\Controllers\Peripheral::class . ':getAll');
+        $peripherals->map(['GET'], '', \App\v1\Controllers\Peripheral::class . ':showAll');
         $peripherals->group("/new", function (RouteCollectorProxy $peripheralNew)
         {
           $peripheralNew->map(['GET'], '', \App\v1\Controllers\Peripheral::class . ':showNewItem');
@@ -331,7 +331,7 @@ final class Route
 
       $view->group('/printers', function (RouteCollectorProxy $printers)
       {
-        $printers->map(['GET'], '', \App\v1\Controllers\Printer::class . ':getAll');
+        $printers->map(['GET'], '', \App\v1\Controllers\Printer::class . ':showAll');
         $printers->group("/new", function (RouteCollectorProxy $printerNew)
         {
           $printerNew->map(['GET'], '', \App\v1\Controllers\Printer::class . ':showNewItem');
@@ -371,7 +371,7 @@ final class Route
       });
       $view->group('/cartridgeitems', function (RouteCollectorProxy $cartridgeitems)
       {
-        $cartridgeitems->map(['GET'], '', \App\v1\Controllers\Cartridgeitem::class . ':getAll');
+        $cartridgeitems->map(['GET'], '', \App\v1\Controllers\Cartridgeitem::class . ':showAll');
         $cartridgeitems->group("/new", function (RouteCollectorProxy $cartridgeitemNew)
         {
           $cartridgeitemNew->map(['GET'], '', \App\v1\Controllers\Cartridgeitem::class . ':showNewItem');
@@ -399,7 +399,7 @@ final class Route
       });
       $view->group('/consumableitems', function (RouteCollectorProxy $consumableitems)
       {
-        $consumableitems->map(['GET'], '', \App\v1\Controllers\Consumableitem::class . ':getAll');
+        $consumableitems->map(['GET'], '', \App\v1\Controllers\Consumableitem::class . ':showAll');
         $consumableitems->group("/new", function (RouteCollectorProxy $consumableitemNew)
         {
           $consumableitemNew->map(['GET'], '', \App\v1\Controllers\Consumableitem::class . ':showNewItem');
@@ -426,7 +426,7 @@ final class Route
 
       $view->group('/phones', function (RouteCollectorProxy $phones)
       {
-        $phones->map(['GET'], '', \App\v1\Controllers\Phone::class . ':getAll');
+        $phones->map(['GET'], '', \App\v1\Controllers\Phone::class . ':showAll');
         $phones->group("/new", function (RouteCollectorProxy $phoneNew)
         {
           $phoneNew->map(['GET'], '', \App\v1\Controllers\Phone::class . ':showNewItem');
@@ -465,7 +465,7 @@ final class Route
 
       $view->group('/racks', function (RouteCollectorProxy $racks)
       {
-        $racks->map(['GET'], '', \App\v1\Controllers\Rack::class . ':getAll');
+        $racks->map(['GET'], '', \App\v1\Controllers\Rack::class . ':showAll');
         $racks->group("/new", function (RouteCollectorProxy $rackNew)
         {
           $rackNew->map(['GET'], '', \App\v1\Controllers\Rack::class . ':showNewItem');
@@ -491,7 +491,7 @@ final class Route
 
       $view->group('/enclosures', function (RouteCollectorProxy $enclosures)
       {
-        $enclosures->map(['GET'], '', \App\v1\Controllers\Enclosure::class . ':getAll');
+        $enclosures->map(['GET'], '', \App\v1\Controllers\Enclosure::class . ':showAll');
         $enclosures->group("/new", function (RouteCollectorProxy $encNew)
         {
           $encNew->map(['GET'], '', \App\v1\Controllers\Enclosure::class . ':showNewItem');
@@ -519,7 +519,7 @@ final class Route
 
       $view->group('/pdus', function (RouteCollectorProxy $pdus)
       {
-        $pdus->map(['GET'], '', \App\v1\Controllers\Pdu::class . ':getAll');
+        $pdus->map(['GET'], '', \App\v1\Controllers\Pdu::class . ':showAll');
         $pdus->group("/new", function (RouteCollectorProxy $pduNew)
         {
           $pduNew->map(['GET'], '', \App\v1\Controllers\Pdu::class . ':showNewItem');
@@ -546,7 +546,7 @@ final class Route
 
       $view->group('/passivedcequipments', function (RouteCollectorProxy $passivedcequipments)
       {
-        $passivedcequipments->map(['GET'], '', \App\v1\Controllers\Passivedcequipment::class . ':getAll');
+        $passivedcequipments->map(['GET'], '', \App\v1\Controllers\Passivedcequipment::class . ':showAll');
         $passivedcequipments->group("/new", function (RouteCollectorProxy $passivedNew)
         {
           $passivedNew->map(['GET'], '', \App\v1\Controllers\Passivedcequipment::class . ':showNewItem');
@@ -572,7 +572,7 @@ final class Route
 
       $view->group('/itemdevicesimcards', function (RouteCollectorProxy $item_devicesimcards)
       {
-        $item_devicesimcards->map(['GET'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':getAll');
+        $item_devicesimcards->map(['GET'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':showAll');
         $item_devicesimcards->map(['POST'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':postItem');
         $item_devicesimcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $item_devicesimcardId)
         {
@@ -590,7 +590,7 @@ final class Route
 
       $view->group('/tickets', function (RouteCollectorProxy $tickets)
       {
-        $tickets->map(['GET'], '', \App\v1\Controllers\Ticket::class . ':getAll');
+        $tickets->map(['GET'], '', \App\v1\Controllers\Ticket::class . ':showAll');
         $tickets->group("/new", function (RouteCollectorProxy $ticketNew)
         {
           $ticketNew->map(['GET'], '', \App\v1\Controllers\Ticket::class . ':showNewItem');
@@ -634,7 +634,7 @@ final class Route
       });
       $view->group('/problems', function (RouteCollectorProxy $problems)
       {
-        $problems->map(['GET'], '', \App\v1\Controllers\Problem::class . ':getAll');
+        $problems->map(['GET'], '', \App\v1\Controllers\Problem::class . ':showAll');
         $problems->group("/new", function (RouteCollectorProxy $problemNew)
         {
           $problemNew->map(['GET'], '', \App\v1\Controllers\Problem::class . ':showNewItem');
@@ -665,7 +665,7 @@ final class Route
       });
       $view->group('/changes', function (RouteCollectorProxy $changes)
       {
-        $changes->map(['GET'], '', \App\v1\Controllers\Change::class . ':getAll');
+        $changes->map(['GET'], '', \App\v1\Controllers\Change::class . ':showAll');
         $changes->group("/new", function (RouteCollectorProxy $changeNew)
         {
           $changeNew->map(['GET'], '', \App\v1\Controllers\Change::class . ':showNewItem');
@@ -699,7 +699,7 @@ final class Route
 
       $view->group('/ticketrecurrents', function (RouteCollectorProxy $ticketrecurrents)
       {
-        $ticketrecurrents->map(['GET'], '', \App\v1\Controllers\Ticketrecurrent::class . ':getAll');
+        $ticketrecurrents->map(['GET'], '', \App\v1\Controllers\Ticketrecurrent::class . ':showAll');
         $ticketrecurrents->group("/new", function (RouteCollectorProxy $trecurNew)
         {
           $trecurNew->map(['GET'], '', \App\v1\Controllers\Ticketrecurrent::class . ':showNewItem');
@@ -721,7 +721,7 @@ final class Route
 
       $view->group('/softwarelicenses', function (RouteCollectorProxy $softwarelicenses)
       {
-        $softwarelicenses->map(['GET'], '', \App\v1\Controllers\Softwarelicense::class . ':getAll');
+        $softwarelicenses->map(['GET'], '', \App\v1\Controllers\Softwarelicense::class . ':showAll');
         $softwarelicenses->group("/new", function (RouteCollectorProxy $slicenseNew)
         {
           $slicenseNew->map(['GET'], '', \App\v1\Controllers\Softwarelicense::class . ':showNewItem');
@@ -750,7 +750,7 @@ final class Route
       });
       $view->group('/budgets', function (RouteCollectorProxy $budgets)
       {
-        $budgets->map(['GET'], '', \App\v1\Controllers\Budget::class . ':getAll');
+        $budgets->map(['GET'], '', \App\v1\Controllers\Budget::class . ':showAll');
         $budgets->group("/new", function (RouteCollectorProxy $budgetNew)
         {
           $budgetNew->map(['GET'], '', \App\v1\Controllers\Budget::class . ':showNewItem');
@@ -778,7 +778,7 @@ final class Route
 
       $view->group('/suppliers', function (RouteCollectorProxy $suppliers)
       {
-        $suppliers->map(['GET'], '', \App\v1\Controllers\Supplier::class . ':getAll');
+        $suppliers->map(['GET'], '', \App\v1\Controllers\Supplier::class . ':showAll');
         $suppliers->group("/new", function (RouteCollectorProxy $supplierNew)
         {
           $supplierNew->map(['GET'], '', \App\v1\Controllers\Supplier::class . ':showNewItem');
@@ -808,7 +808,7 @@ final class Route
 
       $view->group('/contacts', function (RouteCollectorProxy $contacts)
       {
-        $contacts->map(['GET'], '', \App\v1\Controllers\Contact::class . ':getAll');
+        $contacts->map(['GET'], '', \App\v1\Controllers\Contact::class . ':showAll');
         $contacts->group("/new", function (RouteCollectorProxy $contactNew)
         {
           $contactNew->map(['GET'], '', \App\v1\Controllers\Contact::class . ':showNewItem');
@@ -834,7 +834,7 @@ final class Route
 
       $view->group('/contracts', function (RouteCollectorProxy $contracts)
       {
-        $contracts->map(['GET'], '', \App\v1\Controllers\Contract::class . ':getAll');
+        $contracts->map(['GET'], '', \App\v1\Controllers\Contract::class . ':showAll');
         $contracts->group("/new", function (RouteCollectorProxy $contractNew)
         {
           $contractNew->map(['GET'], '', \App\v1\Controllers\Contract::class . ':showNewItem');
@@ -862,7 +862,7 @@ final class Route
       });
       $view->group('/documents', function (RouteCollectorProxy $documents)
       {
-        $documents->map(['GET'], '', \App\v1\Controllers\Document::class . ':getAll');
+        $documents->map(['GET'], '', \App\v1\Controllers\Document::class . ':showAll');
         $documents->map(['POST'], '', \App\v1\Controllers\Document::class . ':postItem');
         $documents->group("/{id:[0-9]+}", function (RouteCollectorProxy $documentId)
         {
@@ -879,7 +879,7 @@ final class Route
       });
       $view->group('/lines', function (RouteCollectorProxy $lines)
       {
-        $lines->map(['GET'], '', \App\v1\Controllers\Line::class . ':getAll');
+        $lines->map(['GET'], '', \App\v1\Controllers\Line::class . ':showAll');
         $lines->group("/new", function (RouteCollectorProxy $lineNew)
         {
           $lineNew->map(['GET'], '', \App\v1\Controllers\Line::class . ':showNewItem');
@@ -905,7 +905,7 @@ final class Route
 
       $view->group('/certificates', function (RouteCollectorProxy $certificates)
       {
-        $certificates->map(['GET'], '', \App\v1\Controllers\Certificate::class . ':getAll');
+        $certificates->map(['GET'], '', \App\v1\Controllers\Certificate::class . ':showAll');
         $certificates->group("/new", function (RouteCollectorProxy $certNew)
         {
           $certNew->map(['GET'], '', \App\v1\Controllers\Certificate::class . ':showNewItem');
@@ -936,7 +936,7 @@ final class Route
 
       $view->group('/datacenters', function (RouteCollectorProxy $datacenters)
       {
-        $datacenters->map(['GET'], '', \App\v1\Controllers\Datacenter::class . ':getAll');
+        $datacenters->map(['GET'], '', \App\v1\Controllers\Datacenter::class . ':showAll');
         $datacenters->group("/new", function (RouteCollectorProxy $datacenterNew)
         {
           $datacenterNew->map(['GET'], '', \App\v1\Controllers\Datacenter::class . ':showNewItem');
@@ -959,7 +959,7 @@ final class Route
 
       $view->group('/dcrooms', function (RouteCollectorProxy $dcrooms)
       {
-        $dcrooms->map(['GET'], '', \App\v1\Controllers\Dcroom::class . ':getAll');
+        $dcrooms->map(['GET'], '', \App\v1\Controllers\Dcroom::class . ':showAll');
         $dcrooms->group("/new", function (RouteCollectorProxy $dcroomNew)
         {
           $dcroomNew->map(['GET'], '', \App\v1\Controllers\Dcroom::class . ':showNewItem');
@@ -986,7 +986,7 @@ final class Route
 
       $view->group('/clusters', function (RouteCollectorProxy $clusters)
       {
-        $clusters->map(['GET'], '', \App\v1\Controllers\Cluster::class . ':getAll');
+        $clusters->map(['GET'], '', \App\v1\Controllers\Cluster::class . ':showAll');
         $clusters->group("/new", function (RouteCollectorProxy $clusterNew)
         {
           $clusterNew->map(['GET'], '', \App\v1\Controllers\Cluster::class . ':showNewItem');
@@ -1013,7 +1013,7 @@ final class Route
 
       $view->group('/domains', function (RouteCollectorProxy $domains)
       {
-        $domains->map(['GET'], '', \App\v1\Controllers\Domain::class . ':getAll');
+        $domains->map(['GET'], '', \App\v1\Controllers\Domain::class . ':showAll');
         $domains->group("/new", function (RouteCollectorProxy $domainNew)
         {
           $domainNew->map(['GET'], '', \App\v1\Controllers\Domain::class . ':showNewItem');
@@ -1043,7 +1043,7 @@ final class Route
 
       $view->group('/appliances', function (RouteCollectorProxy $appliances)
       {
-        $appliances->map(['GET'], '', \App\v1\Controllers\Appliance::class . ':getAll');
+        $appliances->map(['GET'], '', \App\v1\Controllers\Appliance::class . ':showAll');
         $appliances->group("/new", function (RouteCollectorProxy $applianceNew)
         {
           $applianceNew->map(['GET'], '', \App\v1\Controllers\Appliance::class . ':showNewItem');
@@ -1075,7 +1075,7 @@ final class Route
 
       $view->group('/projects', function (RouteCollectorProxy $projects)
       {
-        $projects->map(['GET'], '', \App\v1\Controllers\Project::class . ':getAll');
+        $projects->map(['GET'], '', \App\v1\Controllers\Project::class . ':showAll');
         $projects->group("/new", function (RouteCollectorProxy $projectNew)
         {
           $projectNew->map(['GET'], '', \App\v1\Controllers\Project::class . ':showNewItem');
@@ -1107,7 +1107,7 @@ final class Route
 
       $view->group('/reminders', function (RouteCollectorProxy $reminders)
       {
-        $reminders->map(['GET'], '', \App\v1\Controllers\Reminder::class . ':getAll');
+        $reminders->map(['GET'], '', \App\v1\Controllers\Reminder::class . ':showAll');
         $reminders->group("/new", function (RouteCollectorProxy $reminderNew)
         {
           $reminderNew->map(['GET'], '', \App\v1\Controllers\Reminder::class . ':showNewItem');
@@ -1130,7 +1130,7 @@ final class Route
 
       $view->group('/rssfeeds', function (RouteCollectorProxy $rssfeeds)
       {
-        $rssfeeds->map(['GET'], '', \App\v1\Controllers\Rssfeed::class . ':getAll');
+        $rssfeeds->map(['GET'], '', \App\v1\Controllers\Rssfeed::class . ':showAll');
         $rssfeeds->group("/new", function (RouteCollectorProxy $rssfeedNew)
         {
           $rssfeedNew->map(['GET'], '', \App\v1\Controllers\Rssfeed::class . ':showNewItem');
@@ -1152,7 +1152,7 @@ final class Route
 
       $view->group('/savedsearchs', function (RouteCollectorProxy $savedsearchs)
       {
-        $savedsearchs->map(['GET'], '', \App\v1\Controllers\Savedsearch::class . ':getAll');
+        $savedsearchs->map(['GET'], '', \App\v1\Controllers\Savedsearch::class . ':showAll');
         $savedsearchs->group("/new", function (RouteCollectorProxy $savedsearchNew)
         {
           $savedsearchNew->map(['GET'], '', \App\v1\Controllers\Savedsearch::class . ':showNewItem');
@@ -1173,7 +1173,7 @@ final class Route
 
       $view->group('/alerts', function (RouteCollectorProxy $alerts)
       {
-        $alerts->map(['GET'], '', \App\v1\Controllers\Alert::class . ':getAll');
+        $alerts->map(['GET'], '', \App\v1\Controllers\Alert::class . ':showAll');
         $alerts->group("/new", function (RouteCollectorProxy $alertNew)
         {
           $alertNew->map(['GET'], '', \App\v1\Controllers\Alert::class . ':showNewItem');
@@ -1194,7 +1194,7 @@ final class Route
 
       $view->group('/users', function (RouteCollectorProxy $users)
       {
-        $users->map(['GET'], '', \App\v1\Controllers\User::class . ':getAll');
+        $users->map(['GET'], '', \App\v1\Controllers\User::class . ':showAll');
         $users->group("/new", function (RouteCollectorProxy $userNew)
         {
           $userNew->map(['GET'], '', \App\v1\Controllers\User::class . ':showNewItem');
@@ -1225,7 +1225,7 @@ final class Route
       });
       $view->group('/groups', function (RouteCollectorProxy $groups)
       {
-        $groups->map(['GET'], '', \App\v1\Controllers\Group::class . ':getAll');
+        $groups->map(['GET'], '', \App\v1\Controllers\Group::class . ':showAll');
         $groups->group("/new", function (RouteCollectorProxy $groupNew)
         {
           $groupNew->map(['GET'], '', \App\v1\Controllers\Group::class . ':showNewItem');
@@ -1253,7 +1253,7 @@ final class Route
 
       $view->group('/entities', function (RouteCollectorProxy $entities)
       {
-        $entities->map(['GET'], '', \App\v1\Controllers\Entity::class . ':getAll');
+        $entities->map(['GET'], '', \App\v1\Controllers\Entity::class . ':showAll');
         $entities->group("/new", function (RouteCollectorProxy $entityNew)
         {
           $entityNew->map(['GET'], '', \App\v1\Controllers\Entity::class . ':showNewItem');
@@ -1282,7 +1282,7 @@ final class Route
       {
         $rules->group("/tickets", function (RouteCollectorProxy $tickets)
         {
-          $tickets->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':getAll');
+          $tickets->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showAll');
           $tickets->group("/new", function (RouteCollectorProxy $ticketNew)
           {
             $ticketNew->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showNewItem');
@@ -1314,7 +1314,7 @@ final class Route
 
       $view->group('/profiles', function (RouteCollectorProxy $profiles)
       {
-        $profiles->map(['GET'], '', \App\v1\Controllers\Profile::class . ':getAll');
+        $profiles->map(['GET'], '', \App\v1\Controllers\Profile::class . ':showAll');
         $profiles->group("/new", function (RouteCollectorProxy $profileNew)
         {
           $profileNew->map(['GET'], '', \App\v1\Controllers\Profile::class . ':showNewItem');
@@ -1353,7 +1353,7 @@ final class Route
 
       $view->group('/queuednotifications', function (RouteCollectorProxy $queuednotifications)
       {
-        $queuednotifications->map(['GET'], '', \App\v1\Controllers\Queuednotification::class . ':getAll');
+        $queuednotifications->map(['GET'], '', \App\v1\Controllers\Queuednotification::class . ':showAll');
         $queuednotifications->map(['POST'], '', \App\v1\Controllers\Queuednotification::class . ':postItem');
         $queuednotifications->group("/{id:[0-9]+}", function (RouteCollectorProxy $queuednotificationId)
         {
@@ -1363,7 +1363,7 @@ final class Route
       });
       $view->group('/events', function (RouteCollectorProxy $events)
       {
-        $events->map(['GET'], '', \App\v1\Controllers\Event::class . ':getAll');
+        $events->map(['GET'], '', \App\v1\Controllers\Event::class . ':showAll');
         $events->map(['POST'], '', \App\v1\Controllers\Event::class . ':postItem');
         $events->group("/{id:[0-9]+}", function (RouteCollectorProxy $eventId)
         {
@@ -1374,7 +1374,7 @@ final class Route
 
       $view->group('/locations', function (RouteCollectorProxy $locations)
       {
-        $locations->map(['GET'], '', \App\v1\Controllers\Location::class . ':getAll');
+        $locations->map(['GET'], '', \App\v1\Controllers\Location::class . ':showAll');
         $locations->group("/new", function (RouteCollectorProxy $locationNew)
         {
           $locationNew->map(['GET'], '', \App\v1\Controllers\Location::class . ':showNewItem');
@@ -1398,7 +1398,7 @@ final class Route
 
       $view->group('/states', function (RouteCollectorProxy $states)
       {
-        $states->map(['GET'], '', \App\v1\Controllers\State::class . ':getAll');
+        $states->map(['GET'], '', \App\v1\Controllers\State::class . ':showAll');
         $states->group("/new", function (RouteCollectorProxy $stateNew)
         {
           $stateNew->map(['GET'], '', \App\v1\Controllers\State::class . ':showNewItem');
@@ -1421,7 +1421,7 @@ final class Route
 
       $view->group('/manufacturers', function (RouteCollectorProxy $manufacturers)
       {
-        $manufacturers->map(['GET'], '', \App\v1\Controllers\Manufacturer::class . ':getAll');
+        $manufacturers->map(['GET'], '', \App\v1\Controllers\Manufacturer::class . ':showAll');
         $manufacturers->group("/new", function (RouteCollectorProxy $manufacturerNew)
         {
           $manufacturerNew->map(['GET'], '', \App\v1\Controllers\Manufacturer::class . ':showNewItem');
@@ -1442,7 +1442,7 @@ final class Route
       });
       $view->group('/blacklists', function (RouteCollectorProxy $blacklists)
       {
-        $blacklists->map(['GET'], '', \App\v1\Controllers\Blacklist::class . ':getAll');
+        $blacklists->map(['GET'], '', \App\v1\Controllers\Blacklist::class . ':showAll');
         $blacklists->group("/new", function (RouteCollectorProxy $blacklistNew)
         {
           $blacklistNew->map(['GET'], '', \App\v1\Controllers\Blacklist::class . ':showNewItem');
@@ -1463,7 +1463,7 @@ final class Route
       });
       $view->group('/blacklistedmailcontents', function (RouteCollectorProxy $blacklistedmailcontents)
       {
-        $blacklistedmailcontents->map(['GET'], '', \App\v1\Controllers\Blacklistedmailcontent::class . ':getAll');
+        $blacklistedmailcontents->map(['GET'], '', \App\v1\Controllers\Blacklistedmailcontent::class . ':showAll');
         $blacklistedmailcontents->group("/new", function (RouteCollectorProxy $blmcNew)
         {
           $blmcNew->map(['GET'], '', \App\v1\Controllers\Blacklistedmailcontent::class . ':showNewItem');
@@ -1483,7 +1483,7 @@ final class Route
       });
       $view->group('/categories', function (RouteCollectorProxy $categories)
       {
-        $categories->map(['GET'], '', \App\v1\Controllers\Category::class . ':getAll');
+        $categories->map(['GET'], '', \App\v1\Controllers\Category::class . ':showAll');
 
         $categories->group("/new", function (RouteCollectorProxy $categoryNew)
         {
@@ -1506,7 +1506,7 @@ final class Route
       });
       $view->group('/ticketemplates', function (RouteCollectorProxy $ticketemplates)
       {
-        $ticketemplates->map(['GET'], '', \App\v1\Controllers\Tickettemplate::class . ':getAll');
+        $ticketemplates->map(['GET'], '', \App\v1\Controllers\Tickettemplate::class . ':showAll');
         $ticketemplates->map(['POST'], '', \App\v1\Controllers\Tickettemplate::class . ':postItem');
         $ticketemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketemplateId)
         {
@@ -1532,7 +1532,7 @@ final class Route
 
       $view->group('/solutiontypes', function (RouteCollectorProxy $solutiontypes)
       {
-        $solutiontypes->map(['GET'], '', \App\v1\Controllers\Solutiontype::class . ':getAll');
+        $solutiontypes->map(['GET'], '', \App\v1\Controllers\Solutiontype::class . ':showAll');
         $solutiontypes->group("/new", function (RouteCollectorProxy $stypeNew)
         {
           $stypeNew->map(['GET'], '', \App\v1\Controllers\Solutiontype::class . ':showNewItem');
@@ -1554,7 +1554,7 @@ final class Route
 
       $view->group('/solutiontemplates', function (RouteCollectorProxy $solutiontemplates)
       {
-        $solutiontemplates->map(['GET'], '', \App\v1\Controllers\Solutiontemplate::class . ':getAll');
+        $solutiontemplates->map(['GET'], '', \App\v1\Controllers\Solutiontemplate::class . ':showAll');
         $solutiontemplates->group("/new", function (RouteCollectorProxy $stemplateNew)
         {
           $stemplateNew->map(['GET'], '', \App\v1\Controllers\Solutiontemplate::class . ':showNewItem');
@@ -1576,7 +1576,7 @@ final class Route
 
       $view->group('/requesttypes', function (RouteCollectorProxy $requesttypes)
       {
-        $requesttypes->map(['GET'], '', \App\v1\Controllers\Requesttype::class . ':getAll');
+        $requesttypes->map(['GET'], '', \App\v1\Controllers\Requesttype::class . ':showAll');
         $requesttypes->group("/new", function (RouteCollectorProxy $requesttypeNew)
         {
           $requesttypeNew->map(['GET'], '', \App\v1\Controllers\Requesttype::class . ':showNewItem');
@@ -1598,7 +1598,7 @@ final class Route
 
       $view->group('/followuptemplates', function (RouteCollectorProxy $followuptemplates)
       {
-        $followuptemplates->map(['GET'], '', \App\v1\Controllers\Followuptemplate::class . ':getAll');
+        $followuptemplates->map(['GET'], '', \App\v1\Controllers\Followuptemplate::class . ':showAll');
         $followuptemplates->group("/new", function (RouteCollectorProxy $ftemplateNew)
         {
           $ftemplateNew->map(['GET'], '', \App\v1\Controllers\Followuptemplate::class . ':showNewItem');
@@ -1620,7 +1620,7 @@ final class Route
 
       $view->group('/projectstates', function (RouteCollectorProxy $projectstates)
       {
-        $projectstates->map(['GET'], '', \App\v1\Controllers\Projectstate::class . ':getAll');
+        $projectstates->map(['GET'], '', \App\v1\Controllers\Projectstate::class . ':showAll');
         $projectstates->group("/new", function (RouteCollectorProxy $projectstateNew)
         {
           $projectstateNew->map(['GET'], '', \App\v1\Controllers\Projectstate::class . ':showNewItem');
@@ -1642,7 +1642,7 @@ final class Route
 
       $view->group('/projecttypes', function (RouteCollectorProxy $projecttypes)
       {
-        $projecttypes->map(['GET'], '', \App\v1\Controllers\Projecttype::class . ':getAll');
+        $projecttypes->map(['GET'], '', \App\v1\Controllers\Projecttype::class . ':showAll');
         $projecttypes->group("/new", function (RouteCollectorProxy $ptypeNew)
         {
           $ptypeNew->map(['GET'], '', \App\v1\Controllers\Projecttype::class . ':showNewItem');
@@ -1664,7 +1664,7 @@ final class Route
 
       $view->group('/projecttasks', function (RouteCollectorProxy $projecttasks)
       {
-        $projecttasks->map(['GET'], '', \App\v1\Controllers\Projecttask::class . ':getAll');
+        $projecttasks->map(['GET'], '', \App\v1\Controllers\Projecttask::class . ':showAll');
         $projecttasks->group("/new", function (RouteCollectorProxy $ptaskNew)
         {
           $ptaskNew->map(['GET'], '', \App\v1\Controllers\Projecttask::class . ':showNewItem');
@@ -1695,7 +1695,7 @@ final class Route
 
       $view->group('/projecttasktypes', function (RouteCollectorProxy $projecttasktypes)
       {
-        $projecttasktypes->map(['GET'], '', \App\v1\Controllers\Projecttasktype::class . ':getAll');
+        $projecttasktypes->map(['GET'], '', \App\v1\Controllers\Projecttasktype::class . ':showAll');
         $projecttasktypes->group("/new", function (RouteCollectorProxy $pttypeNew)
         {
           $pttypeNew->map(['GET'], '', \App\v1\Controllers\Projecttasktype::class . ':showNewItem');
@@ -1717,7 +1717,7 @@ final class Route
 
       $view->group('/projecttasktemplates', function (RouteCollectorProxy $projecttasktemplates)
       {
-        $projecttasktemplates->map(['GET'], '', \App\v1\Controllers\Projecttasktemplate::class . ':getAll');
+        $projecttasktemplates->map(['GET'], '', \App\v1\Controllers\Projecttasktemplate::class . ':showAll');
         $projecttasktemplates->group("/new", function (RouteCollectorProxy $pttemplateNew)
         {
           $pttemplateNew->map(['GET'], '', \App\v1\Controllers\Projecttasktemplate::class . ':showNewItem');
@@ -1740,7 +1740,7 @@ final class Route
 
       $view->group('/planningeventcategories', function (RouteCollectorProxy $planningeventcategories)
       {
-        $planningeventcategories->map(['GET'], '', \App\v1\Controllers\Planningeventcategory::class . ':getAll');
+        $planningeventcategories->map(['GET'], '', \App\v1\Controllers\Planningeventcategory::class . ':showAll');
         $planningeventcategories->group("/new", function (RouteCollectorProxy $pecategoryNew)
         {
           $pecategoryNew->map(['GET'], '', \App\v1\Controllers\Planningeventcategory::class . ':showNewItem');
@@ -1766,7 +1766,7 @@ final class Route
 
       $view->group('/planningexternaleventtemplates', function (RouteCollectorProxy $pe_eventtemplates)
       {
-        $pe_eventtemplates->map(['GET'], '', \App\v1\Controllers\Planningexternaleventtemplate::class . ':getAll');
+        $pe_eventtemplates->map(['GET'], '', \App\v1\Controllers\Planningexternaleventtemplate::class . ':showAll');
         $pe_eventtemplates->group("/new", function (RouteCollectorProxy $peetemplateNew)
         {
           $peetemplateNew->map(['GET'], '', \App\v1\Controllers\Planningexternaleventtemplate::class . ':showNewItem');
@@ -1791,7 +1791,7 @@ final class Route
       });
       $view->group('/computertypes', function (RouteCollectorProxy $computertypes)
       {
-        $computertypes->map(['GET'], '', \App\v1\Controllers\Computertype::class . ':getAll');
+        $computertypes->map(['GET'], '', \App\v1\Controllers\Computertype::class . ':showAll');
         $computertypes->group("/new", function (RouteCollectorProxy $computertypeNew)
         {
           $computertypeNew->map(['GET'], '', \App\v1\Controllers\Computertype::class . ':showNewItem');
@@ -1813,7 +1813,7 @@ final class Route
 
       $view->group('/networkequipmenttypes', function (RouteCollectorProxy $networkequipmenttypes)
       {
-        $networkequipmenttypes->map(['GET'], '', \App\v1\Controllers\Networkequipmenttype::class . ':getAll');
+        $networkequipmenttypes->map(['GET'], '', \App\v1\Controllers\Networkequipmenttype::class . ':showAll');
         $networkequipmenttypes->group("/new", function (RouteCollectorProxy $neTypeNew)
         {
           $neTypeNew->map(['GET'], '', \App\v1\Controllers\Networkequipmenttype::class . ':showNewItem');
@@ -1835,7 +1835,7 @@ final class Route
 
       $view->group('/printertypes', function (RouteCollectorProxy $printertypes)
       {
-        $printertypes->map(['GET'], '', \App\v1\Controllers\Printertype::class . ':getAll');
+        $printertypes->map(['GET'], '', \App\v1\Controllers\Printertype::class . ':showAll');
         $printertypes->group("/new", function (RouteCollectorProxy $ptypeNew)
         {
           $ptypeNew->map(['GET'], '', \App\v1\Controllers\Printertype::class . ':showNewItem');
@@ -1857,7 +1857,7 @@ final class Route
 
       $view->group('/monitortypes', function (RouteCollectorProxy $monitortypes)
       {
-        $monitortypes->map(['GET'], '', \App\v1\Controllers\Monitortype::class . ':getAll');
+        $monitortypes->map(['GET'], '', \App\v1\Controllers\Monitortype::class . ':showAll');
         $monitortypes->group("/new", function (RouteCollectorProxy $typeNew)
         {
           $typeNew->map(['GET'], '', \App\v1\Controllers\Monitortype::class . ':showNewItem');
@@ -1879,7 +1879,7 @@ final class Route
 
       $view->group('/peripheraltypes', function (RouteCollectorProxy $peripheraltypes)
       {
-        $peripheraltypes->map(['GET'], '', \App\v1\Controllers\Peripheraltype::class . ':getAll');
+        $peripheraltypes->map(['GET'], '', \App\v1\Controllers\Peripheraltype::class . ':showAll');
         $peripheraltypes->group("/new", function (RouteCollectorProxy $peripheraltypeNew)
         {
           $peripheraltypeNew->map(['GET'], '', \App\v1\Controllers\Peripheraltype::class . ':showNewItem');
@@ -1901,7 +1901,7 @@ final class Route
 
       $view->group('/phonetypes', function (RouteCollectorProxy $phonetypes)
       {
-        $phonetypes->map(['GET'], '', \App\v1\Controllers\Phonetype::class . ':getAll');
+        $phonetypes->map(['GET'], '', \App\v1\Controllers\Phonetype::class . ':showAll');
         $phonetypes->group("/new", function (RouteCollectorProxy $phonetypeNew)
         {
           $phonetypeNew->map(['GET'], '', \App\v1\Controllers\Phonetype::class . ':showNewItem');
@@ -1923,7 +1923,7 @@ final class Route
 
       $view->group('/softwarelicensetypes', function (RouteCollectorProxy $softwarelicensetypes)
       {
-        $softwarelicensetypes->map(['GET'], '', \App\v1\Controllers\Softwarelicensetype::class . ':getAll');
+        $softwarelicensetypes->map(['GET'], '', \App\v1\Controllers\Softwarelicensetype::class . ':showAll');
         $softwarelicensetypes->group("/new", function (RouteCollectorProxy $sltypeNew)
         {
           $sltypeNew->map(['GET'], '', \App\v1\Controllers\Softwarelicensetype::class . ':showNewItem');
@@ -1950,7 +1950,7 @@ final class Route
 
       $view->group('/cartridgeitemtypes', function (RouteCollectorProxy $cartridgeitemtypes)
       {
-        $cartridgeitemtypes->map(['GET'], '', \App\v1\Controllers\Cartridgeitemtype::class . ':getAll');
+        $cartridgeitemtypes->map(['GET'], '', \App\v1\Controllers\Cartridgeitemtype::class . ':showAll');
         $cartridgeitemtypes->group("/new", function (RouteCollectorProxy $citNew)
         {
           $citNew->map(['GET'], '', \App\v1\Controllers\Cartridgeitemtype::class . ':showNewItem');
@@ -1972,7 +1972,7 @@ final class Route
 
       $view->group('/consumableitemtypes', function (RouteCollectorProxy $consumableitemtypes)
       {
-        $consumableitemtypes->map(['GET'], '', \App\v1\Controllers\Consumableitemtype::class . ':getAll');
+        $consumableitemtypes->map(['GET'], '', \App\v1\Controllers\Consumableitemtype::class . ':showAll');
         $consumableitemtypes->group("/new", function (RouteCollectorProxy $citNew)
         {
           $citNew->map(['GET'], '', \App\v1\Controllers\Consumableitemtype::class . ':showNewItem');
@@ -1994,7 +1994,7 @@ final class Route
 
       $view->group('/contracttypes', function (RouteCollectorProxy $contracttypes)
       {
-        $contracttypes->map(['GET'], '', \App\v1\Controllers\Contracttype::class . ':getAll');
+        $contracttypes->map(['GET'], '', \App\v1\Controllers\Contracttype::class . ':showAll');
         $contracttypes->group("/new", function (RouteCollectorProxy $contracttypeNew)
         {
           $contracttypeNew->map(['GET'], 'delete', \App\v1\Controllers\Contracttype::class . ':deleteItem');
@@ -2016,7 +2016,7 @@ final class Route
 
       $view->group('/contacttypes', function (RouteCollectorProxy $contacttypes)
       {
-        $contacttypes->map(['GET'], '', \App\v1\Controllers\Contacttype::class . ':getAll');
+        $contacttypes->map(['GET'], '', \App\v1\Controllers\Contacttype::class . ':showAll');
         $contacttypes->group("/new", function (RouteCollectorProxy $contacttypeNew)
         {
           $contacttypeNew->map(['GET'], '', \App\v1\Controllers\Contacttype::class . ':showNewItem');
@@ -2038,7 +2038,7 @@ final class Route
 
       $view->group('/devicegenerictypes', function (RouteCollectorProxy $devicegenerictype)
       {
-        $devicegenerictype->map(['GET'], '', \App\v1\Controllers\Devicegenerictype::class . ':getAll');
+        $devicegenerictype->map(['GET'], '', \App\v1\Controllers\Devicegenerictype::class . ':showAll');
         $devicegenerictype->group("/new", function (RouteCollectorProxy $generictypeNew)
         {
           $generictypeNew->map(['GET'], '', \App\v1\Controllers\Devicegenerictype::class . ':showNewItem');
@@ -2060,7 +2060,7 @@ final class Route
 
       $view->group('/devicesensortype', function (RouteCollectorProxy $devicesensortype)
       {
-        $devicesensortype->map(['GET'], '', \App\v1\Controllers\Devicesensortype::class . ':getAll');
+        $devicesensortype->map(['GET'], '', \App\v1\Controllers\Devicesensortype::class . ':showAll');
         $devicesensortype->group("/new", function (RouteCollectorProxy $sensortypeNew)
         {
           $sensortypeNew->map(['GET'], '', \App\v1\Controllers\Devicesensortype::class . ':showNewItem');
@@ -2082,7 +2082,7 @@ final class Route
 
       $view->group('/devicememorytypes', function (RouteCollectorProxy $devicememorytype)
       {
-        $devicememorytype->map(['GET'], '', \App\v1\Controllers\Devicememorytype::class . ':getAll');
+        $devicememorytype->map(['GET'], '', \App\v1\Controllers\Devicememorytype::class . ':showAll');
         $devicememorytype->group("/new", function (RouteCollectorProxy $memorytypeNew)
         {
           $memorytypeNew->map(['GET'], '', \App\v1\Controllers\Devicememorytype::class . ':showNewItem');
@@ -2104,7 +2104,7 @@ final class Route
 
       $view->group('/suppliertypes', function (RouteCollectorProxy $suppliertypes)
       {
-        $suppliertypes->map(['GET'], '', \App\v1\Controllers\Suppliertype::class . ':getAll');
+        $suppliertypes->map(['GET'], '', \App\v1\Controllers\Suppliertype::class . ':showAll');
         $suppliertypes->group("/new", function (RouteCollectorProxy $suppliertypeNew)
         {
           $suppliertypeNew->map(['GET'], '', \App\v1\Controllers\Suppliertype::class . ':showNewItem');
@@ -2126,7 +2126,7 @@ final class Route
 
       $view->group('/interfacetypes', function (RouteCollectorProxy $interfacetypes)
       {
-        $interfacetypes->map(['GET'], '', \App\v1\Controllers\Interfacetype::class . ':getAll');
+        $interfacetypes->map(['GET'], '', \App\v1\Controllers\Interfacetype::class . ':showAll');
         $interfacetypes->group("/new", function (RouteCollectorProxy $interfacetypeNew)
         {
           $interfacetypeNew->map(['GET'], '', \App\v1\Controllers\Interfacetype::class . ':showNewItem');
@@ -2148,7 +2148,7 @@ final class Route
 
       $view->group('/devicecasetypes', function (RouteCollectorProxy $devicecasetypes)
       {
-        $devicecasetypes->map(['GET'], '', \App\v1\Controllers\Devicecasetype::class . ':getAll');
+        $devicecasetypes->map(['GET'], '', \App\v1\Controllers\Devicecasetype::class . ':showAll');
         $devicecasetypes->group("/new", function (RouteCollectorProxy $casetypeNew)
         {
           $casetypeNew->map(['GET'], '', \App\v1\Controllers\Devicecasetype::class . ':showNewItem');
@@ -2170,7 +2170,7 @@ final class Route
 
       $view->group('/phonepowersupplies', function (RouteCollectorProxy $phonepowersupplies)
       {
-        $phonepowersupplies->map(['GET'], '', \App\v1\Controllers\Phonepowersupply::class . ':getAll');
+        $phonepowersupplies->map(['GET'], '', \App\v1\Controllers\Phonepowersupply::class . ':showAll');
         $phonepowersupplies->group("/new", function (RouteCollectorProxy $ppowersupplyNew)
         {
           $ppowersupplyNew->map(['GET'], '', \App\v1\Controllers\Phonepowersupply::class . ':showNewItem');
@@ -2192,7 +2192,7 @@ final class Route
 
       $view->group('/filesystems', function (RouteCollectorProxy $filesystems)
       {
-        $filesystems->map(['GET'], '', \App\v1\Controllers\Filesystem::class . ':getAll');
+        $filesystems->map(['GET'], '', \App\v1\Controllers\Filesystem::class . ':showAll');
         $filesystems->group("/new", function (RouteCollectorProxy $filesystemNew)
         {
           $filesystemNew->map(['GET'], '', \App\v1\Controllers\Filesystem::class . ':showNewItem');
@@ -2214,7 +2214,7 @@ final class Route
 
       $view->group('/certificatetypes', function (RouteCollectorProxy $certificatetypes)
       {
-        $certificatetypes->map(['GET'], '', \App\v1\Controllers\Certificatetype::class . ':getAll');
+        $certificatetypes->map(['GET'], '', \App\v1\Controllers\Certificatetype::class . ':showAll');
         $certificatetypes->group("/new", function (RouteCollectorProxy $certtypeNew)
         {
           $certtypeNew->map(['GET'], '', \App\v1\Controllers\Certificatetype::class . ':showNewItem');
@@ -2236,7 +2236,7 @@ final class Route
 
       $view->group('/budgettypes', function (RouteCollectorProxy $budgettypes)
       {
-        $budgettypes->map(['GET'], '', \App\v1\Controllers\Budgettype::class . ':getAll');
+        $budgettypes->map(['GET'], '', \App\v1\Controllers\Budgettype::class . ':showAll');
         $budgettypes->group("/new", function (RouteCollectorProxy $budgettypeNew)
         {
           $budgettypeNew->map(['GET'], '', \App\v1\Controllers\Budgettype::class . ':showNewItem');
@@ -2257,7 +2257,7 @@ final class Route
       });
       $view->group('/devicesimcardtypes', function (RouteCollectorProxy $devicesimcardtypes)
       {
-        $devicesimcardtypes->map(['GET'], '', \App\v1\Controllers\Devicesimcardtype::class . ':getAll');
+        $devicesimcardtypes->map(['GET'], '', \App\v1\Controllers\Devicesimcardtype::class . ':showAll');
         $devicesimcardtypes->group("/new", function (RouteCollectorProxy $simcardtypeNew)
         {
           $simcardtypeNew->map(['GET'], '', \App\v1\Controllers\Devicesimcardtype::class . ':showNewItem');
@@ -2279,7 +2279,7 @@ final class Route
 
       $view->group('/linetypes', function (RouteCollectorProxy $linetypes)
       {
-        $linetypes->map(['GET'], '', \App\v1\Controllers\Linetype::class . ':getAll');
+        $linetypes->map(['GET'], '', \App\v1\Controllers\Linetype::class . ':showAll');
         $linetypes->group("/new", function (RouteCollectorProxy $linetypeNew)
         {
           $linetypeNew->map(['GET'], '', \App\v1\Controllers\Linetype::class . ':showNewItem');
@@ -2301,7 +2301,7 @@ final class Route
 
       $view->group('/racktypes', function (RouteCollectorProxy $racktypes)
       {
-        $racktypes->map(['GET'], '', \App\v1\Controllers\Racktype::class . ':getAll');
+        $racktypes->map(['GET'], '', \App\v1\Controllers\Racktype::class . ':showAll');
         $racktypes->group("/new", function (RouteCollectorProxy $racktypeNew)
         {
           $racktypeNew->map(['GET'], '', \App\v1\Controllers\Racktype::class . ':showNewItem');
@@ -2323,7 +2323,7 @@ final class Route
 
       $view->group('/pdutypes', function (RouteCollectorProxy $pdutypes)
       {
-        $pdutypes->map(['GET'], '', \App\v1\Controllers\Pdutype::class . ':getAll');
+        $pdutypes->map(['GET'], '', \App\v1\Controllers\Pdutype::class . ':showAll');
         $pdutypes->group("/new", function (RouteCollectorProxy $pdutypeNew)
         {
           $pdutypeNew->map(['GET'], '', \App\v1\Controllers\Pdutype::class . ':showNewItem');
@@ -2345,7 +2345,7 @@ final class Route
 
       $view->group('/passivedcequipmenttypes', function (RouteCollectorProxy $passivedcequipmenttypes)
       {
-        $passivedcequipmenttypes->map(['GET'], '', \App\v1\Controllers\Passivedcequipmenttype::class . ':getAll');
+        $passivedcequipmenttypes->map(['GET'], '', \App\v1\Controllers\Passivedcequipmenttype::class . ':showAll');
         $passivedcequipmenttypes->group("/new", function (RouteCollectorProxy $petypeNew)
         {
           $petypeNew->map(['GET'], '', \App\v1\Controllers\Passivedcequipmenttype::class . ':showNewItem');
@@ -2367,7 +2367,7 @@ final class Route
 
       $view->group('/clustertypes', function (RouteCollectorProxy $clustertypes)
       {
-        $clustertypes->map(['GET'], '', \App\v1\Controllers\Clustertype::class . ':getAll');
+        $clustertypes->map(['GET'], '', \App\v1\Controllers\Clustertype::class . ':showAll');
         $clustertypes->group("/new", function (RouteCollectorProxy $clustertypeNew)
         {
           $clustertypeNew->map(['GET'], '', \App\v1\Controllers\Clustertype::class . ':showNewItem');
@@ -2389,7 +2389,7 @@ final class Route
 
       $view->group('/computermodels', function (RouteCollectorProxy $computermodels)
       {
-        $computermodels->map(['GET'], '', \App\v1\Controllers\Computermodel::class . ':getAll');
+        $computermodels->map(['GET'], '', \App\v1\Controllers\Computermodel::class . ':showAll');
         $computermodels->group("/new", function (RouteCollectorProxy $cmodelNew)
         {
           $cmodelNew->map(['GET'], '', \App\v1\Controllers\Computermodel::class . ':showNewItem');
@@ -2411,7 +2411,7 @@ final class Route
 
       $view->group('/networkequipmentmodels', function (RouteCollectorProxy $networkequipmentmodels)
       {
-        $networkequipmentmodels->map(['GET'], '', \App\v1\Controllers\Networkequipmentmodel::class . ':getAll');
+        $networkequipmentmodels->map(['GET'], '', \App\v1\Controllers\Networkequipmentmodel::class . ':showAll');
         $networkequipmentmodels->group("/new", function (RouteCollectorProxy $nemodelNew)
         {
           $nemodelNew->map(['GET'], '', \App\v1\Controllers\Networkequipmentmodel::class . ':showNewItem');
@@ -2437,7 +2437,7 @@ final class Route
 
       $view->group('/printermodels', function (RouteCollectorProxy $printermodels)
       {
-        $printermodels->map(['GET'], '', \App\v1\Controllers\Printermodel::class . ':getAll');
+        $printermodels->map(['GET'], '', \App\v1\Controllers\Printermodel::class . ':showAll');
         $printermodels->group("/new", function (RouteCollectorProxy $pmodelNew)
         {
           $pmodelNew->map(['GET'], '', \App\v1\Controllers\Printermodel::class . ':showNewItem');
@@ -2459,7 +2459,7 @@ final class Route
 
       $view->group('/monitormodels', function (RouteCollectorProxy $monitormodels)
       {
-        $monitormodels->map(['GET'], '', \App\v1\Controllers\Monitormodel::class . ':getAll');
+        $monitormodels->map(['GET'], '', \App\v1\Controllers\Monitormodel::class . ':showAll');
         $monitormodels->group("/new", function (RouteCollectorProxy $modelNew)
         {
           $modelNew->map(['GET'], '', \App\v1\Controllers\Monitormodel::class . ':showNewItem');
@@ -2481,7 +2481,7 @@ final class Route
 
       $view->group('/peripheralmodels', function (RouteCollectorProxy $peripheralmodels)
       {
-        $peripheralmodels->map(['GET'], '', \App\v1\Controllers\Peripheralmodel::class . ':getAll');
+        $peripheralmodels->map(['GET'], '', \App\v1\Controllers\Peripheralmodel::class . ':showAll');
         $peripheralmodels->group("/new", function (RouteCollectorProxy $pmodelNew)
         {
           $pmodelNew->map(['GET'], '', \App\v1\Controllers\Peripheralmodel::class . ':showNewItem');
@@ -2503,7 +2503,7 @@ final class Route
 
       $view->group('/phonemodels', function (RouteCollectorProxy $phonemodels)
       {
-        $phonemodels->map(['GET'], '', \App\v1\Controllers\Phonemodel::class . ':getAll');
+        $phonemodels->map(['GET'], '', \App\v1\Controllers\Phonemodel::class . ':showAll');
         $phonemodels->group("/new", function (RouteCollectorProxy $phonemodelNew)
         {
           $phonemodelNew->map(['GET'], '', \App\v1\Controllers\Phonemodel::class . ':showNewItem');
@@ -2525,7 +2525,7 @@ final class Route
 
       $view->group('/devicecasemodels', function (RouteCollectorProxy $devicecasemodels)
       {
-        $devicecasemodels->map(['GET'], '', \App\v1\Controllers\Devicecasemodel::class . ':getAll');
+        $devicecasemodels->map(['GET'], '', \App\v1\Controllers\Devicecasemodel::class . ':showAll');
         $devicecasemodels->group("/new", function (RouteCollectorProxy $casemodelNew)
         {
           $casemodelNew->map(['GET'], '', \App\v1\Controllers\Devicecasemodel::class . ':showNewItem');
@@ -2547,7 +2547,7 @@ final class Route
 
       $view->group('/devicecontrolmodels', function (RouteCollectorProxy $devicecontrolmodels)
       {
-        $devicecontrolmodels->map(['GET'], '', \App\v1\Controllers\Devicecontrolmodel::class . ':getAll');
+        $devicecontrolmodels->map(['GET'], '', \App\v1\Controllers\Devicecontrolmodel::class . ':showAll');
         $devicecontrolmodels->group("/new", function (RouteCollectorProxy $dcmodelNew)
         {
           $dcmodelNew->map(['GET'], '', \App\v1\Controllers\Devicecontrolmodel::class . ':showNewItem');
@@ -2569,7 +2569,7 @@ final class Route
 
       $view->group('/devicedrivemodels', function (RouteCollectorProxy $devicedrivemodels)
       {
-        $devicedrivemodels->map(['GET'], '', \App\v1\Controllers\Devicedrivemodel::class . ':getAll');
+        $devicedrivemodels->map(['GET'], '', \App\v1\Controllers\Devicedrivemodel::class . ':showAll');
         $devicedrivemodels->group("/new", function (RouteCollectorProxy $drivemodelNew)
         {
           $drivemodelNew->map(['GET'], '', \App\v1\Controllers\Devicedrivemodel::class . ':showNewItem');
@@ -2591,7 +2591,7 @@ final class Route
 
       $view->group('/devicegenericmodels', function (RouteCollectorProxy $devicegenericmodels)
       {
-        $devicegenericmodels->map(['GET'], '', \App\v1\Controllers\Devicegenericmodel::class . ':getAll');
+        $devicegenericmodels->map(['GET'], '', \App\v1\Controllers\Devicegenericmodel::class . ':showAll');
         $devicegenericmodels->map(['POST'], '', \App\v1\Controllers\Devicegenericmodel::class . ':postItem');
         $devicegenericmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenericmodelId)
         {
@@ -2606,7 +2606,7 @@ final class Route
 
       $view->group('/devicegraphiccardmodels', function (RouteCollectorProxy $devicegraphiccardmodels)
       {
-        $devicegraphiccardmodels->map(['GET'], '', \App\v1\Controllers\Devicegraphiccardmodel::class . ':getAll');
+        $devicegraphiccardmodels->map(['GET'], '', \App\v1\Controllers\Devicegraphiccardmodel::class . ':showAll');
         $devicegraphiccardmodels->group("/new", function (RouteCollectorProxy $dgcmodelNew)
         {
           $dgcmodelNew->map(['GET'], '', \App\v1\Controllers\Devicegraphiccardmodel::class . ':showNewItem');
@@ -2628,7 +2628,7 @@ final class Route
 
       $view->group('/deviceharddrivemodels', function (RouteCollectorProxy $deviceharddrivemodels)
       {
-        $deviceharddrivemodels->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':getAll');
+        $deviceharddrivemodels->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':showAll');
         $deviceharddrivemodels->group("/new", function (RouteCollectorProxy $dhdmodelNew)
         {
           $dhdmodelNew->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':showNewItem');
@@ -2650,7 +2650,7 @@ final class Route
 
       $view->group('/devicememorymodels', function (RouteCollectorProxy $devicememorymodels)
       {
-        $devicememorymodels->map(['GET'], '', \App\v1\Controllers\Devicememorymodel::class . ':getAll');
+        $devicememorymodels->map(['GET'], '', \App\v1\Controllers\Devicememorymodel::class . ':showAll');
         $devicememorymodels->group("/new", function (RouteCollectorProxy $memorymodelNew)
         {
           $memorymodelNew->map(['GET'], '', \App\v1\Controllers\Devicememorymodel::class . ':showNewItem');
@@ -2672,7 +2672,7 @@ final class Route
 
       $view->group('/devicemotherboardmodels', function (RouteCollectorProxy $devicemotherboardmodels)
       {
-        $devicemotherboardmodels->map(['GET'], '', \App\v1\Controllers\Devicemotherboardmodel::class . ':getAll');
+        $devicemotherboardmodels->map(['GET'], '', \App\v1\Controllers\Devicemotherboardmodel::class . ':showAll');
         $devicemotherboardmodels->group("/new", function (RouteCollectorProxy $motherboardmodelNew)
         {
           $motherboardmodelNew->map(['GET'], '', \App\v1\Controllers\Devicemotherboardmodel::class . ':showNewItem');
@@ -2694,7 +2694,7 @@ final class Route
 
       $view->group('/devicenetworkcardmodels', function (RouteCollectorProxy $devicenetworkcardmodels)
       {
-        $devicenetworkcardmodels->map(['GET'], '', \App\v1\Controllers\Devicenetworkcardmodel::class . ':getAll');
+        $devicenetworkcardmodels->map(['GET'], '', \App\v1\Controllers\Devicenetworkcardmodel::class . ':showAll');
         $devicenetworkcardmodels->group("/new", function (RouteCollectorProxy $networkcardmodelNew)
         {
           $networkcardmodelNew->map(['GET'], '', \App\v1\Controllers\Devicenetworkcardmodel::class . ':showNewItem');
@@ -2716,7 +2716,7 @@ final class Route
 
       $view->group('/devicepcimodels', function (RouteCollectorProxy $devicepcimodels)
       {
-        $devicepcimodels->map(['GET'], '', \App\v1\Controllers\Devicepcimodel::class . ':getAll');
+        $devicepcimodels->map(['GET'], '', \App\v1\Controllers\Devicepcimodel::class . ':showAll');
         $devicepcimodels->group("/new", function (RouteCollectorProxy $pcimodelNew)
         {
           $pcimodelNew->map(['GET'], '', \App\v1\Controllers\Devicepcimodel::class . ':showNewItem');
@@ -2738,7 +2738,7 @@ final class Route
 
       $view->group('/devicepowersupplymodels', function (RouteCollectorProxy $devicepowersupplymodels)
       {
-        $devicepowersupplymodels->map(['GET'], '', \App\v1\Controllers\Devicepowersupplymodel::class . ':getAll');
+        $devicepowersupplymodels->map(['GET'], '', \App\v1\Controllers\Devicepowersupplymodel::class . ':showAll');
         $devicepowersupplymodels->group("/new", function (RouteCollectorProxy $dpsmodelNew)
         {
           $dpsmodelNew->map(['GET'], '', \App\v1\Controllers\Devicepowersupplymodel::class . ':showNewItem');
@@ -2760,7 +2760,7 @@ final class Route
 
       $view->group('/deviceprocessormodels', function (RouteCollectorProxy $deviceprocessormodels)
       {
-        $deviceprocessormodels->map(['GET'], '', \App\v1\Controllers\Deviceprocessormodel::class . ':getAll');
+        $deviceprocessormodels->map(['GET'], '', \App\v1\Controllers\Deviceprocessormodel::class . ':showAll');
         $deviceprocessormodels->group("/new", function (RouteCollectorProxy $processormodelNew)
         {
           $processormodelNew->map(['GET'], '', \App\v1\Controllers\Deviceprocessormodel::class . ':showNewItem');
@@ -2782,7 +2782,7 @@ final class Route
 
       $view->group('/devicesoundcardmodels', function (RouteCollectorProxy $devicesoundcardmodels)
       {
-        $devicesoundcardmodels->map(['GET'], '', \App\v1\Controllers\Devicesoundcardmodel::class . ':getAll');
+        $devicesoundcardmodels->map(['GET'], '', \App\v1\Controllers\Devicesoundcardmodel::class . ':showAll');
         $devicesoundcardmodels->group("/new", function (RouteCollectorProxy $dscmodelNew)
         {
           $dscmodelNew->map(['GET'], '', \App\v1\Controllers\Devicesoundcardmodel::class . ':showNewItem');
@@ -2803,7 +2803,7 @@ final class Route
       });
       $view->group('/devicesensormodels', function (RouteCollectorProxy $devicesensormodels)
       {
-        $devicesensormodels->map(['GET'], '', \App\v1\Controllers\Devicesensormodel::class . ':getAll');
+        $devicesensormodels->map(['GET'], '', \App\v1\Controllers\Devicesensormodel::class . ':showAll');
         $devicesensormodels->map(['POST'], '', \App\v1\Controllers\Devicesensormodel::class . ':postItem');
         $devicesensormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensormodelId)
         {
@@ -2818,7 +2818,7 @@ final class Route
 
       $view->group('/rackmodels', function (RouteCollectorProxy $rackmodels)
       {
-        $rackmodels->map(['GET'], '', \App\v1\Controllers\Rackmodel::class . ':getAll');
+        $rackmodels->map(['GET'], '', \App\v1\Controllers\Rackmodel::class . ':showAll');
         $rackmodels->group("/new", function (RouteCollectorProxy $rackmodelNew)
         {
           $rackmodelNew->map(['GET'], '', \App\v1\Controllers\Rackmodel::class . ':showNewItem');
@@ -2840,7 +2840,7 @@ final class Route
 
       $view->group('/enclosuremodels', function (RouteCollectorProxy $enclosuremodels)
       {
-        $enclosuremodels->map(['GET'], '', \App\v1\Controllers\Enclosuremodel::class . ':getAll');
+        $enclosuremodels->map(['GET'], '', \App\v1\Controllers\Enclosuremodel::class . ':showAll');
         $enclosuremodels->group("/new", function (RouteCollectorProxy $encmodelNew)
         {
           $encmodelNew->map(['GET'], '', \App\v1\Controllers\Enclosuremodel::class . ':showNewItem');
@@ -2862,7 +2862,7 @@ final class Route
 
       $view->group('/pdumodels', function (RouteCollectorProxy $pdumodels)
       {
-        $pdumodels->map(['GET'], '', \App\v1\Controllers\Pdumodel::class . ':getAll');
+        $pdumodels->map(['GET'], '', \App\v1\Controllers\Pdumodel::class . ':showAll');
         $pdumodels->group("/new", function (RouteCollectorProxy $pdumodelNew)
         {
           $pdumodelNew->map(['GET'], '', \App\v1\Controllers\Pdumodel::class . ':showNewItem');
@@ -2884,7 +2884,7 @@ final class Route
 
       $view->group('/passivedcequipmentmodels', function (RouteCollectorProxy $passivedcequipmentmodels)
       {
-        $passivedcequipmentmodels->map(['GET'], '', \App\v1\Controllers\Passivedcequipmentmodel::class . ':getAll');
+        $passivedcequipmentmodels->map(['GET'], '', \App\v1\Controllers\Passivedcequipmentmodel::class . ':showAll');
         $passivedcequipmentmodels->group("/new", function (RouteCollectorProxy $pemodelNew)
         {
           $pemodelNew->map(['GET'], '', \App\v1\Controllers\Passivedcequipmentmodel::class . ':showNewItem');
@@ -2906,7 +2906,7 @@ final class Route
 
       $view->group('/virtualmachinetypes', function (RouteCollectorProxy $virtualmachinetypes)
       {
-        $virtualmachinetypes->map(['GET'], '', \App\v1\Controllers\Virtualmachinetype::class . ':getAll');
+        $virtualmachinetypes->map(['GET'], '', \App\v1\Controllers\Virtualmachinetype::class . ':showAll');
         $virtualmachinetypes->group("/new", function (RouteCollectorProxy $vmtypeNew)
         {
           $vmtypeNew->map(['GET'], '', \App\v1\Controllers\Virtualmachinetype::class . ':showNewItem');
@@ -2928,7 +2928,7 @@ final class Route
 
       $view->group('/virtualmachinesystems', function (RouteCollectorProxy $virtualmachinesystems)
       {
-        $virtualmachinesystems->map(['GET'], '', \App\v1\Controllers\Virtualmachinesystem::class . ':getAll');
+        $virtualmachinesystems->map(['GET'], '', \App\v1\Controllers\Virtualmachinesystem::class . ':showAll');
         $virtualmachinesystems->group("/new", function (RouteCollectorProxy $vmsystemNew)
         {
           $vmsystemNew->map(['GET'], '', \App\v1\Controllers\Virtualmachinesystem::class . ':showNewItem');
@@ -2950,7 +2950,7 @@ final class Route
 
       $view->group('/virtualmachinestates', function (RouteCollectorProxy $virtualmachinestates)
       {
-        $virtualmachinestates->map(['GET'], '', \App\v1\Controllers\Virtualmachinestate::class . ':getAll');
+        $virtualmachinestates->map(['GET'], '', \App\v1\Controllers\Virtualmachinestate::class . ':showAll');
         $virtualmachinestates->group("/new", function (RouteCollectorProxy $vmstateNew)
         {
           $vmstateNew->map(['GET'], '', \App\v1\Controllers\Virtualmachinestate::class . ':showNewItem');
@@ -2972,7 +2972,7 @@ final class Route
 
       $view->group('/documentcategories', function (RouteCollectorProxy $documentcategories)
       {
-        $documentcategories->map(['GET'], '', \App\v1\Controllers\Documentcategory::class . ':getAll');
+        $documentcategories->map(['GET'], '', \App\v1\Controllers\Documentcategory::class . ':showAll');
         $documentcategories->group("/new", function (RouteCollectorProxy $doccategoryNew)
         {
           $doccategoryNew->map(['GET'], '', \App\v1\Controllers\Documentcategory::class . ':showNewItem');
@@ -2999,7 +2999,7 @@ final class Route
 
       $view->group('/documenttypes', function (RouteCollectorProxy $documenttypes)
       {
-        $documenttypes->map(['GET'], '', \App\v1\Controllers\Documenttype::class . ':getAll');
+        $documenttypes->map(['GET'], '', \App\v1\Controllers\Documenttype::class . ':showAll');
         $documenttypes->group("/new", function (RouteCollectorProxy $doctypeNew)
         {
           $doctypeNew->map(['GET'], '', \App\v1\Controllers\Documenttype::class . ':showNewItem');
@@ -3021,7 +3021,7 @@ final class Route
 
       $view->group('/businesscriticities', function (RouteCollectorProxy $businesscriticities)
       {
-        $businesscriticities->map(['GET'], '', \App\v1\Controllers\Businesscriticity::class . ':getAll');
+        $businesscriticities->map(['GET'], '', \App\v1\Controllers\Businesscriticity::class . ':showAll');
         $businesscriticities->group("/new", function (RouteCollectorProxy $bcNew)
         {
           $bcNew->map(['GET'], '', \App\v1\Controllers\Businesscriticity::class . ':showNewItem');
@@ -3048,7 +3048,7 @@ final class Route
 
       $view->group('/knowbaseitemcategories', function (RouteCollectorProxy $knowbaseitemcategories)
       {
-        $knowbaseitemcategories->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':getAll');
+        $knowbaseitemcategories->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':showAll');
         $knowbaseitemcategories->group("/new", function (RouteCollectorProxy $kicategoryNew)
         {
           $kicategoryNew->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':showNewItem');
@@ -3075,7 +3075,7 @@ final class Route
 
       $view->group('/calendars', function (RouteCollectorProxy $calendars)
       {
-        $calendars->map(['GET'], '', \App\v1\Controllers\Calendar::class . ':getAll');
+        $calendars->map(['GET'], '', \App\v1\Controllers\Calendar::class . ':showAll');
         $calendars->group("/new", function (RouteCollectorProxy $calendarNew)
         {
           $calendarNew->map(['GET'], '', \App\v1\Controllers\Calendar::class . ':showNewItem');
@@ -3099,7 +3099,7 @@ final class Route
 
       $view->group('/holidays', function (RouteCollectorProxy $holidays)
       {
-        $holidays->map(['GET'], '', \App\v1\Controllers\Holiday::class . ':getAll');
+        $holidays->map(['GET'], '', \App\v1\Controllers\Holiday::class . ':showAll');
         $holidays->group("/new", function (RouteCollectorProxy $holidayNew)
         {
           $holidayNew->map(['GET'], '', \App\v1\Controllers\Holiday::class . ':showNewItem');
@@ -3121,7 +3121,7 @@ final class Route
 
       $view->group('/operatingsystems', function (RouteCollectorProxy $operatingsystems)
       {
-        $operatingsystems->map(['GET'], '', \App\v1\Controllers\Operatingsystem::class . ':getAll');
+        $operatingsystems->map(['GET'], '', \App\v1\Controllers\Operatingsystem::class . ':showAll');
         $operatingsystems->group("/new", function (RouteCollectorProxy $osNew)
         {
           $osNew->map(['GET'], '', \App\v1\Controllers\Operatingsystem::class . ':showNewItem');
@@ -3143,7 +3143,7 @@ final class Route
 
       $view->group('/operatingsystemversions', function (RouteCollectorProxy $operatingsystemversions)
       {
-        $operatingsystemversions->map(['GET'], '', \App\v1\Controllers\Operatingsystemversion::class . ':getAll');
+        $operatingsystemversions->map(['GET'], '', \App\v1\Controllers\Operatingsystemversion::class . ':showAll');
         $operatingsystemversions->group("/new", function (RouteCollectorProxy $osvNew)
         {
           $osvNew->map(['GET'], '', \App\v1\Controllers\Operatingsystemversion::class . ':showNewItem');
@@ -3165,7 +3165,7 @@ final class Route
 
       $view->group('/operatingsystemservicepacks', function (RouteCollectorProxy $ossp)
       {
-        $ossp->map(['GET'], '', \App\v1\Controllers\Operatingsystemservicepack::class . ':getAll');
+        $ossp->map(['GET'], '', \App\v1\Controllers\Operatingsystemservicepack::class . ':showAll');
         $ossp->group("/new", function (RouteCollectorProxy $osspNew)
         {
           $osspNew->map(['GET'], '', \App\v1\Controllers\Operatingsystemservicepack::class . ':showNewItem');
@@ -3187,7 +3187,7 @@ final class Route
 
       $view->group('/operatingsystemarchitectures', function (RouteCollectorProxy $osa)
       {
-        $osa->map(['GET'], '', \App\v1\Controllers\Operatingsystemarchitecture::class . ':getAll');
+        $osa->map(['GET'], '', \App\v1\Controllers\Operatingsystemarchitecture::class . ':showAll');
         $osa->group("/new", function (RouteCollectorProxy $osaNew)
         {
           $osaNew->map(['GET'], '', \App\v1\Controllers\Operatingsystemarchitecture::class . ':showNewItem');
@@ -3209,7 +3209,7 @@ final class Route
 
       $view->group('/operatingsystemeditions', function (RouteCollectorProxy $ose)
       {
-        $ose->map(['GET'], '', \App\v1\Controllers\Operatingsystemedition::class . ':getAll');
+        $ose->map(['GET'], '', \App\v1\Controllers\Operatingsystemedition::class . ':showAll');
         $ose->group("/new", function (RouteCollectorProxy $oseNew)
         {
           $oseNew->map(['GET'], '', \App\v1\Controllers\Operatingsystemedition::class . ':showNewItem');
@@ -3231,7 +3231,7 @@ final class Route
 
       $view->group('/operatingsystemkernels', function (RouteCollectorProxy $osk)
       {
-        $osk->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernel::class . ':getAll');
+        $osk->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernel::class . ':showAll');
         $osk->group("/new", function (RouteCollectorProxy $oskNew)
         {
           $oskNew->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernel::class . ':showNewItem');
@@ -3253,7 +3253,7 @@ final class Route
 
       $view->group('/operatingsystemkernelversions', function (RouteCollectorProxy $oskv)
       {
-        $oskv->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernelversion::class . ':getAll');
+        $oskv->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernelversion::class . ':showAll');
         $oskv->group("/new", function (RouteCollectorProxy $oskvNew)
         {
           $oskvNew->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernelversion::class . ':showNewItem');
@@ -3279,7 +3279,7 @@ final class Route
 
       $view->group('/autoupdatesystems', function (RouteCollectorProxy $autoupdatesystems)
       {
-        $autoupdatesystems->map(['GET'], '', \App\v1\Controllers\Autoupdatesystem::class . ':getAll');
+        $autoupdatesystems->map(['GET'], '', \App\v1\Controllers\Autoupdatesystem::class . ':showAll');
         $autoupdatesystems->group("/new", function (RouteCollectorProxy $autoupdatesystemNew)
         {
           $autoupdatesystemNew->map(['GET'], '', \App\v1\Controllers\Autoupdatesystem::class . ':showNewItem');
@@ -3301,7 +3301,7 @@ final class Route
 
       $view->group('/networkinterfaces', function (RouteCollectorProxy $networkinterfaces)
       {
-        $networkinterfaces->map(['GET'], '', \App\v1\Controllers\Networkinterface::class . ':getAll');
+        $networkinterfaces->map(['GET'], '', \App\v1\Controllers\Networkinterface::class . ':showAll');
         $networkinterfaces->group("/new", function (RouteCollectorProxy $ninterfaceNew)
         {
           $ninterfaceNew->map(['GET'], '', \App\v1\Controllers\Networkinterface::class . ':showNewItem');
@@ -3323,7 +3323,7 @@ final class Route
 
       $view->group('/netpoints', function (RouteCollectorProxy $netpoints)
       {
-        $netpoints->map(['GET'], '', \App\v1\Controllers\Netpoint::class . ':getAll');
+        $netpoints->map(['GET'], '', \App\v1\Controllers\Netpoint::class . ':showAll');
         $netpoints->group("/new", function (RouteCollectorProxy $netpointNew)
         {
           $netpointNew->map(['GET'], '', \App\v1\Controllers\Netpoint::class . ':showNewItem');
@@ -3345,7 +3345,7 @@ final class Route
 
       $view->group('/networks', function (RouteCollectorProxy $networks)
       {
-        $networks->map(['GET'], '', \App\v1\Controllers\Network::class . ':getAll');
+        $networks->map(['GET'], '', \App\v1\Controllers\Network::class . ':showAll');
         $networks->group("/new", function (RouteCollectorProxy $networkNew)
         {
           $networkNew->map(['GET'], '', \App\v1\Controllers\Network::class . ':showNewItem');
@@ -3367,7 +3367,7 @@ final class Route
 
       $view->group('/vlans', function (RouteCollectorProxy $vlans)
       {
-        $vlans->map(['GET'], '', \App\v1\Controllers\Vlan::class . ':getAll');
+        $vlans->map(['GET'], '', \App\v1\Controllers\Vlan::class . ':showAll');
         $vlans->group("/new", function (RouteCollectorProxy $vlanNew)
         {
           $vlanNew->map(['GET'], '', \App\v1\Controllers\Vlan::class . ':showNewItem');
@@ -3389,7 +3389,7 @@ final class Route
 
       $view->group('/lineoperators', function (RouteCollectorProxy $lineoperators)
       {
-        $lineoperators->map(['GET'], '', \App\v1\Controllers\Lineoperator::class . ':getAll');
+        $lineoperators->map(['GET'], '', \App\v1\Controllers\Lineoperator::class . ':showAll');
         $lineoperators->group("/new", function (RouteCollectorProxy $lineoperatorNew)
         {
           $lineoperatorNew->map(['GET'], '', \App\v1\Controllers\Lineoperator::class . ':showNewItem');
@@ -3411,7 +3411,7 @@ final class Route
 
       $view->group('/domaintypes', function (RouteCollectorProxy $domaintypes)
       {
-        $domaintypes->map(['GET'], '', \App\v1\Controllers\Domaintype::class . ':getAll');
+        $domaintypes->map(['GET'], '', \App\v1\Controllers\Domaintype::class . ':showAll');
         $domaintypes->group("/new", function (RouteCollectorProxy $domtypeNew)
         {
           $domtypeNew->map(['GET'], '', \App\v1\Controllers\Domaintype::class . ':showNewItem');
@@ -3433,7 +3433,7 @@ final class Route
 
       $view->group('/domainrelations', function (RouteCollectorProxy $domainrelations)
       {
-        $domainrelations->map(['GET'], '', \App\v1\Controllers\Domainrelation::class . ':getAll');
+        $domainrelations->map(['GET'], '', \App\v1\Controllers\Domainrelation::class . ':showAll');
         $domainrelations->group("/new", function (RouteCollectorProxy $relationNew)
         {
           $relationNew->map(['GET'], '', \App\v1\Controllers\Domainrelation::class . ':showNewItem');
@@ -3456,7 +3456,7 @@ final class Route
 
       $view->group('/domainrecordtypes', function (RouteCollectorProxy $domainrecordtypes)
       {
-        $domainrecordtypes->map(['GET'], '', \App\v1\Controllers\Domainrecordtype::class . ':getAll');
+        $domainrecordtypes->map(['GET'], '', \App\v1\Controllers\Domainrecordtype::class . ':showAll');
         $domainrecordtypes->group("/new", function (RouteCollectorProxy $drtypeNew)
         {
           $drtypeNew->map(['GET'], '', \App\v1\Controllers\Domainrecordtype::class . ':showNewItem');
@@ -3478,7 +3478,7 @@ final class Route
 
       $view->group('/ipnetworks', function (RouteCollectorProxy $ipnetworks)
       {
-        $ipnetworks->map(['GET'], '', \App\v1\Controllers\Ipnetwork::class . ':getAll');
+        $ipnetworks->map(['GET'], '', \App\v1\Controllers\Ipnetwork::class . ':showAll');
         $ipnetworks->group("/new", function (RouteCollectorProxy $ipnetworkNew)
         {
           $ipnetworkNew->map(['GET'], '', \App\v1\Controllers\Ipnetwork::class . ':showNewItem');
@@ -3501,7 +3501,7 @@ final class Route
 
       $view->group('/fqdns', function (RouteCollectorProxy $fqdns)
       {
-        $fqdns->map(['GET'], '', \App\v1\Controllers\Fqdn::class . ':getAll');
+        $fqdns->map(['GET'], '', \App\v1\Controllers\Fqdn::class . ':showAll');
         $fqdns->group("/new", function (RouteCollectorProxy $fqdnNew)
         {
           $fqdnNew->map(['GET'], '', \App\v1\Controllers\Fqdn::class . ':showNewItem');
@@ -3524,7 +3524,7 @@ final class Route
 
       $view->group('/wifinetworks', function (RouteCollectorProxy $wifinetworks)
       {
-        $wifinetworks->map(['GET'], '', \App\v1\Controllers\Wifinetwork::class . ':getAll');
+        $wifinetworks->map(['GET'], '', \App\v1\Controllers\Wifinetwork::class . ':showAll');
         $wifinetworks->group("/new", function (RouteCollectorProxy $wifiNew)
         {
           $wifiNew->map(['GET'], '', \App\v1\Controllers\Wifinetwork::class . ':showNewItem');
@@ -3546,7 +3546,7 @@ final class Route
 
       $view->group('/networknames', function (RouteCollectorProxy $networknames)
       {
-        $networknames->map(['GET'], '', \App\v1\Controllers\Networkname::class . ':getAll');
+        $networknames->map(['GET'], '', \App\v1\Controllers\Networkname::class . ':showAll');
         $networknames->group("/new", function (RouteCollectorProxy $netnameNew)
         {
           $netnameNew->map(['GET'], '', \App\v1\Controllers\Networkname::class . ':showNewItem');
@@ -3569,7 +3569,7 @@ final class Route
 
       $view->group('/softwarecategories', function (RouteCollectorProxy $softwarecategories)
       {
-        $softwarecategories->map(['GET'], '', \App\v1\Controllers\Softwarecategory::class . ':getAll');
+        $softwarecategories->map(['GET'], '', \App\v1\Controllers\Softwarecategory::class . ':showAll');
         $softwarecategories->group("/new", function (RouteCollectorProxy $scategoryNew)
         {
           $scategoryNew->map(['GET'], '', \App\v1\Controllers\Softwarecategory::class . ':showNewItem');
@@ -3596,7 +3596,7 @@ final class Route
 
       $view->group('/usertitles', function (RouteCollectorProxy $usertitles)
       {
-        $usertitles->map(['GET'], '', \App\v1\Controllers\Usertitle::class . ':getAll');
+        $usertitles->map(['GET'], '', \App\v1\Controllers\Usertitle::class . ':showAll');
         $usertitles->map(['POST'], '', \App\v1\Controllers\Usertitle::class . ':postItem');
         $usertitles->group("/{id:[0-9]+}", function (RouteCollectorProxy $usertitleId)
         {
@@ -3611,7 +3611,7 @@ final class Route
 
       $view->group('/usercategories', function (RouteCollectorProxy $usercategories)
       {
-        $usercategories->map(['GET'], '', \App\v1\Controllers\Usercategory::class . ':getAll');
+        $usercategories->map(['GET'], '', \App\v1\Controllers\Usercategory::class . ':showAll');
         $usercategories->group("/new", function (RouteCollectorProxy $usercatNew)
         {
           $usercatNew->map(['GET'], '', \App\v1\Controllers\Usercategory::class . ':showNewItem');
@@ -3633,7 +3633,7 @@ final class Route
 
       $view->group('/rulerightparameters', function (RouteCollectorProxy $rulerightparameters)
       {
-        $rulerightparameters->map(['GET'], '', \App\v1\Controllers\Rulerightparameter::class . ':getAll');
+        $rulerightparameters->map(['GET'], '', \App\v1\Controllers\Rulerightparameter::class . ':showAll');
         $rulerightparameters->group("/new", function (RouteCollectorProxy $rrparameterNew)
         {
           $rrparameterNew->map(['GET'], '', \App\v1\Controllers\Rulerightparameter::class . ':showNewItem');
@@ -3655,7 +3655,7 @@ final class Route
 
       $view->group('/fieldblacklists', function (RouteCollectorProxy $fieldblacklists)
       {
-        $fieldblacklists->map(['GET'], '', \App\v1\Controllers\Fieldblacklist::class . ':getAll');
+        $fieldblacklists->map(['GET'], '', \App\v1\Controllers\Fieldblacklist::class . ':showAll');
         $fieldblacklists->group("/new", function (RouteCollectorProxy $fieldblacklistNew)
         {
           $fieldblacklistNew->map(['GET'], '', \App\v1\Controllers\Fieldblacklist::class . ':showNewItem');
@@ -3677,7 +3677,7 @@ final class Route
 
       $view->group('/ssovariables', function (RouteCollectorProxy $ssovariables)
       {
-        $ssovariables->map(['GET'], '', \App\v1\Controllers\Ssovariable::class . ':getAll');
+        $ssovariables->map(['GET'], '', \App\v1\Controllers\Ssovariable::class . ':showAll');
         $ssovariables->group("/new", function (RouteCollectorProxy $ssovarNew)
         {
           $ssovarNew->map(['GET'], '', \App\v1\Controllers\Ssovariable::class . ':showNewItem');
@@ -3699,7 +3699,7 @@ final class Route
 
       $view->group('/plugs', function (RouteCollectorProxy $plugs)
       {
-        $plugs->map(['GET'], '', \App\v1\Controllers\Plug::class . ':getAll');
+        $plugs->map(['GET'], '', \App\v1\Controllers\Plug::class . ':showAll');
         $plugs->group("/new", function (RouteCollectorProxy $plugNew)
         {
           $plugNew->map(['GET'], '', \App\v1\Controllers\Plug::class . ':showNewItem');
@@ -3721,7 +3721,7 @@ final class Route
 
       $view->group('/appliancetypes', function (RouteCollectorProxy $viewliancetypes)
       {
-        $viewliancetypes->map(['GET'], '', \App\v1\Controllers\Appliancetype::class . ':getAll');
+        $viewliancetypes->map(['GET'], '', \App\v1\Controllers\Appliancetype::class . ':showAll');
         $viewliancetypes->map(['POST'], '', \App\v1\Controllers\Appliancetype::class . ':postItem');
         $viewliancetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $viewliancetypeId)
         {
@@ -3735,7 +3735,7 @@ final class Route
       });
       $view->group('/applianceenvironments', function (RouteCollectorProxy $applianceenvs)
       {
-        $applianceenvs->map(['GET'], '', \App\v1\Controllers\Applianceenvironment::class . ':getAll');
+        $applianceenvs->map(['GET'], '', \App\v1\Controllers\Applianceenvironment::class . ':showAll');
         $applianceenvs->group("/new", function (RouteCollectorProxy $applianceenvNew)
         {
           $applianceenvNew->map(['GET'], '', \App\v1\Controllers\Applianceenvironment::class . ':showNewItem');
@@ -3763,7 +3763,7 @@ final class Route
       {
         $devices->group('/devicepowersupplies', function (RouteCollectorProxy $devicepowersupplies)
         {
-          $devicepowersupplies->map(['GET'], '', \App\v1\Controllers\Devicepowersupply::class . ':getAll');
+          $devicepowersupplies->map(['GET'], '', \App\v1\Controllers\Devicepowersupply::class . ':showAll');
           $devicepowersupplies->group("/new", function (RouteCollectorProxy $powersupplyNew)
           {
             $powersupplyNew->map(['GET'], '', \App\v1\Controllers\Devicepowersupply::class . ':showNewItem');
@@ -3787,7 +3787,7 @@ final class Route
 
         $devices->group('/devicebatteries', function (RouteCollectorProxy $devicebatteries)
         {
-          $devicebatteries->map(['GET'], '', \App\v1\Controllers\Devicebattery::class . ':getAll');
+          $devicebatteries->map(['GET'], '', \App\v1\Controllers\Devicebattery::class . ':showAll');
           $devicebatteries->group("/new", function (RouteCollectorProxy $batteryNew)
           {
             $batteryNew->map(['GET'], '', \App\v1\Controllers\Devicebattery::class . ':showNewItem');
@@ -3811,7 +3811,7 @@ final class Route
 
         $devices->group('/devicebatterytypes', function (RouteCollectorProxy $devicebatterytypes)
         {
-          $devicebatterytypes->map(['GET'], '', \App\v1\Controllers\Devicebatterytype::class . ':getAll');
+          $devicebatterytypes->map(['GET'], '', \App\v1\Controllers\Devicebatterytype::class . ':showAll');
           $devicebatterytypes->group("/new", function (RouteCollectorProxy $dbtypeNew)
           {
             $dbtypeNew->map(['GET'], '', \App\v1\Controllers\Devicebatterytype::class . ':showNewItem');
@@ -3832,7 +3832,7 @@ final class Route
 
         $devices->group('/devicecases', function (RouteCollectorProxy $devicecases)
         {
-          $devicecases->map(['GET'], '', \App\v1\Controllers\Devicecase::class . ':getAll');
+          $devicecases->map(['GET'], '', \App\v1\Controllers\Devicecase::class . ':showAll');
           $devicecases->group("/new", function (RouteCollectorProxy $devicecaseNew)
           {
             $devicecaseNew->map(['GET'], '', \App\v1\Controllers\Devicecase::class . ':showNewItem');
@@ -3856,7 +3856,7 @@ final class Route
 
         $devices->group('/devicesensors', function (RouteCollectorProxy $devicesensors)
         {
-          $devicesensors->map(['GET'], '', \App\v1\Controllers\Devicesensor::class . ':getAll');
+          $devicesensors->map(['GET'], '', \App\v1\Controllers\Devicesensor::class . ':showAll');
           $devicesensors->group("/new", function (RouteCollectorProxy $devicesensorNew)
           {
             $devicesensorNew->map(['GET'], '', \App\v1\Controllers\Devicesensor::class . ':showNewItem');
@@ -3880,7 +3880,7 @@ final class Route
 
         $devices->group('/devicesimcards', function (RouteCollectorProxy $devicesimcards)
         {
-          $devicesimcards->map(['GET'], '', \App\v1\Controllers\Devicesimcard::class . ':getAll');
+          $devicesimcards->map(['GET'], '', \App\v1\Controllers\Devicesimcard::class . ':showAll');
           $devicesimcards->group("/new", function (RouteCollectorProxy $simcardNew)
           {
             $simcardNew->map(['GET'], '', \App\v1\Controllers\Devicesimcard::class . ':showNewItem');
@@ -3904,7 +3904,7 @@ final class Route
 
         $devices->group('/devicegraphiccards', function (RouteCollectorProxy $devicegraphiccards)
         {
-          $devicegraphiccards->map(['GET'], '', \App\v1\Controllers\Devicegraphiccard::class . ':getAll');
+          $devicegraphiccards->map(['GET'], '', \App\v1\Controllers\Devicegraphiccard::class . ':showAll');
           $devicegraphiccards->group("/new", function (RouteCollectorProxy $graphiccardNew)
           {
             $graphiccardNew->map(['GET'], '', \App\v1\Controllers\Devicegraphiccard::class . ':showNewItem');
@@ -3928,7 +3928,7 @@ final class Route
 
         $devices->group('/devicemotherboards', function (RouteCollectorProxy $devicemotherboards)
         {
-          $devicemotherboards->map(['GET'], '', \App\v1\Controllers\Devicemotherboard::class . ':getAll');
+          $devicemotherboards->map(['GET'], '', \App\v1\Controllers\Devicemotherboard::class . ':showAll');
           $devicemotherboards->group("/new", function (RouteCollectorProxy $motherboardNew)
           {
             $motherboardNew->map(['GET'], '', \App\v1\Controllers\Devicemotherboard::class . ':showNewItem');
@@ -3952,7 +3952,7 @@ final class Route
 
         $devices->group('/devicenetworkcards', function (RouteCollectorProxy $devicenetworkcards)
         {
-          $devicenetworkcards->map(['GET'], '', \App\v1\Controllers\Devicenetworkcard::class . ':getAll');
+          $devicenetworkcards->map(['GET'], '', \App\v1\Controllers\Devicenetworkcard::class . ':showAll');
           $devicenetworkcards->group("/new", function (RouteCollectorProxy $networkcardNew)
           {
             $networkcardNew->map(['GET'], '', \App\v1\Controllers\Devicenetworkcard::class . ':showNewItem');
@@ -3976,7 +3976,7 @@ final class Route
 
         $devices->group('/devicesoundcards', function (RouteCollectorProxy $devicesoundcards)
         {
-          $devicesoundcards->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':getAll');
+          $devicesoundcards->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':showAll');
           $devicesoundcards->group("/new", function (RouteCollectorProxy $soundcardNew)
           {
             $soundcardNew->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':showNewItem');
@@ -4000,7 +4000,7 @@ final class Route
 
         $devices->group('/devicegenerics', function (RouteCollectorProxy $devicegenerics)
         {
-          $devicegenerics->map(['GET'], '', \App\v1\Controllers\Devicegeneric::class . ':getAll');
+          $devicegenerics->map(['GET'], '', \App\v1\Controllers\Devicegeneric::class . ':showAll');
           $devicegenerics->group("/new", function (RouteCollectorProxy $genericNew)
           {
             $genericNew->map(['GET'], '', \App\v1\Controllers\Devicegeneric::class . ':showNewItem');
@@ -4024,7 +4024,7 @@ final class Route
 
         $devices->group('/devicecontrols', function (RouteCollectorProxy $devicecontrols)
         {
-          $devicecontrols->map(['GET'], '', \App\v1\Controllers\Devicecontrol::class . ':getAll');
+          $devicecontrols->map(['GET'], '', \App\v1\Controllers\Devicecontrol::class . ':showAll');
           $devicecontrols->group("/new", function (RouteCollectorProxy $controlNew)
           {
             $controlNew->map(['GET'], '', \App\v1\Controllers\Devicecontrol::class . ':showNewItem');
@@ -4048,7 +4048,7 @@ final class Route
 
         $devices->group('/deviceharddrives', function (RouteCollectorProxy $deviceharddrives)
         {
-          $deviceharddrives->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':getAll');
+          $deviceharddrives->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':showAll');
           $deviceharddrives->group("/new", function (RouteCollectorProxy $harddriveNew)
           {
             $harddriveNew->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':showNewItem');
@@ -4072,7 +4072,7 @@ final class Route
 
         $devices->group('/devicefirmwares', function (RouteCollectorProxy $devicefirmwares)
         {
-          $devicefirmwares->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':getAll');
+          $devicefirmwares->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':showAll');
           $devicefirmwares->group("/new", function (RouteCollectorProxy $dfNew)
           {
             $dfNew->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':showNewItem');
@@ -4096,7 +4096,7 @@ final class Route
 
         $devices->group('/devicefirmwaretypes', function (RouteCollectorProxy $devicefirmwaretypes)
         {
-          $devicefirmwaretypes->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':getAll');
+          $devicefirmwaretypes->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':showAll');
           $devicefirmwaretypes->group("/new", function (RouteCollectorProxy $dftypeNew)
           {
             $dftypeNew->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':showNewItem');
@@ -4117,7 +4117,7 @@ final class Route
 
         $devices->group('/devicedrives', function (RouteCollectorProxy $devicedrives)
         {
-          $devicedrives->map(['GET'], '', \App\v1\Controllers\Devicedrive::class . ':getAll');
+          $devicedrives->map(['GET'], '', \App\v1\Controllers\Devicedrive::class . ':showAll');
           $devicedrives->group("/new", function (RouteCollectorProxy $driveNew)
           {
             $driveNew->map(['GET'], '', \App\v1\Controllers\Devicedrive::class . ':showNewItem');
@@ -4141,7 +4141,7 @@ final class Route
 
         $devices->group('/devicememories', function (RouteCollectorProxy $devicememories)
         {
-          $devicememories->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':getAll');
+          $devicememories->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':showAll');
           $devicememories->group("/new", function (RouteCollectorProxy $memoryNew)
           {
             $memoryNew->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':showNewItem');
@@ -4165,7 +4165,7 @@ final class Route
 
         $devices->group('/deviceprocessors', function (RouteCollectorProxy $deviceprocessors)
         {
-          $deviceprocessors->map(['GET'], '', \App\v1\Controllers\Deviceprocessor::class . ':getAll');
+          $deviceprocessors->map(['GET'], '', \App\v1\Controllers\Deviceprocessor::class . ':showAll');
           $deviceprocessors->group("/new", function (RouteCollectorProxy $processorNew)
           {
             $processorNew->map(['GET'], '', \App\v1\Controllers\Deviceprocessor::class . ':showNewItem');
@@ -4189,7 +4189,7 @@ final class Route
 
         $devices->group('/devicepcis', function (RouteCollectorProxy $devicepcis)
         {
-          $devicepcis->map(['GET'], '', \App\v1\Controllers\Devicepci::class . ':getAll');
+          $devicepcis->map(['GET'], '', \App\v1\Controllers\Devicepci::class . ':showAll');
           $devicepcis->group("/new", function (RouteCollectorProxy $pciNew)
           {
             $pciNew->map(['GET'], '', \App\v1\Controllers\Devicepci::class . ':showNewItem');
@@ -4214,7 +4214,7 @@ final class Route
 
       $view->group('/notificationtemplates', function (RouteCollectorProxy $notificationtemplates)
       {
-        $notificationtemplates->map(['GET'], '', \App\v1\Controllers\Notificationtemplate::class . ':getAll');
+        $notificationtemplates->map(['GET'], '', \App\v1\Controllers\Notificationtemplate::class . ':showAll');
         $notificationtemplates->group("/new", function (RouteCollectorProxy $ntemplateNew)
         {
           $ntemplateNew->map(['GET'], '', \App\v1\Controllers\Notificationtemplate::class . ':showNewItem');
@@ -4246,7 +4246,7 @@ final class Route
 
       $view->group('/notifications', function (RouteCollectorProxy $notifications)
       {
-        $notifications->map(['GET'], '', \App\v1\Controllers\Notification::class . ':getAll');
+        $notifications->map(['GET'], '', \App\v1\Controllers\Notification::class . ':showAll');
         $notifications->group("/new", function (RouteCollectorProxy $notificationNew)
         {
           $notificationNew->map(['GET'], '', \App\v1\Controllers\Notification::class . ':showNewItem');
@@ -4268,7 +4268,7 @@ final class Route
 
       $view->group('/slms', function (RouteCollectorProxy $slms)
       {
-        $slms->map(['GET'], '', \App\v1\Controllers\Slm::class . ':getAll');
+        $slms->map(['GET'], '', \App\v1\Controllers\Slm::class . ':showAll');
         $slms->group("/new", function (RouteCollectorProxy $slmNew)
         {
           $slmNew->map(['GET'], '', \App\v1\Controllers\Slm::class . ':showNewItem');
@@ -4292,7 +4292,7 @@ final class Route
 
       $view->group('/fieldunicities', function (RouteCollectorProxy $fieldunicities)
       {
-        $fieldunicities->map(['GET'], '', \App\v1\Controllers\Fieldunicity::class . ':getAll');
+        $fieldunicities->map(['GET'], '', \App\v1\Controllers\Fieldunicity::class . ':showAll');
         $fieldunicities->group("/new", function (RouteCollectorProxy $unicityNew)
         {
           $unicityNew->map(['GET'], '', \App\v1\Controllers\Fieldunicity::class . ':showNewItem');
@@ -4314,7 +4314,7 @@ final class Route
 
       $view->group('/crontasks', function (RouteCollectorProxy $crontasks)
       {
-        $crontasks->map(['GET'], '', \App\v1\Controllers\Crontask::class . ':getAll');
+        $crontasks->map(['GET'], '', \App\v1\Controllers\Crontask::class . ':showAll');
         $crontasks->map(['POST'], '', \App\v1\Controllers\Crontask::class . ':postItem');
         $crontasks->group("/{id:[0-9]+}", function (RouteCollectorProxy $crontaskId)
         {
@@ -4333,7 +4333,7 @@ final class Route
 
       $view->group('/links', function (RouteCollectorProxy $links)
       {
-        $links->map(['GET'], '', \App\v1\Controllers\Link::class . ':getAll');
+        $links->map(['GET'], '', \App\v1\Controllers\Link::class . ':showAll');
         $links->group("/new", function (RouteCollectorProxy $linkNew)
         {
           $linkNew->map(['GET'], '', \App\v1\Controllers\Link::class . ':showNewItem');
@@ -4356,7 +4356,7 @@ final class Route
 
       $view->group('/mailcollectors', function (RouteCollectorProxy $mailcollectors)
       {
-        $mailcollectors->map(['GET'], '', \App\v1\Controllers\Mailcollector::class . ':getAll');
+        $mailcollectors->map(['GET'], '', \App\v1\Controllers\Mailcollector::class . ':showAll');
         $mailcollectors->group("/new", function (RouteCollectorProxy $collectorNew)
         {
           $collectorNew->map(['GET'], '', \App\v1\Controllers\Mailcollector::class . ':showNewItem');
@@ -4381,7 +4381,7 @@ final class Route
 
       $view->group('/authssos', function (RouteCollectorProxy $authssos)
       {
-        $authssos->map(['GET'], '', \App\v1\Controllers\Authsso::class . ':getAll');
+        $authssos->map(['GET'], '', \App\v1\Controllers\Authsso::class . ':showAll');
         $authssos->group("/new", function (RouteCollectorProxy $ssonew)
         {
           $ssonew->map(['GET'], '', \App\v1\Controllers\Authsso::class . ':showNewItem');
@@ -4404,7 +4404,7 @@ final class Route
 
       $view->group('/authldaps', function (RouteCollectorProxy $ldaps)
       {
-        $ldaps->map(['GET'], '', \App\v1\Controllers\Authldap::class . ':getAll');
+        $ldaps->map(['GET'], '', \App\v1\Controllers\Authldap::class . ':showAll');
         $ldaps->group("/new", function (RouteCollectorProxy $ldapNew)
         {
           $ldapNew->map(['GET'], '', \App\v1\Controllers\Authldap::class . ':showNewItem');
@@ -4425,7 +4425,7 @@ final class Route
 
       $view->group('/forms', function (RouteCollectorProxy $forms)
       {
-        $forms->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':getAll');
+        $forms->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':showAll');
         // $forms->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':postItem');
 
         // $forms->group("/new", function (RouteCollectorProxy $formNew)
@@ -4449,7 +4449,7 @@ final class Route
       });
       $view->group('/sections', function (RouteCollectorProxy $sections)
       {
-        $sections->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':getAll');
+        $sections->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':showAll');
         // $sections->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':postItem');
 
         // $sections->group("/new", function (RouteCollectorProxy $sectionNew)
@@ -4472,7 +4472,7 @@ final class Route
       });
       $view->group('/questions', function (RouteCollectorProxy $questions)
       {
-        $questions->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':getAll');
+        $questions->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showAll');
         // $questions->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':postItem');
 
         // $questions->group("/new", function (RouteCollectorProxy $questionNew)
@@ -4495,7 +4495,7 @@ final class Route
       });
       $view->group('/answers', function (RouteCollectorProxy $answers)
       {
-        $answers->map(['GET'], '', \App\v1\Controllers\Forms\Answer::class . ':getAll');
+        // $answers->map(['GET'], '', \App\v1\Controllers\Forms\Answer::class . ':showAll');
         // $answers->map(['POST'], '', \App\v1\Controllers\Forms\Answer::class . ':postItem');
 
         // $answers->group("/new", function (RouteCollectorProxy $answerNew)

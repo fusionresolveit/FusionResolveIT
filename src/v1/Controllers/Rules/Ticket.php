@@ -7,6 +7,7 @@ namespace App\v1\Controllers\Rules;
 use App\DataInterface\PostRuleAction;
 use App\DataInterface\PostRuleCriterium;
 use App\Traits\ProcessRules;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -19,6 +20,7 @@ final class Ticket extends \App\v1\Controllers\Common
 
   // Display
   use ShowItem;
+  use ShowAll;
 
   /** @var string */
   protected $criteriaDefinitionModel = '\App\v1\Controllers\Rules\Criteria\Ticket';

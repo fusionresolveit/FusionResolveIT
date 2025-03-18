@@ -17,30 +17,30 @@
       <tr>
         <td>
           {% if supplier.url != '' %}
-              <a href="{{ supplier.url }}">{{ supplier.name }}</a>
+            <a href="{{ supplier.url }}">{{ supplier.name }}</a>
           {% else %}
-              {{ supplier.name }}
+            <span>{{ supplier.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if supplier.entity_url != '' %}
-              <a href="{{ supplier.entity_url }}">{{ supplier.entity }}</a>
+            <a href="{{ supplier.entity_url }}">{{ supplier.entity }}</a>
           {% else %}
-              {{ supplier.entity }}
+            <span>{{ supplier.entity }}</span>
           {% endif %}
         </td>
         <td>
           {% if supplier.type_url != '' %}
-              <a href="{{ supplier.type_url }}">{{ supplier.type }}</a>
+            <a href="{{ supplier.type_url }}">{{ supplier.type }}</a>
           {% else %}
-              {{ supplier.type }}
+            <span>{{ supplier.type }}</span>
           {% endif %}
         </td>
         <td>{{ supplier.phone }}</td>
         <td>{{ supplier.fax }}</td>
         <td>
           {% if supplier.website != '' %}
-              <a href="{{ supplier.website }}" target="_blank">{{ supplier.website }}</a>
+            <a href="{{ supplier.website }}" target="_blank">{{ supplier.website }}</a>
           {% endif %}
         </td>
       </tr>

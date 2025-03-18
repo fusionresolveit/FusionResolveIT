@@ -1,37 +1,37 @@
 <div class="field">
   {% if item.type != 'boolean' %}
-    <label>{{ item.title|raw }}</label>
+    <label data-cy="form-field-{{ item.name }}-label">{{ item.title|raw }}</label>
   {% endif %}
   {% if item.type == 'input' %}
     {% if item.readonly %}
       <div class="ui transparent input">
-        <input type="text" readonly value="{{ item.value }}">
+        <input data-cy="form-field-{{ item.name }}" type="text" readonly value="{{ item.value }}">
       </div>
     {% else %}
-      <input type="text" name="{{ item.name }}" value="{{ item.value }}">
+      <input data-cy="form-field-{{ item.name }}" type="text" name="{{ item.name }}" value="{{ item.value }}">
     {% endif %}
   {% endif %}
 
   {% if item.type == 'inputpassword' %}
-    <input type="password" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
+    <input data-cy="form-field-{{ item.name }}" type="password" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
   {% endif %}
 
   {% if item.type == 'dropdown' %}
     {% if item.readonly %}
       {% for key, val in item.values %}
         {% if key == item.value %}
-          <div class="item {{ val.class }}" data-value="{{ key }}">
+          <div data-cy="form-field-{{ item.name }}" class="item {{ val.class }}" data-value="{{ key }}">
             {% if val.icon is defined %}
               {% if val.icon != '' %}
                 <i class="{{ val.color }} {{ val.icon }} icon"></i>
               {% endif %}
             {% endif %}
-            {{ val.title }}
+            <span>{{ val.title }}</span>
           </div>
         {% endif %}
       {% endfor %}
     {% else %}
-      <div class="ui search selection dropdown">
+      <div data-cy="form-field-{{ item.name }}" class="ui search selection dropdown">
         <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
         <i class="dropdown icon"></i>
         <div class="default text">Select value...</div>
@@ -43,7 +43,7 @@
                   <i class="{{ val.color }} {{ val.icon }} icon"></i>
                 {% endif %}
               {% endif %}
-              {{ val.title }}
+              <span>{{ val.title }}</span>
           </div>
           {% endfor %}
         </div>
@@ -61,6 +61,7 @@
         class="ui {% if item.multiple %}multiple {% endif %}selection dropdown search remotedropdown"
         data-url="{{ basePath }}/view/dropdown"
         data-itemtype="{{ item.itemtype }}"
+        data-cy="form-field-{{ item.name }}"
       >
         <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
         <i class="dropdown icon"></i>
@@ -84,7 +85,7 @@
 
   {% if item.type == 'textarea' %}
     <div id="editor{{ item.name }}">{{ item.value }}</div>
-    <textarea rows="3" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} style="display: none">{{ item.value }}</textarea>
+    <textarea data-cy="form-field-{{ item.name }}" rows="3" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} style="display: none">{{ item.value }}</textarea>
 <script type="text/javascript">
 editor{{ item.name }} = new Editor({
   el: document.querySelector('#editor{{ item.name }}'),
@@ -101,7 +102,7 @@ editor{{ item.name }} = new Editor({
   {% endif %}
 
   {% if item.type == 'boolean' %}
-    <div class="ui toggle {% if item.readonly %}read-only{% endif %} checkbox">
+    <div data-cy="form-field-{{ item.name }}" class="ui toggle {% if item.readonly %}read-only{% endif %} checkbox">
       <input type="hidden" name="{{ item.name }}" value="off">
       <input type="checkbox" name="{{ item.name }}" {% if item.value %}checked{% endif %}>
       <label>{{ item.title }}</label>
@@ -121,24 +122,24 @@ editor{{ item.name }} = new Editor({
   {% if item.type == 'date' %}
     {% if item.readonly %}
       <div class="ui transparent input">
-        <input type="text" readonly value="{{ item.value }}">
+        <input data-cy="form-field-{{ item.name }}" type="text" readonly value="{{ item.value }}">
       </div>
     {% else %}
-      <input type="date" name="{{ item.name }}" value="{{ item.value }}">
+      <input data-cy="form-field-{{ item.name }}" type="date" name="{{ item.name }}" value="{{ item.value }}">
     {% endif %}
   {% endif %}
 
   {% if item.type == 'email' %}
-    <input type="email" name="{{ item.name }}" {% if item.readonly %}readonly"{% endif %} value="{{ item.value }}">
+    <input data-cy="form-field-{{ item.name }}" type="email" name="{{ item.name }}" {% if item.readonly %}readonly"{% endif %} value="{{ item.value }}">
   {% endif %}
 
   {% if item.type == 'datetime' %}
     {% if item.readonly %}
       <div class="ui transparent input">
-        <input type="text" readonly value="{{ item.value }}">
+        <input data-cy="form-field-{{ item.name }}" type="text" readonly value="{{ item.value }}">
       </div>
     {% else %}
-      <input type="text" name="{{ item.name }}" value="{{ item.value }}">
+      <input data-cy="form-field-{{ item.name }}" type="text" name="{{ item.name }}" value="{{ item.value }}">
     {% endif %}
   {% endif %}
 </div>

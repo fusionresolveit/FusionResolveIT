@@ -1,39 +1,37 @@
-<div class="ui sticky pageheader">
+<div data-cy="form-header-id" class="ui pageheader">
   <div style="height: 1px"></div>
   <div class="ui {{ header.color }} dividing header">
     <div style="display: flex; justify-content: space-between;">
       <div>
         <i class="big {{ header.icon }} icon"></i>
         <div class="content">
-          {{ header.name }}
+          <span data-cy="form-header-name">{{ header.name }}</span>
           |
           {% if header.id > 0 %}
-            id <i>{{ header.id }}</i>
+            <span>id </span><i data-cy="form-header-id">{{ header.id }}</i>
             {% if data.fields is defined %}
               {% for item in data.fields %}
                 {% if item.name == 'status' %}
                   |
-                  <span class="ui {{ item.values[item.value].color }} text">
+                  <span data-cy="form-header-status" class="ui {{ item.values[item.value].color }} text">
                     <i class="{{ item.values[item.value].icon }} icon"></i>
-                    {{ item.values[item.value].title }}
+                    <span data-cy="form-header-status-value">{{ item.values[item.value].title }}</span>
                   </span>
                 {% endif %}
               {% endfor %}
             {% endif %}
           {% else %}
-            New
+            <span>New</span>
           {% endif %}
-          <div class="sub header">
-            {{ data.title }}
-          </div>
+          <div data-cy="form-header-title" class="sub header">{{ data.title }}</div>
         </div>
       </div>
       {% if header.id > 0 %}
         <span style="float: right;">
-          <a href="{{ basePath }}/view/{{ header.route }}/new">
+          <a data-cy="form-button-new" href="{{ basePath }}/view/{{ header.route }}/new">
             <button class="ui labeled icon button" type="button">
               <i class="plus icon"></i>
-              {{ translation.newbutton }}
+              <span>{{ translation.newbutton }}</span>
             </button>
           </a>
           {% if not header.trashed %}
@@ -41,30 +39,31 @@
               class="ui labeled icon primary button"
               type="submit"
               form="myform"
+              data-cy="form-button-save"
             >
               <i class="save icon"></i>
-              {{ translation.savebutton }}
+              <span>{{ translation.savebutton }}</span>
             </button>
           {% endif %}
           {% if header.id > 0 %}
             {% if header.trashed %}
-              <a href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/restore">
+              <a data-cy="form-button-restore" href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/restore">
                 <button class="ui labeled icon green button" type="button">
                   <i class="trash restore icon"></i>
-                  Restore
+                  <span>Restore</span>
                 </button>
               </a>
-              <a href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
+              <a data-cy="form-button-delete" href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
                 <button class="ui labeled icon red button" type="button">
                   <i class="eraser icon"></i>
-                  Delete
+                  <span>Delete</span>
                 </button>
               </a>
             {% else %}
-              <a href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
+              <a data-cy="form-button-softdelete" href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
                 <button class="ui labeled icon basic red  button" type="button">
                   <i class="trash icon"></i>
-                  Soft delete
+                  <span>Soft delete</span>
                 </button>
               </a>
             {% endif %}
@@ -78,9 +77,10 @@
             value="new"
             type="submit"
             form="myform"
+            data-cy="form-button-save-new"
           >
             <i class="save icon"></i>
-            {{ translation.newbutton }}
+            <span>{{ translation.newbutton }}</span>
           </button>
           <button
             class="ui labeled icon primary button"
@@ -88,8 +88,9 @@
             value="view"
             type="submit"
             form="myform"
+            data-cy="form-button-save-viewid"
           >
-            <i class="save icon"></i>Voir
+            <i class="save icon"></i><span>Voir</span>
           </button>
         </span>
       {% endif %}
@@ -97,7 +98,7 @@
   </div>
 </div>
 {% if relatedPages|length > 0 %}
-  <div class="ui wrapped labeled icon wrapping menu related">
+  <div data-cy="form-relatedpages" class="ui wrapped labeled icon wrapping menu related">
     {% for item in relatedPages %}
       {% if item.link != '' %}
         <a class="item" href="{{ item.link }}">

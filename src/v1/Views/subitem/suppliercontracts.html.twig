@@ -17,24 +17,24 @@
       <tr>
         <td>
           {% if contract.url != '' %}
-              <a href="{{ contract.url }}">{{ contract.name }}</a>
+            <a href="{{ contract.url }}">{{ contract.name }}</a>
           {% else %}
-              {{ contract.name }}
+            <span>{{ contract.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if contract.entity_url != '' %}
-              <a href="{{ contract.entity_url }}">{{ contract.entity }}</a>
+            <a href="{{ contract.entity_url }}">{{ contract.entity }}</a>
           {% else %}
-              {{ contract.entity }}
+            <span>{{ contract.entity }}</span>
           {% endif %}
         </td>
         <td>{{ contract.number }}</td>
         <td>
           {% if contract.contracttype_url != '' %}
-              <a href="{{ contract.contracttype_url }}">{{ contract.type }}</a>
+            <a href="{{ contract.contracttype_url }}">{{ contract.type }}</a>
           {% else %}
-              {{ contract.type }}
+            <span>{{ contract.type }}</span>
           {% endif %}
         </td>
         <td>

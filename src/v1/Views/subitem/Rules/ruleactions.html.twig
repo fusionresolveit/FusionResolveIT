@@ -22,7 +22,7 @@
 
       <div class="field">
         <label>action</label>
-        {{ action.action_type }}
+        <span>{{ action.action_type }}</span>
       </div>
       {% set item = action.value %}
       {{ include('fields.html.twig') }}

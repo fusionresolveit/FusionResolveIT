@@ -33,8 +33,8 @@
           </div>
         </a>
         <div class="item">
-          {{ header.username }}
-          <a href="{{ basePath }}/view/logout" style="float: right">
+          <span data-cy="menu-user-name">{{ header.username }}</span>
+          <a href="{{ basePath }}/view/logout" style="float: right" data-cy="menu-user-logout">
             <i class="sign out alternate large icon"></i>
           </a>
         </div>
@@ -87,14 +87,14 @@
         </div>
 
         <div class="item">
-          Menu
-          <div class="menu">
+          <span data-cy="menu-title">Menu</span>
+          <div data-cy="menu-items" class="menu">
 
             {% for item in header.menu %}
               <div class="item">
                 <div class="header menulink" style="cursor:pointer" data-menuid="{{ item.id }}">
                   <i class="{{ item.icon }} icon"></i>
-                  {{ item.name }}
+                  <span>{{ item.name }}</span>
                   <div class="ui right floated label" style="float: inline-end;">{{ item.sub|length }}</div>
                 </div>
 

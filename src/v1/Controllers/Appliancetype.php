@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostStandardentity;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -14,6 +15,7 @@ final class Appliancetype extends Common implements \App\Interfaces\Crud
 {
   // Display
   use ShowItem;
+  use ShowAll;
 
   // Sub
   use History;

@@ -19,16 +19,16 @@
       <tr>
         <td>
           {% if contact.url != '' %}
-              <a href="{{ contact.url }}">{{ contact.name }}</a>
+            <a href="{{ contact.url }}">{{ contact.name }}</a>
           {% else %}
-              {{ contact.name }}
+            <span>{{ contact.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if contact.entity_url != '' %}
-              <a href="{{ contact.entity_url }}">{{ contact.entity }}</a>
+            <a href="{{ contact.entity_url }}">{{ contact.entity }}</a>
           {% else %}
-              {{ contact.entity }}
+            <span>{{ contact.entity }}</span>
           {% endif %}
         </td>
         <td>{{ contact.phone }}</td>
@@ -42,9 +42,9 @@
         </td>
         <td>
           {% if contact.type_url != '' %}
-              <a href="{{ contact.type_url }}">{{ contact.type }}</a>
+            <a href="{{ contact.type_url }}">{{ contact.type }}</a>
           {% else %}
-              {{ contact.type }}
+            <span>{{ contact.type }}</span>
           {% endif %}
         </td>
       </tr>

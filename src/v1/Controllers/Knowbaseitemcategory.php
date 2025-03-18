@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostKnowbaseitemcategory;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use App\Traits\Subs\History;
@@ -17,6 +18,7 @@ final class Knowbaseitemcategory extends Common
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   // Sub
   use History;

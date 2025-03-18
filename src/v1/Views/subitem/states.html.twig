@@ -30,16 +30,16 @@
       <tr>
         <td>
           {% if state.url != '' %}
-              <a href="{{ state.url }}">{{ state.name }}</a>
+            <a href="{{ state.url }}">{{ state.name }}</a>
           {% else %}
-              {{ state.name }}
+            <span>{{ state.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if state.entity_url != '' %}
-              <a href="{{ state.entity_url }}">{{ state.entity }}</a>
+            <a href="{{ state.entity_url }}">{{ state.entity }}</a>
           {% else %}
-              {{ state.entity }}
+            <span>{{ state.entity }}</span>
           {% endif %}
         </td>
         {% if state.is_visible_computer %}
@@ -49,7 +49,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_computer_val }}
+        <span>{{ state.is_visible_computer_val }}</span>
         </td>
         {% if state.is_visible_monitor %}
           <td class="positive">
@@ -58,7 +58,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_monitor_val }}
+        <span>{{ state.is_visible_monitor_val }}</span>
         </td>
         {% if state.is_visible_networkequipment %}
           <td class="positive">
@@ -67,7 +67,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_networkequipment_val }}
+        <span>{{ state.is_visible_networkequipment_val }}</span>
         </td>
         {% if state.is_visible_peripheral %}
           <td class="positive">
@@ -76,7 +76,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_peripheral_val }}
+        <span>{{ state.is_visible_peripheral_val }}</span>
         </td>
         {% if state.is_visible_phone %}
           <td class="positive">
@@ -85,7 +85,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_phone_val }}
+        <span>{{ state.is_visible_phone_val }}</span>
         </td>
         {% if state.is_visible_printer %}
           <td class="positive">
@@ -94,7 +94,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_printer_val }}
+        <span>{{ state.is_visible_printer_val }}</span>
         </td>
         {% if state.is_visible_softwarelicense %}
           <td class="positive">
@@ -103,7 +103,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_softwarelicense_val }}
+        <span>{{ state.is_visible_softwarelicense_val }}</span>
         </td>
         {% if state.is_visible_certificate %}
           <td class="positive">
@@ -112,7 +112,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_certificate_val }}
+        <span>{{ state.is_visible_certificate_val }}</span>
         </td>
         {% if state.is_visible_enclosure %}
           <td class="positive">
@@ -121,7 +121,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_enclosure_val }}
+        <span>{{ state.is_visible_enclosure_val }}</span>
         </td>
         {% if state.is_visible_pdu %}
           <td class="positive">
@@ -130,7 +130,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_pdu_val }}
+        <span>{{ state.is_visible_pdu_val }}</span>
         </td>
         {% if state.is_visible_line %}
           <td class="positive">
@@ -139,7 +139,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_line_val }}
+        <span>{{ state.is_visible_line_val }}</span>
         </td>
         {% if state.is_visible_rack %}
           <td class="positive">
@@ -148,7 +148,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_rack_val }}
+        <span>{{ state.is_visible_rack_val }}</span>
         </td>
         {% if state.is_visible_softwareversion %}
           <td class="positive">
@@ -157,7 +157,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_softwareversion_val }}
+        <span>{{ state.is_visible_softwareversion_val }}</span>
         </td>
         {% if state.is_visible_cluster %}
           <td class="positive">
@@ -166,7 +166,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_cluster_val }}
+        <span>{{ state.is_visible_cluster_val }}</span>
         </td>
         {% if state.is_visible_contract %}
           <td class="positive">
@@ -175,7 +175,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_contract_val }}
+        <span>{{ state.is_visible_contract_val }}</span>
         </td>
         {% if state.is_visible_appliance %}
           <td class="positive">
@@ -184,7 +184,7 @@
           <td class="negative">
           <i class="times circle outline icon"></i>
         {% endif %}
-        {{ state.is_visible_appliance_val }}
+        <span>{{ state.is_visible_appliance_val }}</span>
         </td>
         <td>{{ state.comment }}</td>
         </td>

@@ -17,49 +17,49 @@
         <tr>
           <td>
             {% if user.url != '' %}
-                <a href="{{ user.url }}">{{ user.name }}</a>
+              <a href="{{ user.url }}">{{ user.name }}</a>
             {% else %}
-                {{ user.name }}
+              <span>{{ user.name }}</span>
             {% endif %}
           </td>
           {% if user.auto %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ user.auto_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ user.auto_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ user.auto_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ user.auto_val }}</span>
           {% endif %}
           </td>
           {% if user.is_manager %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ user.is_manager_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ user.is_manager_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ user.is_manager_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ user.is_manager_val }}</span>
           {% endif %}
           </td>
           {% if user.is_userdelegate %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ user.is_userdelegate_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ user.is_userdelegate_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ user.is_userdelegate_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ user.is_userdelegate_val }}</span>
           {% endif %}
           </td>
           {% if user.is_active %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ user.is_active_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ user.is_active_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ user.is_active_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ user.is_active_val }}</span>
           {% endif %}
           </td>
         </tr>
@@ -85,9 +85,9 @@
           <tr>
             <td>
               {% if user.url != '' %}
-                  <a href="{{ user.url }}">{{ user.name }}</a>
+                <a href="{{ user.url }}">{{ user.name }}</a>
               {% else %}
-                  {{ user.name }}
+                <span>{{ user.name }}</span>
               {% endif %}
             </td>
             {% if user.is_dynamic %}
@@ -97,7 +97,7 @@
               <td class="negative">
               <i class="times circle outline icon"></i>
             {% endif %}
-            {{ user.is_dynamic_val }}
+            <span>{{ user.is_dynamic_val }}</span>
             </td>
             {% if user.is_recursive %}
               <td class="positive">
@@ -106,7 +106,7 @@
               <td class="negative">
               <i class="times circle outline icon"></i>
             {% endif %}
-            {{ user.is_recursive_val }}
+            <span>{{ user.is_recursive_val }}</span>
             </td>
           </tr>
         {% endfor %}

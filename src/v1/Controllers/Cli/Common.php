@@ -32,6 +32,10 @@ class Common
 
     $terminal = new Terminal();
     $width = $terminal->width();
+    if ($width < 80)
+    {
+      $width = 80;
+    }
     $spaces = str_repeat(' ', ($width - 80));
 
     $justGreen = ['second' => ['fg' => \Ahc\Cli\Output\Color::GREEN]];

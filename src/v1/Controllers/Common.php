@@ -59,50 +59,6 @@ abstract class Common
   }
 
   /**
-   * @param array<string, string> $args
-   */
-  public function getAll(Request $request, Response $response, array $args): Response
-  {
-    /** @var \App\Models\Common */
-    $item = new $this->model();
-    return $this->commonGetAll($request, $response, $args, $item);
-  }
-
-  /**
-   * @template C of \App\Models\Common
-   * @param C $item
-   * @param array<string, string> $args
-   */
-  protected function commonGetAll(Request $request, Response $response, array $args, $item): Response
-  {
-    $params = $request->getQueryParams();
-    $page = 1;
-    $view = Twig::fromRequest($request);
-    if (!$this->canRightRead())
-    {
-      throw new \Exception('Unauthorized access', 401);
-    }
-
-    $search = new \App\v1\Controllers\Search();
-    $url = $this->getUrlWithoutQuery($request);
-    if (isset($params['page']) && is_numeric($params['page']))
-    {
-      $page = (int) $params['page'];
-    }
-
-    $fields = $search->getData($item, $url, $page, $params);
-
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($item, $request);
-    $viewData->addHeaderTitle('Fusion Resolve IT - ' . $item->getTitle(2));
-
-    $viewData->addData('fields', $fields);
-
-    $viewData->addData('definition', $item->getDefinitions());
-
-    return $view->render($response, 'search.html.twig', (array)$viewData);
-  }
-
-  /**
    * @param \App\Models\Ticket|\App\Models\Change $item
    * @param array<string, string> $args
    */

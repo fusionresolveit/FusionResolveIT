@@ -14,16 +14,16 @@
       <tr>
         <td>
           {% if entity.url != '' %}
-              <a href="{{ entity.url }}">{{ entity.name }}</a>
+            <a href="{{ entity.url }}">{{ entity.name }}</a>
           {% else %}
-              {{ entity.name }}
+            <span>{{ entity.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if entity.entity_url != '' %}
-              <a href="{{ entity.entity_url }}">{{ entity.entity }}</a>
+            <a href="{{ entity.entity_url }}">{{ entity.entity }}</a>
           {% else %}
-              {{ entity.entity }}
+            <span>{{ entity.entity }}</span>
           {% endif %}
         </td>
         <td>{{ entity.comment }}</td>

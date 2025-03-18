@@ -12,9 +12,9 @@
       <tr>
         <td>
           {% if dcroom.url != '' %}
-              <a href="{{ dcroom.url }}">{{ dcroom.name }}</a>
+            <a href="{{ dcroom.url }}">{{ dcroom.name }}</a>
           {% else %}
-              {{ dcroom.name }}
+            <span>{{ dcroom.name }}</span>
           {% endif %}
         </td>
       </tr>

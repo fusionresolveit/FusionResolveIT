@@ -14,9 +14,9 @@
         <tr>
           <td>
             {% if item.url != '' %}
-                <a href="{{ item.url }}">{{ item.name }}</a>
+              <a href="{{ item.url }}">{{ item.name }}</a>
             {% else %}
-                {{ item.name }}
+              <span>{{ item.name }}</span>
             {% endif %}
           </td>
         </tr>
@@ -42,9 +42,9 @@
           <td>{{ item.type }}</td>
           <td>
             {% if item.url != '' %}
-                <a href="{{ item.url }}">{{ item.name }}</a>
+              <a href="{{ item.url }}">{{ item.name }}</a>
             {% else %}
-                {{ item.name }}
+              <span>{{ item.name }}</span>
             {% endif %}
           </td>
           <td>{{ item.serial_number }}</td>
@@ -59,7 +59,7 @@
                 {% endif %}
               {% endfor %}
             {% else %}
-              {{ item.relations }}
+              <span>{{ item.relations }}</span>
             {% endif %}
           </td>
         </tr>
@@ -85,16 +85,16 @@
           <td>{{ item.type }}</td>
           <td>
             {% if item.url != '' %}
-                <a href="{{ item.url }}">{{ item.name }}</a>
+              <a href="{{ item.url }}">{{ item.name }}</a>
             {% else %}
-                {{ item.name }}
+              <span>{{ item.name }}</span>
             {% endif %}
           </td>
           <td>
             {% if item.entity_url != '' %}
-                <a href="{{ item.entity_url }}">{{ item.entity }}</a>
+              <a href="{{ item.entity_url }}">{{ item.entity }}</a>
             {% else %}
-                {{ item.entity }}
+              <span>{{ item.entity }}</span>
             {% endif %}
           </td>
           <td>{{ item.serial_number }}</td>
@@ -123,25 +123,25 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               <td>
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -178,9 +178,9 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               {% if item.type == 'computers' %}
@@ -188,9 +188,9 @@
               {% endif %}
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               {% if item.type == 'computers' %}
@@ -200,9 +200,9 @@
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -236,9 +236,9 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               {% if item.type == 'computers' %}
@@ -246,18 +246,18 @@
               {% endif %}
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               <td>
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -289,26 +289,26 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               <td>{{ item3.mac }}</td>
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               <td>
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -343,9 +343,9 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               <td>{{ item3.capacity }}</td>
@@ -354,18 +354,18 @@
               {% endif %}
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               <td>
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -400,9 +400,9 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               <td>{{ item3.size }}</td>
@@ -411,18 +411,18 @@
               {% endif %}
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               <td>
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -460,9 +460,9 @@
             <tr>
               <td>
                 {% if item3.url != '' %}
-                    <a href="{{ item3.url }}">{{ item3.name }}</a>
+                  <a href="{{ item3.url }}">{{ item3.name }}</a>
                 {% else %}
-                    {{ item3.name }}
+                  <span>{{ item3.name }}</span>
                 {% endif %}
               </td>
               {% if item.type == 'computers' %}
@@ -470,9 +470,9 @@
               {% endif %}
               <td>
                 {% if item3.location_url != '' %}
-                    <a href="{{ item3.location_url }}">{{ item3.location }}</a>
+                  <a href="{{ item3.location_url }}">{{ item3.location }}</a>
                 {% else %}
-                    {{ item3.location }}
+                  <span>{{ item3.location }}</span>
                 {% endif %}
               </td>
               {% if item.type == 'computers' %}
@@ -483,9 +483,9 @@
                 {% for document in item3.documents %}
                   <p>
                     {% if document.url != '' %}
-                        <a href="{{ document.url }}">{{ document.name }}</a>
+                      <a href="{{ document.url }}">{{ document.name }}</a>
                     {% else %}
-                        {{ document.name }}
+                      <span>{{ document.name }}</span>
                     {% endif %}
                   </p>
                 {% endfor %}
@@ -511,9 +511,9 @@
       <tr>
         <td>
           {% if item.url != '' %}
-              <a href="{{ item.url }}">{{ item.name }}</a>
+            <a href="{{ item.url }}">{{ item.name }}</a>
           {% else %}
-              {{ item.name }}
+            <span>{{ item.name }}</span>
           {% endif %}
         </td>
         <td>{{ item.position }}</td>
@@ -540,16 +540,16 @@
         <td>{{ item.type }}</td>
         <td>
           {% if item.entity_url != '' %}
-              <a href="{{ item.entity_url }}">{{ item.entity }}</a>
+            <a href="{{ item.entity_url }}">{{ item.entity }}</a>
           {% else %}
-              {{ item.entity }}
+            <span>{{ item.entity }}</span>
           {% endif %}
         </td>
         <td>
           {% if item.url != '' %}
-              <a href="{{ item.url }}">{{ item.name }}</a>
+            <a href="{{ item.url }}">{{ item.name }}</a>
           {% else %}
-              {{ item.name }}
+            <span>{{ item.name }}</span>
           {% endif %}
         </td>
         <td>{{ item.serial_number }}</td>

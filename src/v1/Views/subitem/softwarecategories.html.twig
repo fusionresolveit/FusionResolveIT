@@ -13,9 +13,9 @@
       <tr>
         <td>
           {% if softwarecategory.url != '' %}
-              <a href="{{ softwarecategory.url }}">{{ softwarecategory.name }}</a>
+            <a href="{{ softwarecategory.url }}">{{ softwarecategory.name }}</a>
           {% else %}
-              {{ softwarecategory.name }}
+            <span>{{ softwarecategory.name }}</span>
           {% endif %}
         </td>
         <td>{{ softwarecategory.comment }}</td>

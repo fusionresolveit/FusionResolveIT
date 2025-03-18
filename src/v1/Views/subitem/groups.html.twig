@@ -16,39 +16,39 @@
         <tr>
           <td>
             {% if group.url != '' %}
-                <a href="{{ group.url }}">{{ group.name }}</a>
+              <a href="{{ group.url }}">{{ group.name }}</a>
             {% else %}
-                {{ group.name }}
+              <span>{{ group.name }}</span>
             {% endif %}
           </td>
           {% if group.auto %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ group.auto_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ group.auto_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ group.auto_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ group.auto_val }}</span>
           {% endif %}
           </td>
           {% if group.is_manager %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ group.is_manager_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ group.is_manager_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ group.is_manager_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ group.is_manager_val }}</span>
           {% endif %}
           </td>
           {% if group.is_userdelegate %}
             <td class="positive">
-            <i class="check circle outline icon"></i>
-            {{ group.is_userdelegate_val }}
+              <i class="check circle outline icon"></i>
+              <span>{{ group.is_userdelegate_val }}</span>
           {% else %}
             <td class="negative">
-            <i class="times circle outline icon"></i>
-            {{ group.is_userdelegate_val }}
+              <i class="times circle outline icon"></i>
+              <span>{{ group.is_userdelegate_val }}</span>
           {% endif %}
           </td>
         </tr>
@@ -71,16 +71,16 @@
         <tr>
           <td>
             {% if group.url != '' %}
-                <a href="{{ group.url }}">{{ group.name }}</a>
+              <a href="{{ group.url }}">{{ group.name }}</a>
             {% else %}
-                {{ group.name }}
+              <span>{{ group.name }}</span>
             {% endif %}
           </td>
           <td>
             {% if group.entity_url != '' %}
-                <a href="{{ group.entity_url }}">{{ group.entity }}</a>
+              <a href="{{ group.entity_url }}">{{ group.entity }}</a>
             {% else %}
-                {{ group.entity }}
+              <span>{{ group.entity }}</span>
             {% endif %}
           </td>
           <td>{{ group.comment }}</td>

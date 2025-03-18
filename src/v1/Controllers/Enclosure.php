@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostEnclosure;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use App\Traits\Subs\Component;
@@ -23,6 +24,7 @@ final class Enclosure extends Common implements \App\Interfaces\Crud
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   // Sub
   use Document;

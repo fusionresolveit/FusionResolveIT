@@ -56,7 +56,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\v1\Controllers\Datastructures\Translation')]
 #[UsesClass('\App\v1\Controllers\Datastructures\Viewdata')]
 #[UsesClass('\App\v1\Controllers\Menu')]
-#[UsesClass('\App\v1\Controllers\Search')]
 #[UsesClass('\App\v1\Controllers\Token')]
 #[UsesClass('\App\v1\Controllers\Toolbox')]
 

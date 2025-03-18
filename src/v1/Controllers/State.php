@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostState;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use App\Traits\Subs\History;
@@ -17,6 +18,7 @@ final class State extends Common implements \App\Interfaces\Crud
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   // Sub
   use History;

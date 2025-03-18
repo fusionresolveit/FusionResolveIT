@@ -23,16 +23,16 @@
         <tr>
           <td>
             {% if problem.url != '' %}
-                <a href="{{ problem.url }}">{{ problem.title }}</a>
+              <a href="{{ problem.url }}">{{ problem.title }}</a>
             {% else %}
-                {{ problem.title }}
+              <span>{{ problem.title }}</span>
             {% endif %}
           </td>
           <td>
             {% if problem.category_url != '' %}
-                <a href="{{ problem.category_url }}">{{ problem.category }}</a>
+              <a href="{{ problem.category_url }}">{{ problem.category }}</a>
             {% else %}
-                {{ problem.category }}
+              <span>{{ problem.category }}</span>
             {% endif %}
           </td>
           {% if problem.status is iterable %}
@@ -48,10 +48,10 @@
                   {% if problem.status.icon is defined %}
                     <i class="{{ problem.status.icon }} icon"></i>
                   {% endif %}
-                  {{ problem.status.title }}
+                  <span>{{ problem.status.title }}</span>
                 </span>
               {% else %}
-                  {{ problem.status.title }}
+                <span>{{ problem.status.title }}</span>
               {% endif %}
             </td>
           {% else %}
@@ -61,9 +61,9 @@
           <td>{{ problem.last_update }}</td>
           <td>
             {% if problem.entity_url != '' %}
-                <a href="{{ problem.entity_url }}">{{ problem.entity }}</a>
+              <a href="{{ problem.entity_url }}">{{ problem.entity }}</a>
             {% else %}
-                {{ problem.entity }}
+              <span>{{ problem.entity }}</span>
             {% endif %}
           </td>
           </td>
@@ -80,10 +80,10 @@
                   {% if problem.priority.icon is defined %}
                     <i class="{{ problem.priority.icon }} icon"></i>
                   {% endif %}
-                  {{ problem.priority.title }}
+                  <span>{{ problem.priority.title }}</span>
                 </span>
               {% else %}
-                  {{ problem.priority.title }}
+                <span>{{ problem.priority.title }}</span>
               {% endif %}
             </td>
           {% else %}
@@ -93,9 +93,9 @@
           {% for requester in problem.requesters %}
             <p>
               {% if requester.url != '' %}
-                  <a href="{{ requester.url }}">{{ requester.name }}</a>
+                <a href="{{ requester.url }}">{{ requester.name }}</a>
               {% else %}
-                  {{ requester.name }}
+                <span>{{ requester.name }}</span>
               {% endif %}
             </p>
           {% endfor %}
@@ -104,9 +104,9 @@
           {% for technician in problem.technicians %}
           <p>
             {% if technician.url != '' %}
-                <a href="{{ technician.url }}">{{ technician.name }}</a>
+              <a href="{{ technician.url }}">{{ technician.name }}</a>
             {% else %}
-                {{ technician.name }}
+              <span>{{ technician.name }}</span>
             {% endif %}
           </p>
           {% endfor %}

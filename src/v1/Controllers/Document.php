@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\Subs\Associateditem;
 use App\Traits\Subs\Document as SubsDocument;
@@ -14,6 +15,7 @@ final class Document extends Common
 {
   // Display
   use ShowItem;
+  use ShowAll;
 
   // Sub
   use Note;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostAuthldap;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use LdapRecord\Container;
@@ -17,6 +18,7 @@ final class Authldap extends Common implements \App\Interfaces\Crud
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   protected $model = \App\Models\Authldap::class;
 

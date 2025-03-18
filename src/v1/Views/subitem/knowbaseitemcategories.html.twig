@@ -14,16 +14,16 @@
       <tr>
         <td>
           {% if knowbaseitemcategory.url != '' %}
-              <a href="{{ knowbaseitemcategory.url }}">{{ knowbaseitemcategory.name }}</a>
+            <a href="{{ knowbaseitemcategory.url }}">{{ knowbaseitemcategory.name }}</a>
           {% else %}
-              {{ knowbaseitemcategory.name }}
+            <span>{{ knowbaseitemcategory.name }}</span>
           {% endif %}
         </td>
         <td>
           {% if knowbaseitemcategory.entity_url != '' %}
-              <a href="{{ knowbaseitemcategory.entity_url }}">{{ knowbaseitemcategory.entity }}</a>
+            <a href="{{ knowbaseitemcategory.entity_url }}">{{ knowbaseitemcategory.entity }}</a>
           {% else %}
-              {{ knowbaseitemcategory.entity }}
+            <span>{{ knowbaseitemcategory.entity }}</span>
           {% endif %}
         </td>
         <td>{{ knowbaseitemcategory.comment }}</td>

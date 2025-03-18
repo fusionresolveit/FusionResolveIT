@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Models\Rules;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Rule extends \App\Models\Common
 {
+  use SoftDeletes;
   use CascadesDeletes;
 
   // need declare here for child class extends this class

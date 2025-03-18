@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\v1\Controllers;
 
 use App\DataInterface\PostProject;
+use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use App\Traits\Subs\Contract;
@@ -23,6 +24,7 @@ final class Project extends Common implements \App\Interfaces\Crud
   // Display
   use ShowItem;
   use ShowNewItem;
+  use ShowAll;
 
   // Sub
   use Note;
