@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\unit\Models\Definitions;
 
 /**
- * @covers \App\Models\Definitions\Event
+ * @covers \App\Models\Definitions\Audit
  * @uses \App\DataInterface\Definition
  * @uses \App\DataInterface\DefinitionCollection
  * @uses \App\v1\Controllers\Common
  * @uses \App\v1\Controllers\Dropdown
  */
-final class EventTest extends Common
+final class AuditTest extends Common
 {
-  protected $className = 'Event';
+  protected $className = 'Audit';
 }

@@ -468,10 +468,10 @@ final class Menu
             'display' => $this->getRightForModel('\App\Models\Savedsearch'),
           ],
           [
-            'name' => $translator->translatePlural('Log', 'Logs', 2),
-            'endpoint' => '/view/events',
+            'name' => $translator->translatePlural('Audit', 'Audits', 2),
+            'endpoint' => '/view/audits',
             'icon' => 'scroll',
-            'display' => $this->getRightForModel('\App\Models\Event'),
+            'display' => $this->getRightForModel('\App\Models\Audit'),
           ],
         ],
       ],

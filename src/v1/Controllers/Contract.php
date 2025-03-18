@@ -255,8 +255,8 @@ final class Contract extends Common implements \App\Interfaces\Crud
 
         $nom = $relationItem->name;
         $nom_url = $this->genereRootUrl2Link($rootUrl2, '/' . $type . '/', $relationItem->id);
-        $serial = $relationItem->serial;
-        $otherserial = $relationItem->otherserial;
+        $serial = $relationItem->getAttribute('serial');
+        $otherserial = $relationItem->getAttribute('otherserial');
 
         $first = false;
         if (array_key_exists($type, $myAttachedItems) !== true)
@@ -271,9 +271,9 @@ final class Contract extends Common implements \App\Interfaces\Crud
         }
 
         $status = '';
-        if ($relationItem->state !== null)
+        if ($relationItem->getAttribute('state') !== null)
         {
-          $status = $relationItem->state->name;
+          $status = $relationItem->getAttribute('state')->name;
         }
 
         $domain_relation = '';

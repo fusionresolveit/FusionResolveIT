@@ -309,7 +309,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
       $toDelete = array_diff($dbItems, $dataUpdate[$relationship]);
       foreach ($toDelete as $groupId)
       {
-        $ticket->{$relationship}()->detach($groupId, ['type' => $type]);
+        $ticket->{$relationship}()->detach($groupId);
       }
 
       // To add
