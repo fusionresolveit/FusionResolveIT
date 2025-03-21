@@ -13,6 +13,7 @@ $lang = new \App\Translation();
 $translator = $lang->loadLanguage('en_GB');
 $basePath = '';
 try {
+  // @phpstan-ignore method.resultUnused
   (new \App\App())->get();
 } catch (Exception $e) {
   echo "App can't be loaded\n";
