@@ -14,7 +14,6 @@ final class V20250314072916 extends AbstractMigration
     $users
       ->addColumn('security_attempt', 'integer', ['null' => false, 'default' => 0])
       ->addColumn('security_last_attempt', 'timestamp', ['null' => true])
-      ->addColumn('security_locked', 'boolean', ['null' => false, 'default' => false])
       ->save();
   }
 }

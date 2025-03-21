@@ -7,7 +7,7 @@ namespace App\v1\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Carbon;
 
 final class Login extends Common
 {
@@ -44,6 +44,8 @@ final class Login extends Common
    */
   public function postLogin(Request $request, Response $response, array $args): Response
   {
+    $this->checkAttemptByIP($request);
+
     $data = (object) $request->getParsedBody();
     $token = new \App\v1\Controllers\Token();
 
@@ -132,6 +134,15 @@ final class Login extends Common
         return $this->authOkAndRedirect($user, $response);
       }
     }
+    \App\v1\Controllers\Audit::addEntry(
+      $request,
+      'CONNECTION',
+      'fail, login: ' . $data->login,
+      null,
+      0,
+      401,
+      'FAIL'
+    );
     throw new \Exception('Login or password error, first attempt, wait 30 seconds before try again', 401);
   }
 
@@ -373,30 +384,61 @@ final class Login extends Common
       ->withStatus(302);
   }
 
-  private function checkAttempt(\App\Models\User $user)
+  private function checkAttemptByIP(Request $request): void
   {
-    if ($user->security_locked)
+    $audits = \App\Models\Audit::
+        orderBy('created_at', 'DESC')
+      ->select('ip', 'created_at')
+      ->where('action', 'CONNECTION')
+      ->where('subaction', 'FAIL')
+      ->where('ip', $request->getServerParams()['REMOTE_ADDR'])
+      ->where('created_at', '>', Carbon::now()->subHour())
+      ->get()
+      ->groupBy(function ($data)
+      {
+        if (!is_null($data->created_at))
+        {
+          return $data->created_at->format('i');
+        }
+      });
+
+    foreach ($audits as $item)
     {
-      throw new \Exception('This account is security locked, contact your app administrator', 401);
+      // if have more than 10 fail by minute in last hour => except
+      if ($item->count() > 10)
+      {
+        throw new \Exception('Too many attempts', 401);
+      }
     }
-    if ($user->security_attempt > 0)
+  }
+
+  private function checkAttempt(\App\Models\User $user): void
+  {
+    if ($user->getAttribute('security_attempt') > 0)
     {
-      $timeElapsed = (Date::now()->timestamp) - strtotime($user->security_last_attempt);
-      switch ($user->security_attempt) {
+      $timestamp = (int) Carbon::now()->timestamp;
+      $lastAttempt = $user->getAttribute('security_last_attempt');
+      if ($lastAttempt === false)
+      {
+        return;
+      }
+
+      $timeElapsed = $timestamp - strtotime($lastAttempt);
+      switch ($user->getAttribute('security_attempt')) {
         case 1:
           if ($timeElapsed < 30)
           {
             throw new \Exception('Security, wait ' . (30 - $timeElapsed) . ' seconds before try again', 401);
           }
             return;
-  
+
         case 2:
           if ($timeElapsed < 120)
           {
             throw new \Exception('Security, wait ' . (120 - $timeElapsed) . ' seconds before try again', 401);
           }
             return;
-  
+
         case 3:
           if ($timeElapsed < 300)
           {
@@ -410,47 +452,55 @@ final class Login extends Common
             throw new \Exception('Security, wait ' . (600 - $timeElapsed) . ' seconds before try again', 401);
           }
             return;
+
+        case 5:
+          if ($timeElapsed < 3600)
+          {
+            throw new \Exception('Security, wait ' . (3600 - $timeElapsed) . ' seconds before try again', 401);
+          }
+            return;
       }
     }
   }
 
-  private function setAttempt(\App\Models\User $user, bool $passwordCheck)
+  private function setAttempt(\App\Models\User $user, bool $passwordCheck): void
   {
     if ($passwordCheck)
     {
-      $user->security_attempt = 0;
+      $user->setAttribute('security_attempt', 0);
+      $user->setAttribute('security_last_attempt', null);
       $user->save();
       return;
     }
 
     // we are here because the auth was fail (not right password)
-    $user->security_last_attempt = Date::now();
-    switch ($user->security_attempt) {
+    $user->setAttribute('security_last_attempt', Carbon::now());
+    switch ($user->getAttribute('security_attempt')) {
       case 0:
-        $user->security_attempt = 1;
+        $user->setAttribute('security_attempt', 1);
         $user->save();
-        throw new \Exception('Login or password error, first attempt, wait 30 seconds before try again', 401);
+          throw new \Exception('Login or password error, first attempt, wait 30 seconds before try again', 401);
 
       case 1:
-        $user->security_attempt = 2;
+        $user->setAttribute('security_attempt', 2);
         $user->save();
-        throw new \Exception('Login or password error, second attempt, wait 2 minutes before try again', 401);
+          throw new \Exception('Login or password error, second attempt, wait 2 minutes before try again', 401);
 
       case 2:
-        $user->security_attempt = 3;
+        $user->setAttribute('security_attempt', 3);
         $user->save();
-        throw new \Exception('Login or password error, third attempt, wait 5 minutes before try again', 401);
+          throw new \Exception('Login or password error, third attempt, wait 5 minutes before try again', 401);
 
       case 3:
-        $user->security_attempt = 4;
+        $user->setAttribute('security_attempt', 4);
         $user->save();
-        throw new \Exception('Login or password error, fourth attempt, wait 10 minutes before try again', 401);
+          throw new \Exception('Login or password error, fourth attempt, wait 10 minutes before try again', 401);
 
       case 4:
-        $user->security_attempt = 5;
-        $user->security_locked = true;
+      case 5:
+        $user->setAttribute('security_attempt', 5);
         $user->save();
-        throw new \Exception('Login or password error, the account is locked', 401);
+          throw new \Exception('Login or password error, fifth attempt, wait 1 hour before try again', 401);
     }
   }
 }

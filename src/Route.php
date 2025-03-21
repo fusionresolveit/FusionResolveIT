@@ -14,8 +14,10 @@ final class Route
    */
   public static function setRoutes(&$app): void
   {
-    $app->redirect('', '/view/login');
-    $app->redirect('/', '/view/login');
+    global $basePath;
+
+    $app->redirect('', $basePath . '/view/login');
+    $app->redirect('/', $basePath . '/view/login');
 
     // Enable OPTIONS method for all routes
     $app->options('/{routes:.+}', function ($request, $response, $args)
@@ -65,22 +67,26 @@ final class Route
         \App\v1\Controllers\Dropdown::class . ':getRuleActionsValue'
       );
 
-      $view->group('/login', function (RouteCollectorProxy $login) {
+      $view->group('/login', function (RouteCollectorProxy $login)
+      {
         $login->map(['GET'], '', \App\v1\Controllers\Login::class . ':getLogin');
         $login->map(['POST'], '', \App\v1\Controllers\Login::class . ':postLogin');
 
-        $login->group('/sso/{callbackid:[a-z0-9]+}', function (RouteCollectorProxy $loginsso) {
+        $login->group('/sso/{callbackid:[a-z0-9]+}', function (RouteCollectorProxy $loginsso)
+        {
           $loginsso->map(['GET'], '', \App\v1\Controllers\Login::class . ':doSSO');
           $loginsso->map(['GET'], '/cb', \App\v1\Controllers\Login::class . ':callbackSSO');
         });
       });
 
-      $view->group('/columns', function (RouteCollectorProxy $columns) {
+      $view->group('/columns', function (RouteCollectorProxy $columns)
+      {
         $columns->map(['GET'], '', \App\v1\Controllers\Displaypreference::class . ':manageColumnsOfModel');
         $columns->map(['POST'], '', \App\v1\Controllers\Displaypreference::class . ':postColumnOfModel');
         $columns->map(['GET'], '/createuser', \App\v1\Controllers\Displaypreference::class . ':viewCreateUserColumn');
         $columns->map(['GET'], '/deleteuser', \App\v1\Controllers\Displaypreference::class . ':viewDeleteUserColumn');
-        $columns->group("/{id:[0-9]+}", function (RouteCollectorProxy $columnId) {
+        $columns->group("/{id:[0-9]+}", function (RouteCollectorProxy $columnId)
+        {
           $columnId->map(['GET'], '/delete', \App\v1\Controllers\Displaypreference::class . ':deleteColumn');
           $columnId->map(['GET'], '/up', \App\v1\Controllers\Displaypreference::class . ':viewUpColumn');
           $columnId->map(['GET'], '/down', \App\v1\Controllers\Displaypreference::class . ':viewDownColumn');
@@ -101,11 +107,13 @@ final class Route
           $computerNew->map(['POST'], '', \App\v1\Controllers\Computer::class . ':newItem');
         });
 
-        $computers->group("/{id:[0-9]+}", function (RouteCollectorProxy $computerId) {
+        $computers->group("/{id:[0-9]+}", function (RouteCollectorProxy $computerId)
+        {
           $computerId->map(['GET'], '', \App\v1\Controllers\Computer::class . ':showItem');
           $computerId->map(['POST'], '', \App\v1\Controllers\Computer::class . ':updateItem');
 
-          $computerId->group('/', function (RouteCollectorProxy $sub) {
+          $computerId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Computer::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Computer::class . ':restoreItem');
             $sub->map(['GET'], 'operatingsystem', \App\v1\Controllers\Computer::class . ':showSubOperatingSystem');
@@ -140,10 +148,12 @@ final class Route
           $caNew->map(['POST'], '', \App\v1\Controllers\Computerantivirus::class . ':newItem');
         });
 
-        $computerantivirus->group("/{id:[0-9]+}", function (RouteCollectorProxy $computerantivirusId) {
+        $computerantivirus->group("/{id:[0-9]+}", function (RouteCollectorProxy $computerantivirusId)
+        {
           $computerantivirusId->map(['GET'], '', \App\v1\Controllers\Computerantivirus::class . ':showItem');
           $computerantivirusId->map(['POST'], '', \App\v1\Controllers\Computerantivirus::class . ':updateItem');
-          $computerantivirusId->group('/', function (RouteCollectorProxy $sub) {
+          $computerantivirusId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Computerantivirus::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Computerantivirus::class . ':restoreItem');
           });
@@ -159,11 +169,13 @@ final class Route
           $monitorNew->map(['POST'], '', \App\v1\Controllers\Monitor::class . ':newItem');
         });
 
-        $monitors->group("/{id:[0-9]+}", function (RouteCollectorProxy $monitorId) {
+        $monitors->group("/{id:[0-9]+}", function (RouteCollectorProxy $monitorId)
+        {
           $monitorId->map(['GET'], '', \App\v1\Controllers\Monitor::class . ':showItem');
           $monitorId->map(['POST'], '', \App\v1\Controllers\Monitor::class . ':updateItem');
 
-          $monitorId->group('/', function (RouteCollectorProxy $sub) {
+          $monitorId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Monitor::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Monitor::class . ':restoreItem');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Monitor::class . ':showSubDomains');
@@ -193,11 +205,13 @@ final class Route
           $softwareNew->map(['POST'], '', \App\v1\Controllers\Software::class . ':newItem');
         });
 
-        $softwares->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwareId) {
+        $softwares->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwareId)
+        {
           $softwareId->map(['GET'], '', \App\v1\Controllers\Software::class . ':showItem');
           $softwareId->map(['POST'], '', \App\v1\Controllers\Software::class . ':updateItem');
 
-          $softwareId->group('/', function (RouteCollectorProxy $sub) {
+          $softwareId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Software::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Software::class . ':restoreItem');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Software::class . ':showSubDomains');
@@ -227,10 +241,12 @@ final class Route
           $sversionNew->map(['POST'], '', \App\v1\Controllers\Softwareversion::class . ':newItem');
         });
 
-        $softwareversions->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwareversionId) {
+        $softwareversions->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwareversionId)
+        {
           $softwareversionId->map(['GET'], '', \App\v1\Controllers\Softwareversion::class . ':showItem');
           $softwareversionId->map(['POST'], '', \App\v1\Controllers\Softwareversion::class . ':updateItem');
-          $softwareversionId->group('/', function (RouteCollectorProxy $sub) {
+          $softwareversionId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Softwareversion::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Softwareversion::class . ':restoreItem');
           });
@@ -246,11 +262,13 @@ final class Route
           $networkequipmentNew->map(['POST'], '', \App\v1\Controllers\Networkequipment::class . ':newItem');
         });
 
-        $networkequipments->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkequipmentId) {
+        $networkequipments->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkequipmentId)
+        {
           $networkequipmentId->map(['GET'], '', \App\v1\Controllers\Networkequipment::class . ':showItem');
           $networkequipmentId->map(['POST'], '', \App\v1\Controllers\Networkequipment::class . ':updateItem');
 
-          $networkequipmentId->group('/', function (RouteCollectorProxy $sub) {
+          $networkequipmentId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Networkequipment::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Networkequipment::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Networkequipment::class . ':showSubCertificates');
@@ -286,11 +304,13 @@ final class Route
           $peripheralNew->map(['POST'], '', \App\v1\Controllers\Peripheral::class . ':newItem');
         });
 
-        $peripherals->group("/{id:[0-9]+}", function (RouteCollectorProxy $peripheralId) {
+        $peripherals->group("/{id:[0-9]+}", function (RouteCollectorProxy $peripheralId)
+        {
           $peripheralId->map(['GET'], '', \App\v1\Controllers\Peripheral::class . ':showItem');
           $peripheralId->map(['POST'], '', \App\v1\Controllers\Peripheral::class . ':updateItem');
 
-          $peripheralId->group('/', function (RouteCollectorProxy $sub) {
+          $peripheralId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Peripheral::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Peripheral::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Peripheral::class . ':showSubCertificates');
@@ -323,11 +343,13 @@ final class Route
           $printerNew->map(['POST'], '', \App\v1\Controllers\Printer::class . ':newItem');
         });
 
-        $printers->group("/{id:[0-9]+}", function (RouteCollectorProxy $printerId) {
+        $printers->group("/{id:[0-9]+}", function (RouteCollectorProxy $printerId)
+        {
           $printerId->map(['GET'], '', \App\v1\Controllers\Printer::class . ':showItem');
           $printerId->map(['POST'], '', \App\v1\Controllers\Printer::class . ':updateItem');
 
-          $printerId->group('/', function (RouteCollectorProxy $sub) {
+          $printerId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Printer::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Printer::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Printer::class . ':showSubCertificates');
@@ -361,11 +383,13 @@ final class Route
           $cartridgeitemNew->map(['POST'], '', \App\v1\Controllers\Cartridgeitem::class . ':newItem');
         });
 
-        $cartridgeitems->group("/{id:[0-9]+}", function (RouteCollectorProxy $cartridgeitemId) {
+        $cartridgeitems->group("/{id:[0-9]+}", function (RouteCollectorProxy $cartridgeitemId)
+        {
           $cartridgeitemId->map(['GET'], '', \App\v1\Controllers\Cartridgeitem::class . ':showItem');
           $cartridgeitemId->map(['POST'], '', \App\v1\Controllers\Cartridgeitem::class . ':updateItem');
 
-          $cartridgeitemId->group('/', function (RouteCollectorProxy $sub) {
+          $cartridgeitemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Cartridgeitem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Cartridgeitem::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Cartridgeitem::class . ':showSubNotes');
@@ -387,10 +411,12 @@ final class Route
           $consumableitemNew->map(['POST'], '', \App\v1\Controllers\Consumableitem::class . ':newItem');
         });
 
-        $consumableitems->group("/{id:[0-9]+}", function (RouteCollectorProxy $consumableitemId) {
+        $consumableitems->group("/{id:[0-9]+}", function (RouteCollectorProxy $consumableitemId)
+        {
           $consumableitemId->map(['GET'], '', \App\v1\Controllers\Consumableitem::class . ':showItem');
           $consumableitemId->map(['POST'], '', \App\v1\Controllers\Consumableitem::class . ':updateItem');
-          $consumableitemId->group('/', function (RouteCollectorProxy $sub) {
+          $consumableitemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Consumableitem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Consumableitem::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Consumableitem::class . ':showSubNotes');
@@ -412,11 +438,13 @@ final class Route
           $phoneNew->map(['POST'], '', \App\v1\Controllers\Phone::class . ':newItem');
         });
 
-        $phones->group("/{id:[0-9]+}", function (RouteCollectorProxy $phoneId) {
+        $phones->group("/{id:[0-9]+}", function (RouteCollectorProxy $phoneId)
+        {
           $phoneId->map(['GET'], '', \App\v1\Controllers\Phone::class . ':showItem');
           $phoneId->map(['POST'], '', \App\v1\Controllers\Phone::class . ':updateItem');
 
-          $phoneId->group('/', function (RouteCollectorProxy $sub) {
+          $phoneId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Phone::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Phone::class . ':restoreItem');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Phone::class . ':showSubDomains');
@@ -449,10 +477,12 @@ final class Route
           $rackNew->map(['POST'], '', \App\v1\Controllers\Rack::class . ':newItem');
         });
 
-        $racks->group("/{id:[0-9]+}", function (RouteCollectorProxy $rackId) {
+        $racks->group("/{id:[0-9]+}", function (RouteCollectorProxy $rackId)
+        {
           $rackId->map(['GET'], '', \App\v1\Controllers\Rack::class . ':showItem');
           $rackId->map(['POST'], '', \App\v1\Controllers\Rack::class . ':updateItem');
-          $rackId->group('/', function (RouteCollectorProxy $sub) {
+          $rackId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Rack::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Rack::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Rack::class . ':showSubDocuments');
@@ -473,10 +503,12 @@ final class Route
           $encNew->map(['POST'], '', \App\v1\Controllers\Enclosure::class . ':newItem');
         });
 
-        $enclosures->group("/{id:[0-9]+}", function (RouteCollectorProxy $enclosureId) {
+        $enclosures->group("/{id:[0-9]+}", function (RouteCollectorProxy $enclosureId)
+        {
           $enclosureId->map(['GET'], '', \App\v1\Controllers\Enclosure::class . ':showItem');
           $enclosureId->map(['POST'], '', \App\v1\Controllers\Enclosure::class . ':updateItem');
-          $enclosureId->group('/', function (RouteCollectorProxy $sub) {
+          $enclosureId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Enclosure::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Enclosure::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Enclosure::class . ':showSubDocuments');
@@ -499,10 +531,12 @@ final class Route
           $pduNew->map(['POST'], '', \App\v1\Controllers\Pdu::class . ':newItem');
         });
 
-        $pdus->group("/{id:[0-9]+}", function (RouteCollectorProxy $pduId) {
+        $pdus->group("/{id:[0-9]+}", function (RouteCollectorProxy $pduId)
+        {
           $pduId->map(['GET'], '', \App\v1\Controllers\Pdu::class . ':showItem');
           $pduId->map(['POST'], '', \App\v1\Controllers\Pdu::class . ':updateItem');
-          $pduId->group('/', function (RouteCollectorProxy $sub) {
+          $pduId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Pdu::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Pdu::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Pdu::class . ':showSubDocuments');
@@ -524,10 +558,12 @@ final class Route
           $passivedNew->map(['POST'], '', \App\v1\Controllers\Passivedcequipment::class . ':newItem');
         });
 
-        $passivedcequipments->group("/{id:[0-9]+}", function (RouteCollectorProxy $passivedcequipmentId) {
+        $passivedcequipments->group("/{id:[0-9]+}", function (RouteCollectorProxy $passivedcequipmentId)
+        {
           $passivedcequipmentId->map(['GET'], '', \App\v1\Controllers\Passivedcequipment::class . ':showItem');
           $passivedcequipmentId->map(['POST'], '', \App\v1\Controllers\Passivedcequipment::class . ':updateItem');
-          $passivedcequipmentId->group('/', function (RouteCollectorProxy $sub) {
+          $passivedcequipmentId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Passivedcequipment::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Passivedcequipment::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Passivedcequipment::class . ':showSubDocuments');
@@ -543,10 +579,12 @@ final class Route
       {
         $item_devicesimcards->map(['GET'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':showAll');
         $item_devicesimcards->map(['POST'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':postItem');
-        $item_devicesimcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $item_devicesimcardId) {
+        $item_devicesimcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $item_devicesimcardId)
+        {
           $item_devicesimcardId->map(['GET'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':showItem');
           $item_devicesimcardId->map(['POST'], '', \App\v1\Controllers\ItemDevicesimcard::class . ':updateItem');
-          $item_devicesimcardId->group('/', function (RouteCollectorProxy $sub) {
+          $item_devicesimcardId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'documents', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubContracts');
             $sub->map(['GET'], 'infocom', \App\v1\Controllers\ItemDevicesimcard::class . ':showSubInfocoms');
@@ -564,10 +602,12 @@ final class Route
           $ticketNew->map(['POST'], '', \App\v1\Controllers\Ticket::class . ':newItem');
         });
 
-        $tickets->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketId) {
+        $tickets->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketId)
+        {
           $ticketId->map(['GET'], '', \App\v1\Controllers\Ticket::class . ':showItem');
           $ticketId->map(['POST'], '', \App\v1\Controllers\Ticket::class . ':updateItem');
-          $ticketId->group('/', function (RouteCollectorProxy $sub) {
+          $ticketId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Ticket::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Ticket::class . ':restoreItem');
             $sub->map(['GET'], 'criteria', \App\v1\Controllers\Rules\Ticket::class . ':showCriteria');
@@ -607,10 +647,12 @@ final class Route
         });
 
 
-        $problems->group("/{id:[0-9]+}", function (RouteCollectorProxy $problemId) {
+        $problems->group("/{id:[0-9]+}", function (RouteCollectorProxy $problemId)
+        {
           $problemId->map(['GET'], '', \App\v1\Controllers\Problem::class . ':showItem');
           $problemId->map(['POST'], '', \App\v1\Controllers\Problem::class . ':updateItem');
-          $problemId->group('/', function (RouteCollectorProxy $sub) {
+          $problemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Problem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Problem::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Problem::class . ':showSubNotes');
@@ -635,10 +677,12 @@ final class Route
           $changeNew->map(['POST'], '', \App\v1\Controllers\Change::class . ':newItem');
         });
 
-        $changes->group("/{id:[0-9]+}", function (RouteCollectorProxy $changeId) {
+        $changes->group("/{id:[0-9]+}", function (RouteCollectorProxy $changeId)
+        {
           $changeId->map(['GET'], '', \App\v1\Controllers\Change::class . ':showItem');
           $changeId->map(['POST'], '', \App\v1\Controllers\Change::class . ':updateItem');
-          $changeId->group('/', function (RouteCollectorProxy $sub) {
+          $changeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Change::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Change::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Change::class . ':showSubNotes');
@@ -667,10 +711,12 @@ final class Route
           $trecurNew->map(['POST'], '', \App\v1\Controllers\Ticketrecurrent::class . ':newItem');
         });
 
-        $ticketrecurrents->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketrecurrentId) {
+        $ticketrecurrents->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketrecurrentId)
+        {
           $ticketrecurrentId->map(['GET'], '', \App\v1\Controllers\Ticketrecurrent::class . ':showItem');
           $ticketrecurrentId->map(['POST'], '', \App\v1\Controllers\Ticketrecurrent::class . ':updateItem');
-          $ticketrecurrentId->group('/', function (RouteCollectorProxy $sub) {
+          $ticketrecurrentId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Ticketrecurrent::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Ticketrecurrent::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Ticketrecurrent::class . ':showSubHistory');
@@ -687,10 +733,12 @@ final class Route
           $slicenseNew->map(['POST'], '', \App\v1\Controllers\Softwarelicense::class . ':newItem');
         });
 
-        $softwarelicenses->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwarelicenseId) {
+        $softwarelicenses->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwarelicenseId)
+        {
           $softwarelicenseId->map(['GET'], '', \App\v1\Controllers\Softwarelicense::class . ':showItem');
           $softwarelicenseId->map(['POST'], '', \App\v1\Controllers\Softwarelicense::class . ':updateItem');
-          $softwarelicenseId->group('/', function (RouteCollectorProxy $sub) {
+          $softwarelicenseId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Softwarelicense::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Softwarelicense::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Softwarelicense::class . ':showSubCertificates');
@@ -714,10 +762,12 @@ final class Route
           $budgetNew->map(['POST'], '', \App\v1\Controllers\Budget::class . ':newItem');
         });
 
-        $budgets->group("/{id:[0-9]+}", function (RouteCollectorProxy $budgetId) {
+        $budgets->group("/{id:[0-9]+}", function (RouteCollectorProxy $budgetId)
+        {
           $budgetId->map(['GET'], '', \App\v1\Controllers\Budget::class . ':showItem');
           $budgetId->map(['POST'], '', \App\v1\Controllers\Budget::class . ':updateItem');
-          $budgetId->group('/', function (RouteCollectorProxy $sub) {
+          $budgetId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Budget::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Budget::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Budget::class . ':showSubNotes');
@@ -740,10 +790,12 @@ final class Route
           $supplierNew->map(['POST'], '', \App\v1\Controllers\Supplier::class . ':newItem');
         });
 
-        $suppliers->group("/{id:[0-9]+}", function (RouteCollectorProxy $supplierId) {
+        $suppliers->group("/{id:[0-9]+}", function (RouteCollectorProxy $supplierId)
+        {
           $supplierId->map(['GET'], '', \App\v1\Controllers\Supplier::class . ':showItem');
           $supplierId->map(['POST'], '', \App\v1\Controllers\Supplier::class . ':updateItem');
-          $supplierId->group('/', function (RouteCollectorProxy $sub) {
+          $supplierId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Supplier::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Supplier::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Supplier::class . ':showSubNotes');
@@ -768,10 +820,12 @@ final class Route
           $contactNew->map(['POST'], '', \App\v1\Controllers\Contact::class . ':newItem');
         });
 
-        $contacts->group("/{id:[0-9]+}", function (RouteCollectorProxy $contactId) {
+        $contacts->group("/{id:[0-9]+}", function (RouteCollectorProxy $contactId)
+        {
           $contactId->map(['GET'], '', \App\v1\Controllers\Contact::class . ':showItem');
           $contactId->map(['POST'], '', \App\v1\Controllers\Contact::class . ':updateItem');
-          $contactId->group('/', function (RouteCollectorProxy $sub) {
+          $contactId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Contact::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Contact::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Contact::class . ':showSubNotes');
@@ -792,10 +846,12 @@ final class Route
           $contractNew->map(['POST'], '', \App\v1\Controllers\Contract::class . ':newItem');
         });
 
-        $contracts->group("/{id:[0-9]+}", function (RouteCollectorProxy $contractId) {
+        $contracts->group("/{id:[0-9]+}", function (RouteCollectorProxy $contractId)
+        {
           $contractId->map(['GET'], '', \App\v1\Controllers\Contract::class . ':showItem');
           $contractId->map(['POST'], '', \App\v1\Controllers\Contract::class . ':updateItem');
-          $contractId->group('/', function (RouteCollectorProxy $sub) {
+          $contractId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Contract::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Contract::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Contract::class . ':showSubNotes');
@@ -813,10 +869,12 @@ final class Route
       {
         $documents->map(['GET'], '', \App\v1\Controllers\Document::class . ':showAll');
         $documents->map(['POST'], '', \App\v1\Controllers\Document::class . ':postItem');
-        $documents->group("/{id:[0-9]+}", function (RouteCollectorProxy $documentId) {
+        $documents->group("/{id:[0-9]+}", function (RouteCollectorProxy $documentId)
+        {
           $documentId->map(['GET'], '', \App\v1\Controllers\Document::class . ':showItem');
           $documentId->map(['POST'], '', \App\v1\Controllers\Document::class . ':updateItem');
-          $documentId->group('/', function (RouteCollectorProxy $sub) {
+          $documentId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Document::class . ':showSubNotes');
             $sub->map(['GET'], 'associateditems', \App\v1\Controllers\Document::class . ':showSubAssociatedItems');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Document::class . ':showSubDocuments');
@@ -833,10 +891,12 @@ final class Route
           $lineNew->map(['POST'], '', \App\v1\Controllers\Line::class . ':newItem');
         });
 
-        $lines->group("/{id:[0-9]+}", function (RouteCollectorProxy $lineId) {
+        $lines->group("/{id:[0-9]+}", function (RouteCollectorProxy $lineId)
+        {
           $lineId->map(['GET'], '', \App\v1\Controllers\Line::class . ':showItem');
           $lineId->map(['POST'], '', \App\v1\Controllers\Line::class . ':updateItem');
-          $lineId->group('/', function (RouteCollectorProxy $sub) {
+          $lineId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Line::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Line::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Line::class . ':showSubNotes');
@@ -857,10 +917,12 @@ final class Route
           $certNew->map(['POST'], '', \App\v1\Controllers\Certificate::class . ':newItem');
         });
 
-        $certificates->group("/{id:[0-9]+}", function (RouteCollectorProxy $certificateId) {
+        $certificates->group("/{id:[0-9]+}", function (RouteCollectorProxy $certificateId)
+        {
           $certificateId->map(['GET'], '', \App\v1\Controllers\Certificate::class . ':showItem');
           $certificateId->map(['POST'], '', \App\v1\Controllers\Certificate::class . ':updateItem');
-          $certificateId->group('/', function (RouteCollectorProxy $sub) {
+          $certificateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Certificate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Certificate::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Certificate::class . ':showSubNotes');
@@ -886,10 +948,12 @@ final class Route
           $datacenterNew->map(['POST'], '', \App\v1\Controllers\Datacenter::class . ':newItem');
         });
 
-        $datacenters->group("/{id:[0-9]+}", function (RouteCollectorProxy $datacenterId) {
+        $datacenters->group("/{id:[0-9]+}", function (RouteCollectorProxy $datacenterId)
+        {
           $datacenterId->map(['GET'], '', \App\v1\Controllers\Datacenter::class . ':showItem');
           $datacenterId->map(['POST'], '', \App\v1\Controllers\Datacenter::class . ':updateItem');
-          $datacenterId->group('/', function (RouteCollectorProxy $sub) {
+          $datacenterId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Datacenter::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Datacenter::class . ':restoreItem');
             $sub->map(['GET'], 'dcrooms', \App\v1\Controllers\Datacenter::class . ':showSubDcrooms');
@@ -907,10 +971,12 @@ final class Route
           $dcroomNew->map(['POST'], '', \App\v1\Controllers\Dcroom::class . ':newItem');
         });
 
-        $dcrooms->group("/{id:[0-9]+}", function (RouteCollectorProxy $dcroomId) {
+        $dcrooms->group("/{id:[0-9]+}", function (RouteCollectorProxy $dcroomId)
+        {
           $dcroomId->map(['GET'], '', \App\v1\Controllers\Dcroom::class . ':showItem');
           $dcroomId->map(['POST'], '', \App\v1\Controllers\Dcroom::class . ':updateItem');
-          $dcroomId->group('/', function (RouteCollectorProxy $sub) {
+          $dcroomId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Dcroom::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Dcroom::class . ':restoreItem');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Dcroom::class . ':showSubExternalLinks');
@@ -932,10 +998,12 @@ final class Route
           $clusterNew->map(['POST'], '', \App\v1\Controllers\Cluster::class . ':newItem');
         });
 
-        $clusters->group("/{id:[0-9]+}", function (RouteCollectorProxy $clusterId) {
+        $clusters->group("/{id:[0-9]+}", function (RouteCollectorProxy $clusterId)
+        {
           $clusterId->map(['GET'], '', \App\v1\Controllers\Cluster::class . ':showItem');
           $clusterId->map(['POST'], '', \App\v1\Controllers\Cluster::class . ':updateItem');
-          $clusterId->group('/', function (RouteCollectorProxy $sub) {
+          $clusterId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Cluster::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Cluster::class . ':restoreItem');
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Cluster::class . ':showSubAppliances');
@@ -957,10 +1025,12 @@ final class Route
           $domainNew->map(['POST'], '', \App\v1\Controllers\Domain::class . ':newItem');
         });
 
-        $domains->group("/{id:[0-9]+}", function (RouteCollectorProxy $domainId) {
+        $domains->group("/{id:[0-9]+}", function (RouteCollectorProxy $domainId)
+        {
           $domainId->map(['GET'], '', \App\v1\Controllers\Domain::class . ':showItem');
           $domainId->map(['POST'], '', \App\v1\Controllers\Domain::class . ':updateItem');
-          $domainId->group('/', function (RouteCollectorProxy $sub) {
+          $domainId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Domain::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Domain::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Domain::class . ':showSubCertificates');
@@ -985,10 +1055,12 @@ final class Route
           $applianceNew->map(['POST'], '', \App\v1\Controllers\Appliance::class . ':newItem');
         });
 
-        $appliances->group("/{id:[0-9]+}", function (RouteCollectorProxy $viewlianceId) {
+        $appliances->group("/{id:[0-9]+}", function (RouteCollectorProxy $viewlianceId)
+        {
           $viewlianceId->map(['GET'], '', \App\v1\Controllers\Appliance::class . ':showItem');
           $viewlianceId->map(['POST'], '', \App\v1\Controllers\Appliance::class . ':updateItem');
-          $viewlianceId->group('/', function (RouteCollectorProxy $sub) {
+          $viewlianceId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Appliance::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Appliance::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Appliance::class . ':showSubCertificates');
@@ -1014,10 +1086,12 @@ final class Route
           $projectNew->map(['POST'], '', \App\v1\Controllers\Project::class . ':newItem');
         });
 
-        $projects->group("/{id:[0-9]+}", function (RouteCollectorProxy $projectId) {
+        $projects->group("/{id:[0-9]+}", function (RouteCollectorProxy $projectId)
+        {
           $projectId->map(['GET'], '', \App\v1\Controllers\Project::class . ':showItem');
           $projectId->map(['POST'], '', \App\v1\Controllers\Project::class . ':updateItem');
-          $projectId->group('/', function (RouteCollectorProxy $sub) {
+          $projectId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Project::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Project::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Project::class . ':showSubNotes');
@@ -1044,10 +1118,12 @@ final class Route
           $reminderNew->map(['POST'], '', \App\v1\Controllers\Reminder::class . ':newItem');
         });
 
-        $reminders->group("/{id:[0-9]+}", function (RouteCollectorProxy $reminderId) {
+        $reminders->group("/{id:[0-9]+}", function (RouteCollectorProxy $reminderId)
+        {
           $reminderId->map(['GET'], '', \App\v1\Controllers\Reminder::class . ':showItem');
           $reminderId->map(['POST'], '', \App\v1\Controllers\Reminder::class . ':updateItem');
-          $reminderId->group('/', function (RouteCollectorProxy $sub) {
+          $reminderId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Reminder::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Reminder::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Reminder::class . ':showSubDocuments');
@@ -1065,10 +1141,12 @@ final class Route
           $rssfeedNew->map(['POST'], '', \App\v1\Controllers\Rssfeed::class . ':newItem');
         });
 
-        $rssfeeds->group("/{id:[0-9]+}", function (RouteCollectorProxy $rssfeedId) {
+        $rssfeeds->group("/{id:[0-9]+}", function (RouteCollectorProxy $rssfeedId)
+        {
           $rssfeedId->map(['GET'], '', \App\v1\Controllers\Rssfeed::class . ':showItem');
           $rssfeedId->map(['POST'], '', \App\v1\Controllers\Rssfeed::class . ':updateItem');
-          $rssfeedId->group('/', function (RouteCollectorProxy $sub) {
+          $rssfeedId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Rssfeed::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Rssfeed::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Rssfeed::class . ':showSubHistory');
@@ -1085,10 +1163,12 @@ final class Route
           $savedsearchNew->map(['POST'], '', \App\v1\Controllers\Savedsearch::class . ':newItem');
         });
 
-        $savedsearchs->group("/{id:[0-9]+}", function (RouteCollectorProxy $savedsearchId) {
+        $savedsearchs->group("/{id:[0-9]+}", function (RouteCollectorProxy $savedsearchId)
+        {
           $savedsearchId->map(['GET'], '', \App\v1\Controllers\Savedsearch::class . ':showItem');
           $savedsearchId->map(['POST'], '', \App\v1\Controllers\Savedsearch::class . ':updateItem');
-          $savedsearchId->group('/', function (RouteCollectorProxy $sub) {
+          $savedsearchId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Savedsearch::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Savedsearch::class . ':restoreItem');
           });
@@ -1104,10 +1184,12 @@ final class Route
           $alertNew->map(['POST'], '', \App\v1\Controllers\Alert::class . ':newItem');
         });
 
-        $alerts->group("/{id:[0-9]+}", function (RouteCollectorProxy $alertId) {
+        $alerts->group("/{id:[0-9]+}", function (RouteCollectorProxy $alertId)
+        {
           $alertId->map(['GET'], '', \App\v1\Controllers\Alert::class . ':showItem');
           $alertId->map(['POST'], '', \App\v1\Controllers\Alert::class . ':updateItem');
-          $alertId->group('/', function (RouteCollectorProxy $sub) {
+          $alertId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Alert::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Alert::class . ':restoreItem');
           });
@@ -1123,10 +1205,12 @@ final class Route
           $userNew->map(['POST'], '', \App\v1\Controllers\User::class . ':newItem');
         });
 
-        $users->group("/{id:[0-9]+}", function (RouteCollectorProxy $userId) {
+        $users->group("/{id:[0-9]+}", function (RouteCollectorProxy $userId)
+        {
           $userId->map(['GET'], '', \App\v1\Controllers\User::class . ':showItem');
           $userId->map(['POST'], '', \App\v1\Controllers\User::class . ':updateItem');
-          $userId->group('/', function (RouteCollectorProxy $sub) {
+          $userId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\User::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\User::class . ':restoreItem');
             $sub->map(['GET'], 'authorization', \App\v1\Controllers\User::class . ':showSubAuthorization');
@@ -1152,10 +1236,12 @@ final class Route
           $groupNew->map(['POST'], '', \App\v1\Controllers\Group::class . ':newItem');
         });
 
-        $groups->group("/{id:[0-9]+}", function (RouteCollectorProxy $groupId) {
+        $groups->group("/{id:[0-9]+}", function (RouteCollectorProxy $groupId)
+        {
           $groupId->map(['GET'], '', \App\v1\Controllers\Group::class . ':showItem');
           $groupId->map(['POST'], '', \App\v1\Controllers\Group::class . ':updateItem');
-          $groupId->group('/', function (RouteCollectorProxy $sub) {
+          $groupId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Group::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Group::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Group::class . ':showSubNotes');
@@ -1178,10 +1264,12 @@ final class Route
           $entityNew->map(['POST'], '', \App\v1\Controllers\Entity::class . ':newItem');
         });
 
-        $entities->group("/{id:[0-9]+}", function (RouteCollectorProxy $entityId) {
+        $entities->group("/{id:[0-9]+}", function (RouteCollectorProxy $entityId)
+        {
           $entityId->map(['GET'], '', \App\v1\Controllers\Entity::class . ':showItem');
           $entityId->map(['POST'], '', \App\v1\Controllers\Entity::class . ':updateItem');
-          $entityId->group('/', function (RouteCollectorProxy $sub) {
+          $entityId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Entity::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Entity::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Entity::class . ':showSubNotes');
@@ -1205,17 +1293,21 @@ final class Route
             $ticketNew->map(['POST'], '', \App\v1\Controllers\Rules\Ticket::class . ':newItem');
           });
 
-          $tickets->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketId) {
+          $tickets->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketId)
+          {
             $ticketId->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showItem');
 
-            $ticketId->group('/', function (RouteCollectorProxy $sub) {
+            $ticketId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'criteria', \App\v1\Controllers\Rules\Ticket::class . ':showCriteria');
-              $sub->group("criteria/new", function (RouteCollectorProxy $criteriaNew) {
+              $sub->group("criteria/new", function (RouteCollectorProxy $criteriaNew)
+              {
                 $criteriaNew->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showNewCriteria');
                 $criteriaNew->map(['POST'], '', \App\v1\Controllers\Rules\Ticket::class . ':newCriteria');
               });
               $sub->map(['GET'], 'actions', \App\v1\Controllers\Rules\Ticket::class . ':showActions');
-              $sub->group("actions/new", function (RouteCollectorProxy $actionNew) {
+              $sub->group("actions/new", function (RouteCollectorProxy $actionNew)
+              {
                 $actionNew->map(['GET'], '', \App\v1\Controllers\Rules\Ticket::class . ':showNewAction');
                 $actionNew->map(['POST'], '', \App\v1\Controllers\Rules\Ticket::class . ':newAction');
               });
@@ -1233,11 +1325,13 @@ final class Route
           $profileNew->map(['POST'], '', \App\v1\Controllers\Profile::class . ':newItem');
         });
 
-        $profiles->group("/{id:[0-9]+}", function (RouteCollectorProxy $profileId) {
+        $profiles->group("/{id:[0-9]+}", function (RouteCollectorProxy $profileId)
+        {
           $profileId->map(['GET'], '', \App\v1\Controllers\Profile::class . ':showItem');
           $profileId->map(['POST'], '', \App\v1\Controllers\Profile::class . ':updateItem');
 
-          $profileId->group('/', function (RouteCollectorProxy $sub) {
+          $profileId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Profile::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Profile::class . ':restoreItem');
             $sub->map(['GET'], 'assets', \App\v1\Controllers\Profile::class . ':showSubAssets');
@@ -1265,7 +1359,8 @@ final class Route
       {
         $queuednotifications->map(['GET'], '', \App\v1\Controllers\Queuednotification::class . ':showAll');
         $queuednotifications->map(['POST'], '', \App\v1\Controllers\Queuednotification::class . ':postItem');
-        $queuednotifications->group("/{id:[0-9]+}", function (RouteCollectorProxy $queuednotificationId) {
+        $queuednotifications->group("/{id:[0-9]+}", function (RouteCollectorProxy $queuednotificationId)
+        {
           $queuednotificationId->map(['GET'], '', \App\v1\Controllers\Queuednotification::class . ':showItem');
           $queuednotificationId->map(['POST'], '', \App\v1\Controllers\Queuednotification::class . ':updateItem');
         });
@@ -1290,10 +1385,12 @@ final class Route
           $locationNew->map(['POST'], '', \App\v1\Controllers\Location::class . ':newItem');
         });
 
-        $locations->group("/{id:[0-9]+}", function (RouteCollectorProxy $locationId) {
+        $locations->group("/{id:[0-9]+}", function (RouteCollectorProxy $locationId)
+        {
           $locationId->map(['GET'], '', \App\v1\Controllers\Location::class . ':showItem');
           $locationId->map(['POST'], '', \App\v1\Controllers\Location::class . ':updateItem');
-          $locationId->group('/', function (RouteCollectorProxy $sub) {
+          $locationId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Location::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Location::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Location::class . ':showSubDocuments');
@@ -1312,10 +1409,12 @@ final class Route
           $stateNew->map(['POST'], '', \App\v1\Controllers\State::class . ':newItem');
         });
 
-        $states->group("/{id:[0-9]+}", function (RouteCollectorProxy $stateId) {
+        $states->group("/{id:[0-9]+}", function (RouteCollectorProxy $stateId)
+        {
           $stateId->map(['GET'], '', \App\v1\Controllers\State::class . ':showItem');
           $stateId->map(['POST'], '', \App\v1\Controllers\State::class . ':updateItem');
-          $stateId->group('/', function (RouteCollectorProxy $sub) {
+          $stateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\State::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\State::class . ':restoreItem');
             $sub->map(['GET'], 'states', \App\v1\Controllers\State::class . ':showSubStates');
@@ -1333,10 +1432,12 @@ final class Route
           $manufacturerNew->map(['POST'], '', \App\v1\Controllers\Manufacturer::class . ':newItem');
         });
 
-        $manufacturers->group("/{id:[0-9]+}", function (RouteCollectorProxy $manufacturerId) {
+        $manufacturers->group("/{id:[0-9]+}", function (RouteCollectorProxy $manufacturerId)
+        {
           $manufacturerId->map(['GET'], '', \App\v1\Controllers\Manufacturer::class . ':showItem');
           $manufacturerId->map(['POST'], '', \App\v1\Controllers\Manufacturer::class . ':updateItem');
-          $manufacturerId->group('/', function (RouteCollectorProxy $sub) {
+          $manufacturerId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Manufacturer::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Manufacturer::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Manufacturer::class . ':showSubHistory');
@@ -1352,10 +1453,12 @@ final class Route
           $blacklistNew->map(['POST'], '', \App\v1\Controllers\Blacklist::class . ':newItem');
         });
 
-        $blacklists->group("/{id:[0-9]+}", function (RouteCollectorProxy $blacklistId) {
+        $blacklists->group("/{id:[0-9]+}", function (RouteCollectorProxy $blacklistId)
+        {
           $blacklistId->map(['GET'], '', \App\v1\Controllers\Blacklist::class . ':showItem');
           $blacklistId->map(['POST'], '', \App\v1\Controllers\Blacklist::class . ':updateItem');
-          $blacklistId->group('/', function (RouteCollectorProxy $sub) {
+          $blacklistId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Blacklist::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Blacklist::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Blacklist::class . ':showSubHistory');
@@ -1371,10 +1474,12 @@ final class Route
           $blmcNew->map(['POST'], '', \App\v1\Controllers\Blacklistedmailcontent::class . ':newItem');
         });
 
-        $blacklistedmailcontents->group("/{id:[0-9]+}", function (RouteCollectorProxy $blmcId) {
+        $blacklistedmailcontents->group("/{id:[0-9]+}", function (RouteCollectorProxy $blmcId)
+        {
           $blmcId->map(['GET'], '', \App\v1\Controllers\Blacklistedmailcontent::class . ':showItem');
           $blmcId->map(['POST'], '', \App\v1\Controllers\Blacklistedmailcontent::class . ':updateItem');
-          $blmcId->group('/', function (RouteCollectorProxy $sub) {
+          $blmcId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Blacklistedmailcontent::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Blacklistedmailcontent::class . ':restoreItem');
           });
@@ -1384,15 +1489,18 @@ final class Route
       {
         $categories->map(['GET'], '', \App\v1\Controllers\Category::class . ':showAll');
 
-        $categories->group("/new", function (RouteCollectorProxy $categoryNew) {
+        $categories->group("/new", function (RouteCollectorProxy $categoryNew)
+        {
           $categoryNew->map(['GET'], '', \App\v1\Controllers\Category::class . ':showNewItem');
           $categoryNew->map(['POST'], '', \App\v1\Controllers\Category::class . ':newItem');
         });
 
-        $categories->group("/{id:[0-9]+}", function (RouteCollectorProxy $categoryId) {
+        $categories->group("/{id:[0-9]+}", function (RouteCollectorProxy $categoryId)
+        {
           $categoryId->map(['GET'], '', \App\v1\Controllers\Category::class . ':showItem');
           $categoryId->map(['POST'], '', \App\v1\Controllers\Category::class . ':updateItem');
-          $categoryId->group('/', function (RouteCollectorProxy $sub) {
+          $categoryId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Category::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Category::class . ':restoreItem');
             $sub->map(['GET'], 'categories', \App\v1\Controllers\Category::class . ':showSubCategories');
@@ -1404,10 +1512,12 @@ final class Route
       {
         $ticketemplates->map(['GET'], '', \App\v1\Controllers\Tickettemplate::class . ':showAll');
         $ticketemplates->map(['POST'], '', \App\v1\Controllers\Tickettemplate::class . ':postItem');
-        $ticketemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketemplateId) {
+        $ticketemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $ticketemplateId)
+        {
           $ticketemplateId->map(['GET'], '', \App\v1\Controllers\Tickettemplate::class . ':showItem');
           $ticketemplateId->map(['POST'], '', \App\v1\Controllers\Tickettemplate::class . ':updateItem');
-          $ticketemplateId->group('/', function (RouteCollectorProxy $sub) {
+          $ticketemplateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(
               ['GET'],
               'mandatoryfields',
@@ -1433,10 +1543,12 @@ final class Route
           $stypeNew->map(['POST'], '', \App\v1\Controllers\Solutiontype::class . ':newItem');
         });
 
-        $solutiontypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $solutiontypeId) {
+        $solutiontypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $solutiontypeId)
+        {
           $solutiontypeId->map(['GET'], '', \App\v1\Controllers\Solutiontype::class . ':showItem');
           $solutiontypeId->map(['POST'], '', \App\v1\Controllers\Solutiontype::class . ':updateItem');
-          $solutiontypeId->group('/', function (RouteCollectorProxy $sub) {
+          $solutiontypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Solutiontype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Solutiontype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Solutiontype::class . ':showSubHistory');
@@ -1453,10 +1565,12 @@ final class Route
           $stemplateNew->map(['POST'], '', \App\v1\Controllers\Solutiontemplate::class . ':newItem');
         });
 
-        $solutiontemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $solutiontemplateId) {
+        $solutiontemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $solutiontemplateId)
+        {
           $solutiontemplateId->map(['GET'], '', \App\v1\Controllers\Solutiontemplate::class . ':showItem');
           $solutiontemplateId->map(['POST'], '', \App\v1\Controllers\Solutiontemplate::class . ':updateItem');
-          $solutiontemplateId->group('/', function (RouteCollectorProxy $sub) {
+          $solutiontemplateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Solutiontemplate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Solutiontemplate::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Solutiontemplate::class . ':showSubHistory');
@@ -1473,10 +1587,12 @@ final class Route
           $requesttypeNew->map(['POST'], '', \App\v1\Controllers\Requesttype::class . ':newItem');
         });
 
-        $requesttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $requesttypeId) {
+        $requesttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $requesttypeId)
+        {
           $requesttypeId->map(['GET'], '', \App\v1\Controllers\Requesttype::class . ':showItem');
           $requesttypeId->map(['POST'], '', \App\v1\Controllers\Requesttype::class . ':updateItem');
-          $requesttypeId->group('/', function (RouteCollectorProxy $sub) {
+          $requesttypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Requesttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Requesttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Requesttype::class . ':showSubHistory');
@@ -1493,10 +1609,12 @@ final class Route
           $ftemplateNew->map(['POST'], '', \App\v1\Controllers\Followuptemplate::class . ':newItem');
         });
 
-        $followuptemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $itilfollowuptemplateId) {
+        $followuptemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $itilfollowuptemplateId)
+        {
           $itilfollowuptemplateId->map(['GET'], '', \App\v1\Controllers\Followuptemplate::class . ':showItem');
           $itilfollowuptemplateId->map(['POST'], '', \App\v1\Controllers\Followuptemplate::class . ':updateItem');
-          $itilfollowuptemplateId->group('/', function (RouteCollectorProxy $sub) {
+          $itilfollowuptemplateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Followuptemplate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Followuptemplate::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Followuptemplate::class . ':showSubHistory');
@@ -1513,10 +1631,12 @@ final class Route
           $projectstateNew->map(['POST'], '', \App\v1\Controllers\Projectstate::class . ':newItem');
         });
 
-        $projectstates->group("/{id:[0-9]+}", function (RouteCollectorProxy $projectstateId) {
+        $projectstates->group("/{id:[0-9]+}", function (RouteCollectorProxy $projectstateId)
+        {
           $projectstateId->map(['GET'], '', \App\v1\Controllers\Projectstate::class . ':showItem');
           $projectstateId->map(['POST'], '', \App\v1\Controllers\Projectstate::class . ':updateItem');
-          $projectstateId->group('/', function (RouteCollectorProxy $sub) {
+          $projectstateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Projectstate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Projectstate::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Projectstate::class . ':showSubHistory');
@@ -1533,10 +1653,12 @@ final class Route
           $ptypeNew->map(['POST'], '', \App\v1\Controllers\Projecttype::class . ':newItem');
         });
 
-        $projecttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttypeId) {
+        $projecttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttypeId)
+        {
           $projecttypeId->map(['GET'], '', \App\v1\Controllers\Projecttype::class . ':showItem');
           $projecttypeId->map(['POST'], '', \App\v1\Controllers\Projecttype::class . ':updateItem');
-          $projecttypeId->group('/', function (RouteCollectorProxy $sub) {
+          $projecttypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Projecttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Projecttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Projecttype::class . ':showSubHistory');
@@ -1553,10 +1675,12 @@ final class Route
           $ptaskNew->map(['POST'], '', \App\v1\Controllers\Projecttask::class . ':newItem');
         });
 
-        $projecttasks->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttaskId) {
+        $projecttasks->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttaskId)
+        {
           $projecttaskId->map(['GET'], '', \App\v1\Controllers\Projecttask::class . ':showItem');
           $projecttaskId->map(['POST'], '', \App\v1\Controllers\Projecttask::class . ':updateItem');
-          $projecttaskId->group('/', function (RouteCollectorProxy $sub) {
+          $projecttaskId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Projecttask::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Projecttask::class . ':restoreItem');
             $sub->map(['GET'], 'projecttasks', \App\v1\Controllers\Projecttask::class . ':showSubProjecttasks');
@@ -1582,10 +1706,12 @@ final class Route
           $pttypeNew->map(['POST'], '', \App\v1\Controllers\Projecttasktype::class . ':newItem');
         });
 
-        $projecttasktypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttasktypeId) {
+        $projecttasktypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttasktypeId)
+        {
           $projecttasktypeId->map(['GET'], '', \App\v1\Controllers\Projecttasktype::class . ':showItem');
           $projecttasktypeId->map(['POST'], '', \App\v1\Controllers\Projecttasktype::class . ':updateItem');
-          $projecttasktypeId->group('/', function (RouteCollectorProxy $sub) {
+          $projecttasktypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Projecttasktype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Projecttasktype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Projecttasktype::class . ':showSubHistory');
@@ -1602,10 +1728,12 @@ final class Route
           $pttemplateNew->map(['POST'], '', \App\v1\Controllers\Projecttasktemplate::class . ':newItem');
         });
 
-        $projecttasktemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttasktemplateId) {
+        $projecttasktemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $projecttasktemplateId)
+        {
           $projecttasktemplateId->map(['GET'], '', \App\v1\Controllers\Projecttasktemplate::class . ':showItem');
           $projecttasktemplateId->map(['POST'], '', \App\v1\Controllers\Projecttasktemplate::class . ':updateItem');
-          $projecttasktemplateId->group('/', function (RouteCollectorProxy $sub) {
+          $projecttasktemplateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Projecttasktemplate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Projecttasktemplate::class . ':restoreItem');
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Projecttasktemplate::class . ':showSubDocuments');
@@ -1623,14 +1751,16 @@ final class Route
           $pecategoryNew->map(['POST'], '', \App\v1\Controllers\Planningeventcategory::class . ':newItem');
         });
 
-        $planningeventcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $planningeventcategoryId) {
+        $planningeventcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $planningeventcategoryId)
+        {
           $planningeventcategoryId->map(['GET'], '', \App\v1\Controllers\Planningeventcategory::class . ':showItem');
           $planningeventcategoryId->map(
             ['POST'],
             '',
             \App\v1\Controllers\Planningeventcategory::class . ':updateItem'
           );
-          $planningeventcategoryId->group('/', function (RouteCollectorProxy $sub) {
+          $planningeventcategoryId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Planningeventcategory::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Planningeventcategory::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Planningeventcategory::class . ':showSubHistory');
@@ -1647,10 +1777,12 @@ final class Route
           $peetemplateNew->map(['POST'], '', \App\v1\Controllers\Planningexternaleventtemplate::class . ':newItem');
         });
 
-        $pe_eventtemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $peetId) {
+        $pe_eventtemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $peetId)
+        {
           $peetId->map(['GET'], '', \App\v1\Controllers\Planningexternaleventtemplate::class . ':showItem');
           $peetId->map(['POST'], '', \App\v1\Controllers\Planningexternaleventtemplate::class . ':updateItem');
-          $peetId->group('/', function (RouteCollectorProxy $sub) {
+          $peetId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Planningexternaleventtemplate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Planningexternaleventtemplate::class . ':restoreItem');
             $sub->map(
@@ -1670,10 +1802,12 @@ final class Route
           $computertypeNew->map(['POST'], '', \App\v1\Controllers\Computertype::class . ':newItem');
         });
 
-        $computertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $computertypeId) {
+        $computertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $computertypeId)
+        {
           $computertypeId->map(['GET'], '', \App\v1\Controllers\Computertype::class . ':showItem');
           $computertypeId->map(['POST'], '', \App\v1\Controllers\Computertype::class . ':updateItem');
-          $computertypeId->group('/', function (RouteCollectorProxy $sub) {
+          $computertypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Computertype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Computertype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Computertype::class . ':showSubHistory');
@@ -1690,10 +1824,12 @@ final class Route
           $neTypeNew->map(['POST'], '', \App\v1\Controllers\Networkequipmenttype::class . ':newItem');
         });
 
-        $networkequipmenttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkequipmenttypeId) {
+        $networkequipmenttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkequipmenttypeId)
+        {
           $networkequipmenttypeId->map(['GET'], '', \App\v1\Controllers\Networkequipmenttype::class . ':showItem');
           $networkequipmenttypeId->map(['POST'], '', \App\v1\Controllers\Networkequipmenttype::class . ':updateItem');
-          $networkequipmenttypeId->group('/', function (RouteCollectorProxy $sub) {
+          $networkequipmenttypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Networkequipmenttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Networkequipmenttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipmenttype::class . ':showSubHistory');
@@ -1710,10 +1846,12 @@ final class Route
           $ptypeNew->map(['POST'], '', \App\v1\Controllers\Printertype::class . ':newItem');
         });
 
-        $printertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $printertypeId) {
+        $printertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $printertypeId)
+        {
           $printertypeId->map(['GET'], '', \App\v1\Controllers\Printertype::class . ':showItem');
           $printertypeId->map(['POST'], '', \App\v1\Controllers\Printertype::class . ':updateItem');
-          $printertypeId->group('/', function (RouteCollectorProxy $sub) {
+          $printertypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Printertype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Printertype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Printertype::class . ':showSubHistory');
@@ -1730,10 +1868,12 @@ final class Route
           $typeNew->map(['POST'], '', \App\v1\Controllers\Monitortype::class . ':newItem');
         });
 
-        $monitortypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $monitortypeId) {
+        $monitortypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $monitortypeId)
+        {
           $monitortypeId->map(['GET'], '', \App\v1\Controllers\Monitortype::class . ':showItem');
           $monitortypeId->map(['POST'], '', \App\v1\Controllers\Monitortype::class . ':updateItem');
-          $monitortypeId->group('/', function (RouteCollectorProxy $sub) {
+          $monitortypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Monitortype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Monitortype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Monitortype::class . ':showSubHistory');
@@ -1750,10 +1890,12 @@ final class Route
           $peripheraltypeNew->map(['POST'], '', \App\v1\Controllers\Peripheraltype::class . ':newItem');
         });
 
-        $peripheraltypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $peripheraltypeId) {
+        $peripheraltypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $peripheraltypeId)
+        {
           $peripheraltypeId->map(['GET'], '', \App\v1\Controllers\Peripheraltype::class . ':showItem');
           $peripheraltypeId->map(['POST'], '', \App\v1\Controllers\Peripheraltype::class . ':updateItem');
-          $peripheraltypeId->group('/', function (RouteCollectorProxy $sub) {
+          $peripheraltypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Peripheraltype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Peripheraltype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Peripheraltype::class . ':showSubHistory');
@@ -1770,10 +1912,12 @@ final class Route
           $phonetypeNew->map(['POST'], '', \App\v1\Controllers\Phonetype::class . ':newItem');
         });
 
-        $phonetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $phonetypeId) {
+        $phonetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $phonetypeId)
+        {
           $phonetypeId->map(['GET'], '', \App\v1\Controllers\Phonetype::class . ':showItem');
           $phonetypeId->map(['POST'], '', \App\v1\Controllers\Phonetype::class . ':updateItem');
-          $phonetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $phonetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Phonetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Phonetype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Phonetype::class . ':showSubHistory');
@@ -1790,10 +1934,12 @@ final class Route
           $sltypeNew->map(['POST'], '', \App\v1\Controllers\Softwarelicensetype::class . ':newItem');
         });
 
-        $softwarelicensetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwarelicensetypeId) {
+        $softwarelicensetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwarelicensetypeId)
+        {
           $softwarelicensetypeId->map(['GET'], '', \App\v1\Controllers\Softwarelicensetype::class . ':showItem');
           $softwarelicensetypeId->map(['POST'], '', \App\v1\Controllers\Softwarelicensetype::class . ':updateItem');
-          $softwarelicensetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $softwarelicensetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Softwarelicensetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Softwarelicensetype::class . ':restoreItem');
             $sub->map(
@@ -1815,10 +1961,12 @@ final class Route
           $citNew->map(['POST'], '', \App\v1\Controllers\Cartridgeitemtype::class . ':newItem');
         });
 
-        $cartridgeitemtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $cartridgeitemtypeId) {
+        $cartridgeitemtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $cartridgeitemtypeId)
+        {
           $cartridgeitemtypeId->map(['GET'], '', \App\v1\Controllers\Cartridgeitemtype::class . ':showItem');
           $cartridgeitemtypeId->map(['POST'], '', \App\v1\Controllers\Cartridgeitemtype::class . ':updateItem');
-          $cartridgeitemtypeId->group('/', function (RouteCollectorProxy $sub) {
+          $cartridgeitemtypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Cartridgeitemtype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Cartridgeitemtype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Cartridgeitemtype::class . ':showSubHistory');
@@ -1835,10 +1983,12 @@ final class Route
           $citNew->map(['POST'], '', \App\v1\Controllers\Consumableitemtype::class . ':newItem');
         });
 
-        $consumableitemtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $consumableitemtypeId) {
+        $consumableitemtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $consumableitemtypeId)
+        {
           $consumableitemtypeId->map(['GET'], '', \App\v1\Controllers\Consumableitemtype::class . ':showItem');
           $consumableitemtypeId->map(['POST'], '', \App\v1\Controllers\Consumableitemtype::class . ':updateItem');
-          $consumableitemtypeId->group('/', function (RouteCollectorProxy $sub) {
+          $consumableitemtypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Consumableitemtype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Consumableitemtype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Consumableitemtype::class . ':showSubHistory');
@@ -1855,10 +2005,12 @@ final class Route
           $contracttypeNew->map(['GET'], 'restore', \App\v1\Controllers\Contracttype::class . ':restoreItem');
         });
 
-        $contracttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $contracttypeId) {
+        $contracttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $contracttypeId)
+        {
           $contracttypeId->map(['GET'], '', \App\v1\Controllers\Contracttype::class . ':showItem');
           $contracttypeId->map(['POST'], '', \App\v1\Controllers\Contracttype::class . ':updateItem');
-          $contracttypeId->group('/', function (RouteCollectorProxy $sub) {
+          $contracttypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Contracttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Contracttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Contracttype::class . ':showSubHistory');
@@ -1875,10 +2027,12 @@ final class Route
           $contacttypeNew->map(['POST'], '', \App\v1\Controllers\Contacttype::class . ':newItem');
         });
 
-        $contacttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $contacttypeId) {
+        $contacttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $contacttypeId)
+        {
           $contacttypeId->map(['GET'], '', \App\v1\Controllers\Contacttype::class . ':showItem');
           $contacttypeId->map(['POST'], '', \App\v1\Controllers\Contacttype::class . ':updateItem');
-          $contacttypeId->group('/', function (RouteCollectorProxy $sub) {
+          $contacttypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Contacttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Contacttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Contacttype::class . ':showSubHistory');
@@ -1895,10 +2049,12 @@ final class Route
           $generictypeNew->map(['POST'], '', \App\v1\Controllers\Devicegenerictype::class . ':newItem');
         });
 
-        $devicegenerictype->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenerictypeId) {
+        $devicegenerictype->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenerictypeId)
+        {
           $devicegenerictypeId->map(['GET'], '', \App\v1\Controllers\Devicegenerictype::class . ':showItem');
           $devicegenerictypeId->map(['POST'], '', \App\v1\Controllers\Devicegenerictype::class . ':updateItem');
-          $devicegenerictypeId->group('/', function (RouteCollectorProxy $sub) {
+          $devicegenerictypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicegenerictype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicegenerictype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicegenerictype::class . ':showSubHistory');
@@ -1915,10 +2071,12 @@ final class Route
           $sensortypeNew->map(['POST'], '', \App\v1\Controllers\Devicesensortype::class . ':newItem');
         });
 
-        $devicesensortype->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensortypeId) {
+        $devicesensortype->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensortypeId)
+        {
           $devicesensortypeId->map(['GET'], '', \App\v1\Controllers\Devicesensortype::class . ':showItem');
           $devicesensortypeId->map(['POST'], '', \App\v1\Controllers\Devicesensortype::class . ':updateItem');
-          $devicesensortypeId->group('/', function (RouteCollectorProxy $sub) {
+          $devicesensortypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicesensortype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicesensortype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesensortype::class . ':showSubHistory');
@@ -1935,10 +2093,12 @@ final class Route
           $memorytypeNew->map(['POST'], '', \App\v1\Controllers\Devicememorytype::class . ':newItem');
         });
 
-        $devicememorytype->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememorytypeId) {
+        $devicememorytype->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememorytypeId)
+        {
           $devicememorytypeId->map(['GET'], '', \App\v1\Controllers\Devicememorytype::class . ':showItem');
           $devicememorytypeId->map(['POST'], '', \App\v1\Controllers\Devicememorytype::class . ':updateItem');
-          $devicememorytypeId->group('/', function (RouteCollectorProxy $sub) {
+          $devicememorytypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicememorytype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicememorytype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicememorytype::class . ':showSubHistory');
@@ -1955,10 +2115,12 @@ final class Route
           $suppliertypeNew->map(['POST'], '', \App\v1\Controllers\Suppliertype::class . ':newItem');
         });
 
-        $suppliertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $suppliertypeId) {
+        $suppliertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $suppliertypeId)
+        {
           $suppliertypeId->map(['GET'], '', \App\v1\Controllers\Suppliertype::class . ':showItem');
           $suppliertypeId->map(['POST'], '', \App\v1\Controllers\Suppliertype::class . ':updateItem');
-          $suppliertypeId->group('/', function (RouteCollectorProxy $sub) {
+          $suppliertypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Suppliertype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Suppliertype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Suppliertype::class . ':showSubHistory');
@@ -1975,10 +2137,12 @@ final class Route
           $interfacetypeNew->map(['POST'], '', \App\v1\Controllers\Interfacetype::class . ':newItem');
         });
 
-        $interfacetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $interfacetypeId) {
+        $interfacetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $interfacetypeId)
+        {
           $interfacetypeId->map(['GET'], '', \App\v1\Controllers\Interfacetype::class . ':showItem');
           $interfacetypeId->map(['POST'], '', \App\v1\Controllers\Interfacetype::class . ':updateItem');
-          $interfacetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $interfacetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Interfacetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Interfacetype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Interfacetype::class . ':showSubHistory');
@@ -1995,10 +2159,12 @@ final class Route
           $casetypeNew->map(['POST'], '', \App\v1\Controllers\Devicecasetype::class . ':newItem');
         });
 
-        $devicecasetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecasetypeId) {
+        $devicecasetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecasetypeId)
+        {
           $devicecasetypeId->map(['GET'], '', \App\v1\Controllers\Devicecasetype::class . ':showItem');
           $devicecasetypeId->map(['POST'], '', \App\v1\Controllers\Devicecasetype::class . ':updateItem');
-          $devicecasetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $devicecasetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicecasetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicecasetype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicecasetype::class . ':showSubHistory');
@@ -2015,10 +2181,12 @@ final class Route
           $ppowersupplyNew->map(['POST'], '', \App\v1\Controllers\Phonepowersupply::class . ':newItem');
         });
 
-        $phonepowersupplies->group("/{id:[0-9]+}", function (RouteCollectorProxy $phonepowersupplyId) {
+        $phonepowersupplies->group("/{id:[0-9]+}", function (RouteCollectorProxy $phonepowersupplyId)
+        {
           $phonepowersupplyId->map(['GET'], '', \App\v1\Controllers\Phonepowersupply::class . ':showItem');
           $phonepowersupplyId->map(['POST'], '', \App\v1\Controllers\Phonepowersupply::class . ':updateItem');
-          $phonepowersupplyId->group('/', function (RouteCollectorProxy $sub) {
+          $phonepowersupplyId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Phonepowersupply::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Phonepowersupply::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Phonepowersupply::class . ':showSubHistory');
@@ -2035,10 +2203,12 @@ final class Route
           $filesystemNew->map(['POST'], '', \App\v1\Controllers\Filesystem::class . ':newItem');
         });
 
-        $filesystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $filesystemId) {
+        $filesystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $filesystemId)
+        {
           $filesystemId->map(['GET'], '', \App\v1\Controllers\Filesystem::class . ':showItem');
           $filesystemId->map(['POST'], '', \App\v1\Controllers\Filesystem::class . ':updateItem');
-          $filesystemId->group('/', function (RouteCollectorProxy $sub) {
+          $filesystemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Filesystem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Filesystem::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Filesystem::class . ':showSubHistory');
@@ -2055,10 +2225,12 @@ final class Route
           $certtypeNew->map(['POST'], '', \App\v1\Controllers\Certificatetype::class . ':newItem');
         });
 
-        $certificatetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $certificatetypeId) {
+        $certificatetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $certificatetypeId)
+        {
           $certificatetypeId->map(['GET'], '', \App\v1\Controllers\Certificatetype::class . ':showItem');
           $certificatetypeId->map(['POST'], '', \App\v1\Controllers\Certificatetype::class . ':updateItem');
-          $certificatetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $certificatetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Certificatetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Certificatetype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Certificatetype::class . ':showSubHistory');
@@ -2075,10 +2247,12 @@ final class Route
           $budgettypeNew->map(['POST'], '', \App\v1\Controllers\Budgettype::class . ':newItem');
         });
 
-        $budgettypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $budgettypeId) {
+        $budgettypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $budgettypeId)
+        {
           $budgettypeId->map(['GET'], '', \App\v1\Controllers\Budgettype::class . ':showItem');
           $budgettypeId->map(['POST'], '', \App\v1\Controllers\Budgettype::class . ':updateItem');
-          $budgettypeId->group('/', function (RouteCollectorProxy $sub) {
+          $budgettypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Budgettype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Budgettype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Budgettype::class . ':showSubHistory');
@@ -2094,10 +2268,12 @@ final class Route
           $simcardtypeNew->map(['POST'], '', \App\v1\Controllers\Devicesimcardtype::class . ':newItem');
         });
 
-        $devicesimcardtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesimcardtypeId) {
+        $devicesimcardtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesimcardtypeId)
+        {
           $devicesimcardtypeId->map(['GET'], '', \App\v1\Controllers\Devicesimcardtype::class . ':showItem');
           $devicesimcardtypeId->map(['POST'], '', \App\v1\Controllers\Devicesimcardtype::class . ':updateItem');
-          $devicesimcardtypeId->group('/', function (RouteCollectorProxy $sub) {
+          $devicesimcardtypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicesimcardtype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicesimcardtype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesimcardtype::class . ':showSubHistory');
@@ -2114,10 +2290,12 @@ final class Route
           $linetypeNew->map(['POST'], '', \App\v1\Controllers\Linetype::class . ':newItem');
         });
 
-        $linetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $linetypeId) {
+        $linetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $linetypeId)
+        {
           $linetypeId->map(['GET'], '', \App\v1\Controllers\Linetype::class . ':showItem');
           $linetypeId->map(['POST'], '', \App\v1\Controllers\Linetype::class . ':updateItem');
-          $linetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $linetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Linetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Linetype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Linetype::class . ':showSubHistory');
@@ -2134,10 +2312,12 @@ final class Route
           $racktypeNew->map(['POST'], '', \App\v1\Controllers\Racktype::class . ':newItem');
         });
 
-        $racktypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $racktypeId) {
+        $racktypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $racktypeId)
+        {
           $racktypeId->map(['GET'], '', \App\v1\Controllers\Racktype::class . ':showItem');
           $racktypeId->map(['POST'], '', \App\v1\Controllers\Racktype::class . ':updateItem');
-          $racktypeId->group('/', function (RouteCollectorProxy $sub) {
+          $racktypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Racktype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Racktype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Racktype::class . ':showSubHistory');
@@ -2154,10 +2334,12 @@ final class Route
           $pdutypeNew->map(['POST'], '', \App\v1\Controllers\Pdutype::class . ':newItem');
         });
 
-        $pdutypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $pdutypeId) {
+        $pdutypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $pdutypeId)
+        {
           $pdutypeId->map(['GET'], '', \App\v1\Controllers\Pdutype::class . ':showItem');
           $pdutypeId->map(['POST'], '', \App\v1\Controllers\Pdutype::class . ':updateItem');
-          $pdutypeId->group('/', function (RouteCollectorProxy $sub) {
+          $pdutypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Pdutype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Pdutype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Pdutype::class . ':showSubHistory');
@@ -2174,10 +2356,12 @@ final class Route
           $petypeNew->map(['POST'], '', \App\v1\Controllers\Passivedcequipmenttype::class . ':newItem');
         });
 
-        $passivedcequipmenttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $pcetId) {
+        $passivedcequipmenttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $pcetId)
+        {
           $pcetId->map(['GET'], '', \App\v1\Controllers\Passivedcequipmenttype::class . ':showItem');
           $pcetId->map(['POST'], '', \App\v1\Controllers\Passivedcequipmenttype::class . ':updateItem');
-          $pcetId->group('/', function (RouteCollectorProxy $sub) {
+          $pcetId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Passivedcequipmenttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Passivedcequipmenttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Passivedcequipmenttype::class . ':showSubHistory');
@@ -2194,10 +2378,12 @@ final class Route
           $clustertypeNew->map(['POST'], '', \App\v1\Controllers\Clustertype::class . ':newItem');
         });
 
-        $clustertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $clustertypeId) {
+        $clustertypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $clustertypeId)
+        {
           $clustertypeId->map(['GET'], '', \App\v1\Controllers\Clustertype::class . ':showItem');
           $clustertypeId->map(['POST'], '', \App\v1\Controllers\Clustertype::class . ':updateItem');
-          $clustertypeId->group('/', function (RouteCollectorProxy $sub) {
+          $clustertypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Clustertype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Clustertype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Clustertype::class . ':showSubHistory');
@@ -2214,10 +2400,12 @@ final class Route
           $cmodelNew->map(['POST'], '', \App\v1\Controllers\Computermodel::class . ':newItem');
         });
 
-        $computermodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $computermodelId) {
+        $computermodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $computermodelId)
+        {
           $computermodelId->map(['GET'], '', \App\v1\Controllers\Computermodel::class . ':showItem');
           $computermodelId->map(['POST'], '', \App\v1\Controllers\Computermodel::class . ':updateItem');
-          $computermodelId->group('/', function (RouteCollectorProxy $sub) {
+          $computermodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Computermodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Computermodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Computermodel::class . ':showSubHistory');
@@ -2234,14 +2422,16 @@ final class Route
           $nemodelNew->map(['POST'], '', \App\v1\Controllers\Networkequipmentmodel::class . ':newItem');
         });
 
-        $networkequipmentmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkequipmentmodelId) {
+        $networkequipmentmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkequipmentmodelId)
+        {
           $networkequipmentmodelId->map(['GET'], '', \App\v1\Controllers\Networkequipmentmodel::class . ':showItem');
           $networkequipmentmodelId->map(
             ['POST'],
             '',
             \App\v1\Controllers\Networkequipmentmodel::class . ':updateItem'
           );
-          $networkequipmentmodelId->group('/', function (RouteCollectorProxy $sub) {
+          $networkequipmentmodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Networkequipmentmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Networkequipmentmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkequipmentmodel::class . ':showSubHistory');
@@ -2258,10 +2448,12 @@ final class Route
           $pmodelNew->map(['POST'], '', \App\v1\Controllers\Printermodel::class . ':newItem');
         });
 
-        $printermodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $printermodelId) {
+        $printermodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $printermodelId)
+        {
           $printermodelId->map(['GET'], '', \App\v1\Controllers\Printermodel::class . ':showItem');
           $printermodelId->map(['POST'], '', \App\v1\Controllers\Printermodel::class . ':updateItem');
-          $printermodelId->group('/', function (RouteCollectorProxy $sub) {
+          $printermodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Printermodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Printermodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Printermodel::class . ':showSubHistory');
@@ -2278,10 +2470,12 @@ final class Route
           $modelNew->map(['POST'], '', \App\v1\Controllers\Monitormodel::class . ':newItem');
         });
 
-        $monitormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $monitormodelId) {
+        $monitormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $monitormodelId)
+        {
           $monitormodelId->map(['GET'], '', \App\v1\Controllers\Monitormodel::class . ':showItem');
           $monitormodelId->map(['POST'], '', \App\v1\Controllers\Monitormodel::class . ':updateItem');
-          $monitormodelId->group('/', function (RouteCollectorProxy $sub) {
+          $monitormodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Monitormodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Monitormodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Monitormodel::class . ':showSubHistory');
@@ -2298,10 +2492,12 @@ final class Route
           $pmodelNew->map(['POST'], '', \App\v1\Controllers\Peripheralmodel::class . ':newItem');
         });
 
-        $peripheralmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $peripheralmodelId) {
+        $peripheralmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $peripheralmodelId)
+        {
           $peripheralmodelId->map(['GET'], '', \App\v1\Controllers\Peripheralmodel::class . ':showItem');
           $peripheralmodelId->map(['POST'], '', \App\v1\Controllers\Peripheralmodel::class . ':updateItem');
-          $peripheralmodelId->group('/', function (RouteCollectorProxy $sub) {
+          $peripheralmodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Peripheralmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Peripheralmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Peripheralmodel::class . ':showSubHistory');
@@ -2318,10 +2514,12 @@ final class Route
           $phonemodelNew->map(['POST'], '', \App\v1\Controllers\Phonemodel::class . ':newItem');
         });
 
-        $phonemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $phonemodelId) {
+        $phonemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $phonemodelId)
+        {
           $phonemodelId->map(['GET'], '', \App\v1\Controllers\Phonemodel::class . ':showItem');
           $phonemodelId->map(['POST'], '', \App\v1\Controllers\Phonemodel::class . ':updateItem');
-          $phonemodelId->group('/', function (RouteCollectorProxy $sub) {
+          $phonemodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Phonemodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Phonemodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Phonemodel::class . ':showSubHistory');
@@ -2338,10 +2536,12 @@ final class Route
           $casemodelNew->map(['POST'], '', \App\v1\Controllers\Devicecasemodel::class . ':newItem');
         });
 
-        $devicecasemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecasemodelId) {
+        $devicecasemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecasemodelId)
+        {
           $devicecasemodelId->map(['GET'], '', \App\v1\Controllers\Devicecasemodel::class . ':showItem');
           $devicecasemodelId->map(['POST'], '', \App\v1\Controllers\Devicecasemodel::class . ':updateItem');
-          $devicecasemodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicecasemodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicecasemodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicecasemodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicecasemodel::class . ':showSubHistory');
@@ -2358,10 +2558,12 @@ final class Route
           $dcmodelNew->map(['POST'], '', \App\v1\Controllers\Devicecontrolmodel::class . ':newItem');
         });
 
-        $devicecontrolmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecontrolmodelId) {
+        $devicecontrolmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecontrolmodelId)
+        {
           $devicecontrolmodelId->map(['GET'], '', \App\v1\Controllers\Devicecontrolmodel::class . ':showItem');
           $devicecontrolmodelId->map(['POST'], '', \App\v1\Controllers\Devicecontrolmodel::class . ':updateItem');
-          $devicecontrolmodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicecontrolmodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicecontrolmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicecontrolmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicecontrolmodel::class . ':showSubHistory');
@@ -2378,10 +2580,12 @@ final class Route
           $drivemodelNew->map(['POST'], '', \App\v1\Controllers\Devicedrivemodel::class . ':newItem');
         });
 
-        $devicedrivemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicedrivemodelId) {
+        $devicedrivemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicedrivemodelId)
+        {
           $devicedrivemodelId->map(['GET'], '', \App\v1\Controllers\Devicedrivemodel::class . ':showItem');
           $devicedrivemodelId->map(['POST'], '', \App\v1\Controllers\Devicedrivemodel::class . ':updateItem');
-          $devicedrivemodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicedrivemodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicedrivemodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicedrivemodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicedrivemodel::class . ':showSubHistory');
@@ -2393,10 +2597,12 @@ final class Route
       {
         $devicegenericmodels->map(['GET'], '', \App\v1\Controllers\Devicegenericmodel::class . ':showAll');
         $devicegenericmodels->map(['POST'], '', \App\v1\Controllers\Devicegenericmodel::class . ':postItem');
-        $devicegenericmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenericmodelId) {
+        $devicegenericmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenericmodelId)
+        {
           $devicegenericmodelId->map(['GET'], '', \App\v1\Controllers\Devicegenericmodel::class . ':showItem');
           $devicegenericmodelId->map(['POST'], '', \App\v1\Controllers\Devicegenericmodel::class . ':updateitem');
-          $devicegenericmodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicegenericmodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicegenericmodel::class . ':showSubHistory');
           });
         });
@@ -2411,10 +2617,12 @@ final class Route
           $dgcmodelNew->map(['POST'], '', \App\v1\Controllers\Devicegraphiccardmodel::class . ':newItem');
         });
 
-        $devicegraphiccardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dgcmId) {
+        $devicegraphiccardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dgcmId)
+        {
           $dgcmId->map(['GET'], '', \App\v1\Controllers\Devicegraphiccardmodel::class . ':showItem');
           $dgcmId->map(['POST'], '', \App\v1\Controllers\Devicegraphiccardmodel::class . ':updateItem');
-          $dgcmId->group('/', function (RouteCollectorProxy $sub) {
+          $dgcmId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicegraphiccardmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicegraphiccardmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicegraphiccardmodel::class . ':showSubHistory');
@@ -2431,10 +2639,12 @@ final class Route
           $dhdmodelNew->map(['POST'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':newItem');
         });
 
-        $deviceharddrivemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceharddrivemodelId) {
+        $deviceharddrivemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceharddrivemodelId)
+        {
           $deviceharddrivemodelId->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':showItem');
           $deviceharddrivemodelId->map(['POST'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':updateItem');
-          $deviceharddrivemodelId->group('/', function (RouteCollectorProxy $sub) {
+          $deviceharddrivemodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Deviceharddrivemodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Deviceharddrivemodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Deviceharddrivemodel::class . ':showSubHistory');
@@ -2451,10 +2661,12 @@ final class Route
           $memorymodelNew->map(['POST'], '', \App\v1\Controllers\Devicememorymodel::class . ':newItem');
         });
 
-        $devicememorymodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememorymodelId) {
+        $devicememorymodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememorymodelId)
+        {
           $devicememorymodelId->map(['GET'], '', \App\v1\Controllers\Devicememorymodel::class . ':showItem');
           $devicememorymodelId->map(['POST'], '', \App\v1\Controllers\Devicememorymodel::class . ':updateItem');
-          $devicememorymodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicememorymodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicememorymodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicememorymodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicememorymodel::class . ':showSubHistory');
@@ -2471,10 +2683,12 @@ final class Route
           $motherboardmodelNew->map(['POST'], '', \App\v1\Controllers\Devicemotherboardmodel::class . ':newItem');
         });
 
-        $devicemotherboardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dmmId) {
+        $devicemotherboardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dmmId)
+        {
           $dmmId->map(['GET'], '', \App\v1\Controllers\Devicemotherboardmodel::class . ':showItem');
           $dmmId->map(['POST'], '', \App\v1\Controllers\Devicemotherboardmodel::class . ':updateItem');
-          $dmmId->group('/', function (RouteCollectorProxy $sub) {
+          $dmmId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicemotherboardmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicemotherboardmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicemotherboardmodel::class . ':showSubHistory');
@@ -2491,10 +2705,12 @@ final class Route
           $networkcardmodelNew->map(['POST'], '', \App\v1\Controllers\Devicenetworkcardmodel::class . ':newItem');
         });
 
-        $devicenetworkcardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dncmId) {
+        $devicenetworkcardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dncmId)
+        {
           $dncmId->map(['GET'], '', \App\v1\Controllers\Devicenetworkcardmodel::class . ':showItem');
           $dncmId->map(['POST'], '', \App\v1\Controllers\Devicenetworkcardmodel::class . ':updateItem');
-          $dncmId->group('/', function (RouteCollectorProxy $sub) {
+          $dncmId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicenetworkcardmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicenetworkcardmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicenetworkcardmodel::class . ':showSubHistory');
@@ -2511,10 +2727,12 @@ final class Route
           $pcimodelNew->map(['POST'], '', \App\v1\Controllers\Devicepcimodel::class . ':newItem');
         });
 
-        $devicepcimodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicepcimodelId) {
+        $devicepcimodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicepcimodelId)
+        {
           $devicepcimodelId->map(['GET'], '', \App\v1\Controllers\Devicepcimodel::class . ':showItem');
           $devicepcimodelId->map(['POST'], '', \App\v1\Controllers\Devicepcimodel::class . ':updateItem');
-          $devicepcimodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicepcimodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicepcimodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicepcimodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicepcimodel::class . ':showSubHistory');
@@ -2531,10 +2749,12 @@ final class Route
           $dpsmodelNew->map(['POST'], '', \App\v1\Controllers\Devicepowersupplymodel::class . ':newItem');
         });
 
-        $devicepowersupplymodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dpsmId) {
+        $devicepowersupplymodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $dpsmId)
+        {
           $dpsmId->map(['GET'], '', \App\v1\Controllers\Devicepowersupplymodel::class . ':showItem');
           $dpsmId->map(['POST'], '', \App\v1\Controllers\Devicepowersupplymodel::class . ':updateItem');
-          $dpsmId->group('/', function (RouteCollectorProxy $sub) {
+          $dpsmId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicepowersupplymodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicepowersupplymodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicepowersupplymodel::class . ':showSubHistory');
@@ -2551,10 +2771,12 @@ final class Route
           $processormodelNew->map(['POST'], '', \App\v1\Controllers\Deviceprocessormodel::class . ':newItem');
         });
 
-        $deviceprocessormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceprocessormodelId) {
+        $deviceprocessormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceprocessormodelId)
+        {
           $deviceprocessormodelId->map(['GET'], '', \App\v1\Controllers\Deviceprocessormodel::class . ':showItem');
           $deviceprocessormodelId->map(['POST'], '', \App\v1\Controllers\Deviceprocessormodel::class . ':updateItem');
-          $deviceprocessormodelId->group('/', function (RouteCollectorProxy $sub) {
+          $deviceprocessormodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Deviceprocessormodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Deviceprocessormodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Deviceprocessormodel::class . ':showSubHistory');
@@ -2571,10 +2793,12 @@ final class Route
           $dscmodelNew->map(['POST'], '', \App\v1\Controllers\Devicesoundcardmodel::class . ':newItem');
         });
 
-        $devicesoundcardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesoundcardmodelId) {
+        $devicesoundcardmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesoundcardmodelId)
+        {
           $devicesoundcardmodelId->map(['GET'], '', \App\v1\Controllers\Devicesoundcardmodel::class . ':showItem');
           $devicesoundcardmodelId->map(['POST'], '', \App\v1\Controllers\Devicesoundcardmodel::class . ':updateItem');
-          $devicesoundcardmodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicesoundcardmodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicesoundcardmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicesoundcardmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesoundcardmodel::class . ':showSubHistory');
@@ -2585,10 +2809,12 @@ final class Route
       {
         $devicesensormodels->map(['GET'], '', \App\v1\Controllers\Devicesensormodel::class . ':showAll');
         $devicesensormodels->map(['POST'], '', \App\v1\Controllers\Devicesensormodel::class . ':postItem');
-        $devicesensormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensormodelId) {
+        $devicesensormodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensormodelId)
+        {
           $devicesensormodelId->map(['GET'], '', \App\v1\Controllers\Devicesensormodel::class . ':showItem');
           $devicesensormodelId->map(['POST'], '', \App\v1\Controllers\Devicesensormodel::class . ':updateItem');
-          $devicesensormodelId->group('/', function (RouteCollectorProxy $sub) {
+          $devicesensormodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'history', \App\v1\Controllers\Devicesensormodel::class . ':showSubHistory');
           });
         });
@@ -2603,10 +2829,12 @@ final class Route
           $rackmodelNew->map(['POST'], '', \App\v1\Controllers\Rackmodel::class . ':newItem');
         });
 
-        $rackmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $rackmodelId) {
+        $rackmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $rackmodelId)
+        {
           $rackmodelId->map(['GET'], '', \App\v1\Controllers\Rackmodel::class . ':showItem');
           $rackmodelId->map(['POST'], '', \App\v1\Controllers\Rackmodel::class . ':updateItem');
-          $rackmodelId->group('/', function (RouteCollectorProxy $sub) {
+          $rackmodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Rackmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Rackmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Rackmodel::class . ':showSubHistory');
@@ -2623,10 +2851,12 @@ final class Route
           $encmodelNew->map(['POST'], '', \App\v1\Controllers\Enclosuremodel::class . ':newItem');
         });
 
-        $enclosuremodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $enclosuremodelId) {
+        $enclosuremodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $enclosuremodelId)
+        {
           $enclosuremodelId->map(['GET'], '', \App\v1\Controllers\Enclosuremodel::class . ':showItem');
           $enclosuremodelId->map(['POST'], '', \App\v1\Controllers\Enclosuremodel::class . ':updateItem');
-          $enclosuremodelId->group('/', function (RouteCollectorProxy $sub) {
+          $enclosuremodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Enclosuremodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Enclosuremodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Enclosuremodel::class . ':showSubHistory');
@@ -2643,10 +2873,12 @@ final class Route
           $pdumodelNew->map(['POST'], '', \App\v1\Controllers\Pdumodel::class . ':newItem');
         });
 
-        $pdumodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $pdumodelId) {
+        $pdumodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $pdumodelId)
+        {
           $pdumodelId->map(['GET'], '', \App\v1\Controllers\Pdumodel::class . ':showItem');
           $pdumodelId->map(['POST'], '', \App\v1\Controllers\Pdumodel::class . ':updateItem');
-          $pdumodelId->group('/', function (RouteCollectorProxy $sub) {
+          $pdumodelId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Pdumodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Pdumodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Pdumodel::class . ':showSubHistory');
@@ -2663,10 +2895,12 @@ final class Route
           $pemodelNew->map(['POST'], '', \App\v1\Controllers\Passivedcequipmentmodel::class . ':newItem');
         });
 
-        $passivedcequipmentmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $pcemId) {
+        $passivedcequipmentmodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $pcemId)
+        {
           $pcemId->map(['GET'], '', \App\v1\Controllers\Passivedcequipmentmodel::class . ':showItem');
           $pcemId->map(['POST'], '', \App\v1\Controllers\Passivedcequipmentmodel::class . ':updateItem');
-          $pcemId->group('/', function (RouteCollectorProxy $sub) {
+          $pcemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Passivedcequipmentmodel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Passivedcequipmentmodel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Passivedcequipmentmodel::class . ':showSubHistory');
@@ -2683,10 +2917,12 @@ final class Route
           $vmtypeNew->map(['POST'], '', \App\v1\Controllers\Virtualmachinetype::class . ':newItem');
         });
 
-        $virtualmachinetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $virtualmachinetypeId) {
+        $virtualmachinetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $virtualmachinetypeId)
+        {
           $virtualmachinetypeId->map(['GET'], '', \App\v1\Controllers\Virtualmachinetype::class . ':showItem');
           $virtualmachinetypeId->map(['POST'], '', \App\v1\Controllers\Virtualmachinetype::class . ':updateItem');
-          $virtualmachinetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $virtualmachinetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Virtualmachinetype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Virtualmachinetype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Virtualmachinetype::class . ':showSubHistory');
@@ -2703,10 +2939,12 @@ final class Route
           $vmsystemNew->map(['POST'], '', \App\v1\Controllers\Virtualmachinesystem::class . ':newItem');
         });
 
-        $virtualmachinesystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $virtualmachinesystemId) {
+        $virtualmachinesystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $virtualmachinesystemId)
+        {
           $virtualmachinesystemId->map(['GET'], '', \App\v1\Controllers\Virtualmachinesystem::class . ':showItem');
           $virtualmachinesystemId->map(['POST'], '', \App\v1\Controllers\Virtualmachinesystem::class . ':updateItem');
-          $virtualmachinesystemId->group('/', function (RouteCollectorProxy $sub) {
+          $virtualmachinesystemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Virtualmachinesystem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Virtualmachinesystem::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Virtualmachinesystem::class . ':showSubHistory');
@@ -2723,10 +2961,12 @@ final class Route
           $vmstateNew->map(['POST'], '', \App\v1\Controllers\Virtualmachinestate::class . ':newItem');
         });
 
-        $virtualmachinestates->group("/{id:[0-9]+}", function (RouteCollectorProxy $virtualmachinestateId) {
+        $virtualmachinestates->group("/{id:[0-9]+}", function (RouteCollectorProxy $virtualmachinestateId)
+        {
           $virtualmachinestateId->map(['GET'], '', \App\v1\Controllers\Virtualmachinestate::class . ':showItem');
           $virtualmachinestateId->map(['POST'], '', \App\v1\Controllers\Virtualmachinestate::class . ':updateItem');
-          $virtualmachinestateId->group('/', function (RouteCollectorProxy $sub) {
+          $virtualmachinestateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Virtualmachinestate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Virtualmachinestate::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Virtualmachinestate::class . ':showSubHistory');
@@ -2743,10 +2983,12 @@ final class Route
           $doccategoryNew->map(['POST'], '', \App\v1\Controllers\Documentcategory::class . ':newItem');
         });
 
-        $documentcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $documentcategoryId) {
+        $documentcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $documentcategoryId)
+        {
           $documentcategoryId->map(['GET'], '', \App\v1\Controllers\Documentcategory::class . ':showItem');
           $documentcategoryId->map(['POST'], '', \App\v1\Controllers\Documentcategory::class . ':updateItem');
-          $documentcategoryId->group('/', function (RouteCollectorProxy $sub) {
+          $documentcategoryId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Documentcategory::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Documentcategory::class . ':restoreItem');
             $sub->map(
@@ -2768,10 +3010,12 @@ final class Route
           $doctypeNew->map(['POST'], '', \App\v1\Controllers\Documenttype::class . ':newItem');
         });
 
-        $documenttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $documenttypeId) {
+        $documenttypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $documenttypeId)
+        {
           $documenttypeId->map(['GET'], '', \App\v1\Controllers\Documenttype::class . ':showItem');
           $documenttypeId->map(['POST'], '', \App\v1\Controllers\Documenttype::class . ':updateItem');
-          $documenttypeId->group('/', function (RouteCollectorProxy $sub) {
+          $documenttypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Documenttype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Documenttype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Documenttype::class . ':showSubHistory');
@@ -2788,10 +3032,12 @@ final class Route
           $bcNew->map(['POST'], '', \App\v1\Controllers\Businesscriticity::class . ':newItem');
         });
 
-        $businesscriticities->group("/{id:[0-9]+}", function (RouteCollectorProxy $businesscriticityId) {
+        $businesscriticities->group("/{id:[0-9]+}", function (RouteCollectorProxy $businesscriticityId)
+        {
           $businesscriticityId->map(['GET'], '', \App\v1\Controllers\Businesscriticity::class . ':showItem');
           $businesscriticityId->map(['POST'], '', \App\v1\Controllers\Businesscriticity::class . ':updateItem');
-          $businesscriticityId->group('/', function (RouteCollectorProxy $sub) {
+          $businesscriticityId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Businesscriticity::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Businesscriticity::class . ':restoreItem');
             $sub->map(
@@ -2813,10 +3059,12 @@ final class Route
           $kicategoryNew->map(['POST'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':newItem');
         });
 
-        $knowbaseitemcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $knowbaseitemcategoryId) {
+        $knowbaseitemcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $knowbaseitemcategoryId)
+        {
           $knowbaseitemcategoryId->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':showItem');
           $knowbaseitemcategoryId->map(['POST'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':updateItem');
-          $knowbaseitemcategoryId->group('/', function (RouteCollectorProxy $sub) {
+          $knowbaseitemcategoryId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Knowbaseitemcategory::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Knowbaseitemcategory::class . ':restoreItem');
             $sub->map(
@@ -2838,10 +3086,12 @@ final class Route
           $calendarNew->map(['POST'], '', \App\v1\Controllers\Calendar::class . ':newItem');
         });
 
-        $calendars->group("/{id:[0-9]+}", function (RouteCollectorProxy $calendarId) {
+        $calendars->group("/{id:[0-9]+}", function (RouteCollectorProxy $calendarId)
+        {
           $calendarId->map(['GET'], '', \App\v1\Controllers\Calendar::class . ':showItem');
           $calendarId->map(['POST'], '', \App\v1\Controllers\Calendar::class . ':updateItem');
-          $calendarId->group('/', function (RouteCollectorProxy $sub) {
+          $calendarId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Calendar::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Calendar::class . ':restoreItem');
             $sub->map(['GET'], 'timeranges', \App\v1\Controllers\Calendar::class . ':showSubTimeranges');
@@ -2860,10 +3110,12 @@ final class Route
           $holidayNew->map(['POST'], '', \App\v1\Controllers\Holiday::class . ':newItem');
         });
 
-        $holidays->group("/{id:[0-9]+}", function (RouteCollectorProxy $holidayId) {
+        $holidays->group("/{id:[0-9]+}", function (RouteCollectorProxy $holidayId)
+        {
           $holidayId->map(['GET'], '', \App\v1\Controllers\Holiday::class . ':showItem');
           $holidayId->map(['POST'], '', \App\v1\Controllers\Holiday::class . ':updateItem');
-          $holidayId->group('/', function (RouteCollectorProxy $sub) {
+          $holidayId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Holiday::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Holiday::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Holiday::class . ':showSubHistory');
@@ -2880,10 +3132,12 @@ final class Route
           $osNew->map(['POST'], '', \App\v1\Controllers\Operatingsystem::class . ':newItem');
         });
 
-        $operatingsystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $operatingsystemId) {
+        $operatingsystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $operatingsystemId)
+        {
           $operatingsystemId->map(['GET'], '', \App\v1\Controllers\Operatingsystem::class . ':showItem');
           $operatingsystemId->map(['POST'], '', \App\v1\Controllers\Operatingsystem::class . ':updateItem');
-          $operatingsystemId->group('/', function (RouteCollectorProxy $sub) {
+          $operatingsystemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystem::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Operatingsystem::class . ':showSubHistory');
@@ -2900,10 +3154,12 @@ final class Route
           $osvNew->map(['POST'], '', \App\v1\Controllers\Operatingsystemversion::class . ':newItem');
         });
 
-        $operatingsystemversions->group("/{id:[0-9]+}", function (RouteCollectorProxy $osvId) {
+        $operatingsystemversions->group("/{id:[0-9]+}", function (RouteCollectorProxy $osvId)
+        {
           $osvId->map(['GET'], '', \App\v1\Controllers\Operatingsystemversion::class . ':showItem');
           $osvId->map(['POST'], '', \App\v1\Controllers\Operatingsystemversion::class . ':updateItem');
-          $osvId->group('/', function (RouteCollectorProxy $sub) {
+          $osvId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystemversion::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystemversion::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Operatingsystemversion::class . ':showSubHistory');
@@ -2920,10 +3176,12 @@ final class Route
           $osspNew->map(['POST'], '', \App\v1\Controllers\Operatingsystemservicepack::class . ':newItem');
         });
 
-        $ossp->group("/{id:[0-9]+}", function (RouteCollectorProxy $osspId) {
+        $ossp->group("/{id:[0-9]+}", function (RouteCollectorProxy $osspId)
+        {
           $osspId->map(['GET'], '', \App\v1\Controllers\Operatingsystemservicepack::class . ':showItem');
           $osspId->map(['POST'], '', \App\v1\Controllers\Operatingsystemservicepack::class . ':updateItem');
-          $osspId->group('/', function (RouteCollectorProxy $sub) {
+          $osspId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystemservicepack::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystemservicepack::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Operatingsystemservicepack::class . ':showSubHistory');
@@ -2940,10 +3198,12 @@ final class Route
           $osaNew->map(['POST'], '', \App\v1\Controllers\Operatingsystemarchitecture::class . ':newItem');
         });
 
-        $osa->group("/{id:[0-9]+}", function (RouteCollectorProxy $osaId) {
+        $osa->group("/{id:[0-9]+}", function (RouteCollectorProxy $osaId)
+        {
           $osaId->map(['GET'], '', \App\v1\Controllers\Operatingsystemarchitecture::class . ':showItem');
           $osaId->map(['POST'], '', \App\v1\Controllers\Operatingsystemarchitecture::class . ':updateItem');
-          $osaId->group('/', function (RouteCollectorProxy $sub) {
+          $osaId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystemarchitecture::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystemarchitecture::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Operatingsystemarchitecture::class . ':showSubHistory');
@@ -2960,10 +3220,12 @@ final class Route
           $oseNew->map(['POST'], '', \App\v1\Controllers\Operatingsystemedition::class . ':newItem');
         });
 
-        $ose->group("/{id:[0-9]+}", function (RouteCollectorProxy $oseId) {
+        $ose->group("/{id:[0-9]+}", function (RouteCollectorProxy $oseId)
+        {
           $oseId->map(['GET'], '', \App\v1\Controllers\Operatingsystemedition::class . ':showItem');
           $oseId->map(['POST'], '', \App\v1\Controllers\Operatingsystemedition::class . ':updateItem');
-          $oseId->group('/', function (RouteCollectorProxy $sub) {
+          $oseId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystemedition::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystemedition::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Operatingsystemedition::class . ':showSubHistory');
@@ -2980,10 +3242,12 @@ final class Route
           $oskNew->map(['POST'], '', \App\v1\Controllers\Operatingsystemkernel::class . ':newItem');
         });
 
-        $osk->group("/{id:[0-9]+}", function (RouteCollectorProxy $oskId) {
+        $osk->group("/{id:[0-9]+}", function (RouteCollectorProxy $oskId)
+        {
           $oskId->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernel::class . ':showItem');
           $oskId->map(['POST'], '', \App\v1\Controllers\Operatingsystemkernel::class . ':updateItem');
-          $oskId->group('/', function (RouteCollectorProxy $sub) {
+          $oskId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystemkernel::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystemkernel::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Operatingsystemkernel::class . ':showSubHistory');
@@ -3000,10 +3264,12 @@ final class Route
           $oskvNew->map(['POST'], '', \App\v1\Controllers\Operatingsystemkernelversion::class . ':newItem');
         });
 
-        $oskv->group("/{id:[0-9]+}", function (RouteCollectorProxy $oskvId) {
+        $oskv->group("/{id:[0-9]+}", function (RouteCollectorProxy $oskvId)
+        {
           $oskvId->map(['GET'], '', \App\v1\Controllers\Operatingsystemkernelversion::class . ':showItem');
           $oskvId->map(['POST'], '', \App\v1\Controllers\Operatingsystemkernelversion::class . ':updateItem');
-          $oskvId->group('/', function (RouteCollectorProxy $sub) {
+          $oskvId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Operatingsystemkernelversion::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Operatingsystemkernelversion::class . ':restoreItem');
             $sub->map(
@@ -3024,10 +3290,12 @@ final class Route
           $autoupdatesystemNew->map(['POST'], '', \App\v1\Controllers\Autoupdatesystem::class . ':newItem');
         });
 
-        $autoupdatesystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $autoupdatesystemId) {
+        $autoupdatesystems->group("/{id:[0-9]+}", function (RouteCollectorProxy $autoupdatesystemId)
+        {
           $autoupdatesystemId->map(['GET'], '', \App\v1\Controllers\Autoupdatesystem::class . ':showItem');
           $autoupdatesystemId->map(['POST'], '', \App\v1\Controllers\Autoupdatesystem::class . ':updateItem');
-          $autoupdatesystemId->group('/', function (RouteCollectorProxy $sub) {
+          $autoupdatesystemId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Autoupdatesystem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Autoupdatesystem::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Autoupdatesystem::class . ':showSubHistory');
@@ -3044,10 +3312,12 @@ final class Route
           $ninterfaceNew->map(['POST'], '', \App\v1\Controllers\Networkinterface::class . ':newItem');
         });
 
-        $networkinterfaces->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkinterfaceId) {
+        $networkinterfaces->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkinterfaceId)
+        {
           $networkinterfaceId->map(['GET'], '', \App\v1\Controllers\Networkinterface::class . ':showItem');
           $networkinterfaceId->map(['POST'], '', \App\v1\Controllers\Networkinterface::class . ':updateItem');
-          $networkinterfaceId->group('/', function (RouteCollectorProxy $sub) {
+          $networkinterfaceId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Networkinterface::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Networkinterface::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Networkinterface::class . ':showSubHistory');
@@ -3064,10 +3334,12 @@ final class Route
           $netpointNew->map(['POST'], '', \App\v1\Controllers\Netpoint::class . ':newItem');
         });
 
-        $netpoints->group("/{id:[0-9]+}", function (RouteCollectorProxy $netpointId) {
+        $netpoints->group("/{id:[0-9]+}", function (RouteCollectorProxy $netpointId)
+        {
           $netpointId->map(['GET'], '', \App\v1\Controllers\Netpoint::class . ':showItem');
           $netpointId->map(['POST'], '', \App\v1\Controllers\Netpoint::class . ':updateItem');
-          $netpointId->group('/', function (RouteCollectorProxy $sub) {
+          $netpointId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Netpoint::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Netpoint::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Netpoint::class . ':showSubHistory');
@@ -3084,10 +3356,12 @@ final class Route
           $networkNew->map(['POST'], '', \App\v1\Controllers\Network::class . ':newItem');
         });
 
-        $networks->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkId) {
+        $networks->group("/{id:[0-9]+}", function (RouteCollectorProxy $networkId)
+        {
           $networkId->map(['GET'], '', \App\v1\Controllers\Network::class . ':showItem');
           $networkId->map(['POST'], '', \App\v1\Controllers\Network::class . ':updateItem');
-          $networkId->group('/', function (RouteCollectorProxy $sub) {
+          $networkId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Network::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Network::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Network::class . ':showSubHistory');
@@ -3104,10 +3378,12 @@ final class Route
           $vlanNew->map(['POST'], '', \App\v1\Controllers\Vlan::class . ':newItem');
         });
 
-        $vlans->group("/{id:[0-9]+}", function (RouteCollectorProxy $vlanId) {
+        $vlans->group("/{id:[0-9]+}", function (RouteCollectorProxy $vlanId)
+        {
           $vlanId->map(['GET'], '', \App\v1\Controllers\Vlan::class . ':showItem');
           $vlanId->map(['POST'], '', \App\v1\Controllers\Vlan::class . ':updateItem');
-          $vlanId->group('/', function (RouteCollectorProxy $sub) {
+          $vlanId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Vlan::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Vlan::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Vlan::class . ':showSubHistory');
@@ -3124,10 +3400,12 @@ final class Route
           $lineoperatorNew->map(['POST'], '', \App\v1\Controllers\Lineoperator::class . ':newItem');
         });
 
-        $lineoperators->group("/{id:[0-9]+}", function (RouteCollectorProxy $lineoperatorId) {
+        $lineoperators->group("/{id:[0-9]+}", function (RouteCollectorProxy $lineoperatorId)
+        {
           $lineoperatorId->map(['GET'], '', \App\v1\Controllers\Lineoperator::class . ':showItem');
           $lineoperatorId->map(['POST'], '', \App\v1\Controllers\Lineoperator::class . ':updateItem');
-          $lineoperatorId->group('/', function (RouteCollectorProxy $sub) {
+          $lineoperatorId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Lineoperator::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Lineoperator::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Lineoperator::class . ':showSubHistory');
@@ -3144,10 +3422,12 @@ final class Route
           $domtypeNew->map(['POST'], '', \App\v1\Controllers\Domaintype::class . ':newItem');
         });
 
-        $domaintypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $domaintypeId) {
+        $domaintypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $domaintypeId)
+        {
           $domaintypeId->map(['GET'], '', \App\v1\Controllers\Domaintype::class . ':showItem');
           $domaintypeId->map(['POST'], '', \App\v1\Controllers\Domaintype::class . ':updateItem');
-          $domaintypeId->group('/', function (RouteCollectorProxy $sub) {
+          $domaintypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Domaintype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Domaintype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Domaintype::class . ':showSubHistory');
@@ -3164,10 +3444,12 @@ final class Route
           $relationNew->map(['POST'], '', \App\v1\Controllers\Domainrelation::class . ':newItem');
         });
 
-        $domainrelations->group("/{id:[0-9]+}", function (RouteCollectorProxy $domainrelationId) {
+        $domainrelations->group("/{id:[0-9]+}", function (RouteCollectorProxy $domainrelationId)
+        {
           $domainrelationId->map(['GET'], '', \App\v1\Controllers\Domainrelation::class . ':showItem');
           $domainrelationId->map(['POST'], '', \App\v1\Controllers\Domainrelation::class . ':updateItem');
-          $domainrelationId->group('/', function (RouteCollectorProxy $sub) {
+          $domainrelationId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Domainrelation::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Domainrelation::class . ':restoreItem');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Domainrelation::class . ':showSubDomains');
@@ -3185,10 +3467,12 @@ final class Route
           $drtypeNew->map(['POST'], '', \App\v1\Controllers\Domainrecordtype::class . ':newItem');
         });
 
-        $domainrecordtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $domainrecordtypeId) {
+        $domainrecordtypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $domainrecordtypeId)
+        {
           $domainrecordtypeId->map(['GET'], '', \App\v1\Controllers\Domainrecordtype::class . ':showItem');
           $domainrecordtypeId->map(['POST'], '', \App\v1\Controllers\Domainrecordtype::class . ':updateItem');
-          $domainrecordtypeId->group('/', function (RouteCollectorProxy $sub) {
+          $domainrecordtypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Domainrecordtype::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Domainrecordtype::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Domainrecordtype::class . ':showSubHistory');
@@ -3205,10 +3489,12 @@ final class Route
           $ipnetworkNew->map(['POST'], '', \App\v1\Controllers\Ipnetwork::class . ':newItem');
         });
 
-        $ipnetworks->group("/{id:[0-9]+}", function (RouteCollectorProxy $ipnetworkId) {
+        $ipnetworks->group("/{id:[0-9]+}", function (RouteCollectorProxy $ipnetworkId)
+        {
           $ipnetworkId->map(['GET'], '', \App\v1\Controllers\Ipnetwork::class . ':showItem');
           $ipnetworkId->map(['POST'], '', \App\v1\Controllers\Ipnetwork::class . ':updateItem');
-          $ipnetworkId->group('/', function (RouteCollectorProxy $sub) {
+          $ipnetworkId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Ipnetwork::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Ipnetwork::class . ':restoreItem');
             $sub->map(['GET'], 'vlans', \App\v1\Controllers\Ipnetwork::class . ':showSubVlans');
@@ -3226,10 +3512,12 @@ final class Route
           $fqdnNew->map(['POST'], '', \App\v1\Controllers\Fqdn::class . ':newItem');
         });
 
-        $fqdns->group("/{id:[0-9]+}", function (RouteCollectorProxy $fqdnId) {
+        $fqdns->group("/{id:[0-9]+}", function (RouteCollectorProxy $fqdnId)
+        {
           $fqdnId->map(['GET'], '', \App\v1\Controllers\Fqdn::class . ':showItem');
           $fqdnId->map(['POST'], '', \App\v1\Controllers\Fqdn::class . ':updateItem');
-          $fqdnId->group('/', function (RouteCollectorProxy $sub) {
+          $fqdnId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Fqdn::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Fqdn::class . ':restoreItem');
             $sub->map(['GET'], 'networkalias', \App\v1\Controllers\Fqdn::class . ':showSubNetworkalias');
@@ -3247,10 +3535,12 @@ final class Route
           $wifiNew->map(['POST'], '', \App\v1\Controllers\Wifinetwork::class . ':newItem');
         });
 
-        $wifinetworks->group("/{id:[0-9]+}", function (RouteCollectorProxy $wifinetworkId) {
+        $wifinetworks->group("/{id:[0-9]+}", function (RouteCollectorProxy $wifinetworkId)
+        {
           $wifinetworkId->map(['GET'], '', \App\v1\Controllers\Wifinetwork::class . ':showItem');
           $wifinetworkId->map(['POST'], '', \App\v1\Controllers\Wifinetwork::class . ':updateItem');
-          $wifinetworkId->group('/', function (RouteCollectorProxy $sub) {
+          $wifinetworkId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Wifinetwork::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Wifinetwork::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Wifinetwork::class . ':showSubHistory');
@@ -3267,10 +3557,12 @@ final class Route
           $netnameNew->map(['POST'], '', \App\v1\Controllers\Networkname::class . ':newItem');
         });
 
-        $networknames->group("/{id:[0-9]+}", function (RouteCollectorProxy $networknameId) {
+        $networknames->group("/{id:[0-9]+}", function (RouteCollectorProxy $networknameId)
+        {
           $networknameId->map(['GET'], '', \App\v1\Controllers\Networkname::class . ':showItem');
           $networknameId->map(['POST'], '', \App\v1\Controllers\Networkname::class . ':updateItem');
-          $networknameId->group('/', function (RouteCollectorProxy $sub) {
+          $networknameId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Networkname::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Networkname::class . ':restoreItem');
             $sub->map(['GET'], 'networkalias', \App\v1\Controllers\Networkname::class . ':showSubNetworkalias');
@@ -3288,10 +3580,12 @@ final class Route
           $scategoryNew->map(['POST'], '', \App\v1\Controllers\Softwarecategory::class . ':newItem');
         });
 
-        $softwarecategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwarecategoryId) {
+        $softwarecategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $softwarecategoryId)
+        {
           $softwarecategoryId->map(['GET'], '', \App\v1\Controllers\Softwarecategory::class . ':showItem');
           $softwarecategoryId->map(['POST'], '', \App\v1\Controllers\Softwarecategory::class . ':updateItem');
-          $softwarecategoryId->group('/', function (RouteCollectorProxy $sub) {
+          $softwarecategoryId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Softwarecategory::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Softwarecategory::class . ':restoreItem');
             $sub->map(
@@ -3308,10 +3602,12 @@ final class Route
       {
         $usertitles->map(['GET'], '', \App\v1\Controllers\Usertitle::class . ':showAll');
         $usertitles->map(['POST'], '', \App\v1\Controllers\Usertitle::class . ':postItem');
-        $usertitles->group("/{id:[0-9]+}", function (RouteCollectorProxy $usertitleId) {
+        $usertitles->group("/{id:[0-9]+}", function (RouteCollectorProxy $usertitleId)
+        {
           $usertitleId->map(['GET'], '', \App\v1\Controllers\Usertitle::class . ':showItem');
           $usertitleId->map(['POST'], '', \App\v1\Controllers\Usertitle::class . ':updateItem');
-          $usertitleId->group('/', function (RouteCollectorProxy $sub) {
+          $usertitleId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'history', \App\v1\Controllers\Usertitle::class . ':showSubHistory');
           });
         });
@@ -3326,10 +3622,12 @@ final class Route
           $usercatNew->map(['POST'], '', \App\v1\Controllers\Usercategory::class . ':newItem');
         });
 
-        $usercategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $usercategoryId) {
+        $usercategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $usercategoryId)
+        {
           $usercategoryId->map(['GET'], '', \App\v1\Controllers\Usercategory::class . ':showItem');
           $usercategoryId->map(['POST'], '', \App\v1\Controllers\Usercategory::class . ':updateItem');
-          $usercategoryId->group('/', function (RouteCollectorProxy $sub) {
+          $usercategoryId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Usercategory::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Usercategory::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Usercategory::class . ':showSubHistory');
@@ -3346,10 +3644,12 @@ final class Route
           $rrparameterNew->map(['POST'], '', \App\v1\Controllers\Rulerightparameter::class . ':newItem');
         });
 
-        $rulerightparameters->group("/{id:[0-9]+}", function (RouteCollectorProxy $rulerightparameterId) {
+        $rulerightparameters->group("/{id:[0-9]+}", function (RouteCollectorProxy $rulerightparameterId)
+        {
           $rulerightparameterId->map(['GET'], '', \App\v1\Controllers\Rulerightparameter::class . ':showItem');
           $rulerightparameterId->map(['POST'], '', \App\v1\Controllers\Rulerightparameter::class . ':updateItem');
-          $rulerightparameterId->group('/', function (RouteCollectorProxy $sub) {
+          $rulerightparameterId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Rulerightparameter::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Rulerightparameter::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Rulerightparameter::class . ':showSubHistory');
@@ -3366,10 +3666,12 @@ final class Route
           $fieldblacklistNew->map(['POST'], '', \App\v1\Controllers\Fieldblacklist::class . ':newItem');
         });
 
-        $fieldblacklists->group("/{id:[0-9]+}", function (RouteCollectorProxy $fieldblacklistId) {
+        $fieldblacklists->group("/{id:[0-9]+}", function (RouteCollectorProxy $fieldblacklistId)
+        {
           $fieldblacklistId->map(['GET'], '', \App\v1\Controllers\Fieldblacklist::class . ':showItem');
           $fieldblacklistId->map(['POST'], '', \App\v1\Controllers\Fieldblacklist::class . ':updateItem');
-          $fieldblacklistId->group('/', function (RouteCollectorProxy $sub) {
+          $fieldblacklistId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Fieldblacklist::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Fieldblacklist::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Fieldblacklist::class . ':showSubHistory');
@@ -3386,10 +3688,12 @@ final class Route
           $ssovarNew->map(['POST'], '', \App\v1\Controllers\Ssovariable::class . ':newItem');
         });
 
-        $ssovariables->group("/{id:[0-9]+}", function (RouteCollectorProxy $ssovariableId) {
+        $ssovariables->group("/{id:[0-9]+}", function (RouteCollectorProxy $ssovariableId)
+        {
           $ssovariableId->map(['GET'], '', \App\v1\Controllers\Ssovariable::class . ':showItem');
           $ssovariableId->map(['POST'], '', \App\v1\Controllers\Ssovariable::class . ':updateItem');
-          $ssovariableId->group('/', function (RouteCollectorProxy $sub) {
+          $ssovariableId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Ssovariable::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Ssovariable::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Ssovariable::class . ':showSubHistory');
@@ -3406,10 +3710,12 @@ final class Route
           $plugNew->map(['POST'], '', \App\v1\Controllers\Plug::class . ':newItem');
         });
 
-        $plugs->group("/{id:[0-9]+}", function (RouteCollectorProxy $plugId) {
+        $plugs->group("/{id:[0-9]+}", function (RouteCollectorProxy $plugId)
+        {
           $plugId->map(['GET'], '', \App\v1\Controllers\Plug::class . ':showItem');
           $plugId->map(['POST'], '', \App\v1\Controllers\Plug::class . ':updateItem');
-          $plugId->group('/', function (RouteCollectorProxy $sub) {
+          $plugId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Plug::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Plug::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Plug::class . ':showSubHistory');
@@ -3421,10 +3727,12 @@ final class Route
       {
         $viewliancetypes->map(['GET'], '', \App\v1\Controllers\Appliancetype::class . ':showAll');
         $viewliancetypes->map(['POST'], '', \App\v1\Controllers\Appliancetype::class . ':postItem');
-        $viewliancetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $viewliancetypeId) {
+        $viewliancetypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $viewliancetypeId)
+        {
           $viewliancetypeId->map(['GET'], '', \App\v1\Controllers\Appliancetype::class . ':showItem');
           $viewliancetypeId->map(['POST'], '', \App\v1\Controllers\Appliancetype::class . ':updateItem');
-          $viewliancetypeId->group('/', function (RouteCollectorProxy $sub) {
+          $viewliancetypeId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'history', \App\v1\Controllers\Appliancetype::class . ':showSubHistory');
           });
         });
@@ -3438,14 +3746,16 @@ final class Route
           $applianceenvNew->map(['POST'], '', \App\v1\Controllers\Applianceenvironment::class . ':newItem');
         });
 
-        $applianceenvs->group("/{id:[0-9]+}", function (RouteCollectorProxy $applianceenvId) {
+        $applianceenvs->group("/{id:[0-9]+}", function (RouteCollectorProxy $applianceenvId)
+        {
           $applianceenvId->map(['GET'], '', \App\v1\Controllers\Applianceenvironment::class . ':showItem');
           $applianceenvId->map(
             ['POST'],
             '',
             \App\v1\Controllers\Applianceenvironment::class . ':updateItem'
           );
-          $applianceenvId->group('/', function (RouteCollectorProxy $sub) {
+          $applianceenvId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Applianceenvironment::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Applianceenvironment::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Applianceenvironment::class . ':showSubHistory');
@@ -3464,10 +3774,12 @@ final class Route
             $powersupplyNew->map(['POST'], '', \App\v1\Controllers\Devicepowersupply::class . ':newItem');
           });
 
-          $devicepowersupplies->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicepowersupplyId) {
+          $devicepowersupplies->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicepowersupplyId)
+          {
             $devicepowersupplyId->map(['GET'], '', \App\v1\Controllers\Devicepowersupply::class . ':showItem');
             $devicepowersupplyId->map(['POST'], '', \App\v1\Controllers\Devicepowersupply::class . ':updateItem');
-            $devicepowersupplyId->group('/', function (RouteCollectorProxy $sub) {
+            $devicepowersupplyId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicepowersupply::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicepowersupply::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicepowersupply::class . ':showSubDocuments');
@@ -3486,10 +3798,12 @@ final class Route
             $batteryNew->map(['POST'], '', \App\v1\Controllers\Devicebattery::class . ':newItem');
           });
 
-          $devicebatteries->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicebatteryId) {
+          $devicebatteries->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicebatteryId)
+          {
             $devicebatteryId->map(['GET'], '', \App\v1\Controllers\Devicebattery::class . ':showItem');
             $devicebatteryId->map(['POST'], '', \App\v1\Controllers\Devicebattery::class . ':updateItem');
-            $devicebatteryId->group('/', function (RouteCollectorProxy $sub) {
+            $devicebatteryId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicebattery::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicebattery::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicebattery::class . ':showSubDocuments');
@@ -3508,10 +3822,12 @@ final class Route
             $dbtypeNew->map(['POST'], '', \App\v1\Controllers\Devicebatterytype::class . ':newItem');
           });
 
-          $devicebatterytypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicebatterytypeId) {
+          $devicebatterytypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicebatterytypeId)
+          {
             $devicebatterytypeId->map(['GET'], '', \App\v1\Controllers\Devicebatterytype::class . ':showItem');
             $devicebatterytypeId->map(['POST'], '', \App\v1\Controllers\Devicebatterytype::class . ':updateItem');
-            $devicebatterytypeId->group('/', function (RouteCollectorProxy $sub) {
+            $devicebatterytypeId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicebatterytype::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicebatterytype::class . ':restoreItem');
             });
@@ -3527,10 +3843,12 @@ final class Route
             $devicecaseNew->map(['POST'], '', \App\v1\Controllers\Devicecase::class . ':newItem');
           });
 
-          $devicecases->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecaseId) {
+          $devicecases->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecaseId)
+          {
             $devicecaseId->map(['GET'], '', \App\v1\Controllers\Devicecase::class . ':showItem');
             $devicecaseId->map(['POST'], '', \App\v1\Controllers\Devicecase::class . ':updateItem');
-            $devicecaseId->group('/', function (RouteCollectorProxy $sub) {
+            $devicecaseId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicecase::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicecase::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicecase::class . ':showSubDocuments');
@@ -3549,10 +3867,12 @@ final class Route
             $devicesensorNew->map(['POST'], '', \App\v1\Controllers\Devicesensor::class . ':newItem');
           });
 
-          $devicesensors->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensorId) {
+          $devicesensors->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesensorId)
+          {
             $devicesensorId->map(['GET'], '', \App\v1\Controllers\Devicesensor::class . ':showItem');
             $devicesensorId->map(['POST'], '', \App\v1\Controllers\Devicesensor::class . ':updateItem');
-            $devicesensorId->group('/', function (RouteCollectorProxy $sub) {
+            $devicesensorId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicesensor::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicesensor::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicesensor::class . ':showSubDocuments');
@@ -3571,10 +3891,12 @@ final class Route
             $simcardNew->map(['POST'], '', \App\v1\Controllers\Devicesimcard::class . ':newItem');
           });
 
-          $devicesimcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesimcardId) {
+          $devicesimcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesimcardId)
+          {
             $devicesimcardId->map(['GET'], '', \App\v1\Controllers\Devicesimcard::class . ':showItem');
             $devicesimcardId->map(['POST'], '', \App\v1\Controllers\Devicesimcard::class . ':updateItem');
-            $devicesimcardId->group('/', function (RouteCollectorProxy $sub) {
+            $devicesimcardId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicesimcard::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicesimcard::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicesimcard::class . ':showSubDocuments');
@@ -3593,10 +3915,12 @@ final class Route
             $graphiccardNew->map(['POST'], '', \App\v1\Controllers\Devicegraphiccard::class . ':newItem');
           });
 
-          $devicegraphiccards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegraphiccardId) {
+          $devicegraphiccards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegraphiccardId)
+          {
             $devicegraphiccardId->map(['GET'], '', \App\v1\Controllers\Devicegraphiccard::class . ':showItem');
             $devicegraphiccardId->map(['POST'], '', \App\v1\Controllers\Devicegraphiccard::class . ':updateItem');
-            $devicegraphiccardId->group('/', function (RouteCollectorProxy $sub) {
+            $devicegraphiccardId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicegraphiccard::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicegraphiccard::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicegraphiccard::class . ':showSubDocuments');
@@ -3615,10 +3939,12 @@ final class Route
             $motherboardNew->map(['POST'], '', \App\v1\Controllers\Devicemotherboard::class . ':newItem');
           });
 
-          $devicemotherboards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicemotherboardId) {
+          $devicemotherboards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicemotherboardId)
+          {
             $devicemotherboardId->map(['GET'], '', \App\v1\Controllers\Devicemotherboard::class . ':showItem');
             $devicemotherboardId->map(['POST'], '', \App\v1\Controllers\Devicemotherboard::class . ':updateItem');
-            $devicemotherboardId->group('/', function (RouteCollectorProxy $sub) {
+            $devicemotherboardId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicemotherboard::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicemotherboard::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicemotherboard::class . ':showSubDocuments');
@@ -3637,10 +3963,12 @@ final class Route
             $networkcardNew->map(['POST'], '', \App\v1\Controllers\Devicenetworkcard::class . ':newItem');
           });
 
-          $devicenetworkcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicenetworkcardId) {
+          $devicenetworkcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicenetworkcardId)
+          {
             $devicenetworkcardId->map(['GET'], '', \App\v1\Controllers\Devicenetworkcard::class . ':showItem');
             $devicenetworkcardId->map(['POST'], '', \App\v1\Controllers\Devicenetworkcard::class . ':updateItem');
-            $devicenetworkcardId->group('/', function (RouteCollectorProxy $sub) {
+            $devicenetworkcardId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicenetworkcard::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicenetworkcard::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicenetworkcard::class . ':showSubDocuments');
@@ -3659,10 +3987,12 @@ final class Route
             $soundcardNew->map(['POST'], '', \App\v1\Controllers\Devicesoundcard::class . ':newItem');
           });
 
-          $devicesoundcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesoundcardId) {
+          $devicesoundcards->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicesoundcardId)
+          {
             $devicesoundcardId->map(['GET'], '', \App\v1\Controllers\Devicesoundcard::class . ':showItem');
             $devicesoundcardId->map(['POST'], '', \App\v1\Controllers\Devicesoundcard::class . ':updateItem');
-            $devicesoundcardId->group('/', function (RouteCollectorProxy $sub) {
+            $devicesoundcardId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicesoundcard::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicesoundcard::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicesoundcard::class . ':showSubDocuments');
@@ -3681,10 +4011,12 @@ final class Route
             $genericNew->map(['POST'], '', \App\v1\Controllers\Devicegeneric::class . ':newItem');
           });
 
-          $devicegenerics->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenericId) {
+          $devicegenerics->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicegenericId)
+          {
             $devicegenericId->map(['GET'], '', \App\v1\Controllers\Devicegeneric::class . ':showItem');
             $devicegenericId->map(['POST'], '', \App\v1\Controllers\Devicegeneric::class . ':updateItem');
-            $devicegenericId->group('/', function (RouteCollectorProxy $sub) {
+            $devicegenericId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicegeneric::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicegeneric::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicegeneric::class . ':showSubDocuments');
@@ -3703,10 +4035,12 @@ final class Route
             $controlNew->map(['POST'], '', \App\v1\Controllers\Devicecontrol::class . ':newItem');
           });
 
-          $devicecontrols->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecontrolId) {
+          $devicecontrols->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicecontrolId)
+          {
             $devicecontrolId->map(['GET'], '', \App\v1\Controllers\Devicecontrol::class . ':showItem');
             $devicecontrolId->map(['POST'], '', \App\v1\Controllers\Devicecontrol::class . ':updateItem');
-            $devicecontrolId->group('/', function (RouteCollectorProxy $sub) {
+            $devicecontrolId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicecontrol::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicecontrol::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicecontrol::class . ':showSubDocuments');
@@ -3725,10 +4059,12 @@ final class Route
             $harddriveNew->map(['POST'], '', \App\v1\Controllers\Deviceharddrive::class . ':newItem');
           });
 
-          $deviceharddrives->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceharddriveId) {
+          $deviceharddrives->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceharddriveId)
+          {
             $deviceharddriveId->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':showItem');
             $deviceharddriveId->map(['POST'], '', \App\v1\Controllers\Deviceharddrive::class . ':updateItem');
-            $deviceharddriveId->group('/', function (RouteCollectorProxy $sub) {
+            $deviceharddriveId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Deviceharddrive::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Deviceharddrive::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Deviceharddrive::class . ':showSubDocuments');
@@ -3747,10 +4083,12 @@ final class Route
             $dfNew->map(['POST'], '', \App\v1\Controllers\Devicefirmware::class . ':newItem');
           });
 
-          $devicefirmwares->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicefirmwareId) {
+          $devicefirmwares->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicefirmwareId)
+          {
             $devicefirmwareId->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':showItem');
             $devicefirmwareId->map(['POST'], '', \App\v1\Controllers\Devicefirmware::class . ':updateItem');
-            $devicefirmwareId->group('/', function (RouteCollectorProxy $sub) {
+            $devicefirmwareId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicefirmware::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicefirmware::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicefirmware::class . ':showSubDocuments');
@@ -3769,10 +4107,12 @@ final class Route
             $dftypeNew->map(['POST'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':newItem');
           });
 
-          $devicefirmwaretypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicefirmwaretypeId) {
+          $devicefirmwaretypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicefirmwaretypeId)
+          {
             $devicefirmwaretypeId->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':showItem');
             $devicefirmwaretypeId->map(['POST'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':updateItem');
-            $devicefirmwaretypeId->group('/', function (RouteCollectorProxy $sub) {
+            $devicefirmwaretypeId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicefirmwaretype::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicefirmwaretype::class . ':restoreItem');
             });
@@ -3788,10 +4128,12 @@ final class Route
             $driveNew->map(['POST'], '', \App\v1\Controllers\Devicedrive::class . ':newItem');
           });
 
-          $devicedrives->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicedriveId) {
+          $devicedrives->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicedriveId)
+          {
             $devicedriveId->map(['GET'], '', \App\v1\Controllers\Devicedrive::class . ':showItem');
             $devicedriveId->map(['POST'], '', \App\v1\Controllers\Devicedrive::class . ':updateItem');
-            $devicedriveId->group('/', function (RouteCollectorProxy $sub) {
+            $devicedriveId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicedrive::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicedrive::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicedrive::class . ':showSubDocuments');
@@ -3810,10 +4152,12 @@ final class Route
             $memoryNew->map(['POST'], '', \App\v1\Controllers\Devicememory::class . ':newItem');
           });
 
-          $devicememories->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememoryId) {
+          $devicememories->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememoryId)
+          {
             $devicememoryId->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':showItem');
             $devicememoryId->map(['POST'], '', \App\v1\Controllers\Devicememory::class . ':updateItem');
-            $devicememoryId->group('/', function (RouteCollectorProxy $sub) {
+            $devicememoryId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicememory::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicememory::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicememory::class . ':showSubDocuments');
@@ -3832,10 +4176,12 @@ final class Route
             $processorNew->map(['POST'], '', \App\v1\Controllers\Deviceprocessor::class . ':newItem');
           });
 
-          $deviceprocessors->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceprocessorId) {
+          $deviceprocessors->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceprocessorId)
+          {
             $deviceprocessorId->map(['GET'], '', \App\v1\Controllers\Deviceprocessor::class . ':showItem');
             $deviceprocessorId->map(['POST'], '', \App\v1\Controllers\Deviceprocessor::class . ':updateItem');
-            $deviceprocessorId->group('/', function (RouteCollectorProxy $sub) {
+            $deviceprocessorId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Deviceprocessor::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Deviceprocessor::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Deviceprocessor::class . ':showSubDocuments');
@@ -3854,10 +4200,12 @@ final class Route
             $pciNew->map(['POST'], '', \App\v1\Controllers\Devicepci::class . ':newItem');
           });
 
-          $devicepcis->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicepciId) {
+          $devicepcis->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicepciId)
+          {
             $devicepciId->map(['GET'], '', \App\v1\Controllers\Devicepci::class . ':showItem');
             $devicepciId->map(['POST'], '', \App\v1\Controllers\Devicepci::class . ':updateItem');
-            $devicepciId->group('/', function (RouteCollectorProxy $sub) {
+            $devicepciId->group('/', function (RouteCollectorProxy $sub)
+            {
               $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicepci::class . ':deleteItem');
               $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicepci::class . ':restoreItem');
               $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicepci::class . ':showSubDocuments');
@@ -3877,10 +4225,12 @@ final class Route
           $ntemplateNew->map(['POST'], '', \App\v1\Controllers\Notificationtemplate::class . ':newItem');
         });
 
-        $notificationtemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $notificationtemplateId) {
+        $notificationtemplates->group("/{id:[0-9]+}", function (RouteCollectorProxy $notificationtemplateId)
+        {
           $notificationtemplateId->map(['GET'], '', \App\v1\Controllers\Notificationtemplate::class . ':showItem');
           $notificationtemplateId->map(['POST'], '', \App\v1\Controllers\Notificationtemplate::class . ':updateItem');
-          $notificationtemplateId->group('/', function (RouteCollectorProxy $sub) {
+          $notificationtemplateId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Notificationtemplate::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Notificationtemplate::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Notificationtemplate::class . ':showSubHistory');
@@ -3907,10 +4257,12 @@ final class Route
           $notificationNew->map(['POST'], '', \App\v1\Controllers\Notification::class . ':newItem');
         });
 
-        $notifications->group("/{id:[0-9]+}", function (RouteCollectorProxy $notificationId) {
+        $notifications->group("/{id:[0-9]+}", function (RouteCollectorProxy $notificationId)
+        {
           $notificationId->map(['GET'], '', \App\v1\Controllers\Notification::class . ':showItem');
           $notificationId->map(['POST'], '', \App\v1\Controllers\Notification::class . ':updateItem');
-          $notificationId->group('/', function (RouteCollectorProxy $sub) {
+          $notificationId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Notification::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Notification::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Notification::class . ':showSubHistory');
@@ -3927,10 +4279,12 @@ final class Route
           $slmNew->map(['POST'], '', \App\v1\Controllers\Slm::class . ':newItem');
         });
 
-        $slms->group("/{id:[0-9]+}", function (RouteCollectorProxy $slmId) {
+        $slms->group("/{id:[0-9]+}", function (RouteCollectorProxy $slmId)
+        {
           $slmId->map(['GET'], '', \App\v1\Controllers\Slm::class . ':showItem');
           $slmId->map(['POST'], '', \App\v1\Controllers\Slm::class . ':updateItem');
-          $slmId->group('/', function (RouteCollectorProxy $sub) {
+          $slmId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Slm::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Slm::class . ':restoreItem');
             $sub->map(['GET'], 'slas', \App\v1\Controllers\Slm::class . ':showSubSlas');
@@ -3949,10 +4303,12 @@ final class Route
           $unicityNew->map(['POST'], '', \App\v1\Controllers\Fieldunicity::class . ':newItem');
         });
 
-        $fieldunicities->group("/{id:[0-9]+}", function (RouteCollectorProxy $fieldunicityId) {
+        $fieldunicities->group("/{id:[0-9]+}", function (RouteCollectorProxy $fieldunicityId)
+        {
           $fieldunicityId->map(['GET'], '', \App\v1\Controllers\Fieldunicity::class . ':showItem');
           $fieldunicityId->map(['POST'], '', \App\v1\Controllers\Fieldunicity::class . ':updateItem');
-          $fieldunicityId->group('/', function (RouteCollectorProxy $sub) {
+          $fieldunicityId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Fieldunicity::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Fieldunicity::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Fieldunicity::class . ':showSubHistory');
@@ -3964,11 +4320,13 @@ final class Route
       {
         $crontasks->map(['GET'], '', \App\v1\Controllers\Crontask::class . ':showAll');
         $crontasks->map(['POST'], '', \App\v1\Controllers\Crontask::class . ':postItem');
-        $crontasks->group("/{id:[0-9]+}", function (RouteCollectorProxy $crontaskId) {
+        $crontasks->group("/{id:[0-9]+}", function (RouteCollectorProxy $crontaskId)
+        {
           $crontaskId->map(['GET'], '', \App\v1\Controllers\Crontask::class . ':showItem');
           $crontaskId->map(['POST'], '', \App\v1\Controllers\Crontask::class . ':updateItem');
 
-          $crontaskId->group('/', function (RouteCollectorProxy $sub) {
+          $crontaskId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'executions', \App\v1\Controllers\Crontask::class . ':showSubExecutions');
             $sub->map(['GET'], 'executions/{executionid:[0-9]+}', \App\v1\Controllers\Crontask::class .
               ':showSubExecutionlogs');
@@ -3986,10 +4344,12 @@ final class Route
           $linkNew->map(['POST'], '', \App\v1\Controllers\Link::class . ':newItem');
         });
 
-        $links->group("/{id:[0-9]+}", function (RouteCollectorProxy $linkId) {
+        $links->group("/{id:[0-9]+}", function (RouteCollectorProxy $linkId)
+        {
           $linkId->map(['GET'], '', \App\v1\Controllers\Link::class . ':showItem');
           $linkId->map(['POST'], '', \App\v1\Controllers\Link::class . ':updateItem');
-          $linkId->group('/', function (RouteCollectorProxy $sub) {
+          $linkId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Link::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Link::class . ':restoreItem');
             $sub->map(['GET'], 'associateditemtypes', \App\v1\Controllers\Link::class . ':showSubAssociatedItemType');
@@ -4007,13 +4367,15 @@ final class Route
           $collectorNew->map(['POST'], '', \App\v1\Controllers\Mailcollector::class . ':newItem');
         });
 
-        $mailcollectors->group("/{id:[0-9]+}", function (RouteCollectorProxy $mailcollectorId) {
+        $mailcollectors->group("/{id:[0-9]+}", function (RouteCollectorProxy $mailcollectorId)
+        {
           $mailcollectorId->map(['GET'], '', \App\v1\Controllers\Mailcollector::class . ':showItem');
           $mailcollectorId->map(['POST'], '', \App\v1\Controllers\Mailcollector::class . ':updateItem');
           $mailcollectorId->map(['GET'], '/oauth', \App\v1\Controllers\Mailcollector::class . ':doOauth');
           $mailcollectorId->map(['GET'], '/oauth/cb', \App\v1\Controllers\Mailcollector::class . ':callbackOauth');
 
-          $mailcollectorId->group('/', function (RouteCollectorProxy $sub) {
+          $mailcollectorId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Mailcollector::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Mailcollector::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Mailcollector::class . ':showSubHistory');
@@ -4030,11 +4392,13 @@ final class Route
           $ssonew->map(['POST'], '', \App\v1\Controllers\Authsso::class . ':newItem');
         });
 
-        $authssos->group("/{id:[0-9]+}", function (RouteCollectorProxy $ssoId) {
+        $authssos->group("/{id:[0-9]+}", function (RouteCollectorProxy $ssoId)
+        {
           $ssoId->map(['GET'], '', \App\v1\Controllers\Authsso::class . ':showItem');
           $ssoId->map(['POST'], '', \App\v1\Controllers\Authsso::class . ':updateItem');
 
-          $ssoId->group('/', function (RouteCollectorProxy $sub) {
+          $ssoId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Authsso::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Authsso::class . ':restoreItem');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Authsso::class . ':showSubHistory');
@@ -4051,10 +4415,12 @@ final class Route
           $ldapNew->map(['POST'], '', \App\v1\Controllers\Authldap::class . ':newItem');
         });
 
-        $ldaps->group("/{id:[0-9]+}", function (RouteCollectorProxy $ldapId) {
+        $ldaps->group("/{id:[0-9]+}", function (RouteCollectorProxy $ldapId)
+        {
           $ldapId->map(['GET'], '', \App\v1\Controllers\Authldap::class . ':showItem');
           $ldapId->map(['POST'], '', \App\v1\Controllers\Authldap::class . ':updateItem');
-          $ldapId->group('/', function (RouteCollectorProxy $sub) {
+          $ldapId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Authldap::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Authldap::class . ':restoreItem');
           });
@@ -4072,10 +4438,12 @@ final class Route
         //   $formNew->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':newItem');
         // });
 
-        $forms->group("/{id:[0-9]+}", function (RouteCollectorProxy $formId) {
+        $forms->group("/{id:[0-9]+}", function (RouteCollectorProxy $formId)
+        {
           $formId->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':showItem');
           // $formId->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':updateItem');
-          $formId->group('/', function (RouteCollectorProxy $sub) {
+          $formId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Form::class . ':showSubSections');
             $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Form::class . ':showSubQuestions');
             $sub->map(['GET'], 'answers', \App\v1\Controllers\Forms\Form::class . ':showSubAnswers');
@@ -4094,10 +4462,12 @@ final class Route
         //   $sectionNew->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':newItem');
         // });
 
-        $sections->group("/{id:[0-9]+}", function (RouteCollectorProxy $sectionId) {
+        $sections->group("/{id:[0-9]+}", function (RouteCollectorProxy $sectionId)
+        {
           $sectionId->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':showItem');
           // $sectionId->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':updateItem');
-          $sectionId->group('/', function (RouteCollectorProxy $sub) {
+          $sectionId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'forms', \App\v1\Controllers\Forms\Section::class . ':showSubForms');
             $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Section::class . ':showSubQuestions');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Section::class . ':showSubHistory');
@@ -4115,10 +4485,12 @@ final class Route
         //   $questionNew->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':newItem');
         // });
 
-        $questions->group("/{id:[0-9]+}", function (RouteCollectorProxy $questionId) {
+        $questions->group("/{id:[0-9]+}", function (RouteCollectorProxy $questionId)
+        {
           $questionId->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showItem');
           // $questionId->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':updateItem');
-          $questionId->group('/', function (RouteCollectorProxy $sub) {
+          $questionId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Question::class . ':showSubSections');
             $sub->map(['GET'], 'forms', \App\v1\Controllers\Forms\Question::class . ':showSubForms');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Question::class . ':showSubHistory');
@@ -4136,21 +4508,25 @@ final class Route
         //   $answerNew->map(['POST'], '', \App\v1\Controllers\Forms\Answer::class . ':newItem');
         // });
 
-        $answers->group("/{id:[0-9]+}", function (RouteCollectorProxy $answerId) {
+        $answers->group("/{id:[0-9]+}", function (RouteCollectorProxy $answerId)
+        {
           $answerId->map(['GET'], '', \App\v1\Controllers\Forms\Answer::class . ':showAnswer');
           // $answerId->map(['POST'], '', \App\v1\Controllers\Forms\Answer::class . ':updateItem');
-          $answerId->group('/', function (RouteCollectorProxy $sub) {
+          $answerId->group('/', function (RouteCollectorProxy $sub)
+          {
             $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Answer::class . ':showSubHistory');
           });
         });
       });
 
-      $view->group('/menubookmarks', function (RouteCollectorProxy $menu) {
+      $view->group('/menubookmarks', function (RouteCollectorProxy $menu)
+      {
         $menu->map(['GET'], '{endpoint:[a-zA-Z/]+}', \App\v1\Controllers\Menubookmark::class . ':newItem');
         $menu->map(['GET'], '/delete/{id:[0-9]+}', \App\v1\Controllers\Menubookmark::class . ':deleteItem');
       });
 
-      $view->group('/infocoms', function (RouteCollectorProxy $infocoms) {
+      $view->group('/infocoms', function (RouteCollectorProxy $infocoms)
+      {
         $infocoms->map(['POST'], '', \App\v1\Controllers\Infocom::class . ':saveItem');
       });
     });

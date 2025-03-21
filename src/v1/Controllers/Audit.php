@@ -21,34 +21,34 @@ final class Audit extends Common
 
   public static function addEntry(
     Request $request,
-    $action,
-    $message,
-    $model,
-    $itemId = 0,
-    $httpcode = 200,
-    $subaction = null
-  )
+    string $action,
+    string $message,
+    string|null $model,
+    int $itemId = 0,
+    int $httpcode = 200,
+    string|null $subaction = null
+  ): void
   {
     $audit = new \App\Models\Audit();
-    if (isset($GLOBALS['user_id']) && !is_null($GLOBALS['user_id']))
+    if (isset($GLOBALS['user_id']))
     {
-      $audit->userid = $GLOBALS['user_id'];
+      $audit->setAttribute('user_id', $GLOBALS['user_id']);
       $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
       // Store the name in case the user account deleted later
       if (!is_null($user))
       {
-        $audit->username = $user->completename;
+        $audit->setAttribute('username', $user->completename);
       }
     }
-    $audit->ip = $request->getServerParams()['REMOTE_ADDR'];
-    $audit->endpoint = $request->getUri()->getPath();
-    $audit->httpmethod = $request->getMethod();
-    $audit->httpcode = $httpcode;
-    $audit->action = $action;
-    $audit->subaction = $subaction;
-    $audit->item_type = $model;
-    $audit->item_id = $itemId;
-    $audit->message = $message;
+    $audit->setAttribute('ip', $request->getServerParams()['REMOTE_ADDR']);
+    $audit->setAttribute('endpoint', $request->getUri()->getPath());
+    $audit->setAttribute('httpmethod', $request->getMethod());
+    $audit->setAttribute('httpcode', $httpcode);
+    $audit->setAttribute('action', $action);
+    $audit->setAttribute('subaction', $subaction);
+    $audit->setAttribute('item_type', $model);
+    $audit->setAttribute('item_id', $itemId);
+    $audit->setAttribute('message', $message);
     $audit->save();
   }
 }
