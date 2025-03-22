@@ -1077,7 +1077,6 @@ final class Route
         });
       });
 
-
       $view->group('/projects', function (RouteCollectorProxy $projects)
       {
         $projects->map(['GET'], '', \App\v1\Controllers\Project::class . ':showAll');
@@ -1366,14 +1365,14 @@ final class Route
           $queuednotificationId->map(['POST'], '', \App\v1\Controllers\Queuednotification::class . ':updateItem');
         });
       });
-      $view->group('/events', function (RouteCollectorProxy $events)
+      $view->group('/audits', function (RouteCollectorProxy $audits)
       {
-        $events->map(['GET'], '', \App\v1\Controllers\Event::class . ':showAll');
-        $events->map(['POST'], '', \App\v1\Controllers\Event::class . ':postItem');
-        $events->group("/{id:[0-9]+}", function (RouteCollectorProxy $eventId)
+        $audits->map(['GET'], '', \App\v1\Controllers\Audit::class . ':showAll');
+        $audits->map(['POST'], '', \App\v1\Controllers\Audit::class . ':postItem');
+        $audits->group("/{id:[0-9]+}", function (RouteCollectorProxy $eventId)
         {
-          $eventId->map(['GET'], '', \App\v1\Controllers\Event::class . ':showItem');
-          $eventId->map(['POST'], '', \App\v1\Controllers\Event::class . ':updateItem');
+          $eventId->map(['GET'], '', \App\v1\Controllers\Audit::class . ':showItem');
+          $eventId->map(['POST'], '', \App\v1\Controllers\Audit::class . ':updateItem');
         });
       });
 
