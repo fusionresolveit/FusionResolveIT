@@ -41,6 +41,12 @@ class PostCategory extends Post
   /** @var ?bool */
   public $is_change;
 
+  /** @var ?bool */
+  public $is_knowledge;
+
+  /** @var ?bool */
+  public $is_form;
+
   /** @var ?\App\Models\Tickettemplate */
   public $tickettemplateDemand;
 
@@ -157,6 +163,28 @@ class PostCategory extends Post
       $this->is_change = true;
     } else {
       $this->is_change = false;
+    }
+
+    if (
+        Validation::attrStr('is_knowledge')->isValid($data) &&
+        isset($data->is_knowledge) &&
+        $data->is_knowledge == 'on'
+    )
+    {
+      $this->is_knowledge = true;
+    } else {
+      $this->is_knowledge = false;
+    }
+
+    if (
+        Validation::attrStr('is_form')->isValid($data) &&
+        isset($data->is_form) &&
+        $data->is_form == 'on'
+    )
+    {
+      $this->is_form = true;
+    } else {
+      $this->is_form = false;
     }
 
     if (

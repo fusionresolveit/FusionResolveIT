@@ -37,7 +37,7 @@ class Computer
       'uuid' => $translator->translate('UUID'),
       'autoupdatesystem' => $translator->translate('Update Source', 'Update Sources', 1),
       'comment' => $translator->translate('Comments'),
-      'udpated_at' => $translator->translate('Last update'),
+      'updated_at' => $translator->translate('Last update'),
       'created_at' => $translator->translate('Creation date'),
     ];
 
@@ -148,7 +148,7 @@ class Computer
       fillable: true
     ));
     $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
-    $defColl->add(new Def(19, $t['udpated_at'], 'datetime', 'udpated_at', readonly: true));
+    $defColl->add(new Def(19, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
     $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
 
     return $defColl;

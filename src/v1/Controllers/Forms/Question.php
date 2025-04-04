@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Forms;
 
+use App\DataInterface\PostFormQuestion;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\Subs\History;
@@ -26,6 +27,97 @@ final class Question extends \App\v1\Controllers\Common
   protected function instanciateModel(): \App\Models\Forms\Question
   {
     return new \App\Models\Forms\Question();
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function showNewItem(Request $request, Response $response, array $args): Response
+  {
+    global $translator;
+    $view = Twig::fromRequest($request);
+
+    $item = $this->instanciateModel();
+
+    $data = (object) $request->getQueryParams();
+    $fieldTypes = \App\Models\Definitions\Forms\Question::getFieldtype();
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($item, $request);
+
+    // check if field 'type' exists and have value in definition->getFieldtype()
+    if (isset($data->type) && isset($fieldTypes[$data->type]))
+    {
+      // display fields to fill
+
+      $hideFields = $this->hideFieldsForType($data->type);
+      $fields = $item->getFormData($item);
+      // update field type
+      foreach ($fields as &$field)
+      {
+        if ($field->name == 'fieldtype')
+        {
+          $field->value = $data->type;
+          $field->readonly = true;
+        }
+        if (in_array($field->name, $hideFields))
+        {
+          $field->display = false;
+        }
+      }
+
+      $viewData->addData('fields', $fields);
+      $viewData->addData('content', '');
+
+      $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
+
+      return $view->render($response, 'genericForm.html.twig', (array)$viewData);
+    }
+    // else, display choose the type, make card for each type
+
+    $viewData->addData('types', $fieldTypes);
+
+    return $view->render($response, 'questionTypeSelection.html.twig', (array)$viewData);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $data = new PostFormQuestion((object) $request->getParsedBody());
+
+    $question = new \App\Models\Forms\Question();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($question))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $question = \App\Models\Forms\Question::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($question, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/questions/' . $question->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/questions')
+      ->withStatus(302);
   }
 
   /**
@@ -166,5 +258,130 @@ final class Question extends \App\v1\Controllers\Common
     }
 
     return $tabInfos;
+  }
+
+  /**
+   * return list of fields name to hide in the form (new / update)
+   * @return array<string>
+   */
+  private function hideFieldsForType($type): array
+  {
+    switch ($type) {
+      case 'checkbox':
+        return [
+          'range_min',
+          'range_max',
+          'regex',
+        ];
+
+      case 'radio':
+        return [
+          'range_min',
+          'range_max',
+          'regex',
+        ];
+
+      case 'hidden':
+        return [
+          'range_min',
+          'range_max',
+          'regex',
+          'default_values',
+          'values',
+        ];
+
+      case 'email':
+        return [
+          'range_min',
+          'range_max',
+          'default_values',
+          'values',
+        ];
+    
+      case 'date':
+        return [
+          'default_values',
+          'values',
+        ];
+
+      case 'description':
+        return [
+          'range_min',
+          'range_max',
+          'default_values',
+          'values',
+        ];
+
+      case 'integer':
+        return [
+          'regex',
+          'default_values',
+          'values',
+        ];
+
+      case 'file':
+        return [
+          'regex',
+          'default_values',
+          'values',
+        ];
+
+      case 'float':
+        return [
+          'regex',
+          'default_values',
+          'values',
+        ];
+
+      case 'time':
+        return [
+          'default_values',
+          'values',
+        ];
+
+      case 'dropdown':
+        return [
+          'range_min',
+          'range_max',
+          'regex',
+        ];     
+
+      case 'glpiselect':
+        return [
+          'regex',
+        ];     
+
+      case 'select':
+        return [
+          'regex',
+        ];     
+
+      case 'multiselect':
+        return [
+          'regex',
+        ];     
+           
+      case 'text':
+        return [
+          'range_min',
+          'range_max',
+          'default_values',
+          'values',
+        ];       
+
+      case 'urgency':
+        return [
+          'regex',
+          'default_values',
+          'values',
+        ];     
+          
+      case 'textarea':
+        return [
+          'default_values',
+          'values',
+        ];  
+    }
+    return [];
   }
 }

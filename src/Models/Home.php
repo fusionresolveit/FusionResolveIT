@@ -12,7 +12,7 @@ class Home extends Common
 
   protected $definition = \App\Models\Definitions\Home::class;
   protected $titles = ['Home', 'Home'];
-  protected $icon = 'house';
+  protected $icon = 'home';
 
   protected $appends = [
   ];

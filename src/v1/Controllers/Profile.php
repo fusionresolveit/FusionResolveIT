@@ -219,6 +219,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
       \App\Models\Cluster::class,
       \App\Models\Domain::class,
       \App\Models\Appliance::class,
+      \App\Models\Knowbaseitem::class,
     ],
     'tools' => [
       \App\Models\Project::class,
@@ -870,7 +871,6 @@ final class Profile extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($profile));
     $viewData->addData('users', $myUsers);
     $viewData->addData('show', $this->choose);
-
 
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('is_dynamic', $translator->translate('Dynamic'));

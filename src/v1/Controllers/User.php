@@ -63,7 +63,21 @@ final class User extends Common implements \App\Interfaces\Crud
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $user = \App\Models\User::create($data->exportToArray());
+    $dataToAdd = $data->exportToArray();
+    if (
+        (
+          !empty($dataToAdd['new_password']) &&
+          !empty($dataToAdd['new_password_verification'])
+        ) &&
+        $dataToAdd['new_password'] == $dataToAdd['new_password_verification']
+    )
+    {
+      $dataToAdd['password'] = \App\v1\Controllers\Token::generateDBHashPassword($dataToAdd['new_password']);
+    }
+    unset($dataToAdd['new_password']);
+    unset($dataToAdd['new_password_verification']);
+
+    $user = \App\Models\User::create(dataToAdd);
 
     \App\v1\Controllers\Toolbox::addSessionMessage('The user has been created successfully');
     \App\v1\Controllers\Notification::prepareNotification($user, 'new');
@@ -106,7 +120,21 @@ final class User extends Common implements \App\Interfaces\Crud
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $user->update($data->exportToArray());
+    $dataToUpdate = $data->exportToArray();
+    if (
+        (
+          !empty($dataToUpdate['new_password']) &&
+          !empty($dataToUpdate['new_password_verification'])
+        ) &&
+        $dataToUpdate['new_password'] == $dataToUpdate['new_password_verification']
+    )
+    {
+      $dataToUpdate['password'] = \App\v1\Controllers\Token::generateDBHashPassword($dataToUpdate['new_password']);
+    }
+    unset($dataToUpdate['new_password']);
+    unset($dataToUpdate['new_password_verification']);
+
+    $user->update($dataToUpdate);
 
     \App\v1\Controllers\Toolbox::addSessionMessage('The user has been updated successfully');
     \App\v1\Controllers\Notification::prepareNotification($user, 'update');

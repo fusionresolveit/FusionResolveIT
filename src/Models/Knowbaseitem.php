@@ -17,6 +17,7 @@ class Knowbaseitem extends Common
   protected $definition = \App\Models\Definitions\Knowbaseitem::class;
   protected $titles = ['Knowledge base item', 'Knowledge base items'];
   protected $icon = 'edit';
+  protected $hasEntityField = false;
 
   protected $appends = [
   ];
@@ -27,14 +28,14 @@ class Knowbaseitem extends Common
   ];
 
   protected $with = [
-    'category:id,name',
+    'category:id,name,treepath',
     'user:id,name,firstname,lastname',
   ];
 
-  /** @return BelongsTo<\App\Models\Knowbaseitemcategory, $this> */
+  /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\Knowbaseitemcategory::class, 'knowbaseitemcategory_id');
+    return $this->belongsTo(\App\Models\Category::class, 'category_id');
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */

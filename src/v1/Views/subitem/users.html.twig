@@ -2,6 +2,31 @@
 {{ include('headerForm.html.twig') }}
 
 {% if data.show == 'groups' %}
+  {% if data.userActions %}
+  <div class="ui internally celled grid">
+    <div class="row">
+      <div class="five wide column">
+        <div class="ui form blue segment">
+          <div class="ui blue right ribbon label" style="text-transform: capitalize">
+            <span>Add user</span>
+          </div>
+          <div class="field" style="display: block">
+            <form action="{{ basePath }}/view/groups/{{ header.id }}/users" method="post" class="ui form">
+              {% set item = data.userDropdown %}
+              {{ include('fields.html.twig') }}
+              <button
+                class="ui labeled icon primary button"
+                type="submit"
+              >
+                <i class="save icon"></i>
+                <span>Save</span>
+              </button>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
   <table class="ui blue table">
     <thead>
       <tr>

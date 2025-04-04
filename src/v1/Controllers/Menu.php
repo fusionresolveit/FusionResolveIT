@@ -544,6 +544,12 @@ final class Menu
         'icon' => 'block layout',
         'sub'  => [
           [
+            'name' => $translator->translatePlural('Knowledge base item', 'Knowledge base items', 2),
+            'endpoint' => '/view/knowbaseitems',
+            'icon' => 'edit',
+            'display' => $this->getRightForModel('\App\Models\Knowbaseitem'),
+          ],
+          [
             'name' => $translator->translatePlural('Document', 'Documents', 2),
             'endpoint' => '/view/documents',
             'icon' => 'file',
@@ -611,7 +617,7 @@ final class Menu
             'display' => $this->getRightForModel('\App\Models\Blacklistedmailcontent'),
           ],
           [
-            'name' => $translator->translatePlural('ITIL category', 'ITIL categories', 2),
+            'name' => $translator->translatePlural('Category', 'Categories', 2),
             'endpoint' => '/view/categories',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Category'),

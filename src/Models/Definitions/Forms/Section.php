@@ -15,14 +15,16 @@ class Section
 
     $t = [
       'name' => $translator->translate('Name'),
-      'date_creation' => $translator->translate('Creation date'),
-      'date_mod' => $translator->translate('Last update'),
+      'comment' => $translator->translate('Comments'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
     $defColl->add(new Def(1, $t['name'], 'input', 'name'));
-    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
-    $defColl->add(new Def(16, $t['date_mod'], 'datetime', 'date_mod', readonly: true));
+    $defColl->add(new Def(1001, $t['comment'], 'textarea', 'comment', fillable: true));
+    $defColl->add(new Def(16, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(15, $t['created_at'], 'datetime', 'created_at', readonly: true));
 
     return $defColl;
   }

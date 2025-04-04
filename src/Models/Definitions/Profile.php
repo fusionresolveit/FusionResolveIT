@@ -31,7 +31,6 @@ class Profile
       $t['interface'],
       'dropdown',
       'interface',
-      dbname: 'interface',
       values: self::getInterfaceArray(),
       fillable: true
     ));
