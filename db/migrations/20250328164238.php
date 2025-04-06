@@ -66,7 +66,6 @@ final class V20250328164238 extends AbstractMigration
 
   public function down(): void
   {
-
   }
 
   private function generateTreepath(int $id): void
