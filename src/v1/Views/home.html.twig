@@ -11,7 +11,7 @@
           <div class="sub header">{{ data.fields.paging.total }} items</div>
         </div>
       </div>
-      <span style="float: right;">
+      <span style="float: right;" data-cy='home-tech-switchtotech'>
         <form action="{{ basePath }}/view/home/switch" method="post" class="ui form">
           <button class="ui labeled icon button" type="submit">
             <i class="random icon"></i>
@@ -27,7 +27,7 @@
   <br>
   <div class="ui stackable cards">
     {% for mycard in data.mytest %}
-      <div class="ui {{ mycard.color }} card" style="width: 470px;">
+      <div class="ui {{ mycard.color }} card" style="width: 470px;" data-cy="home-tech-card-{{ mycard.header.name}}">
         <div class="content" style="height: 68px;max-height: 68px;">
           <div class="header" style="text-transform: uppercase;">
             <span class="ui {{ mycard.color }} text">
@@ -45,7 +45,10 @@
           {% if mycard.list is defined %}
             <div class="ui grid">
             {% for item in mycard.list %}
-              <div class="five wide column" style="padding-bottom: 5px; padding-top: 5px;">
+              <div
+                class="five wide column"
+                style="padding-bottom: 5px; padding-top: 5px;"
+              >
                 <div class="ui labeled mini button" tabindex="0">
                   <a class="ui {{ mycard.color }} mini button" href="{{ mycard.url }}/{{ item.id }}">
                     <i class="id card icon"></i> id

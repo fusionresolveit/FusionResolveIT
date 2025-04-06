@@ -230,23 +230,24 @@ final class Home extends Common
     $viewData->addData('items', $items);
 
     $myData = [
-      [
-        'header' => [
-          'title' => 'Last escaladed tickets',
-          'subtitle' => '',
-        ],
-        'list' => [
-          [
-            'id' => '254678',
-            'name' => 'signature problem',
-          ],
-        ],
-        'footer' => [
-          'enabled' => true,
-          'url' => '',
-        ],
-        'color' => 'blue',
-      ],
+      // [
+      //   'header' => [
+      //     'title'     => 'Last escaladed tickets',
+      //     'subtitle'  => '',
+      //     'name'      => 'last-escaladed-tickets',
+      //   ],
+      //   'list' => [
+      //     [
+      //       'id'   => '254678',
+      //       'name' => 'signature problem',
+      //     ],
+      //   ],
+      //   'footer' => [
+      //     'enabled' => true,
+      //     'url' => '',
+      //   ],
+      //   'color' => 'blue',
+      // ],
     ];
 
     // TODO dynamic here, delete before this line
@@ -254,148 +255,155 @@ final class Home extends Common
     [$cnt, $data] = $this->getNewTickets();
     $myData[] = [
       'header' => [
-        'icon' => 'book open',
-        'title' => $translator->translate('New tickets'),
-        'subtitle' => $cnt . ' tickets',
+        'icon'      => 'book open',
+        'title'     => $translator->translate('New tickets'),
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'new-tickets',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'olive',
-      'url' => $basePath . '/view/tickets',
+      'color'  => 'olive',
+      'url'    => $basePath . '/view/tickets',
     ];
 
     [$cnt, $data] = $this->getTicketsAssignedToMe();
 
     $myData[] = [
       'header' => [
-        'icon' => 'book reader',
-        'title' => 'Tickets assigned to me',
-        'subtitle' => $cnt . ' tickets',
+        'icon'      => 'book reader',
+        'title'     => 'Tickets assigned to me',
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'my-assigned-tickets',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
-      'url' => $basePath . '/view/tickets',
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
     ];
 
     [$cnt, $data] = $this->getMyTickets();
 
     $myData[] = [
       'header' => [
-        'icon' => 'user circle',
-        'title' => 'My tickets',
-        'subtitle' => $cnt . ' tickets',
+        'icon'      => 'user circle',
+        'title'     => 'My tickets',
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'my-tickets',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'green',
-      'url' => $basePath . '/view/tickets',
+      'color'  => 'green',
+      'url'    => $basePath . '/view/tickets',
     ];
 
     [$cnt, $data] = $this->getMyGroupTickets();
 
     $myData[] = [
       'header' => [
-        'icon' => 'user friends',
-        'title' => 'Tickets of my groups',
-        'subtitle' => $cnt . ' tickets',
+        'icon'      => 'user friends',
+        'title'     => 'Tickets of my groups',
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'my-groups-tickets',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
+      'color'  => 'blue',
     ];
 
     $cnt = $this->getNumberIncidentsToday();
 
     $myData[] = [
       'header' => [
-        'title' => 'Number of today incidents',
-        'subtitle' => '',
+        'title'     => 'Number of today incidents',
+        'subtitle'  => '',
+        'name'      => 'number-today-incidents',
       ],
-      'stat' => $cnt,
+      'stat'   => $cnt,
       'footer' => [
         'enabled' => false,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
+      'color'  => 'blue',
     ];
 
     [$cnt, $data] = $this->getLastProblems();
 
     $myData[] = [
       'header' => [
-        'icon' => 'drafting compass',
-        'title' => 'Last problems',
-        'subtitle' => $cnt . ' problems',
+        'icon'      => 'drafting compass',
+        'title'     => 'Last problems',
+        'subtitle'  => $cnt . ' problems',
+        'name'      => 'last-problems',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
+      'color'  => 'blue',
     ];
 
     [$cnt, $data] = $this->getLastChanges();
 
     $myData[] = [
       'header' => [
-        'icon' => 'paint roller',
-        'title' => 'Last changes',
-        'subtitle' => $cnt . ' problems',
+        'icon'      => 'paint roller',
+        'title'     => 'Last changes',
+        'subtitle'  => $cnt . ' changes',
+        'name'      => 'last changes',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
+      'color'  => 'blue',
     ];
 
     [$cnt, $data] = $this->getLastKnowbaseitems();
 
     $myData[] = [
       'header' => [
-        'icon' => 'edit',
-        'title' => 'Last knowledge items',
-        'subtitle' => $cnt . ' articles',
+        'icon'      => 'edit',
+        'title'     => 'Last knowledge items',
+        'subtitle'  => $cnt . ' articles',
+        'name'      => 'last-knowledge-items',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
+      'color'  => 'blue',
     ];
 
     [$cnt, $data] = $this->getLinkedTickets();
 
     $myData[] = [
       'header' => [
-        'title' => 'Linked tickets',
-        'subtitle' => $cnt . ' articles',
+        'title'     => 'Linked tickets',
+        'subtitle'  => $cnt . ' articles',
+        'name'      => 'linked-tickets',
       ],
-      'list' => $data,
+      'list'   => $data,
       'footer' => [
         'enabled' => $cnt >= 5,
-        'url' => '',
+        'url'     => '',
       ],
-      'color' => 'blue',
+      'color'  => 'blue',
     ];
-
-
 
     $viewData->addData('mytest', $myData);
 
