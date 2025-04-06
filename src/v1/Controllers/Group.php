@@ -306,12 +306,15 @@ final class Group extends Common implements \App\Interfaces\Crud
     return $view->render($response, 'subitem/users.html.twig', (array)$viewData);
   }
 
+  /**
+   * @param array<string, string> $args
+   */
   public function newSubUsers(Request $request, Response $response, array $args): Response
   {
     global $basePath;
 
     $data = new PostGroupSubUser((object) $request->getParsedBody());
-    $adata = $data->exportToArray(); 
+    $adata = $data->exportToArray();
 
     $group = \App\Models\Group::where('id', $args['id'])->first();
     if (is_null($group))
@@ -319,7 +322,10 @@ final class Group extends Common implements \App\Interfaces\Crud
       throw new \Exception('Id not found', 404);
     }
 
-    $group->users()->attach($adata['user']->id);
+    if (isset($adata['user']))
+    {
+      $group->users()->attach($adata['user']->id);
+    }
 
     return $response
       ->withHeader('Location', $basePath . '/view/groups/' . $args['id'] . '/users')

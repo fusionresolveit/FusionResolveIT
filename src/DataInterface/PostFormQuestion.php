@@ -32,13 +32,13 @@ class PostFormQuestion extends Post
   /** @var ?integer */
   public $width;
 
-  /** @var ?integer|null */
+  /** @var ?integer */
   public $range_min;
 
-  /** @var ?integer|null */
+  /** @var ?integer */
   public $range_max;
 
-  /** @var ?string|null */
+  /** @var ?string */
   public $regex;
 
   public function __construct(object $data)
@@ -72,8 +72,8 @@ class PostFormQuestion extends Post
     ];
     if (
         Validation::attrStr('fieldtype')->isValid($data) &&
-        Validation::strInArray($valuesAllowed)->isValid($data->valuesAllowed) &&
-        isset($data->fieldtype)
+        isset($data->fieldtype) &&
+        Validation::strInArray($valuesAllowed)->isValid($data->fieldtype)
     )
     {
       $this->fieldtype = $data->fieldtype;

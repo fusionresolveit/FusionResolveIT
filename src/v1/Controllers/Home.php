@@ -7,6 +7,7 @@ namespace App\v1\Controllers;
 use Illuminate\Support\Carbon;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Ramsey\Uuid\Type\Integer;
 use Slim\Views\Twig;
 
 final class Home extends Common
@@ -490,7 +491,6 @@ final class Home extends Common
           (
             isset($data->category) &&
             is_numeric($data->category) &&
-            !is_null($form->category) &&
             $form->category->id == (int) $data->category
           )
       )
@@ -503,7 +503,9 @@ final class Home extends Common
           'button_title'  => 'Fill this form',
           'url'           => '',
         ];
-      } else {
+      }
+      elseif (!is_null($form->category->treepath))
+      {
         if (isset($data->category) && is_numeric($data->category))
         {
           $next = false;
@@ -536,7 +538,6 @@ final class Home extends Common
           (
             isset($data->category) &&
             is_numeric($data->category) &&
-            !is_null($knowbaseitem->category) &&
             $knowbaseitem->category->id == (int) $data->category
           )
       )
@@ -549,7 +550,9 @@ final class Home extends Common
           'button_title'  => 'Read this article',
           'url'           => '',
         ];
-      } else {
+      }
+      elseif (!is_null($knowbaseitem->category->treepath))
+      {
         if (isset($data->category) && is_numeric($data->category))
         {
           $next = false;
@@ -594,7 +597,7 @@ final class Home extends Common
     if (isset($data->category) && is_numeric($data->category))
     {
       $category = \App\Models\Category::where('id', (int) $data->category)->first();
-      if (!is_null($category))
+      if (!is_null($category) && !is_null($category->treepath))
       {
         $categories = str_split($category->treepath, 5);
         foreach ($categories as $id)
@@ -1013,7 +1016,10 @@ final class Home extends Common
     }
   }
 
-  private function getNewTickets()
+  /**
+   * @return array<int, mixed>
+   */
+  private function getNewTickets(): array
   {
     $query = \App\Models\Ticket::where('status', 1);
     $tickets = $query->take(5)->get();
@@ -1031,6 +1037,9 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getTicketsAssignedToMe()
   {
     $query = \App\Models\Ticket::whereRelation('technician', 'users.id', $GLOBALS['user_id']);
@@ -1049,6 +1058,9 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getMyTickets()
   {
     $query = \App\Models\Ticket::whereRelation('requester', 'users.id', $GLOBALS['user_id']);
@@ -1068,6 +1080,9 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getMyGroupTickets()
   {
     $groupIds = [];
@@ -1097,12 +1112,15 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
-  private function getNumberIncidentsToday()
+  private function getNumberIncidentsToday(): int
   {
     $query = \App\Models\Ticket::whereDate('created_at', Carbon::today());
     return $query->count();
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getLastProblems()
   {
     $query = \App\Models\Problem::where('status', 1);
@@ -1121,6 +1139,9 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getLastChanges()
   {
     $query = \App\Models\Change::where('status', 1);
@@ -1139,6 +1160,9 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getLastKnowbaseitems()
   {
     $query = new \App\Models\Knowbaseitem();
@@ -1155,6 +1179,9 @@ final class Home extends Common
     return [$query->count(), $data];
   }
 
+  /**
+   * @return array<int, mixed>
+   */
   private function getLinkedTickets()
   {
     $query = \App\Models\Ticket::has('linkedtickets')->where('status', '<', 5);
@@ -1163,17 +1190,17 @@ final class Home extends Common
     $data = [];
     foreach ($tickets as $ticket)
     {
-        $links = [
-          self::LINK => 0,
-          self::DUPLICATE => 0,
-          self::SON => 0,
-          self::PARENT => 0,
-        ];
-        foreach ($ticket->linkedtickets as $linkedticket)
-        {
-          $links[$linkedticket->getRelationValue('pivot')->link]++;
-          $ticketFound[] = $linkedticket->id;
-        }
+      $links = [
+        self::LINK => 0,
+        self::DUPLICATE => 0,
+        self::SON => 0,
+        self::PARENT => 0,
+      ];
+      foreach ($ticket->linkedtickets as $linkedticket)
+      {
+        $links[$linkedticket->getRelationValue('pivot')->link]++;
+        $ticketFound[] = $linkedticket->id;
+      }
 
       $data[] = [
         'id'      => $ticket->id,
@@ -1181,7 +1208,6 @@ final class Home extends Common
         'status'  => implode(', ', self::showLinkedTickets($links)),
       ];
     }
-
     return [$query->count(), $data];
   }
 }

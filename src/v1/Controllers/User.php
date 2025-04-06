@@ -77,7 +77,7 @@ final class User extends Common implements \App\Interfaces\Crud
     unset($dataToAdd['new_password']);
     unset($dataToAdd['new_password_verification']);
 
-    $user = \App\Models\User::create(dataToAdd);
+    $user = \App\Models\User::create($dataToAdd);
 
     \App\v1\Controllers\Toolbox::addSessionMessage('The user has been created successfully');
     \App\v1\Controllers\Notification::prepareNotification($user, 'new');

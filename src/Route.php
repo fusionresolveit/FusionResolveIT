@@ -906,7 +906,7 @@ final class Route
           });
         });
       });
-      
+
       $view->group('/lines', function (RouteCollectorProxy $lines)
       {
         $lines->map(['GET'], '', \App\v1\Controllers\Line::class . ':showAll');

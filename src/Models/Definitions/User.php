@@ -43,6 +43,8 @@ class User
       'updated_at' => $translator->translate('Last update'),
       'created_at' => $translator->translate('Creation date'),
       'completename' => $translator->translate('Complete name'),
+      'new_password' => $translator->translate('New password'),
+      'new_password_verif' => $translator->translate('New password (verification)'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -50,8 +52,14 @@ class User
     $defColl->add(new Def(2, $t['id'], 'input', 'id', display: false));
     $defColl->add(new Def(34, $t['lastname'], 'input', 'lastname', fillable: true));
     $defColl->add(new Def(9, $t['firstname'], 'input', 'firstname', fillable: true));
-    $defColl->add(new Def(1001, 'New password', 'inputpassword', 'new_password', fillable: true));
-    $defColl->add(new Def(1002, 'New password (verification)', 'inputpassword', 'new_password_verification', fillable: true));
+    $defColl->add(new Def(1001, $t['new_password'], 'inputpassword', 'new_password', fillable: true));
+    $defColl->add(new Def(
+      1002,
+      $t['new_password_verif'],
+      'inputpassword',
+      'new_password_verification',
+      fillable: true
+    ));
     $defColl->add(new Def(8, $t['is_active'], 'boolean', 'is_active', fillable: true));
     $defColl->add(new Def(62, $t['begin_date'], 'datetime', 'begin_date', fillable: true));
     $defColl->add(new Def(63, $t['end_date'], 'datetime', 'end_date', fillable: true));

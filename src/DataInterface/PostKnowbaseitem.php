@@ -41,7 +41,6 @@ class PostKnowbaseitem extends Post
         throw new \Exception('Wrong data request', 400);
       }
     }
-
   }
 
   /**

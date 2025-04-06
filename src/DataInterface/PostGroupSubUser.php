@@ -17,18 +17,23 @@ class PostGroupSubUser extends Post
 
     $this->user = $this->setUser($data);
 
-    if ($this->user === 0)
+    if (is_null($this->user))
     {
       throw new \Exception('Wrong data request', 400);
     }
   }
 
   /**
-   * @return array{user: \App\Models\User}
+   * @return array{user?: \App\Models\User}
    */
   public function exportToArray(bool $filterRights = false): array
   {
     $vars = get_object_vars($this);
-    return $vars;
+    $user = \App\Models\User::where('id', $this->user)->first();
+    if (!is_null($user))
+    {
+      return ['user' => $user];
+    }
+    return [];
   }
 }

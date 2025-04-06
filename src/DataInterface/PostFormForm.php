@@ -96,7 +96,7 @@ class PostFormForm extends Post
     } else {
       $this->is_homepage = false;
     }
-    
+
     if (
         Validation::attrStr('icon')->isValid($data) &&
         isset($data->icon)

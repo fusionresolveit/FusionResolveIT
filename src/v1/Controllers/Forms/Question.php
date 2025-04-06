@@ -262,125 +262,126 @@ final class Question extends \App\v1\Controllers\Common
 
   /**
    * return list of fields name to hide in the form (new / update)
+   * @param $type 'checkbox'|'radio'|'hidden'|'email'|'date'|'description'|'integer'|'file'|'float'|'time'|'dropdown'|'glpiselect'|'select'|'multiselect'|'text'|'urgency'|'textarea'
    * @return array<string>
    */
-  private function hideFieldsForType($type): array
+  private function hideFieldsForType(string $type): array
   {
     switch ($type) {
       case 'checkbox':
-        return [
-          'range_min',
-          'range_max',
-          'regex',
-        ];
+          return [
+            'range_min',
+            'range_max',
+            'regex',
+          ];
 
       case 'radio':
-        return [
-          'range_min',
-          'range_max',
-          'regex',
-        ];
+          return [
+            'range_min',
+            'range_max',
+            'regex',
+          ];
 
       case 'hidden':
-        return [
-          'range_min',
-          'range_max',
-          'regex',
-          'default_values',
-          'values',
-        ];
+          return [
+            'range_min',
+            'range_max',
+            'regex',
+            'default_values',
+            'values',
+          ];
 
       case 'email':
-        return [
-          'range_min',
-          'range_max',
-          'default_values',
-          'values',
-        ];
-    
+          return [
+            'range_min',
+            'range_max',
+            'default_values',
+            'values',
+          ];
+
       case 'date':
-        return [
-          'default_values',
-          'values',
-        ];
+          return [
+            'default_values',
+            'values',
+          ];
 
       case 'description':
-        return [
-          'range_min',
-          'range_max',
-          'default_values',
-          'values',
-        ];
+          return [
+            'range_min',
+            'range_max',
+            'default_values',
+            'values',
+          ];
 
       case 'integer':
-        return [
-          'regex',
-          'default_values',
-          'values',
-        ];
+          return [
+            'regex',
+            'default_values',
+            'values',
+          ];
 
       case 'file':
-        return [
-          'regex',
-          'default_values',
-          'values',
-        ];
+          return [
+            'regex',
+            'default_values',
+            'values',
+          ];
 
       case 'float':
-        return [
-          'regex',
-          'default_values',
-          'values',
-        ];
+          return [
+            'regex',
+            'default_values',
+            'values',
+          ];
 
       case 'time':
-        return [
-          'default_values',
-          'values',
-        ];
+          return [
+            'default_values',
+            'values',
+          ];
 
       case 'dropdown':
-        return [
-          'range_min',
-          'range_max',
-          'regex',
-        ];     
+          return [
+            'range_min',
+            'range_max',
+            'regex',
+          ];
 
       case 'glpiselect':
-        return [
-          'regex',
-        ];     
+          return [
+            'regex',
+          ];
 
       case 'select':
-        return [
-          'regex',
-        ];     
+          return [
+            'regex',
+          ];
 
       case 'multiselect':
-        return [
-          'regex',
-        ];     
-           
+          return [
+            'regex',
+          ];
+
       case 'text':
-        return [
-          'range_min',
-          'range_max',
-          'default_values',
-          'values',
-        ];       
+          return [
+            'range_min',
+            'range_max',
+            'default_values',
+            'values',
+          ];
 
       case 'urgency':
-        return [
-          'regex',
-          'default_values',
-          'values',
-        ];     
-          
+          return [
+            'regex',
+            'default_values',
+            'values',
+          ];
+
       case 'textarea':
-        return [
-          'default_values',
-          'values',
-        ];  
+          return [
+            'default_values',
+            'values',
+          ];
     }
     return [];
   }
