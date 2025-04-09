@@ -19,7 +19,7 @@ class Supplier extends Common
   use \App\Traits\Relationships\Problems;
   use \App\Traits\Relationships\Changes;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -33,7 +33,7 @@ class Supplier extends Common
     'problems',
     'changes',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
   ];
 
   protected $appends = [
@@ -43,7 +43,7 @@ class Supplier extends Common
     'type',
     'entity',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'tickets',
     'problems',
@@ -54,7 +54,7 @@ class Supplier extends Common
     'type:id,name',
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'tickets:id,name',
     'problems:id,name',

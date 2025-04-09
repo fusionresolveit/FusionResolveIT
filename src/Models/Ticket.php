@@ -19,7 +19,7 @@ class Ticket extends Common
   use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Location;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -28,7 +28,7 @@ class Ticket extends Common
   protected $icon = 'hands helping';
   /** @var string[] */
   protected $cascadeDeletes = [
-    'knowbaseitems',
+    'knowledgebasearticles',
     'requester',
     'requestergroup',
     'watcher',
@@ -82,7 +82,7 @@ class Ticket extends Common
     'problems',
     'changes',
     'linkedtickets',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'followups',
     'costs',
     'approvals',
@@ -102,7 +102,7 @@ class Ticket extends Common
     'problems:id,name',
     'changes:id,name',
     'linkedtickets:id,name',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'entity:id,name,completename,address,country,email,fax,phonenumber,postcode,state,town,website',
     'followups:id,content',
     'solutions',

@@ -544,10 +544,10 @@ final class Menu
         'icon' => 'block layout',
         'sub'  => [
           [
-            'name' => $translator->translatePlural('Knowledge base item', 'Knowledge base items', 2),
-            'endpoint' => '/view/knowbaseitems',
+            'name' => $translator->translatePlural('Knowledge base article', 'Knowledge base articles', 2),
+            'endpoint' => '/view/knowledgebasearticles',
             'icon' => 'edit',
-            'display' => $this->getRightForModel('\App\Models\Knowbaseitem'),
+            'display' => $this->getRightForModel('\App\Models\Knowledgebasearticle'),
           ],
           [
             'name' => $translator->translatePlural('Document', 'Documents', 2),
@@ -1039,12 +1039,6 @@ final class Menu
             'endpoint' => '/view/businesscriticities',
             'icon' => 'edit',
             'display' => $this->getRightForModel('\App\Models\Businesscriticity'),
-          ],
-          [
-            'name' => $translator->translatePlural('Knowledge base category', 'Knowledge base categories', 2),
-            'endpoint' => '/view/knowbaseitemcategories',
-            'icon' => 'edit',
-            'display' => $this->getRightForModel('\App\Models\Knowbaseitemcategory'),
           ],
           [
             'name' => $translator->translatePlural('Calendar', 'Calendars', 2),

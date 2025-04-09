@@ -1,0 +1,31 @@
+<div data-cy="form-header-id" class="ui pageheader">
+  <div style="height: 1px"></div>
+  <div class="ui {{ header.color }} dividing header">
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        <i class="big {{ header.icon }} icon"></i>
+        <div class="content">
+          <span data-cy="form-header-name">{{ header.name }}</span>
+          |
+          {% if header.id > 0 %}
+            <span>id </span><i data-cy="form-header-id">{{ header.id }}</i>
+            {% if data.fields is defined %}
+              {% for item in data.fields %}
+                {% if item.name == 'status' %}
+                  |
+                  <span data-cy="form-header-status" class="ui {{ item.values[item.value].color }} text">
+                    <i class="{{ item.values[item.value].icon }} icon"></i>
+                    <span data-cy="form-header-status-value">{{ item.values[item.value].title }}</span>
+                  </span>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% else %}
+            <span>New</span>
+          {% endif %}
+          <div data-cy="form-header-title" class="sub header">{{ data.title }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

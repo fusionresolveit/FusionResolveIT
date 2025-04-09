@@ -23,7 +23,7 @@ class Appliance extends Common
   use \App\Traits\Relationships\Changes;
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -48,7 +48,7 @@ class Appliance extends Common
     'changes',
     'Infocom',
     'contracts',
-    'knowbaseitems',
+    'knowledgebasearticles',
   ];
 
   protected $appends = [
@@ -67,7 +67,7 @@ class Appliance extends Common
     'entity',
     'certificates',
     'domains',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'contracts',
     'tickets',
@@ -89,7 +89,7 @@ class Appliance extends Common
     'entity:id,name,completename',
     'certificates:id,name',
     'domains:id,name',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'contracts:id,name',
     'tickets:id,name',

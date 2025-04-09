@@ -19,7 +19,7 @@ class Budget extends Common
   use \App\Traits\Relationships\Location;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -54,7 +54,7 @@ class Budget extends Common
     'itemProjects',
     'documents',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
   ];
 
   protected $appends = [
@@ -65,7 +65,7 @@ class Budget extends Common
     'type',
     'entity',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
   ];
 
@@ -74,7 +74,7 @@ class Budget extends Common
     'type:id,name',
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
   ];
 

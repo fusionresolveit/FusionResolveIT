@@ -19,7 +19,7 @@ use App\Traits\Subs\Externallink;
 use App\Traits\Subs\History;
 use App\Traits\Subs\Infocom;
 use App\Traits\Subs\Itil;
-use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Knowledgebasearticle;
 use App\Traits\Subs\Note;
 use App\Traits\Subs\Operatingsystem;
 use App\Traits\Subs\Reservation;
@@ -43,7 +43,7 @@ final class Printer extends Common implements \App\Interfaces\Crud
   use Appliance;
   use Certificate;
   use Externallink;
-  use Knowbaseitem;
+  use Knowledgebasearticle;
   use Document;
   use Contract;
   use Software;

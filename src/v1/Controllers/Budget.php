@@ -11,7 +11,7 @@ use App\Traits\ShowNewItem;
 use App\Traits\Subs\Document;
 use App\Traits\Subs\Externallink;
 use App\Traits\Subs\History;
-use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Knowledgebasearticle;
 use App\Traits\Subs\Note;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -27,7 +27,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
   // Sub
   use Note;
   use Externallink;
-  use Knowbaseitem;
+  use Knowledgebasearticle;
   use Document;
   use History;
 

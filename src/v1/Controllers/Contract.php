@@ -13,7 +13,7 @@ use App\Traits\Subs\Cost;
 use App\Traits\Subs\Document;
 use App\Traits\Subs\Externallink;
 use App\Traits\Subs\History;
-use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Knowledgebasearticle;
 use App\Traits\Subs\Note;
 use App\Traits\Subs\Supplier;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -30,7 +30,7 @@ final class Contract extends Common implements \App\Interfaces\Crud
   // Sub
   use Note;
   use Externallink;
-  use Knowbaseitem;
+  use Knowledgebasearticle;
   use Document;
   use Supplier;
   use History;

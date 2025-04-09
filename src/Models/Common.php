@@ -35,6 +35,7 @@ abstract class Common extends Model
     'creating' => \App\Events\EntityCreating::class,
     'updating' => \App\Events\TreepathUpdating::class,
     'created'  => \App\Events\TreepathCreated::class,
+    'updated'  => \App\Events\Updated::class,
   ];
 
   /**
@@ -340,7 +341,8 @@ abstract class Common extends Model
           $field->value = '';
         } else {
           // We convert html to markdown
-          $field->value = \App\v1\Controllers\Toolbox::convertHtmlToMarkdown($myItemFieldValue);
+          // $field->value = \App\v1\Controllers\Toolbox::convertHtmlToMarkdown($myItemFieldValue);
+          $field->value = $myItemFieldValue;
         }
       } else {
         $field->value = $myItemFieldValue;

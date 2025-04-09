@@ -128,7 +128,11 @@ final class Route
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Computer::class . ':showSubDomains');
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Computer::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Computer::class . ':showSubNotes');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Computer::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Computer::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Computer::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Computer::class . ':showSubContracts');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Computer::class . ':showSubItil');
@@ -183,7 +187,11 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Monitor::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Monitor::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Monitor::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Monitor::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Monitor::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Monitor::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Monitor::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Monitor::class . ':showSubSoftwares');
@@ -219,7 +227,11 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Software::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Software::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Software::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Software::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Software::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Software::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Software::class . ':showSubContracts');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Software::class . ':showSubItil');
@@ -277,7 +289,11 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Networkequipment::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Networkequipment::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Networkequipment::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Networkequipment::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Networkequipment::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Networkequipment::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Networkequipment::class . ':showSubContracts');
             $sub->map(['GET'], 'infocom', \App\v1\Controllers\Networkequipment::class . ':showSubInfocoms');
@@ -319,7 +335,11 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Peripheral::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Peripheral::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Peripheral::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Peripheral::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Peripheral::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Peripheral::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Peripheral::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Peripheral::class . ':showSubSoftwares');
@@ -358,7 +378,11 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Printer::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Printer::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Printer::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Printer::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Printer::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Printer::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Printer::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Printer::class . ':showSubSoftwares');
@@ -452,7 +476,11 @@ final class Route
             $sub->map(['GET'], 'appliances', \App\v1\Controllers\Phone::class . ':showSubAppliances');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Phone::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Phone::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Phone::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Phone::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Phone::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Phone::class . ':showSubContracts');
             $sub->map(['GET'], 'softwares', \App\v1\Controllers\Phone::class . ':showSubSoftwares');
@@ -627,7 +655,11 @@ final class Route
             $sub->map(['GET'], 'stats', \App\v1\Controllers\Ticket::class . ':showStats');
             $sub->map(['GET'], 'problem', \App\v1\Controllers\Ticket::class . ':showProblem');
             $sub->map(['POST'], 'problem', \App\v1\Controllers\Ticket::class . ':postProblem');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Ticket::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Ticket::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'costs', \App\v1\Controllers\Ticket::class . ':showSubCosts');
             $sub->map(['GET'], 'items', \App\v1\Controllers\Ticket::class . ':showSubItems');
             $sub->map(['GET'], 'projects', \App\v1\Controllers\Ticket::class . ':showSubProjects');
@@ -657,7 +689,11 @@ final class Route
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Problem::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Problem::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Problem::class . ':showSubNotes');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Problem::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Problem::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'changes', \App\v1\Controllers\Problem::class . ':showSubChanges');
             $sub->map(['GET'], 'costs', \App\v1\Controllers\Problem::class . ':showSubCosts');
             $sub->map(['GET'], 'projects', \App\v1\Controllers\Problem::class . ':showSubProjects');
@@ -687,7 +723,11 @@ final class Route
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Change::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Change::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Change::class . ':showSubNotes');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Change::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Change::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'costs', \App\v1\Controllers\Change::class . ':showSubCosts');
             $sub->map(['GET'], 'projects', \App\v1\Controllers\Change::class . ':showSubProjects');
             $sub->map(['GET'], 'problem', \App\v1\Controllers\Change::class . ':showProblem');
@@ -744,7 +784,11 @@ final class Route
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Softwarelicense::class . ':restoreItem');
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Softwarelicense::class . ':showSubCertificates');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Softwarelicense::class . ':showSubNotes');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Softwarelicense::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Softwarelicense::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Softwarelicense::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Softwarelicense::class . ':showSubContracts');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Softwarelicense::class . ':showSubItil');
@@ -773,7 +817,11 @@ final class Route
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Budget::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Budget::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Budget::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Budget::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Budget::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Budget::class . ':showSubDocuments');
             $sub->map(['GET'], 'attacheditems', \App\v1\Controllers\Budget::class . ':showSubAttachedItems');
             $sub->map(['GET'], 'budgetmain', \App\v1\Controllers\Budget::class . ':showSubBudgetMain');
@@ -801,7 +849,11 @@ final class Route
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Supplier::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Supplier::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Supplier::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Supplier::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Supplier::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Supplier::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Supplier::class . ':showSubContracts');
             $sub->map(['GET'], 'contacts', \App\v1\Controllers\Supplier::class . ':showSubContacts');
@@ -857,7 +909,11 @@ final class Route
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Contract::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Contract::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Contract::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Contract::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Contract::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Contract::class . ':showSubDocuments');
             $sub->map(['GET'], 'suppliers', \App\v1\Controllers\Contract::class . ':showSubSuppliers');
             $sub->map(['GET'], 'costs', \App\v1\Controllers\Contract::class . ':showSubCosts');
@@ -884,25 +940,65 @@ final class Route
         });
       });
 
-      $view->group('/knowbaseitems', function (RouteCollectorProxy $knowbaseitems)
+      $view->group('/knowledgebasearticles', function (RouteCollectorProxy $articles)
       {
-        $knowbaseitems->map(['GET'], '', \App\v1\Controllers\Knowbaseitem::class . ':showAll');
-        $knowbaseitems->group("/new", function (RouteCollectorProxy $knowbaseitemNew)
+        $articles->map(['GET'], '', \App\v1\Controllers\Knowledgebasearticle::class . ':showAll');
+        $articles->group("/new", function (RouteCollectorProxy $articleNew)
         {
-          $knowbaseitemNew->map(['GET'], '', \App\v1\Controllers\Knowbaseitem::class . ':showNewItem');
-          $knowbaseitemNew->map(['POST'], '', \App\v1\Controllers\Knowbaseitem::class . ':newItem');
+          $articleNew->map(['GET'], '', \App\v1\Controllers\Knowledgebasearticle::class . ':showNewItem');
+          $articleNew->map(['POST'], '', \App\v1\Controllers\Knowledgebasearticle::class . ':newItem');
         });
 
-        $knowbaseitems->group("/{id:[0-9]+}", function (RouteCollectorProxy $knowbaseitemId)
-        {
-          $knowbaseitemId->map(['GET'], '', \App\v1\Controllers\Knowbaseitem::class . ':showItem');
-          $knowbaseitemId->map(['POST'], '', \App\v1\Controllers\Knowbaseitem::class . ':updateItem');
+        $articles->map(['GET'], '/read/{id:[0-9]+}', \App\v1\Controllers\Knowledgebasearticle::class . ':showReadItem');
 
-          $knowbaseitemId->group('/', function (RouteCollectorProxy $sub)
+        $articles->group("/{id:[0-9]+}", function (RouteCollectorProxy $articleId)
+        {
+          $articleId->map(['GET'], '', \App\v1\Controllers\Knowledgebasearticle::class . ':showItem');
+          $articleId->map(['POST'], '', \App\v1\Controllers\Knowledgebasearticle::class . ':updateItem');
+
+          $articleId->group('/', function (RouteCollectorProxy $sub)
           {
-            $sub->map(['GET'], 'delete', \App\v1\Controllers\Knowbaseitem::class . ':deleteItem');
-            $sub->map(['GET'], 'restore', \App\v1\Controllers\Knowbaseitem::class . ':restoreItem');
-            $sub->map(['GET'], 'history', \App\v1\Controllers\Knowbaseitem::class . ':showSubHistory');
+            $sub->map(['GET'], 'delete', \App\v1\Controllers\Knowledgebasearticle::class . ':deleteItem');
+            $sub->map(['GET'], 'restore', \App\v1\Controllers\Knowledgebasearticle::class . ':restoreItem');
+            $sub->map(['GET'], 'entityview', \App\v1\Controllers\Knowledgebasearticle::class . ':showSubEntityview');
+            $sub->map(['POST'], 'entityview', \App\v1\Controllers\Knowledgebasearticle::class . ':newSubEntityview');
+            $sub->map(
+              ['GET'],
+              'entityview/delete/{entityid:[0-9]+}',
+              \App\v1\Controllers\Knowledgebasearticle::class . ':deleteSubEntityview'
+            );
+
+            $sub->map(['GET'], 'groupview', \App\v1\Controllers\Knowledgebasearticle::class . ':showSubGroupview');
+            $sub->map(['POST'], 'groupview', \App\v1\Controllers\Knowledgebasearticle::class . ':newSubGroupview');
+            $sub->map(
+              ['GET'],
+              'groupview/delete/{groupid:[0-9]+}',
+              \App\v1\Controllers\Knowledgebasearticle::class . ':deleteSubGroupview'
+            );
+
+            $sub->map(['GET'], 'profileview', \App\v1\Controllers\Knowledgebasearticle::class . ':showSubProfileview');
+            $sub->map(['POST'], 'profileview', \App\v1\Controllers\Knowledgebasearticle::class . ':newSubProfileview');
+            $sub->map(
+              ['GET'],
+              'profileview/delete/{profileid:[0-9]+}',
+              \App\v1\Controllers\Knowledgebasearticle::class . ':deleteSubProfileview'
+            );
+
+            $sub->map(['GET'], 'userview', \App\v1\Controllers\Knowledgebasearticle::class . ':showSubUserview');
+            $sub->map(['POST'], 'userview', \App\v1\Controllers\Knowledgebasearticle::class . ':newSubUserview');
+            $sub->map(
+              ['GET'],
+              'userview/delete/{userid:[0-9]+}',
+              \App\v1\Controllers\Knowledgebasearticle::class . ':deleteSubUserview'
+            );
+
+            $sub->map(['GET'], 'revisions', \App\v1\Controllers\Knowledgebasearticle::class . ':showSubRevisions');
+            $sub->map(
+              ['GET'],
+              'revisions/{revisionid:[0-9]+}',
+              \App\v1\Controllers\Knowledgebasearticle::class . ':showSubRevisions'
+            );
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Knowledgebasearticle::class . ':showSubHistory');
           });
         });
       });
@@ -952,7 +1048,11 @@ final class Route
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Certificate::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Certificate::class . ':showSubNotes');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Certificate::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Certificate::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Certificate::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Certificate::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Certificate::class . ':showSubContracts');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Certificate::class . ':showSubDomains');
@@ -1091,7 +1191,11 @@ final class Route
             $sub->map(['GET'], 'certificates', \App\v1\Controllers\Appliance::class . ':showSubCertificates');
             $sub->map(['GET'], 'domains', \App\v1\Controllers\Appliance::class . ':showSubDomains');
             $sub->map(['GET'], 'externallinks', \App\v1\Controllers\Appliance::class . ':showSubExternalLinks');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Appliance::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Appliance::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Appliance::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Appliance::class . ':showSubContracts');
             $sub->map(['GET'], 'itil', \App\v1\Controllers\Appliance::class . ':showSubItil');
@@ -1120,7 +1224,11 @@ final class Route
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Project::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Project::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Project::class . ':showSubNotes');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Project::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Project::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Project::class . ':showSubDocuments');
             $sub->map(['GET'], 'contracts', \App\v1\Controllers\Project::class . ':showSubContracts');
             $sub->map(['GET'], 'projecttasks', \App\v1\Controllers\Project::class . ':showSubProjecttasks');
@@ -1299,7 +1407,11 @@ final class Route
             $sub->map(['GET'], 'delete', \App\v1\Controllers\Entity::class . ':deleteItem');
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Entity::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Entity::class . ':showSubNotes');
-            $sub->map(['GET'], 'knowbaseitems', \App\v1\Controllers\Entity::class . ':showSubKnowbaseitems');
+            $sub->map(
+              ['GET'],
+              'knowledgebasearticles',
+              \App\v1\Controllers\Entity::class . ':showSubKnowledgebasearticles'
+            );
             $sub->map(['GET'], 'documents', \App\v1\Controllers\Entity::class . ':showSubDocuments');
             $sub->map(['GET'], 'address', \App\v1\Controllers\Entity::class . ':showSubAddress');
             $sub->map(['GET'], 'entities', \App\v1\Controllers\Entity::class . ':showSubEntities');
@@ -3072,33 +3184,6 @@ final class Route
               \App\v1\Controllers\Businesscriticity::class . ':showSubBusinesscriticities'
             );
             $sub->map(['GET'], 'history', \App\v1\Controllers\Businesscriticity::class . ':showSubHistory');
-          });
-        });
-      });
-
-      $view->group('/knowbaseitemcategories', function (RouteCollectorProxy $knowbaseitemcategories)
-      {
-        $knowbaseitemcategories->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':showAll');
-        $knowbaseitemcategories->group("/new", function (RouteCollectorProxy $kicategoryNew)
-        {
-          $kicategoryNew->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':showNewItem');
-          $kicategoryNew->map(['POST'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':newItem');
-        });
-
-        $knowbaseitemcategories->group("/{id:[0-9]+}", function (RouteCollectorProxy $knowbaseitemcategoryId)
-        {
-          $knowbaseitemcategoryId->map(['GET'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':showItem');
-          $knowbaseitemcategoryId->map(['POST'], '', \App\v1\Controllers\Knowbaseitemcategory::class . ':updateItem');
-          $knowbaseitemcategoryId->group('/', function (RouteCollectorProxy $sub)
-          {
-            $sub->map(['GET'], 'delete', \App\v1\Controllers\Knowbaseitemcategory::class . ':deleteItem');
-            $sub->map(['GET'], 'restore', \App\v1\Controllers\Knowbaseitemcategory::class . ':restoreItem');
-            $sub->map(
-              ['GET'],
-              'knowbaseitemcategories',
-              \App\v1\Controllers\Knowbaseitemcategory::class . ':showSubKnowbaseitemcategories'
-            );
-            $sub->map(['GET'], 'history', \App\v1\Controllers\Knowbaseitemcategory::class . ':showSubHistory');
           });
         });
       });

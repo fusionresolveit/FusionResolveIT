@@ -233,18 +233,6 @@ final class Category extends Common implements \App\Interfaces\Crud
         $group_url = $this->genereRootUrl2Link($rootUrl2, '/groups/', $category->group->id);
       }
 
-      $knowbaseitemcategory = '';
-      $knowbaseitemcategory_url = '';
-      if ($category->knowbaseitemcategory !== null)
-      {
-        $knowbaseitemcategory = $category->knowbaseitemcategory->name;
-        $knowbaseitemcategory_url = $this->genereRootUrl2Link(
-          $rootUrl2,
-          '/dropdowns/knowbaseitemcategories/',
-          $category->knowbaseitemcategory->id
-        );
-      }
-
       $visible_simplified_interface = $category->is_helpdeskvisible;
       if ($category->is_helpdeskvisible == 1)
       {
@@ -354,8 +342,6 @@ final class Category extends Common implements \App\Interfaces\Crud
         'user_url'                            => $user_url,
         'group'                               => $group,
         'group_url'                           => $group_url,
-        'knowbaseitemcategory'                => $knowbaseitemcategory,
-        'knowbaseitemcategory_url'            => $knowbaseitemcategory_url,
         'visible_simplified_interface'        => $visible_simplified_interface,
         'visible_simplified_interface_val'    => $visible_simplified_interface_val,
         'visible_incident'                    => $visible_incident,
@@ -388,7 +374,6 @@ final class Category extends Common implements \App\Interfaces\Crud
     $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
     $viewData->addTranslation('user', $translator->translate('Technician in charge of the hardware'));
     $viewData->addTranslation('group', $translator->translate('Group in charge of the hardware'));
-    $viewData->addTranslation('knowbaseitemcategory', $translator->translate('Knowledge base'));
     $viewData->addTranslation(
       'visible_simplified_interface',
       $translator->translate('Visible in the simplified interface')

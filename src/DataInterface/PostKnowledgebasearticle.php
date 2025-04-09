@@ -6,7 +6,7 @@ namespace App\DataInterface;
 
 use App\v1\Controllers\Fusioninventory\Validation;
 
-class PostKnowbaseitem extends Post
+class PostKnowledgebasearticle extends Post
 {
   /** @var ?string */
   public $name;
@@ -14,11 +14,14 @@ class PostKnowbaseitem extends Post
   /** @var ?\App\Models\Category */
   public $category;
 
+  /** @var ?string */
+  public $article;
+
   public function __construct(object $data)
   {
-    $this->loadRights('App\Models\Knowbaseitem');
-    $knowbaseitem = new \App\Models\Knowbaseitem();
-    $this->definitions = $knowbaseitem->getDefinitions();
+    $this->loadRights('App\Models\Knowledgebasearticle');
+    $knowledgebasearticle = new \App\Models\Knowledgebasearticle();
+    $this->definitions = $knowledgebasearticle->getDefinitions();
 
     $this->name = $this->setName($data);
 
@@ -41,10 +44,18 @@ class PostKnowbaseitem extends Post
         throw new \Exception('Wrong data request', 400);
       }
     }
+
+    if (
+        Validation::attrStr('article')->isValid($data) &&
+        isset($data->article)
+    )
+    {
+      $this->article = $data->article;
+    }
   }
 
   /**
-   * @return array{name?: string, category?: \App\Models\Category}
+   * @return array{name?: string, category?: \App\Models\Category, article?: string}
    */
   public function exportToArray(bool $filterRights = false): array
   {
@@ -82,7 +93,7 @@ class PostKnowbaseitem extends Post
   }
 
   /**
-   * @param-out array{name?: string, category?: \App\Models\Category} $data
+   * @param-out array{name?: string, category?: \App\Models\Category, article?: string} $data
    */
   private function getFieldForArray(string $key, mixed &$data): void
   {
