@@ -250,7 +250,6 @@ final class Home extends Common
       // ],
     ];
 
-    // TODO dynamic here, delete before this line
     $myData = [];
     [$cnt, $data] = $this->getNewTickets();
     $myData[] = [
@@ -320,6 +319,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
     ];
 
     $cnt = $this->getNumberIncidentsToday();
@@ -336,6 +336,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
     ];
 
     [$cnt, $data] = $this->getLastProblems();
@@ -353,6 +354,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
+      'url'    => $basePath . '/view/problems',
     ];
 
     [$cnt, $data] = $this->getLastChanges();
@@ -370,6 +372,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
+      'url'    => $basePath . '/view/changes',
     ];
 
     [$cnt, $data] = $this->getLastKnowbaseitems();
@@ -387,6 +390,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
+      'url'    => $basePath . '/view/knowbaseitems',
     ];
 
     [$cnt, $data] = $this->getLinkedTickets();
@@ -403,6 +407,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
     ];
 
     $viewData->addData('mytest', $myData);
@@ -462,10 +467,6 @@ final class Home extends Common
       ->where('is_displayed_oncentral', true)
       ->get();
 
-    // TODO
-    //   `begin_date` date DEFAULT NULL,
-    // `end_date
-
     $messages = [];
     foreach ($alerts as $alert)
     {
@@ -476,16 +477,7 @@ final class Home extends Common
       ];
     }
 
-    // list of my tickets
-
-    $cards = [
-      // new incident
-      // new request
-      // knowledge
-
-      // forms categories
-      // forms without categories
-    ];
+    $cards = [];
 
     $categoriesId = [];
 
@@ -536,7 +528,6 @@ final class Home extends Common
     }
 
     // get knowbaseitem
-    // get forms
     $knowbaseitems = \App\Models\Knowbaseitem::get();
 
     foreach ($knowbaseitems as $knowbaseitem)
@@ -601,7 +592,6 @@ final class Home extends Common
     }
 
     $breadcrumb = [];
-    // TODO for the cat, get parents
     if (isset($data->category) && is_numeric($data->category))
     {
       $category = \App\Models\Category::where('id', (int) $data->category)->first();

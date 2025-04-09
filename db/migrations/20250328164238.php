@@ -31,7 +31,6 @@ final class V20250328164238 extends AbstractMigration
         'entity_id'     => $row['entity_id'],
         'is_recursive'  => $row['is_recursive'],
         'is_knowledge'  => true,
-        // 'treepath'      => $row['name'],
       ];
       if ($row['knowbaseitemcategory_id'] > 0 && isset($mapping[$row['knowbaseitemcategory_id']]))
       {
@@ -57,10 +56,12 @@ final class V20250328164238 extends AbstractMigration
       $this->generateTreepath((int) $id);
     }
 
-    // Change the id of forms
-    foreach ($mapping as $oldId => $newId)
+    // Change the id of forms, need to do for each form to prevent problems in ids
+    $stmt = $this->query('SELECT * FROM forms');
+    $items = $stmt->fetchAll();
+    foreach ($items as $item)
     {
-      $this->execute('UPDATE forms SET category_id = ? WHERE category_id = ?', [$newId, $oldId]);
+      $this->execute('UPDATE forms SET category_id = ? WHERE id = ?', [$mapping[$item['category_id']], $item['id']]);
     }
   }
 

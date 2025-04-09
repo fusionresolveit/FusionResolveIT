@@ -53,125 +53,82 @@
           </div>
         {% endfor %}
       </div>
-
-
-
-      {# <div class="ui grid">
-        {% for message in data.messages %}
-          <div class="sixteen wide column">
-            <i class="id large {{ message.type.color }} {{ message.type.icon }} icon"></i>
-            <span class="ui {{ message.type.color }} large text" style="font-weight: bold;">{{ message.name }}</span>
-          </div>
-          <div class="sixteen wide column" style="padding-left: 60px;">
-            {{ message.message }}
-          </div>
-        {% endfor %}
-      </div> #}
     </div>
   {% endif %}
 </div>
 
-
-
-{# list of my tickets #}
-
-{# Cards... #}
-{# https://www.bytheway.fr/wp-content/uploads/2023/10/MicrosoftTeams-image-52-1024x542.png #}
-{# https://i.ytimg.com/vi/qboxoPzbVIo/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCmuKcW7lxs3nsCIvVz-Ph_yOyR6w #}
-
-  <div class="ui stackable cards">
-
-    <div class="ui horizontal card" style="height: 180px;">
-      <div class="orange center aligned card" style="width: 130px; background-color: orange; height: 100%;">
-        <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
-          <i class="huge inverted exclamation triangle icon"></i>
-        </span>
+<div class="ui stackable cards">
+  <div class="ui horizontal card" style="height: 180px;">
+    <div class="orange center aligned card" style="width: 130px; background-color: orange; height: 100%;">
+      <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
+        <i class="huge inverted exclamation triangle icon"></i>
+      </span>
+    </div>
+    <div class="content">
+      <div class="header" style="text-transform: uppercase;">I have a problem</div>
+      <div class="meta">
+        <span class="category">Button declare problem</span>
       </div>
-      <div class="content">
-        <div class="header" style="text-transform: uppercase;">I have a problem</div>
-        <div class="meta">
-          <span class="category">Button declare problem</span>
-        </div>
-        <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
-          <p><button class="ui orange button">Open a problem</button></p>
-        </div>
+      <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
+        <p><button class="ui orange button">Open a problem</button></p>
       </div>
     </div>
+  </div>
 
+  <div class="ui horizontal card" style="height: 180px;">
+    <div class="green center aligned card" style="width: 130px; background-color: green; height: 100%;">
+      <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
+        <i class="huge inverted plus square outline icon"></i>
+      </span>
+    </div>
+    <div class="content" style="padding-top: 20px;">
+      <div class="header" style="text-transform: uppercase;">Request a new service</div>
+      <div class="meta">
+        <span class="category">Button request a service</span>
+      </div>
+      <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
+        <p><button class="ui green button">Request a service</button></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <div class="ui horizontal card" style="height: 180px;">
-      <div class="green center aligned card" style="width: 130px; background-color: green; height: 100%;">
+<div class="ui mini steps">
+  <a href="{{ basePath }}/view/home" class="step">
+    <i class="home icon"></i>
+    <div class="content">
+      <div class="title">Home</div>
+    </div>
+  </a>
+  {% for item in data.breadcrumb %}
+  <a href="{{ basePath }}/view/home?category={{ item.id }}" class="{% if data.breadcrumb|last.id == item.id %}active {% endif %}step">
+    <i class="layer group icon"></i>
+    <div class="content">
+      <div class="title">{{ item.name }}</div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="ui stackable cards">
+  {% for card in data.cards %}
+    <div class="ui horizontal card" style="height: 200px;">
+      <div class="{{ card.color }} center aligned card" style="width: 130px; background-color: {{ card.color }}; height: 100%;">
         <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
-          <i class="huge inverted plus square outline icon"></i>
+          <i class="huge inverted {{ card.icon }} icon"></i>
         </span>
       </div>
       <div class="content" style="padding-top: 20px;">
-        <div class="header" style="text-transform: uppercase;">Request a new service</div>
+        <div class="header" style="text-transform: uppercase;">{{ card.title }}</div>
         <div class="meta">
-          <span class="category">Button request a service</span>
+          <span class="category">{{ card.description }}</span>
         </div>
         <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
-          <p><button class="ui green button">Request a service</button></p>
+          <a href="{{ card.url }}" class="ui {{ card.color }} button">{{ card.button_title }}</a>
         </div>
       </div>
     </div>
-
-{# 
-    <div class="ui horizontal card" style="height: 200px;">
-      <div class="blue center aligned card" style="width: 130px; background-color: #2185D0; height: 100%;">
-        <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
-          <i class="huge inverted book reader icon"></i>
-        </span>
-      </div>
-      <div class="content" style="position: absolute; left:150px; top: 50%; transform: translateY(-50%);">
-        <div class="header" style="text-transform: uppercase;">Knowledge</div>
-        <div class="meta">
-          <span class="category">Button Knowledge</span>
-        </div>
-        <div class="description" style="padding-top: 30px">
-          <p><button class="ui blue button">Search for a solution</button></p>
-        </div>
-      </div>
-    </div> #}
-  </div>
-
-  <div class="ui mini steps">
-    <a href="{{ basePath }}/view/home" class="step">
-      <i class="home icon"></i>
-      <div class="content">
-        <div class="title">Home</div>
-      </div>
-    </a>
-    {% for item in data.breadcrumb %}
-    <a href="{{ basePath }}/view/home?category={{ item.id }}" class="{% if data.breadcrumb|last.id == item.id %}active {% endif %}step">
-      <i class="layer group icon"></i>
-      <div class="content">
-        <div class="title">{{ item.name }}</div>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-
-  <div class="ui stackable cards">
-    {% for card in data.cards %}
-      <div class="ui horizontal card" style="height: 200px;">
-        <div class="{{ card.color }} center aligned card" style="width: 130px; background-color: {{ card.color }}; height: 100%;">
-          <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
-            <i class="huge inverted {{ card.icon }} icon"></i>
-          </span>
-        </div>
-        <div class="content" style="padding-top: 20px;">
-          <div class="header" style="text-transform: uppercase;">{{ card.title }}</div>
-          <div class="meta">
-            <span class="category">{{ card.description }}</span>
-          </div>
-          <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
-            <a href="{{ card.url }}" class="ui {{ card.color }} button">{{ card.button_title }}</a>
-          </div>
-        </div>
-      </div>
-
-    {% endfor %}
-  </div>
+  {% endfor %}
+</div>
 
 {{ include('footer.html.twig') }}

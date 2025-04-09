@@ -7,16 +7,13 @@
     <div class="blue card">
       <div class="content">
         <div class="header" style="text-transform: uppercase">{{ typename }}</div>
-        <div class="description">
-          {{ type.title }}
-        </div>
+        <div class="description">{{ type.title }}</div>
       </div>
       <a class="ui primary button" href="{{ basePath }}/view/questions/new?type={{ typename }}">
         <i class="add icon"></i>
-        Create
+        <span>Create</span>
       </a>
     </div>
-
   {% endfor %}
 </div>
 

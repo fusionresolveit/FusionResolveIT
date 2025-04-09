@@ -102,7 +102,7 @@ final class Question extends \App\v1\Controllers\Common
 
     $question = \App\Models\Forms\Question::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessage('The question has been created successfully');
     \App\v1\Controllers\Notification::prepareNotification($question, 'new');
 
     $data = (object) $request->getParsedBody();

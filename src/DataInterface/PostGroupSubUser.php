@@ -28,7 +28,6 @@ class PostGroupSubUser extends Post
    */
   public function exportToArray(bool $filterRights = false): array
   {
-    $vars = get_object_vars($this);
     $user = \App\Models\User::where('id', $this->user)->first();
     if (!is_null($user))
     {

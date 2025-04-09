@@ -289,13 +289,12 @@ final class Group extends Common implements \App\Interfaces\Crud
     );
     $viewData->addData('userDropdown', $userDropdown);
 
-    // if ($this->canRightUpdate())
-    // {
+    if ($this->canRightUpdate())
+    {
       $viewData->addData('userActions', true);
-    // } else {
-      // $viewData->addData('userActions', false);
-    // }
-
+    } else {
+      $viewData->addData('userActions', false);
+    }
 
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));

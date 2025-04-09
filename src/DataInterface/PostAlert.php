@@ -51,9 +51,11 @@ class PostAlert extends Post
       $this->message = $data->message;
     }
 
+    $types = \App\Models\Definitions\Alert::getTypeArray();
     if (
         Validation::attrNumericVal('type')->isValid($data) &&
-        isset($data->type)
+        isset($data->type) &&
+        isset($types[intval($data->type)])
     )
     {
       $this->type = intval($data->type);
