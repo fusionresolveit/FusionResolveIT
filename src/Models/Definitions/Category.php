@@ -36,6 +36,8 @@ class Category
       'is_recursive' => $translator->translate('Child entities'),
       'updated_at' => $translator->translate('Last update'),
       'created_at' => $translator->translate('Creation date'),
+      'is_knowledge' => $translator->translate('Visible for a knownledge'),
+      'is_form' => $translator->translate('Visible for a form'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -84,6 +86,8 @@ class Category
     $defColl->add(new Def(75, $t['is_request'], 'boolean', 'is_request', fillable: true));
     $defColl->add(new Def(76, $t['is_problem'], 'boolean', 'is_problem', fillable: true));
     $defColl->add(new Def(85, $t['is_change'], 'boolean', 'is_change', fillable: true));
+    $defColl->add(new Def(1001, $t['is_knowledge'], 'boolean', 'is_knowledge', fillable: true));
+    $defColl->add(new Def(1002, $t['is_form'], 'boolean', 'is_form', fillable: true));
     $defColl->add(new Def(
       72,
       $t['tickettemplateDemand'],
@@ -212,12 +216,12 @@ class Category
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('ITIL category', 'ITIL categories', 1),
+        'title' => $translator->translatePlural('Category', 'Categories', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('ITIL category', 'ITIL categories', 2),
+        'title' => $translator->translatePlural('Category', 'Categories', 2),
         'icon' => 'edit',
         'link' => $rootUrl . '/categories',
       ],

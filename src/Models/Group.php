@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -79,5 +80,11 @@ class Group extends Common
   public function child(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id');
+  }
+
+  /** @return BelongsToMany<\App\Models\User, $this> */
+  public function users(): BelongsToMany
+  {
+    return $this->belongsToMany(\App\Models\User::class)->withPivot('is_dynamic');
   }
 }

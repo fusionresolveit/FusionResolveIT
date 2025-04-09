@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Forms;
 
+use App\DataInterface\PostFormForm;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
 use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -15,6 +17,7 @@ final class Form extends \App\v1\Controllers\Common
 {
   // Display
   use ShowItem;
+  use ShowNewItem;
   use ShowAll;
 
   // Sub
@@ -26,6 +29,148 @@ final class Form extends \App\v1\Controllers\Common
   protected function instanciateModel(): \App\Models\Forms\Form
   {
     return new \App\Models\Forms\Form();
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function newItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $data = new PostFormForm((object) $request->getParsedBody());
+
+    $form = new \App\Models\Forms\Form();
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    if (!\App\v1\Controllers\Profile::canRightReadItem($form))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $form = \App\Models\Forms\Form::create($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The form has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($form, 'new');
+
+    $data = (object) $request->getParsedBody();
+
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/forms/' . $form->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/forms')
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function updateItem(Request $request, Response $response, array $args): Response
+  {
+    $data = new PostFormForm((object) $request->getParsedBody());
+    $id = intval($args['id']);
+
+    if (!$this->canRightCreate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $form = \App\Models\Forms\Form::where('id', $id)->first();
+    if (is_null($form))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!\App\v1\Controllers\Profile::canRightReadItem($form))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+
+    $form->update($data->exportToArray());
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('The form has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($form, 'update');
+
+    $uri = $request->getUri();
+    return $response
+      ->withHeader('Location', (string) $uri)
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function deleteItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $id = intval($args['id']);
+    $form = \App\Models\Forms\Form::withTrashed()->where('id', $id)->first();
+    if (is_null($form))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($form->trashed())
+    {
+      if (!$this->canRightDelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $form->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The form has been deleted successfully');
+
+      return $response
+        ->withHeader('Location', $basePath . '/view/forms')
+        ->withStatus(302);
+    } else {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $form->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The form has been soft deleted successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function restoreItem(Request $request, Response $response, array $args): Response
+  {
+    $id = intval($args['id']);
+    $form = \App\Models\Forms\Form::withTrashed()->where('id', $id)->first();
+    if (is_null($form))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if ($form->trashed())
+    {
+      if (!$this->canRightSoftdelete())
+      {
+        throw new \Exception('Unauthorized access', 401);
+      }
+      $form->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The form has been restored successfully');
+    }
+
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 
   /**

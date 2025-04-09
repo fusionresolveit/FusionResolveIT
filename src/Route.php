@@ -97,6 +97,7 @@ final class Route
       $view->map(['POST'], '/changeprofileentity', \App\v1\Controllers\Login::class . ':changeProfileEntity');
 
       $view->map(['GET'], '/home', \App\v1\Controllers\Home::class . ':homepage');
+      $view->map(['POST'], '/home/switch', \App\v1\Controllers\Home::class . ':switchHomepage');
 
       $view->group('/computers', function (RouteCollectorProxy $computers)
       {
@@ -882,6 +883,30 @@ final class Route
           });
         });
       });
+
+      $view->group('/knowbaseitems', function (RouteCollectorProxy $knowbaseitems)
+      {
+        $knowbaseitems->map(['GET'], '', \App\v1\Controllers\Knowbaseitem::class . ':showAll');
+        $knowbaseitems->group("/new", function (RouteCollectorProxy $knowbaseitemNew)
+        {
+          $knowbaseitemNew->map(['GET'], '', \App\v1\Controllers\Knowbaseitem::class . ':showNewItem');
+          $knowbaseitemNew->map(['POST'], '', \App\v1\Controllers\Knowbaseitem::class . ':newItem');
+        });
+
+        $knowbaseitems->group("/{id:[0-9]+}", function (RouteCollectorProxy $knowbaseitemId)
+        {
+          $knowbaseitemId->map(['GET'], '', \App\v1\Controllers\Knowbaseitem::class . ':showItem');
+          $knowbaseitemId->map(['POST'], '', \App\v1\Controllers\Knowbaseitem::class . ':updateItem');
+
+          $knowbaseitemId->group('/', function (RouteCollectorProxy $sub)
+          {
+            $sub->map(['GET'], 'delete', \App\v1\Controllers\Knowbaseitem::class . ':deleteItem');
+            $sub->map(['GET'], 'restore', \App\v1\Controllers\Knowbaseitem::class . ':restoreItem');
+            $sub->map(['GET'], 'history', \App\v1\Controllers\Knowbaseitem::class . ':showSubHistory');
+          });
+        });
+      });
+
       $view->group('/lines', function (RouteCollectorProxy $lines)
       {
         $lines->map(['GET'], '', \App\v1\Controllers\Line::class . ':showAll');
@@ -1246,6 +1271,7 @@ final class Route
             $sub->map(['GET'], 'restore', \App\v1\Controllers\Group::class . ':restoreItem');
             $sub->map(['GET'], 'notes', \App\v1\Controllers\Group::class . ':showSubNotes');
             $sub->map(['GET'], 'users', \App\v1\Controllers\Group::class . ':showSubUsers');
+            $sub->map(['POST'], 'users', \App\v1\Controllers\Group::class . ':newSubUsers');
             $sub->map(['GET'], 'tickets', \App\v1\Controllers\Group::class . ':showSubTickets');
             $sub->map(['GET'], 'problems', \App\v1\Controllers\Group::class . ':showSubProblems');
             $sub->map(['GET'], 'changes', \App\v1\Controllers\Group::class . ':showSubItilChanges');
@@ -4430,18 +4456,17 @@ final class Route
       $view->group('/forms', function (RouteCollectorProxy $forms)
       {
         $forms->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':showAll');
-        // $forms->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':postItem');
+        $forms->group("/new", function (RouteCollectorProxy $formNew)
+        {
+          $formNew->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':showNewItem');
+          $formNew->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':newItem');
+        });
 
-        // $forms->group("/new", function (RouteCollectorProxy $formNew)
-        // {
-        //   $formNew->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':showNewItem');
-        //   $formNew->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':newItem');
-        // });
 
         $forms->group("/{id:[0-9]+}", function (RouteCollectorProxy $formId)
         {
           $formId->map(['GET'], '', \App\v1\Controllers\Forms\Form::class . ':showItem');
-          // $formId->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':updateItem');
+          $formId->map(['POST'], '', \App\v1\Controllers\Forms\Form::class . ':updateItem');
           $formId->group('/', function (RouteCollectorProxy $sub)
           {
             $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Form::class . ':showSubSections');
@@ -4454,20 +4479,20 @@ final class Route
       $view->group('/sections', function (RouteCollectorProxy $sections)
       {
         $sections->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':showAll');
-        // $sections->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':postItem');
-
-        // $sections->group("/new", function (RouteCollectorProxy $sectionNew)
-        // {
-        //   $sectionNew->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':showNewItem');
-        //   $sectionNew->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':newItem');
-        // });
+        $sections->group("/new", function (RouteCollectorProxy $sectionNew)
+        {
+          $sectionNew->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':showNewItem');
+          $sectionNew->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':newItem');
+        });
 
         $sections->group("/{id:[0-9]+}", function (RouteCollectorProxy $sectionId)
         {
           $sectionId->map(['GET'], '', \App\v1\Controllers\Forms\Section::class . ':showItem');
-          // $sectionId->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':updateItem');
+          $sectionId->map(['POST'], '', \App\v1\Controllers\Forms\Section::class . ':updateItem');
           $sectionId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'delete', \App\v1\Controllers\Forms\Section::class . ':deleteItem');
+            $sub->map(['GET'], 'restore', \App\v1\Controllers\Forms\Section::class . ':restoreItem');
             $sub->map(['GET'], 'forms', \App\v1\Controllers\Forms\Section::class . ':showSubForms');
             $sub->map(['GET'], 'questions', \App\v1\Controllers\Forms\Section::class . ':showSubQuestions');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Section::class . ':showSubHistory');
@@ -4477,20 +4502,20 @@ final class Route
       $view->group('/questions', function (RouteCollectorProxy $questions)
       {
         $questions->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showAll');
-        // $questions->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':postItem');
-
-        // $questions->group("/new", function (RouteCollectorProxy $questionNew)
-        // {
-        //   $questionNew->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showNewItem');
-        //   $questionNew->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':newItem');
-        // });
+        $questions->group("/new", function (RouteCollectorProxy $questionNew)
+        {
+          $questionNew->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showNewItem');
+          $questionNew->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':newItem');
+        });
 
         $questions->group("/{id:[0-9]+}", function (RouteCollectorProxy $questionId)
         {
           $questionId->map(['GET'], '', \App\v1\Controllers\Forms\Question::class . ':showItem');
-          // $questionId->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':updateItem');
+          $questionId->map(['POST'], '', \App\v1\Controllers\Forms\Question::class . ':updateItem');
           $questionId->group('/', function (RouteCollectorProxy $sub)
           {
+            $sub->map(['GET'], 'delete', \App\v1\Controllers\Forms\Question::class . ':deleteItem');
+            $sub->map(['GET'], 'restore', \App\v1\Controllers\Forms\Question::class . ':restoreItem');
             $sub->map(['GET'], 'sections', \App\v1\Controllers\Forms\Question::class . ':showSubSections');
             $sub->map(['GET'], 'forms', \App\v1\Controllers\Forms\Question::class . ':showSubForms');
             $sub->map(['GET'], 'history', \App\v1\Controllers\Forms\Question::class . ':showSubHistory');

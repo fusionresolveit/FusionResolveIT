@@ -41,6 +41,12 @@ class PostCategory extends Post
   /** @var ?bool */
   public $is_change;
 
+  /** @var ?bool */
+  public $is_knowledge;
+
+  /** @var ?bool */
+  public $is_form;
+
   /** @var ?\App\Models\Tickettemplate */
   public $tickettemplateDemand;
 
@@ -160,6 +166,28 @@ class PostCategory extends Post
     }
 
     if (
+        Validation::attrStr('is_knowledge')->isValid($data) &&
+        isset($data->is_knowledge) &&
+        $data->is_knowledge == 'on'
+    )
+    {
+      $this->is_knowledge = true;
+    } else {
+      $this->is_knowledge = false;
+    }
+
+    if (
+        Validation::attrStr('is_form')->isValid($data) &&
+        isset($data->is_form) &&
+        $data->is_form == 'on'
+    )
+    {
+      $this->is_form = true;
+    } else {
+      $this->is_form = false;
+    }
+
+    if (
         Validation::attrNumericVal('tickettemplateDemand')->isValid($data) &&
         isset($data->tickettemplateDemand)
     )
@@ -250,6 +278,7 @@ class PostCategory extends Post
    * @return array{name?: string, category?: \App\Models\Category, user?: \App\Models\User, group?: \App\Models\Group,
    *               knowbaseitemcategory?: \App\Models\Knowbaseitemcategory, code?: string, is_helpdeskvisible?: bool,
    *               is_incident?: bool, is_request?: bool, is_problem?: bool, is_change?: bool,
+   *               is_knowledge?: bool, is_form?: bool,
    *               tickettemplateDemand?: \App\Models\Tickettemplate,
    *               tickettemplateIncident?: \App\Models\Tickettemplate, changetemplate?: \App\Models\Changetemplate,
    *               problemtemplate?: \App\Models\Problemtemplate, comment?: string, entity?: \App\Models\Entity,
@@ -294,7 +323,8 @@ class PostCategory extends Post
    * @param-out array{name?: string, category?: \App\Models\Category, user?: \App\Models\User,
    *                  group?: \App\Models\Group, knowbaseitemcategory?: \App\Models\Knowbaseitemcategory, code?: string,
    *                  is_helpdeskvisible?: bool, is_incident?: bool, is_request?: bool, is_problem?: bool,
-   *                  is_change?: bool, tickettemplateDemand?: \App\Models\Tickettemplate,
+   *                  is_change?: bool, is_knowledge?: bool, is_form?: bool,
+   *                  tickettemplateDemand?: \App\Models\Tickettemplate,
    *                  tickettemplateIncident?: \App\Models\Tickettemplate, changetemplate?: \App\Models\Changetemplate,
    *                  problemtemplate?: \App\Models\Problemtemplate, comment?: string, entity?: \App\Models\Entity,
    *                  is_recursive?: bool} $data

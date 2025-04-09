@@ -35,6 +35,7 @@
         "illuminate/container": "^12",
         "illuminate/database": "^12",
         "illuminate/events": "^12",
+        "illuminate/http": "^12.7",
         "jimtools/jwt-auth": "^2.2",
         "laminas/laminas-i18n": "^2.29",
         "league/commonmark": "^2.5",

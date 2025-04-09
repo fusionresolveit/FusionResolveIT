@@ -15,13 +15,13 @@ class Alert
 
     $t = [
       'name' => $translator->translate('Name'),
-      'message' => $translator->translate('Description'),
-      'type' => $translator->translate('news' . "\004" . 'Type (to add an icon before alert title)'),
+      'message' => $translator->translate('Message'),
+      'type' => $translator->translatePlural('Type', 'Types', 1),
       'begin_date' => $translator->translate('Visibility start date'),
       'end_date' => $translator->translate('Visibility end date'),
       'is_recursive' => $translator->translate('Recursive'),
-      'is_displayed_onlogin' => $translator->translate('news' . "\004" . 'Show on login page'),
-      'is_displayed_oncentral' => $translator->translate('news' . "\004" . 'Show on helpdesk page'),
+      'is_displayed_onlogin' => $translator->translate('Show on login page'),
+      'is_displayed_oncentral' => $translator->translate('Show on home page'),
       'is_active' => $translator->translate('Active'),
       'updated_at' => $translator->translate('Last update'),
       'created_at' => $translator->translate('Creation date'),
@@ -35,7 +35,6 @@ class Alert
       $t['type'],
       'dropdown',
       'type',
-      dbname: 'type',
       values: self::getTypeArray(),
       fillable: true
     ));
@@ -79,16 +78,24 @@ class Alert
     global $translator;
     return [
       1 => [
-        'title' => $translator->translate('news' . "\004" . 'General'),
+        'title' => $translator->translate('General'),
+        'color' => 'grey',
+        'icon'  => 'comment',
       ],
       2 => [
-        'title' => $translator->translate('news' . "\004" . 'Information'),
+        'title' => $translator->translatePlural('Information', 'Information', 1),
+        'color' => 'blue',
+        'icon'  => 'info circle',
       ],
       3 => [
-        'title' => $translator->translate('news' . "\004" . 'Warning'),
+        'title' => $translator->translate('Warning'),
+        'color' => 'yellow',
+        'icon'  => 'exclamation triangle',
       ],
       4 => [
-        'title' => $translator->translate('news' . "\004" . 'Problem'),
+        'title' => $translator->translatePlural('Problem', 'Problems', 1),
+        'color' => 'red',
+        'icon'  => 'times circle',
       ],
     ];
   }

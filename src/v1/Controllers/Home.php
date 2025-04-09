@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use Illuminate\Support\Carbon;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Ramsey\Uuid\Type\Integer;
 use Slim\Views\Twig;
 
 final class Home extends Common
@@ -20,7 +22,42 @@ final class Home extends Common
    */
   public function homepage(Request $request, Response $response, array $args): Response
   {
-    global $translator;
+    $session = new \SlimSession\Helper();
+    if (isset($session['interface']) && $session['interface'] == 'helpdesk')
+    {
+      return $this->homepageTech($request, $response, $args);
+    }
+    return $this->homepageUser($request, $response, $args);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function switchHomepage(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $session = new \SlimSession\Helper();
+    if (
+        $session->exists('interface') &&
+        $session->get('interface') == 'helpdesk'
+    )
+    {
+      $session->delete('interface');
+    } else {
+      $session->set('interface', 'helpdesk');
+    }
+    return $response
+      ->withHeader('Location', $basePath . '/view/home')
+      ->withStatus(302);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function homepageTech(Request $request, Response $response, array $args): Response
+  {
+    global $translator, $basePath;
 
     $nbLast = 8;
 
@@ -191,6 +228,190 @@ final class Home extends Common
     $nb_paging_total = [];
     $nb_paging_total['paging']['total'] = $nbValTotal;
     $viewData->addData('items', $items);
+
+    $myData = [
+      // [
+      //   'header' => [
+      //     'title'     => 'Last escaladed tickets',
+      //     'subtitle'  => '',
+      //     'name'      => 'last-escaladed-tickets',
+      //   ],
+      //   'list' => [
+      //     [
+      //       'id'   => '254678',
+      //       'name' => 'signature problem',
+      //     ],
+      //   ],
+      //   'footer' => [
+      //     'enabled' => true,
+      //     'url' => '',
+      //   ],
+      //   'color' => 'blue',
+      // ],
+    ];
+
+    $myData = [];
+    [$cnt, $data] = $this->getNewTickets();
+    $myData[] = [
+      'header' => [
+        'icon'      => 'book open',
+        'title'     => $translator->translate('New tickets'),
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'new-tickets',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'olive',
+      'url'    => $basePath . '/view/tickets',
+    ];
+
+    [$cnt, $data] = $this->getTicketsAssignedToMe();
+
+    $myData[] = [
+      'header' => [
+        'icon'      => 'book reader',
+        'title'     => 'Tickets assigned to me',
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'my-assigned-tickets',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
+    ];
+
+    [$cnt, $data] = $this->getMyTickets();
+
+    $myData[] = [
+      'header' => [
+        'icon'      => 'user circle',
+        'title'     => 'My tickets',
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'my-tickets',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'green',
+      'url'    => $basePath . '/view/tickets',
+    ];
+
+    [$cnt, $data] = $this->getMyGroupTickets();
+
+    $myData[] = [
+      'header' => [
+        'icon'      => 'user friends',
+        'title'     => 'Tickets of my groups',
+        'subtitle'  => $cnt . ' tickets',
+        'name'      => 'my-groups-tickets',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
+    ];
+
+    $cnt = $this->getNumberIncidentsToday();
+
+    $myData[] = [
+      'header' => [
+        'title'     => 'Number of today incidents',
+        'subtitle'  => '',
+        'name'      => 'number-today-incidents',
+      ],
+      'stat'   => $cnt,
+      'footer' => [
+        'enabled' => false,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
+    ];
+
+    [$cnt, $data] = $this->getLastProblems();
+
+    $myData[] = [
+      'header' => [
+        'icon'      => 'drafting compass',
+        'title'     => 'Last problems',
+        'subtitle'  => $cnt . ' problems',
+        'name'      => 'last-problems',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/problems',
+    ];
+
+    [$cnt, $data] = $this->getLastChanges();
+
+    $myData[] = [
+      'header' => [
+        'icon'      => 'paint roller',
+        'title'     => 'Last changes',
+        'subtitle'  => $cnt . ' changes',
+        'name'      => 'last changes',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/changes',
+    ];
+
+    [$cnt, $data] = $this->getLastKnowbaseitems();
+
+    $myData[] = [
+      'header' => [
+        'icon'      => 'edit',
+        'title'     => 'Last knowledge items',
+        'subtitle'  => $cnt . ' articles',
+        'name'      => 'last-knowledge-items',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/knowbaseitems',
+    ];
+
+    [$cnt, $data] = $this->getLinkedTickets();
+
+    $myData[] = [
+      'header' => [
+        'title'     => 'Linked tickets',
+        'subtitle'  => $cnt . ' articles',
+        'name'      => 'linked-tickets',
+      ],
+      'list'   => $data,
+      'footer' => [
+        'enabled' => $cnt >= 5,
+        'url'     => '',
+      ],
+      'color'  => 'blue',
+      'url'    => $basePath . '/view/tickets',
+    ];
+
+    $viewData->addData('mytest', $myData);
+
     $viewData->addData('fields', $nb_paging_total);
 
     $viewData->addTranslation('id', $translator->translate('ID'));
@@ -224,6 +445,189 @@ final class Home extends Common
     $viewData->addTranslation('forms', $translator->translatePlural('Form', 'Forms', 2));
 
     return $view->render($response, 'home.html.twig', (array)$viewData);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function homepageUser(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $data = (object) $request->getQueryParams();
+
+    $view = Twig::fromRequest($request);
+
+    $home = new \App\Models\Home();
+
+    $messageTypes = \App\Models\Definitions\Alert::getTypeArray();
+
+    $alerts = \App\Models\Alert::
+        where('is_active', true)
+      ->where('is_displayed_oncentral', true)
+      ->get();
+
+    $messages = [];
+    foreach ($alerts as $alert)
+    {
+      $messages[] = [
+        'type'    => $messageTypes[$alert->type],
+        'name'    => $alert->name,
+        'message' => \App\v1\Controllers\Toolbox::convertMarkdownToHtml($alert->message),
+      ];
+    }
+
+    $cards = [];
+
+    $categoriesId = [];
+
+    // get forms
+    $forms = \App\Models\Forms\Form::where('is_active', true)->get();
+
+    foreach ($forms as $form)
+    {
+      if (
+          is_null($form->category) ||
+          (
+            isset($data->category) &&
+            is_numeric($data->category) &&
+            $form->category->id == (int) $data->category
+          )
+      )
+      {
+        $cards[] = [
+          'color'         => $form->icon_color,
+          'icon'          => $form->icon,
+          'title'         => $form->name,
+          'description'   => $form->content,
+          'button_title'  => 'Fill this form',
+          'url'           => '',
+        ];
+      }
+      elseif (!is_null($form->category->treepath))
+      {
+        if (isset($data->category) && is_numeric($data->category))
+        {
+          $next = false;
+          foreach (str_split($form->category->treepath, 5) as $idx => $id)
+          {
+            if ($next)
+            {
+              $categoriesId = array_merge($categoriesId, [(int) $id]);
+              $next = false;
+            }
+            if ((int) $id == (int) $data->category)
+            {
+              $next = true;
+            }
+          }
+        } else {
+          $categoriesId = array_merge($categoriesId, [str_split($form->category->treepath, 5)[0]]);
+        }
+      }
+    }
+
+    // get knowbaseitem
+    $knowbaseitems = \App\Models\Knowbaseitem::get();
+
+    foreach ($knowbaseitems as $knowbaseitem)
+    {
+      if (
+          is_null($knowbaseitem->category) ||
+          (
+            isset($data->category) &&
+            is_numeric($data->category) &&
+            $knowbaseitem->category->id == (int) $data->category
+          )
+      )
+      {
+        $cards[] = [
+          'color'         => 'olive',
+          'icon'          => 'book',
+          'title'         => $knowbaseitem->name,
+          'description'   => '',
+          'button_title'  => 'Read this article',
+          'url'           => '',
+        ];
+      }
+      elseif (!is_null($knowbaseitem->category->treepath))
+      {
+        if (isset($data->category) && is_numeric($data->category))
+        {
+          $next = false;
+          foreach (str_split($knowbaseitem->category->treepath, 5) as $idx => $id)
+          {
+            if ($next)
+            {
+              $categoriesId = array_merge($categoriesId, [(int) $id]);
+              $next = false;
+            }
+            if ((int) $id == (int) $data->category)
+            {
+              $next = true;
+            }
+          }
+        } else {
+          $categoriesId = array_merge($categoriesId, [str_split($knowbaseitem->category->treepath, 5)[0]]);
+        }
+      }
+    }
+
+    $ids = [];
+    foreach ($categoriesId as $id)
+    {
+      $ids[] = (int) $id;
+    }
+    $categories = \App\Models\Category::whereIn('id', $ids)->get();
+    foreach ($categories as $category)
+    {
+      $cards[] = [
+        'color'         => 'teal',
+        'icon'          => 'layer group',
+        'title'         => $category->name,
+        'description'   => $category->comment,
+        'button_title'  => 'Go in this category',
+        'url'           => $basePath . '/view/home?category=' . $category->id,
+      ];
+    }
+
+    $breadcrumb = [];
+    if (isset($data->category) && is_numeric($data->category))
+    {
+      $category = \App\Models\Category::where('id', (int) $data->category)->first();
+      if (!is_null($category) && !is_null($category->treepath))
+      {
+        $categories = str_split($category->treepath, 5);
+        foreach ($categories as $id)
+        {
+          $myCat = \App\Models\Category::where('id', (int) $id)->first();
+          if (!is_null($myCat))
+          {
+            $breadcrumb[] = [
+              'id'    => $myCat->id,
+              'name'  => $myCat->name,
+            ];
+          }
+        }
+      }
+    }
+
+    // Check if the profile can be helpdesk (for tech)
+    $canSwitchToTech = false;
+    $profile = \App\Models\Profile::where('id', $GLOBALS['profile_id'])->first();
+    if (!is_null($profile) && $profile->interface == 'helpdesk')
+    {
+      $canSwitchToTech = true;
+    }
+
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($home, $request);
+
+    $viewData->addData('messages', $messages);
+    $viewData->addData('cards', $cards);
+    $viewData->addData('breadcrumb', $breadcrumb);
+    $viewData->addData('canswitchtotech', $canSwitchToTech);
+
+    return $view->render($response, 'homeuser.html.twig', (array)$viewData);
   }
 
   /**
@@ -608,5 +1012,200 @@ final class Home extends Common
         ];
       }
     }
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getNewTickets(): array
+  {
+    $query = \App\Models\Ticket::where('status', 1);
+    $tickets = $query->take(5)->get();
+    $status = \App\Models\Definitions\Ticket::getStatusArray();
+    $data = [];
+    foreach ($tickets as $ticket)
+    {
+      $data[] = [
+        'id'      => $ticket->id,
+        'name'    => $ticket->name,
+        'status'  => '<i class="' . $status[$ticket->status]['color'] . ' ' . $status[$ticket->status]['icon'] .
+          ' icon"></i>',
+      ];
+    }
+    return [$query->count(), $data];
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getTicketsAssignedToMe()
+  {
+    $query = \App\Models\Ticket::whereRelation('technician', 'users.id', $GLOBALS['user_id']);
+    $tickets = $query->take(5)->get();
+    $status = \App\Models\Definitions\Ticket::getStatusArray();
+    $data = [];
+    foreach ($tickets as $ticket)
+    {
+      $data[] = [
+        'id'      => $ticket->id,
+        'name'    => $ticket->name,
+        'status'  => '<i class="' . $status[$ticket->status]['color'] . ' ' . $status[$ticket->status]['icon'] .
+          ' icon"></i>',
+      ];
+    }
+    return [$query->count(), $data];
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getMyTickets()
+  {
+    $query = \App\Models\Ticket::whereRelation('requester', 'users.id', $GLOBALS['user_id']);
+    $tickets = $query->take(5)->get();
+    $status = \App\Models\Definitions\Ticket::getStatusArray();
+    $data = [];
+    foreach ($tickets as $ticket)
+    {
+      $data[] = [
+        'id'      => $ticket->id,
+        'name'    => $ticket->name,
+        'status'  => '<i class="' . $status[$ticket->status]['color'] . ' ' . $status[$ticket->status]['icon'] .
+          ' icon"></i>',
+      ];
+    }
+    // TODO add priority?
+    return [$query->count(), $data];
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getMyGroupTickets()
+  {
+    $groupIds = [];
+    $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+    if (is_null($user))
+    {
+      return [0, []];
+    }
+    foreach ($user->group as $group)
+    {
+      $groupIds[] = $group->id;
+    }
+
+    $query = \App\Models\Ticket::whereRelation('requestergroup', 'groups.id', $groupIds);
+    $tickets = $query->take(5)->get();
+    $status = \App\Models\Definitions\Ticket::getStatusArray();
+    $data = [];
+    foreach ($tickets as $ticket)
+    {
+      $data[] = [
+        'id'      => $ticket->id,
+        'name'    => $ticket->name,
+        'status'  => '<i class="' . $status[$ticket->status]['color'] . ' ' . $status[$ticket->status]['icon'] .
+          ' icon"></i>',
+      ];
+    }
+    return [$query->count(), $data];
+  }
+
+  private function getNumberIncidentsToday(): int
+  {
+    $query = \App\Models\Ticket::whereDate('created_at', Carbon::today());
+    return $query->count();
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getLastProblems()
+  {
+    $query = \App\Models\Problem::where('status', 1);
+    $problems = $query->take(5)->get();
+    $status = \App\Models\Definitions\Problem::getStatusArray();
+    $data = [];
+    foreach ($problems as $problem)
+    {
+      $data[] = [
+        'id'      => $problem->id,
+        'name'    => $problem->name,
+        'status'  => '<i class="' . $status[$problem->status]['color'] . ' ' . $status[$problem->status]['icon'] .
+          ' icon"></i>',
+      ];
+    }
+    return [$query->count(), $data];
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getLastChanges()
+  {
+    $query = \App\Models\Change::where('status', 1);
+    $changes = $query->take(5)->get();
+    $status = \App\Models\Definitions\Change::getStatusArray();
+    $data = [];
+    foreach ($changes as $change)
+    {
+      $data[] = [
+        'id'      => $change->id,
+        'name'    => $change->name,
+        'status'  => '<i class="' . $status[$change->status]['color'] . ' ' . $status[$change->status]['icon'] .
+          ' icon"></i>',
+      ];
+    }
+    return [$query->count(), $data];
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getLastKnowbaseitems()
+  {
+    $query = new \App\Models\Knowbaseitem();
+    $knowbaseitems = $query->take(5)->get();
+    $data = [];
+    foreach ($knowbaseitems as $item)
+    {
+      $data[] = [
+        'id'      => $item->id,
+        'name'    => $item->name,
+        'status'  => '',
+      ];
+    }
+    return [$query->count(), $data];
+  }
+
+  /**
+   * @return array<int, mixed>
+   */
+  private function getLinkedTickets()
+  {
+    $query = \App\Models\Ticket::has('linkedtickets')->where('status', '<', 5);
+    $tickets = $query->take(5)->get();
+
+    $data = [];
+    foreach ($tickets as $ticket)
+    {
+      $links = [
+        self::LINK => 0,
+        self::DUPLICATE => 0,
+        self::SON => 0,
+        self::PARENT => 0,
+      ];
+      foreach ($ticket->linkedtickets as $linkedticket)
+      {
+        $links[$linkedticket->getRelationValue('pivot')->link]++;
+        $ticketFound[] = $linkedticket->id;
+      }
+
+      $data[] = [
+        'id'      => $ticket->id,
+        'name'    => $ticket->name,
+        'status'  => implode(', ', self::showLinkedTickets($links)),
+      ];
+    }
+    return [$query->count(), $data];
   }
 }

@@ -1,0 +1,20 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<br>
+<div class="ui stackable cards">
+  {% for typename, type in data.types %}
+    <div class="blue card">
+      <div class="content">
+        <div class="header" style="text-transform: uppercase">{{ typename }}</div>
+        <div class="description">{{ type.title }}</div>
+      </div>
+      <a class="ui primary button" href="{{ basePath }}/view/questions/new?type={{ typename }}">
+        <i class="add icon"></i>
+        <span>Create</span>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+{{ include('footer.html.twig') }}

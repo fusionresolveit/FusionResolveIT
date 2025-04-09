@@ -1,0 +1,134 @@
+{{ include('header.html.twig') }}
+
+<div class="ui pageheader">
+  <div style="height: 1px"></div>
+  <div class="ui blue dividing header">
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <i class="big {{ header.icon }} icon"></i>
+        <div class="content">
+          <span>{{ header.title }}</span>
+          <div class="sub header">{{ data.fields.paging.total }} items</div>
+        </div>
+      </div>
+      {% if data.canswitchtotech %}
+        <span style="float: right;" data-cy='home-user-switchtotech'>
+          <form action="{{ basePath }}/view/home/switch" method="post" class="ui form">
+            <button class="ui labeled icon button" type="submit">
+              <i class="random icon"></i>
+              <span>Homepage tech</span>
+            </button>
+          </form>
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="ui">
+  <br>
+  {% if data.messages|length > 0 %}
+  <div class="ui purple card" style="width: 100%">
+    <div class="content">
+      <div class="header" style="text-transform: uppercase;">
+        <span class="ui purple text">
+          <i class="bullhorn icon"></i>
+          <span>Messages</span>
+        </span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="ui relaxed divided list">
+        {% for message in data.messages %}
+          <div class="item">
+            <i class="id huge {{ message.type.color }} {{ message.type.icon }} icon"></i>
+            <div class="content">
+              <div class="header">
+                <span class="ui large text">
+                  {{ message.name }}
+                </span>
+              </div>
+              <div class="description" style="margin-top: 5px;">{{ message.message | raw }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="ui stackable cards">
+  <div class="ui horizontal card" style="height: 180px;">
+    <div class="orange center aligned card" style="width: 130px; background-color: orange; height: 100%;">
+      <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
+        <i class="huge inverted exclamation triangle icon"></i>
+      </span>
+    </div>
+    <div class="content">
+      <div class="header" style="text-transform: uppercase;">I have a problem</div>
+      <div class="meta">
+        <span class="category">Button declare problem</span>
+      </div>
+      <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
+        <p><button class="ui orange button">Open a problem</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui horizontal card" style="height: 180px;">
+    <div class="green center aligned card" style="width: 130px; background-color: green; height: 100%;">
+      <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
+        <i class="huge inverted plus square outline icon"></i>
+      </span>
+    </div>
+    <div class="content" style="padding-top: 20px;">
+      <div class="header" style="text-transform: uppercase;">Request a new service</div>
+      <div class="meta">
+        <span class="category">Button request a service</span>
+      </div>
+      <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
+        <p><button class="ui green button">Request a service</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui mini steps">
+  <a href="{{ basePath }}/view/home" class="step">
+    <i class="home icon"></i>
+    <div class="content">
+      <div class="title">Home</div>
+    </div>
+  </a>
+  {% for item in data.breadcrumb %}
+  <a href="{{ basePath }}/view/home?category={{ item.id }}" class="{% if data.breadcrumb|last.id == item.id %}active {% endif %}step">
+    <i class="layer group icon"></i>
+    <div class="content">
+      <div class="title">{{ item.name }}</div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="ui stackable cards">
+  {% for card in data.cards %}
+    <div class="ui horizontal card" style="height: 200px;">
+      <div class="{{ card.color }} center aligned card" style="width: 130px; background-color: {{ card.color }}; height: 100%;">
+        <span style="position: relative; display: block; top: 50%; transform: translateY(-50%);">
+          <i class="huge inverted {{ card.icon }} icon"></i>
+        </span>
+      </div>
+      <div class="content" style="padding-top: 20px;">
+        <div class="header" style="text-transform: uppercase;">{{ card.title }}</div>
+        <div class="meta">
+          <span class="category">{{ card.description }}</span>
+        </div>
+        <div class="description" style="bottom: 22px; position: absolute; padding-left: 10px;">
+          <a href="{{ card.url }}" class="ui {{ card.color }} button">{{ card.button_title }}</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{{ include('footer.html.twig') }}

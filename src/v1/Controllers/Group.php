@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\Definition;
 use App\DataInterface\PostGroup;
+use App\DataInterface\PostGroupSubUser;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
@@ -275,6 +277,25 @@ final class Group extends Common implements \App\Interfaces\Crud
     $viewData->addData('users', $myUsers);
     $viewData->addData('show', $this->choose);
 
+    $userDropdown = new Definition(
+      10001,
+      'User',
+      'dropdown_remote',
+      'user',
+      dbname: 'user_id',
+      itemtype: '\App\Models\User',
+      fillable: true,
+      // TODO manage values to prevent display in dropdown values yet in values
+    );
+    $viewData->addData('userDropdown', $userDropdown);
+
+    if ($this->canRightUpdate())
+    {
+      $viewData->addData('userActions', true);
+    } else {
+      $viewData->addData('userActions', false);
+    }
+
     $viewData->addTranslation('name', $translator->translate('Name'));
     $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
     $viewData->addTranslation('manager', $translator->translate('Manager'));
@@ -282,6 +303,32 @@ final class Group extends Common implements \App\Interfaces\Crud
     $viewData->addTranslation('active', $translator->translate('Active'));
 
     return $view->render($response, 'subitem/users.html.twig', (array)$viewData);
+  }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function newSubUsers(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $data = new PostGroupSubUser((object) $request->getParsedBody());
+    $adata = $data->exportToArray();
+
+    $group = \App\Models\Group::where('id', $args['id'])->first();
+    if (is_null($group))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+
+    if (isset($adata['user']))
+    {
+      $group->users()->attach($adata['user']->id);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/groups/' . $args['id'] . '/users')
+      ->withStatus(302);
   }
 
   /**

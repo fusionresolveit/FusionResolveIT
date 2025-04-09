@@ -183,7 +183,7 @@ Array
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('ITIL category', 'ITIL categories', 2),
+        'title' => $translator->translatePlural('Category', 'Categories', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],

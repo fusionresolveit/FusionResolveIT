@@ -35,7 +35,7 @@ class Form extends \App\Models\Common
   ];
 
   protected $with = [
-    'category:id,name',
+    'category:id,name,treepath',
     'entity:id,name,completename',
   ];
 

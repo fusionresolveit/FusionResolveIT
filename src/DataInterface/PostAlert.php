@@ -14,7 +14,7 @@ class PostAlert extends Post
   /** @var ?string */
   public $message;
 
-  /** @var ?string */
+  /** @var ?int */
   public $type;
 
   /** @var ?string */
@@ -51,12 +51,14 @@ class PostAlert extends Post
       $this->message = $data->message;
     }
 
+    $types = \App\Models\Definitions\Alert::getTypeArray();
     if (
-        Validation::attrStrNotempty('type')->isValid($data) &&
-        isset($data->type)
+        Validation::attrNumericVal('type')->isValid($data) &&
+        isset($data->type) &&
+        isset($types[intval($data->type)])
     )
     {
-      $this->type = $data->type;
+      $this->type = intval($data->type);
     }
 
     if (
@@ -112,7 +114,7 @@ class PostAlert extends Post
   }
 
   /**
-   * @return array{name?: string, message?: string, type?: string, begin_date?: string, end_date?: string,
+   * @return array{name?: string, message?: string, type?: int, begin_date?: string, end_date?: string,
    *               is_recursive?: bool, is_displayed_onlogin?: bool,
    *               is_displayed_oncentral?: bool, is_active?: bool}
    */
@@ -152,7 +154,7 @@ class PostAlert extends Post
   }
 
   /**
-   * @param-out array{name?: string, message?: string, type?: string, begin_date?: string, end_date?: string,
+   * @param-out array{name?: string, message?: string, type?: int, begin_date?: string, end_date?: string,
    *                  is_recursive?: bool, is_displayed_onlogin?: bool,
    *                  is_displayed_oncentral?: bool, is_active?: bool} $data
    */

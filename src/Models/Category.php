@@ -17,7 +17,7 @@ class Category extends Common
 
   protected $definition = \App\Models\Definitions\Category::class;
   protected $titles = ['Category', 'Categories'];
-  protected $icon = 'edit';
+  protected $icon = 'layer group';
   protected $tree = true;
 
   protected $appends = [

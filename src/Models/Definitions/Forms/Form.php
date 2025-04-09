@@ -15,37 +15,38 @@ class Form
 
     $t = [
       'name' => $translator->translate('Name'),
-      'content' => $translator->translatePlural('Header', 'Headers', 1),
-      'comment' => $translator->translate('Description'),
+      'content' => $translator->translate('Description'),
+      'comment' => $translator->translatePlural('Comment', 'Comments', 1),
       'category' => $translator->translate('Category'),
       'is_active' => $translator->translate('Active'),
       'is_recursive' => $translator->translate('Child entities'),
-      'is_homepage' => $translator->translate('Default form in service catalog'),
+      'is_homepage' => $translator->translate('Display on home page'),
       'icon' => $translator->translate('Icon'),
       'icon_color' => $translator->translate('Icon color'),
-      'date_creation' => $translator->translate('Creation date'),
-      'date_mod' => $translator->translate('Last update'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
-    $defColl->add(new Def(1, $t['name'], 'input', 'name'));
-    $defColl->add(new Def(2, $t['content'], 'textarea', 'content'));
-    $defColl->add(new Def(3, $t['comment'], 'textarea', 'comment'));
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(2, $t['content'], 'textarea', 'content', fillable: true));
+    $defColl->add(new Def(3, $t['comment'], 'textarea', 'comment', fillable: true));
     $defColl->add(new Def(
       4,
       $t['category'],
       'dropdown_remote',
       'category',
       dbname: 'category_id',
-      itemtype: '\App\Models\Category'
+      itemtype: '\App\Models\Category',
+      fillable: true
     ));
-    $defColl->add(new Def(5, $t['is_active'], 'boolean', 'is_active', dbname: 'is_active'));
-    $defColl->add(new Def(7, $t['is_recursive'], 'boolean', 'is_recursive', dbname: 'is_recursive'));
-    $defColl->add(new Def(9, $t['is_homepage'], 'boolean', 'is_homepage', dbname: 'is_homepage'));
-    $defColl->add(new Def(10, $t['icon'], 'input', 'icon'));
-    $defColl->add(new Def(11, $t['icon_color'], 'input', 'icon_color'));
-    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
-    $defColl->add(new Def(16, $t['date_mod'], 'datetime', 'date_mod', readonly: true));
+    $defColl->add(new Def(5, $t['is_active'], 'boolean', 'is_active', fillable: true));
+    $defColl->add(new Def(7, $t['is_recursive'], 'boolean', 'is_recursive', fillable: true));
+    $defColl->add(new Def(9, $t['is_homepage'], 'boolean', 'is_homepage', fillable: true));
+    $defColl->add(new Def(10, $t['icon'], 'input', 'icon', fillable: true));
+    $defColl->add(new Def(11, $t['icon_color'], 'input', 'icon_color', fillable: true));
+    $defColl->add(new Def(16, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(15, $t['created_at'], 'datetime', 'created_at', readonly: true));
 
     return $defColl;
     // [

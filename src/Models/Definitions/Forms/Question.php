@@ -37,30 +37,31 @@ class Question
         $translator->translate('Additional validation'),
         $translator->translate('Regular expression')
       ),
-      'date_creation' => $translator->translate('Creation date'),
-      'date_mod' => $translator->translate('Last update'),
+      'updated_at' => $translator->translate('Last update'),
+      'created_at' => $translator->translate('Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
-    $defColl->add(new Def(1, $t['name'], 'input', 'name'));
-    $defColl->add(new Def(2, $t['comment'], 'textarea', 'comment'));
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(2, $t['comment'], 'textarea', 'comment', fillable: true));
     $defColl->add(new Def(
       3,
       $t['fieldtype'],
       'dropdown',
       'fieldtype',
       dbname: 'fieldtype',
-      values: self::getFieldtype()
+      values: self::getFieldtype(),
+      fillable: true
     ));
-    $defColl->add(new Def(4, $t['is_required'], 'boolean', 'is_required', dbname: 'is_required'));
-    $defColl->add(new Def(5, $t['show_empty'], 'boolean', 'show_empty', dbname: 'show_empty'));
-    $defColl->add(new Def(6, $t['default_values'], 'textarea', 'default_values'));
-    $defColl->add(new Def(7, $t['values'], 'textarea', 'values'));
-    $defColl->add(new Def(8, $t['range_min'], 'input', 'range_min'));
-    $defColl->add(new Def(9, $t['range_max'], 'input', 'range_max'));
-    $defColl->add(new Def(10, $t['regex'], 'input', 'regex'));
-    $defColl->add(new Def(15, $t['date_creation'], 'datetime', 'date_creation', readonly: true));
-    $defColl->add(new Def(16, $t['date_mod'], 'datetime', 'date_mod', readonly: true));
+    $defColl->add(new Def(4, $t['is_required'], 'boolean', 'is_required', fillable: true));
+    $defColl->add(new Def(5, $t['show_empty'], 'boolean', 'show_empty', fillable: true));
+    $defColl->add(new Def(6, $t['default_values'], 'textarea', 'default_values', fillable: true));
+    $defColl->add(new Def(7, $t['values'], 'textarea', 'values', fillable: true));
+    $defColl->add(new Def(8, $t['range_min'], 'input', 'range_min', fillable: true));
+    $defColl->add(new Def(9, $t['range_max'], 'input', 'range_max', fillable: true));
+    $defColl->add(new Def(10, $t['regex'], 'input', 'regex', fillable: true));
+    $defColl->add(new Def(16, $t['updated_at'], 'datetime', 'updated_at', readonly: true));
+    $defColl->add(new Def(15, $t['created_at'], 'datetime', 'created_at', readonly: true));
 
     return $defColl;
   }

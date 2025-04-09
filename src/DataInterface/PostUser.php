@@ -83,6 +83,12 @@ class PostUser extends Post
   /** @var ?string */
   public $last_login;
 
+  /** @var ?string */
+  public $new_password;
+
+  /** @var ?string */
+  public $new_password_verification;
+
   public function __construct(object $data)
   {
     $this->loadRights('App\Models\User');
@@ -322,6 +328,22 @@ class PostUser extends Post
     {
       $this->last_login = $data->last_login;
     }
+
+    if (
+        Validation::attrStrNotempty('new_password')->isValid($data) &&
+        isset($data->new_password)
+    )
+    {
+      $this->new_password = $data->new_password;
+    }
+
+    if (
+        Validation::attrStrNotempty('new_password_verification')->isValid($data) &&
+        isset($data->new_password_verification)
+    )
+    {
+      $this->new_password_verification = $data->new_password_verification;
+    }
   }
 
   /**
@@ -331,7 +353,8 @@ class PostUser extends Post
    *               title?: \App\Models\Usertitle, location?: \App\Models\Location, profile?: \App\Models\Profile,
    *               defaultgroup?: \App\Models\Group, entity?: \App\Models\Entity, supervisor?: \App\Models\User,
    *               user_dn?: string, is_deleted_ldap?: bool, personal_token?: string, api_token?: string,
-   *               sync_field?: string, synchronized_at?: string, last_login?: string}
+   *               sync_field?: string, synchronized_at?: string, last_login?: string, new_password?: string,
+   *               new_password_verification?: string}
    */
   public function exportToArray(bool $filterRights = false): array
   {
@@ -375,7 +398,8 @@ class PostUser extends Post
    *                  title?: \App\Models\Usertitle, location?: \App\Models\Location, profile?: \App\Models\Profile,
    *                  defaultgroup?: \App\Models\Group, entity?: \App\Models\Entity, supervisor?: \App\Models\User,
    *                  user_dn?: string, is_deleted_ldap?: bool, personal_token?: string, api_token?: string,
-   *                  sync_field?: string, synchronized_at?: string, last_login?: string} $data
+   *                  sync_field?: string, synchronized_at?: string, last_login?: string, new_password?: string,
+   *                  new_password_verification?: string} $data
    */
   private function getFieldForArray(string $key, mixed &$data): void
   {
