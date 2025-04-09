@@ -762,7 +762,7 @@ class Entity
       [
         'title' => $translator->translate('Knowledge base'),
         'icon' => 'book',
-        'link' => $rootUrl . '/knowbaseitems',
+        'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
         'title' => $translator->translate('FusionInventory'),

@@ -18,7 +18,7 @@ class Problem extends Common
   use CascadesDeletes;
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -28,7 +28,7 @@ class Problem extends Common
   /** @var string[] */
   protected $cascadeDeletes = [
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'requester',
     'requestergroup',
     'technician',
@@ -71,7 +71,7 @@ class Problem extends Common
     'usersidrecipient',
     'entity',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'requester',
     'requestergroup',
     'technician',
@@ -86,7 +86,7 @@ class Problem extends Common
     'usersidrecipient:id,name,firstname,lastname',
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'requester:id,name,firstname,lastname',
     'requestergroup:id,name,completename',
     'technician:id,name,firstname,lastname',

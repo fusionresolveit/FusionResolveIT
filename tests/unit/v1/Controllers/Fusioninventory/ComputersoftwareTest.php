@@ -50,7 +50,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Group')]
 #[UsesClass('\App\Models\Definitions\Infocom')]
 #[UsesClass('\App\Models\Definitions\Itemdisk')]
-#[UsesClass('\App\Models\Definitions\Knowbaseitem')]
+#[UsesClass('\App\Models\Definitions\Knowledgebasearticle')]
 #[UsesClass('\App\Models\Definitions\Location')]
 #[UsesClass('\App\Models\Definitions\Manufacturer')]
 #[UsesClass('\App\Models\Definitions\Network')]

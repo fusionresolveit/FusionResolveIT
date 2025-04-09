@@ -19,7 +19,7 @@ class Contract extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -30,7 +30,7 @@ class Contract extends Common
   protected $cascadeDeletes = [
     'documents',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'suppliers',
     'costs',
     'itemAppliances',
@@ -63,7 +63,7 @@ class Contract extends Common
     'state',
     'entity',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'suppliers',
     'costs',
@@ -74,7 +74,7 @@ class Contract extends Common
     'state:id,name',
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'suppliers:id,name',
     'costs:id,name',

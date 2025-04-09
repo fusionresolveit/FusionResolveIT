@@ -8,36 +8,36 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-trait Knowbaseitem
+trait Knowledgebasearticle
 {
   /**
    * @param array<string, string> $args
    */
-  public function showSubKnowbaseitems(Request $request, Response $response, array $args): Response
+  public function showSubKnowledgebasearticles(Request $request, Response $response, array $args): Response
   {
     global $translator;
 
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
-    $myItem = $item::with('knowbaseitems')->where('id', $args['id'])->first();
+    $myItem = $item::with('knowledgebasearticles')->where('id', $args['id'])->first();
     if (is_null($myItem))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    $rootUrl = $this->genereRootUrl($request, '/knowbaseitems');
+    $rootUrl = $this->genereRootUrl($request, '/knowledgebasearticles');
     $rootUrl2 = $this->genereRootUrl2($rootUrl, $this->rootUrl2 . $args['id']);
 
-    $myKnowbaseitems = [];
-    foreach ($myItem->knowbaseitems as $knowbaseitem)
+    $myKnowledgebasearticles = [];
+    foreach ($myItem->knowledgebasearticles as $article)
     {
-      $url = $this->genereRootUrl2Link($rootUrl2, '/knowbaseitems/', $knowbaseitem->id);
+      $url = $this->genereRootUrl2Link($rootUrl2, '/knowledgebasearticles/', $article->id);
 
-      $myKnowbaseitems[$knowbaseitem->id] = [
-        'name'           => $knowbaseitem->name,
-        'created_at'     => $knowbaseitem->created_at,
-        'updated_at'     => $knowbaseitem->updated_at,
+      $myKnowledgebasearticles[$article->id] = [
+        'name'           => $article->name,
+        'created_at'     => $article->created_at,
+        'updated_at'     => $article->updated_at,
         'url'            => $url,
       ];
     }
@@ -46,12 +46,12 @@ trait Knowbaseitem
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
     $viewData->addData('fields', $item->getFormData($myItem));
-    $viewData->addData('knowbaseitems', $myKnowbaseitems);
+    $viewData->addData('knowledgebasearticles', $myKnowledgebasearticles);
 
     $viewData->addTranslation('name', $translator->translatePlural('Item', 'Items', 1));
     $viewData->addTranslation('created_at', $translator->translate('Creation date'));
     $viewData->addTranslation('updated_at', $translator->translate('Update date'));
 
-    return $view->render($response, 'subitem/knowbaseitems.html.twig', (array)$viewData);
+    return $view->render($response, 'subitem/knowledgebasearticles.html.twig', (array)$viewData);
   }
 }

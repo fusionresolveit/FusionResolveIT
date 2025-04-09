@@ -12,7 +12,7 @@ use App\Traits\Subs\Change;
 use App\Traits\Subs\Cost;
 use App\Traits\Subs\History;
 use App\Traits\Subs\Item;
-use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Knowledgebasearticle;
 use App\Traits\Subs\Note;
 use App\Traits\Subs\Project;
 use App\Traits\Subs\Ticket;
@@ -29,7 +29,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
 
   // Sub
   use Note;
-  use Knowbaseitem;
+  use Knowledgebasearticle;
   use History;
   use Cost;
   use Ticket;

@@ -28,7 +28,6 @@ class Category extends Common
     'category',
     'user',
     'group',
-    'knowbaseitemcategory',
     'tickettemplateDemand',
     'tickettemplateIncident',
     'changetemplate',
@@ -41,7 +40,6 @@ class Category extends Common
     'category:id,name',
     'user:id,name,firstname,lastname',
     'group:id,name,completename',
-    'knowbaseitemcategory:id,name',
     'tickettemplateDemand:id,name',
     'tickettemplateIncident:id,name',
     'changetemplate:id,name',
@@ -86,12 +84,6 @@ class Category extends Common
   public function group(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Group::class, 'group_id');
-  }
-
-  /** @return BelongsTo<\App\Models\Knowbaseitemcategory, $this> */
-  public function knowbaseitemcategory(): BelongsTo
-  {
-    return $this->belongsTo(\App\Models\Knowbaseitemcategory::class, 'knowbaseitemcategory_id');
   }
 
   /** @return BelongsTo<\App\Models\Tickettemplate, $this> */

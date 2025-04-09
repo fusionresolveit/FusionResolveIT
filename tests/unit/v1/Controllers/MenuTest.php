@@ -23,7 +23,7 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Document')]
 #[UsesClass('\App\Models\Definitions\Entity')]
 #[UsesClass('\App\Models\Definitions\Group')]
-#[UsesClass('\App\Models\Definitions\Knowbaseitem')]
+#[UsesClass('\App\Models\Definitions\Knowledgebasearticle')]
 #[UsesClass('\App\Models\Definitions\Location')]
 #[UsesClass('\App\Models\Definitions\Menubookmark')]
 #[UsesClass('\App\Models\Definitions\Notepad')]

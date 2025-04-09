@@ -24,7 +24,7 @@ class Printer extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
   use \App\Traits\Relationships\Reservations;
 
   use GetDropdownValues;
@@ -41,7 +41,7 @@ class Printer extends Common
     'infocom',
     'contracts',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'reservations',
     'certificates',
     'domains',
@@ -89,7 +89,7 @@ class Printer extends Common
     'domains',
     'appliances',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'contracts',
     'softwareversions',
@@ -137,7 +137,7 @@ class Printer extends Common
     'domains:id,name',
     'appliances:id,name',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'contracts:id,name',
     'softwareversions:id,name',

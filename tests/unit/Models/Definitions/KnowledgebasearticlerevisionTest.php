@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\unit\Models\Definitions;
 
 /**
- * @covers \App\Models\Definitions\Knowbaseitem
+ * @covers \App\Models\Definitions\Knowledgebasearticlerevision
  * @uses \App\DataInterface\Definition
  * @uses \App\DataInterface\DefinitionCollection
  * @uses \App\v1\Controllers\Common
  * @uses \App\v1\Controllers\Dropdown
  */
-final class KnowbaseitemTest extends Common
+final class KnowledgebasearticlerevisionTest extends Common
 {
-  protected $className = 'Knowbaseitem';
+  protected $className = 'Knowledgebasearticlerevision';
 }

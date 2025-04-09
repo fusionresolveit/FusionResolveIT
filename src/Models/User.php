@@ -68,7 +68,7 @@ class User extends Common
     'entity:id,name,completename',
     'profile:id,name',
     'supervisor:id,name,firstname,lastname',
-    'group:id,name,completename',
+    'group:id,name,completename,treepath',
     'certificates:id,name',
     'defaultgroup:id,name',
     'documents:id,name',

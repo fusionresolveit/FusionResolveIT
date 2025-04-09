@@ -24,7 +24,7 @@ class Softwarelicense extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -40,7 +40,7 @@ class Softwarelicense extends Common
     'infocom',
     'contracts',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'certificates',
     'childs',
     'computers',
@@ -64,7 +64,7 @@ class Softwarelicense extends Common
     'entity',
     'certificates',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'contracts',
     'tickets',
@@ -89,7 +89,7 @@ class Softwarelicense extends Common
     'entity:id,name,completename',
     'certificates:id,name',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'contracts:id,name',
     'tickets:id,name',

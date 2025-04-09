@@ -8,7 +8,6 @@
       <th>{{ translation.entity }}</th>
       <th>{{ translation.user }}</th>
       <th>{{ translation.group }}</th>
-      <th>{{ translation.knowbaseitemcategory }}</th>
       <th>{{ translation.visible_simplified_interface }}</th>
       <th>{{ translation.visible_incident }}</th>
       <th>{{ translation.visible_request }}</th>
@@ -50,13 +49,6 @@
             <a href="{{ categorie.group_url }}">{{ categorie.group }}</a>
           {% else %}
             <span>{{ categorie.group }}</span>
-          {% endif %}
-        </td>
-        <td>
-          {% if categorie.knowbaseitemcategory_url != '' %}
-            <a href="{{ categorie.knowbaseitemcategory_url }}">{{ categorie.knowbaseitemcategory }}</a>
-          {% else %}
-            <span>{{ categorie.knowbaseitemcategory }}</span>
           {% endif %}
         </td>
         {% if categorie.visible_simplified_interface %}

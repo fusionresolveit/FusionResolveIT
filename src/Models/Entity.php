@@ -15,7 +15,7 @@ class Entity extends Common
   use \App\Traits\Relationships\Entity;
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -28,7 +28,7 @@ class Entity extends Common
   protected $cascadeDeletes = [
     'documents',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
   ];
 
   protected $appends = [
@@ -37,7 +37,7 @@ class Entity extends Common
 
   protected $visible = [
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'completename',
   ];
@@ -45,7 +45,7 @@ class Entity extends Common
   protected $with = [
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
   ];
 

@@ -19,7 +19,7 @@ class Project extends Common
   use \App\Traits\Relationships\Documents;
   use \App\Traits\Relationships\Contract;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -31,7 +31,7 @@ class Project extends Common
     'documents',
     'contracts',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'tasks',
     'parents',
     'costs',
@@ -57,7 +57,7 @@ class Project extends Common
     'group',
     'entity',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'contracts',
     'tasks',
@@ -72,7 +72,7 @@ class Project extends Common
     'group:id,name,completename',
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'contracts:id,name',
     'tasks',

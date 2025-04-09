@@ -15,7 +15,7 @@ use App\Traits\Subs\Change;
 use App\Traits\Subs\Cost;
 use App\Traits\Subs\History;
 use App\Traits\Subs\Item;
-use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Knowledgebasearticle;
 use App\Traits\Subs\Project;
 
 final class Ticket extends Common implements \App\Interfaces\Crud
@@ -25,7 +25,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
   use ShowAll;
 
   // Sub
-  use Knowbaseitem;
+  use Knowledgebasearticle;
   use History;
   use Cost;
   use Approval;

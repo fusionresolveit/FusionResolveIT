@@ -23,7 +23,7 @@ class Certificate extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
 
   use GetDropdownValues;
 
@@ -39,7 +39,7 @@ class Certificate extends Common
     'infocom',
     'contracts',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'associatedAppliances',
     'associatedComputers',
     'associatedPeripherals',
@@ -65,7 +65,7 @@ class Certificate extends Common
     'manufacturer',
     'entity',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'contracts',
     'tickets',
@@ -85,7 +85,7 @@ class Certificate extends Common
     'manufacturer:id,name',
     'entity:id,name,completename',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'contracts:id,name',
     'tickets:id,name',

@@ -20,9 +20,6 @@ class PostCategory extends Post
   /** @var ?\App\Models\Group */
   public $group;
 
-  /** @var ?\App\Models\Knowbaseitemcategory */
-  public $knowbaseitemcategory;
-
   /** @var ?string */
   public $code;
 
@@ -81,26 +78,6 @@ class PostCategory extends Post
     $this->user = $this->setUser($data);
 
     $this->group = $this->setGroup($data);
-
-    if (
-        Validation::attrNumericVal('knowbaseitemcategory')->isValid($data) &&
-        isset($data->knowbaseitemcategory)
-    )
-    {
-      $knowbaseitemcategory = \App\Models\Knowbaseitemcategory::where('id', $data->knowbaseitemcategory)->first();
-      if (!is_null($knowbaseitemcategory))
-      {
-        $this->knowbaseitemcategory = $knowbaseitemcategory;
-      }
-      elseif (intval($data->knowbaseitemcategory) == 0)
-      {
-        $emptyKnowbaseitemcategory = new \App\Models\Knowbaseitemcategory();
-        $emptyKnowbaseitemcategory->id = 0;
-        $this->knowbaseitemcategory = $emptyKnowbaseitemcategory;
-      } else {
-        throw new \Exception('Wrong data request', 400);
-      }
-    }
 
     if (
         Validation::attrStr('code')->isValid($data) &&
@@ -276,7 +253,7 @@ class PostCategory extends Post
 
   /**
    * @return array{name?: string, category?: \App\Models\Category, user?: \App\Models\User, group?: \App\Models\Group,
-   *               knowbaseitemcategory?: \App\Models\Knowbaseitemcategory, code?: string, is_helpdeskvisible?: bool,
+   *               code?: string, is_helpdeskvisible?: bool,
    *               is_incident?: bool, is_request?: bool, is_problem?: bool, is_change?: bool,
    *               is_knowledge?: bool, is_form?: bool,
    *               tickettemplateDemand?: \App\Models\Tickettemplate,
@@ -321,7 +298,7 @@ class PostCategory extends Post
 
   /**
    * @param-out array{name?: string, category?: \App\Models\Category, user?: \App\Models\User,
-   *                  group?: \App\Models\Group, knowbaseitemcategory?: \App\Models\Knowbaseitemcategory, code?: string,
+   *                  group?: \App\Models\Group, code?: string,
    *                  is_helpdeskvisible?: bool, is_incident?: bool, is_request?: bool, is_problem?: bool,
    *                  is_change?: bool, is_knowledge?: bool, is_form?: bool,
    *                  tickettemplateDemand?: \App\Models\Tickettemplate,

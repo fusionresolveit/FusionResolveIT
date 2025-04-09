@@ -1,0 +1,66 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.groupActions %}
+<div class="ui internally celled grid">
+  <div class="row">
+    <div class="five wide column">
+      <div class="ui form blue segment">
+        <div class="ui blue right ribbon label" style="text-transform: capitalize">
+          <span>Add group</span>
+        </div>
+        <div class="field" style="display: block">
+          <form method="post" class="ui form">
+            {% for item in data.form %}
+              {{ include('fields.html.twig') }}
+            {% endfor %}
+            <button
+              class="ui labeled icon primary button"
+              type="submit"
+            >
+              <i class="save icon"></i>
+              <span>Save</span>
+            </button>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.id }}</th>
+      <th>{{ translation.name }}</th>
+      <th>{{ translation.recursive }}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for group in data.groups|sort((a, b) => a.group.name|lower <=> b.group.name|lower) %}
+      <tr>
+        <td>
+          <div class="ui labeled tiny button" tabindex="0">
+            <a class="ui blue tiny button" href="{{ basePath }}/view/groups/{{ group.id }}">
+              <i class="id card icon"></i> id
+            </a>
+            <a class="ui basic left pointing blue label" href="{{ basePath }}/view/groups/{{ group.id }}">{{ group.id }}</a>
+          </div>
+        </td>
+        <td>{{ group.name }}</td>
+        {% if group.pivot.is_recursive is same as(true) or group.pivot.is_recursive == 1 %}
+          <td><i class="toggle on green big icon"></i></td>
+        {% else %}
+          <td><i class="toggle off red big icon"></i></td>
+        {% endif %}
+        <td>
+          <a href="groupview/delete/{{ group.id }}">
+            <button class="negative ui button">Delete</button>
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

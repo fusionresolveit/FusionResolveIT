@@ -1,0 +1,38 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Revision</th>
+      <th>User</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for revision in data.revisions %}
+      <tr{% if data.activerevision.id == revision.id %} class="blue"{% endif %}>
+        <td>{{ revision.created_at }}</td>
+        <td>{{ revision.revision }}</td>
+        <td>{{ revision.user.completename }}</td>
+        <td>
+          <a href="{{ basePath }}/view/knowledgebasearticles/{{ header.id }}/revisions/{{ revision.id }}">
+            <button class="primary ui button">View modifications</button>
+          </a>
+          {# <a href="{{ basePath }}/view/knowledgebasearticles/{{ header.id }}/revisions/{{ revision.id }}/restore">
+            <button class="negative ui button">Restore</button>
+          </a> #}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if data.activerevision.id is defined %}
+<div class="ui segment">
+  {{ data.diff | raw}}
+</div>
+{% endif %}
+
+{{ include('footer.html.twig') }}

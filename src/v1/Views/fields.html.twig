@@ -84,7 +84,7 @@
   {% endif %}
 
   {% if item.type == 'textarea' %}
-    <div id="editor{{ item.name }}">{{ item.value }}</div>
+    <div id="editor{{ item.name }}"></div>
     <textarea data-cy="form-field-{{ item.name }}" rows="3" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} style="display: none">{{ item.value }}</textarea>
 <script type="text/javascript">
 editor{{ item.name }} = new Editor({
@@ -92,6 +92,8 @@ editor{{ item.name }} = new Editor({
   initialEditType: 'markdown',
   previewStyle: 'vertical',
   initialEditType: 'wysiwyg',
+  usageStatistics: false,
+  initialValue: document.querySelector("[name='{{ item.name }}']").innerText,
   events: {
     blur: () => {
       document.querySelector(`textarea[name='{{ item.name }}']`).value = editor{{ item.name }}.getMarkdown();

@@ -16,7 +16,7 @@ use App\Traits\Subs\Externallink;
 use App\Traits\Subs\History;
 use App\Traits\Subs\Infocom;
 use App\Traits\Subs\Itil;
-use App\Traits\Subs\Knowbaseitem;
+use App\Traits\Subs\Knowledgebasearticle;
 use App\Traits\Subs\Note;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -33,7 +33,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
   use Note;
   use Domain;
   use Externallink;
-  use Knowbaseitem;
+  use Knowledgebasearticle;
   use Document;
   use Contract;
   use Itil;

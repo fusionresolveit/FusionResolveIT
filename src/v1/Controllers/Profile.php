@@ -219,7 +219,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
       \App\Models\Cluster::class,
       \App\Models\Domain::class,
       \App\Models\Appliance::class,
-      \App\Models\Knowbaseitem::class,
+      \App\Models\Knowledgebasearticle::class,
     ],
     'tools' => [
       \App\Models\Project::class,
@@ -324,7 +324,6 @@ final class Profile extends Common implements \App\Interfaces\Crud
       \App\Models\Documentcategory::class,
       \App\Models\Documenttype::class,
       \App\Models\Businesscriticity::class,
-      \App\Models\Knowbaseitemcategory::class,
       \App\Models\Calendar::class,
       \App\Models\Holiday::class,
       \App\Models\Operatingsystem::class,

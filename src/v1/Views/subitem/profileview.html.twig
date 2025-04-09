@@ -1,0 +1,60 @@
+{{ include('header.html.twig') }}
+{{ include('headerForm.html.twig') }}
+
+{% if data.profileActions %}
+<div class="ui internally celled grid">
+  <div class="row">
+    <div class="five wide column">
+      <div class="ui form blue segment">
+        <div class="ui blue right ribbon label" style="text-transform: capitalize">
+          <span>Add profile</span>
+        </div>
+        <div class="field" style="display: block">
+          <form method="post" class="ui form">
+            {% for item in data.form %}
+              {{ include('fields.html.twig') }}
+            {% endfor %}
+            <button
+              class="ui labeled icon primary button"
+              type="submit"
+            >
+              <i class="save icon"></i>
+              <span>Save</span>
+            </button>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<table class="ui blue table">
+  <thead>
+    <tr>
+      <th>{{ translation.id }}</th>
+      <th>{{ translation.name }}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for profile in data.profiles|sort((a, b) => a.profile.name|lower <=> b.profile.name|lower) %}
+      <tr>
+        <td>
+          <div class="ui labeled tiny button" tabindex="0">
+            <a class="ui blue tiny button" href="{{ basePath }}/view/profiles/{{ profile.id }}">
+              <i class="id card icon"></i> id
+            </a>
+            <a class="ui basic left pointing blue label" href="{{ basePath }}/view/profiles/{{ profile.id }}">{{ profile.id }}</a>
+          </div>
+        </td>
+        <td>{{ profile.name }}</td>
+        <td>
+          <a href="profileview/delete/{{ profile.id }}">
+            <button class="negative ui button">Delete</button>
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ include('footer.html.twig') }}

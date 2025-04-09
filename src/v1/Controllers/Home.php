@@ -128,7 +128,7 @@ final class Home extends Common
       }
       if ($key == 'lastknowledgeitems')
       {
-        $this->lastknowledgeitems($items, $nbLast);
+        $this->lastknowledgearticles($items, $nbLast);
       }
       if ($key == 'lastproblems')
       {
@@ -196,32 +196,8 @@ final class Home extends Common
       {
       }
     }
-    // echo "<pre>";
-    // print_r($myItem2);
-    // echo "</pre>";
-    // die();
-
 
     $viewData = new \App\v1\Controllers\Datastructures\Viewdata($home, $request);
-
-    // table homes
-    // vérifier si il y a des entrées pour l'utilisateur ($GLOBALS['user_id'])
-    // si non, vérifier si il y a une entrée pour son profile ($GLOBALS['profile_id'])
-    // si non, prendre les entrées avec user_id et profile_id = 0
-
-    // L'affichage se fait sur plusieurs colonnes, on va en mettre 3 par défaut,
-    // mais si un utilisateur a un grand écran, il peut en mettre ce qu'il veut (limit de 10 quand même)
-
-    // le but est d'avoir une affichage par défaut.
-    // Possibilité d'en créer un pour un profile
-    // chaque utilisateur pourra créer sa home page si il veut.
-
-    // Modules :
-
-    // incidentsfromcategory : (voir avec Marie-Noëlle ce qu'elle veut dire) Ou le nombre
-    // d'incidents résultants d'un catégories ou d'un tag PBG
-
-    // pour les last, peut être afficher les 8 derniers, pas trop sûr de ça encore
 
     $viewData->addData('rootUrl', $rootUrl);
 
@@ -375,14 +351,14 @@ final class Home extends Common
       'url'    => $basePath . '/view/changes',
     ];
 
-    [$cnt, $data] = $this->getLastKnowbaseitems();
+    [$cnt, $data] = $this->getLastKnowledgebasearticles();
 
     $myData[] = [
       'header' => [
         'icon'      => 'edit',
-        'title'     => 'Last knowledge items',
+        'title'     => 'Last knowledge base articles',
         'subtitle'  => $cnt . ' articles',
-        'name'      => 'last-knowledge-items',
+        'name'      => 'last-knowledge-articles',
       ],
       'list'   => $data,
       'footer' => [
@@ -390,7 +366,7 @@ final class Home extends Common
         'url'     => '',
       ],
       'color'  => 'blue',
-      'url'    => $basePath . '/view/knowbaseitems',
+      'url'    => $basePath . '/view/knowledgebasearticles',
     ];
 
     [$cnt, $data] = $this->getLinkedTickets();
@@ -433,8 +409,8 @@ final class Home extends Common
     $viewData->addTranslation('visible_since', $translator->translate('Visible since'));
     $viewData->addTranslation('visible_until', $translator->translate('Visible until'));
     $viewData->addTranslation(
-      'last_knowbaseitems',
-      $translator->translatePlural('Last knowbase item', 'Last knowbase items', 2)
+      'last_knowledgebasearticles',
+      $translator->translatePlural('Last knowledge base article', 'Last knowledge base articles', 2)
     );
     $viewData->addTranslation('linkedtickets', $translator->translatePlural('Linked ticket', 'Linked tickets', 2));
     $viewData->addTranslation(
@@ -527,35 +503,100 @@ final class Home extends Common
       }
     }
 
-    // get knowbaseitem
-    $knowbaseitems = \App\Models\Knowbaseitem::get();
+    // get knowledgebasearticles
+    $knowledgebasearticles = \App\Models\Knowledgebasearticle::get();
 
-    foreach ($knowbaseitems as $knowbaseitem)
+    foreach ($knowledgebasearticles as $article)
     {
+      // Check if the current user can view it
+      $authorized = false;
+      // entity
+      foreach ($article->entitiesview as $entity)
+      {
+        if ($entity->treepath == $GLOBALS['entity_treepath'])
+        {
+          $authorized = true;
+        }
+        if (
+            $entity->getRelationValue('pivot')->is_recursive &&
+            str_starts_with($GLOBALS['entity_treepath'], $entity->getAttribute('treepath'))
+        )
+        {
+          $authorized = true;
+          break;
+        }
+      }
+      // group
+      $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+      if (!is_null($user))
+      {
+        foreach ($article->groupsview as $groupview)
+        {
+          foreach ($user->group as $group)
+          {
+            if ($groupview->treepath == $group->treepath)
+            {
+              $authorized = true;
+            }
+            if (
+                $groupview->getRelationValue('pivot')->is_recursive &&
+                str_starts_with($group->getAttribute('treepath'), $groupview->getAttribute('treepath'))
+            )
+            {
+              $authorized = true;
+              break 2;
+            }
+          }
+        }
+      }
+
+      // profile
+      foreach ($article->profilesview as $profile)
+      {
+        if ($profile->id == $GLOBALS['profile_id'])
+        {
+          $authorized = true;
+        }
+      }
+
+      // user
+      foreach ($article->usersview as $user)
+      {
+        if ($user->id == $GLOBALS['user_id'])
+        {
+          $authorized = true;
+        }
+      }
+
+      if (!$authorized)
+      {
+        continue;
+      }
+
       if (
-          is_null($knowbaseitem->category) ||
+          is_null($article->category) ||
           (
             isset($data->category) &&
             is_numeric($data->category) &&
-            $knowbaseitem->category->id == (int) $data->category
+            $article->category->id == (int) $data->category
           )
       )
       {
         $cards[] = [
           'color'         => 'olive',
           'icon'          => 'book',
-          'title'         => $knowbaseitem->name,
+          'title'         => $article->name,
           'description'   => '',
           'button_title'  => 'Read this article',
-          'url'           => '',
+          'url'           => $basePath . '/view/knowledgebasearticles/read/' . $article->id,
         ];
       }
-      elseif (!is_null($knowbaseitem->category->treepath))
+      elseif (!is_null($article->category->treepath))
       {
         if (isset($data->category) && is_numeric($data->category))
         {
           $next = false;
-          foreach (str_split($knowbaseitem->category->treepath, 5) as $idx => $id)
+          foreach (str_split($article->category->treepath, 5) as $idx => $id)
           {
             if ($next)
             {
@@ -568,7 +609,7 @@ final class Home extends Common
             }
           }
         } else {
-          $categoriesId = array_merge($categoriesId, [str_split($knowbaseitem->category->treepath, 5)[0]]);
+          $categoriesId = array_merge($categoriesId, [str_split($article->category->treepath, 5)[0]]);
         }
       }
     }
@@ -770,11 +811,11 @@ final class Home extends Common
   /**
    * @param array<mixed> &$items
    */
-  private function lastknowledgeitems(&$items, int $nbLast): void
+  private function lastknowledgearticles(&$items, int $nbLast): void
   {
-    $item2 = new \App\Models\Knowbaseitem();
-    $myItem2 = $item2->orderBy('date', 'desc')->take($nbLast)->take(5)->get();
-    $myItem3 = $item2->orderBy('date', 'desc')->count();
+    $item2 = new \App\Models\Knowledgebasearticle();
+    $myItem2 = $item2->orderBy('created_at', 'desc')->take($nbLast)->take(5)->get();
+    $myItem3 = $item2->orderBy('created_at', 'desc')->count();
 
     foreach ($myItem2 as $it)
     {
@@ -789,7 +830,7 @@ final class Home extends Common
         $category = $it->category->name;
       }
 
-      $items['lastknowledgeitems']['datas'][$it->id] = [
+      $items['lastknowledgearticles']['datas'][$it->id] = [
         'name'            => $it->name,
         'user'            => $user,
         'category'        => $category,
@@ -802,7 +843,7 @@ final class Home extends Common
     {
       $limit = true;
     }
-    $items['lastknowledgeitems']['datas']['#'] = [
+    $items['lastknowledgearticles']['datas']['#'] = [
       'limit'   => $limit,
       'nbLast'  => $nbLast,
       'nb_res'  => $myItem3,
@@ -1161,12 +1202,12 @@ final class Home extends Common
   /**
    * @return array<int, mixed>
    */
-  private function getLastKnowbaseitems()
+  private function getLastKnowledgebasearticles()
   {
-    $query = new \App\Models\Knowbaseitem();
-    $knowbaseitems = $query->take(5)->get();
+    $query = new \App\Models\Knowledgebasearticle();
+    $knowledgebasearticles = $query->take(5)->get();
     $data = [];
-    foreach ($knowbaseitems as $item)
+    foreach ($knowledgebasearticles as $item)
     {
       $data[] = [
         'id'      => $item->id,

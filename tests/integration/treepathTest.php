@@ -19,12 +19,12 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Common')]
 #[UsesClass('\App\Models\Definitions\Document')]
 #[UsesClass('\App\Models\Definitions\Entity')]
-#[UsesClass('\App\Models\Definitions\Knowbaseitem')]
+#[UsesClass('\App\Models\Definitions\Knowledgebasearticle')]
 #[UsesClass('\App\Models\Definitions\Notepad')]
 #[UsesClass('\App\Models\Entity')]
 #[UsesClass('\App\Traits\Relationships\Documents')]
 #[UsesClass('\App\Traits\Relationships\Entity')]
-#[UsesClass('\App\Traits\Relationships\Knowbaseitems')]
+#[UsesClass('\App\Traits\Relationships\Knowledgebasearticles')]
 #[UsesClass('\App\Traits\Relationships\Notes')]
 
 class treepathTest extends TestCase

@@ -26,7 +26,7 @@ class Computer extends Common
   use \App\Traits\Relationships\Infocom;
   use \App\Traits\Relationships\Contract;
   use \App\Traits\Relationships\Notes;
-  use \App\Traits\Relationships\Knowbaseitems;
+  use \App\Traits\Relationships\Knowledgebasearticles;
   use \App\Traits\Relationships\Reservations;
 
   use GetDropdownValues;
@@ -43,7 +43,7 @@ class Computer extends Common
     'infocom',
     'contracts',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'reservations',
     'softwareversions',
     'operatingsystems',
@@ -95,7 +95,7 @@ class Computer extends Common
     'domains',
     'appliances',
     'notes',
-    'knowbaseitems',
+    'knowledgebasearticles',
     'documents',
     'contracts',
     'tickets',
@@ -143,7 +143,7 @@ class Computer extends Common
     'domains:id,name',
     'appliances:id,name',
     'notes:id',
-    'knowbaseitems:id,name',
+    'knowledgebasearticles:id,name',
     'documents:id,name',
     'contracts:id,name',
     'tickets:id,name',

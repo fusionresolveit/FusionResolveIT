@@ -20,7 +20,6 @@ class Category
       'category' => $translator->translate('As child of'),
       'user' => $translator->translate('Technician in charge of the hardware'),
       'group' => $translator->translate('Group in charge of the hardware'),
-      'knowbaseitemcategory' => $translator->translate('Knowledge base'),
       'code' => $translator->translate('Code representing the ticket category'),
       'is_helpdeskvisible' => $translator->translate('Visible in the simplified interface'),
       'is_incident' => $translator->translate('Visible for an incident'),
@@ -69,15 +68,6 @@ class Category
       'group',
       dbname: 'group_id',
       itemtype: '\App\Models\Group',
-      fillable: true
-    ));
-    $defColl->add(new Def(
-      79,
-      $t['knowbaseitemcategory'],
-      'dropdown_remote',
-      'knowbaseitemcategory',
-      dbname: 'knowbaseitemcategory_id',
-      itemtype: '\App\Models\Knowbaseitemcategory',
       fillable: true
     ));
     $defColl->add(new Def(99, $t['code'], 'input', 'code', fillable: true));
