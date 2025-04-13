@@ -16,7 +16,7 @@ describe('test login in the app', () => {
     cy.get('[data-cy="login-password"]').type('adminIT');
     cy.get('[data-cy="login-submit"]').click();
     cy.get('[data-cy="menu-user-name"]').should('have.text', 'Administrator');
-    cy.get('[data-cy="menu-items"] > :nth-child(1) > .menulink > span').should('have.text', 'ITAM - Hardware inventory');
+    cy.get('[data-cy="menu-main-hardwareinventory"] > span').should('have.text', 'ITAM - Hardware inventory');
     /* ==== End Cypress Studio ==== */
   });
 })

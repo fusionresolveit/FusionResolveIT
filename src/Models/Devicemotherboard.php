@@ -21,7 +21,7 @@ class Devicemotherboard extends Common
 
   protected $definition = \App\Models\Definitions\Devicemotherboard::class;
   protected $titles = ['System board', 'System boards'];
-  protected $icon = 'edit';
+  protected $icon = 'motherboard';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

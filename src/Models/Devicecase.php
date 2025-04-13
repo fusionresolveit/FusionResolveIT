@@ -21,7 +21,7 @@ class Devicecase extends Common
 
   protected $definition = \App\Models\Definitions\Devicecase::class;
   protected $titles = ['Case', 'Cases'];
-  protected $icon = 'edit';
+  protected $icon = 'case';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

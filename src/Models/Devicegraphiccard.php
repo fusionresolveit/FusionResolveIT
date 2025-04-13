@@ -21,7 +21,7 @@ class Devicegraphiccard extends Common
 
   protected $definition = \App\Models\Definitions\Devicegraphiccard::class;
   protected $titles = ['Graphics card', 'Graphics cards'];
-  protected $icon = 'edit';
+  protected $icon = 'graphiccard';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

@@ -21,7 +21,7 @@ class Deviceprocessor extends Common
 
   protected $definition = \App\Models\Definitions\Deviceprocessor::class;
   protected $titles = ['Processor', 'Processors'];
-  protected $icon = 'edit';
+  protected $icon = 'processor';
   /** @var string[] */
   protected $cascadeDeletes = [
     'itemComputers',

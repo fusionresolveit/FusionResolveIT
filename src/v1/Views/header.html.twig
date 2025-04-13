@@ -1,147 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="{{ header.rootpath }}/assets/logo_icon.png" rel="icon" />
+		<link href="{{ header.rootpath }}/assets/logo_icon.png" rel="icon"/>
 
-{% block js %}
-  {% webpack_entry_js 'vendor' %}
-{% endblock %}
+		{% block js %}
+			{% webpack_entry_js 'vendor' %}
+		{% endblock %}
 
-{% block css %}
-  {% webpack_entry_css 'vendor' %}
-{% endblock %}
+		{% block css %}
+			{% webpack_entry_css 'vendor' %}
+		{% endblock %}
 
-  <title>{{ header.title }}</title>
-</head>
-<body>
+		<title>{{ header.title }}</title>
+	</head>
+	<body>
+		<div class="ui bottom attached segment pushable">
+			<div class="ui visible left vertical sidebar menu" style="border-radius: unset;border-top: unset;">
+				<a href="{{ header.rootpath }}/view/home" data-cy="back-to-home">
+					<div class="item" style="display: flex;align-items: end;">
+						<span class="ui small image logo"></span>
+						<span class="bottom aligned content">
+							<span class="ui blue large text" style="font-size: 1rem !important;">
+								{{ include('version.html.twig') }}
+							</span>
+						</span>
+					</div>
+				</a>
+				<div class="item">
+					<span data-cy="menu-user-name">{{ header.username }}</span>
+					<a href="{{ basePath }}/view/logout" style="float: right" data-cy="menu-user-logout">
+						<i class="sign out alternate large icon"></i>
+					</a>
+				</div>
+				<div class="item" style="padding-top: 0;padding-bottom: 0;">
+					<div class="ui internally celled grid">
+						<div class="row">
+							<div class="three wide column" style="padding: unset;margin-top: 10px;">
+								<button class="ui button icon basic" id="darkmode" type="button">
+									<i class="moon icon"></i>
+								</button>
+							</div>
+							<div class="thirteen wide column">
+								<a class="ui large label" id="headerChangeEntity">
+									<i class="exchange alternate icon"></i>
+									Entity |
+									{{ header.entityname }}
+								</a>
+								<div style="display: none" id="headerEntityForm">
+									<form action="{{ basePath }}/view/changeprofileentity" method="post" class="ui form">
+										{% for item in header.profile %}
+											{{ include('fields.html.twig') }}
+										{% endfor %}
+										<input type="hidden" name="redirectURL" value="{{ current_url() }}">
+										<button class="ui primary button" type="submit" id="headerChangeButton">Save</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-  <div class="ui grid">
-    <div class="three wide left attached column">
-      <div class="ui left fixed vertical visible menu" style="border-radius: unset;width: 300px;border-top: unset;">
-        <a href="{{ header.rootpath }}/view/home" data-cy="back-to-home">
-          <div class="item" style="display: flex;align-items: end;">
-            <span class="ui small image logo">
-            </span>
-            <span class="bottom aligned content">
-              <span class="ui blue large text" style="font-size: 1rem !important;">
-                {{ include('version.html.twig') }}
-              </span>
-            </span>
-          </div>
-        </a>
-        <div class="item">
-          <span data-cy="menu-user-name">{{ header.username }}</span>
-          <a href="{{ basePath }}/view/logout" style="float: right" data-cy="menu-user-logout">
-            <i class="sign out alternate large icon"></i>
-          </a>
-        </div>
-        <div class="item" style="padding-top: 0;padding-bottom: 0;">
-          <div class="ui internally celled grid">
-            <div class="row">
-              <div class="three wide column" style="padding: unset;margin-top: 10px;">
-                <button class="ui button icon basic" id="darkmode" type="button">
-                  <i class="moon icon"></i>
-                </button>
-              </div>
-              <div class="thirteen wide column">
-                <a class="ui large label" id="headerChangeEntity">
-                  <i class="exchange alternate icon"></i>
-                  Entity | {{ header.entityname }}
-                </a>
-                <div style="display: none" id="headerEntityForm">
-                  <form action="{{ basePath }}/view/changeprofileentity" method="post" class="ui form">
-                    {% for item in header.profile %}
-                      {{ include('fields.html.twig') }}
-                    {% endfor %}
-                    <input type="hidden" name="redirectURL" value="{{ current_url() }}">
-                    <button class="ui primary button" type="submit" id="headerChangeButton">Save</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+				<div class="item">
+					Bookmarks
+					<div class="menu">
+						{% for item in header.menubookmark %}
+							<div class="item">
+								<div class="header menulink">
+									{% if item.icon is defined %}
+										<i class="blue {{ item.icon }} middle aligned icon"></i>
+									{% endif %}
+									<a href="{{ header.rootpath }}{{ item.endpoint }}">{{ item.title }}</a>
+									<a href="{{ header.rootpath }}/view/menubookmarks/delete/{{ item.name }}" style="float: right;">
+										<i class="trash icon"></i>
+									</a>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
 
-        <div class="item">
-          Bookmarks
-          <div class="menu">
-            {% for item in header.menubookmark %}
-              <div class="item">
-                <div class="header menulink">
-                  {% if item.icon is defined %}
-                    <i class="blue {{ item.icon }} middle aligned icon"></i>
-                  {% elseif item.svgicon is defined %}
-                    <i class="blue {{ item.icon }} middle aligned icon"><img src="{{ header.rootpath }}/assets/svgicons/{{ item.svgicon }}.svg"></i>
-                  {% endif %}
-                  <a href="{{ header.rootpath }}{{ item.endpoint }}">{{ item.name }}</a>
-                  <a href="{{ header.rootpath }}/view/menubookmarks/delete/{{ item.id }}" style="float: right;">
-                    <i class="trash icon"></i>
-                  </a>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-
-        <div class="item">
-          <span data-cy="menu-title">Menu</span>
-          <div data-cy="menu-items" class="menu">
-
-            {% for item in header.menu %}
-              <div class="item">
-                <div class="header menulink" style="cursor:pointer" data-menuid="{{ item.id }}">
+				<div class="item">
+					<span data-cy="menu-title">Menu</span>
+					<div data-cy="menu-items" class="menu">
+            <div class="ui basic styled accordion">
+              {% for item in header.menu %}
+                <div class="title" data-cy="menu-main-{{ item.name }}">
+                  <i class="dropdown icon"></i>
                   <i class="{{ item.icon }} icon"></i>
-                  <span>{{ item.name }}</span>
+                  <span>{{ item.title }}</span>
                   <div class="ui right floated label" style="float: inline-end;">{{ item.sub|length }}</div>
                 </div>
-
                 {% if item.sub|length > 0 %}
-                  <div class="ui extralarge modal" id="menu-{{ item.id }}">
-                    <div class="header">{{ item.name }}</div>
-                    <div class="content">
-                      <div class="ui four column relaxed divided grid">
-                        {% for key in [0, 1, 2, 3] %}
-                        <div class="column">
-                          <h4 class="ui header"></h4>
-                          <div class="ui list">
-                            {% for subitem in item.sub|slice((key * (item.sub|length / 4)|round(0, 'ceil')), (item.sub|length / 4)|round(0, 'ceil')) %}
-                              <div class="item">
-                                {% if subitem.icon is defined %}
-                                  <i class="large blue {{ subitem.icon }} middle aligned icon"></i>
-                                {% elseif subitem.svgicon is defined %}
-                                  <i class="large blue {{ subitem.icon }} middle aligned icon"><img src="{{ header.rootpath }}/assets/svgicons/{{ subitem.svgicon }}.svg"></i>
-                                {% endif %}
-                                <div class="content">
-                                  <div class="header">
-                                    <a href="{{ header.rootpath }}{{ subitem.endpoint }}">{{ subitem.name }}</a>
-                                    <a href="{{ header.rootpath }}/view/menubookmarks{{ subitem.endpoint }}">
-                                    <i class="bookmark outline icon" style="float: right;"></i>
-                                    </a>
-                                  </div>
-                                  {% if subitem.comment is defined %}
-                                    <div class="description" style="color: grey; font-style: italic;">{{ subitem.comment }}</div>
-                                  {% endif %}
-                                </div>
-                              </div>
-                            {% endfor %}
+                  <div class="content">
+                    {% for subitem in item.sub %}
+                      <div class="item" data-cy="menu-{{ subitem.name }}">
+                        {% if subitem.icon is defined %}
+                          <i class="large blue {{ subitem.icon }} middle aligned icon" style="float: left;margin-right: 5px;margin-left: unset;"></i>
+                        {% endif %}
+                        <div class="content">
+                          <div class="header">
+                            <a href="{{ header.rootpath }}{{ subitem.endpoint }}">{{ subitem.title }}</a>
+                            <a href="{{ header.rootpath }}/view/menubookmarks{{ subitem.endpoint }}">
+                              <i class="bookmark outline icon" style="float: right;"></i>
+                            </a>
                           </div>
+                          {% if subitem.comment is defined %}
+                            <div class="description" style="color: grey; font-style: italic;">{{ subitem.comment }}</div>
+                          {% endif %}
                         </div>
-                        {% endfor %}
                       </div>
-                    </div>
-                    <div class="actions">
-                      <div class="ui cancel button">Close</div>
-                    </div>
+                    {% endfor %}
                   </div>
                 {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="twelve wide right attached column">
+              {% endfor %}
+            </div>
+					</div>
+				</div>
+			</div>
+			<div class="pusher">
+				<div class="ui very long scrolling basic segment" style="padding-bottom: 50px; margin-right: 15px;" data-cy="content-page">

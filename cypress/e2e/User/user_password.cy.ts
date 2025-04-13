@@ -9,7 +9,7 @@ describe('template spec', () => {
     cy.get('[data-cy="login-password"]').clear();
     cy.get('[data-cy="login-password"]').type('adminIT');
     cy.get('[data-cy="login-submit"]').click();
-    cy.get(':nth-child(7) > .menulink > span').click();
+    cy.get('[data-cy="menu-main-userdata"]').click();
     cy.get('[href="/view/users"]').click();
     cy.get('[data-cy="search-button-new"] > .ui > span').click();
     cy.get('[data-cy="form-field-name"]').clear('s');
@@ -50,7 +50,7 @@ describe('template spec', () => {
     cy.get('[data-cy="login-password"]').clear();
     cy.get('[data-cy="login-password"]').type('adminIT');
     cy.get('[data-cy="login-submit"]').click();
-    cy.get(':nth-child(7) > .menulink > span').click();
+    cy.get('[data-cy="menu-main-userdata"]').click();
     cy.get('[href="/view/users"]').click();
     cy.get('[data-cy="search-items-item2"] > :nth-child(2) > .labeled > .tiny > .id').click();
     cy.get('[data-cy="form-field-new_password"]').clear('te');
@@ -78,7 +78,7 @@ describe('template spec', () => {
     cy.get('[data-cy="login-password"]').clear();
     cy.get('[data-cy="login-password"]').type('adminIT');
     cy.get('[data-cy="login-submit"]').click();
-    cy.get(':nth-child(7) > .menulink > span').click();
+    cy.get('[data-cy="menu-main-userdata"]').click();
     cy.get('[href="/view/users"]').click();
     cy.get('[data-cy="search-items-item2"] > :nth-child(4)').should('have.text', 'Steve ROGERS');
     cy.get('[data-cy="search-items-item2"] > :nth-child(2) > .labeled > .tiny').click();

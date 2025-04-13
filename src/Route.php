@@ -2200,7 +2200,7 @@ final class Route
         });
       });
 
-      $view->group('/devicesensortype', function (RouteCollectorProxy $devicesensortype)
+      $view->group('/devicesensortypes', function (RouteCollectorProxy $devicesensortype)
       {
         $devicesensortype->map(['GET'], '', \App\v1\Controllers\Devicesensortype::class . ':showAll');
         $devicesensortype->group("/new", function (RouteCollectorProxy $sensortypeNew)

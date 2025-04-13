@@ -28,7 +28,7 @@ final class Menubookmark extends Common
       {
         foreach ($item['sub'] as $subitem)
         {
-          if ($subitem['endpoint'] == $args['endpoint'])
+          if ($subitem->endpoint == $args['endpoint'])
           {
             $found = true;
             break;

@@ -21,7 +21,7 @@ class Devicepowersupply extends Common
 
   protected $definition = \App\Models\Definitions\Devicepowersupply::class;
   protected $titles = ['Power supply', 'Power supplies'];
-  protected $icon = 'edit';
+  protected $icon = 'power-supply-unit';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
