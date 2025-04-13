@@ -119,15 +119,15 @@ final class MenuTest extends TestCase
     {
       foreach ($menuItem['sub'] as $subItem)
       {
-        $substring = '<a href="' . $subItem['endpoint'] . '">';
-        if ($subItem['endpoint'] == '/view/computers')
+        $substring = '<a href="' . $subItem->endpoint . '">';
+        if ($subItem->endpoint == '/view/computers')
         {
-          $substring = '<a href="' . $subItem['endpoint'] . '">Computers';
+          $substring = '<a href="' . $subItem->endpoint . '">Computers';
         }
         $this->assertStringContainsString(
           $substring,
           $payload,
-          'The menu name `' . $subItem['name'] . '` not have display key ' . $subItem['endpoint']
+          'The menu name `' . $subItem->title . '` not have display key ' . $subItem->endpoint
         );
       }
     }
@@ -174,6 +174,6 @@ final class MenuTest extends TestCase
     $this->assertcount(1, $menuCleaned, 'The menu must have an entry');
     $this->assertArrayHasKey('sub', $menuCleaned[0], 'The menu must have sub key');
     $this->assertcount(1, $menuCleaned[0]['sub'], 'The sub menu must have an entry');
-    $this->assertStringEndsWith('/view/computers', $menuCleaned[0]['sub'][0]['endpoint']);
+    $this->assertStringEndsWith('/view/computers', $menuCleaned[0]['sub'][0]->endpoint);
   }
 }

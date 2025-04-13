@@ -151,6 +151,14 @@ blockquote {
   width: 1500px;
 }
 
+.ui.left.sidebar {
+  width: 320px;
+}
+
+.ui.visible.left.sidebar ~ .fixed, .ui.visible.left.sidebar ~ .pusher {
+  transform: translate3d(320px,0,0);
+}
+
 /* For diff in knowledgebasearticlerevision */
 
 .diff-wrapper.diff {
@@ -274,4 +282,83 @@ blockquote {
 }
 .diff-wrapper.diff.diff-html .change del {
   background: #f09494;
+}
+
+/* custom icons */
+
+.icon.software {
+  background-image: url('img/svgicons/software.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.operatingsystem {
+  background-image: url('img/svgicons/operatingsystem.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.power-supply-unit {
+  background-image: url('img/svgicons/power-supply-unit.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.case {
+  background-image: url('img/svgicons/case.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.sensor {
+  background-image: url('img/svgicons/sensor.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.graphiccard {
+  background-image: url('img/svgicons/graphiccard.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.motherboard {
+  background-image: url('img/svgicons/motherboard.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.networkcard {
+  background-image: url('img/svgicons/networkcard.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.ssd {
+  background-image: url('img/svgicons/ssd.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.rom {
+  background-image: url('img/svgicons/rom.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.icon.processor {
+  background-image: url('img/svgicons/processor.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
 }

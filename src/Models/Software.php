@@ -32,7 +32,7 @@ class Software extends Common
   protected $table = 'softwares';
   protected $definition = \App\Models\Definitions\Software::class;
   protected $titles = ['Software', 'Software'];
-  protected $icon = 'cube';
+  protected $icon = 'software';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

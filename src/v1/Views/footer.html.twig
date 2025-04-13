@@ -1,3 +1,4 @@
+      </div>
     </div>
   </div>
 
@@ -136,6 +137,13 @@
       $('#menu-' + this.attributes['data-menuid'].value)
         .modal('show');
     });
+
+    $('.accordion')
+      .accordion({
+        selector: {
+          trigger: '.title'
+        }
+      });
 
 </script>
 </body>

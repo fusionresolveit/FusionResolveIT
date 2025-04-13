@@ -21,7 +21,7 @@ class Devicesensor extends Common
 
   protected $definition = \App\Models\Definitions\Devicesensor::class;
   protected $titles = ['Sensor', 'Sensors'];
-  protected $icon = 'edit';
+  protected $icon = 'sensor';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

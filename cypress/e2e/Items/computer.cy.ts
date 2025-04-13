@@ -8,7 +8,7 @@ describe('test computer items', () => {
   it('menu to item list', function() {
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('http://127.0.0.1/view/home');
-    cy.get(':nth-child(1) > .menulink > span').click();
+    cy.get('[data-cy="menu-main-hardwareinventory"]').click();
     cy.get('[href="/view/computers"]').should('have.text', 'Computers');
     cy.get('[href="/view/computers"]').click();
     cy.get('[style="display: flex; justify-content: space-between"] > :nth-child(1) > .content > span').should('have.text', 'Fusion Resolve IT - Computers');
@@ -45,7 +45,6 @@ describe('test computer items', () => {
     cy.get('[data-cy="form-button-save-viewid"]').should('have.text', '\n            Voir\n          ');
     cy.get('[data-cy="form-button-save-viewid"] > span').click();
     cy.get('.pageheader').click();
-    cy.get('.three.left').click();
     cy.get('[style="display: flex; justify-content: space-between;"] > :nth-child(1)').click();
     cy.get('.pageheader').click();
     cy.get('.content > [data-cy="form-header-id"]').should('have.text', '2');
@@ -111,11 +110,6 @@ describe('test computer items', () => {
     cy.get('[data-cy="search-items-item2"] > :nth-child(2) > .labeled > .tiny').click();
     cy.get('[data-cy="form-button-softdelete"] > .ui > span').should('be.visible');
     cy.get('[data-cy="form-button-softdelete"] > .ui > span').click();
-    cy.get('.pageheader').click();
-    cy.get('.three.left').click();
-    cy.get('body > :nth-child(1)').click();
-    cy.get('.pageheader').click();
-    cy.get('#myform > .internally > .row > :nth-child(1)').click();
     cy.get('[data-cy="form-button-new"] > .ui > span').should('be.visible');
     cy.get('[data-cy="form-button-restore"] > .ui > span').should('be.visible');
     cy.get('[data-cy="form-button-delete"] > .ui').should('be.visible');

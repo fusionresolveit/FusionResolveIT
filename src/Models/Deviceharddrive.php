@@ -21,7 +21,7 @@ class Deviceharddrive extends Common
 
   protected $definition = \App\Models\Definitions\Deviceharddrive::class;
   protected $titles = ['Hard drive', 'Hard drives'];
-  protected $icon = 'edit';
+  protected $icon = 'ssd';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

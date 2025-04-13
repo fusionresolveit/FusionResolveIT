@@ -21,7 +21,7 @@ class Devicefirmware extends Common
 
   protected $definition = \App\Models\Definitions\Devicefirmware::class;
   protected $titles = ['Firmware', 'Firmware'];
-  protected $icon = 'edit';
+  protected $icon = 'rom';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',

@@ -7,8 +7,8 @@ describe('Rights of Knowledge base article', () => {
   /* ==== Test Created with Cypress Studio ==== */
   it('Create article', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('[data-cy="search-button-new"] > .ui > span').click();
     cy.get('[data-cy="form-field-name"]').click();
@@ -51,8 +51,8 @@ describe('Rights of Knowledge base article', () => {
   });
 
   it('Set right to entity', function() {
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('.labeled > .tiny').click();
     cy.get('[href="/view/knowledgebasearticles/1/entityview"]').click();
@@ -75,8 +75,8 @@ describe('Rights of Knowledge base article', () => {
   });
 
   it('Remove right to entity', function() {
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('.labeled > .tiny').click();
     cy.get('[href="/view/knowledgebasearticles/1/entityview"] > .ui').click();
@@ -84,8 +84,8 @@ describe('Rights of Knowledge base article', () => {
   });
 
   it('Set right to profile', function() {
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('.labeled > .tiny').click();
     cy.get('[href="/view/knowledgebasearticles/1/profileview"]').click();
@@ -101,17 +101,17 @@ describe('Rights of Knowledge base article', () => {
   });
 
   it('Remove right to profile', function() {
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('.labeled > .tiny').click();
     cy.get('[href="/view/knowledgebasearticles/1/profileview"]').click();
     cy.get('.negative').click();
   });
 
-  it('Set right to user', function() {    
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+  it('Set right to user', function() {
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('.labeled > .tiny').click();
     cy.get('[href="/view/knowledgebasearticles/1/userview"] > .ui').click();
@@ -126,8 +126,8 @@ describe('Rights of Knowledge base article', () => {
   });
 
   it('Delete the article', function() {
-    cy.visit('http://127.0.0.1/view/home'); 
-    cy.get(':nth-child(10) > .menulink > span').click();
+    cy.visit('http://127.0.0.1/view/home');
+    cy.get('[data-cy="menu-main-knowledgehub"]').click();
     cy.get('[href="/view/knowledgebasearticles"]').click();
     cy.get('.labeled > .tiny').click();
     cy.get('[data-cy="form-button-softdelete"] > .ui > span').click();
