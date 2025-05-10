@@ -89,6 +89,9 @@ class PostUser extends Post
   /** @var ?string */
   public $new_password_verification;
 
+  /** @var ?\App\Models\Authsso */
+  public $authsso;
+
   public function __construct(object $data)
   {
     $this->loadRights('App\Models\User');
@@ -344,6 +347,28 @@ class PostUser extends Post
     {
       $this->new_password_verification = $data->new_password_verification;
     }
+
+    if (
+        Validation::attrNumericVal('authsso')->isValid($data) &&
+        isset($data->authsso)
+    )
+    {
+      $authsso = \App\Models\Authsso::where('id', $data->authsso)->first();
+      if (!is_null($authsso))
+      {
+        $this->authsso = $authsso;
+        $this->filledFields[] = 'authsso';
+      }
+      elseif (intval($data->authsso) == 0)
+      {
+        $emptyAuthsso = new \App\Models\Authsso();
+        $emptyAuthsso->id = 0;
+        $this->authsso = $emptyAuthsso;
+        $this->filledFields[] = 'authsso';
+      } else {
+        throw new \Exception('Wrong data request', 400);
+      }
+    }
   }
 
   /**
@@ -354,7 +379,7 @@ class PostUser extends Post
    *               defaultgroup?: \App\Models\Group, entity?: \App\Models\Entity, supervisor?: \App\Models\User,
    *               user_dn?: string, is_deleted_ldap?: bool, personal_token?: string, api_token?: string,
    *               sync_field?: string, synchronized_at?: string, last_login?: string, new_password?: string,
-   *               new_password_verification?: string}
+   *               new_password_verification?: string, authsso?: \App\Models\Authsso}
    */
   public function exportToArray(bool $filterRights = false): array
   {
@@ -399,7 +424,7 @@ class PostUser extends Post
    *                  defaultgroup?: \App\Models\Group, entity?: \App\Models\Entity, supervisor?: \App\Models\User,
    *                  user_dn?: string, is_deleted_ldap?: bool, personal_token?: string, api_token?: string,
    *                  sync_field?: string, synchronized_at?: string, last_login?: string, new_password?: string,
-   *                  new_password_verification?: string} $data
+   *                  new_password_verification?: string, authsso?: \App\Models\Authsso} $data
    */
   private function getFieldForArray(string $key, mixed &$data): void
   {
@@ -425,5 +450,15 @@ class PostUser extends Post
         return;
       }
     }
+  }
+
+  /**
+   * Used in special case, for example when run rules when connect (not
+   * yet connected but must have all definitions for rules)
+   */
+  public function forceAllDefinitions(): void
+  {
+    $user = new \App\Models\User();
+    $this->definitions = $user->getDefinitions(true);
   }
 }

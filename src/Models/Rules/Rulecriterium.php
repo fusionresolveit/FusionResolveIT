@@ -31,16 +31,17 @@ class Rulecriterium extends \App\Models\Common
     {
       throw new \Exception('Rule not found', 400);
     }
-    $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
+    $modelName = '\App\Models\\' . ucfirst($rule->sub_type);
     if (!class_exists($modelName))
     {
       throw new \Exception('Rule not found', 400);
     }
+
     $model = new $modelName();
     if (is_subclass_of($model, \App\Models\Common::class))
     {
       // get definitions
-      $definitions = $model->getDefinitions();
+      $definitions = $model->getDefinitions(true);
       foreach ($definitions as $def)
       {
         if ($def->name == $this->attributes['criteria'])

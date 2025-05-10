@@ -49,16 +49,17 @@ class User
 
     $defColl = new DefinitionCollection();
     $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
-    $defColl->add(new Def(2, $t['id'], 'input', 'id', display: false));
+    $defColl->add(new Def(2, $t['id'], 'input', 'id', display: false, useInRule: false));
     $defColl->add(new Def(34, $t['lastname'], 'input', 'lastname', fillable: true));
     $defColl->add(new Def(9, $t['firstname'], 'input', 'firstname', fillable: true));
-    $defColl->add(new Def(1001, $t['new_password'], 'inputpassword', 'new_password', fillable: true));
+    $defColl->add(new Def(1001, $t['new_password'], 'inputpassword', 'new_password', fillable: true, useInRule: false));
     $defColl->add(new Def(
       1002,
       $t['new_password_verif'],
       'inputpassword',
       'new_password_verification',
-      fillable: true
+      fillable: true,
+      useInRule: false,
     ));
     $defColl->add(new Def(8, $t['is_active'], 'boolean', 'is_active', fillable: true));
     $defColl->add(new Def(62, $t['begin_date'], 'datetime', 'begin_date', fillable: true));
@@ -142,7 +143,28 @@ class User
     $defColl->add(new Def(121, $t['created_at'], 'datetime', 'created_at', readonly: true));
     $defColl->add(new Def(400, $t['completename'], 'input', 'completename', fillable: false, readonly: true));
 
-    $defColl->add(new Def(1003, 'Password', 'inputpassword', 'password', fillable: true, display: false));
+    $defColl->add(new Def(
+      1003,
+      'Password',
+      'inputpassword',
+      'password',
+      fillable: true,
+      display: false,
+      useInRule: false
+    ));
+
+    // For rules
+    $defColl->add(new Def(
+      1004,
+      'authsso',
+      'dropdown_remote',
+      'authsso',
+      itemtype: '\App\Models\Authsso',
+      fillable: false,
+      display: false,
+    ));
+
+
 
     return $defColl;
     // [

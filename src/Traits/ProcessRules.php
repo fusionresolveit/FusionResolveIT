@@ -171,11 +171,11 @@ trait ProcessRules
 
     foreach ($definitions as $def)
     {
-      if ($def->readonly || !$def->fillable)
+      if ($def->readonly || !$def->useInRule)
       {
         continue;
       }
-      if (!in_array($def->name, $filledFields))
+      if (!in_array($def->name, $filledFields) && isset($data->{$def->name}))
       {
         $data->{$def->name} = $item->{$def->name};
       }

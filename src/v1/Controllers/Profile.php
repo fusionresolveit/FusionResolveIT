@@ -233,6 +233,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
       \App\Models\Group::class,
       \App\Models\Entity::class,
       \App\Models\Rules\Ticket::class,
+      \App\Models\Rules\User::class,
       \App\Models\Profile::class,
       \App\Models\Queuednotification::class,
       \App\Models\Audit::class,

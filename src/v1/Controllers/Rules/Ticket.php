@@ -9,6 +9,7 @@ use App\DataInterface\PostRuleCriterium;
 use App\Traits\ProcessRules;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
+use App\Traits\ShowNewItem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
@@ -20,6 +21,7 @@ final class Ticket extends \App\v1\Controllers\Common
 
   // Display
   use ShowItem;
+  use ShowNewItem;
   use ShowAll;
 
   /** @var string */

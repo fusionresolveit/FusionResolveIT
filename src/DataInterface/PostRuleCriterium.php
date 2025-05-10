@@ -23,8 +23,8 @@ class PostRuleCriterium extends Post
   public function __construct(object $data)
   {
     $this->loadRights('App\Models\Rules\Rule');
-    $rule = new \App\Models\Rules\Rule();
-    $this->definitions = $rule->getDefinitions();
+    $rulecrit = new \App\Models\Rules\Rulecriterium();
+    $this->definitions = $rulecrit->getDefinitions(true);
 
     if (
         Validation::attrNumericVal('rule')->isValid($data) &&

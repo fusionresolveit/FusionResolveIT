@@ -233,6 +233,13 @@ final class Criterium
       {
         return true;
       }
+    }
+    elseif (is_object($value) && method_exists($value, 'getAttribute'))
+    {
+      if ($value->getAttribute('id') == $patternValue)
+      {
+        return true;
+      }
     } else {
       if ($patternValue === $value)
       {
@@ -258,6 +265,13 @@ final class Criterium
     if (is_array($value))
     {
       if (!in_array($patternValue, $value, true))
+      {
+        return true;
+      }
+    }
+    elseif (is_object($value) && method_exists($value, 'getAttribute'))
+    {
+      if ($value->getAttribute('id') != $patternValue)
       {
         return true;
       }
@@ -616,7 +630,10 @@ final class Criterium
    */
   public static function getConditionsForDefinition(string $model, string $name): array
   {
-    $completeModelName = '\App\Models\\' . $model;
+    $spl = explode('::::', $name);
+    $name = $spl[0];
+
+    $completeModelName = '\App\Models\\Rules\\' . $model;
     if (!class_exists($completeModelName))
     {
       return [];
@@ -627,7 +644,11 @@ final class Criterium
       return [];
     }
 
-    $definitions = $item->getDefinitions();
+    if (!property_exists($item, 'definitionCriteria') || is_null($item->definitionCriteria))
+    {
+      throw new \Exception('Error', 500);
+    }
+    $definitions = $item->definitionCriteria::getDefinition();
 
     $type = null;
     $typeModelTree = false;

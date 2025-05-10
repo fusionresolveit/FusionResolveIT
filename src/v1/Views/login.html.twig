@@ -53,7 +53,7 @@
                   </div>
                 {% endif %}
                 {% for item in sso %}
-                  <a href="{{ basePath }}/view/login/sso/{{ item.id }}">
+                  <a href="{{ basePath }}/view/login/sso/{{ item.id }}" data-cy="sso-{{ item.name }}">
                     <div class="ui labeled icon primary button" style="margin-bottom: 5px;">
                       <i class="right arrow icon"></i>
                       <span>{{ item.name }}</span>

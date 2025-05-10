@@ -578,6 +578,14 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
+            'rulesusers',
+            $translator->translate('Rules for users'),
+            'magic',
+            $this->getRightForModel('\App\Models\Rules\User'),
+            '/view/rules/users',
+            '',
+          ),
+          new DataInterfaceMenu(
             'savedsearches',
             $translator->translatePlural('Saved search', 'Saved searches', 2),
             'bookmark',

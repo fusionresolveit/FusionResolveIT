@@ -13,5 +13,6 @@ final class Updated
   public function __construct($model)
   {
     UpdatedKnowledgebasearticle::run($model);
+    UpdatedUserProfile::run($model);
   }
 }

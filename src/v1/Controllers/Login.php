@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
+use App\DataInterface\PostUser;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use Illuminate\Support\Carbon;
+use stdClass;
 
 final class Login extends Common
 {
@@ -156,10 +158,6 @@ final class Login extends Common
     // put into cookie, key token
 
     $jwt = $token->generateJWTToken($user, $response);
-    if (gettype($jwt) != 'array')
-    {
-      return $jwt;
-    }
 
     // Set Cookie
     // $cookie_lifetime = empty($cookie_value) ? time() - 3600 : time() + $CFG_GLPI['login_remember_time'];
@@ -198,7 +196,7 @@ final class Login extends Common
   /**
    * @param array<string, string> $args
    */
-  public function callbackSSO(Request $request, Response $response, array $args): void
+  public function callbackSSO(Request $request, Response $response, array $args): Response
   {
     $provider = $this->prepareSSOService($request, $args);
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
@@ -206,7 +204,41 @@ final class Login extends Common
 
     $user = \App\Models\User::firstOrCreate(['name' => $ssoUser->email]);
 
-    $this->authOkAndRedirect($user, $response);
+    $authsso = \App\Models\Authsso::where('callbackid', $args['callbackid'])->where('is_active', true)->first();
+    if (!is_null($authsso))
+    {
+      $prepareData = [
+        'name'    => $ssoUser->email,
+        'authsso' => $authsso->id,
+      ];
+
+      foreach ($authsso->scopes as $scope)
+      {
+        if (is_string($ssoUser->{$scope->mapping_field}) && $scope->mapping_field != 'name')
+        {
+          $prepareData[$scope->mapping_field] = $ssoUser->{$scope->mapping_field};
+        }
+      }
+
+      $GLOBALS['profile_id'] = 0;
+      $data = new PostUser((object) $prepareData);
+      $data->forceAllDefinitions();
+
+      $ctrlUser = new \App\v1\Controllers\User();
+      $dataUser = $ctrlUser->runRules($data);
+
+      $dataUpdate = $dataUser->exportToArray();
+      unset($dataUpdate['new_password']);
+      unset($dataUpdate['new_password_verification']);
+      unset($dataUpdate['authsso']);
+      $user->update($dataUpdate);
+
+      // needed to force update, need to run event to update profile for example
+      $user->refresh();
+      $user->touch();
+    }
+
+    return $this->authOkAndRedirect($user, $response);
   }
 
   /**
@@ -239,11 +271,11 @@ final class Login extends Common
       if ($field == 'scope')
       {
         $dataProvider['scope'] = [];
-        $scopes = \App\Models\Authssoscope::where('authsso_id', $authsso->id)->get();
-        foreach ($scopes as $scope)
-        {
-          $dataProvider['scope'][] = $scope->name;
-        }
+        // $scopes = \App\Models\Authssoscope::where('authsso_id', $authsso->id)->get();
+        // foreach ($scopes as $scope)
+        // {
+        //   $dataProvider['scope'][] = $scope->name;
+        // }
       }
       elseif ($field == 'options')
       {
@@ -292,7 +324,14 @@ final class Login extends Common
       'provider' => [
         $authsso->provider => $dataProvider,
       ],
+      'hydrateMapper' => [],
     ];
+    // hydrateMapper = mapping des mappers du getidentity
+    foreach ($authsso->scopes as $scope)
+    {
+      $configureProviders['hydrateMapper'][$scope->name] = $scope->mapping_field;
+    }
+
     return \App\v1\Controllers\Authsso::getProviderInstance($authsso->provider, $configureProviders);
   }
 
@@ -371,11 +410,6 @@ final class Login extends Common
         $data->entityId,
         $data->recursive
       );
-      if (gettype($jwt) != 'array')
-      {
-        return $jwt;
-      }
-
       setcookie('token', $jwt['token'], 0, $basePath . '/view');
     }
 

@@ -12,7 +12,7 @@ final class EntityCreating
    */
   public function __construct($model)
   {
-    if ($model->isEntity())
+    if ($model->isEntity() && isset($GLOBALS['entity_id']))
     {
       $model->setAttribute('entity_id', $GLOBALS['entity_id']);
     }

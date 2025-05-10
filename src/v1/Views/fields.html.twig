@@ -1,4 +1,4 @@
-<div class="field">
+<div class="{% if item.required %}required {% endif %}field">
   {% if item.type != 'boolean' %}
     <label data-cy="form-field-{{ item.name }}-label">{{ item.title|raw }}</label>
   {% endif %}
@@ -8,12 +8,12 @@
         <input data-cy="form-field-{{ item.name }}" type="text" readonly value="{{ item.value }}">
       </div>
     {% else %}
-      <input data-cy="form-field-{{ item.name }}" type="text" name="{{ item.name }}" value="{{ item.value }}">
+      <input data-cy="form-field-{{ item.name }}" type="text" name="{{ item.name }}" value="{{ item.value }}"{% if item.required %} required{% endif %}>
     {% endif %}
   {% endif %}
 
   {% if item.type == 'inputpassword' %}
-    <input data-cy="form-field-{{ item.name }}" type="password" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
+    <input data-cy="form-field-{{ item.name }}" type="password" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}"{% if item.required %} required{% endif %}>
   {% endif %}
 
   {% if item.type == 'dropdown' %}
@@ -32,7 +32,7 @@
       {% endfor %}
     {% else %}
       <div data-cy="form-field-{{ item.name }}" class="ui search selection dropdown">
-        <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
+        <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}"{% if item.required %} required{% endif %}>
         <i class="dropdown icon"></i>
         <div class="default text">Select value...</div>
         <div class="menu">
@@ -63,7 +63,7 @@
         data-itemtype="{{ item.itemtype }}"
         data-cy="form-field-{{ item.name }}"
       >
-        <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}">
+        <input type="hidden" name="{{ item.name }}" {% if item.readonly %}readonly{% endif %} value="{{ item.value }}"{% if item.required %} required{% endif %}>
         <i class="dropdown icon"></i>
         {% if item.value == 0 %}
           <div class="default text">{{ translation.selectvalue }}</div>
@@ -127,12 +127,12 @@ editor{{ item.name }} = new Editor({
         <input data-cy="form-field-{{ item.name }}" type="text" readonly value="{{ item.value }}">
       </div>
     {% else %}
-      <input data-cy="form-field-{{ item.name }}" type="date" name="{{ item.name }}" value="{{ item.value }}">
+      <input data-cy="form-field-{{ item.name }}" type="date" name="{{ item.name }}" value="{{ item.value }}"{% if item.required %} required{% endif %}>
     {% endif %}
   {% endif %}
 
   {% if item.type == 'email' %}
-    <input data-cy="form-field-{{ item.name }}" type="email" name="{{ item.name }}" {% if item.readonly %}readonly"{% endif %} value="{{ item.value }}">
+    <input data-cy="form-field-{{ item.name }}" type="email" name="{{ item.name }}" {% if item.readonly %}readonly"{% endif %} value="{{ item.value }}"{% if item.required %} required{% endif %}>
   {% endif %}
 
   {% if item.type == 'datetime' %}
@@ -141,7 +141,7 @@ editor{{ item.name }} = new Editor({
         <input data-cy="form-field-{{ item.name }}" type="text" readonly value="{{ item.value }}">
       </div>
     {% else %}
-      <input data-cy="form-field-{{ item.name }}" type="text" name="{{ item.name }}" value="{{ item.value }}">
+      <input data-cy="form-field-{{ item.name }}" type="text" name="{{ item.name }}" value="{{ item.value }}"{% if item.required %} required{% endif %}>
     {% endif %}
   {% endif %}
 </div>
