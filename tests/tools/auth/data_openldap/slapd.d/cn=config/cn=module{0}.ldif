@@ -1,0 +1,14 @@
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 ec317fe4
+dn: cn=module{0}
+objectClass: olcModuleList
+cn: module{0}
+olcModulePath: /opt/bitnami/openldap/libexec/openldap
+olcModuleLoad: {0}pw-sha2.so
+structuralObjectClass: olcModuleList
+entryUUID: b75b144e-bd3d-103f-951c-2314053ec711
+creatorsName: cn=config
+createTimestamp: 20250504141337Z
+entryCSN: 20250504141337.462551Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20250504141337Z

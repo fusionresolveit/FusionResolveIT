@@ -239,6 +239,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: run OCI images
+        run: |
+          cd tests/tools/auth/
+          podman compose up -d
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: install dependencies
