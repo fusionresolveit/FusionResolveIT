@@ -242,6 +242,7 @@ jobs:
       - name: run OCI images
         run: |
           sudo systemctl start docker
+          sudo systemctl start podman.socket
           cd tests/tools/auth/
           podman compose up -d
       # Install npm dependencies, cache them correctly
