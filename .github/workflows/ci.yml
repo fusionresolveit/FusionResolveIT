@@ -244,7 +244,7 @@ jobs:
           sudo systemctl start docker
           sudo systemctl start podman.socket
           cd tests/tools/auth/
-          podman compose up -d
+          docker compose up -d
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: install dependencies
