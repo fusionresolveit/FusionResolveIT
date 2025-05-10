@@ -1,7 +1,7 @@
 describe('template spec', () => {
-  it('reset dababase', function() {
-    cy.dbReset();
-  });
+  // it('reset dababase', function() {
+  //   cy.dbReset();
+  // });
 
   /* ==== Test Created with Cypress Studio ==== */
   it('configure SSO no rule', function() {
@@ -91,7 +91,7 @@ describe('template spec', () => {
     cy.get('#valuediv > .search').click();
     cy.get('[data-value="2"]').click();
     cy.get('#submitbutton').click();
-    cy.get('[data-cy="form-field-value"] > span').should('have.text', 'Default profile');
+    cy.get('[data-cy="form-field-value"] > span').should('have.text', 'Default Profile');
     cy.get('.three > :nth-child(3) > .text').should('have.text', 'normal');
     cy.get('[href="/view/rules/users/1/actions/new"] > .ui').click();
     // cy.get('.three > :nth-child(1) > .ui > .search').clear('e');
