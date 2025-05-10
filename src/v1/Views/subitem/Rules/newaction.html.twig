@@ -29,9 +29,9 @@
           data-url="{{ header.rootpath }}/view/dropdown/rule/actions/actiontype"
           data-itemtype="{{ data.model }}"
           data-definitionname=""
-          id="actiontype"
+          id="action_type"
         >
-          <input type="hidden" id="actiontypexx" name="actiontype" value="">
+          <input type="hidden" id="actiontypexx" name="action_type" value="">
           <i class="dropdown icon"></i>
           <div class="default text"></div>
           <div class="menu"></div>
@@ -54,14 +54,14 @@
   {
     $('#fieldxx').on("change", function()
     {
-      $('#actiontype').attr('data-definitionname', $(this).val());
+      $('#action_type').attr('data-definitionname', $(this).val());
     });
     $('#actiontypexx').on("change", function()
     {
       switch ($(this).val())
       {
-        case 'assign_dropdown':
-        case 'append_dropdown':
+        case '1':
+        case '3':
           // dropdowns
           $('#value').replaceWith( '<div' +
           ' class="ui selection dropdown search remotedropdownrulevalue"' +
@@ -75,7 +75,7 @@
           ' <div class="default text"></div>' +
           ' <div class="menu"></div>' +
           '</div>' );
-          $('#valuediv').attr('data-itemtype', $('#actiontype').attr('data-itemtype'));
+          $('#valuediv').attr('data-itemtype', $('#action_type').attr('data-itemtype'));
           $('#valuediv').attr('data-field', $('#fieldxx').val());
           $('.remotedropdownrulevalue')
             .dropdown({

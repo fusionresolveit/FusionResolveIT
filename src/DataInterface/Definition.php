@@ -63,6 +63,12 @@ class Definition
   /** @var bool|null */
   public $isPivot;
 
+  /** @var bool */
+  public $required;
+
+  /** @var bool */
+  public $useInRule;
+
   /**
    * @param 'input'|'inputpassword'|'textarea'|'email'|'boolean'|'date'|'datetime'|'dropdown'|'dropdown_remote' $type
    * @param array<mixed> $pivot
@@ -88,6 +94,8 @@ class Definition
     array $usein = [],
     bool|null $autocomplete = null,
     bool|null $isPivot = false,
+    bool $required = false,
+    bool $useInRule = true,
   )
   {
     $this->id = $id;
@@ -107,5 +115,7 @@ class Definition
     $this->usein = $usein;
     $this->autocomplete = $autocomplete;
     $this->isPivot = $isPivot;
+    $this->required = $required;
+    $this->useInRule = $useInRule;
   }
 }

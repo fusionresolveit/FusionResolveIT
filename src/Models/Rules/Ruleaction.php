@@ -33,7 +33,7 @@ class Ruleaction extends \App\Models\Common
       throw new \Exception('Id not found', 404);
     }
 
-    $modelName = '\App\Models\\' . ltrim($rule->sub_type, 'Rule');
+    $modelName = '\App\Models\\' . $rule->sub_type;
 
     $model = new $modelName();
     if (!is_subclass_of($model, \App\Models\Common::class))
@@ -42,7 +42,7 @@ class Ruleaction extends \App\Models\Common
     }
 
     // get definitions
-    $definitions = $model->getDefinitions();
+    $definitions = $model->getDefinitions(true);
     foreach ($definitions as $def)
     {
       if ($def->name == $this->field)

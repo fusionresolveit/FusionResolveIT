@@ -6,6 +6,7 @@ namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Respect\Validation\Rules\StartsWith;
 
 final class Dropdown extends Common
 {
@@ -52,7 +53,7 @@ final class Dropdown extends Common
   /**
    * Get the criteria for a rule
    *
-   * @param array<string, string> $args
+   * @param array<string, string|bool> $args
    */
   public function getRuleCriteria(Request $request, Response $response, array $args): Response
   {
@@ -64,21 +65,39 @@ final class Dropdown extends Common
     $classname = '\\App\\Models\\' . $data->itemtype;
     $item = new $classname();
 
-    // TODO manage usein = rule
-    // TODO manage only fields have display = true
-
     if (!method_exists($item, 'getDefinitions'))
     {
       throw new \Exception('Error', 500);
     }
-
     $criteria = $item->getDefinitions();
+    // generate criteria, because can be statics but too dynamics
     foreach ($criteria as $crit)
     {
-      $dropData[] = [
-        'name'  => $crit->title,
-        'value' => $crit->name,
-      ];
+      if ($crit->useInRule)
+      {
+        if (isset($args['onlyFillable']) && $args['onlyFillable'])
+        {
+          if ($crit->fillable === false)
+          {
+            continue;
+          }
+        }
+        if (!is_null($data->q) && !empty($data->q))
+        {
+          if (strstr($crit->name, $data->q))
+          {
+            $dropData[] = [
+              'name'  => $crit->title,
+              'value' => $crit->name,
+            ];
+          }
+        } else {
+          $dropData[] = [
+            'name'  => $crit->title,
+            'value' => $crit->name,
+          ];
+        }
+      }
     }
 
     $respdata = [
@@ -262,7 +281,8 @@ final class Dropdown extends Common
         {
           if ($definition->name == $data->definitionname)
           {
-            if (!is_null($definition->values))
+            // TODO manage dropdown_remote
+            if ($definition->type !== 'dropdown' && $definition->type !== 'dropdown_remote')
             {
               $valuesForDrodown = [];
               foreach ($definition->values as $key => $value)
@@ -339,6 +359,7 @@ final class Dropdown extends Common
    */
   public function getRuleActionsField(Request $request, Response $response, array $args): Response
   {
+    $args['onlyFillable'] = true;
     return $this->getRuleCriteria($request, $response, $args);
   }
 
@@ -375,14 +396,14 @@ final class Dropdown extends Common
             $types = [
               [
                 'name'  => $translator->translate('assign'),
-                'value' => 'assign_dropdown'
+                'value' => 1
               ]
             ];
             if (!is_null($definition->multiple) && $definition->multiple)
             {
               $types[] = [
                 'name'  => $translator->translate('append'),
-                'value' => 'append_dropdown'
+                'value' => 3
               ];
             }
               break;
@@ -394,19 +415,19 @@ final class Dropdown extends Common
             $types = [
               [
                 'name'  => $translator->translate('assign'),
-                'value' => 'assign'
+                'value' => 0
               ],
               [
                 'name'  => $translator->translate('append'),
-                'value' => 'append'
+                'value' => 2
               ],
               [
                 'name'  => $translator->translate('assign regex result'),
-                'value' => 'regex_result'
+                'value' => 4
               ],
               [
                 'name'  => $translator->translate('append regex result'),
-                'value' => 'append_regex_result'
+                'value' => 5
               ]
             ];
               break;

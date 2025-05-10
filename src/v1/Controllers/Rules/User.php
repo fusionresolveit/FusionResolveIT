@@ -6,6 +6,7 @@ namespace App\v1\Controllers\Rules;
 
 use App\DataInterface\PostRuleAction;
 use App\DataInterface\PostRuleCriterium;
+use App\DataInterface\PostRuleRight;
 use App\Traits\ProcessRules;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
@@ -14,7 +15,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-final class Ticket extends \App\v1\Controllers\Common
+final class User extends \App\v1\Controllers\Common
 {
   // Rules
   use ProcessRules;
@@ -25,63 +26,104 @@ final class Ticket extends \App\v1\Controllers\Common
   use ShowAll;
 
   /** @var string */
-  protected $criteriaDefinitionModel = '\App\v1\Controllers\Rules\Criteria\Ticket';
+  protected $criteriaDefinitionModel = '\App\v1\Controllers\Rules\Criteria\Right';
 
   /** @var string */
-  protected $actionsDefinitionModel = '\App\v1\Controllers\Rules\Actions\Ticket';
+  protected $actionsDefinitionModel = '\App\v1\Controllers\Rules\Actions\Right';
 
-  protected $model = \App\Models\Rules\Ticket::class;
+  protected $model = \App\Models\Rules\User::class;
 
-  protected function instanciateModel(): \App\Models\Rules\Ticket
+  protected function instanciateModel(): \App\Models\Rules\User
   {
-    return new \App\Models\Rules\Ticket();
+    return new \App\Models\Rules\User();
   }
 
   /**
    * @param array<string, string> $args
    */
-  public function showItem(Request $request, Response $response, array $args): Response
+  public function newItem(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Rules\Ticket();
-    $view = Twig::fromRequest($request);
+    global $basePath;
 
-    // Load the item
-    $myItem = $item->where('id', $args['id'])->first();
-    if (is_null($myItem))
+    $data = new PostRuleRight((object) $request->getParsedBody());
+
+    $rule = new \App\Models\Rules\User();
+
+    if (!$this->canRightCreate())
     {
-      throw new \Exception('Id not found', 404);
+      throw new \Exception('Unauthorized access', 401);
     }
 
-    $rootUrl = $this->getUrlWithoutQuery($request);
+    if (!\App\v1\Controllers\Profile::canRightReadItem($rule))
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
 
-    // form data
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-    $viewData->addHeaderColor('red');
+    $rule = \App\Models\Rules\User::create($data->exportToArray());
 
-    $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+    \App\v1\Controllers\Toolbox::addSessionMessage('The right rule has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($rule, 'new');
 
-    $viewData->addData('fields', $item->getFormData($myItem));
+    $data = (object) $request->getParsedBody();
 
-    return $view->render($response, 'genericForm.html.twig', (array)$viewData);
+    if (property_exists($data, 'save') && $data->save == 'view')
+    {
+      $uri = $request->getUri();
+      return $response
+        ->withHeader('Location', $basePath . '/view/rules/rights/' . $rule->id)
+        ->withStatus(302);
+    }
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/rules/rights')
+      ->withStatus(302);
   }
+
+  // /**
+  //  * @param array<string, string> $args
+  //  */
+  // public function showItem(Request $request, Response $response, array $args): Response
+  // {
+  //   $item = new \App\Models\Rules\Ticket();
+  //   $view = Twig::fromRequest($request);
+
+  //   // Load the item
+  //   $myItem = $item->where('id', $args['id'])->first();
+  //   if (is_null($myItem))
+  //   {
+  //     throw new \Exception('Id not found', 404);
+  //   }
+
+  //   $rootUrl = $this->getUrlWithoutQuery($request);
+
+  //   // form data
+  //   $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
+  //   $viewData->addHeaderColor('red');
+
+  //   $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
+
+  //   $viewData->addData('fields', $item->getFormData($myItem));
+
+  //   return $view->render($response, 'genericForm.html.twig', (array)$viewData);
+  // }
 
   /**
    * @param array<string, string> $args
    */
   public function showCriteria(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Rules\Ticket();
+    $item = new \App\Models\Rules\User();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $ruleTicket = \App\Models\Rules\Ticket::where('id', $args['id'])->first();
-    if (is_null($ruleTicket))
+    $ruleRight = \App\Models\Rules\User::where('id', $args['id'])->first();
+    if (is_null($ruleRight))
     {
       throw new \Exception('Id not found', 404);
     }
 
     $rulecriteria = \App\Models\Rules\Rulecriterium::
-        where('rule_id', $ruleTicket->id)
+        where('rule_id', $ruleRight->id)
       ->get();
     $list = [];
     foreach ($rulecriteria as $rc)
@@ -103,15 +145,16 @@ final class Ticket extends \App\v1\Controllers\Common
     $rootUrl = rtrim($rootUrl, '/criteria');
 
     // form data
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ruleTicket, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ruleRight, $request);
     $viewData->addHeaderColor('red');
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($ruleTicket));
+    $viewData->addData('fields', $item->getFormData($ruleRight));
     $viewData->addData('criteria', $list);
+    $viewData->addData('rooturl', $rootUrl);
 
-    $viewData->addData('model', 'Ticket');
+    $viewData->addData('model', 'User');
 
     return $view->render($response, 'subitem/Rules/rulecriteria.html.twig', (array)$viewData);
   }
@@ -121,22 +164,22 @@ final class Ticket extends \App\v1\Controllers\Common
    */
   public function showActions(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Rules\Ticket();
+    $item = new \App\Models\Rules\User();
     $view = Twig::fromRequest($request);
 
     // Load the item
-    $ruleTicket = \App\Models\Rules\Ticket::where('id', $args['id'])->first();
-    if (is_null($ruleTicket))
+    $ruleUser = \App\Models\Rules\User::where('id', $args['id'])->first();
+    if (is_null($ruleUser))
     {
       throw new \Exception('Id not found', 404);
     }
 
     $ruleActions = \App\Models\Rules\Ruleaction::
-        where('rule_id', $ruleTicket->id)
+        where('rule_id', $ruleUser->id)
       ->get();
     $list = [];
-    $ticket = new \App\Models\Ticket();
-    $definitions = $ticket->getDefinitions();
+    $user = new \App\Models\User();
+    $definitions = $user->getDefinitions();
     foreach ($ruleActions as $ra)
     {
       $fields = [
@@ -163,7 +206,7 @@ final class Ticket extends \App\v1\Controllers\Common
       $value->title = 'Value';
       $list[] = [
         'id'          => $ra->id,
-        'action_type' => $ra->action_type,
+        'action_type' => \App\Models\Definitions\Ruleaction::getActiontypeArray()[$ra->action_type]['title'],
         'field'       => $fields,
         'value'       => $value,
       ];
@@ -172,13 +215,14 @@ final class Ticket extends \App\v1\Controllers\Common
     $rootUrl = $this->getUrlWithoutQuery($request);
     $rootUrl = rtrim($rootUrl, '/actions');
 
-    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ruleTicket, $request);
+    $viewData = new \App\v1\Controllers\Datastructures\Viewdata($ruleUser, $request);
     $viewData->addHeaderColor('red');
 
     $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
 
-    $viewData->addData('fields', $item->getFormData($ruleTicket));
+    $viewData->addData('fields', $item->getFormData($ruleUser));
     $viewData->addData('actions', $list);
+    $viewData->addData('rooturl', $rootUrl);
 
     return $view->render($response, 'subitem/Rules/ruleactions.html.twig', (array)$viewData);
   }
@@ -188,7 +232,7 @@ final class Ticket extends \App\v1\Controllers\Common
    */
   public function showNewCriteria(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Rules\Ticket();
+    $item = new \App\Models\Rules\User();
     $view = Twig::fromRequest($request);
 
     // Load the item
@@ -209,7 +253,7 @@ final class Ticket extends \App\v1\Controllers\Common
 
     $viewData->addData('fields', $item->getFormData($myItem));
 
-    $viewData->addData('model', 'Ticket');
+    $viewData->addData('model', 'User');
 
     return $view->render($response, 'subitem/Rules/newcriteria.html.twig', (array)$viewData);
   }
@@ -219,7 +263,9 @@ final class Ticket extends \App\v1\Controllers\Common
    */
   public function newCriteria(Request $request, Response $response, array $args): Response
   {
-    $data = new PostRuleCriterium((object) $request->getParsedBody());
+    $dataRequest = (array) $request->getParsedBody();
+    $dataRequest['rule'] = $args['id'];
+    $data = new PostRuleCriterium((object) $dataRequest);
 
     \App\Models\Rules\Rulecriterium::create($data->exportToArray());
 
@@ -238,7 +284,7 @@ final class Ticket extends \App\v1\Controllers\Common
    */
   public function showNewAction(Request $request, Response $response, array $args): Response
   {
-    $item = new \App\Models\Rules\Ticket();
+    $item = new \App\Models\Rules\User();
     $view = Twig::fromRequest($request);
 
     // Load the item
@@ -259,7 +305,7 @@ final class Ticket extends \App\v1\Controllers\Common
 
     $viewData->addData('fields', $item->getFormData($myItem));
 
-    $viewData->addData('model', 'Ticket');
+    $viewData->addData('model', 'User');
 
     return $view->render($response, 'subitem/Rules/newaction.html.twig', (array)$viewData);
   }
@@ -269,7 +315,9 @@ final class Ticket extends \App\v1\Controllers\Common
    */
   public function newAction(Request $request, Response $response, array $args): Response
   {
-    $data = new PostRuleAction((object) $request->getParsedBody());
+    $dataRequest = (array) $request->getParsedBody();
+    $dataRequest['rule'] = $args['id'];
+    $data = new PostRuleAction((object) $dataRequest);
 
     \App\Models\Rules\Ruleaction::create($data->exportToArray());
 

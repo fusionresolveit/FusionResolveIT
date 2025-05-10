@@ -6,71 +6,79 @@ namespace App\DataInterface;
 
 use App\v1\Controllers\Fusioninventory\Validation;
 
-class PostRuleAction extends Post
+/**
+ * @phpstan-type dataFormat array{name?: string, ranking?: int, description?: string, match?: string, is_active?: bool,
+ *                                 comment?: string}
+ */
+
+class PostRuleRight extends Post
 {
-  /** @var ?\App\Models\Rules\Rule */
-  public $rule;
+  /** @var ?string */
+  public $name;
 
   /** @var ?int */
-  public $action_type;
+  public $ranking;
 
   /** @var ?string */
-  public $field;
+  public $description;
 
   /** @var ?string */
-  public $value;
+  public $match;
+
+  /** @var ?bool */
+  public $is_active;
+
+  /** @var ?string */
+  public $comment;
 
   public function __construct(object $data)
   {
-    $this->loadRights('App\Models\Rules\Rule');
-    $ruleaction = new \App\Models\Rules\Ruleaction();
-    $this->definitions = $ruleaction->getDefinitions(true);
+    $this->loadRights('App\Models\Rules\User');
+    $rule = new \App\Models\Rules\User();
+    $this->definitions = $rule->getDefinitions();
+
+    $this->name = $this->setName($data);
 
     if (
-        Validation::attrNumericVal('rule')->isValid($data) &&
-        isset($data->rule)
+        Validation::attrNumericVal('ranking')->isValid($data) &&
+        isset($data->ranking)
     )
     {
-      $rule = \App\Models\Rules\Rule::where('id', $data->rule)->first();
-      if (!is_null($rule))
-      {
-        $this->rule = $rule;
-      } else {
-        throw new \Exception('Wrong data request', 400);
-      }
+      $this->ranking = intval($data->ranking);
     }
 
-    $types = \App\Models\Definitions\Ruleaction::getActiontypeArray();
     if (
-        Validation::attrNumericVal('action_type')->isValid($data) &&
-        isset($data->action_type) &&
-        isset($types[intval($data->action_type)])
+        Validation::attrStrNotempty('description')->isValid($data) &&
+        isset($data->description)
     )
     {
-      $this->action_type = intval($data->action_type);
+      $this->description = $data->description;
+    }
+
+    if (
+        Validation::attrStrNotempty('match')->isValid($data) &&
+        isset($data->match)
+    )
+    {
+      $this->match = $data->match;
+    }
+
+    if (
+        Validation::attrStr('is_active')->isValid($data) &&
+        isset($data->is_active) &&
+        $data->is_active == 'on'
+    )
+    {
+      $this->is_active = true;
     } else {
-      throw new \Exception('Wrong data request', 400);
+      $this->is_active = true;
     }
 
-    if (
-        Validation::attrStr('field')->isValid($data) &&
-        isset($data->field)
-    )
-    {
-      $this->field = $data->field;
-    }
-
-    if (
-        Validation::attrStr('value')->isValid($data) &&
-        isset($data->value)
-    )
-    {
-      $this->value = $data->value;
-    }
+    $this->comment = $this->setComment($data);
   }
 
   /**
-   * @return array{rule_id?: \App\Models\Rules\Rule, action_type?: int, field?: string, value?: string}
+   * @return dataFormat
    */
   public function exportToArray(bool $filterRights = false): array
   {
@@ -108,7 +116,7 @@ class PostRuleAction extends Post
   }
 
   /**
-   * @param-out array{rule_id?: \App\Models\Rules\Rule, action_type?: int, field?: string, value?: string} $data
+   * @param-out dataFormat $data
    */
   private function getFieldForArray(string $key, mixed &$data): void
   {

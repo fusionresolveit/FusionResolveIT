@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\GetDropdownValues;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Authsso extends Common
@@ -22,9 +23,11 @@ class Authsso extends Common
   ];
 
   protected $visible = [
+    'scopes',
   ];
 
   protected $with = [
+    'scopes',
   ];
 
   protected static function booted(): void
@@ -41,5 +44,11 @@ class Authsso extends Common
       \App\v1\Controllers\Authsso::initScopesForProvider($model);
       \App\v1\Controllers\Authsso::initOptionsForProvider($model);
     });
+  }
+
+  /** @return HasMany<\App\Models\Authssoscope, $this> */
+  public function scopes(): HasMany
+  {
+    return $this->HasMany(\App\Models\Authssoscope::class);
   }
 }

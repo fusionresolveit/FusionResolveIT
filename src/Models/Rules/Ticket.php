@@ -10,7 +10,7 @@ class Ticket extends \App\Models\Rules\Rule
 
   // For default values
   protected $attributes = [
-    'sub_type' => 'RuleTicket',
+    'sub_type' => 'ticket',
   ];
 
   protected static function booted(): void
@@ -19,7 +19,7 @@ class Ticket extends \App\Models\Rules\Rule
 
     static::addGlobalScope('ticketfilter', function ($builder)
     {
-      $builder->where('sub_type', 'RuleTicket');
+      $builder->where('sub_type', 'ticket');
     });
   }
 }

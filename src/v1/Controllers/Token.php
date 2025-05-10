@@ -102,7 +102,7 @@ final class Token
     $profileId = null,
     $entityId = null,
     $entityRecursive = false
-  ): array|Response
+  ): array
   {
     global $basePath;
 
@@ -145,9 +145,7 @@ final class Token
 
     if (is_null($profileId) || is_null($entityId))
     {
-      return $response
-        ->withHeader('Location', $basePath)
-        ->withStatus(302);
+      throw new \Exception('Unauthorized access', 401);
     }
 
     $entity = \App\Models\Entity::where('id', $entityId)->first();
