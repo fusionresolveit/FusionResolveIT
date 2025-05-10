@@ -1,4 +1,8 @@
 describe('template spec', () => {
+  it('reset dababase', function() {
+    cy.dbReset();
+  });
+
   /* ==== Test Created with Cypress Studio ==== */
   it('configure SSO no rule', function() {
     /* ==== Generated with Cypress Studio ==== */
