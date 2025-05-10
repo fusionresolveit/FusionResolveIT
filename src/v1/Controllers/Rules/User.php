@@ -70,12 +70,12 @@ final class User extends \App\v1\Controllers\Common
     {
       $uri = $request->getUri();
       return $response
-        ->withHeader('Location', $basePath . '/view/rules/rights/' . $rule->id)
+        ->withHeader('Location', $basePath . '/view/rules/users/' . $rule->id)
         ->withStatus(302);
     }
 
     return $response
-      ->withHeader('Location', $basePath . '/view/rules/rights')
+      ->withHeader('Location', $basePath . '/view/rules/users')
       ->withStatus(302);
   }
 
