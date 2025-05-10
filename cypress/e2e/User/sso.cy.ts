@@ -82,8 +82,7 @@ describe('template spec', () => {
     cy.get('.three > :nth-child(3) > .text').should('have.text', 'FusionResolveIT');
     cy.get('[href="/view/rules/users/1/actions"] > .ui').click();
     cy.get('[href="/view/rules/users/1/actions/new"] > .ui').click();
-    cy.get('.three > :nth-child(1) > .ui > .search').clear('pr');
-    cy.get('.three > :nth-child(1) > .ui > .search').type('prof');
+    cy.get('.three > :nth-child(1) > .ui > .search').type('profile', { delay: 100 });
     cy.get('.three > :nth-child(1) > .ui > .menu > .item').click();
     cy.get('.three > :nth-child(2)').click();
     cy.get('#action_type > .search').click();
@@ -94,8 +93,8 @@ describe('template spec', () => {
     cy.get('[data-cy="form-field-value"] > span').should('have.text', 'Default profile');
     cy.get('.three > :nth-child(3) > .text').should('have.text', 'normal');
     cy.get('[href="/view/rules/users/1/actions/new"] > .ui').click();
-    cy.get('.three > :nth-child(1) > .ui > .search').clear('e');
-    cy.get('.three > :nth-child(1) > .ui > .search').type('ent');
+    // cy.get('.three > :nth-child(1) > .ui > .search').clear('e');
+    cy.get('.three > :nth-child(1) > .ui > .search').type('ent', { delay: 100 });
     cy.get('[data-value="entity"]').click();
     cy.get('#action_type > .search').click();
     cy.get('#action_type > .menu > .item').click();
