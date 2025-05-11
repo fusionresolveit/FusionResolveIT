@@ -1,7 +1,4 @@
 describe('template spec', () => {
-  // it('reset dababase', function() {
-  //   cy.dbReset();
-  // });
 
   /* ==== Test Created with Cypress Studio ==== */
   it('configure SSO no rule', function() {
@@ -35,9 +32,6 @@ describe('template spec', () => {
     cy.get('[data-cy="form-button-save-viewid"]').click();
     cy.get('.sign').click();
     cy.get('[data-cy="sso-FusionResolveIT"] > .ui > span').should('have.text', 'FusionResolveIT');
-    cy.get('[data-cy="sso-FusionResolveIT"] > .ui > span').click();
-    cy.visit('http://127.0.0.1');
-    cy.visit('http://127.0.0.1/');
     /* ==== End Cypress Studio ==== */
   });
 
@@ -121,7 +115,6 @@ describe('template spec', () => {
     cy.get('[style="display: flex; justify-content: space-between"] > :nth-child(1) > .content > span').should('have.text', 'Fusion Resolve IT - Home');
     /* ==== End Cypress Studio ==== */
   });
-
 
   /* ==== Test Created with Cypress Studio ==== */
   it('Clean data', function() {

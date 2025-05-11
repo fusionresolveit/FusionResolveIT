@@ -6,7 +6,7 @@ namespace App\v1\Controllers\Rules;
 
 use App\DataInterface\PostRuleAction;
 use App\DataInterface\PostRuleCriterium;
-use App\DataInterface\PostRuleRight;
+use App\DataInterface\PostRuleUser;
 use App\Traits\ProcessRules;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
@@ -45,7 +45,7 @@ final class User extends \App\v1\Controllers\Common
   {
     global $basePath;
 
-    $data = new PostRuleRight((object) $request->getParsedBody());
+    $data = new PostRuleUser((object) $request->getParsedBody());
 
     $rule = new \App\Models\Rules\User();
 
@@ -78,34 +78,6 @@ final class User extends \App\v1\Controllers\Common
       ->withHeader('Location', $basePath . '/view/rules/users')
       ->withStatus(302);
   }
-
-  // /**
-  //  * @param array<string, string> $args
-  //  */
-  // public function showItem(Request $request, Response $response, array $args): Response
-  // {
-  //   $item = new \App\Models\Rules\Ticket();
-  //   $view = Twig::fromRequest($request);
-
-  //   // Load the item
-  //   $myItem = $item->where('id', $args['id'])->first();
-  //   if (is_null($myItem))
-  //   {
-  //     throw new \Exception('Id not found', 404);
-  //   }
-
-  //   $rootUrl = $this->getUrlWithoutQuery($request);
-
-  //   // form data
-  //   $viewData = new \App\v1\Controllers\Datastructures\Viewdata($myItem, $request);
-  //   $viewData->addHeaderColor('red');
-
-  //   $viewData->addRelatedPages($item->getRelatedPages($rootUrl));
-
-  //   $viewData->addData('fields', $item->getFormData($myItem));
-
-  //   return $view->render($response, 'genericForm.html.twig', (array)$viewData);
-  // }
 
   /**
    * @param array<string, string> $args

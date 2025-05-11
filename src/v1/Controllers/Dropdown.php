@@ -6,7 +6,6 @@ namespace App\v1\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Respect\Validation\Rules\StartsWith;
 
 final class Dropdown extends Common
 {

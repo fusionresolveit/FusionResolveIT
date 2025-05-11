@@ -1452,20 +1452,20 @@ final class Route
             });
           });
         });
-        $rules->group("/users", function (RouteCollectorProxy $rights)
+        $rules->group("/users", function (RouteCollectorProxy $users)
         {
-          $rights->map(['GET'], '', \App\v1\Controllers\Rules\User::class . ':showAll');
-          $rights->group("/new", function (RouteCollectorProxy $rightNew)
+          $users->map(['GET'], '', \App\v1\Controllers\Rules\User::class . ':showAll');
+          $users->group("/new", function (RouteCollectorProxy $userNew)
           {
-            $rightNew->map(['GET'], '', \App\v1\Controllers\Rules\User::class . ':showNewItem');
-            $rightNew->map(['POST'], '', \App\v1\Controllers\Rules\User::class . ':newItem');
+            $userNew->map(['GET'], '', \App\v1\Controllers\Rules\User::class . ':showNewItem');
+            $userNew->map(['POST'], '', \App\v1\Controllers\Rules\User::class . ':newItem');
           });
 
-          $rights->group("/{id:[0-9]+}", function (RouteCollectorProxy $rightId)
+          $users->group("/{id:[0-9]+}", function (RouteCollectorProxy $userId)
           {
-            $rightId->map(['GET'], '', \App\v1\Controllers\Rules\User::class . ':showItem');
+            $userId->map(['GET'], '', \App\v1\Controllers\Rules\User::class . ':showItem');
 
-            $rightId->group('/', function (RouteCollectorProxy $sub)
+            $userId->group('/', function (RouteCollectorProxy $sub)
             {
               $sub->map(['GET'], 'criteria', \App\v1\Controllers\Rules\User::class . ':showCriteria');
               $sub->group("criteria/new", function (RouteCollectorProxy $criteriaNew)

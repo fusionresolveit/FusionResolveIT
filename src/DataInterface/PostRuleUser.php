@@ -11,7 +11,7 @@ use App\v1\Controllers\Fusioninventory\Validation;
  *                                 comment?: string}
  */
 
-class PostRuleRight extends Post
+class PostRuleUser extends Post
 {
   /** @var ?string */
   public $name;
@@ -71,7 +71,7 @@ class PostRuleRight extends Post
     {
       $this->is_active = true;
     } else {
-      $this->is_active = true;
+      $this->is_active = false;
     }
 
     $this->comment = $this->setComment($data);
