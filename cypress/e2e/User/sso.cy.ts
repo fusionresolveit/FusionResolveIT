@@ -121,4 +121,22 @@ describe('template spec', () => {
     cy.get('[style="display: flex; justify-content: space-between"] > :nth-child(1) > .content > span').should('have.text', 'Fusion Resolve IT - Home');
     /* ==== End Cypress Studio ==== */
   });
+
+
+  /* ==== Test Created with Cypress Studio ==== */
+  it('Clean data', function() {
+    /* ==== Generated with Cypress Studio ==== */
+    cy.visit('http://127.0.0.1');
+    cy.get('[data-cy="login-login"]').clear('a');
+    cy.get('[data-cy="login-login"]').type('admin');
+    cy.get('[data-cy="login-password"]').clear();
+    cy.get('[data-cy="login-password"]').type('adminIT{enter}');
+    cy.get('[data-cy="login-submit"]').click();
+    cy.get('[data-cy="menu-main-userdata"] > span').click();
+    cy.get('[href="/view/profiles"]').click();
+    cy.get('[data-cy="search-items-item2"] > :nth-child(2) > .labeled > .tiny').click();
+    cy.get('[data-cy="form-button-softdelete"] > .ui > span').click();
+    cy.get('[data-cy="form-button-delete"] > .ui > span').click();
+    /* ==== End Cypress Studio ==== */
+  });
 });
