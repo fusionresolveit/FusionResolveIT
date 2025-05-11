@@ -243,6 +243,7 @@ jobs:
         run: |
           sudo systemctl start docker
           cd tests/tools/auth/
+          sudo chmod -R 777 data_keycloak
           docker compose up -d
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
