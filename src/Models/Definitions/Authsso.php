@@ -28,10 +28,18 @@ class Authsso
     ];
 
     $defColl = new DefinitionCollection();
-    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
+    $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true, required: true));
     $defColl->add(new Def(3, $t['comment'], 'textarea', 'comment', fillable: true));
     $defColl->add(new Def(4, $t['is_active'], 'boolean', 'is_active', fillable: true));
-    $defColl->add(new Def(5, $t['provider'], 'dropdown', 'provider', values: self::getProviderArray(), fillable: true));
+    $defColl->add(new Def(
+      5,
+      $t['provider'],
+      'dropdown',
+      'provider',
+      values: self::getProviderArray(),
+      fillable: true,
+      required: true,
+    ));
     $defColl->add(new Def(6, $t['callbackid'], 'input', 'callbackid'));
     $defColl->add(new Def(7, $t['applicationid'], 'input', 'applicationid', fillable: true));
     $defColl->add(new Def(8, $t['applicationsecret'], 'inputpassword', 'applicationsecret', fillable: true));

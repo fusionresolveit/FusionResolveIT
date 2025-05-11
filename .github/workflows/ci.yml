@@ -239,6 +239,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: run OCI images
+        run: |
+          sudo systemctl start docker
+          cd tests/tools/auth/
+          sudo chmod -R 777 data_keycloak
+          docker compose up -d
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: install dependencies
@@ -287,6 +293,10 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
+
+      - name: debug keycloak
+        if: failure()
+        run: docker logs auth-keycloakFusionResolveIT-1
 
       - uses: actions/upload-artifact@v4
         # add the line below to store screenshots only on failures

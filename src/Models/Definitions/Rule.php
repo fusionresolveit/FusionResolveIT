@@ -26,7 +26,14 @@ class Rule
     $defColl->add(new Def(1, $t['name'], 'input', 'name', fillable: true));
     $defColl->add(new Def(3, $t['ranking'], 'input', 'ranking', fillable: true, display: false));
     $defColl->add(new Def(4, $t['description'], 'textarea', 'description', fillable: true));
-    $defColl->add(new Def(5, $t['match'], 'input', 'match', fillable: true));
+    $defColl->add(new Def(
+      5,
+      $t['match'],
+      'dropdown',
+      'match',
+      values: self::getMatchArray(),
+      fillable: true
+    ));
     $defColl->add(new Def(8, $t['is_active'], 'boolean', 'is_active', fillable: true));
     $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
 
@@ -85,6 +92,23 @@ class Rule
         'title' => $translator->translate('Historical'),
         'icon' => 'history',
         'link' => '', // $rootUrl . '/history',
+      ],
+    ];
+  }
+
+  /**
+   * @return array<string, mixed>
+   */
+  public static function getMatchArray(): array
+  {
+    global $translator;
+
+    return [
+      'AND' => [
+        'title' => $translator->translate('and'),
+      ],
+      'OR' => [
+        'title' => $translator->translate('or'),
       ],
     ];
   }

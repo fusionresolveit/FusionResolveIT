@@ -343,6 +343,7 @@ final class TicketTest extends TestCase
     );
     $clone = $request->withParsedBody([
       'content' => $fields['content'],
+      'name'    => $fields['name'],
     ]);
     $response = $this->app->handle($clone);
 

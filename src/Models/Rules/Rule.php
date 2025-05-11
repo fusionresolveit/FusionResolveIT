@@ -38,6 +38,12 @@ class Rule extends \App\Models\Common
     'actions',
   ];
 
+  /** @var string|null */
+  public $definitionCriteria = null;
+
+  /** @var string|null */
+  public $definitionActions = null;
+
   /** @return HasMany<\App\Models\Rules\Rulecriterium, $this> */
   public function criteria(): HasMany
   {

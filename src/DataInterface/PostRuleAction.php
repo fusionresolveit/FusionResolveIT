@@ -23,8 +23,8 @@ class PostRuleAction extends Post
   public function __construct(object $data)
   {
     $this->loadRights('App\Models\Rules\Rule');
-    $rule = new \App\Models\Rules\Rule();
-    $this->definitions = $rule->getDefinitions();
+    $ruleaction = new \App\Models\Rules\Ruleaction();
+    $this->definitions = $ruleaction->getDefinitions(true);
 
     if (
         Validation::attrNumericVal('rule')->isValid($data) &&

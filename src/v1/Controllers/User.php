@@ -76,6 +76,7 @@ final class User extends Common implements \App\Interfaces\Crud
     }
     unset($dataToAdd['new_password']);
     unset($dataToAdd['new_password_verification']);
+    unset($dataToAdd['authsso']);
 
     $user = \App\Models\User::create($dataToAdd);
 
@@ -133,6 +134,7 @@ final class User extends Common implements \App\Interfaces\Crud
     }
     unset($dataToUpdate['new_password']);
     unset($dataToUpdate['new_password_verification']);
+    unset($dataToUpdate['authsso']);
 
     $user->update($dataToUpdate);
 
@@ -555,5 +557,24 @@ final class User extends Common implements \App\Interfaces\Crud
     $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
 
     return $view->render($response, 'subitem/reservations.html.twig', (array)$viewData);
+  }
+
+  public function runRules(PostUser $data, int|null $id = null): PostUser
+  {
+    // Run user rules
+    $rule = new \App\v1\Controllers\Rules\User();
+    if (is_null($id))
+    {
+      $user = new \App\Models\User();
+    } else {
+      $user = \App\Models\User::where('id', $id)->first();
+      if (is_null($user))
+      {
+        throw new \Exception('Id not found', 404);
+      }
+    }
+
+    $data = $rule->prepareData($user, $data);
+    return $rule->processAllRules($data);
   }
 }
