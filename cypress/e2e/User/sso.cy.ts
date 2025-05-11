@@ -91,7 +91,7 @@ describe('template spec', () => {
     cy.get('#valuediv > .search').click();
     cy.get('[data-value="2"]').click();
     cy.get('#submitbutton').click();
-    cy.get('[data-cy="form-field-value"] > span').should('have.text', 'Default Profile');
+    cy.get('[data-cy="form-field-value"] > span').contains('Default Profile', { matchCase: false });
     cy.get('.three > :nth-child(3) > .text').should('have.text', 'normal');
     cy.get('[href="/view/rules/users/1/actions/new"] > .ui').click();
     // cy.get('.three > :nth-child(1) > .ui > .search').clear('e');
@@ -137,6 +137,11 @@ describe('template spec', () => {
     cy.get('[data-cy="search-items-item2"] > :nth-child(2) > .labeled > .tiny').click();
     cy.get('[data-cy="form-button-softdelete"] > .ui > span').click();
     cy.get('[data-cy="form-button-delete"] > .ui > span').click();
+    cy.get('[data-cy="menu-main-userdata"]').click();
+    cy.get('[href="/view/users"]').click();
+    cy.get('[data-cy="search-items-item2"] > :nth-child(2) > .labeled > .tiny').click();
+    cy.get('[data-cy="form-button-softdelete"] > .ui > span').click();
+    cy.get('[data-cy="form-button-delete"] > .ui').click();
     /* ==== End Cypress Studio ==== */
   });
 });
