@@ -242,9 +242,8 @@ jobs:
       - name: run OCI images
         run: |
           sudo systemctl start docker
-          sudo systemctl start podman.socket
           cd tests/tools/auth/
-          sudo docker compose up -d
+          docker compose up -d
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: install dependencies
