@@ -1,12 +1,12 @@
-name: "Fusion Resolve IT DEPLOY"
+name: "Fusion Resolve IT DEPLOY when tagged"
 
 on:
   push:
-    branches:
-      - main
+    tags:        
+      - '*'
 
 jobs:
-  deploy_on_recette:
+  deploy_on_tagged:
 
     runs-on: 'ubuntu-latest'
 
@@ -34,18 +34,18 @@ jobs:
         yarn install
         yarn run production
 
-    - name: set version number (use git hash)
-      run: echo -n 'dev-'`git rev-parse --short HEAD` > src/v1/Views/version.html.twig
+    - name: set version number based on tag
+      run: echo -n "${{ github.ref_name }}" > src/v1/Views/version.html.twig
 
     - name: Create the packages
       run: |
-        tar cvf fusionresolveit-dev.tar --transform 's+^+fusionresolveit/+' db locales public src tasks vendor crunz.yml LICENSE phinx.php.dist README.md database.lock bin
-        gzip -9 fusionresolveit-dev.tar
+        tar cvf fusionresolveit-${{ github.ref_name }}.tar --transform 's+^+fusionresolveit/+' db locales public src tasks vendor crunz.yml LICENSE phinx.php.dist README.md database.lock bin
+        gzip -9 fusionresolveit-${{ github.ref_name }}.tar
 
     - name: prepare the deployment
       run: |
         mkdir package
-        mv fusionresolveit-dev.tar.gz package/
+        mv fusionresolveit-${{ github.ref_name }}.tar.gz package/
         touch package/deploy.txt
 
     - name: rsync deployments
