@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use Illuminate\Support\Carbon;
-use stdClass;
 
 final class Login extends Common
 {
@@ -37,6 +36,8 @@ final class Login extends Common
         'name'  => $sso->name,
       ];
     }
+
+    $viewData['csrf'] = \App\v1\Controllers\Toolbox::generateCSRF($request);
 
     return $view->render($response, 'login.html.twig', $viewData);
   }

@@ -8,6 +8,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteContext;
 use League\HTMLToMarkdown\HtmlConverter;
 use League\CommonMark\CommonMarkConverter;
+use Slim\Csrf\Guard;
+use Slim\Psr7\Factory\ResponseFactory;
 
 final class Toolbox
 {
@@ -116,5 +118,26 @@ final class Toolbox
         ]
       ]
     );
+  }
+
+  /**
+   * @return array<string, string>
+   */
+  public static function generateCSRF(Request $request)
+  {
+    global $app;
+
+    $responseFactory = new ResponseFactory();
+    $guard = new Guard($responseFactory);
+
+    $nameKey = $guard->getTokenNameKey();
+    $valueKey = $guard->getTokenValueKey();
+    $name = $request->getAttribute($nameKey);
+    $value = $request->getAttribute($valueKey);
+
+    return [
+      $nameKey  => $name,
+      $valueKey => $value,
+    ];
   }
 }

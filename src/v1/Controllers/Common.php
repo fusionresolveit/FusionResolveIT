@@ -121,6 +121,7 @@ abstract class Common
     }
     $viewData->addData('canAddFollowup', $canAddFollowup);
     $viewData->addData('canAddSolution', $canAddSolution);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('description', $translator->translate('Description'));
     $viewData->addTranslation('feeds', $translator->translate('Feeds'));
@@ -162,6 +163,7 @@ abstract class Common
     $viewData->addData('fields', $item->getFormData($item));
     $viewData->addData('feeds', []);
     $viewData->addData('content', '');
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('description', $translator->translate('Description'));
     $viewData->addTranslation('feeds', $translator->translate('Feeds'));

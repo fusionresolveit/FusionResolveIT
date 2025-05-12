@@ -153,6 +153,7 @@ trait ShowAll
     $viewData->addData('fields', $fields);
 
     $viewData->addData('definition', $item->getDefinitions());
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'search.html.twig', (array)$viewData);
   }

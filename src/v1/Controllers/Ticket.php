@@ -442,6 +442,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
       $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($myItem->content));
     }
     $viewData->addData('problems', $problems);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('attachItem', $translator->translate('Attach to an existant problem'));
     $viewData->addTranslation('selectItem', $translator->translate('Select problem...'));

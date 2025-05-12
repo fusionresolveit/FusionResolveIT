@@ -274,6 +274,7 @@ final class Change extends Common implements \App\Interfaces\Crud
     $viewData->addData('feeds', $item->getFeeds(intval($args['id'])));
     $viewData->addData('content', \App\v1\Controllers\Toolbox::convertMarkdownToHtml($change->content));
     $viewData->addData('problems', $problems);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('attachItem', $translator->translate('Attach to an existant problem'));
     $viewData->addTranslation('selectItem', $translator->translate('Select problem...'));
@@ -359,6 +360,7 @@ final class Change extends Common implements \App\Interfaces\Crud
     $myItemDataObject = json_decode($jsonStr);
 
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('impactcontent', $translator->translate('Impacts'));
     $viewData->addTranslation('controlistcontent', $translator->translate('Control list'));
@@ -410,6 +412,7 @@ final class Change extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
     $viewData->addData('show', $this->choose);
     $viewData->addData('plans', $myPlans);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('rolloutplancontent', $translator->translate('Deployment plan'));
     $viewData->addTranslation('backoutplancontent', $translator->translate('Backup plan'));

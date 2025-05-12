@@ -226,6 +226,7 @@ final class User extends \App\v1\Controllers\Common
     $viewData->addData('fields', $item->getFormData($myItem));
 
     $viewData->addData('model', 'User');
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'subitem/Rules/newcriteria.html.twig', (array)$viewData);
   }
@@ -278,6 +279,7 @@ final class User extends \App\v1\Controllers\Common
     $viewData->addData('fields', $item->getFormData($myItem));
 
     $viewData->addData('model', 'User');
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'subitem/Rules/newaction.html.twig', (array)$viewData);
   }

@@ -28,6 +28,9 @@
       </div>
     </div>
   </div>
+  {% for key, val in data.csrf %}
+    <input type="hidden" name="{{ key }}" value="{{ val }}">
+  {% endfor %}
 </form>
 
 <table class="ui blue fixed table">
@@ -63,6 +66,9 @@
               <i class="eraser icon"></i>
               Delete
             </button>
+            {% for key, val in data.csrf %}
+              <input type="hidden" name="{{ key }}" value="{{ val }}">
+            {% endfor %}
           </form>
         </td>
       </tr>

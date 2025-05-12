@@ -278,6 +278,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
     $myItemDataObject = json_decode($jsonStr);
 
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('impactcontent', $translator->translate('Impacts'));
     $viewData->addTranslation('causecontent', $translator->translate('Causes'));

@@ -17,6 +17,9 @@
             <i class="random icon"></i>
             <span>Homepage user</span>
           </button>
+          {% for key, val in data.csrf %}
+            <input type="hidden" name="{{ key }}" value="{{ val }}">
+          {% endfor %}
         </form>
       </span>
     </div>

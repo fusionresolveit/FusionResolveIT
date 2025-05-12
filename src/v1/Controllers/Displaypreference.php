@@ -86,6 +86,7 @@ final class Displaypreference extends Common
     $viewData->addData('dropdown', $defIds);
     $viewData->addData('canupdate', $right);
     $viewData->addData('m', $data->m);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'columns.html.twig', (array)$viewData);
   }

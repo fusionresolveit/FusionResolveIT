@@ -514,6 +514,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
     $viewData->addData('rights', $this->getRightsCategory($myItem->id, $category));
     $viewData->addData('custom', $this->getRightsCategoryCustom($myItem->id, $category));
     $viewData->addData('category', $category);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'subitem/profilecustom.html.twig', (array)$viewData);
   }

@@ -389,6 +389,7 @@ final class Home extends Common
     $viewData->addData('mytest', $myData);
 
     $viewData->addData('fields', $nb_paging_total);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('id', $translator->translate('ID'));
     $viewData->addTranslation('title', $translator->translate('Title'));
@@ -667,6 +668,7 @@ final class Home extends Common
     $viewData->addData('cards', $cards);
     $viewData->addData('breadcrumb', $breadcrumb);
     $viewData->addData('canswitchtotech', $canSwitchToTech);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'homeuser.html.twig', (array)$viewData);
   }
