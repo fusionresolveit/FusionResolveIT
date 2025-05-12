@@ -53,6 +53,7 @@ trait Profileview
 
     $viewData->addData('form', $defColl);
     $viewData->addData('profileActions', true);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('id', $translator->translate('id'));
     $viewData->addTranslation('name', $translator->translate('Name'));

@@ -25,6 +25,7 @@ trait ShowNewItem
 
     $viewData->addData('fields', $item->getFormData($item));
     $viewData->addData('content', '');
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
 

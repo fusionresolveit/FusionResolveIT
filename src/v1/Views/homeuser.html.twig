@@ -18,6 +18,9 @@
               <i class="random icon"></i>
               <span>Homepage tech</span>
             </button>
+            {% for key, val in data.csrf %}
+              <input type="hidden" name="{{ key }}" value="{{ val }}">
+            {% endfor %}
           </form>
         </span>
       {% endif %}

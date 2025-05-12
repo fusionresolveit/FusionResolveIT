@@ -25,6 +25,9 @@
     </div>
   </div>
   <button class="ui button right floated" type="submit">{{ translation.savebutton }}</button>
+  {% for key, val in data.csrf %}
+    <input type="hidden" name="{{ key }}" value="{{ val }}">
+  {% endfor %}
 </form>
 
 {{ include('footer.html.twig') }}

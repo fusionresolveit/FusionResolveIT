@@ -243,6 +243,9 @@ editorfollowup = new Editor({
                 <button data-cy="form-tab-followup-submit" class="ui primary button" type="submit">{{ translation.addfollowup }}</button>
               </div>
             {# {% if header.id > 0 %} #}
+              {% for key, val in data.csrf %}
+                <input type="hidden" name="{{ key }}" value="{{ val }}">
+              {% endfor %}
             </form>
             {% endif %}
           </div>
@@ -295,6 +298,9 @@ editorsolution = new Editor({
                   <input type="hidden" name="redirect" value="{{ get_uri() }}"/>
                   <button class="ui primary button" type="submit">Add solution</button>
                 </div>
+                {% for key, val in data.csrf %}
+                  <input type="hidden" name="{{ key }}" value="{{ val }}">
+                {% endfor %}
               </form>
             {% endif %}
           </div>
@@ -328,13 +334,19 @@ editorsolution = new Editor({
         </div>
       </div>
       {% if header.id > 0 %}
-      </form>
+        {% for key, val in data.csrf %}
+          <input type="hidden" name="{{ key }}" value="{{ val }}">
+        {% endfor %}
+        </form>
       {% endif %}
     </div>
   </div>
 </div>
 {% if header.id == 0 %}
-</form>
+  {% for key, val in data.csrf %}
+    <input type="hidden" name="{{ key }}" value="{{ val }}">
+  {% endfor %}
+  </form>
 {% endif %}
 
 <script>

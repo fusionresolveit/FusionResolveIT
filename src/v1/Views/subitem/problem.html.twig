@@ -25,6 +25,9 @@
           </div>
           <br>
           <button class="ui primary button right" type="submit">{{ translation.buttonAttach }}</button>
+          {% for key, val in data.csrf %}
+            <input type="hidden" name="{{ key }}" value="{{ val }}">
+          {% endfor %}
         </form>
       </div>
       <div class="column">

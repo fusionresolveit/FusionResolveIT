@@ -77,6 +77,9 @@
           <button class="ui primary button" type="submit">Search</button>
         </div>
       </div>
+      {% for key, val in data.csrf %}
+        <input type="hidden" name="{{ key }}" value="{{ val }}">
+      {% endfor %}
     </form>
   </div>
   <div class="ui segment" style="width: 84px; max-width: 84px;">

@@ -47,6 +47,7 @@ trait ShowItem
 
     $viewData->addData('fields', $fields);
     $viewData->addData('title', $title);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
 

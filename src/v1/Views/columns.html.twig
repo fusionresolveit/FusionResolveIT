@@ -27,6 +27,9 @@
       </div>
     </div>
     <button class="ui primary button" type="submit">add</button>
+    {% for key, val in data.csrf %}
+      <input type="hidden" name="{{ key }}" value="{{ val }}">
+    {% endfor %}
   </form>
 </div>
 

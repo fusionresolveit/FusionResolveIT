@@ -45,6 +45,9 @@
               {% endfor %}
             </tbody>
           </table>
+          {% for key, val in data.csrf %}
+            <input type="hidden" name="{{ key }}" value="{{ val }}">
+          {% endfor %}
         </form>
       </div>
     </div>
@@ -83,6 +86,9 @@
               </tbody>
             </table>
             <button class="ui primary button" type="submit" name="save" value="button" form="form-{{ custom.profileright_id }}">{{ translation.savebutton }}</button>
+            {% for key, val in data.csrf %}
+              <input type="hidden" name="{{ key }}" value="{{ val }}">
+            {% endfor %}
           </form>
         </div>
       {% endfor %}

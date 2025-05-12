@@ -42,6 +42,9 @@
 
     </div>
     <button id="submitbutton" class="ui primary disabled button" type="submit">Save</button>
+    {% for key, val in data.csrf %}
+      <input type="hidden" name="{{ key }}" value="{{ val }}">
+    {% endfor %}
   </form>
 </div>
 

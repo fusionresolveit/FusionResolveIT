@@ -37,6 +37,9 @@
                     <input data-cy="login-password" type="password" name="password">
                   </div>
                   <div>
+                    {% for key, val in csrf %}
+                      <input type="hidden" name="{{ key }}" value="{{ val }}">
+                    {% endfor %}
                     <button data-cy="login-submit" class="ui primary button" type="submit">Send</button>
                   </div>
                 </form>

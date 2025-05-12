@@ -287,6 +287,7 @@ final class User extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('profiles', $profiles);
     $viewData->addData('form', $form);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'subitem/authorization.html.twig', (array)$viewData);
   }

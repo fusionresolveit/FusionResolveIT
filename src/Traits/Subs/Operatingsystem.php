@@ -54,6 +54,7 @@ trait Operatingsystem
     }
     $viewData->addData('show', $show);
     $viewData->addData('operatingsystem', []); // $operatingsystem);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('entreprise', 'Entreprise');
     $viewData->addTranslation('oscomment', $translator->translate('Comments'));

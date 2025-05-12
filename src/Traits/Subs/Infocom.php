@@ -190,6 +190,7 @@ trait Infocom
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
     $viewData->addData('item_id', $args['id']);
     $viewData->addData('item_type', $this->model);
+    $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     return $view->render($response, 'subitem/infocom.html.twig', (array)$viewData);
   }

@@ -22,6 +22,7 @@ use JimTools\JwtAuth\Secret;
 use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 use Spatie\ArrayToXml\ArrayToXml;
 use Psr\Container\ContainerInterface as TContainerInterface;
+use Slim\Csrf\Guard;
 
 class App
 {
@@ -112,13 +113,43 @@ class App
     }
 
     // Init session
-    $app->add(
-      new \Slim\Middleware\Session([
-        'name' => 'gsit_session',
-        'autorefresh' => true,
-        'lifetime' => '1 hour',
-      ])
-    );
+    $session = new \App\SessionHandler([
+      'name' => 'gsit_session',
+      'autorefresh' => true,
+      'lifetime' => '1 hour',
+    ]);
+    $app->add($session);
+
+    $app->add(function (Request $request, RequestHandler $handler) use ($app, $session, $phpunit)
+    {
+      global $basePath;
+
+      $whiteList = [
+        $basePath . '/api/v1/fusioninventory',
+      ];
+      $uri = $request->getUri();
+      if (
+          in_array($uri->getPath(), $whiteList) ||
+          $phpunit
+      )
+      {
+        return $handler->handle($request);
+      }
+
+      // Force start session, otherwise will have session error
+      $session->forceStartSession();
+
+      // For not whitelist, do csrf
+      $csrfStorage = new \App\CsrfStorage();
+      $guard = new Guard(
+        $app->getResponseFactory(),
+        'csrf',
+        $csrfStorage,
+        '\App\CsrfErrorHandler::handleFailure'
+      );
+
+      return $guard->process($request, $handler);
+    });
 
     // Define routes
     \App\Route::setRoutes($app);

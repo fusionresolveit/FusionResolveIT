@@ -56,6 +56,9 @@
 										{% endfor %}
 										<input type="hidden" name="redirectURL" value="{{ current_url() }}">
 										<button class="ui primary button" type="submit" id="headerChangeButton">Save</button>
+										{% for key, val in data.csrf %}
+											<input type="hidden" name="{{ key }}" value="{{ val }}">
+										{% endfor %}
 									</form>
 								</div>
 							</div>
