@@ -9,6 +9,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use Illuminate\Support\Carbon;
+use JimTools\JwtAuth\Decoder\FirebaseDecoder;
+use JimTools\JwtAuth\Secret;
 
 final class Login extends Common
 {
@@ -18,6 +20,19 @@ final class Login extends Common
   public function getLogin(Request $request, Response $response, array $args): Response
   {
     global $basePath;
+
+    if (isset($_COOKIE['token']))
+    {
+      try {
+        $fd = new FirebaseDecoder(new Secret(sodium_base642bin('TEST', SODIUM_BASE64_VARIANT_ORIGINAL), 'HS256'));
+        $fd->decode($_COOKIE['token']);
+        return $response
+          ->withHeader('Location', $basePath . '/view/home')
+          ->withStatus(302);
+      } catch (\Throwable $th) {
+        // if jwt error, we continue on login page
+      }
+    }
 
     $view = Twig::fromRequest($request);
 
