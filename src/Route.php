@@ -1357,6 +1357,7 @@ final class Route
             $sub->map(['GET'], 'changes', \App\v1\Controllers\User::class . ':showSubItilChanges');
             $sub->map(['GET'], 'reservations', \App\v1\Controllers\User::class . ':showSubReservations');
             $sub->map(['GET'], 'history', \App\v1\Controllers\User::class . ':showSubHistory');
+            $sub->map(['GET'], 'revokeaccesses', \App\v1\Controllers\User::class . ':revokeAccessesItem');
           });
         });
       });

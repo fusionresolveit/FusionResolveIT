@@ -55,14 +55,14 @@ trait ShowItem
     $informations = $this->getInformationTop($myItem, $request);
     foreach ($informations as $info)
     {
-      $viewData->addInformation('top', $info['key'], $info['value'], $info['link']);
+      $viewData->addInformation('top', $info);
     }
 
     // Information BOTTOM
     $informations = $this->getInformationBottom($myItem, $request);
     foreach ($informations as $info)
     {
-      $viewData->addInformation('bottom', $info['key'], $info['value'], $info['link']);
+      $viewData->addInformation('bottom', $info);
     }
 
     return $view->render($response, 'genericForm.html.twig', (array)$viewData);

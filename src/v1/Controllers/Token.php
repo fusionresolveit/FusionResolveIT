@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use DateTime;
 use Firebase\JWT\JWT;
+use JimTools\JwtAuth\Exceptions\ExpiredException;
 use Tuupola\Base62;
+use Firebase\JWT\ExpiredException as JwtExpiredException;
 
 final class Token
 {
@@ -89,16 +89,14 @@ final class Token
 
   /**
    * @param \App\Models\User  $user
-   * @param Response $response
    * @param int|null $profileId
    * @param int|null $entityId
    * @param boolean $entityRecursive
    *
-   * @return array<mixed>
+   * @return array{token: string, refreshtoken: string, expires: int}
    */
   public function generateJWTToken(
     \App\Models\User $user,
-    Response $response,
     $profileId = null,
     $entityId = null,
     $entityRecursive = false
@@ -108,29 +106,27 @@ final class Token
 
     $firstName = $user->firstname;
     $lastName = $user->lastname;
-    // $jwtid = $user->getPropertyAttribute('userjwtid');
-    $jwtid = null;
-    // $jwtidId = $user->getPropertyAttribute('userjwtid', 'id');
-    // $refreshtokenPropId = $user->getPropertyAttribute('userrefreshtoken', 'id');
-    // if (is_null($jwtidId) || is_null($refreshtokenPropId))
-    // {
-    //   throw new \Exception('The database is corrupted', 500);
-    // }
 
     // Generate a new refreshtoken and save in DB
-    $refreshtoken = $this->generateToken();
-    // $user->properties()->updateExistingPivot($refreshtokenPropId, ['value_string' => $refreshtoken]);
+    $refreshtoken = $user->refreshtoken;
+    if (is_null($refreshtoken))
+    {
+      $refreshtoken = $this->generateToken();
+      $user->refreshtoken = $refreshtoken;
+      $user->save();
+    }
+    setcookie('refresh-token', $refreshtoken, 0, $basePath . '/view', '', true, true);
 
-    // the jwtid (jit), used to revoke the JWT by server (for example when change rights, disable user...)
-    // if (is_null($jwtid))
-    // {
-      $jti = $this->generateToken();
-      // $user->properties()->updateExistingPivot($jwtidId, ['value_string' => $jti]);
-    // }
-    // else
-    // {
-      // $jti = $jwtid;
-    // }
+    $jti = $this->generateToken();
+
+    if (!is_null($entityId))
+    {
+      $entity = \App\Models\Entity::where('id', $entityId)->exists();
+      if ($entity === false)
+      {
+        $entityId = null;
+      }
+    }
 
     if (is_null($profileId))
     {
@@ -140,6 +136,12 @@ final class Token
         $entityId = $profile->getRelationValue('pivot')->entity_id;
         $entityRecursive = $profile->getRelationValue('pivot')->is_recursive;
         break;
+      }
+    } else {
+      $profile = \App\Models\Profile::where('id', $profileId)->exists();
+      if ($profile === false)
+      {
+        $profileId = null;
       }
     }
 
@@ -155,16 +157,7 @@ final class Token
     }
 
     $now = new DateTime();
-    $future = new DateTime("+2000 minutes");
-    // For test / DEBUG
-    // $future = new DateTime("+30 seconds");
-    // Get roles
-    // $role = $user->roles()->first();
-
-    // if (is_null($role))
-    // {
-    //   throw new \Exception('No role assigned to the user', 401);
-    // }
+    $future = new DateTime("+2 minutes");
 
     $payload = [
       'iat'              => $now->getTimeStamp(),
@@ -212,6 +205,34 @@ final class Token
 
   private function generateToken(): string
   {
-     return (new Base62())->encode(random_bytes(16));
+    return (new Base62())->encode(random_bytes(16));
+  }
+
+  /**
+   * @return array<mixed>
+   */
+  public static function manageExpiredToken(JwtExpiredException $e): array
+  {
+    global $basePath;
+    if (isset($_COOKIE['refresh-token']))
+    {
+      $payload = $e->getPayload();
+      if (property_exists($payload, 'user_id'))
+      {
+        $userId = $payload->user_id;
+        $user = \App\Models\User::where('id', $userId)->first();
+        if (!is_null($user))
+        {
+          if ($user->refreshtoken === $_COOKIE['refresh-token'])
+          {
+            $token = new \App\v1\Controllers\Token();
+            $jwt = $token->generateJWTToken($user);
+            setcookie('token', $jwt['token'], 0, $basePath . '/view');
+            return (array) $payload;
+          }
+        }
+      }
+    }
+    throw new ExpiredException($e->getMessage(), 0, $e);
   }
 }

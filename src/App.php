@@ -19,7 +19,6 @@ use JimTools\JwtAuth\Options;
 use JimTools\JwtAuth\Rules\RequestMethodRule;
 use JimTools\JwtAuth\Rules\RequestPathRule;
 use JimTools\JwtAuth\Secret;
-use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 use Spatie\ArrayToXml\ArrayToXml;
 use Psr\Container\ContainerInterface as TContainerInterface;
 use Slim\Csrf\Guard;
@@ -80,7 +79,6 @@ class App
     $ignoreList = [
       $basePath . "/ping",
       $basePath . "/view/login",
-      $basePath . "/view/logout",
       $basePath . "/view/sso",
       $basePath . "/view/sso/cb",
       $basePath . "/api/v1/fusioninventory",

@@ -18,14 +18,21 @@
             <div class="field">
               <label style="text-transform: uppercase;">
                 <span class="ui blue text">
-                  Informations
+                  Information
                 </span>
               </label>
-              {% for key, item_top in information.top %}
+              {% for item_top in information.top %}
                   <p>
-                    {{ item_top.value }}
-                    {% if item_top.link != null %}
-                      <a href="{{ item_top.link }}"><i class="external alternate icon"></i></a>
+                    {% if item_top.button is iterable %}
+                      <a href="{{ item_top.link }}" class="ui {{ item_top.button.color }} labeled icon button">
+                        <i class="{{ item_top.button.icon }} icon"></i>
+                        {{ item_top.value }}
+                      </a>
+                    {% else %}
+                      {{ item_top.value }}
+                      {% if item_top.link != null %}
+                        <a href="{{ item_top.link }}"><i class="external alternate icon"></i></a>
+                      {% endif %}
                     {% endif %}
                   </p>
               {% endfor %}
@@ -45,14 +52,21 @@
             <div class="field">
               <label style="text-transform: uppercase;">
                 <span class="ui blue text">
-                  Informations
+                  Information
                 </span>
               </label>
-              {% for key, item_bottom in information.bottom %}
+              {% for item_bottom in information.bottom %}
                 <p>
-                  {{ item_bottom.value }}
-                  {% if item_bottom.link != null %}
-                    <a href="{{ item_bottom.link }}"><i class="external alternate icon"></i></a>
+                  {% if item_bottom.button is iterable %}
+                    <a href="{{ item_bottom.link }}" class="ui {{ item_bottom.button.color }} labeled icon button">
+                      <i class="{{ item_bottom.button.icon }} icon"></i>
+                      {{ item_bottom.value }}
+                    </a>
+                  {% else %}
+                    {{ item_bottom.value }}
+                    {% if item_bottom.link != null %}
+                      <a href="{{ item_bottom.link }}"><i class="external alternate icon"></i></a>
+                    {% endif %}
                   {% endif %}
                 </p>
               {% endfor %}

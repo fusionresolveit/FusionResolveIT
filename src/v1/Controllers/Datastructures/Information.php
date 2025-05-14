@@ -18,12 +18,19 @@ trait Information
    * Add information into form
    *
    * @param string  $type top|bottom
-   * @param string  $key unique key
-   * @param string  $value value to display (often translation)
-   * @param string  $link the link to the webpage, null to disable it
+   * @param array<string, mixed>  $info
    */
-  public function addInformation($type, $key, $value, $link): void
+  public function addInformation($type, $info): void
   {
-    $this->information->{$type}[$key] = ['value' => $value, 'link' => $link];
+    $data = [
+      'value' => $info['value'],
+      'link'  => $info['link'],
+    ];
+    if (isset($info['button']))
+    {
+      $data['button'] = $info['button'];
+    }
+
+    $this->information->{$type}[$info['key']] = $data;
   }
 }

@@ -281,7 +281,7 @@ CREATE TABLE `audits` (
   KEY `date` (`created_at`),
   KEY `type` (`action`,`item_id`),
   KEY `action` (`action`,`subaction`,`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1443,7 +1443,7 @@ CREATE TABLE `computermodels` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1505,7 +1505,7 @@ CREATE TABLE `computers` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2620,7 +2620,7 @@ CREATE TABLE `devicememories` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2644,7 +2644,7 @@ CREATE TABLE `devicememorymodels` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2666,7 +2666,7 @@ CREATE TABLE `devicememorytypes` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2949,7 +2949,7 @@ CREATE TABLE `deviceprocessors` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3166,7 +3166,7 @@ CREATE TABLE `displaypreferences` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=546 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=547 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3831,7 +3831,7 @@ CREATE TABLE `followups` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4110,7 +4110,7 @@ CREATE TABLE `groups` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4818,7 +4818,7 @@ CREATE TABLE `item_devicememory` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5027,7 +5027,7 @@ CREATE TABLE `item_deviceprocessor` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5246,7 +5246,7 @@ CREATE TABLE `item_operatingsystem` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5370,7 +5370,7 @@ CREATE TABLE `item_softwareversion` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1575 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5565,7 +5565,7 @@ CREATE TABLE `knowledgebasearticlerevisions` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5825,7 +5825,7 @@ CREATE TABLE `logs` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1575 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5888,7 +5888,7 @@ CREATE TABLE `manufacturers` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5905,7 +5905,7 @@ CREATE TABLE `menubookmarks` (
   `position` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`endpoint`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6883,7 +6883,7 @@ CREATE TABLE `operatingsystemkernels` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6907,7 +6907,7 @@ CREATE TABLE `operatingsystemkernelversions` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6929,7 +6929,7 @@ CREATE TABLE `operatingsystems` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6975,7 +6975,7 @@ CREATE TABLE `operatingsystemversions` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8040,7 +8040,7 @@ CREATE TABLE `profile_user` (
   KEY `user_id` (`user_id`),
   KEY `is_recursive` (`is_recursive`),
   KEY `is_dynamic` (`is_dynamic`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8088,7 +8088,7 @@ CREATE TABLE `profilerights` (
   `canassign` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `profile_id` (`profile_id`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8990,7 +8990,7 @@ CREATE TABLE `rules` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9408,7 +9408,7 @@ CREATE TABLE `softwares` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1560 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9440,7 +9440,7 @@ CREATE TABLE `softwareversions` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1575 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9481,7 +9481,7 @@ CREATE TABLE `solutions` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -9889,7 +9889,7 @@ CREATE TABLE `tickets` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10215,6 +10215,7 @@ CREATE TABLE `users` (
   `default_dashboard_mini_ticket` varchar(100) DEFAULT NULL,
   `security_attempt` int(11) NOT NULL DEFAULT 0,
   `security_last_attempt` timestamp NULL DEFAULT NULL,
+  `refreshtoken` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`authtype`,`auth_id`),
   KEY `firstname` (`firstname`),
@@ -10235,7 +10236,7 @@ CREATE TABLE `users` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`),
   KEY `deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -10410,4 +10411,4 @@ CREATE TABLE `wifinetworks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-09 14:31:51
+-- Dump completed on 2025-05-14 23:24:54
