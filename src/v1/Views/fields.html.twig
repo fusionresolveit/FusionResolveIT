@@ -89,11 +89,11 @@
 <script type="text/javascript">
 editor{{ item.name }} = new Editor({
   el: document.querySelector('#editor{{ item.name }}'),
-  initialEditType: 'markdown',
   previewStyle: 'vertical',
   initialEditType: 'wysiwyg',
   usageStatistics: false,
   initialValue: document.querySelector("[name='{{ item.name }}']").innerText,
+  autofocus: false,
   events: {
     blur: () => {
       document.querySelector(`textarea[name='{{ item.name }}']`).value = editor{{ item.name }}.getMarkdown();
