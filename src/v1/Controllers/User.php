@@ -106,7 +106,7 @@ final class User extends Common implements \App\Interfaces\Crud
     $data = new PostUser((object) $request->getParsedBody());
     $id = intval($args['id']);
 
-    if (!$this->canRightCreate())
+    if (!$this->canRightUpdate())
     {
       throw new \Exception('Unauthorized access', 401);
     }
@@ -131,6 +131,7 @@ final class User extends Common implements \App\Interfaces\Crud
     )
     {
       $dataToUpdate['password'] = \App\v1\Controllers\Token::generateDBHashPassword($dataToUpdate['new_password']);
+      $this->revokeAccesses($user);
     }
     unset($dataToUpdate['new_password']);
     unset($dataToUpdate['new_password_verification']);
@@ -178,6 +179,7 @@ final class User extends Common implements \App\Interfaces\Crud
       {
         throw new \Exception('Unauthorized access', 401);
       }
+      $this->revokeAccesses($user);
       $user->delete();
       \App\v1\Controllers\Toolbox::addSessionMessage('The user has been soft deleted successfully');
     }
@@ -577,5 +579,68 @@ final class User extends Common implements \App\Interfaces\Crud
 
     $data = $rule->prepareData($user, $data);
     return $rule->processAllRules($data);
+  }
+
+  /**
+   * @param \App\Models\User $item
+   *
+   * @return array<mixed>
+   */
+  protected function getInformationTop($item, Request $request): array
+  {
+    global $translator, $basePath;
+
+    $uri = $request->getUri();
+    $info = [];
+    if (!is_null($item->refreshtoken))
+    {
+      $info[] = [
+        'key'    => 'revoke',
+        'value'  => $translator->translate('Revoke all access'),
+        'link'   => $basePath . '/view/users/' . $item->id . '/revokeaccesses',
+        'button' => [
+          'color' => 'red',
+          'icon'  => 'sign out alternate',
+        ],
+      ];
+    } else {
+      $info[] = [
+        'key'   => 'revoke',
+        'value' => $translator->translate('Never connected or revoked access'),
+        'link'  => null,
+      ];
+    }
+    return $info;
+  }
+
+  /**
+   * @param array{id: string} $args
+   */
+  public function revokeAccessesItem(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $user = \App\Models\User::where('id', $args['id'])->first();
+    if (is_null($user))
+    {
+      throw new \Exception('Id not found', 404);
+    }
+    if (!$this->canRightUpdate())
+    {
+      throw new \Exception('Unauthorized access', 401);
+    }
+    $this->revokeAccesses($user);
+
+    \App\v1\Controllers\Toolbox::addSessionMessage('All accesses revoked successfully');
+
+    return $response
+      ->withHeader('Location', $basePath . '/view/users/' . $user->id)
+      ->withStatus(302);
+  }
+
+  public function revokeAccesses(\App\Models\User $user): void
+  {
+    $user->refreshtoken = null;
+    $user->save();
   }
 }

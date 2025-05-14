@@ -53,7 +53,7 @@ trait HttpTestTrait
   {
     $response = new slimResponse();
     $token = new \App\v1\Controllers\Token();
-    $jwt = $token->generateJWTToken($user, $response, $profileId, $entityId);
+    $jwt = $token->generateJWTToken($user, $profileId, $entityId);
     return $jwt['token'];
   }
 }

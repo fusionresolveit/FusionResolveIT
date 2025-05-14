@@ -173,7 +173,7 @@ final class Login extends Common
     // generate token
     // put into cookie, key token
 
-    $jwt = $token->generateJWTToken($user, $response);
+    $jwt = $token->generateJWTToken($user);
 
     // Set Cookie
     // $cookie_lifetime = empty($cookie_value) ? time() - 3600 : time() + $CFG_GLPI['login_remember_time'];
@@ -358,6 +358,14 @@ final class Login extends Common
   {
     global $basePath;
 
+    // We logout, so we set refreshtoken to null
+    $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+    if (!is_null($user))
+    {
+      $user->refreshtoken = null;
+      $user->save();
+    }
+
     setcookie('token', '', -1, $basePath . '/view');
 
     return $response
@@ -421,7 +429,6 @@ final class Login extends Common
     {
       $jwt = $token->generateJWTToken(
         $user,
-        $response,
         $data->profileId,
         $data->entityId,
         $data->recursive
