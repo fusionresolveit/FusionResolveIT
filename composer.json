@@ -31,7 +31,6 @@
         "fico7489/laravel-pivot": "^3.0",
         "fullpipe/twig-webpack-extension": "^4.0",
         "genealabs/laravel-pivot-events": "^12",
-        "htmlawed/htmlawed": "^1.2",
         "illuminate/container": "^12",
         "illuminate/database": "^12",
         "illuminate/events": "^12",
@@ -48,7 +47,6 @@
         "phpmailer/phpmailer": "^6.9",
         "ramsey/uuid": "^4.0",
         "respect/validation": "^2.4",
-        "rlanvin/php-rrule": "^2.1",
         "robmorgan/phinx": "~0.16.0",
         "shiftonelabs/laravel-cascade-deletes": "^2.0",
         "slim/csrf": "^1.5",
@@ -62,11 +60,11 @@
         "symfony/error-handler": "^6.4",
         "tecnickcom/tcpdf": "^6.2",
         "tuupola/base62": "^2.1",
-        "wapmorgan/unified-archive": "^1.0",
         "webklex/php-imap": "^6"
     },
     "require-dev": {
         "ext-xml": "*",
+        "icanhazstring/composer-unused": "^0.9.3",
         "illuminate/testing": "^12",
         "laminas/laminas-cli": "^1.10",
         "larastan/larastan": "^3.0",
