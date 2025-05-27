@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use App\DataInterface\PostDevicememory;
+use App\DataInterface\PostMemorymodule;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
 use App\Traits\Subs\Document;
 use App\Traits\Subs\History;
-use App\Traits\Subs\Item;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\Twig;
 
-final class Devicememory extends Common implements \App\Interfaces\Crud
+final class Memorymodule extends Common implements \App\Interfaces\Crud
 {
   // Display
   use ShowItem;
@@ -25,15 +23,14 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
   // Sub
   use Document;
   use History;
-  use Item;
 
-  protected $model = \App\Models\Devicememory::class;
-  protected $rootUrl2 = '/devices/devicememories/';
-  protected $choose = 'devicememories';
+  protected $model = \App\Models\Memorymodule::class;
+  protected $rootUrl2 = '/devices/memorymodules/';
+  protected $choose = 'memorymodules';
 
-  protected function instanciateModel(): \App\Models\Devicememory
+  protected function instanciateModel(): \App\Models\Memorymodule
   {
-    return new \App\Models\Devicememory();
+    return new \App\Models\Memorymodule();
   }
 
   /**
@@ -61,9 +58,9 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
   {
     global $basePath;
 
-    $data = new PostDevicememory((object) $request->getParsedBody());
+    $data = new PostMemorymodule((object) $request->getParsedBody());
 
-    $devicememory = new \App\Models\Devicememory();
+    $devicememory = new \App\Models\Memorymodule();
 
     if (!$this->canRightCreate())
     {
@@ -75,7 +72,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicememory = \App\Models\Devicememory::create($data->exportToArray());
+    $devicememory = \App\Models\Memorymodule::create($data->exportToArray());
 
     \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been created successfully');
     \App\v1\Controllers\Notification::prepareNotification($devicememory, 'new');
@@ -91,7 +88,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
     }
 
     return $response
-      ->withHeader('Location', $basePath . '/view/devicememories')
+      ->withHeader('Location', $basePath . '/view/memorymodules')
       ->withStatus(302);
   }
 
@@ -100,7 +97,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
    */
   public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $data = new PostDevicememory((object) $request->getParsedBody());
+    $data = new PostMemorymodule((object) $request->getParsedBody());
     $id = intval($args['id']);
 
     if (!$this->canRightCreate())
@@ -108,7 +105,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicememory = \App\Models\Devicememory::where('id', $id)->first();
+    $devicememory = \App\Models\Memorymodule::where('id', $id)->first();
     if (is_null($devicememory))
     {
       throw new \Exception('Id not found', 404);
@@ -137,7 +134,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
     global $basePath;
 
     $id = intval($args['id']);
-    $devicememory = \App\Models\Devicememory::withTrashed()->where('id', $id)->first();
+    $devicememory = \App\Models\Memorymodule::withTrashed()->where('id', $id)->first();
     if (is_null($devicememory))
     {
       throw new \Exception('Id not found', 404);
@@ -153,7 +150,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
       \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been deleted successfully');
 
       return $response
-        ->withHeader('Location', $basePath . '/view/devicememories')
+        ->withHeader('Location', $basePath . '/view/memorymodules')
         ->withStatus(302);
     } else {
       if (!$this->canRightSoftdelete())
@@ -175,7 +172,7 @@ final class Devicememory extends Common implements \App\Interfaces\Crud
   public function restoreItem(Request $request, Response $response, array $args): Response
   {
     $id = intval($args['id']);
-    $devicememory = \App\Models\Devicememory::withTrashed()->where('id', $id)->first();
+    $devicememory = \App\Models\Memorymodule::withTrashed()->where('id', $id)->first();
     if (is_null($devicememory))
     {
       throw new \Exception('Id not found', 404);

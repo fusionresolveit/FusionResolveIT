@@ -38,17 +38,14 @@ trait GetDropdownValues
     foreach ($items as $myItem)
     {
       $name = '';
-      if (isset($myItem->attributes['name']))
+      $name = $myItem->getAttribute('name');
+      if ($name == '')
       {
-        $name = $myItem->getAttribute('name');
-        if ($name == '')
-        {
-          $name = $myItem->getAttribute('id');
-        }
-        elseif (is_numeric($filter))
-        {
-          $name .= ' - ' . $myItem->getAttribute('id');
-        }
+        $name = $myItem->getAttribute('id');
+      }
+      elseif (is_numeric($filter))
+      {
+        $name .= ' - ' . $myItem->getAttribute('id');
       }
       $class = '';
       if ($this->isTree())

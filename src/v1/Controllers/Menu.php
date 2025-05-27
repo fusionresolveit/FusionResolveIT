@@ -407,11 +407,11 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
-            'devicememories',
+            'memorymodules',
             $translator->translatePlural('Memory', 'Memory', 2),
             'memory',
-            $this->getRightForModel('\App\Models\Devicememory'),
-            '/view/devices/devicememories',
+            $this->getRightForModel('\App\Models\Memorymodule'),
+            '/view/devices/memorymodules',
             '',
           ),
           new DataInterfaceMenu(
@@ -989,11 +989,11 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
-            'devicememorytypes',
+            'memorytypes',
             $translator->translatePlural('Memory type', 'Memory types', 2),
             'edit',
-            $this->getRightForModel('\App\Models\Devicememorytype'),
-            '/view/devicememorytypes',
+            $this->getRightForModel('\App\Models\Memorytype'),
+            '/view/memorytypes',
             '',
           ),
           new DataInterfaceMenu(
@@ -1201,11 +1201,11 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
-            'devicememorymodels',
-            $translator->translatePlural('Device memory model', 'Device memory models', 2),
+            'memorymodels',
+            $translator->translatePlural('Memory model', 'Memory models', 2),
             'edit',
-            $this->getRightForModel('\App\Models\Devicememorymodel'),
-            '/view/devicememorymodels',
+            $this->getRightForModel('\App\Models\Memorymodel'),
+            '/view/memorymodels',
             '',
           ),
           new DataInterfaceMenu(

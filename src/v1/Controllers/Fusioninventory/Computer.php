@@ -88,7 +88,9 @@ final class Computer extends \App\v1\Controllers\Common
     // $this->antivirus($dataObj, $computer);
     Computerprocessor::parse($dataObject, $computer);
     Computeroperatingsystem::parse($dataObject, $computer);
-    Computermemory::parse($dataObject, $computer);
+
+    $computerMemory = new Computermemory($computer);
+    $computerMemory->parse($dataObject);
   }
 
   private function getOtherSerial(object $dataObj): string|null

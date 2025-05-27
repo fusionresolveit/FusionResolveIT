@@ -343,7 +343,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
     global $translator, $basePath;
 
     $myItem = \App\Models\Computer::
-        with('operatingsystems', 'memories', 'processors', 'harddrives')
+        with('operatingsystems', 'memoryslots', 'processors', 'harddrives')
       ->withTrashed()
       ->where('id', $item->id)
       ->first();
@@ -394,13 +394,19 @@ final class Computer extends Common implements \App\Interfaces\Crud
     ];
 
     $memoryTotalSize = 0;
-    foreach ($myItem->memories as $memory)
+    $slotIds = [];
+    foreach ($myItem->memoryslots as $slot)
     {
-      if ($memory->getRelationValue('pivot')->size != '' && $memory->getRelationValue('pivot')->size > 0)
+      $slotIds[] = $slot->id;
+      if (!is_null($slot->memorymodule))
       {
-        $memoryTotalSize = $memoryTotalSize + $memory->getRelationValue('pivot')->size;
+        if ($slot->memorymodule->size > 0)
+        {
+          $memoryTotalSize = $memoryTotalSize + $slot->memorymodule->size;
+        }
       }
     }
+
     if ($memoryTotalSize >= 1048576)
     {
       $tabInfos[] = [

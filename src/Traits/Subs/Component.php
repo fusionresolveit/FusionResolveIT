@@ -21,7 +21,7 @@ trait Component
     $view = Twig::fromRequest($request);
 
     $myItem = $item::with(
-      'memories',
+      'memoryslots',
       'firmwares',
       'processors',
       'harddrives',
@@ -68,85 +68,109 @@ trait Component
     $colorTab['devicedrives'] = 'teal';
 
     $myMemories = [];
-    foreach ($myItem->memories as $memory)
+    foreach ($myItem->memoryslots as $slot)
     {
       $location = '';
       $location_url = '';
 
-      $loc = \App\Models\Location::where('id', $memory->getRelationValue('pivot')->location_id)->first();
-      if (!is_null($loc))
-      {
-        $location = $loc->name;
-        $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
-      }
-
       $manufacturer = '';
       $manufacturer_url = '';
-      if ($memory->manufacturer !== null)
-      {
-        $manufacturer = $memory->manufacturer->name;
-        $manufacturer_url = $this->genereRootUrl2Link(
-          $rootUrl2,
-          '/dropdowns/manufacturers/',
-          $memory->manufacturer->id
-        );
-      }
-
       $type = '';
       $type_url = '';
-      if ($memory->type !== null)
-      {
-        $type = $memory->type->name;
-        $type_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/devicememorytype/', $memory->type->id);
-      }
-
-      $serial = $memory->getRelationValue('pivot')->serial;
-
-      $otherserial = $memory->getRelationValue('pivot')->otherserial;
-
+      $serial = '';
+      $otherserial = '';
       $state = '';
       $state_url = '';
 
-      $status = \App\Models\State::where('id', $memory->getRelationValue('pivot')->state_id)->first();
-      if (!is_null($status))
+      if (!is_null($slot->memorymodule))
       {
-        $state = $status->name;
-        $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
-      }
-
-      $documents = [];
-      if ($memory->documents !== null)
-      {
-        foreach ($memory->documents as $document)
+        if ($slot->memorymodule->manufacturer !== null)
         {
-          $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $document->id);
-
-          $documents[$document->id] = [
-            'name'  => $document->name,
-            'url'   => $url,
-          ];
+          $manufacturer = $slot->memorymodule->manufacturer->name;
+          $manufacturer_url = $this->genereRootUrl2Link(
+            $rootUrl2,
+            '/dropdowns/manufacturers/',
+            $slot->memorymodule->manufacturer->id
+          );
         }
-      }
+        if ($slot->memorymodule->type !== null)
+        {
+          $type = $slot->memorymodule->type->name;
+          $type_url = $this->genereRootUrl2Link(
+            $rootUrl2,
+            '/dropdowns/memorytype/',
+            $slot->memorymodule->type->id
+          );
+        }
+        $serial = $slot->memorymodule->serial;
+        $otherserial = $slot->memorymodule->otherserial;
 
-      $myMemories[] = [
-        'name'                => $memory->name,
-        'manufacturer'        => $manufacturer,
-        'manufacturer_url'    => $manufacturer_url,
-        'type'                => $type,
-        'type_url'            => $type_url,
-        'frequence'           => $memory->frequence,
-        'size'                => $memory->getRelationValue('pivot')->size,
-        'busID'               => $memory->getRelationValue('pivot')->busID,
-        'location'            => $location,
-        'location_url'        => $location_url,
-        'serial'              => $serial,
-        'otherserial'         => $otherserial,
-        'state'               => $state,
-        'state_url'           => $state_url,
-        'documents'           => $documents,
-        'color'               => $colorTab['memories'],
-      ];
+        $status = \App\Models\State::where('id', $slot->memorymodule->state_id)->first();
+        if (!is_null($status))
+        {
+          $state = $status->name;
+          $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
+        }
+
+        $documents = [];
+        if ($slot->memorymodule->documents !== null)
+        {
+          foreach ($slot->memorymodule->documents as $document)
+          {
+            $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $document->id);
+
+            $documents[$document->id] = [
+              'name'  => $document->name,
+              'url'   => $url,
+            ];
+          }
+        }
+        $myMemories[] = [
+          'name'                => $translator->translate('Slot') . ' ' . $slot->slotnumber,
+          'is_empty'            => false,
+          'manufacturer'        => $manufacturer,
+          'manufacturer_url'    => $manufacturer_url,
+          'type'                => $type,
+          'type_url'            => $type_url,
+          'frequence'           => $slot->memorymodule->frequence,
+          'size'                => $slot->memorymodule->size,
+          'slotnumber'          => $slot->slotnumber,
+          'location'            => $location,
+          'location_url'        => $location_url,
+          'serial'              => $serial,
+          'otherserial'         => $otherserial,
+          'state'               => $state,
+          'state_url'           => $state_url,
+          'documents'           => $documents,
+          'color'               => $colorTab['memories'],
+        ];
+      } else {
+        $myMemories[] = [
+          'name'                => $translator->translate('Slot') . ' ' . $slot->slotnumber,
+          'is_empty'            => true,
+          'manufacturer'        => '',
+          'manufacturer_url'    => '',
+          'type'                => '',
+          'type_url'            => '',
+          'frequence'           => '',
+          'size'                => 0,
+          'slotnumber'          => $slot->slotnumber,
+          'location'            => '',
+          'location_url'        => '',
+          'serial'              => '',
+          'otherserial'         => '',
+          'state'               => '',
+          'state_url'           => '',
+          'documents'           => [],
+          'color'               => $colorTab['memories'],
+        ];
+      }
     }
+
+    usort($myMemories, function ($item1, $item2)
+    {
+      return $item1['slotnumber'] <=> $item2['slotnumber'];
+    });
 
     $myFirmwares = [];
     foreach ($myItem->firmwares as $firmware)

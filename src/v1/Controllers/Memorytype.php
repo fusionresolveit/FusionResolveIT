@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use App\DataInterface\PostStandardDevicemodel;
+use App\DataInterface\PostStandard;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
@@ -12,7 +12,7 @@ use App\Traits\Subs\History;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class Devicememorymodel extends Common
+final class Memorytype extends Common implements \App\Interfaces\Crud
 {
   // Display
   use ShowItem;
@@ -22,11 +22,11 @@ final class Devicememorymodel extends Common
   // Sub
   use History;
 
-  protected $model = \App\Models\Devicememorymodel::class;
+  protected $model = \App\Models\Memorytype::class;
 
-  protected function instanciateModel(): \App\Models\Devicememorymodel
+  protected function instanciateModel(): \App\Models\Memorytype
   {
-    return new \App\Models\Devicememorymodel();
+    return new \App\Models\Memorytype();
   }
 
   /**
@@ -36,24 +36,24 @@ final class Devicememorymodel extends Common
   {
     global $basePath;
 
-    $data = new PostStandardDevicemodel((object) $request->getParsedBody(), \App\Models\Devicememorymodel::class);
+    $data = new PostStandard((object) $request->getParsedBody(), \App\Models\Memorytype::class);
 
-    $devicememorymodel = new \App\Models\Devicememorymodel();
+    $memorytype = new \App\Models\Memorytype();
 
     if (!$this->canRightCreate())
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    if (!\App\v1\Controllers\Profile::canRightReadItem($devicememorymodel))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($memorytype))
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicememorymodel = \App\Models\Devicememorymodel::create($data->exportToArray());
+    $memorytype = \App\Models\Memorytype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been created successfully');
-    \App\v1\Controllers\Notification::prepareNotification($devicememorymodel, 'new');
+    \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($memorytype, 'new');
 
     $data = (object) $request->getParsedBody();
 
@@ -61,12 +61,12 @@ final class Devicememorymodel extends Common
     {
       $uri = $request->getUri();
       return $response
-        ->withHeader('Location', $basePath . '/view/devicememorymodels/' . $devicememorymodel->id)
+        ->withHeader('Location', $basePath . '/view/memorytypes/' . $memorytype->id)
         ->withStatus(302);
     }
 
     return $response
-      ->withHeader('Location', $basePath . '/view/devicememorymodels')
+      ->withHeader('Location', $basePath . '/view/memorytypes')
       ->withStatus(302);
   }
 
@@ -75,7 +75,7 @@ final class Devicememorymodel extends Common
    */
   public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $data = new PostStandardDevicemodel((object) $request->getParsedBody(), \App\Models\Devicememorymodel::class);
+    $data = new PostStandard((object) $request->getParsedBody(), \App\Models\Memorytype::class);
     $id = intval($args['id']);
 
     if (!$this->canRightCreate())
@@ -83,20 +83,20 @@ final class Devicememorymodel extends Common
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicememorymodel = \App\Models\Devicememorymodel::where('id', $id)->first();
-    if (is_null($devicememorymodel))
+    $memorytype = \App\Models\Memorytype::where('id', $id)->first();
+    if (is_null($memorytype))
     {
       throw new \Exception('Id not found', 404);
     }
-    if (!\App\v1\Controllers\Profile::canRightReadItem($devicememorymodel))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($memorytype))
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicememorymodel->update($data->exportToArray());
+    $memorytype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been updated successfully');
-    \App\v1\Controllers\Notification::prepareNotification($devicememorymodel, 'update');
+    \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($memorytype, 'update');
 
     $uri = $request->getUri();
     return $response
@@ -112,31 +112,31 @@ final class Devicememorymodel extends Common
     global $basePath;
 
     $id = intval($args['id']);
-    $devicememorymodel = \App\Models\Devicememorymodel::withTrashed()->where('id', $id)->first();
-    if (is_null($devicememorymodel))
+    $memorytype = \App\Models\Memorytype::withTrashed()->where('id', $id)->first();
+    if (is_null($memorytype))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($devicememorymodel->trashed())
+    if ($memorytype->trashed())
     {
       if (!$this->canRightDelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $devicememorymodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been deleted successfully');
+      $memorytype->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been deleted successfully');
 
       return $response
-        ->withHeader('Location', $basePath . '/view/devicememorymodels')
+        ->withHeader('Location', $basePath . '/view/memorytypes')
         ->withStatus(302);
     } else {
       if (!$this->canRightSoftdelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $devicememorymodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been soft deleted successfully');
+      $memorytype->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been soft deleted successfully');
     }
 
     return $response
@@ -150,20 +150,20 @@ final class Devicememorymodel extends Common
   public function restoreItem(Request $request, Response $response, array $args): Response
   {
     $id = intval($args['id']);
-    $devicememorymodel = \App\Models\Devicememorymodel::withTrashed()->where('id', $id)->first();
-    if (is_null($devicememorymodel))
+    $memorytype = \App\Models\Memorytype::withTrashed()->where('id', $id)->first();
+    if (is_null($memorytype))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($devicememorymodel->trashed())
+    if ($memorytype->trashed())
     {
       if (!$this->canRightSoftdelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $devicememorymodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been restored successfully');
+      $memorytype->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been restored successfully');
     }
 
     return $response
