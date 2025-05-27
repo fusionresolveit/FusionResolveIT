@@ -407,11 +407,11 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
-            'devicememories',
+            'memorymodules',
             $translator->translatePlural('Memory', 'Memory', 2),
             'memory',
-            $this->getRightForModel('\App\Models\Devicememory'),
-            '/view/devices/devicememories',
+            $this->getRightForModel('\App\Models\Memorymodule'),
+            '/view/devices/memorymodules',
             '',
           ),
           new DataInterfaceMenu(

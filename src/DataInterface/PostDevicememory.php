@@ -15,7 +15,7 @@ class PostDevicememory extends Post
   public $manufacturer;
 
   /** @var ?string */
-  public $size_default;
+  public $size;
 
   /** @var ?string */
   public $frequence;
@@ -34,20 +34,20 @@ class PostDevicememory extends Post
 
   public function __construct(object $data)
   {
-    $this->loadRights('App\Models\Devicememory');
-    $devicememory = new \App\Models\Devicememory();
-    $this->definitions = $devicememory->getDefinitions();
+    $this->loadRights('App\Models\Memorymodule');
+    $memorymodule = new \App\Models\Memorymodule();
+    $this->definitions = $memorymodule->getDefinitions();
 
     $this->name = $this->setName($data);
 
     $this->manufacturer = $this->setManufacturer($data);
 
     if (
-        Validation::attrStrNotempty('size_default')->isValid($data) &&
-        isset($data->size_default)
+        Validation::attrStrNotempty('size')->isValid($data) &&
+        isset($data->size)
     )
     {
-      $this->size_default = $data->size_default;
+      $this->size = $data->size;
     }
 
     if (
@@ -104,7 +104,7 @@ class PostDevicememory extends Post
   }
 
   /**
-   * @return array{name?: string, manufacturer?: \App\Models\Manufacturer, size_default?: string,
+   * @return array{name?: string, manufacturer?: \App\Models\Manufacturer, size?: string,
    *               frequence?: string, type?: \App\Models\Devicememorytype, model?: \App\Models\Devicememorymodel,
    *               comment?: string, is_recursive?: bool}
    */
@@ -144,7 +144,7 @@ class PostDevicememory extends Post
   }
 
   /**
-   * @param-out array{name?: string, manufacturer?: \App\Models\Manufacturer, size_default?: string,
+   * @param-out array{name?: string, manufacturer?: \App\Models\Manufacturer, size?: string,
    *                  frequence?: string, type?: \App\Models\Devicememorytype, model?: \App\Models\Devicememorymodel,
    *                  comment?: string, is_recursive?: bool} $data
    */

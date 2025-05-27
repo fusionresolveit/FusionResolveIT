@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -49,7 +50,7 @@ class Printer extends Common
     'softwareversions',
     'operatingsystems',
     'volumes',
-    'memories',
+    'memoryslots',
     'firmwares',
     'processors',
     'harddrives',
@@ -98,7 +99,6 @@ class Printer extends Common
     'problems',
     'changes',
     'volumes',
-    'memories',
     'firmwares',
     'processors',
     'harddrives',
@@ -146,7 +146,7 @@ class Printer extends Common
     'problems:id,name',
     'changes:id,name',
     'volumes:id,name',
-    'memories:id,name',
+    'memoryslots',
     'firmwares:id,name',
     'processors:id,name',
     'harddrives:id,name',
@@ -293,22 +293,12 @@ class Printer extends Common
     return $this->hasMany(\App\Models\Itemdisk::class, 'item_id')->where('item_type', get_class($this));
   }
 
-  /** @return MorphToMany<\App\Models\Devicememory, $this> */
-  public function memories(): MorphToMany
+  /** @return MorphMany<\App\Models\Memoryslot, $this> */
+  public function memoryslots(): MorphMany
   {
-    return $this->morphToMany(
-      \App\Models\Devicememory::class,
+    return $this->morphMany(
+      \App\Models\Memoryslot::class,
       'item',
-      'item_devicememory'
-    )->withPivot(
-      'devicememory_id',
-      'size',
-      'serial',
-      'busID',
-      'location_id',
-      'otherserial',
-      'state_id',
-      'id',
     );
   }
 

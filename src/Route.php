@@ -4285,26 +4285,25 @@ final class Route
           });
         });
 
-        $devices->group('/devicememories', function (RouteCollectorProxy $devicememories)
+        $devices->group('/memorymodules', function (RouteCollectorProxy $memorymodules)
         {
-          $devicememories->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':showAll');
-          $devicememories->group("/new", function (RouteCollectorProxy $memoryNew)
+          $memorymodules->map(['GET'], '', \App\v1\Controllers\Memorymodule::class . ':showAll');
+          $memorymodules->group("/new", function (RouteCollectorProxy $memoryNew)
           {
-            $memoryNew->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':showNewItem');
-            $memoryNew->map(['POST'], '', \App\v1\Controllers\Devicememory::class . ':newItem');
+            $memoryNew->map(['GET'], '', \App\v1\Controllers\Memorymodule::class . ':showNewItem');
+            $memoryNew->map(['POST'], '', \App\v1\Controllers\Memorymodule::class . ':newItem');
           });
 
-          $devicememories->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicememoryId)
+          $memorymodules->group("/{id:[0-9]+}", function (RouteCollectorProxy $memoryId)
           {
-            $devicememoryId->map(['GET'], '', \App\v1\Controllers\Devicememory::class . ':showItem');
-            $devicememoryId->map(['POST'], '', \App\v1\Controllers\Devicememory::class . ':updateItem');
-            $devicememoryId->group('/', function (RouteCollectorProxy $sub)
+            $memoryId->map(['GET'], '', \App\v1\Controllers\Memorymodule::class . ':showItem');
+            $memoryId->map(['POST'], '', \App\v1\Controllers\Memorymodule::class . ':updateItem');
+            $memoryId->group('/', function (RouteCollectorProxy $sub)
             {
-              $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicememory::class . ':deleteItem');
-              $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicememory::class . ':restoreItem');
-              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicememory::class . ':showSubDocuments');
-              $sub->map(['GET'], 'items', \App\v1\Controllers\Devicememory::class . ':showSubItems');
-              $sub->map(['GET'], 'history', \App\v1\Controllers\Devicememory::class . ':showSubHistory');
+              $sub->map(['GET'], 'delete', \App\v1\Controllers\Memorymodule::class . ':deleteItem');
+              $sub->map(['GET'], 'restore', \App\v1\Controllers\Memorymodule::class . ':restoreItem');
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Memorymodule::class . ':showSubDocuments');
+              $sub->map(['GET'], 'history', \App\v1\Controllers\Memorymodule::class . ':showSubHistory');
             });
           });
         });
