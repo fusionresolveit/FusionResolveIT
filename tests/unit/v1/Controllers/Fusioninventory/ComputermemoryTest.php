@@ -8,236 +8,206 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass('\App\v1\Controllers\Fusioninventory\Computermemory')]
-#[UsesClass('\App\DataInterface\Definition')]
-#[UsesClass('\App\DataInterface\DefinitionCollection')]
-#[UsesClass('\App\Events\EntityCreating')]
-#[UsesClass('\App\Events\TreepathCreated')]
-#[UsesClass('\App\Models\Common')]
-#[UsesClass('\App\Models\Computer')]
-#[UsesClass('\App\Models\Definitions\Appliance')]
-#[UsesClass('\App\Models\Definitions\Autoupdatesystem')]
-#[UsesClass('\App\Models\Definitions\Certificate')]
-#[UsesClass('\App\Models\Definitions\Change')]
-#[UsesClass('\App\Models\Definitions\Computer')]
-#[UsesClass('\App\Models\Definitions\Computermodel')]
-#[UsesClass('\App\Models\Definitions\Computertype')]
-#[UsesClass('\App\Models\Definitions\Computervirtualmachine')]
-#[UsesClass('\App\Models\Definitions\Contract')]
-#[UsesClass('\App\Models\Definitions\Devicebattery')]
-#[UsesClass('\App\Models\Definitions\Devicecase')]
-#[UsesClass('\App\Models\Definitions\Devicecontrol')]
-#[UsesClass('\App\Models\Definitions\Devicedrive')]
-#[UsesClass('\App\Models\Definitions\Devicefirmware')]
-#[UsesClass('\App\Models\Definitions\Devicegeneric')]
-#[UsesClass('\App\Models\Definitions\Devicegraphiccard')]
-#[UsesClass('\App\Models\Definitions\Deviceharddrive')]
-#[UsesClass('\App\Models\Definitions\Devicememory')]
-#[UsesClass('\App\Models\Definitions\Devicememorymodel')]
-#[UsesClass('\App\Models\Definitions\Devicememorytype')]
-#[UsesClass('\App\Models\Definitions\Devicemotherboard')]
-#[UsesClass('\App\Models\Definitions\Devicenetworkcard')]
-#[UsesClass('\App\Models\Definitions\Devicepci')]
-#[UsesClass('\App\Models\Definitions\Devicepowersupply')]
-#[UsesClass('\App\Models\Definitions\Deviceprocessor')]
-#[UsesClass('\App\Models\Definitions\Devicesensor')]
-#[UsesClass('\App\Models\Definitions\Devicesimcard')]
-#[UsesClass('\App\Models\Definitions\Devicesoundcard')]
-#[UsesClass('\App\Models\Definitions\Document')]
-#[UsesClass('\App\Models\Definitions\Domain')]
-#[UsesClass('\App\Models\Definitions\Entity')]
-#[UsesClass('\App\Models\Definitions\Group')]
-#[UsesClass('\App\Models\Definitions\Infocom')]
-#[UsesClass('\App\Models\Definitions\Itemdisk')]
-#[UsesClass('\App\Models\Definitions\Knowledgebasearticle')]
-#[UsesClass('\App\Models\Definitions\Location')]
-#[UsesClass('\App\Models\Definitions\Manufacturer')]
-#[UsesClass('\App\Models\Definitions\Network')]
-#[UsesClass('\App\Models\Definitions\Notepad')]
-#[UsesClass('\App\Models\Definitions\Operatingsystem')]
-#[UsesClass('\App\Models\Definitions\Problem')]
-#[UsesClass('\App\Models\Definitions\Reservationitem')]
-#[UsesClass('\App\Models\Definitions\State')]
-#[UsesClass('\App\Models\Definitions\User')]
-#[UsesClass('\App\Models\Definitions\Monitor')]
-#[UsesClass('\App\Models\Definitions\Peripheral')]
-#[UsesClass('\App\Models\Definitions\Phone')]
-#[UsesClass('\App\Models\Definitions\Printer')]
-#[UsesClass('\App\Models\Devicememory')]
-#[UsesClass('\App\Models\Location')]
-#[UsesClass('\App\Models\Ticket')]
-#[UsesClass('\App\Traits\Relationships\Changes')]
-#[UsesClass('\App\Traits\Relationships\Contract')]
-#[UsesClass('\App\Traits\Relationships\Documents')]
-#[UsesClass('\App\Traits\Relationships\Entity')]
-#[UsesClass('\App\Traits\Relationships\Infocom')]
-#[UsesClass('\App\Traits\Relationships\Knowledgebasearticles')]
-#[UsesClass('\App\Traits\Relationships\Location')]
-#[UsesClass('\App\Traits\Relationships\Notes')]
-#[UsesClass('\App\Traits\Relationships\Problems')]
-#[UsesClass('\App\Traits\Relationships\Reservations')]
-#[UsesClass('\App\Traits\Relationships\Tickets')]
-#[UsesClass('\App\v1\Controllers\Common')]
-#[UsesClass('\App\v1\Controllers\Dropdown')]
-#[UsesClass('\App\v1\Controllers\Fusioninventory\Common')]
-#[UsesClass('\App\v1\Controllers\Fusioninventory\Validation')]
+#[CoversClass('\App\Models\Memoryslot')]
+#[CoversClass('\App\Models\Memorymodule')]
 
 final class ComputermemoryTest extends TestCase
 {
-  public static function speedProvider(): array
+  public static function setUpBeforeClass(): void
+  {
+    // delete computers
+    $computers = \App\Models\Computer::get();
+    foreach ($computers as $computer)
+    {
+      $computer->forceDelete();
+    }
+    $items = \App\Models\Memorymodule::get();
+    foreach ($items as $memorymodule)
+    {
+      $memorymodule->forceDelete();
+    }
+  }
+
+  protected function setUp(): void
+  {
+    // // delete computers
+    // $computers = \App\Models\Computer::get();
+    // foreach ($computers as $computer)
+    // {
+    //   $computer->forceDelete();
+    // }
+  }
+
+  public static function nameProvider(): array
   {
     return [
-      'unknown' => ['Unknown', null],
-      '800 MHz' => ['800 MHz', 800],
-      '333 MHz (3.0 ns)' => ['333 MHz (3.0 ns)', 333],
+      'Empty Slot'    => ['Empty Slot', 'Dummy Memory Module'],
+      'Unknown'       => [456, 'Dummy Memory Module'],
+      'sodimm 333MHz' => ['sodimm 333MHz', 'sodimm 333MHz'],
+      'empty value'   => ['', 'Dummy Memory Module'],
+      'null'          => [null, 'Dummy Memory Module'],
     ];
   }
 
-  #[DataProvider('speedProvider')]
-  public function testSpeeds($speed, $expected): void
+  #[DataProvider('nameProvider')]
+  public function testGetName($type, $expected)
   {
-    // delete computers
-    $computers = \App\Models\Computer::get();
-    foreach ($computers as $computer)
+    $computer = \App\Models\Computer::firstOrCreate(['name' => 'test']);
+    $computermemory = new \App\v1\Controllers\Fusioninventory\Computermemory($computer);
+    $reflection = new \ReflectionClass($computermemory);
+    $method = $reflection->getMethod('getName');
+    $method->setAccessible(true);
+  
+    $data = (object) [];
+    if (!is_null($type))
     {
-      $computer->forceDelete();
+      $data->TYPE = $type;
     }
 
-    $myData = [
-      'name' => 'testMemory',
-    ];
-    $computer = \App\Models\Computer::create($myData);
-
-    $data = (object) [
-      'CONTENT' => (object) [
-        'MEMORIES' => (object) [
-          'SPEED' => $speed,
-        ],
-      ],
-    ];
-
-    \App\v1\Controllers\Fusioninventory\Computermemory::parse($data, $computer);
-
-    $computer->refresh();
-
-    $items = $computer->memories()->get();
-    $this->assertEquals(1, count($items), 'Must have 1 memory');
-    $this->assertEquals('Dummy Memory Module', $items[0]->name, 'memory name not right');
-    $this->assertEquals($expected, $items[0]->frequence, 'Memory frequence not right');
+    $name = $method->invoke($computermemory, $data);
+    $this->assertEquals($expected, $name);
   }
 
-  public function testType(): void
+  public static function frequenceProvider(): array
   {
-    // delete computers
-    $computers = \App\Models\Computer::get();
-    foreach ($computers as $computer)
-    {
-      $computer->forceDelete();
-    }
-
-    $myData = [
-      'name' => 'testMemory',
+    return [
+      'only text'     => ['Only text', null],
+      'sodimm 333MHz' => ['sodimm 333MHz', null],
+      'empty value'   => ['', null],
+      '2600MHz'       => ['2600MHz', '2600'],
+      'integer'       => [2600, null],
+      '564'           => ['564', 564],
+      '56.4'          => ['56.4', 56],
+      'null'          => [null, null],
     ];
-    $computer = \App\Models\Computer::create($myData);
-
-    $data = (object) [
-      'CONTENT' => (object) [
-        'MEMORIES' => (object) [
-          'TYPE' => 'DDR2',
-        ],
-      ],
-    ];
-
-    \App\v1\Controllers\Fusioninventory\Computermemory::parse($data, $computer);
-
-    $computer->refresh();
-
-    $items = $computer->memories()->get();
-    $this->assertEquals(1, count($items), 'Must have 1 memory');
-    $this->assertEquals('DDR2', $items[0]->name, 'memory name not right');
-    $this->assertGreaterThan(0, $items[0]->devicememorytype_id);
-    $type = \App\Models\Devicememorytype::find($items[0]->devicememorytype_id);
-    $this->assertEquals('DDR2', $type->name, 'type name not right');
   }
 
-  public function testTwoMemories(): void
+  #[DataProvider('frequenceProvider')]
+  public function testGetFrequence($frequence, $expected)
   {
-    // delete computers
-    $computers = \App\Models\Computer::get();
-    foreach ($computers as $computer)
+    $computer = \App\Models\Computer::firstOrCreate(['name' => 'test']);
+    $computermemory = new \App\v1\Controllers\Fusioninventory\Computermemory($computer);
+    $reflection = new \ReflectionClass($computermemory);
+    $method = $reflection->getMethod('getFrequence');
+    $method->setAccessible(true);
+  
+    $data = (object) [];
+    if (!is_null($frequence))
     {
-      $computer->forceDelete();
+      $data->SPEED = $frequence;
     }
-    \App\Models\Devicememory::truncate();
 
-    $myData = [
-      'name' => 'testMemory',
+    $newFrequence = $method->invoke($computermemory, $data);
+    $this->assertEquals($expected, $newFrequence);
+  }
+
+  public static function memorysizeProvider(): array
+  {
+    return [
+      'only text'     => ['Only text', null],
+      'sodimm 333MHz' => ['sodimm 333MHz', null],
+      'empty value'   => ['', null],
+      '2600MHz'       => ['2600Mo', 2600],
+      'integer'       => [2600, null],
+      '564'           => ['564', 564],
+      '56.4'          => ['56.4', 56],
+      'null'          => [null, null],
     ];
-    $computer = \App\Models\Computer::create($myData);
+  }
 
-    $data = (object) [
-      'CONTENT' => (object) [
-        'MEMORIES' => [
-          (object) [
-            'TYPE' => 'DDR2',
-          ],
-          (object) [
-            'TYPE' => 'DDR2',
-          ],
-        ],
-      ],
+  #[DataProvider('memorysizeProvider')]
+  public function testGetmemorySize($size, $expected)
+  {
+    $computer = \App\Models\Computer::firstOrCreate(['name' => 'test']);
+    $computermemory = new \App\v1\Controllers\Fusioninventory\Computermemory($computer);
+    $reflection = new \ReflectionClass($computermemory);
+    $method = $reflection->getMethod('getMemorySize');
+    $method->setAccessible(true);
+  
+    $data = (object) [];
+    if (!is_null($size))
+    {
+      $data->CAPACITY = $size;
+    }
+
+    $size = $method->invoke($computermemory, $data);
+    $this->assertEquals($expected, $size);
+  }
+
+  public static function serialProvider(): array
+  {
+    return [
+      'only text'     => ['Only text', 'Only text'],
+      'RGTtG67D!'     => ['RGTtG67D!', 'RGTtG67D!'],
+      'empty value'   => ['', null],
+      '2600MHz'       => ['2600Mo', '2600Mo'],
+      'integer'       => [2600, null],
+      '564'           => ['564', '564'],
+      '56.4'          => ['56.4', '56.4'],
+      'null'          => [null, null],
     ];
+  }
 
-    \App\v1\Controllers\Fusioninventory\Computermemory::parse($data, $computer);
+  #[DataProvider('serialProvider')]
+  public function testGetSerial($serial, $expected)
+  {
+    $computer = \App\Models\Computer::firstOrCreate(['name' => 'test']);
+    $computermemory = new \App\v1\Controllers\Fusioninventory\Computermemory($computer);
+    $reflection = new \ReflectionClass($computermemory);
+    $method = $reflection->getMethod('getSerial');
+    $method->setAccessible(true);
+  
+    $data = (object) [];
+    if (!is_null($serial))
+    {
+      $data->SERIALNUMBER = $serial;
+    }
 
-    $computer->refresh();
+    $newSerial = $method->invoke($computermemory, $data);
+    $this->assertEquals($expected, $newSerial);
+  }
 
-    $items = $computer->memories()->get();
-    $this->assertEquals(2, count($items), 'Must have 2 memories');
-
-    // Now remove 1 memory and add two new
-
-    $data = (object) [
-      'CONTENT' => (object) [
-        'MEMORIES' => [
-          (object) [
-            'TYPE' => 'DDR3',
-          ],
-          (object) [
-            'TYPE' => 'DDR2',
-          ],
-          (object) [
-            'TYPE' => 'DDR3',
-          ],
-        ],
-      ],
+  // manufacturer
+  public static function manufacturerProvider(): array
+  {
+    return [
+      'only text'     => ['Only text', 'Only text'],
+      'empty value'   => ['', null],
+      '2600MHz'       => ['2600Mo', '2600Mo'],
+      'integer'       => [2600, null],
+      '564'           => ['564', '564'],
+      '56.4'          => ['56.4', '56.4'],
+      'null'          => [null, null],
+      'with space end' => ['intel ', 'intel'],
+      'same than previous but with upcase' => ['Intel ', 'intel'],
     ];
+  }
 
-    \App\v1\Controllers\Fusioninventory\Computermemory::parse($data, $computer);
+  #[DataProvider('manufacturerProvider')]
+  public function testGetManufacturer($manuName, $expected)
+  {
+    $computer = \App\Models\Computer::firstOrCreate(['name' => 'test']);
+    $computermemory = new \App\v1\Controllers\Fusioninventory\Computermemory($computer);
+    $reflection = new \ReflectionClass($computermemory);
+    $method = $reflection->getMethod('getmanufacturer');
+    $method->setAccessible(true);
+  
+    $data = (object) [];
+    if (!is_null($manuName))
+    {
+      $data->MANUFACTURER = $manuName;
+    }
 
-    $computer->refresh();
-
-    $items = $computer->memories()->orderBy('item_devicememory.id')->get();
-    $this->assertEquals(3, count($items), 'Must have 3 memories');
-
-    $this->assertEquals('DDR2', $items[0]->name, 'memory 2 name not right');
-    $this->assertGreaterThan(0, $items[0]->devicememorytype_id);
-    $type = \App\Models\Devicememorytype::find($items[0]->devicememorytype_id);
-    $this->assertEquals('DDR2', $type->name, 'type 2 name not right');
-    // $this->assertEquals(1, $items[0]->pivot->id, 'memory 2 intermediate id not right');
-
-    $this->assertEquals('DDR3', $items[1]->name, 'memory 1 name not right');
-    $this->assertGreaterThan(0, $items[1]->devicememorytype_id);
-    $type = \App\Models\Devicememorytype::find($items[1]->devicememorytype_id);
-    $this->assertEquals('DDR3', $type->name, 'type 1 name not right');
-    // $this->assertEquals(3, $items[1]->pivot->id, 'memory 1 intermediate id not right');
-
-    $this->assertEquals('DDR3', $items[2]->name, 'memory 3 name not right');
-    $this->assertGreaterThan(0, $items[2]->devicememorytype_id);
-    $type = \App\Models\Devicememorytype::find($items[2]->devicememorytype_id);
-    $this->assertEquals('DDR3', $type->name, 'type 3 name not right');
-    // $this->assertEquals(4, $items[2]->pivot->id, 'memory 3 intermediate id not right');
+    $manufacturerId = $method->invoke($computermemory, $data);
+    if (is_null($expected))
+    {
+      $this->assertEquals(0, $manufacturerId);
+    } else {
+      $manufacturer = \App\Models\Manufacturer::where('name', $expected)->first();
+      $this->assertNotNull($manufacturer);
+      $this->assertGreaterThan(0, $manufacturer->id);
+    }
   }
 }

@@ -7,7 +7,7 @@ namespace App\Models\Definitions;
 use App\DataInterface\Definition as Def;
 use App\DataInterface\DefinitionCollection;
 
-class Devicememorytype
+class Memorytype
 {
   public static function getDefinition(): DefinitionCollection
   {

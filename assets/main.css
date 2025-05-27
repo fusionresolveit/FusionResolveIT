@@ -362,3 +362,12 @@ blockquote {
   background-size: contain;
   display: inline-block;
 }
+
+.subcomponent > .card > .title {
+  min-height: 100px;
+  max-height: 100px;
+}
+
+.subcomponent > .card > .title > .meta {
+  margin-bottom: 10px;
+}

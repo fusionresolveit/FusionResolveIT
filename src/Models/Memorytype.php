@@ -7,14 +7,14 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Devicememorymodel extends Common
+class Memorytype extends Common
 {
   use SoftDeletes;
 
   use GetDropdownValues;
 
-  protected $definition = \App\Models\Definitions\Devicememorymodel::class;
-  protected $titles = ['Device memory model', 'Device memory models'];
+  protected $definition = \App\Models\Definitions\Memorytype::class;
+  protected $titles = ['Memory type', 'Memory types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 }

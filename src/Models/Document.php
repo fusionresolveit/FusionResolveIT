@@ -45,7 +45,7 @@ class Document extends Common
     'associatedDevicegenerics',
     'associatedDevicegraphiccards',
     'associatedDeviceharddrives',
-    'associatedDevicememories',
+    'associatedMemorymodules',
     'associatedDevicemotherboards',
     'associatedDevicenetworkcards',
     'associatedDevicepcis',
@@ -207,10 +207,10 @@ class Document extends Common
     return $this->morphedByMany(\App\Models\Deviceharddrive::class, 'item', 'document_item');
   }
 
-  /** @return MorphToMany<\App\Models\Devicememory, $this> */
-  public function associatedDevicememories(): MorphToMany
+  /** @return MorphToMany<\App\Models\Memorymodule, $this> */
+  public function associatedMemorymodules(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Devicememory::class, 'item', 'document_item');
+    return $this->morphedByMany(\App\Models\Memorymodule::class, 'item', 'document_item');
   }
 
   /** @return MorphToMany<\App\Models\Devicemotherboard, $this> */

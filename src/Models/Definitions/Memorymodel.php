@@ -7,7 +7,7 @@ namespace App\Models\Definitions;
 use App\DataInterface\Definition as Def;
 use App\DataInterface\DefinitionCollection;
 
-class Devicememorymodel
+class Memorymodel
 {
   public static function getDefinition(): DefinitionCollection
   {
@@ -39,7 +39,7 @@ class Devicememorymodel
     global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Device memory model', 'Device memory models', 1),
+        'title' => $translator->translatePlural('Memory model', 'Memory models', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],

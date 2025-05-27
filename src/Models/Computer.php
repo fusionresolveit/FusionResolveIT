@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Computer extends Common
@@ -47,7 +48,7 @@ class Computer extends Common
     'reservations',
     'softwareversions',
     'operatingsystems',
-    'memories',
+    'memoryslots',
     'firmwares',
     'processors',
     'harddrives',
@@ -129,7 +130,7 @@ class Computer extends Common
     'autoupdatesystem:id,name',
     'softwareversions:id,name',
     'operatingsystems:id,name',
-    'memories:id,name',
+    'memoryslots',
     'firmwares:id,name',
     'processors:id,name',
     'harddrives:id,name',
@@ -161,6 +162,10 @@ class Computer extends Common
     'devicedrives:id,name',
     'infocom',
     'reservations',
+  ];
+
+  protected $casts = [
+    'is_dynamic' => 'boolean',
   ];
 
   protected static function booted(): void
@@ -283,22 +288,12 @@ class Computer extends Common
     );
   }
 
-  /** @return MorphToMany<\App\Models\Devicememory, $this> */
-  public function memories(): MorphToMany
+  /** @return MorphMany<\App\Models\Memoryslot, $this> */
+  public function memoryslots(): MorphMany
   {
-    return $this->morphToMany(
-      \App\Models\Devicememory::class,
+    return $this->morphMany(
+      \App\Models\Memoryslot::class,
       'item',
-      'item_devicememory'
-    )->withPivot(
-      'devicememory_id',
-      'size',
-      'serial',
-      'busID',
-      'location_id',
-      'otherserial',
-      'state_id',
-      'id',
     );
   }
 

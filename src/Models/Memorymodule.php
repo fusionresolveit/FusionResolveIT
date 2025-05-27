@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
-class Devicememory extends Common
+class Memorymodule extends Common
 {
   use SoftDeletes;
   use CascadesDeletes;
@@ -19,16 +19,12 @@ class Devicememory extends Common
 
   use GetDropdownValues;
 
-  protected $definition = \App\Models\Definitions\Devicememory::class;
-  protected $titles = ['Memory', 'Memory'];
+  protected $definition = \App\Models\Definitions\Memorymodule::class;
+  protected $titles = ['Memory module', 'Memory module'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
-    'itemComputers',
-    'itemNetworkequipments',
-    'itemPeripherals',
-    'itemPrinters',
   ];
 
   protected $appends = [
@@ -43,6 +39,7 @@ class Devicememory extends Common
   ];
 
   protected $with = [
+    'memoryslot',
     'manufacturer:id,name',
     'type:id,name',
     'model:id,name',
@@ -50,22 +47,29 @@ class Devicememory extends Common
     'documents',
   ];
 
+
+  /** @return BelongsTo<\App\Models\Memoryslot, $this> */
+  public function memoryslot(): BelongsTo
+  {
+    return $this->belongsTo(\App\Models\Memoryslot::class);
+  }
+
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Manufacturer::class);
   }
 
-  /** @return BelongsTo<\App\Models\Devicememorytype, $this> */
+  /** @return BelongsTo<\App\Models\Memorytype, $this> */
   public function type(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\Devicememorytype::class, 'devicememorytype_id');
+    return $this->belongsTo(\App\Models\Memorytype::class, 'memorytype_id');
   }
 
-  /** @return BelongsTo<\App\Models\Devicememorymodel, $this> */
+  /** @return BelongsTo<\App\Models\Memorymodel, $this> */
   public function model(): BelongsTo
   {
-    return $this->belongsTo(\App\Models\Devicememorymodel::class, 'devicememorymodel_id');
+    return $this->belongsTo(\App\Models\Memorymodel::class, 'memorymodel_id');
   }
 
   /** @return MorphToMany<\App\Models\Computer, $this> */
