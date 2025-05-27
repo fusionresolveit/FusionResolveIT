@@ -168,6 +168,7 @@ class App
         __DIR__ . '/../public/assets/manifest.json',
         __DIR__ . '/../public/'
       ));
+      $uri = $request->getUri();
 
       // Manage JWT token
       if (get_class($exception) == 'JimTools\JwtAuth\Exceptions\AuthorizationException')
@@ -208,6 +209,15 @@ class App
         $response = $app->getResponseFactory()->createResponse();
         $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
         return $response->withStatus($exception->getCode())->withHeader('Content-Type', 'application/xml');
+      }
+      elseif ($uri->getPath() == $basePath . '/api/v1/fusioninventory')
+      {
+        $payload = [
+          'ERROR' => $exception->getMessage(),
+        ];
+        $response = $app->getResponseFactory()->createResponse();
+        $response->getBody()->write(ArrayToXml::convert($payload, 'REPLY'));
+        return $response->withStatus(500)->withHeader('Content-Type', 'application/xml');
       }
 
       if ($exception->getCode() == 401)

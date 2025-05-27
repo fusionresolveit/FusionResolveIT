@@ -29,20 +29,38 @@ final class Computer extends \App\v1\Controllers\Common
     }
 
     if (
-        !Validation::attrStrNotempty('NAME')->isValid($dataObject->CONTENT->HARDWARE) ||
-        !Validation::attrStrNotempty('SSN')->isValid($dataObject->CONTENT->BIOS)
+        !property_exists($dataObject, 'CONTENT') ||
+        !property_exists($dataObject->CONTENT, 'HARDWARE') ||
+        !Validation::attrStrNotempty('NAME')->isValid($dataObject->CONTENT->HARDWARE)
     )
     {
-      return;
+      throw new FusioninventoryXmlException('Data not right, missing HARDWARE/NAME element', 400);
     }
 
-    $computer = \App\Models\Computer::where('serial', $dataObject->CONTENT->BIOS->SSN)
-    ->withOnly([
-      'processors',
-      'softwareversions',
-      'manufacturer',
-      'type'
-    ])->first();
+    if (
+        property_exists($dataObject->CONTENT, 'BIOS') &&
+        property_exists($dataObject->CONTENT->BIOS, 'SSN') &&
+        !empty($dataObject->CONTENT->BIOS->SSN)
+    )
+    {
+      $computer = \App\Models\Computer::where('serial', $dataObject->CONTENT->BIOS->SSN)
+        ->withOnly([
+          'processors',
+          'softwareversions',
+          'manufacturer',
+          'type'
+        ])
+        ->first();
+    } else {
+      $computer = \App\Models\Computer::where('name', $dataObject->CONTENT->HARDWARE->NAME)
+        ->withOnly([
+          'processors',
+          'softwareversions',
+          'manufacturer',
+          'type'
+        ])
+        ->first();
+    }
     if (is_null($computer))
     {
       $computer = new \App\Models\Computer();
@@ -50,7 +68,14 @@ final class Computer extends \App\v1\Controllers\Common
 
     $computer->name = $dataObject->CONTENT->HARDWARE->NAME;
     // $computer->uuid = $dataObj->CONTENT->HARDWARE->UUID;
-    $computer->serial = $dataObject->CONTENT->BIOS->SSN;
+    if (
+        property_exists($dataObject->CONTENT, 'BIOS') &&
+        property_exists($dataObject->CONTENT->BIOS, 'SSN') &&
+        !empty($dataObject->CONTENT->BIOS->SSN)
+    )
+    {
+      $computer->serial = $dataObject->CONTENT->BIOS->SSN;
+    }
     $computer->otherserial = $this->getOtherSerial($dataObject);
     $computer->manufacturer_id = $this->getManufacturer($dataObject);
     $computer->computertype_id = $this->getType($dataObject);
