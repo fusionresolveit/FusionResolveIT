@@ -1,14 +1,12 @@
 {{ include('header.html.twig') }}
 {{ include('headerForm.html.twig') }}
 
-
-
-<div class="ui stackable cards">
+<div class="ui stackable cards subcomponent">
   {% for firmware in data.firmwares|sort((a, b) => a.firmware.name|lower <=> b.firmware.name|lower) %}
     <div class="ui {{ firmware.color }} card">
-      <div class="content">
-        <div class="header">{{ firmware.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ firmware.color }} text">{{ translation.firmware }}</span></div>
+        <div class="header">{{ firmware.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -105,9 +103,9 @@
 
   {% for processor in data.processors|sort((a, b) => a.processor.name|lower <=> b.processor.name|lower) %}
     <div class="ui {{ processor.color }} card">
-      <div class="content">
-        <div class="header">{{ processor.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ processor.color }} text">{{ translation.processor }}</span></div>
+        <div class="header">{{ processor.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -204,114 +202,110 @@
 
   {% for memory in data.memories|sort((a, b) => a.memory.name|lower <=> b.memory.name|lower) %}
     <div class="ui {{ memory.color }} card">
-      <div class="content">
-        <div class="header">{{ memory.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ memory.color }} text">{{ translation.memory }}</span></div>
+        <div class="header">{{ memory.name }}</div>
       </div>
       <div class="content">
-        <div class="ui relaxed list">
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.manufacturer }}</a>
-              <div class="description">
-                {% if memory.manufacturer_url != '' %}
-                  <a href="{{ memory.manufacturer_url }}">{{ memory.manufacturer }}</a>
-                {% else %}
-                  <span>{{ memory.manufacturer }}</span>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.type }}</a>
-              <div class="description">
-                {% if memory.type_url != '' %}
-                  <a href="{{ memory.type_url }}">{{ memory.type }}</a>
-                {% else %}
-                  <span>{{ memory.type }}</span>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.frequence }}</a>
-              <div class="description">{{ memory.frequence }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.size }}</a>
-              <div class="description">{{ memory.size }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.serial }}</a>
-              <div class="description">{{ memory.serial }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.inventaire_number }}</a>
-              <div class="description">{{ memory.otherserial }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.location }}</a>
-              <div class="description">
-                {% if memory.location_url != '' %}
-                  <a href="{{ memory.location_url }}">{{ memory.location }}</a>
-                {% else %}
-                  <span>{{ memory.location }}</span>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.status }}</a>
-              <div class="description">
-                {% if memory.state_url != '' %}
-                  <a href="{{ memory.state_url }}">{{ memory.state }}</a>
-                {% else %}
-                  <span>{{ memory.state }}</span>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.busID }}</a>
-              <div class="description">{{ memory.busID }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <a class="header">{{ translation.documents }}</a>
-              {% for document in memory.documents %}
+        {% if memory.is_empty is same as(false) %}
+          <div class="ui relaxed list">
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.manufacturer }}</a>
                 <div class="description">
-                  {% if document.url != '' %}
-                    <a href="{{ document.url }}">{{ document.name }}</a>
+                  {% if memory.manufacturer_url != '' %}
+                    <a href="{{ memory.manufacturer_url }}">{{ memory.manufacturer }}</a>
                   {% else %}
-                    <span>{{ document.name }}</span>
+                    <span>{{ memory.manufacturer }}</span>
                   {% endif %}
                 </div>
-              {% endfor %}
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.type }}</a>
+                <div class="description">
+                  {% if memory.type_url != '' %}
+                    <a href="{{ memory.type_url }}">{{ memory.type }}</a>
+                  {% else %}
+                    <span>{{ memory.type }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.frequence }}</a>
+                <div class="description">{{ memory.frequence }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.size }}</a>
+                <div class="description">{{ memory.size }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.serial }}</a>
+                <div class="description">{{ memory.serial }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.inventaire_number }}</a>
+                <div class="description">{{ memory.otherserial }}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.location }}</a>
+                <div class="description">
+                  {% if memory.location_url != '' %}
+                    <a href="{{ memory.location_url }}">{{ memory.location }}</a>
+                  {% else %}
+                    <span>{{ memory.location }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.status }}</a>
+                <div class="description">
+                  {% if memory.state_url != '' %}
+                    <a href="{{ memory.state_url }}">{{ memory.state }}</a>
+                  {% else %}
+                    <span>{{ memory.state }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a class="header">{{ translation.documents }}</a>
+                {% for document in memory.documents %}
+                  <div class="description">
+                    {% if document.url != '' %}
+                      <a href="{{ document.url }}">{{ document.name }}</a>
+                    {% else %}
+                      <span>{{ document.name }}</span>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
-        </div>
+        {% endif %}
       </div>
     </div>
   {% endfor %}
 
   {% for harddrive in data.harddrives|sort((a, b) => a.harddrive.name|lower <=> b.harddrive.name|lower) %}
     <div class="ui {{ harddrive.color }} card">
-      <div class="content">
-        <div class="header">{{ harddrive.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ harddrive.color }} text">{{ translation.harddrive }}</span></div>
+        <div class="header">{{ harddrive.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -420,9 +414,9 @@
 
   {% for battery in data.batteries|sort((a, b) => a.battery.name|lower <=> b.battery.name|lower) %}
     <div class="ui {{ battery.color }} card">
-      <div class="content">
-        <div class="header">{{ battery.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ battery.color }} text">{{ translation.battery }}</span></div>
+        <div class="header">{{ battery.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -525,9 +519,9 @@
 
   {% for soundcard in data.soundcards|sort((a, b) => a.soundcard.name|lower <=> b.soundcard.name|lower) %}
     <div class="ui {{ soundcard.color }} card">
-      <div class="content">
-        <div class="header">{{ soundcard.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ soundcard.color }} text">{{ translation.soundcard }}</span></div>
+        <div class="header">{{ soundcard.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -612,9 +606,9 @@
 
   {% for controller in data.controllers|sort((a, b) => a.controller.name|lower <=> b.controller.name|lower) %}
     <div class="ui {{ controller.color }} card">
-      <div class="content">
-        <div class="header">{{ controller.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ controller.color }} text">{{ translation.controller }}</span></div>
+        <div class="header">{{ controller.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -705,9 +699,9 @@
 
   {% for powersupply in data.powersupplies|sort((a, b) => a.powersupply.name|lower <=> b.powersupply.name|lower) %}
     <div class="ui {{ powersupply.color }} card">
-      <div class="content">
-        <div class="header">{{ powersupply.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ powersupply.color }} text">{{ translation.powersupply }}</span></div>
+        <div class="header">{{ powersupply.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -780,9 +774,9 @@
 
   {% for sensor in data.sensors|sort((a, b) => a.sensor.name|lower <=> b.sensor.name|lower) %}
     <div class="ui {{ sensor.color }} card">
-      <div class="content">
-        <div class="header">{{ sensor.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ sensor.color }} text">{{ translation.sensor }}</span></div>
+        <div class="header">{{ sensor.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -855,9 +849,9 @@
 
   {% for devicepci in data.devicepcis|sort((a, b) => a.devicepci.name|lower <=> b.devicepci.name|lower) %}
     <div class="ui {{ devicepci.color }} card">
-      <div class="content">
-        <div class="header">{{ devicepci.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicepci.color }} text">{{ translation.devicepci }}</span></div>
+        <div class="header">{{ devicepci.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -924,9 +918,9 @@
 
   {% for devicegeneric in data.devicegenerics|sort((a, b) => a.devicegeneric.name|lower <=> b.devicegeneric.name|lower) %}
     <div class="ui {{ devicegeneric.color }} card">
-      <div class="content">
-        <div class="header">{{ devicegeneric.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicegeneric.color }} text">{{ translation.devicegeneric }}</span></div>
+        <div class="header">{{ devicegeneric.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -999,9 +993,9 @@
 
   {% for devicenetworkcard in data.devicenetworkcards|sort((a, b) => a.devicenetworkcard.name|lower <=> b.devicenetworkcard.name|lower) %}
     <div class="ui {{ devicenetworkcard.color }} card">
-      <div class="content">
-        <div class="header">{{ devicenetworkcard.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicenetworkcard.color }} text">{{ translation.devicenetworkcard }}</span></div>
+        <div class="header">{{ devicenetworkcard.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -1092,9 +1086,9 @@
 
   {% for devicesimcard in data.devicesimcards|sort((a, b) => a.devicesimcard.name|lower <=> b.devicesimcard.name|lower) %}
     <div class="ui {{ devicesimcard.color }} card">
-      <div class="content">
-        <div class="header">{{ devicesimcard.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicesimcard.color }} text">{{ translation.devicesimcard }}</span></div>
+        <div class="header">{{ devicesimcard.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -1197,9 +1191,9 @@
 
   {% for devicemotherboard in data.devicemotherboards|sort((a, b) => a.devicemotherboard.name|lower <=> b.devicemotherboard.name|lower) %}
     <div class="ui {{ devicemotherboard.color }} card">
-      <div class="content">
-        <div class="header">{{ devicemotherboard.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicemotherboard.color }} text">{{ translation.devicemotherboard }}</span></div>
+        <div class="header">{{ devicemotherboard.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -1272,9 +1266,9 @@
 
   {% for devicecase in data.devicecases|sort((a, b) => a.devicecase.name|lower <=> b.devicecase.name|lower) %}
     <div class="ui {{ devicecase.color }} card">
-      <div class="content">
-        <div class="header">{{ devicecase.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicecase.color }} text">{{ translation.devicecase }}</span></div>
+        <div class="header">{{ devicecase.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -1349,9 +1343,9 @@
 
   {% for devicegraphiccard in data.devicegraphiccards|sort((a, b) => a.devicegraphiccard.name|lower <=> b.devicegraphiccard.name|lower) %}
     <div class="ui {{ devicegraphiccard.color }} card">
-      <div class="content">
-        <div class="header">{{ devicegraphiccard.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicegraphiccard.color }} text">{{ translation.devicegraphiccard }}</span></div>
+        <div class="header">{{ devicegraphiccard.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -1454,9 +1448,9 @@
 
   {% for devicedrive in data.devicedrives|sort((a, b) => a.devicedrive.name|lower <=> b.devicedrive.name|lower) %}
     <div class="ui {{ devicedrive.color }} card">
-      <div class="content">
-        <div class="header">{{ devicedrive.name }}</div>
+      <div class="content title">
         <div class="meta"><span class="ui {{ devicedrive.color }} text">{{ translation.devicedrive }}</span></div>
+        <div class="header">{{ devicedrive.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">

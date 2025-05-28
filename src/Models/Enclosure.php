@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -36,7 +37,7 @@ class Enclosure extends Common
     'changes',
     'infocom',
     'contracts',
-    'memories',
+    'memoryslots',
     'firmwares',
     'processors',
     'harddrives',
@@ -71,7 +72,7 @@ class Enclosure extends Common
     'tickets',
     'problems',
     'changes',
-    'memories',
+    'memoryslots',
     'firmwares',
     'processors',
     'harddrives',
@@ -104,7 +105,7 @@ class Enclosure extends Common
     'tickets:id,name',
     'problems:id,name',
     'changes:id,name',
-    'memories:id,name',
+    'memoryslots',
     'firmwares:id,name',
     'processors:id,name',
     'harddrives:id,name',
@@ -154,22 +155,12 @@ class Enclosure extends Common
     return $this->belongsTo(\App\Models\User::class, 'user_id_tech');
   }
 
-  /** @return MorphToMany<\App\Models\Devicememory, $this> */
-  public function memories(): MorphToMany
+  /** @return MorphMany<\App\Models\Memoryslot, $this> */
+  public function memoryslots(): MorphMany
   {
-    return $this->morphToMany(
-      \App\Models\Devicememory::class,
+    return $this->morphMany(
+      \App\Models\Memoryslot::class,
       'item',
-      'item_devicememory'
-    )->withPivot(
-      'devicememory_id',
-      'size',
-      'serial',
-      'busID',
-      'location_id',
-      'otherserial',
-      'state_id',
-      'id',
     );
   }
 

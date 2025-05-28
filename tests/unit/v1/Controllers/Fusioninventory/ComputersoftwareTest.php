@@ -35,7 +35,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass('\App\Models\Definitions\Devicegeneric')]
 #[UsesClass('\App\Models\Definitions\Devicegraphiccard')]
 #[UsesClass('\App\Models\Definitions\Deviceharddrive')]
-#[UsesClass('\App\Models\Definitions\Devicememory')]
 #[UsesClass('\App\Models\Definitions\Devicemotherboard')]
 #[UsesClass('\App\Models\Definitions\Devicenetworkcard')]
 #[UsesClass('\App\Models\Definitions\Devicepci')]

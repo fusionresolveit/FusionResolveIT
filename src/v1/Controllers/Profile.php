@@ -369,7 +369,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
       \App\Models\Deviceharddrive::class,
       \App\Models\Devicefirmware::class,
       \App\Models\Devicedrive::class,
-      \App\Models\Devicememory::class,
+      \App\Models\Memorymodule::class,
       \App\Models\Deviceprocessor::class,
       \App\Models\Devicepci::class,
       \App\Models\Devicesimcard::class,

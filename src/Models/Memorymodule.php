@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
-class Devicememory extends Common
+class Memorymodule extends Common
 {
   use SoftDeletes;
   use CascadesDeletes;
@@ -19,16 +19,12 @@ class Devicememory extends Common
 
   use GetDropdownValues;
 
-  protected $definition = \App\Models\Definitions\Devicememory::class;
-  protected $titles = ['Memory', 'Memory'];
+  protected $definition = \App\Models\Definitions\Memorymodule::class;
+  protected $titles = ['Memory module', 'Memory module'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
-    'itemComputers',
-    'itemNetworkequipments',
-    'itemPeripherals',
-    'itemPrinters',
   ];
 
   protected $appends = [
@@ -43,12 +39,20 @@ class Devicememory extends Common
   ];
 
   protected $with = [
+    'memoryslot',
     'manufacturer:id,name',
     'type:id,name',
     'model:id,name',
     'entity:id,name,completename',
     'documents',
   ];
+
+
+  /** @return BelongsTo<\App\Models\Memoryslot, $this> */
+  public function memoryslot(): BelongsTo
+  {
+    return $this->belongsTo(\App\Models\Memoryslot::class);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
