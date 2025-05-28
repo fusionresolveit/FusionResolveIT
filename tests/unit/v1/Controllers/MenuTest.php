@@ -60,7 +60,6 @@ use Tests\Traits\HttpTestTrait;
 #[UsesClass('\App\Models\Definitions\Devicegeneric')]
 #[UsesClass('\App\Models\Definitions\Devicegraphiccard')]
 #[UsesClass('\App\Models\Definitions\Deviceharddrive')]
-#[UsesClass('\App\Models\Definitions\Devicememory')]
 #[UsesClass('\App\Models\Definitions\Devicememorymodel')]
 #[UsesClass('\App\Models\Definitions\Devicememorytype')]
 #[UsesClass('\App\Models\Definitions\Devicemotherboard')]

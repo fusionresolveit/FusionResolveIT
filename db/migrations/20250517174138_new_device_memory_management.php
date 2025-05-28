@@ -10,24 +10,8 @@ use Phinx\Config\Config;
 
 final class NewDeviceMemoryManagement extends AbstractMigration
 {
-  public function change(): void
+  public function up(): void
   {
-
-    // create empty devicememories to be able attach to computer
-    // add is_empty in devicememories
-    // move size and serial from item_devicememory to devicememories
-    // [OK] remove size_default in devicememories
-    // move location_id and state_id form item_devicememory to devicememories
-    // move otherserial from item_devicememory to devicememories
-    // remove entity_id and is_recursive from item_devicememory
-
-    //  => memory module into memory slot
-    // create new tables to replace devicememories and item_devicememory:
-    //   * memoryslots
-    //   * memorymodules
-
-
-
     $table = $this->table('memoryslots');
     $table->addColumn('item_id', 'integer', ['null' => false, 'default' => '0'])
           ->addColumn('item_type', 'string', ['null' => true])
@@ -60,48 +44,6 @@ final class NewDeviceMemoryManagement extends AbstractMigration
           ->addColumn('updated_at', 'timestamp', ['null' => true])
           ->addColumn('deleted_at', 'timestamp', ['null' => true])
           ->create();
-  
-
-      // root@localhost [fusionresolveit]> select * from devicememories limit 1 \G
-      // *************************** 1. row ***************************
-      //                   id: 1
-      //                 name: DDR3
-      //              comment: NULL
-      //           created_at: 2025-04-14 18:00:06
-      //           updated_at: 2025-04-14 18:00:06
-      //           deleted_at: NULL
-      //            entity_id: 1
-      //         is_recursive: 0
-      //            frequence: 1600
-      //      manufacturer_id: 0
-      //         size_default: 0
-      //  devicememorytype_id: 1
-      // devicememorymodel_id: 1
-      // 1 row in set (0.000 sec)
-       
-      // root@localhost [fusionresolveit]> select * from item_devicememory limit 1 \G
-      // *************************** 1. row ***************************
-      //              id: 41
-      //      created_at: NULL
-      //      updated_at: NULL
-      //      deleted_at: NULL
-      //       entity_id: 1
-      //    is_recursive: 0
-      //         item_id: 3
-      //       item_type: App\Models\Computer
-      // devicememory_id: 38
-      //            size: 0
-      //          serial: NULL
-      //      is_dynamic: 1
-      //           busID: 2
-      //     otherserial: NULL
-      //     location_id: 0
-      //        state_id: 0
-      // 1 row in set (0.000 sec)
-
-
-// MOVE data
-// recreate devicememories and attach to the item_devicememory
 
     $memoryslots = $this->table('memoryslots');
     $memorymodules = $this->table('memorymodules');
@@ -151,14 +93,147 @@ final class NewDeviceMemoryManagement extends AbstractMigration
         }
       }
     }
- 
-// TODO remove fields in item_devicememory
 
     // change profilerights
-    $this->execute('UPDATE profilerights SET model = ? WHERE model = ?', ["App\Models\Memorymodule", "App\Models\Devicememory"]);
+    $this->execute(
+      'UPDATE profilerights SET model = ? WHERE model = ?',
+      ["App\Models\Memorymodule", "App\Models\Devicememory"]
+    );
 
     // change displaypreferences
-    $this->execute('UPDATE displaypreferences SET itemtype = ? WHERE itemtype = ?', ["App\Models\Memorymodule", "App\Models\Devicememory"]);
+    $this->execute(
+      'UPDATE displaypreferences SET itemtype = ? WHERE itemtype = ?',
+      ["App\Models\Memorymodule", "App\Models\Devicememory"]
+    );
 
+    $this->execute('DROP TABLE item_devicememory');
+    $this->execute('DROP TABLE devicememories');
+  }
+
+  public function down(): void
+  {
+    $table = $this->table('item_devicememory');
+    $table->addColumn('created_at', 'timestamp', ['null' => true])
+          ->addColumn('updated_at', 'timestamp', ['null' => true])
+          ->addColumn('deleted_at', 'timestamp', ['null' => true])
+          ->addColumn('entity_id', 'integer', ['null' => false, 'default' => 1])
+          ->addColumn('is_recursive', 'boolean', ['null' => false, 'default' => '0'])
+          ->addColumn('item_id', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('item_type', 'string', ['null' => true])
+          ->addColumn('devicememory_id', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('size', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('serial', 'string', ['null' => true])
+          ->addColumn('is_dynamic', 'boolean', ['null' => false, 'default' => false])
+          ->addColumn('busID', 'string', ['null' => true])
+          ->addColumn('otherserial', 'string', ['null' => true])
+          ->addColumn('location_id', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('state_id', 'integer', ['null' => false, 'default' => '0'])
+          ->addIndex(['item_id'])
+          ->addIndex(['devicememory_id'])
+          ->addIndex(['size'])
+          ->addIndex(['is_dynamic'])
+          ->addIndex(['serial'])
+          ->addIndex(['entity_id'])
+          ->addIndex(['is_recursive'])
+          ->addIndex(['busID'])
+          ->addIndex(['item_type', 'item_id'])
+          ->addIndex(['otherserial'])
+          ->addIndex(['location_id'])
+          ->addIndex(['state_id'])
+          ->addIndex(['created_at'])
+          ->addIndex(['updated_at'])
+          ->addIndex(['deleted_at'])
+          ->create();
+
+    $table = $this->table('devicememories');
+    $table->addColumn('name', 'string', ['null' => true])
+          ->addColumn('comment', 'text', ['null' => true])
+          ->addColumn('created_at', 'timestamp', ['null' => true])
+          ->addColumn('updated_at', 'timestamp', ['null' => true])
+          ->addColumn('deleted_at', 'timestamp', ['null' => true])
+          ->addColumn('entity_id', 'integer', ['null' => false, 'default' => 1])
+          ->addColumn('is_recursive', 'boolean', ['null' => false, 'default' => false])
+          ->addColumn('frequence', 'string', ['null' => true])
+          ->addColumn('manufacturer_id', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('size_default', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('devicememorytype_id', 'integer', ['null' => false, 'default' => '0'])
+          ->addColumn('devicememorymodel_id', 'integer', ['null' => true])
+          ->addIndex(['name'])
+          ->addIndex(['manufacturer_id'])
+          ->addIndex(['devicememorytype_id'])
+          ->addIndex(['entity_id'])
+          ->addIndex(['is_recursive'])
+          ->addIndex(['devicememorymodel_id'])
+          ->addIndex(['created_at'])
+          ->addIndex(['updated_at'])
+          ->addIndex(['deleted_at'])
+          ->create();
+
+    $item_devicememory = $this->table('item_devicememory');
+    $devicememories = $this->table('devicememories');
+
+    $stmt = $this->query('SELECT * FROM memoryslots');
+    $rows = $stmt->fetchAll();
+    foreach ($rows as $row)
+    {
+      $dataItem = [
+        'item_id'     => $row['item_id'],
+        'item_type'   => $row['item_type'],
+        'is_dynamic'  => $row['is_dynamic'],
+        'busID'       => $row['slotnumber'],
+        'created_at'  => $row['created_at'],
+        'updated_at'  => $row['updated_at'],
+      ];
+
+      $stmtModules = $this->query('SELECT * FROM memorymodules WHERE memoryslot_id=' . $row['id']);
+      $rowsModules = $stmtModules->fetchAll();
+      $id = 0;
+      foreach ($rowsModules as $rowModule)
+      {
+        $data = [
+          'size_default'          => $rowModule['size'],
+          'frequence'             => $rowModule['frequence'],
+          'manufacturer_id'       => $rowModule['manufacturer_id'],
+          'devicememorymodel_id'  => $rowModule['devicememorymodel_id'],
+          'devicememorytype_id'   => $rowModule['devicememorytype_id'],
+          'created_at'            => $rowModule['created_at'],
+          'updated_at'            => $rowModule['updated_at'],
+          'entity_id'             => $rowModule['entity_id'],
+          'is_recursive'          => $rowModule['is_recursive'],
+        ];
+        $dataItem['size'] = $rowModule['size'];
+        $dataItem['serial'] = $rowModule['serial'];
+        $dataItem['otherserial'] = $rowModule['otherserial'];
+        $dataItem['state_id'] = $rowModule['state_id'];
+        $dataItem['location_id'] = $rowModule['location_id'];
+
+        $devicememories->insert($data)
+                        ->saveData();
+        $id = $this->getAdapter()->getConnection()->lastInsertId();
+
+        break;
+      }
+      if ($id > 0)
+      {
+        $dataItem['devicememory_id'] = $id;
+      }
+      $item_devicememory->insert($dataItem)
+                        ->saveData();
+    }
+
+    // change profilerights
+    $this->execute(
+      'UPDATE profilerights SET model = ? WHERE model = ?',
+      ["App\Models\Devicememory", "App\Models\Memorymodule"]
+    );
+
+    // change displaypreferences
+    $this->execute(
+      'UPDATE displaypreferences SET itemtype = ? WHERE itemtype = ?',
+      ["App\Models\Devicememory", "App\Models\Memorymodule"]
+    );
+
+    $this->execute('DROP TABLE memoryslots');
+    $this->execute('DROP TABLE memorymodules');
   }
 }
