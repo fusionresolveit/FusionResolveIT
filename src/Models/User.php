@@ -76,6 +76,7 @@ class User extends Common
 
   protected $casts = [
     'is_active' => 'boolean',
+    'dark_mode' => 'boolean',
   ];
 
   /** @return BelongsTo<\App\Models\Usercategory, $this> */

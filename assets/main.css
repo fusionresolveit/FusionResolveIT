@@ -105,8 +105,8 @@ blockquote {
   background-color: #ffffff;
 }
 
-.pageheader .inverted {
-  background-color: #232b32;
+.pageheader.inverted {
+  background-color: #1b1c1d;
 }
 
 .treelvl1 {

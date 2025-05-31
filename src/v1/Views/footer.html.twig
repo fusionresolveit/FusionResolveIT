@@ -113,7 +113,14 @@
       return;
     }
 
-    darkmodeEnabled = false;
+    {% if header.darkMode %}
+      darkmodeEnabled = true;
+    {% else %}
+      darkmodeEnabled = false;
+    {% endif %}
+    if (darkmodeEnabled) {
+        toggleDarkMode();
+    }
     $('#darkmode').click(function ()
     {
       if (darkmodeEnabled)
@@ -124,6 +131,7 @@
         toggleDarkMode();
         darkmodeEnabled = true;
       }
+      $.post('{{ header.rootpath }}/view/darkmode', {}); 
     });
 
     $('#headerChangeEntity').click(function ()

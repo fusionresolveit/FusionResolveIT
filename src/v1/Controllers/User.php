@@ -643,4 +643,19 @@ final class User extends Common implements \App\Interfaces\Crud
     $user->refreshtoken = null;
     $user->save();
   }
+
+  /**
+   * @param array<string, string> $args
+   */
+  public function toggleDarkmode(Request $request, Response $response, array $args): Response
+  {
+    $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+    if (!is_null($user))
+    {
+      $user->dark_mode = !$user->dark_mode;
+      $user->save();
+    }
+    return $response
+      ->withStatus(200);
+  }
 }
