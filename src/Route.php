@@ -99,6 +99,8 @@ final class Route
       $view->map(['GET'], '/home', \App\v1\Controllers\Home::class . ':homepage');
       $view->map(['POST'], '/home/switch', \App\v1\Controllers\Home::class . ':switchHomepage');
 
+      $view->map(['POST'], '/darkmode', \App\v1\Controllers\User::class . ':toggleDarkmode');
+
       $view->group('/computers', function (RouteCollectorProxy $computers)
       {
         $computers->map(['GET'], '', \App\v1\Controllers\Computer::class . ':showAll');

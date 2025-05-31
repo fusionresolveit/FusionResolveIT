@@ -124,6 +124,7 @@ class App
 
       $whiteList = [
         $basePath . '/api/v1/fusioninventory',
+        $basePath . '/view/darkmode',
       ];
       $uri = $request->getUri();
       if (

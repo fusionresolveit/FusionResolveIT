@@ -20,19 +20,13 @@ class JwtBeforeHandler implements BeforeHandlerInterface
     {
       throw new \Exception('JWT error, user not exists', 400);
     }
-    // $jwtid = $myUser->getPropertyAttribute('userjwtid');
-    // if (is_null($jwtid) || $jwtid != $arguments['decoded']['jti'])
-    // {
-    //   throw new Exception('jti changed, ask for a new token ' . $myUser['jwtid'] . ' != ' .
-    //                       $arguments['decoded']['jti'], 401);
-    // }
-
     $GLOBALS['user_id'] = $arguments['decoded']['user_id'];
     $GLOBALS['username'] = $myUser->completename;
     $GLOBALS['profile_id'] = $arguments['decoded']['profile_id'];
     $GLOBALS['entity_id'] = $arguments['decoded']['entity_id'];
     $GLOBALS['entity_treepath'] = $arguments['decoded']['entity_treepath'];
     $GLOBALS['entity_recursive'] = $arguments['decoded']['entity_recursive'];
+    $GLOBALS['dark_mode'] = $myUser->getAttribute('dark_mode');
 
     return $request;
   }

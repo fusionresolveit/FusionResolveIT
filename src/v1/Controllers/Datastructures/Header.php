@@ -48,6 +48,7 @@ trait Header
     {
       $this->header->color = 'red';
     }
+    $this->header->darkMode = $GLOBALS['dark_mode'];
   }
 
   public function addHeaderTitle(string $title): void
