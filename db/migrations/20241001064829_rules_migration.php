@@ -55,11 +55,11 @@ final class RulesMigration extends AbstractMigration
             'match'         => $row['match'],
             'is_active'     => $row['is_active'],
             'comment'       => $row['comment'],
-            'updated_at'    => Toolbox::fixDate($row['date_mod']),
+            'updated_at'    => $this->fixDate($row['date_mod']),
             'is_recursive'  => $row['is_recursive'],
             'uuid'          => $row['uuid'],
             'condition'     => $row['condition'],
-            'created_at'    => Toolbox::fixDate($row['date_creation']),
+            'created_at'    => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -73,5 +73,17 @@ final class RulesMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

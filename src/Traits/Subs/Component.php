@@ -22,9 +22,9 @@ trait Component
 
     $myItem = $item::with(
       'memoryslots',
-      'firmwares',
+      'firmware',
       'processors',
-      'harddrives',
+      'storages',
       'batteries',
       'soundcards',
       'controllers',
@@ -50,9 +50,9 @@ trait Component
 
     $colorTab = [];
     $colorTab['memories'] = 'red';
-    $colorTab['firmwares'] = 'orange';
+    $colorTab['firmware'] = 'orange';
     $colorTab['processors'] = 'olive';
-    $colorTab['harddrives'] = 'teal';
+    $colorTab['storages'] = 'teal';
     $colorTab['batteries'] = 'blue';
     $colorTab['soundcards'] = 'purple';
     $colorTab['controllers'] = 'red';
@@ -172,84 +172,76 @@ trait Component
       return $item1['slotnumber'] <=> $item2['slotnumber'];
     });
 
-    $myFirmwares = [];
-    foreach ($myItem->firmwares as $firmware)
-    {
-      $location = '';
-      $location_url = '';
+    $myFirmware = [];
+    // foreach ($myItem->firmware as $firmware)
+    // {
+    //   $location = '';
+    //   $location_url = '';
 
-      $loc = \App\Models\Location::where('id', $firmware->getRelationValue('pivot')->location_id)->first();
-      if (!is_null($loc))
-      {
-        $location = $loc->name;
-        $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
-      }
+    //   $loc = \App\Models\Location::where('id', $firmware->getRelationValue('pivot')->location_id)->first();
+    //   if (!is_null($loc))
+    //   {
+    //     $location = $loc->name;
+    //     $location_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/locations/', $loc->id);
+    //   }
 
-      $manufacturer = '';
-      $manufacturer_url = '';
-      if ($firmware->manufacturer !== null)
-      {
-        $manufacturer = $firmware->manufacturer->name;
-        $manufacturer_url = $this->genereRootUrl2Link(
-          $rootUrl2,
-          '/dropdowns/manufacturers/',
-          $firmware->manufacturer->id
-        );
-      }
+    //   $manufacturer = '';
+    //   $manufacturer_url = '';
+    //   if ($firmware->manufacturer !== null)
+    //   {
+    //     $manufacturer = $firmware->manufacturer->name;
+    //     $manufacturer_url = $this->genereRootUrl2Link(
+    //       $rootUrl2,
+    //       '/dropdowns/manufacturers/',
+    //       $firmware->manufacturer->id
+    //     );
+    //   }
 
-      $type = '';
-      $type_url = '';
-      if ($firmware->type !== null)
-      {
-        $type = $firmware->type->name;
-        $type_url = $this->genereRootUrl2Link($rootUrl2, '/devices/devicefirmwaretypes/', $firmware->type->id);
-      }
+    //   $serial = $firmware->getRelationValue('pivot')->serial;
 
-      $serial = $firmware->getRelationValue('pivot')->serial;
+    //   $otherserial = $firmware->getRelationValue('pivot')->otherserial;
 
-      $otherserial = $firmware->getRelationValue('pivot')->otherserial;
+    //   $state = '';
+    //   $state_url = '';
+    //   $status = \App\Models\State::where('id', $firmware->getRelationValue('pivot')->state_id)->first();
+    //   if ($status !== null)
+    //   {
+    //     $state = $status->name;
+    //     $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
+    //   }
 
-      $state = '';
-      $state_url = '';
-      $status = \App\Models\State::where('id', $firmware->getRelationValue('pivot')->state_id)->first();
-      if ($status !== null)
-      {
-        $state = $status->name;
-        $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
-      }
+    //   $documents = [];
+    //   if ($firmware->documents !== null)
+    //   {
+    //     foreach ($firmware->documents as $document)
+    //     {
+    //       $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $document->id);
 
-      $documents = [];
-      if ($firmware->documents !== null)
-      {
-        foreach ($firmware->documents as $document)
-        {
-          $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $document->id);
+    //       $documents[$document->id] = [
+    //         'name'  => $document->name,
+    //         'url'   => $url,
+    //       ];
+    //     }
+    //   }
 
-          $documents[$document->id] = [
-            'name'  => $document->name,
-            'url'   => $url,
-          ];
-        }
-      }
-
-      $myFirmwares[] = [
-        'name'                => $firmware->name,
-        'manufacturer'        => $manufacturer,
-        'manufacturer_url'    => $manufacturer_url,
-        'type'                => $type,
-        'type_url'            => $type_url,
-        'version'             => $firmware->version,
-        'date'                => $firmware->date,
-        'location'            => $location,
-        'location_url'        => $location_url,
-        'serial'              => $serial,
-        'otherserial'         => $otherserial,
-        'state'               => $state,
-        'state_url'           => $state_url,
-        'documents'           => $documents,
-        'color'               => $colorTab['firmwares'],
-      ];
-    }
+      // $myFirmware[] = [
+      //   'name'                => $firmware->name,
+      //   'manufacturer'        => $manufacturer,
+      //   'manufacturer_url'    => $manufacturer_url,
+      //   'type'                => $type,
+      //   'type_url'            => $type_url,
+      //   'version'             => $firmware->version,
+      //   'date'                => $firmware->date,
+      //   'location'            => $location,
+      //   'location_url'        => $location_url,
+      //   'serial'              => $serial,
+      //   'otherserial'         => $otherserial,
+      //   'state'               => $state,
+      //   'state_url'           => $state_url,
+      //   'documents'           => $documents,
+      //   'color'               => $colorTab['firmware'],
+      // ];
+    // }
 
     $myProcessors = [];
     foreach ($myItem->processors as $processor)
@@ -288,7 +280,8 @@ trait Component
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $processor->getRelationValue('pivot')->busID;
+      // $busID = $processor->getRelationValue('pivot')->busID;
+      $busID = 0;
 
       $documents = [];
       if ($processor->documents !== null)
@@ -323,12 +316,12 @@ trait Component
       ];
     }
 
-    $myHarddrives = [];
-    foreach ($myItem->harddrives as $harddrive)
+    $myStorages = [];
+    foreach ($myItem->storages as $storage)
     {
       $location = '';
       $location_url = '';
-      $loc = \App\Models\Location::where('id', $harddrive->getRelationValue('pivot')->location_id)->first();
+      $loc = \App\Models\Location::where('id', $storage->location_id)->first();
       if ($loc !== null)
       {
         $location = $loc->name;
@@ -337,43 +330,41 @@ trait Component
 
       $manufacturer = '';
       $manufacturer_url = '';
-      if ($harddrive->manufacturer !== null)
+      if ($storage->manufacturer !== null)
       {
-        $manufacturer = $harddrive->manufacturer->name;
+        $manufacturer = $storage->manufacturer->name;
         $manufacturer_url = $this->genereRootUrl2Link(
           $rootUrl2,
           '/dropdowns/manufacturers/',
-          $harddrive->manufacturer->id
+          $storage->manufacturer->id
         );
       }
 
       $interface = '';
       $interface_url = '';
-      if ($harddrive->interface !== null)
+      if ($storage->interface !== null)
       {
-        $interface = $harddrive->interface->name;
-        $interface_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/interfacetypes/', $harddrive->interface->id);
+        $interface = $storage->interface->name;
+        $interface_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/interfacetypes/', $storage->interface->id);
       }
 
-      $serial = $harddrive->getRelationValue('pivot')->serial;
+      $serial = $storage->serial;
 
-      $otherserial = $harddrive->getRelationValue('pivot')->otherserial;
+      $otherserial = $storage->otherserial;
 
       $state = '';
       $state_url = '';
-      $status = \App\Models\State::where('id', $harddrive->getRelationValue('pivot')->state_id)->first();
+      $status = \App\Models\State::where('id', $storage->state_id)->first();
       if ($status !== null)
       {
         $state = $status->name;
         $state_url = $this->genereRootUrl2Link($rootUrl2, '/dropdowns/states/', $status->id);
       }
 
-      $busID = $harddrive->getRelationValue('pivot')->busID;
-
       $documents = [];
-      if ($harddrive->documents !== null)
+      if ($storage->documents !== null)
       {
-        foreach ($harddrive->documents as $document)
+        foreach ($storage->documents as $document)
         {
           $url = $this->genereRootUrl2Link($rootUrl2, '/documents/', $document->id);
 
@@ -384,24 +375,23 @@ trait Component
         }
       }
 
-      $myHarddrives[] = [
-        'name'                => $harddrive->name,
+      $myStorages[] = [
+        'name'                => $storage->name,
         'manufacturer'        => $manufacturer,
         'manufacturer_url'    => $manufacturer_url,
-        'rpm'                 => $harddrive->rpm,
-        'cache'               => $harddrive->cache,
+        'rpm'                 => $storage->rpm,
+        'cache'               => $storage->cache,
         'interface'           => $interface,
         'interface_url'       => $interface_url,
-        'capacity'            => $harddrive->getRelationValue('pivot')->capacity,
+        'capacity'            => $storage->size,
         'location'            => $location,
         'location_url'        => $location_url,
         'serial'              => $serial,
         'otherserial'         => $otherserial,
         'state'               => $state,
         'state_url'           => $state_url,
-        'busID'               => $busID,
         'documents'           => $documents,
-        'color'               => $colorTab['harddrives'],
+        'color'               => $colorTab['storages'],
       ];
     }
 
@@ -1367,9 +1357,9 @@ trait Component
 
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('memories', $myMemories);
-    $viewData->addData('firmwares', $myFirmwares);
+    $viewData->addData('firmware', $myFirmware);
     $viewData->addData('processors', $myProcessors);
-    $viewData->addData('harddrives', $myHarddrives);
+    $viewData->addData('storages', $myStorages);
     $viewData->addData('batteries', $myBatteries);
     $viewData->addData('soundcards', $mySoundcards);
     $viewData->addData('controllers', $myControllers);
@@ -1405,7 +1395,7 @@ trait Component
     );
     $viewData->addTranslation('nbcores', $translator->translate('Number of cores'));
     $viewData->addTranslation('nbthreads', $translator->translate('Number of threads'));
-    $viewData->addTranslation('harddrive', $translator->translatePlural('Hard drive', 'Hard drives', 1));
+    $viewData->addTranslation('storage', $translator->translatePlural('Storage', 'Storages', 1));
     $viewData->addTranslation('rpm', $translator->translate('Rpm'));
     $viewData->addTranslation('cache', $translator->translate('Cache'));
     $viewData->addTranslation('interface', $translator->translate('Interface'));

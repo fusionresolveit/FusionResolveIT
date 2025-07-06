@@ -2801,28 +2801,6 @@ final class Route
         });
       });
 
-      $view->group('/deviceharddrivemodels', function (RouteCollectorProxy $deviceharddrivemodels)
-      {
-        $deviceharddrivemodels->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':showAll');
-        $deviceharddrivemodels->group("/new", function (RouteCollectorProxy $dhdmodelNew)
-        {
-          $dhdmodelNew->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':showNewItem');
-          $dhdmodelNew->map(['POST'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':newItem');
-        });
-
-        $deviceharddrivemodels->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceharddrivemodelId)
-        {
-          $deviceharddrivemodelId->map(['GET'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':showItem');
-          $deviceharddrivemodelId->map(['POST'], '', \App\v1\Controllers\Deviceharddrivemodel::class . ':updateItem');
-          $deviceharddrivemodelId->group('/', function (RouteCollectorProxy $sub)
-          {
-            $sub->map(['GET'], 'delete', \App\v1\Controllers\Deviceharddrivemodel::class . ':deleteItem');
-            $sub->map(['GET'], 'restore', \App\v1\Controllers\Deviceharddrivemodel::class . ':restoreItem');
-            $sub->map(['GET'], 'history', \App\v1\Controllers\Deviceharddrivemodel::class . ':showSubHistory');
-          });
-        });
-      });
-
       $view->group('/memorymodels', function (RouteCollectorProxy $memorymodels)
       {
         $memorymodels->map(['GET'], '', \App\v1\Controllers\Memorymodel::class . ':showAll');
@@ -4194,71 +4172,50 @@ final class Route
           });
         });
 
-        $devices->group('/deviceharddrives', function (RouteCollectorProxy $deviceharddrives)
+        $devices->group('/storages', function (RouteCollectorProxy $storages)
         {
-          $deviceharddrives->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':showAll');
-          $deviceharddrives->group("/new", function (RouteCollectorProxy $harddriveNew)
+          $storages->map(['GET'], '', \App\v1\Controllers\Storage::class . ':showAll');
+          $storages->group("/new", function (RouteCollectorProxy $storageNew)
           {
-            $harddriveNew->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':showNewItem');
-            $harddriveNew->map(['POST'], '', \App\v1\Controllers\Deviceharddrive::class . ':newItem');
+            $storageNew->map(['GET'], '', \App\v1\Controllers\Storage::class . ':showNewItem');
+            $storageNew->map(['POST'], '', \App\v1\Controllers\Storage::class . ':newItem');
           });
 
-          $deviceharddrives->group("/{id:[0-9]+}", function (RouteCollectorProxy $deviceharddriveId)
+          $storages->group("/{id:[0-9]+}", function (RouteCollectorProxy $storageId)
           {
-            $deviceharddriveId->map(['GET'], '', \App\v1\Controllers\Deviceharddrive::class . ':showItem');
-            $deviceharddriveId->map(['POST'], '', \App\v1\Controllers\Deviceharddrive::class . ':updateItem');
-            $deviceharddriveId->group('/', function (RouteCollectorProxy $sub)
+            $storageId->map(['GET'], '', \App\v1\Controllers\Storage::class . ':showItem');
+            $storageId->map(['POST'], '', \App\v1\Controllers\Storage::class . ':updateItem');
+            $storageId->group('/', function (RouteCollectorProxy $sub)
             {
-              $sub->map(['GET'], 'delete', \App\v1\Controllers\Deviceharddrive::class . ':deleteItem');
-              $sub->map(['GET'], 'restore', \App\v1\Controllers\Deviceharddrive::class . ':restoreItem');
-              $sub->map(['GET'], 'documents', \App\v1\Controllers\Deviceharddrive::class . ':showSubDocuments');
-              $sub->map(['GET'], 'items', \App\v1\Controllers\Deviceharddrive::class . ':showSubItems');
-              $sub->map(['GET'], 'history', \App\v1\Controllers\Deviceharddrive::class . ':showSubHistory');
+              $sub->map(['GET'], 'delete', \App\v1\Controllers\Storage::class . ':deleteItem');
+              $sub->map(['GET'], 'restore', \App\v1\Controllers\Storage::class . ':restoreItem');
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Storage::class . ':showSubDocuments');
+              $sub->map(['GET'], 'items', \App\v1\Controllers\Storage::class . ':showSubItems');
+              $sub->map(['GET'], 'history', \App\v1\Controllers\Storage::class . ':showSubHistory');
             });
           });
         });
 
-        $devices->group('/devicefirmwares', function (RouteCollectorProxy $devicefirmwares)
+        $devices->group('/firmware', function (RouteCollectorProxy $firmware)
         {
-          $devicefirmwares->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':showAll');
-          $devicefirmwares->group("/new", function (RouteCollectorProxy $dfNew)
+          $firmware->map(['GET'], '', \App\v1\Controllers\Firmware::class . ':showAll');
+          $firmware->group("/new", function (RouteCollectorProxy $dfNew)
           {
-            $dfNew->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':showNewItem');
-            $dfNew->map(['POST'], '', \App\v1\Controllers\Devicefirmware::class . ':newItem');
+            $dfNew->map(['GET'], '', \App\v1\Controllers\Firmware::class . ':showNewItem');
+            $dfNew->map(['POST'], '', \App\v1\Controllers\Firmware::class . ':newItem');
           });
 
-          $devicefirmwares->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicefirmwareId)
+          $firmware->group("/{id:[0-9]+}", function (RouteCollectorProxy $firmwareId)
           {
-            $devicefirmwareId->map(['GET'], '', \App\v1\Controllers\Devicefirmware::class . ':showItem');
-            $devicefirmwareId->map(['POST'], '', \App\v1\Controllers\Devicefirmware::class . ':updateItem');
-            $devicefirmwareId->group('/', function (RouteCollectorProxy $sub)
+            $firmwareId->map(['GET'], '', \App\v1\Controllers\Firmware::class . ':showItem');
+            $firmwareId->map(['POST'], '', \App\v1\Controllers\Firmware::class . ':updateItem');
+            $firmwareId->group('/', function (RouteCollectorProxy $sub)
             {
-              $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicefirmware::class . ':deleteItem');
-              $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicefirmware::class . ':restoreItem');
-              $sub->map(['GET'], 'documents', \App\v1\Controllers\Devicefirmware::class . ':showSubDocuments');
-              $sub->map(['GET'], 'items', \App\v1\Controllers\Devicefirmware::class . ':showSubItems');
-              $sub->map(['GET'], 'history', \App\v1\Controllers\Devicefirmware::class . ':showSubHistory');
-            });
-          });
-        });
-
-        $devices->group('/devicefirmwaretypes', function (RouteCollectorProxy $devicefirmwaretypes)
-        {
-          $devicefirmwaretypes->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':showAll');
-          $devicefirmwaretypes->group("/new", function (RouteCollectorProxy $dftypeNew)
-          {
-            $dftypeNew->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':showNewItem');
-            $dftypeNew->map(['POST'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':newItem');
-          });
-
-          $devicefirmwaretypes->group("/{id:[0-9]+}", function (RouteCollectorProxy $devicefirmwaretypeId)
-          {
-            $devicefirmwaretypeId->map(['GET'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':showItem');
-            $devicefirmwaretypeId->map(['POST'], '', \App\v1\Controllers\Devicefirmwaretype::class . ':updateItem');
-            $devicefirmwaretypeId->group('/', function (RouteCollectorProxy $sub)
-            {
-              $sub->map(['GET'], 'delete', \App\v1\Controllers\Devicefirmwaretype::class . ':deleteItem');
-              $sub->map(['GET'], 'restore', \App\v1\Controllers\Devicefirmwaretype::class . ':restoreItem');
+              $sub->map(['GET'], 'delete', \App\v1\Controllers\Firmware::class . ':deleteItem');
+              $sub->map(['GET'], 'restore', \App\v1\Controllers\Firmware::class . ':restoreItem');
+              $sub->map(['GET'], 'documents', \App\v1\Controllers\Firmware::class . ':showSubDocuments');
+              $sub->map(['GET'], 'items', \App\v1\Controllers\Firmware::class . ':showSubItems');
+              $sub->map(['GET'], 'history', \App\v1\Controllers\Firmware::class . ':showSubHistory');
             });
           });
         });

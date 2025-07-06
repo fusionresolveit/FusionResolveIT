@@ -60,8 +60,8 @@ final class CrontasksMigration extends AbstractMigration
             'lastrun'       => $row['lastrun'],
             'lastcode'      => $row['lastcode'],
             'comment'       => $row['comment'],
-            'updated_at'    => Toolbox::fixDate($row['date_mod']),
-            'created_at'    => Toolbox::fixDate($row['date_creation']),
+            'updated_at'    => $this->fixDate($row['date_mod']),
+            'created_at'    => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -93,5 +93,17 @@ final class CrontasksMigration extends AbstractMigration
     }
 
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

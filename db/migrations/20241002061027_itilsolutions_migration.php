@@ -52,9 +52,9 @@ final class ItilsolutionsMigration extends AbstractMigration
             'solutiontype_id'     => $row['solutiontypes_id'],
             'solutiontype_name'   => $row['solutiontype_name'],
             'content'             => Toolbox::convertHtmlToMarkdown($row['content']),
-            'created_at'          => Toolbox::fixDate($row['date_creation']),
-            'updated_at'          => Toolbox::fixDate($row['date_mod']),
-            'date_approval'       => Toolbox::fixDate($row['date_approval']),
+            'created_at'          => $this->fixDate($row['date_creation']),
+            'updated_at'          => $this->fixDate($row['date_mod']),
+            'date_approval'       => $this->fixDate($row['date_approval']),
             'user_id'             => $row['users_id'],
             'user_name'           => $row['user_name'],
             'user_id_editor'      => $row['users_id_editor'],
@@ -93,5 +93,17 @@ final class ItilsolutionsMigration extends AbstractMigration
     }
 
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return $value;
+    }
+    return Toolbox::fixDate($value);
   }
 }

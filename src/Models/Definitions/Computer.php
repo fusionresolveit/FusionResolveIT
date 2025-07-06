@@ -39,6 +39,7 @@ class Computer
       'comment' => $translator->translate('Comments'),
       'updated_at' => $translator->translate('Last update'),
       'created_at' => $translator->translate('Creation date'),
+      'firmware' => $translator->translatePlural('Firmware', 'Firmware', 1),
     ];
 
     $defColl = new DefinitionCollection();
@@ -87,6 +88,15 @@ class Computer
       dbname: 'computermodel_id',
       itemtype: '\App\Models\Computermodel',
       fillable: true
+    ));
+    $defColl->add(new Def(
+      1001,
+      $t['firmware'],
+      'dropdown_remote',
+      'firmware',
+      dbname: 'firmware_id',
+      itemtype: '\App\Models\Firmware',
+      fillable: true,
     ));
     $defColl->add(new Def(5, $t['serial'], 'input', 'serial', fillable: true));
     $defColl->add(new Def(6, $t['otherserial'], 'input', 'otherserial', fillable: true));

@@ -54,8 +54,8 @@ final class TicketvalidationsMigration extends AbstractMigration
             'comment_submission'  => $row['comment_submission'],
             'comment_validation'  => $row['comment_validation'],
             'status'              => $row['status'],
-            'submission_date'     => Toolbox::fixDate($row['submission_date']),
-            'validation_date'     => Toolbox::fixDate($row['validation_date']),
+            'submission_date'     => $this->fixDate($row['submission_date']),
+            'validation_date'     => $this->fixDate($row['validation_date']),
             'timeline_position'   => $row['timeline_position'],
           ]
         ];
@@ -70,5 +70,17 @@ final class TicketvalidationsMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

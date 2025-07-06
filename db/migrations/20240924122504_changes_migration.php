@@ -44,6 +44,43 @@ final class ChangesMigration extends AbstractMigration
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
+        $updated_at = null;
+        $date = null;
+        $solvedate = null;
+        $closedate = null;
+        $time_to_resolve = null;
+        $begin_waiting_date = null;
+        $created_at = null;
+
+        if (!is_null($row['date_mod']))
+        {
+          $updated_at = Toolbox::fixDate($row['date_mod']);
+        }
+        if (!is_null($row['date']))
+        {
+          $date = Toolbox::fixDate($row['date']);
+        }
+        if (!is_null($row['solvedate']))
+        {
+          $solvedate = Toolbox::fixDate($row['solvedate']);
+        }
+        if (!is_null($row['closedate']))
+        {
+          $closedate = Toolbox::fixDate($row['closedate']);
+        }
+        if (!is_null($row['time_to_resolve']))
+        {
+          $time_to_resolve = Toolbox::fixDate($row['time_to_resolve']);
+        }
+        if (!is_null($row['begin_waiting_date']))
+        {
+          $begin_waiting_date = Toolbox::fixDate($row['begin_waiting_date']);
+        }
+        if (!is_null($row['date_creation']))
+        {
+          $created_at = Toolbox::fixDate($row['date_creation']);
+        }
+
         $data = [
           [
             'id'                  => $row['id'],
@@ -51,31 +88,31 @@ final class ChangesMigration extends AbstractMigration
             'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],
             'status'              => $row['status'],
-            'content'             => Toolbox::convertHtmlToMarkdown($row['content']),
-            'updated_at'          => Toolbox::fixDate($row['date_mod']),
-            'date'                => Toolbox::fixDate($row['date']),
-            'solvedate'           => Toolbox::fixDate($row['solvedate']),
-            'closedate'           => Toolbox::fixDate($row['closedate']),
-            'time_to_resolve'     => Toolbox::fixDate($row['time_to_resolve']),
+            'content'             => $this->convertHtmlToMarkdown($row['content']),
+            'updated_at'          => $updated_at,
+            'date'                => $date,
+            'solvedate'           => $solvedate,
+            'closedate'           => $closedate,
+            'time_to_resolve'     => $time_to_resolve,
             'user_id_recipient'   => $row['users_id_recipient'],
             'user_id_lastupdater' => $row['users_id_lastupdater'],
             'urgency'             => $row['urgency'],
             'impact'              => $row['impact'],
             'priority'            => $row['priority'],
             'category_id'         => $row['itilcategories_id'],
-            'impactcontent'       => Toolbox::convertHtmlToMarkdown($row['impactcontent']),
-            'controlistcontent'   => Toolbox::convertHtmlToMarkdown($row['controlistcontent']),
-            'rolloutplancontent'  => Toolbox::convertHtmlToMarkdown($row['rolloutplancontent']),
-            'backoutplancontent'  => Toolbox::convertHtmlToMarkdown($row['backoutplancontent']),
-            'checklistcontent'    => Toolbox::convertHtmlToMarkdown($row['checklistcontent']),
+            'impactcontent'       => $this->convertHtmlToMarkdown($row['impactcontent']),
+            'controlistcontent'   => $this->convertHtmlToMarkdown($row['controlistcontent']),
+            'rolloutplancontent'  => $this->convertHtmlToMarkdown($row['rolloutplancontent']),
+            'backoutplancontent'  => $this->convertHtmlToMarkdown($row['backoutplancontent']),
+            'checklistcontent'    => $this->convertHtmlToMarkdown($row['checklistcontent']),
             'global_validation'   => $row['global_validation'],
             'validation_percent'  => $row['validation_percent'],
             'actiontime'          => $row['actiontime'],
-            'begin_waiting_date'  => Toolbox::fixDate($row['begin_waiting_date']),
+            'begin_waiting_date'  => $begin_waiting_date,
             'waiting_duration'    => $row['waiting_duration'],
             'close_delay_stat'    => $row['close_delay_stat'],
             'solve_delay_stat'    => $row['solve_delay_stat'],
-            'created_at'          => Toolbox::fixDate($row['date_creation']),
+            'created_at'          => $created_at,
             'deleted_at'          => self::convertIsDeleted($row['is_deleted']),
           ]
         ];
@@ -100,5 +137,17 @@ final class ChangesMigration extends AbstractMigration
     }
 
     return null;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function convertHtmlToMarkdown($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::convertHtmlToMarkdown($value);
   }
 }

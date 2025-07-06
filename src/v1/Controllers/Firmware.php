@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use App\DataInterface\PostDevicefirmware;
+use App\DataInterface\PostFirmware;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
@@ -14,7 +14,7 @@ use App\Traits\Subs\Item;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class Devicefirmware extends Common implements \App\Interfaces\Crud
+final class Firmware extends Common implements \App\Interfaces\Crud
 {
   // Display
   use ShowItem;
@@ -26,13 +26,13 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
   use History;
   use Item;
 
-  protected $model = \App\Models\Devicefirmware::class;
-  protected $rootUrl2 = '/devices/devicefirmwares/';
-  protected $choose = 'devicefirmwares';
+  protected $model = \App\Models\Firmware::class;
+  protected $rootUrl2 = '/devices/firmware/';
+  protected $choose = 'firmware';
 
-  protected function instanciateModel(): \App\Models\Devicefirmware
+  protected function instanciateModel(): \App\Models\Firmware
   {
-    return new \App\Models\Devicefirmware();
+    return new \App\Models\Firmware();
   }
 
   /**
@@ -62,24 +62,24 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
   {
     global $basePath;
 
-    $data = new PostDevicefirmware((object) $request->getParsedBody());
+    $data = new PostFirmware((object) $request->getParsedBody());
 
-    $devicefirmware = new \App\Models\Devicefirmware();
+    $firmware = new \App\Models\Firmware();
 
     if (!$this->canRightCreate())
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    if (!\App\v1\Controllers\Profile::canRightReadItem($devicefirmware))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($firmware))
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicefirmware = \App\Models\Devicefirmware::create($data->exportToArray());
+    $firmware = \App\Models\Firmware::create($data->exportToArray());
 
     \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been created successfully');
-    \App\v1\Controllers\Notification::prepareNotification($devicefirmware, 'new');
+    \App\v1\Controllers\Notification::prepareNotification($firmware, 'new');
 
     $data = (object) $request->getParsedBody();
 
@@ -87,12 +87,12 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
     {
       $uri = $request->getUri();
       return $response
-        ->withHeader('Location', $basePath . '/view/devicefirmwares/' . $devicefirmware->id)
+        ->withHeader('Location', $basePath . '/view/firmware/' . $firmware->id)
         ->withStatus(302);
     }
 
     return $response
-      ->withHeader('Location', $basePath . '/view/devicefirmwares')
+      ->withHeader('Location', $basePath . '/view/firmware')
       ->withStatus(302);
   }
 
@@ -101,7 +101,7 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
    */
   public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $data = new PostDevicefirmware((object) $request->getParsedBody());
+    $data = new PostFirmware((object) $request->getParsedBody());
     $id = intval($args['id']);
 
     if (!$this->canRightCreate())
@@ -109,20 +109,20 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicefirmware = \App\Models\Devicefirmware::where('id', $id)->first();
-    if (is_null($devicefirmware))
+    $firmware = \App\Models\Firmware::where('id', $id)->first();
+    if (is_null($firmware))
     {
       throw new \Exception('Id not found', 404);
     }
-    if (!\App\v1\Controllers\Profile::canRightReadItem($devicefirmware))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($firmware))
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $devicefirmware->update($data->exportToArray());
+    $firmware->update($data->exportToArray());
 
     \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been updated successfully');
-    \App\v1\Controllers\Notification::prepareNotification($devicefirmware, 'update');
+    \App\v1\Controllers\Notification::prepareNotification($firmware, 'update');
 
     $uri = $request->getUri();
     return $response
@@ -138,30 +138,30 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
     global $basePath;
 
     $id = intval($args['id']);
-    $devicefirmware = \App\Models\Devicefirmware::withTrashed()->where('id', $id)->first();
-    if (is_null($devicefirmware))
+    $firmware = \App\Models\Firmware::withTrashed()->where('id', $id)->first();
+    if (is_null($firmware))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($devicefirmware->trashed())
+    if ($firmware->trashed())
     {
       if (!$this->canRightDelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $devicefirmware->forceDelete();
+      $firmware->forceDelete();
       \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been deleted successfully');
 
       return $response
-        ->withHeader('Location', $basePath . '/view/devicefirmwares')
+        ->withHeader('Location', $basePath . '/view/firmware')
         ->withStatus(302);
     } else {
       if (!$this->canRightSoftdelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $devicefirmware->delete();
+      $firmware->delete();
       \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been soft deleted successfully');
     }
 
@@ -176,19 +176,19 @@ final class Devicefirmware extends Common implements \App\Interfaces\Crud
   public function restoreItem(Request $request, Response $response, array $args): Response
   {
     $id = intval($args['id']);
-    $devicefirmware = \App\Models\Devicefirmware::withTrashed()->where('id', $id)->first();
-    if (is_null($devicefirmware))
+    $firmware = \App\Models\Firmware::withTrashed()->where('id', $id)->first();
+    if (is_null($firmware))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($devicefirmware->trashed())
+    if ($firmware->trashed())
     {
       if (!$this->canRightSoftdelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $devicefirmware->restore();
+      $firmware->restore();
       \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been restored successfully');
     }
 

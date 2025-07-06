@@ -343,7 +343,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
     global $translator, $basePath;
 
     $myItem = \App\Models\Computer::
-        with('operatingsystems', 'memoryslots', 'processors', 'harddrives')
+        with('operatingsystems', 'memoryslots', 'processors', 'storages')
       ->withTrashed()
       ->where('id', $item->id)
       ->first();
@@ -453,17 +453,17 @@ final class Computer extends Common implements \App\Interfaces\Crud
       ];
     }
 
-    foreach ($myItem->harddrives as $harddrive)
+    foreach ($myItem->storages as $storage)
     {
       $tabInfos[] = [
-        'key'   => 'harddrive_' . $harddrive->id,
-        'value' => $translator->translatePlural('Hard drive', 'Hard drives', 1) . ' : ' . $harddrive->name,
+        'key'   => 'storage_' . $storage->id,
+        'value' => $translator->translatePlural('Hard drive', 'Hard drives', 1) . ' : ' . $storage->name,
         'link'  => $basePath . '/view/computers/' . $item->id . '/components',
       ];
       $tabInfos[] = [
-        'key'   => 'harddrive_' . $harddrive->id . '_capacity',
+        'key'   => 'storage_' . $storage->id . '_capacity',
         'value' => ' - ' . $translator->translate('Capacité (Mio)') . ' : ' .
-                   $harddrive->getRelationValue('pivot')->capacity,
+                   $storage->size,
         'link'  => null,
       ];
     }

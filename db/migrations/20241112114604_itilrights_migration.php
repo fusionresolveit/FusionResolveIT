@@ -41,7 +41,12 @@ final class ItilrightsMigration extends AbstractMigration
         {
           $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [true, $item['id']]);
         } else {
-          $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [false, $item['id']]);
+          if ($configArray['environments'][$configArray['environments']['default_environment']]['adapter'] == 'pgsql')
+          {
+            $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [false, $item['id']]);
+          } else {
+            $this->execute('UPDATE profilerights SET `read` = ? WHERE id = ?', [0, $item['id']]);
+          }
         }
         if (intval($item['rights']) & $oldRights['readmygroupitems'])
         {

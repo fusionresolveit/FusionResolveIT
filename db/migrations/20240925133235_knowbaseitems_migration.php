@@ -53,11 +53,11 @@ final class KnowbaseitemsMigration extends AbstractMigration
             'is_faq'                  => $row['is_faq'],
             'user_id'                 => $row['users_id'],
             'view'                    => $row['view'],
-            'date'                    => Toolbox::fixDate($row['date']),
-            'updated_at'              => Toolbox::fixDate($row['date_mod']),
-            'begin_date'              => Toolbox::fixDate($row['begin_date']),
-            'end_date'                => Toolbox::fixDate($row['end_date']),
-            'created_at'              => Toolbox::fixDate($row['date_mod']),
+            'date'                    => $this->fixDate($row['date']),
+            'updated_at'              => $this->fixDate($row['date_mod']),
+            'begin_date'              => $this->fixDate($row['begin_date']),
+            'end_date'                => $this->fixDate($row['end_date']),
+            'created_at'              => $this->fixDate($row['date_mod']),
           ]
         ];
         $item->insert($data)
@@ -71,5 +71,17 @@ final class KnowbaseitemsMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

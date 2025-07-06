@@ -50,14 +50,14 @@ final class DevicefirmwaresMigration extends AbstractMigration
             'name'                    => $row['designation'],
             'comment'                 => $row['comment'],
             'manufacturer_id'         => $row['manufacturers_id'],
-            'date'                    => Toolbox::fixDate($row['date']),
+            'date'                    => $this->fixDate($row['date']),
             'version'                 => $row['version'],
             'devicefirmwaretype_id'   => $row['devicefirmwaretypes_id'],
             'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'devicefirmwaremodel_id'  => $row['devicefirmwaremodels_id'],
-            'updated_at'              => Toolbox::fixDate($row['date_mod']),
-            'created_at'              => Toolbox::fixDate($row['date_creation']),
+            'updated_at'              => $this->fixDate($row['date_mod']),
+            'created_at'              => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -71,5 +71,17 @@ final class DevicefirmwaresMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

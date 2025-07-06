@@ -6,6 +6,19 @@ namespace App\v1\Controllers\Fusioninventory;
 
 final class Computer extends \App\v1\Controllers\Common
 {
+  /**
+   * @var array<string, \Respect\Validation\Validator>
+   */
+  private $vs = [];
+
+  public function __construct()
+  {
+    $this->vs = [
+      'NAME'          => Validation::attrStrNotempty('NAME'),
+      'BVERSION'      => Validation::attrStrNotempty('BVERSION'),
+    ];
+  }
+
   public function importComputer(string $dataStr): void
   {
     $dataObj = Common::xmlToObj($dataStr);
@@ -66,6 +79,8 @@ final class Computer extends \App\v1\Controllers\Common
       $computer = new \App\Models\Computer();
     }
 
+    $manufacturerId = $this->getManufacturer($dataObject);
+
     $computer->name = $dataObject->CONTENT->HARDWARE->NAME;
     // $computer->uuid = $dataObj->CONTENT->HARDWARE->UUID;
     if (
@@ -76,9 +91,19 @@ final class Computer extends \App\v1\Controllers\Common
     {
       $computer->serial = $dataObject->CONTENT->BIOS->SSN;
     }
+    $firmwareId = 0;
+    if (
+        property_exists($dataObject->CONTENT, 'BIOS') &&
+        property_exists($dataObject->CONTENT->BIOS, 'BVERSION')
+    )
+    {
+      $firmwareId = $this->getComputerFirmware($dataObject->CONTENT->BIOS, $manufacturerId);
+    }
+
     $computer->otherserial = $this->getOtherSerial($dataObject);
-    $computer->manufacturer_id = $this->getManufacturer($dataObject);
+    $computer->manufacturer_id = $manufacturerId;
     $computer->computertype_id = $this->getType($dataObject);
+    $computer->firmware_id = $firmwareId;
     // computermodel_id
 
     $computer->save();
@@ -91,6 +116,9 @@ final class Computer extends \App\v1\Controllers\Common
 
     $computerMemory = new Computermemory($computer);
     $computerMemory->parse($dataObject);
+
+    $computerStorage = new Computerstorage($computer);
+    $computerStorage->parse($dataObject);
   }
 
   private function getOtherSerial(object $dataObj): string|null
@@ -201,4 +229,25 @@ final class Computer extends \App\v1\Controllers\Common
   //     // }
   //   }
   // }
+
+  private function getComputerFirmware(mixed $contentBios, int $manufacturerId): int
+  {
+    $firmwareId = 0;
+    if (
+        $this->vs['BVERSION']->isValid($contentBios) &&
+        $manufacturerId > 0
+    )
+    {
+      $firmware = \App\Models\Firmware::withoutEagerLoads()->firstOrCreate(
+        [
+          'name'            => Common::cleanString($contentBios->BVERSION),
+          'manufacturer_id' => $manufacturerId,
+          'model'           => \App\Models\Computer::class
+        ],
+      );
+      $firmwareId = $firmware->id;
+    }
+
+    return $firmwareId;
+  }
 }

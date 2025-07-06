@@ -51,8 +51,8 @@ final class ProjectstatesMigration extends AbstractMigration
             'comment'     => $row['comment'],
             'color'       => $row['color'],
             'is_finished' => $row['is_finished'],
-            'updated_at'  => Toolbox::fixDate($row['date_mod']),
-            'created_at'  => Toolbox::fixDate($row['date_creation']),
+            'updated_at'  => $this->fixDate($row['date_mod']),
+            'created_at'  => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -66,5 +66,17 @@ final class ProjectstatesMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

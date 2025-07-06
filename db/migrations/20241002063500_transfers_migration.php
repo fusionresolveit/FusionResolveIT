@@ -76,10 +76,10 @@ final class TransfersMigration extends AbstractMigration
             'clean_cartridgeitem' => $row['clean_cartridgeitem'],
             'keep_cartridge'      => $row['keep_cartridge'],
             'keep_consumable'     => $row['keep_consumable'],
-            'updated_at'          => Toolbox::fixDate($row['date_mod']),
+            'updated_at'          => $this->fixDate($row['date_mod']),
             'comment'             => $row['comment'],
             'keep_disk'           => $row['keep_disk'],
-            'created_at'          => Toolbox::fixDate($row['date_mod']),
+            'created_at'          => $this->fixDate($row['date_mod']),
           ]
         ];
         $item->insert($data)
@@ -93,5 +93,17 @@ final class TransfersMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return $value;
+    }
+    return Toolbox::fixDate($value);
   }
 }

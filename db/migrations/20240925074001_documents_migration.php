@@ -77,7 +77,7 @@ final class DocumentsMigration extends AbstractMigration
             'filepath'            => $row['filepath'],
             'documentcategory_id' => $row['documentcategories_id'],
             'mime'                => $row['mime'],
-            'updated_at'          => Toolbox::fixDate($row['date_mod']),
+            'updated_at'          => $this->fixDate($row['date_mod']),
             'comment'             => $row['comment'],
             'link'                => $row['link'],
             'user_id'             => $row['users_id'],
@@ -85,7 +85,7 @@ final class DocumentsMigration extends AbstractMigration
             'sha1sum'             => $row['sha1sum'],
             'is_blacklisted'      => $row['is_blacklisted'],
             'tag'                 => $row['tag'],
-            'created_at'          => Toolbox::fixDate($row['date_creation']),
+            'created_at'          => $this->fixDate($row['date_creation']),
             'deleted_at'          => self::convertIsDeleted($row['is_deleted']),
           ];
         }
@@ -108,7 +108,18 @@ final class DocumentsMigration extends AbstractMigration
     {
       return date('Y-m-d H:i:s', time());
     }
-
     return null;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

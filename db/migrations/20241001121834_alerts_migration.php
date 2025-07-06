@@ -50,7 +50,7 @@ final class AlertsMigration extends AbstractMigration
             'item_type' => self::convertItemtype($row['itemtype']),
             'item_id'   => $row['items_id'],
             'type'      => $row['type'],
-            'date'      => Toolbox::fixDate($row['date']),
+            'date'      => $this->fixDate($row['date']),
           ]
         ];
         $item->insert($data)
@@ -82,5 +82,17 @@ final class AlertsMigration extends AbstractMigration
     }
 
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

@@ -6,7 +6,7 @@ namespace App\DataInterface;
 
 use App\v1\Controllers\Fusioninventory\Validation;
 
-class PostDeviceharddrive extends Post
+class PostStorage extends Post
 {
   /** @var ?string */
   public $name;
@@ -15,16 +15,13 @@ class PostDeviceharddrive extends Post
   public $manufacturer;
 
   /** @var ?string */
-  public $capacity_default;
+  public $size;
 
   /** @var ?string */
   public $rpm;
 
   /** @var ?string */
   public $cache;
-
-  /** @var ?\App\Models\Deviceharddrivemodel */
-  public $model;
 
   /** @var ?\App\Models\Interfacetype */
   public $interface;
@@ -37,20 +34,20 @@ class PostDeviceharddrive extends Post
 
   public function __construct(object $data)
   {
-    $this->loadRights('App\Models\Deviceharddrive');
-    $deviceharddrive = new \App\Models\Deviceharddrive();
-    $this->definitions = $deviceharddrive->getDefinitions();
+    $this->loadRights('App\Models\Storage');
+    $storage = new \App\Models\Storage();
+    $this->definitions = $storage->getDefinitions();
 
     $this->name = $this->setName($data);
 
     $this->manufacturer = $this->setManufacturer($data);
 
     if (
-        Validation::attrStrNotempty('capacity_default')->isValid($data) &&
-        isset($data->capacity_default)
+        Validation::attrStrNotempty('size')->isValid($data) &&
+        isset($data->size)
     )
     {
-      $this->capacity_default = $data->capacity_default;
+      $this->size = $data->size;
     }
 
     if (
@@ -67,26 +64,6 @@ class PostDeviceharddrive extends Post
     )
     {
       $this->cache = $data->cache;
-    }
-
-    if (
-        Validation::attrNumericVal('model')->isValid($data) &&
-        isset($data->model)
-    )
-    {
-      $model = \App\Models\Deviceharddrivemodel::where('id', $data->model)->first();
-      if (!is_null($model))
-      {
-        $this->model = $model;
-      }
-      elseif (intval($data->model) == 0)
-      {
-        $emptyModel = new \App\Models\Deviceharddrivemodel();
-        $emptyModel->id = 0;
-        $this->model = $emptyModel;
-      } else {
-        throw new \Exception('Wrong data request', 400);
-      }
     }
 
     if (
@@ -115,8 +92,8 @@ class PostDeviceharddrive extends Post
   }
 
   /**
-   * @return array{name?: string, manufacturer?: \App\Models\Manufacturer, capacity_default?: string,
-   *               rpm?: string, cache?: string, model?: \App\Models\Deviceharddrivemodel,
+   * @return array{name?: string, manufacturer?: \App\Models\Manufacturer, size?: string,
+   *               rpm?: string, cache?: string,
    *               interface?: \App\Models\Interfacetype, comment?: string, is_recursive?: bool}
    */
   public function exportToArray(bool $filterRights = false): array
@@ -155,8 +132,8 @@ class PostDeviceharddrive extends Post
   }
 
   /**
-   * @param-out array{name?: string, manufacturer?: \App\Models\Manufacturer, capacity_default?: string,
-   *                  rpm?: string, cache?: string, model?: \App\Models\Deviceharddrivemodel,
+   * @param-out array{name?: string, manufacturer?: \App\Models\Manufacturer, size?: string,
+   *                  rpm?: string, cache?: string,
    *                  interface?: \App\Models\Interfacetype, comment?: string, is_recursive?: bool} $data
    */
   private function getFieldForArray(string $key, mixed &$data): void

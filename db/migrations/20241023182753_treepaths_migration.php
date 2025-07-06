@@ -93,37 +93,37 @@ final class TreepathsMigration extends AbstractMigration
     }
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'entities', 'entity_id');
+    $this->generateTreepath(0, 'entities', 'entity_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'categories', 'category_id');
+    $this->generateTreepath(0, 'categories', 'category_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'groups', 'group_id');
+    $this->generateTreepath(0, 'groups', 'group_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'knowbaseitemcategories', 'knowbaseitemcategory_id');
+    $this->generateTreepath(0, 'knowbaseitemcategories', 'knowbaseitemcategory_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'locations', 'location_id');
+    $this->generateTreepath(0, 'locations', 'location_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'softwarelicensetypes', 'softwarelicensetype_id');
+    $this->generateTreepath(0, 'softwarelicensetypes', 'softwarelicensetype_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'softwarecategories', 'softwarecategory_id');
+    $this->generateTreepath(0, 'softwarecategories', 'softwarecategory_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'states', 'state_id');
+    $this->generateTreepath(0, 'states', 'state_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'businesscriticities', 'businesscriticity_id');
+    $this->generateTreepath(0, 'businesscriticities', 'businesscriticity_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'documentcategories', 'documentcategory_id');
+    $this->generateTreepath(0, 'documentcategories', 'documentcategory_id');
 
     $this->treepaths = [];
-    $this->generateTreepath('0', 'ipnetworks', 'ipnetwork_id');
+    $this->generateTreepath(0, 'ipnetworks', 'ipnetwork_id');
 
     $table = $this->table('entities');
     if ($table->hasColumn('level'))
@@ -309,9 +309,9 @@ final class TreepathsMigration extends AbstractMigration
     }
   }
 
-  private function generateTreepath(string $id, string $table, string $foreignkey): void
+  private function generateTreepath(int $id, string $table, string $foreignkey): void
   {
-    $stmt = $this->query('SELECT * FROM ' . $table . ' WHERE ? = ?', [$foreignkey, $id]);
+    $stmt = $this->query('SELECT * FROM ' . $table . ' WHERE ' . $foreignkey . ' = ?', [$id]);
     $items = $stmt->fetchAll();
     $itemList = [];
     foreach ($items as $item)

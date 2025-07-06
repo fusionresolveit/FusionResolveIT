@@ -52,7 +52,12 @@ final class V20250222101915 extends AbstractMigration
       {
         // set assign by default, but disable rule
         $this->execute('UPDATE ruleactions SET action_type = 0 WHERE id = ?', [$action['id']]);
-        $this->execute('UPDATE rules SET is_active = ? WHERE id = ?', [false, $action['id']]);
+        if ($configArray['environments'][$configArray['environments']['default_environment']]['adapter'] == 'pgsql')
+        {
+          $this->execute('UPDATE rules SET is_active = ? WHERE id = ?', [false, $action['id']]);
+        } else {
+          $this->execute('UPDATE rules SET is_active = ? WHERE id = ?', [0, $action['id']]);
+        }
       } else {
         $this->execute('UPDATE ruleactions SET action_type = ? WHERE id = ?', [$type, $action['id']]);
       }

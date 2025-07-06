@@ -44,11 +44,64 @@ final class EntitiesMigration extends AbstractMigration
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
+        $max_closedate = null;
+        $autofill_warranty_date = null;
+        $autofill_use_date = null;
+        $autofill_buy_date = null;
+        $autofill_delivery_date = null;
+        $autofill_order_date = null;
+        $updated_at = null;
+        $created_at = null;
+        $autofill_decommission_date = null;
+
+        if (!is_null($row['max_closedate']))
+        {
+          $max_closedate = Toolbox::fixDate($row['max_closedate']);
+        }
+        if (!is_null($row['autofill_warranty_date']))
+        {
+          $autofill_warranty_date = Toolbox::fixDate($row['autofill_warranty_date']);
+        }
+        if (!is_null($row['autofill_use_date']))
+        {
+          $autofill_use_date = Toolbox::fixDate($row['autofill_use_date']);
+        }
+        if (!is_null($row['autofill_buy_date']))
+        {
+          $autofill_buy_date = Toolbox::fixDate($row['autofill_buy_date']);
+        }
+        if (!is_null($row['autofill_delivery_date']))
+        {
+          $autofill_delivery_date = Toolbox::fixDate($row['autofill_delivery_date']);
+        }
+        if (!is_null($row['autofill_order_date']))
+        {
+          $autofill_order_date = Toolbox::fixDate($row['autofill_order_date']);
+        }
+        if (!is_null($row['date_mod']))
+        {
+          $updated_at = Toolbox::fixDate($row['date_mod']);
+        }
+        if (!is_null($row['date_creation']))
+        {
+          $created_at = Toolbox::fixDate($row['date_creation']);
+        }
+        if (!is_null($row['autofill_decommission_date']))
+        {
+          $autofill_decommission_date = Toolbox::fixDate($row['autofill_decommission_date']);
+        }
+        if ($row['entities_id'] == '-1')
+        {
+          $row['entities_id'] = 0;
+        } else {
+          $row['entities_id'] = $row['entities_id'] + 1;
+        }
+
         $data = [
           [
             'id'                                      => ($row['id'] + 1),
             'name'                                    => $row['name'],
-            'entity_id'                               => ($row['entities_id'] + 1),
+            'entity_id'                               => $row['entities_id'],
             'completename'                            => $row['completename'],
             'comment'                                 => $row['comment'],
             'level'                                   => $row['level'],
@@ -94,16 +147,16 @@ final class EntitiesMigration extends AbstractMigration
             'calendar_id'                             => $row['calendars_id'],
             'auto_assign_mode'                        => $row['auto_assign_mode'],
             'tickettype'                              => $row['tickettype'],
-            'max_closedate'                           => Toolbox::fixDate($row['max_closedate']),
+            'max_closedate'                           => $max_closedate,
             'inquest_config'                          => $row['inquest_config'],
             'inquest_rate'                            => $row['inquest_rate'],
             'inquest_delay'                           => $row['inquest_delay'],
             'inquest_URL'                             => $row['inquest_URL'],
-            'autofill_warranty_date'                  => Toolbox::fixDate($row['autofill_warranty_date']),
-            'autofill_use_date'                       => Toolbox::fixDate($row['autofill_use_date']),
-            'autofill_buy_date'                       => Toolbox::fixDate($row['autofill_buy_date']),
-            'autofill_delivery_date'                  => Toolbox::fixDate($row['autofill_delivery_date']),
-            'autofill_order_date'                     => Toolbox::fixDate($row['autofill_order_date']),
+            'autofill_warranty_date'                  => $autofill_warranty_date,
+            'autofill_use_date'                       => $autofill_use_date,
+            'autofill_buy_date'                       => $autofill_buy_date,
+            'autofill_delivery_date'                  => $autofill_delivery_date,
+            'autofill_order_date'                     => $autofill_order_date,
             'tickettemplate_id'                       => $row['tickettemplates_id'],
             'changetemplate_id'                       => $row['changetemplates_id'],
             'problemtemplate_id'                      => $row['problemtemplates_id'],
@@ -115,9 +168,9 @@ final class EntitiesMigration extends AbstractMigration
             'delay_send_emails'                       => $row['delay_send_emails'],
             'is_notif_enable_default'                 => $row['is_notif_enable_default'],
             'inquest_duration'                        => $row['inquest_duration'],
-            'updated_at'                              => Toolbox::fixDate($row['date_mod']),
-            'created_at'                              => Toolbox::fixDate($row['date_creation']),
-            'autofill_decommission_date'              => Toolbox::fixDate($row['autofill_decommission_date']),
+            'updated_at'                              => $updated_at,
+            'created_at'                              => $created_at,
+            'autofill_decommission_date'              => $autofill_decommission_date,
             'suppliers_as_private'                    => $row['suppliers_as_private'],
             'anonymize_support_agents'                => $row['anonymize_support_agents'],
             'enable_custom_css'                       => $row['enable_custom_css'],

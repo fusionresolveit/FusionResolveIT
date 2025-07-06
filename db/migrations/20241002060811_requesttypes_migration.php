@@ -56,8 +56,8 @@ final class RequesttypesMigration extends AbstractMigration
             'is_ticketheader'         => $row['is_ticketheader'],
             'is_itilfollowup'         => $row['is_itilfollowup'],
             'comment'                 => $row['comment'],
-            'updated_at'              => Toolbox::fixDate($row['date_mod']),
-            'created_at'              => Toolbox::fixDate($row['date_creation']),
+            'updated_at'              => $this->fixDate($row['date_mod']),
+            'created_at'              => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -71,5 +71,17 @@ final class RequesttypesMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return $value;
+    }
+    return Toolbox::fixDate($value);
   }
 }

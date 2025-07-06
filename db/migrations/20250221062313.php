@@ -84,21 +84,37 @@ final class V20250221062313 extends AbstractMigration
         $data = [];
         foreach ($rows as $row)
         {
+          $comment = null;
+          if (isset($row['comment']))
+          {
+            $comment = $row['comment'];
+          }
+          $is_activate = false;
+          if (isset($row['is_activate']))
+          {
+            $is_activate = $row['is_activate'];
+          }
+          elseif (isset($row['is_active']))
+          {
+            $is_activate = $row['is_active'];
+          }
+
+
           $data[] = [
             'id'                      => $row['id'],
             'name'                    => $row['name'],
-            'comment'                 => $row['comment'],
+            'comment'                 => $comment,
             'entity_id'               => ($row['entities_id'] + 1),
             'is_recursive'            => $row['is_recursive'],
             'message'                 => $row['message'],
-            'begin_date'              => Toolbox::fixDate($row['date_start']),
-            'end_date'                => Toolbox::fixDate($row['date_end']),
+            'begin_date'              => $this->fixDate($row['date_start']),
+            'end_date'                => $this->fixDate($row['date_end']),
             'type'                    => $row['type'],
             'is_displayed_onlogin'    => $row['is_displayed_onlogin'],
             'is_displayed_oncentral'  => $row['is_displayed_oncentral'],
-            'is_activate'             => $row['is_activate'],
-            'created_at'              => Toolbox::fixDate($row['date_mod']),
-            'updated_at'              => Toolbox::fixDate($row['date_mod']),
+            'is_active'               => $is_activate,
+            'created_at'              => $this->fixDate($row['date_mod']),
+            'updated_at'              => $this->fixDate($row['date_mod']),
             'deleted_at'              => self::convertIsDeleted($row['is_deleted']),
           ];
         }
@@ -127,5 +143,17 @@ final class V20250221062313 extends AbstractMigration
     }
 
     return null;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return $value;
+    }
+    return Toolbox::fixDate($value);
   }
 }

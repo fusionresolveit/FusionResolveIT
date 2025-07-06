@@ -2,7 +2,7 @@
 {{ include('headerForm.html.twig') }}
 
 <div class="ui stackable cards subcomponent">
-  {% for firmware in data.firmwares|sort((a, b) => a.firmware.name|lower <=> b.firmware.name|lower) %}
+  {% for firmware in data.firmware|sort((a, b) => a.firmware.name|lower <=> b.firmware.name|lower) %}
     <div class="ui {{ firmware.color }} card">
       <div class="content title">
         <div class="meta"><span class="ui {{ firmware.color }} text">{{ translation.firmware }}</span></div>
@@ -301,11 +301,11 @@
     </div>
   {% endfor %}
 
-  {% for harddrive in data.harddrives|sort((a, b) => a.harddrive.name|lower <=> b.harddrive.name|lower) %}
-    <div class="ui {{ harddrive.color }} card">
+  {% for storage in data.storages|sort((a, b) => a.storage.name|lower <=> b.storage.name|lower) %}
+    <div class="ui {{ storage.color }} card">
       <div class="content title">
-        <div class="meta"><span class="ui {{ harddrive.color }} text">{{ translation.harddrive }}</span></div>
-        <div class="header">{{ harddrive.name }}</div>
+        <div class="meta"><span class="ui {{ storage.color }} text">{{ translation.storage }}</span></div>
+        <div class="header">{{ storage.name }}</div>
       </div>
       <div class="content">
         <div class="ui relaxed list">
@@ -313,10 +313,10 @@
             <div class="content">
               <a class="header">{{ translation.manufacturer }}</a>
               <div class="description">
-                {% if harddrive.manufacturer_url != '' %}
-                  <a href="{{ harddrive.manufacturer_url }}">{{ harddrive.manufacturer }}</a>
+                {% if storage.manufacturer_url != '' %}
+                  <a href="{{ storage.manufacturer_url }}">{{ storage.manufacturer }}</a>
                 {% else %}
-                  <span>{{ harddrive.manufacturer }}</span>
+                  <span>{{ storage.manufacturer }}</span>
                 {% endif %}
               </div>
             </div>
@@ -324,23 +324,23 @@
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.rpm }}</a>
-              <div class="description">{{ harddrive.rpm }}</div>
+              <div class="description">{{ storage.rpm }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.cache }}</a>
-              <div class="description">{{ harddrive.cache }}</div>
+              <div class="description">{{ storage.cache }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.interface }}</a>
               <div class="description">
-                {% if harddrive.interface_url != '' %}
-                  <a href="{{ harddrive.interface_url }}">{{ harddrive.interface }}</a>
+                {% if storage.interface_url != '' %}
+                  <a href="{{ storage.interface_url }}">{{ storage.interface }}</a>
                 {% else %}
-                  <span>{{ harddrive.interface }}</span>
+                  <span>{{ storage.interface }}</span>
                 {% endif %}
               </div>
             </div>
@@ -348,29 +348,29 @@
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.capacity }}</a>
-              <div class="description">{{ harddrive.capacity }}</div>
+              <div class="description">{{ storage.capacity }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.serial }}</a>
-              <div class="description">{{ harddrive.serial }}</div>
+              <div class="description">{{ storage.serial }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.inventaire_number }}</a>
-              <div class="description">{{ harddrive.otherserial }}</div>
+              <div class="description">{{ storage.otherserial }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
               <a class="header">{{ translation.location }}</a>
               <div class="description">
-                {% if harddrive.location_url != '' %}
-                  <a href="{{ harddrive.location_url }}">{{ harddrive.location }}</a>
+                {% if storage.location_url != '' %}
+                  <a href="{{ storage.location_url }}">{{ storage.location }}</a>
                 {% else %}
-                  <span>{{ harddrive.location }}</span>
+                  <span>{{ storage.location }}</span>
                 {% endif %}
               </div>
             </div>
@@ -379,24 +379,18 @@
             <div class="content">
               <a class="header">{{ translation.status }}</a>
               <div class="description">
-                {% if harddrive.state_url != '' %}
-                  <a href="{{ harddrive.state_url }}">{{ harddrive.state }}</a>
+                {% if storage.state_url != '' %}
+                  <a href="{{ storage.state_url }}">{{ storage.state }}</a>
                 {% else %}
-                  <span>{{ harddrive.state }}</span>
+                  <span>{{ storage.state }}</span>
                 {% endif %}
               </div>
             </div>
           </div>
           <div class="item">
             <div class="content">
-              <a class="header">{{ translation.busID }}</a>
-              <div class="description">{{ harddrive.busID }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
               <a class="header">{{ translation.documents }}</a>
-              {% for document in harddrive.documents %}
+              {% for document in storage.documents %}
                 <div class="description">
                   {% if document.url != '' %}
                     <a href="{{ document.url }}">{{ document.name }}</a>

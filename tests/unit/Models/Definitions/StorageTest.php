@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\unit\Models\Definitions;
 
 /**
- * @covers \App\Models\Definitions\Devicefirmwaremodel
+ * @covers \App\Models\Definitions\Storage
  * @uses \App\DataInterface\Definition
  * @uses \App\DataInterface\DefinitionCollection
  * @uses \App\v1\Controllers\Common
  * @uses \App\v1\Controllers\Dropdown
  */
-final class DevicefirmwaremodelTest extends Common
+final class StorageTest extends Common
 {
-  protected $className = 'Devicefirmwaremodel';
+  protected $className = 'Storage';
 }

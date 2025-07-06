@@ -50,8 +50,8 @@ final class RulearightparametersMigration extends AbstractMigration
             'name'        => $row['name'],
             'value'       => $row['value'],
             'comment'     => $row['comment'],
-            'updated_at'  => Toolbox::fixDate($row['date_mod']),
-            'created_at'  => Toolbox::fixDate($row['date_creation']),
+            'updated_at'  => $this->fixDate($row['date_mod']),
+            'created_at'  => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -65,5 +65,17 @@ final class RulearightparametersMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }
