@@ -44,13 +44,25 @@ final class SoftwarelicensetypesMigration extends AbstractMigration
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
+        $updated_at = null;
+        $created_at = null;
+
+        if (!is_null($row['date_mod']))
+        {
+          $updated_at = Toolbox::fixDate($row['date_mod']);
+        }
+        if (!is_null($row['date_creation']))
+        {
+          $created_at = Toolbox::fixDate($row['date_creation']);
+        }
+
         $data = [
           [
             'id'                      => $row['id'],
             'name'                    => $row['name'],
             'comment'                 => $row['comment'],
-            'updated_at'              => Toolbox::fixDate($row['date_mod']),
-            'created_at'              => Toolbox::fixDate($row['date_creation']),
+            'updated_at'              => $updated_at,
+            'created_at'              => $created_at,
             'softwarelicensetype_id'  => $row['softwarelicensetypes_id'],
             'level'                   => $row['level'],
             'ancestors_cache'         => $row['ancestors_cache'],

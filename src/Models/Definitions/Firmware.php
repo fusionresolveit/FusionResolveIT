@@ -7,7 +7,7 @@ namespace App\Models\Definitions;
 use App\DataInterface\Definition as Def;
 use App\DataInterface\DefinitionCollection;
 
-class Devicefirmware
+class Firmware
 {
   public static function getDefinition(): DefinitionCollection
   {
@@ -16,9 +16,7 @@ class Devicefirmware
     $t = [
       'name' => $translator->translate('Name'),
       'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
       'date' => $translator->translate('Installation date'),
-      'version' => $translator->translatePlural('Version', 'Versions', 1),
       'model' => $translator->translatePlural('Model', 'Models', 1),
       'comment' => $translator->translate('Comments'),
       'is_recursive' => $translator->translate('Child entities'),
@@ -37,24 +35,12 @@ class Devicefirmware
       itemtype: '\App\Models\Manufacturer',
       fillable: true
     ));
-    $defColl->add(new Def(
-      13,
-      $t['type'],
-      'dropdown_remote',
-      'type',
-      dbname: 'devicefirmwaretype_id',
-      itemtype: '\App\Models\Devicefirmwaretype',
-      fillable: true
-    ));
     $defColl->add(new Def(11, $t['date'], 'date', 'date', fillable: true));
-    $defColl->add(new Def(14, $t['version'], 'input', 'version', fillable: true));
     $defColl->add(new Def(
-      12,
+      1001,
       $t['model'],
-      'dropdown_remote',
+      'input',
       'model',
-      dbname: 'devicefirmwaremodel_id',
-      itemtype: '\App\Models\Devicefirmwaremodel',
       fillable: true
     ));
     $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));

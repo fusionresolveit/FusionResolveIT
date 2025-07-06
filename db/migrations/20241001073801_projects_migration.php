@@ -55,20 +55,20 @@ final class ProjectsMigration extends AbstractMigration
             'project_id'            => $row['projects_id'],
             'projectstate_id'       => $row['projectstates_id'],
             'projecttype_id'        => $row['projecttypes_id'],
-            'date'                  => Toolbox::fixDate($row['date']),
-            'updated_at'            => Toolbox::fixDate($row['date_mod']),
+            'date'                  => $this->fixDate($row['date']),
+            'updated_at'            => $this->fixDate($row['date_mod']),
             'user_id'               => $row['users_id'],
             'group_id'              => $row['groups_id'],
-            'plan_start_date'       => Toolbox::fixDate($row['plan_start_date']),
-            'plan_end_date'         => Toolbox::fixDate($row['plan_end_date']),
-            'real_start_date'       => Toolbox::fixDate($row['real_start_date']),
-            'real_end_date'         => Toolbox::fixDate($row['real_end_date']),
+            'plan_start_date'       => $this->fixDate($row['plan_start_date']),
+            'plan_end_date'         => $this->fixDate($row['plan_end_date']),
+            'real_start_date'       => $this->fixDate($row['real_start_date']),
+            'real_end_date'         => $this->fixDate($row['real_end_date']),
             'percent_done'          => $row['percent_done'],
             'auto_percent_done'     => $row['auto_percent_done'],
             'show_on_global_gantt'  => $row['show_on_global_gantt'],
             'content'               => $row['content'],
             'comment'               => $row['comment'],
-            'created_at'            => Toolbox::fixDate($row['date_creation']),
+            'created_at'            => $this->fixDate($row['date_creation']),
             'projecttemplate_id'    => $row['projecttemplates_id'],
             'is_template'           => $row['is_template'],
             'template_name'         => $row['template_name'],
@@ -96,5 +96,17 @@ final class ProjectsMigration extends AbstractMigration
     }
 
     return null;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

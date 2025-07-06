@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
-class Deviceharddrive extends Common
+class Storage extends Common
 {
   use SoftDeletes;
   use CascadesDeletes;
@@ -19,8 +19,8 @@ class Deviceharddrive extends Common
 
   use GetDropdownValues;
 
-  protected $definition = \App\Models\Definitions\Deviceharddrive::class;
-  protected $titles = ['Hard drive', 'Hard drives'];
+  protected $definition = \App\Models\Definitions\Storage::class;
+  protected $titles = ['Storage', 'Storages'];
   protected $icon = 'ssd';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -37,7 +37,6 @@ class Deviceharddrive extends Common
 
   protected $visible = [
     'manufacturer',
-    'model',
     'interface',
     'entity',
     'documents',
@@ -45,22 +44,16 @@ class Deviceharddrive extends Common
 
   protected $with = [
     'manufacturer:id,name',
-    'model:id,name',
     'interface:id,name',
     'entity:id,name,completename',
     'documents',
+    'firmware:id,name',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Manufacturer::class);
-  }
-
-  /** @return BelongsTo<\App\Models\Deviceharddrivemodel, $this> */
-  public function model(): BelongsTo
-  {
-    return $this->belongsTo(\App\Models\Deviceharddrivemodel::class, 'deviceharddrivemodel_id');
   }
 
   /** @return BelongsTo<\App\Models\Interfacetype, $this> */
@@ -72,30 +65,36 @@ class Deviceharddrive extends Common
   /** @return MorphToMany<\App\Models\Computer, $this> */
   public function itemComputers(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_deviceharddrive');
+    return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_storage');
   }
 
   /** @return MorphToMany<\App\Models\Networkequipment, $this> */
   public function itemNetworkequipments(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_deviceharddrive');
+    return $this->morphedByMany(\App\Models\Networkequipment::class, 'item', 'item_storage');
   }
 
   /** @return MorphToMany<\App\Models\Peripheral, $this> */
   public function itemPeripherals(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_deviceharddrive');
+    return $this->morphedByMany(\App\Models\Peripheral::class, 'item', 'item_storage');
   }
 
   /** @return MorphToMany<\App\Models\Phone, $this> */
   public function itemPhones(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'item_deviceharddrive');
+    return $this->morphedByMany(\App\Models\Phone::class, 'item', 'item_storage');
   }
 
   /** @return MorphToMany<\App\Models\Printer, $this> */
   public function itemPrinters(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_deviceharddrive');
+    return $this->morphedByMany(\App\Models\Printer::class, 'item', 'item_storage');
+  }
+
+  /** @return BelongsTo<\App\Models\Firmware, $this> */
+  public function firmware(): BelongsTo
+  {
+    return $this->belongsTo(\App\Models\Firmware::class);
   }
 }

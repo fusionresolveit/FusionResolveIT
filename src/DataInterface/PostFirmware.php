@@ -6,7 +6,7 @@ namespace App\DataInterface;
 
 use App\v1\Controllers\Fusioninventory\Validation;
 
-class PostDevicefirmware extends Post
+class PostFirmware extends Post
 {
   /** @var ?string */
   public $name;
@@ -14,16 +14,10 @@ class PostDevicefirmware extends Post
   /** @var ?\App\Models\Manufacturer */
   public $manufacturer;
 
-  /** @var ?\App\Models\Devicefirmwaretype */
-  public $type;
-
   /** @var ?string */
   public $date;
 
   /** @var ?string */
-  public $version;
-
-  /** @var ?\App\Models\Devicefirmwaremodel */
   public $model;
 
   /** @var ?string */
@@ -34,33 +28,13 @@ class PostDevicefirmware extends Post
 
   public function __construct(object $data)
   {
-    $this->loadRights('App\Models\Devicefirmware');
-    $devicefirmware = new \App\Models\Devicefirmware();
-    $this->definitions = $devicefirmware->getDefinitions();
+    $this->loadRights('App\Models\Firmware');
+    $firmware = new \App\Models\Firmware();
+    $this->definitions = $firmware->getDefinitions();
 
     $this->name = $this->setName($data);
 
     $this->manufacturer = $this->setManufacturer($data);
-
-    if (
-        Validation::attrNumericVal('type')->isValid($data) &&
-        isset($data->type)
-    )
-    {
-      $type = \App\Models\Devicefirmwaretype::where('id', $data->type)->first();
-      if (!is_null($type))
-      {
-        $this->type = $type;
-      }
-      elseif (intval($data->type) == 0)
-      {
-        $emptyType = new \App\Models\Devicefirmwaretype();
-        $emptyType->id = 0;
-        $this->type = $emptyType;
-      } else {
-        throw new \Exception('Wrong data request', 400);
-      }
-    }
 
     if (
         Validation::attrDate('date')->isValid($data) &&
@@ -71,31 +45,11 @@ class PostDevicefirmware extends Post
     }
 
     if (
-        Validation::attrStrNotempty('version')->isValid($data) &&
-        isset($data->version)
-    )
-    {
-      $this->version = $data->version;
-    }
-
-    if (
-        Validation::attrNumericVal('model')->isValid($data) &&
+        Validation::attrStrNotempty('model')->isValid($data) &&
         isset($data->model)
     )
     {
-      $model = \App\Models\Devicefirmwaremodel::where('id', $data->model)->first();
-      if (!is_null($model))
-      {
-        $this->model = $model;
-      }
-      elseif (intval($data->model) == 0)
-      {
-        $emptyModel = new \App\Models\Devicefirmwaremodel();
-        $emptyModel->id = 0;
-        $this->model = $emptyModel;
-      } else {
-        throw new \Exception('Wrong data request', 400);
-      }
+      $this->model = $data->model;
     }
 
     $this->comment = $this->setComment($data);
@@ -104,9 +58,8 @@ class PostDevicefirmware extends Post
   }
 
   /**
-   * @return array{name?: string, manufacturer?: \App\Models\Manufacturer, type?: \App\Models\Devicefirmwaretype,
-   *               date?: string, version?: string, model?: \App\Models\Devicefirmwaremodel, comment?: string,
-   *               is_recursive?: bool}
+   * @return array{name?: string, manufacturer?: \App\Models\Manufacturer, date?: string,
+   *               model?: string, comment?: string, is_recursive?: bool}
    */
   public function exportToArray(bool $filterRights = false): array
   {
@@ -144,9 +97,8 @@ class PostDevicefirmware extends Post
   }
 
   /**
-   * @param-out array{name?: string, manufacturer?: \App\Models\Manufacturer, type?: \App\Models\Devicefirmwaretype,
-   *                  date?: string, version?: string, model?: \App\Models\Devicefirmwaremodel, comment?: string,
-   *                  is_recursive?: bool} $data
+   * @param-out array{name?: string, manufacturer?: \App\Models\Manufacturer, date?: string,
+   *                  model?: string, comment?: string, is_recursive?: bool} $data
    */
   private function getFieldForArray(string $key, mixed &$data): void
   {

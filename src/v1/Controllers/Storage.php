@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers;
 
-use App\DataInterface\PostDeviceharddrive;
+use App\DataInterface\PostStorage;
 use App\Traits\ShowAll;
 use App\Traits\ShowItem;
 use App\Traits\ShowNewItem;
@@ -13,9 +13,8 @@ use App\Traits\Subs\History;
 use App\Traits\Subs\Item;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Views\Twig;
 
-final class Deviceharddrive extends Common implements \App\Interfaces\Crud
+final class Storage extends Common implements \App\Interfaces\Crud
 {
   // Display
   use ShowItem;
@@ -27,13 +26,13 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
   use History;
   use Item;
 
-  protected $model = \App\Models\Deviceharddrive::class;
-  protected $rootUrl2 = '/devices/deviceharddrives/';
-  protected $choose = 'deviceharddrives';
+  protected $model = \App\Models\Storage::class;
+  protected $rootUrl2 = '/devices/storages/';
+  protected $choose = 'storages';
 
-  protected function instanciateModel(): \App\Models\Deviceharddrive
+  protected function instanciateModel(): \App\Models\Storage
   {
-    return new \App\Models\Deviceharddrive();
+    return new \App\Models\Storage();
   }
 
   /**
@@ -63,24 +62,24 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
   {
     global $basePath;
 
-    $data = new PostDeviceharddrive((object) $request->getParsedBody());
+    $data = new PostStorage((object) $request->getParsedBody());
 
-    $deviceharddrive = new \App\Models\Deviceharddrive();
+    $storage = new \App\Models\Storage();
 
     if (!$this->canRightCreate())
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    if (!\App\v1\Controllers\Profile::canRightReadItem($deviceharddrive))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($storage))
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $deviceharddrive = \App\Models\Deviceharddrive::create($data->exportToArray());
+    $storage = \App\Models\Storage::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The hard drive has been created successfully');
-    \App\v1\Controllers\Notification::prepareNotification($deviceharddrive, 'new');
+    \App\v1\Controllers\Toolbox::addSessionMessage('The storage has been created successfully');
+    \App\v1\Controllers\Notification::prepareNotification($storage, 'new');
 
     $data = (object) $request->getParsedBody();
 
@@ -88,12 +87,12 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
     {
       $uri = $request->getUri();
       return $response
-        ->withHeader('Location', $basePath . '/view/deviceharddrives/' . $deviceharddrive->id)
+        ->withHeader('Location', $basePath . '/view/devices/storages/' . $storage->id)
         ->withStatus(302);
     }
 
     return $response
-      ->withHeader('Location', $basePath . '/view/deviceharddrives')
+      ->withHeader('Location', $basePath . '/view/devices/storages')
       ->withStatus(302);
   }
 
@@ -102,7 +101,7 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
    */
   public function updateItem(Request $request, Response $response, array $args): Response
   {
-    $data = new PostDeviceharddrive((object) $request->getParsedBody());
+    $data = new PostStorage((object) $request->getParsedBody());
     $id = intval($args['id']);
 
     if (!$this->canRightCreate())
@@ -110,20 +109,20 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $deviceharddrive = \App\Models\Deviceharddrive::where('id', $id)->first();
-    if (is_null($deviceharddrive))
+    $storage = \App\Models\Storage::where('id', $id)->first();
+    if (is_null($storage))
     {
       throw new \Exception('Id not found', 404);
     }
-    if (!\App\v1\Controllers\Profile::canRightReadItem($deviceharddrive))
+    if (!\App\v1\Controllers\Profile::canRightReadItem($storage))
     {
       throw new \Exception('Unauthorized access', 401);
     }
 
-    $deviceharddrive->update($data->exportToArray());
+    $storage->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The hard drive has been updated successfully');
-    \App\v1\Controllers\Notification::prepareNotification($deviceharddrive, 'update');
+    \App\v1\Controllers\Toolbox::addSessionMessage('The storage has been updated successfully');
+    \App\v1\Controllers\Notification::prepareNotification($storage, 'update');
 
     $uri = $request->getUri();
     return $response
@@ -139,31 +138,31 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
     global $basePath;
 
     $id = intval($args['id']);
-    $deviceharddrive = \App\Models\Deviceharddrive::withTrashed()->where('id', $id)->first();
-    if (is_null($deviceharddrive))
+    $storage = \App\Models\Storage::withTrashed()->where('id', $id)->first();
+    if (is_null($storage))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($deviceharddrive->trashed())
+    if ($storage->trashed())
     {
       if (!$this->canRightDelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $deviceharddrive->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The hard drive has been deleted successfully');
+      $storage->forceDelete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The storage has been deleted successfully');
 
       return $response
-        ->withHeader('Location', $basePath . '/view/deviceharddrives')
+        ->withHeader('Location', $basePath . '/view/devices/storages')
         ->withStatus(302);
     } else {
       if (!$this->canRightSoftdelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $deviceharddrive->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The hard drive has been soft deleted successfully');
+      $storage->delete();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The storage has been soft deleted successfully');
     }
 
     return $response
@@ -177,20 +176,20 @@ final class Deviceharddrive extends Common implements \App\Interfaces\Crud
   public function restoreItem(Request $request, Response $response, array $args): Response
   {
     $id = intval($args['id']);
-    $deviceharddrive = \App\Models\Deviceharddrive::withTrashed()->where('id', $id)->first();
-    if (is_null($deviceharddrive))
+    $storage = \App\Models\Storage::withTrashed()->where('id', $id)->first();
+    if (is_null($storage))
     {
       throw new \Exception('Id not found', 404);
     }
 
-    if ($deviceharddrive->trashed())
+    if ($storage->trashed())
     {
       if (!$this->canRightSoftdelete())
       {
         throw new \Exception('Unauthorized access', 401);
       }
-      $deviceharddrive->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The hard drive has been restored successfully');
+      $storage->restore();
+      \App\v1\Controllers\Toolbox::addSessionMessage('The storage has been restored successfully');
     }
 
     return $response

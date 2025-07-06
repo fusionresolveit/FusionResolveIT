@@ -130,7 +130,7 @@ jobs:
       mariadb:
         image: mariadb:${{ matrix.mariadb-versions }}
         ports:
-          - 3306:3306        
+          - 3306:3306
         env:
           MARIADB_DATABASE: frittests
           MARIADB_USER: frittests
@@ -181,7 +181,7 @@ jobs:
       postgres:
         image: postgres:${{ matrix.pg-versions }}
         ports:
-          - 5432:5432        
+          - 5432:5432
         env:
           POSTGRES_USER: frittests
           POSTGRES_PASSWORD: frittests

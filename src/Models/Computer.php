@@ -49,9 +49,8 @@ class Computer extends Common
     'softwareversions',
     'operatingsystems',
     'memoryslots',
-    'firmwares',
     'processors',
-    'harddrives',
+    'storages',
     'batteries',
     'soundcards',
     'controllers',
@@ -131,9 +130,9 @@ class Computer extends Common
     'softwareversions:id,name',
     'operatingsystems:id,name',
     'memoryslots',
-    'firmwares:id,name',
+    'firmware:id,name',
     'processors:id,name',
-    'harddrives:id,name',
+    'storages:id,name',
     'batteries:id,name',
     'soundcards:id,name',
     'controllers:id,name',
@@ -168,9 +167,14 @@ class Computer extends Common
     'is_dynamic' => 'boolean',
   ];
 
-  protected static function booted(): void
+  public static function boot(): void
   {
     parent::boot();
+
+    static::pivotAttaching(function ($model, $relationName, $pivotIds, $pivotIdsAttributes)
+    {
+      new \App\Events\PivotAttaching($relationName, $pivotIds);
+    });
 
     static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes)
     {
@@ -297,21 +301,10 @@ class Computer extends Common
     );
   }
 
-  /** @return MorphToMany<\App\Models\Devicefirmware, $this> */
-  public function firmwares(): MorphToMany
+  /** @return BelongsTo<\App\Models\Firmware, $this> */
+  public function firmware(): BelongsTo
   {
-    return $this->morphToMany(
-      \App\Models\Devicefirmware::class,
-      'item',
-      'item_devicefirmware'
-    )->withPivot(
-      'devicefirmware_id',
-      'location_id',
-      'serial',
-      'otherserial',
-      'state_id',
-      'id',
-    );
+    return $this->BelongsTo(\App\Models\Firmware::class);
   }
 
   /** @return MorphToMany<\App\Models\Deviceprocessor, $this> */
@@ -335,23 +328,18 @@ class Computer extends Common
     );
   }
 
-  /** @return MorphToMany<\App\Models\Deviceharddrive, $this> */
-  public function harddrives(): MorphToMany
+  /** @return MorphToMany<\App\Models\Storage, $this> */
+  public function storages(): MorphToMany
   {
     return $this->morphToMany(
-      \App\Models\Deviceharddrive::class,
+      \App\Models\Storage::class,
       'item',
-      'item_deviceharddrive'
+      'item_storage'
     )->withPivot(
-      'deviceharddrive_id',
-      'capacity',
-      'serial',
-      'location_id',
-      'otherserial',
-      'state_id',
+      'storage_id',
       'busID',
       'id',
-    );
+    )->orderBy('id', 'asc');
   }
 
   /** @return MorphToMany<\App\Models\Devicebattery, $this> */

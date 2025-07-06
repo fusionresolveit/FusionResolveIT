@@ -51,13 +51,13 @@ final class BudgetsMigration extends AbstractMigration
             'entity_id'     => ($row['entities_id'] + 1),
             'is_recursive'  => $row['is_recursive'],
             'comment'       => $row['comment'],
-            'begin_date'    => Toolbox::fixDate($row['begin_date']),
-            'end_date'      => Toolbox::fixDate($row['end_date']),
+            'begin_date'    => $this->fixDate($row['begin_date']),
+            'end_date'      => $this->fixDate($row['end_date']),
             'value'         => $row['value'],
             'is_template'   => $row['is_template'],
             'template_name' => $row['template_name'],
-            'updated_at'    => Toolbox::fixDate($row['date_mod']),
-            'created_at'    => Toolbox::fixDate($row['date_creation']),
+            'updated_at'    => $this->fixDate($row['date_mod']),
+            'created_at'    => $this->fixDate($row['date_creation']),
             'location_id'   => $row['locations_id'],
             'budgettype_id' => $row['budgettypes_id'],
             'deleted_at'    => self::convertIsDeleted($row['is_deleted']),
@@ -82,7 +82,18 @@ final class BudgetsMigration extends AbstractMigration
     {
       return date('Y-m-d H:i:s', time());
     }
-
     return null;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return $value;
+    }
+    return Toolbox::fixDate($value);
   }
 }

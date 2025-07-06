@@ -49,10 +49,10 @@ final class NotificationtemplatesMigration extends AbstractMigration
             'id'          => $row['id'],
             'name'        => $row['name'],
             'item_type'   => self::convertItemtype($row['itemtype']),
-            'updated_at'  => Toolbox::fixDate($row['date_mod']),
+            'updated_at'  => $this->fixDate($row['date_mod']),
             'comment'     => $row['comment'],
             'css'         => $row['css'],
-            'created_at'  => Toolbox::fixDate($row['date_creation']),
+            'created_at'  => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -82,7 +82,18 @@ final class NotificationtemplatesMigration extends AbstractMigration
       }
       $new_itemtype = 'App\\Models\\' . $new_itemtype;
     }
-
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

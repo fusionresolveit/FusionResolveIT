@@ -63,6 +63,12 @@ final class ItemsSoftwareversionsMigration extends AbstractMigration
           $templateItem = $row['is_template_item'];
         }
 
+        $date_install = null;
+        if (!is_null($row['date_install']))
+        {
+          $date_install = Toolbox::fixDate($row['date_install']);
+        }
+
         $data = [
           [
             'id'                  => $row['id'],
@@ -73,7 +79,7 @@ final class ItemsSoftwareversionsMigration extends AbstractMigration
             'is_template_item'    => $templateItem,
             'entity_id'           => ($row['entities_id'] + 1),
             'is_dynamic'          => $row['is_dynamic'],
-            'date_install'        => Toolbox::fixDate($row['date_install']),
+            'date_install'        => $date_install,
             'deleted_at'          => self::convertIsDeleted($row['is_deleted']),
           ]
         ];

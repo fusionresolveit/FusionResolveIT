@@ -53,8 +53,8 @@ final class QueuednotificationsMigration extends AbstractMigration
             'entity_id'               => ($row['entities_id'] + 1),
             'sent_try'                => $row['sent_try'],
             'created_at'              => $row['create_time'],
-            'send_time'               => Toolbox::fixDate($row['send_time']),
-            'sent_time'               => Toolbox::fixDate($row['sent_time']),
+            'send_time'               => $this->fixDate($row['send_time']),
+            'sent_time'               => $this->fixDate($row['sent_time']),
             'name'                    => $row['name'],
             'sender'                  => $row['sender'],
             'sendername'              => $row['sendername'],
@@ -108,7 +108,18 @@ final class QueuednotificationsMigration extends AbstractMigration
       }
       $new_itemtype = 'App\\Models\\' . $new_itemtype;
     }
-
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

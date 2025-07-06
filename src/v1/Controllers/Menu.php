@@ -201,6 +201,14 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
+            'firmware',
+            $translator->translatePlural('Firmware', 'Firmware', 2),
+            'rom',
+            $this->getRightForModel('\App\Models\Firmware'),
+            '/view/devices/firmware',
+            '',
+          ),
+          new DataInterfaceMenu(
             'appliances',
             $translator->translatePlural('Appliance', 'Appliances', 2),
             'cubes',
@@ -383,19 +391,11 @@ final class Menu
             '',
           ),
           new DataInterfaceMenu(
-            'deviceharddrives',
-            $translator->translatePlural('Hard drive', 'Hard drives', 2),
+            'sorages',
+            $translator->translatePlural('Storage', 'Storages', 2),
             'ssd',
-            $this->getRightForModel('\App\Models\Deviceharddrive'),
-            '/view/devices/deviceharddrives',
-            '',
-          ),
-          new DataInterfaceMenu(
-            'devicefirmwares',
-            $translator->translatePlural('Firmware', 'Firmware', 2),
-            'rom',
-            $this->getRightForModel('\App\Models\Devicefirmware'),
-            '/view/devices/devicefirmwares',
+            $this->getRightForModel('\App\Models\Storage'),
+            '/view/devices/storages',
             '',
           ),
           new DataInterfaceMenu(
@@ -1190,14 +1190,6 @@ final class Menu
             'edit',
             $this->getRightForModel('\App\Models\Devicegraphiccardmodel'),
             '/view/devicegraphiccardmodels',
-            '',
-          ),
-          new DataInterfaceMenu(
-            'deviceharddrivemodels',
-            $translator->translatePlural('Device hard drive model', 'Device hard drive models', 2),
-            'edit',
-            $this->getRightForModel('\App\Models\Deviceharddrivemodel'),
-            '/view/deviceharddrivemodels',
             '',
           ),
           new DataInterfaceMenu(

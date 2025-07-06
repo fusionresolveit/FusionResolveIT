@@ -80,11 +80,11 @@ final class DocumentsItemsMigration extends AbstractMigration
             'item_type'         => self::convertItemtype($row['itemtype']),
             'entity_id'         => ($row['entities_id'] + 1),
             'is_recursive'      => $row['is_recursive'],
-            'updated_at'        => Toolbox::fixDate($row['date_mod']),
+            'updated_at'        => $this->fixDate($row['date_mod']),
             'user_id'           => $row['users_id'],
             'timeline_position' => $row['timeline_position'],
-            'created_at'        => Toolbox::fixDate($row['date_creation']),
-            'date'              => Toolbox::fixDate($row['date']),
+            'created_at'        => $this->fixDate($row['date_creation']),
+            'date'              => $this->fixDate($row['date']),
           ];
         }
         $item->insert($data)
@@ -114,7 +114,18 @@ final class DocumentsItemsMigration extends AbstractMigration
       }
       $new_itemtype = 'App\\Models\\' . $new_itemtype;
     }
-
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

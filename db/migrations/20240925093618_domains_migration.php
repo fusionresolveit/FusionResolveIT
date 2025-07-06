@@ -51,13 +51,13 @@ final class DomainsMigration extends AbstractMigration
             'entity_id'       => ($row['entities_id'] + 1),
             'is_recursive'    => $row['is_recursive'],
             'domaintype_id'   => $row['domaintypes_id'],
-            'date_expiration' => Toolbox::fixDate($row['date_expiration']),
+            'date_expiration' => $this->fixDate($row['date_expiration']),
             'user_id_tech'    => $row['users_id_tech'],
             'group_id_tech'   => $row['groups_id_tech'],
             'others'          => $row['others'],
             'comment'         => $row['comment'],
-            'updated_at'      => Toolbox::fixDate($row['date_mod']),
-            'created_at'      => Toolbox::fixDate($row['date_creation']),
+            'updated_at'      => $this->fixDate($row['date_mod']),
+            'created_at'      => $this->fixDate($row['date_creation']),
             'deleted_at'      => self::convertIsDeleted($row['is_deleted']),
           ]
         ];
@@ -80,7 +80,18 @@ final class DomainsMigration extends AbstractMigration
     {
       return date('Y-m-d H:i:s', time());
     }
-
     return null;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

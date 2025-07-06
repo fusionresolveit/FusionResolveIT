@@ -55,8 +55,8 @@ final class NotificationsMigration extends AbstractMigration
             'is_recursive'    => $row['is_recursive'],
             'is_active'       => $row['is_active'],
             'updated_at'      => $row['date_mod'],
-            'created_at'      => Toolbox::fixDate($row['date_creation']),
-            'allow_response'  => Toolbox::fixDate($row['allow_response']),
+            'created_at'      => $this->fixDate($row['date_creation']),
+            'allow_response'  => $row['allow_response'],
           ]
         ];
         $item->insert($data)
@@ -86,7 +86,18 @@ final class NotificationsMigration extends AbstractMigration
       }
       $new_itemtype = 'App\\Models\\' . $new_itemtype;
     }
-
     return $new_itemtype;
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

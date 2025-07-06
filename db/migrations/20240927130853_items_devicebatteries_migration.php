@@ -44,13 +44,19 @@ final class ItemsDevicebatteriesMigration extends AbstractMigration
       $rows = $stmt->fetchAll();
       foreach ($rows as $row)
       {
+        $manufacturing_date = null;
+        if (!is_null($row['manufacturing_date']))
+        {
+          $manufacturing_date = Toolbox::fixDate($row['manufacturing_date']);
+        }
+
         $data = [
           [
             'id'                  => $row['id'],
             'item_id'             => $row['items_id'],
             'item_type'           => self::convertItemtype($row['itemtype']),
             'devicebattery_id'    => $row['devicebatteries_id'],
-            'manufacturing_date'  => Toolbox::fixDate($row['manufacturing_date']),
+            'manufacturing_date'  => $manufacturing_date,
             'is_dynamic'          => $row['is_dynamic'],
             'entity_id'           => ($row['entities_id'] + 1),
             'is_recursive'        => $row['is_recursive'],

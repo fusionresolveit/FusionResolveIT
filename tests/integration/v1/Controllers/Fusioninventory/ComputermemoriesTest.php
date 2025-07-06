@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversClass('\App\v1\Controllers\Fusioninventory\Computeroperatingsystem')]
+#[CoversClass('\App\v1\Controllers\Fusioninventory\Computermemory')]
 #[CoversClass('\App\v1\Controllers\Fusioninventory\Common')]
 
 final class ComputermemoriesTest extends TestCase

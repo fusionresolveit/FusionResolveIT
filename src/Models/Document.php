@@ -41,10 +41,10 @@ class Document extends Common
     'associatedDevicecases',
     'associatedDevicecontrols',
     'associatedDevicedrives',
-    'associatedDevicefirmwares',
+    'associatedFirmware',
     'associatedDevicegenerics',
     'associatedDevicegraphiccards',
-    'associatedDeviceharddrives',
+    'associatedStorages',
     'associatedMemorymodules',
     'associatedDevicemotherboards',
     'associatedDevicenetworkcards',
@@ -183,10 +183,10 @@ class Document extends Common
     return $this->morphedByMany(\App\Models\Devicedrive::class, 'item', 'document_item');
   }
 
-  /** @return MorphToMany<\App\Models\Devicefirmware, $this> */
-  public function associatedDevicefirmwares(): MorphToMany
+  /** @return MorphToMany<\App\Models\Firmware, $this> */
+  public function associatedFirmware(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Devicefirmware::class, 'item', 'document_item');
+    return $this->morphedByMany(\App\Models\Firmware::class, 'item', 'document_item');
   }
 
   /** @return MorphToMany<\App\Models\Devicegeneric, $this> */
@@ -201,10 +201,10 @@ class Document extends Common
     return $this->morphedByMany(\App\Models\Devicegraphiccard::class, 'item', 'document_item');
   }
 
-  /** @return MorphToMany<\App\Models\Deviceharddrive, $this> */
-  public function associatedDeviceharddrives(): MorphToMany
+  /** @return MorphToMany<\App\Models\Storage, $this> */
+  public function associatedStorages(): MorphToMany
   {
-    return $this->morphedByMany(\App\Models\Deviceharddrive::class, 'item', 'document_item');
+    return $this->morphedByMany(\App\Models\Storage::class, 'item', 'document_item');
   }
 
   /** @return MorphToMany<\App\Models\Memorymodule, $this> */

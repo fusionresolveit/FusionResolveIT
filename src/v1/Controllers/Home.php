@@ -506,6 +506,7 @@ final class Home extends Common
 
     // get knowledgebasearticles
     $knowledgebasearticles = \App\Models\Knowledgebasearticle::get();
+    $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
 
     foreach ($knowledgebasearticles as $article)
     {
@@ -528,7 +529,6 @@ final class Home extends Common
         }
       }
       // group
-      $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
       if (!is_null($user))
       {
         foreach ($article->groupsview as $groupview)

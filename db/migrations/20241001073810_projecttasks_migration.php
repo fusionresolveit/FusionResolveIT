@@ -54,12 +54,12 @@ final class ProjectTasksMigration extends AbstractMigration
             'is_recursive'            => $row['is_recursive'],
             'project_id'              => $row['projects_id'],
             'projecttask_id'          => $row['projecttasks_id'],
-            'date'                    => Toolbox::fixDate($row['date']),
-            'updated_at'              => Toolbox::fixDate($row['date_mod']),
-            'plan_start_date'         => Toolbox::fixDate($row['plan_start_date']),
-            'plan_end_date'           => Toolbox::fixDate($row['plan_end_date']),
-            'real_start_date'         => Toolbox::fixDate($row['real_start_date']),
-            'real_end_date'           => Toolbox::fixDate($row['real_end_date']),
+            'date'                    => $this->fixDate($row['date']),
+            'updated_at'              => $this->fixDate($row['date_mod']),
+            'plan_start_date'         => $this->fixDate($row['plan_start_date']),
+            'plan_end_date'           => $this->fixDate($row['plan_end_date']),
+            'real_start_date'         => $this->fixDate($row['real_start_date']),
+            'real_end_date'           => $this->fixDate($row['real_end_date']),
             'planned_duration'        => $row['planned_duration'],
             'effective_duration'      => $row['effective_duration'],
             'projectstate_id'         => $row['projectstates_id'],
@@ -71,7 +71,7 @@ final class ProjectTasksMigration extends AbstractMigration
             'projecttasktemplate_id'  => $row['projecttasktemplates_id'],
             'is_template'             => $row['is_template'],
             'template_name'           => $row['template_name'],
-            'created_at'              => Toolbox::fixDate($row['date_mod']),
+            'created_at'              => $this->fixDate($row['date_mod']),
           ]
         ];
         $item->insert($data)
@@ -85,5 +85,17 @@ final class ProjectTasksMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

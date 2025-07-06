@@ -42,6 +42,7 @@ class Deviceprocessor extends Common
     'model:id,name',
     'entity:id,name,completename',
     'documents',
+    'firmware:id,name',
   ];
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
@@ -60,5 +61,11 @@ class Deviceprocessor extends Common
   public function itemComputers(): MorphToMany
   {
     return $this->morphedByMany(\App\Models\Computer::class, 'item', 'item_deviceprocessor');
+  }
+
+  /** @return BelongsTo<\App\Models\Firmware, $this> */
+  public function firmware(): BelongsTo
+  {
+    return $this->BelongsTo(\App\Models\Firmware::class);
   }
 }

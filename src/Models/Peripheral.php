@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -49,9 +50,8 @@ class Peripheral extends Common
     'softwareversions',
     'operatingsystems',
     'memoryslots',
-    'firmwares',
     'processors',
-    'harddrives',
+    'storages',
     'batteries',
     'soundcards',
     'controllers',
@@ -95,9 +95,9 @@ class Peripheral extends Common
     'tickets',
     'problems',
     'changes',
-    'firmwares',
+    'firmware',
     'processors',
-    'harddrives',
+    'storages',
     'batteries',
     'soundcards',
     'controllers',
@@ -141,9 +141,9 @@ class Peripheral extends Common
     'problems:id,name',
     'changes:id,name',
     'memoryslots',
-    'firmwares:id,name',
+    'firmware:id,name',
     'processors:id,name',
-    'harddrives:id,name',
+    'storages:id,name',
     'batteries:id,name',
     'soundcards:id,name',
     'controllers:id,name',
@@ -162,6 +162,15 @@ class Peripheral extends Common
     'reservations',
   ];
 
+  public static function boot(): void
+  {
+    parent::boot();
+
+    static::pivotAttaching(function ($model, $relationName, $pivotIds, $pivotIdsAttributes)
+    {
+      new \App\Events\PivotAttaching($relationName, $pivotIds);
+    });
+  }
 
   /** @return BelongsTo<\App\Models\Peripheraltype, $this> */
   public function type(): BelongsTo
@@ -289,21 +298,10 @@ class Peripheral extends Common
     );
   }
 
-  /** @return MorphToMany<\App\Models\Devicefirmware, $this> */
-  public function firmwares(): MorphToMany
+  /** @return BelongsTo<\App\Models\Firmware, $this> */
+  public function firmware(): BelongsTo
   {
-    return $this->morphToMany(
-      \App\Models\Devicefirmware::class,
-      'item',
-      'item_devicefirmware'
-    )->withPivot(
-      'devicefirmware_id',
-      'location_id',
-      'serial',
-      'otherserial',
-      'state_id',
-      'id',
-    );
+    return $this->BelongsTo(\App\Models\Firmware::class);
   }
 
   /** @return MorphToMany<\App\Models\Deviceprocessor, $this> */
@@ -327,20 +325,15 @@ class Peripheral extends Common
     );
   }
 
-  /** @return MorphToMany<\App\Models\Deviceharddrive, $this> */
-  public function harddrives(): MorphToMany
+  /** @return MorphToMany<\App\Models\Storage, $this> */
+  public function storages(): MorphToMany
   {
     return $this->morphToMany(
-      \App\Models\Deviceharddrive::class,
+      \App\Models\Storage::class,
       'item',
-      'item_deviceharddrive'
+      'item_storage'
     )->withPivot(
-      'deviceharddrive_id',
-      'capacity',
-      'serial',
-      'location_id',
-      'otherserial',
-      'state_id',
+      'storage_id',
       'busID',
       'id',
     );

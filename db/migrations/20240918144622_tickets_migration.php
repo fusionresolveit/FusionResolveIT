@@ -67,13 +67,64 @@ final class TicketsMigration extends AbstractMigration
         $data = [];
         foreach ($rows as $row)
         {
+          $closed_at = null;
+          $solved_at = null;
+          $updated_at = null;
+          $time_to_resolve = null;
+          $time_to_own = null;
+          $begin_waiting_date = null;
+          $ola_ttr_begin_date = null;
+          $internal_time_to_resolve = null;
+          $internal_time_to_own = null;
+          $created_at = null;
+          if (!is_null($row['closedate']))
+          {
+            $closed_at = Toolbox::fixDate($row['closedate']);
+          }
+          if (!is_null($row['solvedate']))
+          {
+            $solved_at = Toolbox::fixDate($row['solvedate']);
+          }
+          if (!is_null($row['date_mod']))
+          {
+            $updated_at = Toolbox::fixDate($row['date_mod']);
+          }
+          if (!is_null($row['time_to_resolve']))
+          {
+            $time_to_resolve = Toolbox::fixDate($row['time_to_resolve']);
+          }
+          if (!is_null($row['time_to_own']))
+          {
+            $time_to_own = Toolbox::fixDate($row['time_to_own']);
+          }
+          if (!is_null($row['begin_waiting_date']))
+          {
+            $begin_waiting_date = Toolbox::fixDate($row['begin_waiting_date']);
+          }
+          if (!is_null($row['ola_ttr_begin_date']))
+          {
+            $ola_ttr_begin_date = Toolbox::fixDate($row['ola_ttr_begin_date']);
+          }
+          if (!is_null($row['internal_time_to_resolve']))
+          {
+            $internal_time_to_resolve = Toolbox::fixDate($row['internal_time_to_resolve']);
+          }
+          if (!is_null($row['internal_time_to_own']))
+          {
+            $internal_time_to_own = Toolbox::fixDate($row['internal_time_to_own']);
+          }
+          if (!is_null($row['date']))
+          {
+            $created_at = Toolbox::fixDate($row['date']);
+          }
+
           $data[] = [
             'id'                          => $row['id'],
             'entity_id'                   => ($row['entities_id'] + 1),
             'name'                        => $row['name'],
-            'closed_at'                   => Toolbox::fixDate($row['closedate']),
-            'solved_at'                   => Toolbox::fixDate($row['solvedate']),
-            'updated_at'                  => Toolbox::fixDate($row['date_mod']),
+            'closed_at'                   => $closed_at,
+            'solved_at'                   => $solved_at,
+            'updated_at'                  => $updated_at,
             'user_id_lastupdater'         => $row['users_id_lastupdater'],
             'status'                      => $row['status'],
             'user_id_recipient'           => $row['users_id_recipient'],
@@ -88,17 +139,17 @@ final class TicketsMigration extends AbstractMigration
             'sla_id_ttr'                  => $row['slas_id_ttr'],
             'sla_id_tto'                  => $row['slas_id_tto'],
             'slalevel_id_ttr'             => $row['slalevels_id_ttr'],
-            'time_to_resolve'             => Toolbox::fixDate($row['time_to_resolve']),
-            'time_to_own'                 => Toolbox::fixDate($row['time_to_own']),
-            'begin_waiting_date'          => Toolbox::fixDate($row['begin_waiting_date']),
+            'time_to_resolve'             => $time_to_resolve,
+            'time_to_own'                 => $time_to_own,
+            'begin_waiting_date'          => $begin_waiting_date,
             'sla_waiting_duration'        => $row['sla_waiting_duration'],
             'ola_waiting_duration'        => $row['ola_waiting_duration'],
             'ola_id_tto'                  => $row['olas_id_tto'],
             'ola_id_ttr'                  => $row['olas_id_ttr'],
             'olalevel_id_ttr'             => $row['olalevels_id_ttr'],
-            'ola_ttr_begin_date'          => Toolbox::fixDate($row['ola_ttr_begin_date']),
-            'internal_time_to_resolve'    => Toolbox::fixDate($row['internal_time_to_resolve']),
-            'internal_time_to_own'        => Toolbox::fixDate($row['internal_time_to_own']),
+            'ola_ttr_begin_date'          => $ola_ttr_begin_date,
+            'internal_time_to_resolve'    => $internal_time_to_resolve,
+            'internal_time_to_own'        => $internal_time_to_own,
             'waiting_duration'            => $row['waiting_duration'],
             'close_delay_stat'            => $row['close_delay_stat'],
             'solve_delay_stat'            => $row['solve_delay_stat'],
@@ -106,7 +157,7 @@ final class TicketsMigration extends AbstractMigration
             'actiontime'                  => $row['actiontime'],
             'location_id'                 => $row['locations_id'],
             'validation_percent'          => $row['validation_percent'],
-            'created_at'                  => Toolbox::fixDate($row['date']),
+            'created_at'                  => $created_at,
             'deleted_at'                  => self::convertIsDeleted($row['is_deleted']),
           ];
         }

@@ -52,9 +52,9 @@ final class DocumenttypesMigration extends AbstractMigration
             'icon'                => $row['icon'],
             'mime'                => $row['mime'],
             'is_uploadable'       => $row['is_uploadable'],
-            'updated_at'          => Toolbox::fixDate($row['date_mod']),
+            'updated_at'          => $this->fixDate($row['date_mod']),
             'comment'             => $row['comment'],
-            'created_at'          => Toolbox::fixDate($row['date_creation']),
+            'created_at'          => $this->fixDate($row['date_creation']),
           ]
         ];
         $item->insert($data)
@@ -68,5 +68,17 @@ final class DocumenttypesMigration extends AbstractMigration
       // rollback
       $item->truncate();
     }
+  }
+
+  /**
+   * @param string|null $value
+   */
+  private function fixDate($value): string|null
+  {
+    if (is_null($value))
+    {
+      return null;
+    }
+    return Toolbox::fixDate($value);
   }
 }

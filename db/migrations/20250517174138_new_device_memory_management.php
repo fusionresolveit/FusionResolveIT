@@ -51,11 +51,16 @@ final class NewDeviceMemoryManagement extends AbstractMigration
     $rows = $stmt->fetchAll();
     foreach ($rows as $row)
     {
+      $slotnumber = 0;
+      if (is_numeric($row['busID']))
+      {
+        $slotnumber = intval($row['busID']);
+      }
       $data = [
         'item_id'     => $row['item_id'],
         'item_type'   => $row['item_type'],
         'is_dynamic'  => $row['is_dynamic'],
-        'slotnumber'  => $row['busID'],
+        'slotnumber'  => $slotnumber,
         'created_at'  => $row['created_at'],
         'updated_at'  => $row['updated_at'],
       ];
@@ -69,9 +74,15 @@ final class NewDeviceMemoryManagement extends AbstractMigration
         $rowsDevice = $stmtDevice->fetchAll();
         foreach ($rowsDevice as $rowDevice)
         {
+          $frequence = null;
+          if (is_numeric($rowDevice['frequence']))
+          {
+            $frequence = intval($rowDevice['frequence']);
+          }
+
           $data = [
             'size'                  => $row['size'],
-            'frequence'             => $rowDevice['frequence'],
+            'frequence'             => $frequence,
             'manufacturer_id'       => $rowDevice['manufacturer_id'],
             'devicememorymodel_id'  => $rowDevice['devicememorymodel_id'],
             'devicememorytype_id'   => $rowDevice['devicememorytype_id'],
