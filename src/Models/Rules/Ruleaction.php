@@ -59,10 +59,7 @@ class Ruleaction extends \App\Models\Common
 
     $field->name = 'value';
     $field->value = $this->attributes['value'];
-    if (isset($field->multiple))
-    {
-      unset($field->multiple);
-    }
+    $field->multiple = null;
     if (!is_null($this->value) && ($field->type == 'dropdown' || $field->type == 'dropdown_remote'))
     {
       if (count($field->values) > 0)
