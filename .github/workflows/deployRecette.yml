@@ -27,7 +27,7 @@ jobs:
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-dev
+      run: composer install --prefer-dist --no-progress --no-dev --optimize-autoloader
 
     - name: Run webpack for production
       run: |
