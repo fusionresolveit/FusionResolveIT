@@ -8,7 +8,7 @@
         "issues": "https://github.com/DCS-Easyware/gsit/issues"
     },
     "require": {
-        "php": "^8.2|^8.3",
+        "php": "^8.2.0|^8.3.0|^8.4.0",
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-fileinfo": "*",
