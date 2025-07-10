@@ -37,6 +37,7 @@ final class Communication extends \App\v1\Controllers\Common
 
     if (strstr($data, '<QUERY>INVENTORY</QUERY>'))
     {
+      ini_set('max_execution_time', 240);
       $computer = new Computer();
       $computer->importComputer($data);
       $payload = [];

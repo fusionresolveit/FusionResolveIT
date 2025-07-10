@@ -312,4 +312,34 @@ final class Printer extends Common implements \App\Interfaces\Crud
 
     return $view->render($response, 'subitem/cartridgesprinters.html.twig', (array)$viewData);
   }
+
+  /**
+   * @param \App\Models\Printer $item
+   *
+   * @return array<mixed>
+   */
+  protected function getInformationTop($item, Request $request): array
+  {
+    global $translator, $basePath;
+
+    $tabInfos = [];
+
+    $fusioninventoried_at = $item->getAttribute('fusioninventoried_at');
+    if (!is_null($fusioninventoried_at))
+    {
+      $tabInfos[] = [
+        'key'   => 'labelfusioninventoried',
+        'value' => $translator->translate('Automatically inventoried'),
+        'link'  => null,
+      ];
+
+      $tabInfos[] = [
+        'key'   => 'fusioninventoried',
+        'value' => $translator->translate('Last automatic inventory') . ' : ' .
+                   $fusioninventoried_at->toDateTimeString(),
+        'link'  => null,
+      ];
+    }
+    return $tabInfos;
+  }
 }

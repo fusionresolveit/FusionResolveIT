@@ -47,6 +47,9 @@ class Memorymodule extends Common
     'documents',
   ];
 
+  protected $casts = [
+    'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',
+  ];
 
   /** @return BelongsTo<\App\Models\Memoryslot, $this> */
   public function memoryslot(): BelongsTo

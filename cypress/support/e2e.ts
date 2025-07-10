@@ -5,6 +5,11 @@ Cypress.Commands.add('dbReset', () =>
     cy.exec(`php bin/cli reset`);
 });
 
+Cypress.Commands.add('runFusionInventory', () =>
+    {
+        cy.exec(`php cypress/scripts/sendComputerFusionInventory.php`);
+    });
+    
 Cypress.Commands.add('login', (username, password) =>
 {
     cy.session([username, password], () =>

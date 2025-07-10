@@ -164,7 +164,8 @@ class Computer extends Common
   ];
 
   protected $casts = [
-    'is_dynamic' => 'boolean',
+    'is_dynamic'           => 'boolean',
+    'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',
   ];
 
   public static function boot(): void

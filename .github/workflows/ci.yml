@@ -291,6 +291,9 @@ jobs:
           sudo setfacl -m g:www-data:rx /home/runner
           sudo chown -R www-data public
 
+      - name: remove database lock in case need reset database
+        run: rm database.lock
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
 

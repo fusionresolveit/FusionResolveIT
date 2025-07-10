@@ -354,6 +354,23 @@ final class Computer extends Common implements \App\Interfaces\Crud
 
     $tabInfos = [];
 
+    $fusioninventoried_at = $myItem->getAttribute('fusioninventoried_at');
+    if (!is_null($fusioninventoried_at))
+    {
+      $tabInfos[] = [
+        'key'   => 'labelfusioninventoried',
+        'value' => $translator->translate('Automatically inventoried'),
+        'link'  => null,
+      ];
+
+      $tabInfos[] = [
+        'key'   => 'fusioninventoried',
+        'value' => $translator->translate('Last automatic inventory') . ' : ' .
+                   $fusioninventoried_at->toDateTimeString(),
+        'link'  => null,
+      ];
+    }
+
     $operatingsystem = '';
     foreach ($myItem->operatingsystems as $os)
     {
