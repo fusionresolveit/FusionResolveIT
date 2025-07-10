@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Fusioninventory;
 
+use Carbon\Carbon;
+
 final class Computerstorage extends \App\v1\Controllers\Common
 {
   /**
@@ -82,18 +84,19 @@ final class Computerstorage extends \App\v1\Controllers\Common
         $storage->interfacetype_id = $interfaceId;
         $storage->type = $type;
         $storage->firmware_id = $firmwareId;
+        $storage->fusioninventoried_at = Carbon::now();
         $storage->save();
       } else {
         if ($storage->getAttribute('type') == 0 && $type > 0)
         {
           $storage->type = $type;
-          $storage->save();
         }
         if ($storage->getAttribute('firmware_id') != $firmwareId)
         {
           $storage->firmware_id = $firmwareId;
-          $storage->save();
         }
+        $storage->fusioninventoried_at = Carbon::now();
+        $storage->save();
       }
       $storageIds[] = $storage->id;
     }

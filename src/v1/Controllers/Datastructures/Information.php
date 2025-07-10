@@ -23,6 +23,7 @@ trait Information
   public function addInformation($type, $info): void
   {
     $data = [
+      'key'   => $info['key'],
       'value' => $info['value'],
       'link'  => $info['link'],
     ];

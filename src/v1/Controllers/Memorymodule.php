@@ -192,4 +192,34 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
       ->withHeader('Location', $_SERVER['HTTP_REFERER'])
       ->withStatus(302);
   }
+
+  /**
+   * @param \App\Models\Memorymodule $item
+   *
+   * @return array<mixed>
+   */
+  protected function getInformationTop($item, Request $request): array
+  {
+    global $translator, $basePath;
+
+    $tabInfos = [];
+
+    $fusioninventoried_at = $item->getAttribute('fusioninventoried_at');
+    if (!is_null($fusioninventoried_at))
+    {
+      $tabInfos[] = [
+        'key'   => 'labelfusioninventoried',
+        'value' => $translator->translate('Automatically inventoried'),
+        'link'  => null,
+      ];
+
+      $tabInfos[] = [
+        'key'   => 'fusioninventoried',
+        'value' => $translator->translate('Last automatic inventory') . ' : ' .
+                   $fusioninventoried_at->toDateTimeString(),
+        'link'  => null,
+      ];
+    }
+    return $tabInfos;
+  }
 }

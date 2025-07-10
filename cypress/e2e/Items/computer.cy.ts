@@ -6,6 +6,7 @@ describe('test computer items', () => {
 
   /* ==== Test Created with Cypress Studio ==== */
   it('menu to item list', function() {
+    cy.dbReset();
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('http://127.0.0.1/view/home');
     cy.get('[data-cy="menu-main-hardwareinventory"]').click();

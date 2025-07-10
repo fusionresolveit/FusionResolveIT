@@ -50,6 +50,10 @@ class Storage extends Common
     'firmware:id,name',
   ];
 
+  protected $casts = [
+    'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',
+  ];
+
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo
   {

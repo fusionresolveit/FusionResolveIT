@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Fusioninventory;
 
+use Carbon\Carbon;
+
 final class Computermemory extends \App\v1\Controllers\Common
 {
   /**
@@ -172,14 +174,15 @@ final class Computermemory extends \App\v1\Controllers\Common
             $memorymodule->memorytype_id = $typeId;
             $memorymodule->serial = $serial;
             $memorymodule->memoryslot_id = $slot->id;
+            $memorymodule->fusioninventoried_at = Carbon::now();
             $memorymodule->save();
           } else {
             $memorymodule->memoryslot_id = $slot->id;
             if ($memorymodule->frequence != $frequence)
             {
               $memorymodule->frequence = $frequence;
-              $memorymodule->save();
             }
+            $memorymodule->fusioninventoried_at = Carbon::now();
             $memorymodule->save();
           }
         }

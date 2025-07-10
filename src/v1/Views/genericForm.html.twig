@@ -17,24 +17,29 @@
           <div class="ui form blue segment">
             <div class="field">
               <label style="text-transform: uppercase;">
-                <span class="ui blue text">
-                  Information
-                </span>
+                <span class="ui blue text">Information</span>
               </label>
               {% for item_top in information.top %}
-                  <p>
-                    {% if item_top.button is iterable %}
-                      <a href="{{ item_top.link }}" class="ui {{ item_top.button.color }} labeled icon button">
-                        <i class="{{ item_top.button.icon }} icon"></i>
-                        {{ item_top.value }}
-                      </a>
+                <p>
+                  {% if item_top.button is iterable %}
+                    <a href="{{ item_top.link }}" class="ui {{ item_top.button.color }} labeled icon button">
+                      <i class="{{ item_top.button.icon }} icon"></i>
+                      <span>{{ item_top.value }}</span>
+                    </a>
+                  {% else %}
+                    {% if item_top.key == 'labelfusioninventoried' %}
+                      <div class="ui green label">
+                        <i class="running icon"></i>
+                        <span>{{ item_top.value }}</span>
+                      </div>
                     {% else %}
                       {{ item_top.value }}
                       {% if item_top.link != null %}
                         <a href="{{ item_top.link }}"><i class="external alternate icon"></i></a>
                       {% endif %}
                     {% endif %}
-                  </p>
+                  {% endif %}
+                </p>
               {% endfor %}
             </div>
           </div>

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\v1\Controllers\Fusioninventory;
 
+use Carbon\Carbon;
+
 final class Computer extends \App\v1\Controllers\Common
 {
   /**
@@ -104,6 +106,7 @@ final class Computer extends \App\v1\Controllers\Common
     $computer->manufacturer_id = $manufacturerId;
     $computer->computertype_id = $this->getType($dataObject);
     $computer->firmware_id = $firmwareId;
+    $computer->fusioninventoried_at = Carbon::now();
     // computermodel_id
 
     $computer->save();

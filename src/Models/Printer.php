@@ -169,6 +169,10 @@ class Printer extends Common
     'reservations',
   ];
 
+  protected $casts = [
+    'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',
+  ];
+
   public static function boot(): void
   {
     parent::boot();
