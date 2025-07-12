@@ -52,7 +52,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
 
     $tickettemplate = \App\Models\Tickettemplate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket template has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($tickettemplate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
 
     $tickettemplate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket template has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($tickettemplate, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $tickettemplate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket template has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/tickettemplates')
@@ -136,7 +136,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $tickettemplate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket template has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $tickettemplate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket template has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -176,8 +176,6 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
    */
   public function showSubMandatoryFields(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Tickettemplate();
     $view = Twig::fromRequest($request);
 
@@ -210,8 +208,8 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('mandatoryfields', $myMandatoryFields);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('interface', $translator->translate('Interface'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('interface', pgettext('inventory device', 'Interface'));
 
     return $view->render($response, 'subitem/tickettemplatemandatoryfields.html.twig', (array)$viewData);
   }
@@ -221,8 +219,6 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
    */
   public function showSubPredefinedFields(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Tickettemplate();
     $view = Twig::fromRequest($request);
 
@@ -259,7 +255,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('predefinedfields', $myPredefinedFields);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
     $viewData->addTranslation('value', 'Valeur');
 
     return $view->render($response, 'subitem/tickettemplatepredefinedfields.html.twig', (array)$viewData);
@@ -270,8 +266,6 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
    */
   public function showSubHiddenFields(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Tickettemplate();
     $view = Twig::fromRequest($request);
 
@@ -299,7 +293,7 @@ final class Tickettemplate extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('hiddenfields', $myHiddenFields);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/tickettemplatehiddenfields.html.twig', (array)$viewData);
   }

@@ -117,7 +117,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
 
     $problem = \App\Models\Problem::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($problem, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -160,7 +160,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
 
     $problem->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($problem, 'update');
 
     $uri = $request->getUri();
@@ -190,7 +190,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $problem->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/problems')
@@ -201,7 +201,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $problem->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -228,7 +228,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $problem->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The problem has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -241,8 +241,6 @@ final class Problem extends Common implements \App\Interfaces\Crud
    */
   public function showAnalysis(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Problem();
     $view = Twig::fromRequest($request);
 
@@ -280,9 +278,9 @@ final class Problem extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('impactcontent', $translator->translate('Impacts'));
-    $viewData->addTranslation('causecontent', $translator->translate('Causes'));
-    $viewData->addTranslation('symptomcontent', $translator->translate('Symptoms'));
+    $viewData->addTranslation('impactcontent', pgettext('ITIL', 'Impacts'));
+    $viewData->addTranslation('causecontent', pgettext('problem', 'Causes'));
+    $viewData->addTranslation('symptomcontent', pgettext('problem', 'Symptoms'));
 
     return $view->render($response, 'subitem/analysis.html.twig', (array)$viewData);
   }
@@ -292,8 +290,6 @@ final class Problem extends Common implements \App\Interfaces\Crud
    */
   public function showStats(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -309,14 +305,14 @@ final class Problem extends Common implements \App\Interfaces\Crud
 
     $feeds[] = [
       'date'  => $myItem->created_at,
-      'text'  => $translator->translate('Opening date'),
+      'text'  => pgettext('ITIL', 'Opening date'),
       'icon'  => 'pencil alternate',
       'color' => 'blue'
     ];
 
     $feeds[] = [
       'date'  => $myItem->time_to_resolve,
-      'text'  => $translator->translate('Time to resolve'),
+      'text'  => pgettext('ITIL', 'Time to resolve'),
       'icon'  => 'hourglass half',
       'color' => 'blue'
     ];
@@ -324,7 +320,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
     {
       $feeds[] = [
         'date'  => $myItem->solvedate,
-        'text'  => $translator->translate('Resolution date'),
+        'text'  => pgettext('ITIL', 'Resolution date'),
         'icon'  => 'check circle',
         'color' => 'blue'
       ];
@@ -333,7 +329,7 @@ final class Problem extends Common implements \App\Interfaces\Crud
     {
       $feeds[] = [
         'date'  => $myItem->closedate,
-        'text'  => $translator->translate('Closing date'),
+        'text'  => pgettext('ITIL', 'Closing date'),
         'icon'  => 'flag checkered',
         'color' => 'blue'
       ];

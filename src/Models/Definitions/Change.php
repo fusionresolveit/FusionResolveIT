@@ -11,29 +11,27 @@ class Change
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Title'),
-      'content' => $translator->translate('Description'),
-      'status' => $translator->translate('Status'),
-      'urgency' => $translator->translate('Urgency'),
-      'impact' => $translator->translate('Impact'),
-      'priority' => $translator->translate('Priority'),
-      'date' => $translator->translate('Opening date'),
-      'closedate' => $translator->translate('Closing date'),
-      'time_to_resolve' => $translator->translate('Time to resolve'),
-      'solvedate' => $translator->translate('Resolution date'),
-      'updated_at' => $translator->translate('Last update'),
-      'category' => $translator->translate('Category'),
-      'actiontime' => $translator->translate('Total duration'),
-      'usersidlastupdater' => $translator->translate('Last edit by'),
-      'usersidrecipient' => $translator->translate('Writer'),
-      'impactcontent' => $translator->translate('Analysis impact'),
-      'controlistcontent' => $translator->translate('Control list'),
-      'rolloutplancontent' => $translator->translate('Deployment plan'),
-      'backoutplancontent' => $translator->translate('Backup plan'),
-      'checklistcontent' => $translator->translate('Checklist'),
+      'name'                => pgettext('global', 'Title'),
+      'content'             => pgettext('global', 'Description'),
+      'status'              => pgettext('global', 'Status'),
+      'urgency'             => pgettext('ITIL', 'Urgency'),
+      'impact'              => pgettext('ITIL', 'Impact'),
+      'priority'            => pgettext('ITIL', 'Priority'),
+      'date'                => pgettext('ITIL', 'Opening date'),
+      'closedate'           => pgettext('ITIL', 'Closing date'),
+      'time_to_resolve'     => pgettext('ITIL', 'Time to resolve'),
+      'solvedate'           => pgettext('ITIL', 'Resolution date'),
+      'updated_at'          => pgettext('global', 'Last update'),
+      'category'            => npgettext('global', 'Category', 'Categories', 1),
+      'actiontime'          => pgettext('ITIL', 'Total duration'),
+      'usersidlastupdater'  => pgettext('ITIL', 'Last edit by'),
+      'usersidrecipient'    => pgettext('ITIL', 'Writer'),
+      'impactcontent'       => pgettext('global', 'Analysis impact'),
+      'controlistcontent'   => pgettext('ITIL', 'Control list'),
+      'rolloutplancontent'  => pgettext('change', 'Deployment plan'),
+      'backoutplancontent'  => pgettext('change', 'Backup plan'),
+      'checklistcontent'    => pgettext('change', 'Checklist'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -123,13 +121,13 @@ class Change
 
     // [
     //   'id'    => 82,
-    //   'title' => $translator->translate('Time to resolve exceeded'),
+    //   'title' => 'Time to resolve exceeded',
     //   'type'  => 'boolean',
     //   'name'  => 'is_late',
     // ],
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -276,40 +274,39 @@ class Change
    */
   public static function getStatusArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('New'),
+        'title' => pgettext('change status', 'New'),
         'displaystyle' => 'marked',
         'color' => 'olive',
         'icon'  => 'book open',
       ],
       2 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (assigned)'),
+        'title' => pgettext('change status', 'Processing (assigned)'),
         'displaystyle' => 'marked',
         'color' => 'blue',
         'icon'  => 'book reader',
       ],
       3 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (planned)'),
+        'title' => pgettext('change status', 'Processing (planned)'),
         'displaystyle' => 'marked',
         'color' => 'blue',
         'icon'  => 'business time',
       ],
       4 => [
-        'title' => $translator->translate('Pending'),
+        'title' => pgettext('change status', 'Pending'),
         'displaystyle' => 'marked',
         'color' => 'grey',
         'icon'  => 'pause',
       ],
       5 => [
-        'title' => $translator->translate('Solved'),
+        'title' => pgettext('change status', 'Solved'),
         'displaystyle' => 'marked',
         'color' => 'purple',
         'icon'  => 'vote yea',
       ],
       6 => [
-        'title' => $translator->translate('Closed'),
+        'title' => pgettext('change status', 'Closed'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
@@ -322,22 +319,21 @@ class Change
    */
   public static function getUrgencyArray(): array
   {
-    global $translator;
     return [
       5 => [
-        'title' => $translator->translate('urgency' . "\004" . 'Very high'),
+        'title' => pgettext('ITIL urgency', 'Very high'),
       ],
       4 => [
-        'title' => $translator->translate('urgency' . "\004" . 'High'),
+        'title' => pgettext('ITIL urgency', 'High'),
       ],
       3 => [
-        'title' => $translator->translate('urgency' . "\004" . 'Medium'),
+        'title' => pgettext('ITIL urgency', 'Medium'),
       ],
       2 => [
-        'title' => $translator->translate('urgency' . "\004" . 'Low'),
+        'title' => pgettext('ITIL urgency', 'Low'),
       ],
       1 => [
-        'title' => $translator->translate('urgency' . "\004" . 'Very low'),
+        'title' => pgettext('ITIL urgency', 'Very low'),
       ],
     ];
   }
@@ -347,22 +343,21 @@ class Change
    */
   public static function getImpactArray(): array
   {
-    global $translator;
     return [
       5 => [
-        'title' => $translator->translate('impact' . "\004" . 'Very high'),
+        'title' => pgettext('ITIL impact', 'Very high'),
       ],
       4 => [
-        'title' => $translator->translate('impact' . "\004" . 'High'),
+        'title' => pgettext('ITIL impact', 'High'),
       ],
       3 => [
-        'title' => $translator->translate('impact' . "\004" . 'Medium'),
+        'title' => pgettext('ITIL impact', 'Medium'),
       ],
       2 => [
-        'title' => $translator->translate('impact' . "\004" . 'Low'),
+        'title' => pgettext('ITIL impact', 'Low'),
       ],
       1 => [
-        'title' => $translator->translate('impact' . "\004" . 'Very low'),
+        'title' => pgettext('ITIL impact', 'Very low'),
       ],
     ];
   }
@@ -372,35 +367,34 @@ class Change
    */
   public static function getPriorityArray(): array
   {
-    global $translator;
     return [
       6 => [
-        'title' => $translator->translate('priority' . "\004" . 'Major'),
+        'title' => pgettext('ITIL priority', 'Major'),
         'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       5 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very high'),
+        'title' => pgettext('ITIL priority', 'Very high'),
         'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       4 => [
-        'title' => $translator->translate('priority' . "\004" . 'High'),
+        'title' => pgettext('ITIL priority', 'High'),
         'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
       3 => [
-        'title' => $translator->translate('priority' . "\004" . 'Medium'),
+        'title' => pgettext('ITIL priority', 'Medium'),
         'color' => 'fusionmedium',
         'icon'  => 'volume up',
       ],
       2 => [
-        'title' => $translator->translate('priority' . "\004" . 'Low'),
+        'title' => pgettext('ITIL priority', 'Low'),
         'color' => 'fusionlow',
         'icon'  => 'volume down',
       ],
       1 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very low'),
+        'title' => pgettext('ITIL priority', 'Very low'),
         'color' => 'fusionverylow',
         'icon'  => 'volume off',
       ],
@@ -414,14 +408,11 @@ class Change
    */
   public static function getTimestampArray(array $options = []): array
   {
-    global $translator;
-
     $MINUTE_TIMESTAMP = 60;
     $HOUR_TIMESTAMP = 3600;
     $DAY_TIMESTAMP = 86400;
     $WEEK_TIMESTAMP = 604800;
     $MONTH_TIMESTAMP = 2592000;
-
 
     $params = [];
     $params['min']                 = 0;
@@ -501,7 +492,7 @@ class Change
           //TRANS: %1$d is the number of days, %2$d the number of hours,
           //       %3$s the number of minutes : display 1 day 3h15
           $values[$i] = sprintf(
-            $translator->translatePlural('%1$d day %2$dh%3$s', '%1$d days %2$dh%3$s', $day),
+            npgettext('global', '%1$d day %2$dh%3$s', '%1$d days %2$dh%3$s', (int) $day),
             $day,
             $hour,
             $minute
@@ -509,7 +500,7 @@ class Change
         }
         else
         {
-          $values[$i] = sprintf($translator->translatePlural('%d day', '%d days', $day), $day);
+          $values[$i] = sprintf(npgettext('global', '%d day', '%d days', (int) $day), $day);
         }
       }
       elseif ($hour > 0 || $minute > 0)
@@ -520,7 +511,7 @@ class Change
         }
 
         //TRANS: %1$d the number of hours, %2$s the number of minutes : display 3h15
-        $values[$i] = sprintf($translator->translate('%1$dh%2$s'), $hour, $minute);
+        $values[$i] = sprintf(pgettext('global', '%1$dh%2$s'), $hour, $minute);
       }
     }
 
@@ -537,17 +528,16 @@ class Change
    */
   public static function getDefinitionAnalysis(): array
   {
-    global $translator;
     return [
       [
         'id'    => 1,
-        'title' => $translator->translate('Impacts'),
+        'title' => pgettext('ITIL', 'Impacts'),
         'type'  => 'textarea',
         'name'  => 'impactcontent',
       ],
       [
         'id'    => 2,
-        'title' => $translator->translate('Control list'),
+        'title' => pgettext('ITIL', 'Control list'),
         'type'  => 'textarea',
         'name'  => 'controlistcontent',
       ],
@@ -559,23 +549,22 @@ class Change
    */
   public static function getDefinitionPlans(): array
   {
-    global $translator;
     return [
       [
         'id'    => 1,
-        'title' => $translator->translate('Deployment plan'),
+        'title' => pgettext('change', 'Deployment plan'),
         'type'  => 'textarea',
         'name'  => 'rolloutplancontent',
       ],
       [
         'id'    => 2,
-        'title' => $translator->translate('Backup plan'),
+        'title' => pgettext('change', 'Backup plan'),
         'type'  => 'textarea',
         'name'  => 'backoutplancontent',
       ],
       [
         'id'    => 3,
-        'title' => $translator->translate('Checklist'),
+        'title' => pgettext('change', 'Checklist'),
         'type'  => 'textarea',
         'name'  => 'checklistcontent',
       ],
@@ -587,78 +576,77 @@ class Change
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Change', 'Changes', 1),
+        'title' => npgettext('change', 'Change', 'Changes', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Processing change'),
+        'title' => pgettext('change', 'Processing change'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Analysis'),
+        'title' => pgettext('ITIL', 'Analysis'),
         'icon' => 'edit',
         'link' => $rootUrl . '/analysis',
       ],
       [
-        'title' => $translator->translate('Plans'),
+        'title' => pgettext('change', 'Plans'),
         'icon' => 'edit',
         'link' => $rootUrl . '/plans',
       ],
       [
-        'title' => $translator->translate('Statistics'),
+        'title' => pgettext('ITIL', 'Statistics'),
         'icon' => 'chartline',
         'link' => $rootUrl . '/stats',
       ],
       [
-        'title' => $translator->translatePlural('Approval', 'Approvals', 2),
+        'title' => npgettext('ITIL', 'Approval', 'Approvals', 2),
         'icon' => 'thumbs up',
         'link' => $rootUrl . '/approvals',
       ],
       [
-        'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
+        'title' => npgettext('ticket', 'Ticket', 'Tickets', 2),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/tickets',
         'rightModel' => '\App\Models\Ticket',
       ],
       [
-        'title' => $translator->translatePlural('Problem', 'Problems', 2),
+        'title' => npgettext('problem', 'Problem', 'Problems', 2),
         'icon' => 'drafting compass',
         'link' => $rootUrl . '/problem',
         'rightModel' => '\App\Models\Problem',
       ],
       [
-        'title' => $translator->translatePlural('Cost', 'Costs', 2),
+        'title' => npgettext('global', 'Cost', 'Costs', 2),
         'icon' => 'money bill alternate',
         'link' => $rootUrl . '/costs',
       ],
       [
-        'title' => $translator->translatePlural('Project', 'Projects', 2),
+        'title' => npgettext('global', 'Project', 'Projects', 2),
         'icon' => 'folder open',
         'link' => $rootUrl . '/projects',
         'rightModel' => '\App\Models\Project',
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Knowledge base'),
+        'title' => pgettext('global', 'Knowledge base'),
         'icon' => 'book',
         'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

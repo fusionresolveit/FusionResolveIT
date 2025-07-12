@@ -18,7 +18,6 @@ class Reminder extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Reminder::class;
-  protected $titles = ['Reminder', 'Reminders'];
   protected $icon = 'sticky note';
   protected $hasEntityField = false;
   /** @var string[] */
@@ -38,6 +37,14 @@ class Reminder extends Common
     'user:id,name,firstname,lastname',
     'documents:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Reminder', 'Reminders', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo

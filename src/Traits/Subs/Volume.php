@@ -15,8 +15,6 @@ trait Volume
    */
   public function showSubVolumes(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -34,9 +32,9 @@ trait Volume
     {
       if ($volume->is_dynamic == 1)
       {
-        $auto_val = $translator->translate('Yes');
+        $auto_val = pgettext('global', 'Yes');
       } else {
-        $auto_val = $translator->translate('No');
+        $auto_val = pgettext('global', 'No');
       }
 
       $filesystem = '';
@@ -56,15 +54,15 @@ trait Volume
       $encryption_status_val = '';
       if ($volume->encryption_status == 0)
       {
-        $encryption_status_val = $translator->translate('Not encrypted');
+        $encryption_status_val = pgettext('volume', 'Not encrypted');
       }
       if ($volume->encryption_status == 1)
       {
-        $encryption_status_val = $translator->translate('Encrypted');
+        $encryption_status_val = pgettext('volume', 'Encrypted');
       }
       if ($volume->encryption_status == 2)
       {
-        $encryption_status_val = $translator->translate('Partially encrypted');
+        $encryption_status_val = pgettext('volume', 'Partially encrypted');
       }
 
       $myVolumes[] = [
@@ -92,16 +90,16 @@ trait Volume
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('volumes', $myVolumes);
 
-    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
-    $viewData->addTranslation('device', $translator->translate('Partition'));
-    $viewData->addTranslation('mountpoint', $translator->translate('Mount point'));
-    $viewData->addTranslation('filesystem', $translator->translatePlural('File system', 'File systems', 1));
-    $viewData->addTranslation('totalsize', $translator->translate('Global size'));
-    $viewData->addTranslation('freesize', $translator->translate('Free size'));
-    $viewData->addTranslation('encryption', $translator->translate('Encryption'));
-    $viewData->addTranslation('encryption_algorithm', $translator->translate('Encryption algorithm'));
-    $viewData->addTranslation('encryption_tool', $translator->translate('Encryption tool'));
-    $viewData->addTranslation('encryption_type', $translator->translate('Encryption type'));
+    $viewData->addTranslation('auto', pgettext('inventory device', 'Automatic inventory'));
+    $viewData->addTranslation('device', pgettext('volume', 'Partition'));
+    $viewData->addTranslation('mountpoint', pgettext('volume', 'Mount point'));
+    $viewData->addTranslation('filesystem', npgettext('global', 'File system', 'File systems', 1));
+    $viewData->addTranslation('totalsize', pgettext('volume', 'Global size'));
+    $viewData->addTranslation('freesize', pgettext('volume', 'Free size'));
+    $viewData->addTranslation('encryption', pgettext('volume', 'Encryption'));
+    $viewData->addTranslation('encryption_algorithm', pgettext('volume', 'Encryption algorithm'));
+    $viewData->addTranslation('encryption_tool', pgettext('volume', 'Encryption tool'));
+    $viewData->addTranslation('encryption_type', pgettext('volume', 'Encryption type'));
     $viewData->addTranslation('usedpercent', 'Pourcentage utilisé');
 
     return $view->render($response, 'subitem/volumes.html.twig', (array)$viewData);

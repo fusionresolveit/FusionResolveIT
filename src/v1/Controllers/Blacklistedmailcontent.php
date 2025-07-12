@@ -48,7 +48,7 @@ final class Blacklistedmailcontent extends Common implements \App\Interfaces\Cru
 
     $blacklistedmailcontent = \App\Models\Blacklistedmailcontent::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The blacklistedmailcontent has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($blacklistedmailcontent, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -91,7 +91,7 @@ final class Blacklistedmailcontent extends Common implements \App\Interfaces\Cru
 
     $blacklistedmailcontent->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The blacklistedmailcontent has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($blacklistedmailcontent, 'update');
 
     $uri = $request->getUri();
@@ -121,7 +121,7 @@ final class Blacklistedmailcontent extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $blacklistedmailcontent->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The blacklistedmailcontent has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/blacklistedmailcontents')
@@ -132,7 +132,7 @@ final class Blacklistedmailcontent extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $blacklistedmailcontent->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The blacklistedmailcontent has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -159,7 +159,7 @@ final class Blacklistedmailcontent extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $blacklistedmailcontent->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The blacklistedmailcontent has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

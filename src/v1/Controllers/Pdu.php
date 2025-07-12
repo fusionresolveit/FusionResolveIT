@@ -62,7 +62,7 @@ final class Pdu extends Common implements \App\Interfaces\Crud
 
     $pdu = \App\Models\Pdu::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($pdu, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -105,7 +105,7 @@ final class Pdu extends Common implements \App\Interfaces\Crud
 
     $pdu->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($pdu, 'update');
 
     $uri = $request->getUri();
@@ -135,7 +135,7 @@ final class Pdu extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $pdu->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/pdus')
@@ -146,7 +146,7 @@ final class Pdu extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $pdu->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -173,7 +173,7 @@ final class Pdu extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $pdu->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -186,8 +186,6 @@ final class Pdu extends Common implements \App\Interfaces\Crud
    */
   public function showSubPlugs(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Pdu();
     $view = Twig::fromRequest($request);
 
@@ -225,8 +223,8 @@ final class Pdu extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('plugs', $myPlugs);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('number', $translator->translate('Number'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('number', pgettext('inventory device', 'Number'));
 
     return $view->render($response, 'subitem/plugs.html.twig', (array)$viewData);
   }

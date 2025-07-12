@@ -20,7 +20,6 @@ class Firmware extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Firmware::class;
-  protected $titles = ['Firmware', 'Firmware'];
   protected $icon = 'rom';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -51,6 +50,14 @@ class Firmware extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Firmware', 'Firmware', $nb);
+  }
 
   public function getModelnameAttribute(): string
   {

@@ -74,7 +74,7 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
 
     $devicememory = \App\Models\Memorymodule::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicememory, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -117,7 +117,7 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
 
     $devicememory->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicememory, 'update');
 
     $uri = $request->getUri();
@@ -147,7 +147,7 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicememory->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/memorymodules')
@@ -158,7 +158,7 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicememory->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -185,7 +185,7 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicememory->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -200,8 +200,6 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator, $basePath;
-
     $tabInfos = [];
 
     $fusioninventoried_at = $item->getAttribute('fusioninventoried_at');
@@ -209,13 +207,13 @@ final class Memorymodule extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'labelfusioninventoried',
-        'value' => $translator->translate('Automatically inventoried'),
+        'value' => pgettext('inventory device', 'Automatically inventoried'),
         'link'  => null,
       ];
 
       $tabInfos[] = [
         'key'   => 'fusioninventoried',
-        'value' => $translator->translate('Last automatic inventory') . ' : ' .
+        'value' => pgettext('inventory device', 'Last automatic inventory') . ' : ' .
                    $fusioninventoried_at->toDateTimeString(),
         'link'  => null,
       ];

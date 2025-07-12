@@ -79,6 +79,7 @@ class App
     $ignoreList = [
       $basePath . "/ping",
       $basePath . "/view/login",
+      $basePath . "/view/changelang",
       $basePath . "/view/sso",
       $basePath . "/view/sso/cb",
       $basePath . "/api/v1/fusioninventory",

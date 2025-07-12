@@ -24,7 +24,6 @@ class Contract extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Contract::class;
-  protected $titles = ['Contract', 'Contracts'];
   protected $icon = 'file signature';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -79,6 +78,14 @@ class Contract extends Common
     'suppliers:id,name',
     'costs:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Contract', 'Contracts', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Contracttype, $this> */
   public function type(): BelongsTo

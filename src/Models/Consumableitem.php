@@ -23,7 +23,6 @@ class Consumableitem extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Consumableitem::class;
-  protected $titles = ['Consumable', 'Consumables'];
   protected $icon = 'box open';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -62,6 +61,13 @@ class Consumableitem extends Common
     'infocom',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Consumable', 'Consumables', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Consumableitemtype, $this> */
   public function type(): BelongsTo

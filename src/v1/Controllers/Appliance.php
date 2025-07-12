@@ -99,7 +99,7 @@ final class Appliance extends Common implements \App\Interfaces\Crud
 
     $appliance = \App\Models\Appliance::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($appliance, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -142,7 +142,7 @@ final class Appliance extends Common implements \App\Interfaces\Crud
 
     $appliance->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($appliance, 'update');
 
     $uri = $request->getUri();
@@ -172,7 +172,7 @@ final class Appliance extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $appliance->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/appliances')
@@ -183,7 +183,7 @@ final class Appliance extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $appliance->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -210,7 +210,7 @@ final class Appliance extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $appliance->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

@@ -12,7 +12,6 @@ class LinkItemtype extends Common
   use PivotEventTrait;
 
   protected $definition = \App\Models\Definitions\LinkItemtype::class;
-  protected $titles = ['Link Itemtype', 'Link Itemtype'];
   protected $icon = 'virus slash';
 
   protected $table = 'link_itemtype';
@@ -32,5 +31,13 @@ class LinkItemtype extends Common
   public function links(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Link::class, 'link_id');
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Link Itemtype', 'Link Itemtype', $nb);
   }
 }

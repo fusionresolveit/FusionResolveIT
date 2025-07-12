@@ -15,8 +15,6 @@ trait Knowledgebasearticle
    */
   public function showSubKnowledgebasearticles(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -48,9 +46,9 @@ trait Knowledgebasearticle
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('knowledgebasearticles', $myKnowledgebasearticles);
 
-    $viewData->addTranslation('name', $translator->translatePlural('Item', 'Items', 1));
-    $viewData->addTranslation('created_at', $translator->translate('Creation date'));
-    $viewData->addTranslation('updated_at', $translator->translate('Update date'));
+    $viewData->addTranslation('name', npgettext('global', 'Item', 'Items', 1));
+    $viewData->addTranslation('created_at', pgettext('global', 'Creation date'));
+    $viewData->addTranslation('updated_at', pgettext('global', 'Last update'));
 
     return $view->render($response, 'subitem/knowledgebasearticles.html.twig', (array)$viewData);
   }

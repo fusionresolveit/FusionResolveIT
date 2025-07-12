@@ -16,7 +16,6 @@ class Savedsearch extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Savedsearch::class;
-  protected $titles = ['Saved search', 'Saved searches'];
   protected $icon = 'bookmark';
 
   protected $appends = [
@@ -32,6 +31,13 @@ class Savedsearch extends Common
     'entity:id,name,completename',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Saved search', 'Saved searches', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo

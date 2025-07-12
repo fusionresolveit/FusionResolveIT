@@ -15,8 +15,6 @@ trait Ticket
    */
   public function showSubTickets(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -134,7 +132,7 @@ trait Ticket
       {
         $associated_items[] = [
           'type'     => '',
-          'name'     => $translator->translate('General'),
+          'name'     => pgettext('ITIL', 'General'),
           'url'      => '',
         ];
       }
@@ -176,21 +174,21 @@ trait Ticket
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('tickets', $tickets);
 
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
-    $viewData->addTranslation('last_update', $translator->translate('Last update'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('priority', $translator->translate('Priority'));
-    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
-    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('date', npgettext('global', 'Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', pgettext('global', 'Last update'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', pgettext('ITIL', 'Priority'));
+    $viewData->addTranslation('requesters', npgettext('ITIL', 'Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', pgettext('ITIL', 'Assigned'));
     $viewData->addTranslation(
       'associated_items',
-      $translator->translatePlural('Associated element', 'Associated elements', 2)
+      npgettext('global', 'Associated item', 'Associated items', 2)
     );
-    $viewData->addTranslation('category', $translator->translate('Category'));
-    $viewData->addTranslation('title', $translator->translate('Title'));
-    $viewData->addTranslation('planification', $translator->translate('Planification'));
-    $viewData->addTranslation('no_ticket_found', $translator->translate('No ticket found.'));
+    $viewData->addTranslation('category', npgettext('global', 'Category', 'Categories', 1));
+    $viewData->addTranslation('title', pgettext('global', 'Title'));
+    $viewData->addTranslation('planification', pgettext('ITIL', 'Planification'));
+    $viewData->addTranslation('no_ticket_found', pgettext('ticket', 'No ticket found.'));
 
     return $view->render($response, 'subitem/itiltickets.html.twig', (array)$viewData);
   }

@@ -11,14 +11,12 @@ class Datacenter
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -39,7 +37,7 @@ class Datacenter
     return $defColl;
     // [
     //   'id'     => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -51,25 +49,24 @@ class Datacenter
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Data center', 'Data centers', 2),
+        'title' => npgettext('global', 'Data center', 'Data centers', 2),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Impact analysis'),
+        'title' => pgettext('inventory device', 'Impact analysis'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Server room', 'Server rooms', 2),
+        'title' => npgettext('global', 'Server room', 'Server rooms', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/dcrooms',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

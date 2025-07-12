@@ -20,7 +20,6 @@ class Infocom
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [];
   }
 }

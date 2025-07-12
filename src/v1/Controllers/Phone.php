@@ -86,7 +86,7 @@ final class Phone extends Common implements \App\Interfaces\Crud
 
     $phone = \App\Models\Phone::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The phone has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($phone, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -129,7 +129,7 @@ final class Phone extends Common implements \App\Interfaces\Crud
 
     $phone->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The phone has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($phone, 'update');
 
     $uri = $request->getUri();
@@ -159,7 +159,7 @@ final class Phone extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $phone->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The phone has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/phones')
@@ -170,7 +170,7 @@ final class Phone extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $phone->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The phone has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -197,7 +197,7 @@ final class Phone extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $phone->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The phone has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

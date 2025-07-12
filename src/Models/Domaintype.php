@@ -15,7 +15,6 @@ class Domaintype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Domaintype::class;
-  protected $titles = ['Domain type', 'Domain types'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Domaintype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Domain type', 'Domain types', $nb);
+  }
 }

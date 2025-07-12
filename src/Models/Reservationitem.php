@@ -15,7 +15,6 @@ class Reservationitem extends Common
   use \App\Traits\Relationships\Entity;
 
   protected $definition = \App\Models\Definitions\Reservationitem::class;
-  protected $titles = ['Reservation item', 'Reservation items'];
   protected $icon = 'edit';
   protected $table = 'reservationitems';
   /** @var string[] */
@@ -35,6 +34,14 @@ class Reservationitem extends Common
     'entity:id,name,completename',
     'reservations',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Reservation item', 'Reservation items', $nb);
+  }
 
   /** @return HasMany<\App\Models\Reservation, $this> */
   public function reservations(): HasMany

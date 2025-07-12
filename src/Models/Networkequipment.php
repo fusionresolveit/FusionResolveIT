@@ -8,7 +8,6 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -32,7 +31,6 @@ class Networkequipment extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Networkequipment::class;
-  protected $titles = ['Network device', 'Network devices'];
   protected $icon = 'network wired';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -175,6 +173,14 @@ class Networkequipment extends Common
     {
       new \App\Events\PivotAttaching($relationName, $pivotIds);
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Network device', 'Network devices', $nb);
   }
 
   /** @return BelongsTo<\App\Models\Networkequipmenttype, $this> */

@@ -54,7 +54,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
 
     $mailcollector = \App\Models\Mailcollector::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($mailcollector, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
 
     $mailcollector->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($mailcollector, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $mailcollector->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/mailcollectors')
@@ -138,7 +138,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $mailcollector->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $mailcollector->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The mail collector has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -335,7 +335,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator, $basePath;
+    global $basePath;
 
     if (get_class($item) !== 'App\Models\Mailcollector')
     {
@@ -349,13 +349,13 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
     {
       $information[] = [
         'key'   => 'callbackurl',
-        'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
+        'value' => pgettext('global', 'Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
                    $basePath . '/view/mailcollectors/' . $item->id . '/oauth/cb',
         'link'  => null,
       ];
       $information[] = [
         'key'   => 'loginoauth',
-        'value' => $translator->translate('Authenticate with oauth'),
+        'value' => pgettext('auth', 'Authenticate with oauth'),
         'link'  => $basePath . '/view/mailcollectors/' . $item->id . '/oauth',
       ];
 
@@ -363,7 +363,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
       {
         $information[] = [
           'key'   => 'documentation',
-          'value' => $translator->translate('Provider documentation'),
+          'value' => pgettext('auth', 'Provider documentation'),
           'link'  => 'https://learn.microsoft.com/en-us/exchange/client-developer/legacy-protocols/' .
                      'how-to-authenticate-an-imap-pop-smtp-application-by-using-oauth',
         ];
@@ -372,7 +372,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
       {
         $information[] = [
           'key'   => 'documentation',
-          'value' => $translator->translate('Provider documentation'),
+          'value' => pgettext('auth', 'Provider documentation'),
           'link'  => 'https://developers.google.com/gmail/imap/xoauth2-protocol',
         ];
       }
@@ -382,13 +382,13 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
     // return [
     //   [
     //     'key'   => 'callbackurl',
-    //     'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
+    //     'value' => 'Redirect URL' . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
     //                $basePath . '/view/mailcollectors/' . $item->id . '/oauth/cb',
     //     'link'  => null,
     //   ],
     //   [
     //     'key'   => 'loginoauth',
-    //     'value' => $translator->translate('Go login with oauth'),
+    //     'value' => 'Go login with oauth',
     //     'link'  => $basePath . '/view/mailcollectors/' . $item->id . '/oauth',
     //   ],
     // ];
@@ -467,7 +467,7 @@ final class Mailcollector extends Common implements \App\Interfaces\Crud
       $mailcollector->save();
 
       // add message to session
-      \App\v1\Controllers\Toolbox::addSessionMessage('Authentication done with success');
+      \App\v1\Controllers\Toolbox::addSessionMessage(pgettext('session message', 'Authentication done with success'));
 
       $uri = $request->getUri();
 

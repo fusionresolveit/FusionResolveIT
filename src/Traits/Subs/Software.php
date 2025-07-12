@@ -15,8 +15,6 @@ trait Software
    */
   public function showSubSoftwares(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -59,8 +57,8 @@ trait Software
     $viewData->addData('softwares', $softwares);
     $viewData->addData('show', 'default');
 
-    $viewData->addTranslation('software', $translator->translatePlural('Software', 'Software', 1));
-    $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
+    $viewData->addTranslation('software', npgettext('global', 'Software', 'Software', 1));
+    $viewData->addTranslation('version', npgettext('global', 'Version', 'Versions', 1));
 
     return $view->render($response, 'subitem/softwares.html.twig', (array)$viewData);
   }

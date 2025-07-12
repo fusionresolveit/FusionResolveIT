@@ -11,16 +11,14 @@ class Profile
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'is_default' => $translator->translate('Default profile'),
-      'interface' => $translator->translate("Profile's interface"),
-      'create_ticket_on_login' => $translator->translate('Ticket creation form on login'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name'                    => pgettext('global', 'Name'),
+      'is_default'              => pgettext('profile', 'Default profile'),
+      'interface'               => pgettext('profile', "Profile's interface"),
+      'create_ticket_on_login'  => pgettext('profile', 'Ticket creation form on login'),
+      'comment'                 => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at'              => pgettext('global', 'Last update'),
+      'created_at'              => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -47,13 +45,12 @@ class Profile
    */
   public static function getInterfaceArray(): array
   {
-    global $translator;
     return [
       'central' => [
-        'title' => $translator->translate('Standard interface'),
+        'title' => pgettext('profile', 'Standard interface'),
       ],
       'helpdesk' => [
-        'title' => $translator->translate('Simplified interface'),
+        'title' => pgettext('profile', 'Simplified interface'),
       ]
     ];
   }
@@ -63,55 +60,54 @@ class Profile
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Profile', 'Profiles', 1),
+        'title' => npgettext('global', 'Profile', 'Profiles', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Assets'),
+        'title' => pgettext('profile', 'Assets'),
         'icon' => 'laptop house',
         'link' => $rootUrl . '/assets',
       ],
       [
-        'title' => $translator->translate('Assistance'),
+        'title' => pgettext('profile', 'Assistance'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/assistance',
       ],
       [
-        'title' => $translator->translatePlural('Form', 'Forms', 2),
+        'title' => npgettext('global', 'Form', 'Forms', 2),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/forms',
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'block layout',
         'link' => $rootUrl . '/management',
       ],
       [
-        'title' => $translator->translate('Tools'),
+        'title' => pgettext('profile', 'Tools'),
         'icon' => 'toolbox',
         'link' => $rootUrl . '/tools',
       ],
       [
-        'title' => $translator->translate('Administration'),
+        'title' => pgettext('profile', 'Administration'),
         'icon' => 'screwdriver',
         'link' => $rootUrl . '/administration',
       ],
       [
-        'title' => $translator->translate('Setup'),
+        'title' => pgettext('profile', 'Setup'),
         'icon' => 'tools',
         'link' => $rootUrl . '/setup',
       ],
       [
-        'title' => $translator->translatePlural('User', 'Users', 2),
+        'title' => npgettext('global', 'User', 'Users', 2),
         'icon' => 'users',
         'link' => $rootUrl . '/users',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -11,14 +11,12 @@ class Rulerightparameter
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'value' => $translator->translatePlural('Criterion', 'Criteria', 1),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'value' => npgettext('rule', 'Criterion', 'Criteria', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -36,15 +34,14 @@ class Rulerightparameter
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('LDAP criterion', 'LDAP criteria', 1),
+        'title' => npgettext('global', 'LDAP criterion', 'LDAP criteria', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

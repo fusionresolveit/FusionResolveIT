@@ -11,15 +11,13 @@ class Savedsearch
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'user' => $translator->translatePlural('User', 'Users', 1),
-      'is_private' => $translator->translate('Visibility'),
-      'do_count' => $translator->translate('Do count'),
-      'last_execution_time' => $translator->translate('Last duration (ms)'),
-      'last_execution_date' => $translator->translate('Last execution date'),
+      'name' => pgettext('global', 'Name'),
+      'user' => npgettext('global', 'User', 'Users', 1),
+      'is_private' => pgettext('global', 'Visibility'),
+      'do_count' => pgettext('global', 'Do count'),
+      'last_execution_time' => pgettext('global', 'Last duration (ms)'),
+      'last_execution_date' => pgettext('global', 'Last execution date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -114,13 +112,12 @@ class Savedsearch
    */
   public static function getVisibilityArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('Private'),
+        'title' => pgettext('global', 'Private'),
       ],
       0 => [
-        'title' => $translator->translate('Public'),
+        'title' => pgettext('global', 'Public'),
       ],
     ];
   }
@@ -130,16 +127,15 @@ class Savedsearch
    */
   public static function getCountArray(): array
   {
-    global $translator;
     return [
       2 => [
-        'title' => $translator->translate('Auto'),
+        'title' => pgettext('global', 'Auto'),
       ],
       1 => [
-        'title' => $translator->translate('Yes'),
+        'title' => pgettext('global', 'Yes'),
       ],
       0 => [
-        'title' => $translator->translate('No'),
+        'title' => pgettext('global', 'No'),
       ],
     ];
   }
@@ -149,15 +145,14 @@ class Savedsearch
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Saved search', 'Saved searches', 1),
+        'title' => npgettext('global', 'Saved search', 'Saved searches', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Saved search alert', 'Saved searches alerts', 2),
+        'title' => npgettext('notification', 'Saved search alert', 'Saved searches alert', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],

@@ -16,7 +16,6 @@ class Softwarecategory extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Softwarecategory::class;
-  protected $titles = ['Software category', 'Software categories'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -35,5 +34,13 @@ class Softwarecategory extends Common
   public function category(): BelongsTo
   {
     return $this->belongsTo(\App\Models\Softwarecategory::class, 'softwarecategory_id');
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Software category', 'Software categories', $nb);
   }
 }

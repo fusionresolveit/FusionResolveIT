@@ -24,7 +24,6 @@ class Project extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Project::class;
-  protected $titles = ['Project', 'Projects'];
   protected $icon = 'columns';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -80,6 +79,13 @@ class Project extends Common
     'costs:id,name',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Project', 'Projects', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Projecttype, $this> */
   public function type(): BelongsTo

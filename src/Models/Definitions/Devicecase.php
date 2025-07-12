@@ -11,17 +11,15 @@ class Devicecase
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'model' => $translator->translatePlural('Model', 'Models', 1),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'model' => npgettext('global', 'Model', 'Models', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -61,7 +59,7 @@ class Devicecase
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -73,25 +71,24 @@ class Devicecase
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Case', 'Cases', 1),
+        'title' => npgettext('global', 'Case', 'Cases', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

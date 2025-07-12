@@ -34,10 +34,13 @@ final class Login extends Common
       }
     }
 
+    $lang = new \App\Translation();
+    $lang->loadLanguage();
+
     $view = Twig::fromRequest($request);
 
     $viewData = [
-      'title'     => 'Fusion Resolve IT - ' . 'Login page',
+      'title'     => 'Fusion Resolve IT - ' . pgettext('login page', 'Login page'),
       'rootpath'  => \App\v1\Controllers\Toolbox::getRootPath($request),
       'basePath'  => $basePath,
       'sso'       => [],
@@ -53,6 +56,25 @@ final class Login extends Common
     }
 
     $viewData['csrf'] = \App\v1\Controllers\Toolbox::generateCSRF($request);
+
+    $viewData['translation'] = [
+      'or' => pgettext('login page', 'Or'),
+      'signin' => pgettext('login page', 'Sign in'),
+      'login' => pgettext('login page', 'Login'),
+      'password' => pgettext('login page', 'Password'),
+      'ssotitle' => pgettext('login page', 'Auto-login / SSO'),
+      'ssodisabled' => pgettext('login page', 'Disabled'),
+      'buttonsend' => pgettext('button', 'Send'),
+      'language' => pgettext('user parameter', 'Language'),
+    ];
+
+    $viewData['data'] = [
+      'lang' => $lang->getDropdownValues(),
+      'currentLang' => $lang->getCurrentLoadedLangForDisplay(),
+      'csrf' => \App\v1\Controllers\Toolbox::generateCSRF($request),
+    ];
+
+
 
     return $view->render($response, 'login.html.twig', $viewData);
   }

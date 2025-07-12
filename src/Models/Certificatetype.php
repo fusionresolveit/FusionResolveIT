@@ -15,7 +15,6 @@ class Certificatetype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Certificatetype::class;
-  protected $titles = ['Certificate type', 'Certificate types'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Certificatetype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Certificate type', 'Certificate types', $nb);
+  }
 }

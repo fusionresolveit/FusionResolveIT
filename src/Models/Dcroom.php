@@ -25,7 +25,6 @@ class Dcroom extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Dcroom::class;
-  protected $titles = ['Server room', 'Server rooms'];
   protected $icon = 'warehouse';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -61,6 +60,14 @@ class Dcroom extends Common
     'problems:id,name',
     'changes:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Server room', 'Server rooms', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Datacenter, $this> */
   public function datacenter(): BelongsTo

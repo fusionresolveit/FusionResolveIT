@@ -16,7 +16,6 @@ class State extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\State::class;
-  protected $titles = ['Status of items', 'Statuses of items'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class State extends Common
     'state:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Status of items', 'Statuses of items', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\State, $this> */
   public function state(): BelongsTo

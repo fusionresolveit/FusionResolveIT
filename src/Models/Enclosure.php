@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -28,7 +27,6 @@ class Enclosure extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Enclosure::class;
-  protected $titles = ['Enclosure', 'Enclosures'];
   protected $icon = 'th';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -125,6 +123,14 @@ class Enclosure extends Common
     'devicedrives:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Enclosure', 'Enclosures', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Enclosuremodel, $this> */
   public function model(): BelongsTo

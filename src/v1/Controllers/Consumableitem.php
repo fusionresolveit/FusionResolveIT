@@ -62,7 +62,7 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
 
     $consumableitem = \App\Models\Consumableitem::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($consumableitem, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -105,7 +105,7 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
 
     $consumableitem->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($consumableitem, 'update');
 
     $uri = $request->getUri();
@@ -135,7 +135,7 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $consumableitem->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/consumableitems')
@@ -146,7 +146,7 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $consumableitem->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -173,7 +173,7 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $consumableitem->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The consumable item has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -186,8 +186,6 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
    */
   public function showSubConsumables(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Consumableitem();
     $view = Twig::fromRequest($request);
 
@@ -216,12 +214,12 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
       $date_out = $consumable->date_out;
       if ($date_out !== null)
       {
-        $status = $translator->translatePlural('consumable' . "\004" . 'Used', 'consumable' . "\004" . 'Used', 1);
+        $status = npgettext('cartridge', 'Used', 'Used', 1);
         $total_use = $total_use + 1;
       }
       else
       {
-        $status = $translator->translatePlural('consumable' . "\004" . 'New', 'consumable' . "\004" . 'New', 1);
+        $status = npgettext('cartridge', 'New', 'New', 1);
         $total_new = $total_new + 1;
       }
 
@@ -282,20 +280,20 @@ final class Consumableitem extends Common implements \App\Interfaces\Crud
     $viewData->addData('total_new', $total_new);
     $viewData->addData('total_use', $total_use);
 
-    $viewData->addTranslation('status', $translator->translate('item' . "\004" . 'State'));
-    $viewData->addTranslation('date_in', $translator->translate('Add date'));
-    $viewData->addTranslation('date_out', $translator->translate('Use date'));
-    $viewData->addTranslation('given_to', $translator->translate('Given to'));
-    $viewData->addTranslation('no_consumable', $translator->translate('No consumable'));
-    $viewData->addTranslation('consumables_use', $translator->translate('Used consumables'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'State'));
+    $viewData->addTranslation('date_in', pgettext('global', 'Add date'));
+    $viewData->addTranslation('date_out', pgettext('inventory device', 'Use date'));
+    $viewData->addTranslation('given_to', pgettext('consumable', 'Given to'));
+    $viewData->addTranslation('no_consumable', pgettext('consumable', 'No consumable'));
+    $viewData->addTranslation('consumables_use', pgettext('consumable', 'Used consumables'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
     $viewData->addTranslation(
       'total_new',
-      $translator->translatePlural('consumable' . "\004" . 'New', 'consumable' . "\004" . 'New', 1)
+      npgettext('cartridge', 'New', 'New', 1)
     );
     $viewData->addTranslation(
       'total_use',
-      $translator->translatePlural('consumable' . "\004" . 'Used', 'consumable' . "\004" . 'Used', 1)
+      npgettext('cartridge', 'Used', 'Used', 1)
     );
 
     return $view->render($response, 'subitem/consumables.html.twig', (array)$viewData);

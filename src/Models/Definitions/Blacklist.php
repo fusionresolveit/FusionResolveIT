@@ -11,15 +11,13 @@ class Blacklist
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'value' => $translator->translate('Value'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'value' => pgettext('blacklist', 'Value'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -38,22 +36,21 @@ class Blacklist
    */
   public static function getTypeArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('IP'),
+        'title' => pgettext('network', 'IP'),
       ],
       2 => [
-        'title' => $translator->translate('MAC'),
+        'title' => pgettext('network', 'MAC'),
       ],
       3 => [
-        'title' => $translator->translate('Serial number'),
+        'title' => pgettext('inventory device', 'Serial number'),
       ],
       4 => [
-        'title' => $translator->translate('UUID'),
+        'title' => pgettext('global', 'UUID'),
       ],
       5 => [
-        'title' => $translator->translatePlural('Email', 'Emails', 1),
+        'title' => npgettext('global', 'Email', 'Emails', 1),
       ],
     ];
   }
@@ -63,15 +60,14 @@ class Blacklist
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Blacklist', 'Blacklists', 1),
+        'title' => npgettext('global', 'Blacklist', 'Blacklists', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -79,7 +79,7 @@ final class Cluster extends Common implements \App\Interfaces\Crud
 
     $cluster = \App\Models\Cluster::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The cluster has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($cluster, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -122,7 +122,7 @@ final class Cluster extends Common implements \App\Interfaces\Crud
 
     $cluster->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The cluster has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($cluster, 'update');
 
     $uri = $request->getUri();
@@ -152,7 +152,7 @@ final class Cluster extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $cluster->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cluster has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/clusters')
@@ -163,7 +163,7 @@ final class Cluster extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $cluster->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cluster has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -190,7 +190,7 @@ final class Cluster extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $cluster->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cluster has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

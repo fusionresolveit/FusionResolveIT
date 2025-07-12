@@ -11,10 +11,8 @@ class Consumable
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'id' => $translator->translate('ID'),
+      'id' => pgettext('global', 'Id'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -28,7 +26,6 @@ class Consumable
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [];
   }
 }

@@ -23,7 +23,6 @@ class Change extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Change::class;
-  protected $titles = ['Change', 'Changes'];
   protected $icon = 'paint roller';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -93,6 +92,14 @@ class Change extends Common
     'approvals',
     'problems:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('change', 'Change', 'Changes', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo

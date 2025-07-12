@@ -11,10 +11,8 @@ class Memoryslot
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'slotnumber' => $translator->translate('Slot number'),
+      'slotnumber' => pgettext('memory device', 'Slot number'),
     ];
 
     $defColl = new DefinitionCollection();

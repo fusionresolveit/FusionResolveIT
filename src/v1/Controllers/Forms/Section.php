@@ -54,7 +54,7 @@ final class Section extends \App\v1\Controllers\Common
 
     $section = \App\Models\Forms\Section::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The section has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($section, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Section extends \App\v1\Controllers\Common
 
     $section->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The section has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($section, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Section extends \App\v1\Controllers\Common
         throw new \Exception('Unauthorized access', 401);
       }
       $section->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The section has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/sections')
@@ -138,7 +138,7 @@ final class Section extends \App\v1\Controllers\Common
         throw new \Exception('Unauthorized access', 401);
       }
       $section->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The section has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Section extends \App\v1\Controllers\Common
         throw new \Exception('Unauthorized access', 401);
       }
       $section->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The section has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Section extends \App\v1\Controllers\Common
    */
   public function showSubQuestions(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Section();
     $view = Twig::fromRequest($request);
 
@@ -209,7 +207,7 @@ final class Section extends \App\v1\Controllers\Common
     $viewData->addData('src', 'section');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('question', $translator->translatePlural('Question', 'Questions', 1));
+    $viewData->addTranslation('question', npgettext('global', 'Question', 'Questions', 1));
 
     return $view->render($response, 'subitem/questions.html.twig', (array)$viewData);
   }
@@ -219,8 +217,6 @@ final class Section extends \App\v1\Controllers\Common
    */
   public function showSubForms(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Section();
     $view = Twig::fromRequest($request);
 
@@ -250,7 +246,7 @@ final class Section extends \App\v1\Controllers\Common
     $viewData->addData('src', 'section');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/forms.html.twig', (array)$viewData);
   }
@@ -262,8 +258,6 @@ final class Section extends \App\v1\Controllers\Common
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator;
-
     $myItem = $item::with('forms')->where('id', $item->id)->first();
     if (is_null($myItem))
     {
@@ -276,7 +270,7 @@ final class Section extends \App\v1\Controllers\Common
       $tabInfos[] =
         [
           'key'   => 'form_' . $form->id,
-          'value' => $translator->translate('Formulaire impacté') . ' : ' . $form->name,
+          'value' => pgettext('form', 'Form impacted') . ' : ' . $form->name,
           'link'  => null,
         ];
     }

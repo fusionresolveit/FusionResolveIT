@@ -61,7 +61,7 @@ final class Line extends Common implements \App\Interfaces\Crud
 
     $line = \App\Models\Line::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The line has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($line, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -104,7 +104,7 @@ final class Line extends Common implements \App\Interfaces\Crud
 
     $line->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The line has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($line, 'update');
 
     $uri = $request->getUri();
@@ -134,7 +134,7 @@ final class Line extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $line->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The line has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/lines')
@@ -145,7 +145,7 @@ final class Line extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $line->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The line has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -172,7 +172,7 @@ final class Line extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $line->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The line has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

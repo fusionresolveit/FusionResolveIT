@@ -10,7 +10,6 @@ use App\DataInterface\DefinitionCollection;
 class Ruleaction extends \App\Models\Common
 {
   protected $definition = \App\Models\Definitions\Ruleaction::class;
-  protected $titles = ['Action', 'Actions'];
   protected $icon = 'magic';
   protected $hasEntityField = false;
   public $timestamps = false;
@@ -24,6 +23,14 @@ class Ruleaction extends \App\Models\Common
     'fieldviewfield',
     'valueviewfield',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('rule', 'Action', 'Actions', $nb);
+  }
 
   public function getFieldviewfieldAttribute(): Definition
   {

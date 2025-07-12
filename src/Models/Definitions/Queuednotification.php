@@ -11,26 +11,24 @@ class Queuednotification
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Subject'),
-      'itemtype' => $translator->translatePlural('Type', 'Types', 1),
-      'notificationtemplate' => $translator->translatePlural('Notification template', 'Notification templates', 1),
-      'create_time' => $translator->translate('Creation date'),
-      'send_time' => $translator->translate('Expected send date'),
-      'sent_time' => $translator->translate('Send date'),
-      'sent_try' => $translator->translate('Number of tries of sent'),
-      'sender' => $translator->translate('Sender email'),
-      'sendername' => $translator->translate('Sender name'),
-      'recipient' => $translator->translate('Recipient email'),
-      'recipientname' => $translator->translate('Recipient name'),
-      'replyto' => $translator->translate('Reply-to email'),
-      'replytoname' => $translator->translate('Reply-to name'),
-      'headers' => $translator->translate('Additional headers'),
-      'messageid' => $translator->translate('Message ID'),
-      'body_html' => $translator->translate('Email HTML body'),
-      'body_text' => $translator->translate('Email text body'),
+      'name'                  => pgettext('notification', 'Subject'),
+      'itemtype'              =>  npgettext('global', 'Type', 'Types', 1),
+      'notificationtemplate'  => npgettext('notification', 'Notification template', 'Notification templates', 1),
+      'create_time'           => pgettext('global', 'Creation date'),
+      'send_time'             => pgettext('notification', 'Expected send date'),
+      'sent_time'             => pgettext('notification', 'Send date'),
+      'sent_try'              => pgettext('notification', 'Number of tries of sent'),
+      'sender'                => pgettext('notification', 'Sender email'),
+      'sendername'            => pgettext('notification', 'Sender name'),
+      'recipient'             => pgettext('notification', 'Recipient email'),
+      'recipientname'         => pgettext('notification', 'Recipient name'),
+      'replyto'               => pgettext('notification', 'Reply-to email'),
+      'replytoname'           => pgettext('notification', 'Reply-to name'),
+      'headers'               => pgettext('notification', 'Additional headers'),
+      'messageid'             => pgettext('notification', 'Message ID'),
+      'body_html'             => pgettext('notification', 'Email HTML body'),
+      'body_text'             => pgettext('notification', 'Email text body'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -117,10 +115,9 @@ class Queuednotification
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       // [
-      //   'title' => $translator->translate('Historical'),
+      //   'title' => npgettext('global', 'Historical', 'Historicals', 1),
       //   'icon' => 'history',
       //   'link' => '',
       // ],

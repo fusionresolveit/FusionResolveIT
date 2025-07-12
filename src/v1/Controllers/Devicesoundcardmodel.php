@@ -52,7 +52,7 @@ final class Devicesoundcardmodel extends Common implements \App\Interfaces\Crud
 
     $devicesoundcardmodel = \App\Models\Devicesoundcardmodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The sound card model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicesoundcardmodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Devicesoundcardmodel extends Common implements \App\Interfaces\Crud
 
     $devicesoundcardmodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The sound card model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicesoundcardmodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Devicesoundcardmodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicesoundcardmodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The sound card model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicesoundcardmodels')
@@ -136,7 +136,7 @@ final class Devicesoundcardmodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicesoundcardmodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The sound card model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Devicesoundcardmodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicesoundcardmodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The sound card model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

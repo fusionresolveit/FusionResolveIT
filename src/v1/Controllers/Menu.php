@@ -55,91 +55,89 @@ final class Menu
    */
   private function menuData(Request $request): array
   {
-    global $translator;
-
     $uri = $request->getUri();
 
     return [
       [
         'name'  => 'hardwareinventory',
-        'title' => $translator->translate('ITAM - Hardware inventory'),
+        'title' => pgettext('menu', 'ITAM - Hardware inventory'),
         'icon'  => 'laptop house',
         'sub'   => [
           new DataInterfaceMenu(
             'datacenters',
-            $translator->translatePlural('Data center', 'Data centers', 2),
+            npgettext('global', 'Data center', 'Data centers', 2),
             'warehouse',
             $this->getRightForModel('\App\Models\Datacenter'),
             '/view/datacenters',
-            $translator->translate('Dedicated space within a building'),
+            pgettext('menu', 'Dedicated space within a building'),
           ),
           new DataInterfaceMenu(
             'computers',
-            $translator->translatePlural('Computer', 'Computers', 2),
+            npgettext('global', 'Computer', 'Computers', 2),
             'laptop',
             $this->getRightForModel('\App\Models\Computer'),
             '/view/computers',
-            $translator->translate('Computers, servers, laptop...'),
+            pgettext('menu', 'Computers, servers, laptop...'),
           ),
           new DataInterfaceMenu(
             'monitors',
-            $translator->translatePlural('Monitor', 'Monitors', 2),
+            npgettext('inventory device', 'Monitor', 'Monitors', 2),
             'desktop',
             $this->getRightForModel('\App\Models\Monitor'),
             '/view/monitors',
-            $translator->translate('Display device for computers')
+            pgettext('menu', 'Display device for computers')
           ),
           new DataInterfaceMenu(
             'networkequipments',
-            $translator->translatePlural('Network device', 'Network devices', 2),
+            npgettext('global', 'Network device', 'Network devices', 2),
             'network wired',
             $this->getRightForModel('\App\Models\Networkequipment'),
             '/view/networkequipments',
-            $translator->translate('Device for communication between devices on network'),
+            pgettext('menu', 'Device for communication between devices on network'),
           ),
           new DataInterfaceMenu(
             'peripherals',
-            $translator->translatePlural('Device', 'Devices', 2),
+            npgettext('global', 'Peripheral', 'Peripherals', 2),
             'usb',
             $this->getRightForModel('\App\Models\Peripheral'),
             '/view/peripherals',
-            $translator->translate('Peripherals like webcam, keyboard, mouse...'),
+            pgettext('menu', 'Peripherals like webcam, keyboard, mouse...'),
           ),
           new DataInterfaceMenu(
             'printers',
-            $translator->translatePlural('Printer', 'Printers', 2),
+            npgettext('global', 'Printer', 'Printers', 2),
             'print',
             $this->getRightForModel('\App\Models\Printer'),
             '/view/printers',
-            $translator->translate('list of printers...'),
+            pgettext('menu', 'Local printer, photocopier, QRcode printer...'),
           ),
           new DataInterfaceMenu(
             'phones',
-            $translator->translatePlural('Phone', 'Phones', 2),
+            npgettext('global', 'Phone', 'Phones', 2),
             'phone',
             $this->getRightForModel('\App\Models\Phone'),
             '/view/phones',
-            $translator->translate('Phones, smartphones'),
+            pgettext('menu', 'Phones, smartphones'),
           ),
           new DataInterfaceMenu(
             'cartridges',
-            $translator->translatePlural('Cartridge', 'Cartridges', 2),
+            npgettext('global', 'Cartridge', 'Cartridges', 2),
             'fill drip',
             $this->getRightForModel('\App\Models\Cartridgeitem'),
             '/view/cartridgeitems',
-            $translator->translate('Cartriges for printers'),
+            pgettext('menu', 'Cartriges for printers'),
           ),
           new DataInterfaceMenu(
             'consumableitems',
-            $translator->translatePlural('Consumable', 'Consumables', 2),
+            npgettext('global', 'Consumable', 'Consumables', 2),
             'box open',
             $this->getRightForModel('\App\Models\Consumableitem'),
             '/view/consumableitems',
-            $translator->translate('Consumable like USB keys, headphones...'),
+            pgettext('menu', 'Consumable like USB keys, headphones...'),
           ),
           new DataInterfaceMenu(
             'racks',
-            $translator->translatePlural('Rack', 'Racks', 2),
+            npgettext('global', 'Rack', 'Racks', 2),
             'server',
             $this->getRightForModel('\App\Models\Rack'),
             '/view/racks',
@@ -147,7 +145,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'enclosures',
-            $translator->translatePlural('Enclosure', 'Enclosures', 2),
+            npgettext('global', 'Enclosure', 'Enclosures', 2),
             'th',
             $this->getRightForModel('\App\Models\Enclosure'),
             '/view/enclosures',
@@ -155,7 +153,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'pdus',
-            $translator->translatePlural('PDU', 'PDUs', 2),
+            npgettext('global', 'PDU', 'PDUs', 2),
             'plug',
             $this->getRightForModel('\App\Models\Pdu'),
             '/view/pdus',
@@ -163,15 +161,15 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'passivedcequipments',
-            $translator->translatePlural('Passive device', 'Passive devices', 2),
+            npgettext('global', 'Passive device', 'Passive devices', 2),
             'th list',
             $this->getRightForModel('\App\Models\Passivedcequipment'),
             '/view/passivedcequipments',
-            $translator->translate('cables, patch panels...'),
+            pgettext('menu', 'cables, patch panels...'),
           ),
           new DataInterfaceMenu(
             'simcards',
-            $translator->translatePlural('Simcard', 'Simcards', 2),
+            npgettext('global', 'SIM card', 'SIM cards', 2),
             'sim card',
             $this->getRightForModel('\App\Models\ItemDevicesimcard'),
             '/view/itemdevicesimcards',
@@ -181,20 +179,20 @@ final class Menu
       ],
       [
         'name'  => 'softwareinventiry',
-        'title' => $translator->translate('ITAM - Software inventory'),
+        'title' => pgettext('menu', 'ITAM - Software inventory'),
         'icon'  => 'archive',
         'sub'   => [
           new DataInterfaceMenu(
             'software',
-            $translator->translatePlural('Software', 'Software', 2),
+            npgettext('global', 'Software', 'Software', 2),
             'software',
             $this->getRightForModel('\App\Models\Software'),
             '/view/softwares',
-            $translator->translate('List of software, version, where installed...'),
+            pgettext('menu', 'List of software, version, where installed...'),
           ),
           new DataInterfaceMenu(
             'openratingsystems',
-            $translator->translatePlural('Operating system', 'Operating systems', 2),
+            npgettext('inventory device', 'Operating System', 'Operating Systems', 2),
             'operatingsystem',
             $this->getRightForModel('\App\Models\Operatingsystem'),
             '/view/operatingsystems',
@@ -202,7 +200,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'firmware',
-            $translator->translatePlural('Firmware', 'Firmware', 2),
+            npgettext('global', 'Firmware', 'Firmware', 2),
             'rom',
             $this->getRightForModel('\App\Models\Firmware'),
             '/view/devices/firmware',
@@ -210,7 +208,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'appliances',
-            $translator->translatePlural('Appliance', 'Appliances', 2),
+            npgettext('global', 'Appliance', 'Appliances', 2),
             'cubes',
             $this->getRightForModel('\App\Models\Appliance'),
             '/view/appliances',
@@ -218,7 +216,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'clusters',
-            $translator->translatePlural('Cluster', 'Clusters', 2),
+            npgettext('global', 'Cluster', 'Clusters', 2),
             'project diagram',
             $this->getRightForModel('\App\Models\Cluster'),
             '/view/clusters',
@@ -228,12 +226,12 @@ final class Menu
       ],
       [
         'name'  => 'contractcost',
-        'title' => $translator->translate('ITAM - Contracts & cost'),
+        'title' => pgettext('menu', 'ITAM - Contracts & cost'),
         'icon'  => 'file signature',
         'sub'   => [
           new DataInterfaceMenu(
             'softwarelicenses',
-            $translator->translatePlural('License', 'Licenses', 2),
+            npgettext('global', 'License', 'Licenses', 2),
             'key',
             $this->getRightForModel('\App\Models\Softwarelicense'),
             '/view/softwarelicenses',
@@ -241,7 +239,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'budgets',
-            $translator->translatePlural('Budget', 'Budgets', 2),
+            npgettext('global', 'Budget', 'Budgets', 2),
             'calculator',
             $this->getRightForModel('\App\Models\Budget'),
             '/view/budgets',
@@ -249,7 +247,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'contracts',
-            $translator->translatePlural('Contract', 'Contracts', 2),
+            npgettext('global', 'Contract', 'Contracts', 2),
             'file signature',
             $this->getRightForModel('\App\Models\Contract'),
             '/view/contracts',
@@ -257,7 +255,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'lines',
-            $translator->translatePlural('Line', 'Lines', 2),
+            npgettext('global', 'Line', 'Lines', 2),
             'phone',
             $this->getRightForModel('\App\Models\Line'),
             '/view/lines',
@@ -265,7 +263,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'certificates',
-            $translator->translatePlural('Certificate', 'Certificates', 2),
+            npgettext('global', 'Certificate', 'Certificates', 2),
             'certificate',
             $this->getRightForModel('\App\Models\Certificate'),
             '/view/certificates',
@@ -273,7 +271,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'domains',
-            $translator->translatePlural('Domain', 'Domains', 2),
+            npgettext('global', 'Domain', 'Domains', 2),
             'globe americas',
             $this->getRightForModel('\App\Models\Domain'),
             '/view/domains',
@@ -281,7 +279,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'suppliers',
-            $translator->translatePlural('Supplier', 'Suppliers', 2),
+            npgettext('global', 'Supplier', 'Suppliers', 2),
             'dolly',
             $this->getRightForModel('\App\Models\Supplier'),
             '/view/suppliers',
@@ -289,7 +287,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'contacts',
-            $translator->translatePlural('Contact', 'Contacts', 2),
+            npgettext('global', 'Contact', 'Contacts', 2),
             'user tie',
             $this->getRightForModel('\App\Models\Contact'),
             '/view/contacts',
@@ -299,12 +297,12 @@ final class Menu
       ],
       [
         'name'  => 'components',
-        'title' => $translator->translate('ITAM - Components'),
+        'title' => pgettext('menu', 'ITAM - Components'),
         'icon'  => 'microchip',
         'sub'   => [
           new DataInterfaceMenu(
             'devicepowersupplies',
-            $translator->translatePlural('Power supply', 'Power supplies', 2),
+            npgettext('global', 'Power supply', 'Power supplies', 2),
             'power-supply-unit',
             $this->getRightForModel('\App\Models\Devicepowersupply'),
             '/view/devices/devicepowersupplies',
@@ -312,7 +310,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicebatteries',
-            $translator->translatePlural('Battery', 'Batteries', 2),
+            npgettext('global', 'Battery', 'Batteries', 2),
             'battery half',
             $this->getRightForModel('\App\Models\Devicebattery'),
             '/view/devices/devicebatteries',
@@ -320,7 +318,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicecases',
-            $translator->translatePlural('Case', 'Cases', 2),
+            npgettext('global', 'Case', 'Cases', 2),
             'case',
             $this->getRightForModel('\App\Models\Devicecase'),
             '/view/devices/devicecases',
@@ -328,7 +326,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesensors',
-            $translator->translatePlural('Sensor', 'Sensors', 2),
+            npgettext('global', 'Sensor', 'Sensors', 2),
             'sensor',
             $this->getRightForModel('\App\Models\Devicesensor'),
             '/view/devices/devicesensors',
@@ -336,7 +334,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesimcards',
-            $translator->translatePlural('Simcard', 'Simcards', 2),
+            npgettext('global', 'SIM card', 'SIM cards', 2),
             'sim card',
             $this->getRightForModel('\App\Models\Devicesimcard'),
             '/view/devices/devicesimcards',
@@ -344,7 +342,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicegraphiccards',
-            $translator->translatePlural('Graphics card', 'Graphics cards', 2),
+            npgettext('global', 'Graphics card', 'Graphics cards', 2),
             'graphiccard',
             $this->getRightForModel('\App\Models\Devicegraphiccard'),
             '/view/devices/devicegraphiccards',
@@ -352,7 +350,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicemotherboards',
-            $translator->translatePlural('System board', 'System boards', 2),
+            npgettext('global', 'System board', 'System boards', 2),
             'motherboard',
             $this->getRightForModel('\App\Models\Devicemotherboard'),
             '/view/devices/devicemotherboards',
@@ -360,7 +358,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicenetworkcards',
-            $translator->translatePlural('Network card', 'Network cards', 2),
+            npgettext('global', 'Network card', 'Network cards', 2),
             'networkcard',
             $this->getRightForModel('\App\Models\Devicenetworkcard'),
             '/view/devices/devicenetworkcards',
@@ -368,7 +366,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesoundcards',
-            $translator->translatePlural('Soundcard', 'Soundcards', 2),
+            npgettext('global', 'Sound card', 'Sound cards', 2),
             'volume down',
             $this->getRightForModel('\App\Models\Devicesoundcard'),
             '/view/devices/devicesoundcards',
@@ -376,7 +374,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicegenerics',
-            $translator->translatePlural('Generic device', 'Generic devices', 2),
+            npgettext('global', 'Generic device', 'Generic devices', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicegeneric'),
             '/view/devices/devicegenerics',
@@ -384,7 +382,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicecontrols',
-            $translator->translatePlural('Controller', 'Controllers', 2),
+            npgettext('global', 'Controller', 'Controllers', 2),
             'microchip',
             $this->getRightForModel('\App\Models\Devicecontrol'),
             '/view/devices/devicecontrols',
@@ -392,7 +390,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'sorages',
-            $translator->translatePlural('Storage', 'Storages', 2),
+            npgettext('global', 'Storage', 'Storages', 2),
             'ssd',
             $this->getRightForModel('\App\Models\Storage'),
             '/view/devices/storages',
@@ -400,7 +398,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicedrives',
-            $translator->translatePlural('Drive', 'Drives', 2),
+            npgettext('global', 'Drive', 'Drives', 2),
             'hdd',
             $this->getRightForModel('\App\Models\Devicedrive'),
             '/view/devices/devicedrives',
@@ -408,7 +406,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'memorymodules',
-            $translator->translatePlural('Memory', 'Memory', 2),
+            npgettext('global', 'Memory', 'Memory', 2),
             'memory',
             $this->getRightForModel('\App\Models\Memorymodule'),
             '/view/devices/memorymodules',
@@ -416,7 +414,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'deviceprocessors',
-            $translator->translatePlural('Processor', 'Processors', 2),
+            npgettext('global', 'Processor', 'Processors', 2),
             'processor',
             $this->getRightForModel('\App\Models\Deviceprocessor'),
             '/view/devices/deviceprocessors',
@@ -424,7 +422,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicepcis',
-            $translator->translatePlural('PCI device', 'PCI devices', 2),
+            npgettext('global', 'PCI device', 'PCI devices', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicepci'),
             '/view/devices/devicepcis',
@@ -434,12 +432,12 @@ final class Menu
       ],
       [
         'name'  => 'assistance',
-        'title' => $translator->translate('ITSM'),
+        'title' => pgettext('menu', 'ITSM'),
         'icon'  => 'hands helping',
         'sub'   => [
           new DataInterfaceMenu(
             'tickets',
-            $translator->translatePlural('Ticket', 'Tickets', 2),
+            npgettext('ticket', 'Ticket', 'Tickets', 2),
             'hands helping',
             $this->getRightForModel('\App\Models\Ticket'),
             '/view/tickets',
@@ -447,7 +445,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'problems',
-            $translator->translatePlural('Problem', 'Problems', 2),
+            npgettext('problem', 'Problem', 'Problems', 2),
             'drafting compass',
             $this->getRightForModel('\App\Models\Problem'),
             '/view/problems',
@@ -455,7 +453,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'changes',
-            $translator->translatePlural('Change', 'Changes', 2),
+            npgettext('change', 'Change', 'Changes', 2),
             'paint roller',
             $this->getRightForModel('\App\Models\Change'),
             '/view/changes',
@@ -463,7 +461,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'ticketrecurrents',
-            $translator->translate('Recurrent tickets'),
+            npgettext('global', 'Recurrent ticket', 'Recurrent tickets', 2),
             'stopwatch',
             $this->getRightForModel('\App\Models\Ticketrecurrent'),
             '/view/ticketrecurrents',
@@ -471,7 +469,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'mailcollectors',
-            $translator->translatePlural('Receiver', 'Receivers', 2),
+            npgettext('global', 'Receiver', 'Receivers', 2),
             'edit',
             $this->getRightForModel('\App\Models\Mailcollector'),
             '/view/mailcollectors',
@@ -479,7 +477,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'rulestickets',
-            $translator->translate('Business rules for tickets'),
+            npgettext('global', 'Business rule for tickets', 'Business rules for tickets', 2),
             'magic',
             $this->getRightForModel('\App\Models\Rules\Ticket'),
             '/view/rules/tickets',
@@ -487,7 +485,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'slms',
-            $translator->translatePlural('Service level', 'Service levels', 2),
+            npgettext('global', 'Service level', 'Service levels', 2),
             'edit',
             $this->getRightForModel('\App\Models\Slm'),
             '/view/slms',
@@ -497,12 +495,12 @@ final class Menu
       ],
       [
         'name'  => 'form',
-        'title' => $translator->translatePlural('Form', 'Forms', 2),
+        'title' => npgettext('global', 'Form', 'Forms', 2),
         'icon'  => 'cubes',
         'sub'   => [
           new DataInterfaceMenu(
             'forms',
-            $translator->translatePlural('Form', 'Forms', 2),
+            npgettext('global', 'Form', 'Forms', 2),
             'hands helping',
             $this->getRightForModel('\App\Models\Forms\Form'),
             '/view/forms',
@@ -510,7 +508,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'formsections',
-            $translator->translatePlural('Section', 'Sections', 2),
+            npgettext('global', 'Section', 'Sections', 2),
             'exclamation triangle',
             $this->getRightForModel('\App\Models\Forms\Section'),
             '/view/sections',
@@ -518,14 +516,14 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'formquestions',
-            $translator->translatePlural('Question', 'Questions', 2),
+            npgettext('global', 'Question', 'Questions', 2),
             'clipboard check',
             $this->getRightForModel('\App\Models\Forms\Question'),
             '/view/questions',
             '',
           ),
           // [
-          //   'name'  => $translator->translatePlural('Answer', 'Answers', 2),
+          //   'name'  => 'Answer', 'Answers', 2,
           //   'endpoint' => '/view/answers',
           //   'icon'  => 'clipboard check',
           //   'display' => $this->getRightForModel('\App\Models\Forms\Answer'),
@@ -534,12 +532,12 @@ final class Menu
       ],
       [
         'name'  => 'userdata',
-        'title' => $translator->translate('User data'),
+        'title' => pgettext('menu', 'User data'),
         'icon'  => 'user',
         'sub'   => [
           new DataInterfaceMenu(
             'users',
-            $translator->translatePlural('User', 'Users', 2),
+            npgettext('global', 'User', 'Users', 2),
             'user',
             $this->getRightForModel('\App\Models\User'),
             '/view/users',
@@ -547,7 +545,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'groups',
-            $translator->translatePlural('Group', 'Groups', 2),
+            npgettext('global', 'Group', 'Groups', 2),
             'users',
             $this->getRightForModel('\App\Models\Group'),
             '/view/groups',
@@ -555,7 +553,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'profiles',
-            $translator->translatePlural('Profile', 'Profiles', 2),
+            npgettext('global', 'Profile', 'Profiles', 2),
             'user check',
             $this->getRightForModel('\App\Models\Profile'),
             '/view/profiles',
@@ -563,7 +561,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'authssos',
-            $translator->translate('Authentication SSO'),
+            pgettext('global', 'Authentication SSO'),
             'id card alternate',
             $this->getRightForModel('\App\Models\Authsso'),
             '/view/authssos',
@@ -571,7 +569,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'authldaps',
-            $translator->translate('Provisionning LDAP'),
+            pgettext('global', 'Provisionning LDAP'),
             'address book outline',
             $this->getRightForModel('\App\Models\Authldap'),
             '/view/authldaps',
@@ -579,7 +577,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'rulesusers',
-            $translator->translate('Rules for users'),
+            pgettext('global', 'Rules for users'),
             'magic',
             $this->getRightForModel('\App\Models\Rules\User'),
             '/view/rules/users',
@@ -587,7 +585,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'savedsearches',
-            $translator->translatePlural('Saved search', 'Saved searches', 2),
+            npgettext('global', 'Saved search', 'Saved searches', 2),
             'bookmark',
             $this->getRightForModel('\App\Models\Savedsearch'),
             '/view/savedsearchs',
@@ -595,7 +593,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'audits',
-            $translator->translatePlural('Audit', 'Audits', 2),
+            npgettext('global', 'Audit', 'Audits', 2),
             'scroll',
             $this->getRightForModel('\App\Models\Audit'),
             '/view/audits',
@@ -605,12 +603,12 @@ final class Menu
       ],
       [
         'name'  => 'alerting',
-        'title' => $translator->translate('Alerting'),
+        'title' => pgettext('menu', 'Alerting'),
         'icon'  => 'bullhorn',
         'sub'   => [
           new DataInterfaceMenu(
             'queuednotifications',
-            $translator->translate('Notification queue'),
+            npgettext('global', 'Notifications queue', 'Notifications queues', 2),
             'list alt',
             $this->getRightForModel('\App\Models\Queuednotification'),
             '/view/queuednotifications',
@@ -618,8 +616,8 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'notificationtemplates',
-            $translator->translatePlural('Notification', 'Notifications', 2) . ' - ' .
-              $translator->translatePlural('Notification template', 'Notification templates', 2),
+            npgettext('global', 'Notification', 'Notifications', 2) . ' - ' .
+              npgettext('notification', 'Notification template', 'Notification templates', 2),
             'edit',
             $this->getRightForModel('\App\Models\Notificationtemplate'),
             '/view/notificationtemplates',
@@ -627,8 +625,8 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'notifications',
-            $translator->translatePlural('Notification', 'Notifications', 2) . ' - ' .
-              $translator->translatePlural('Notification', 'Notifications', 2),
+            npgettext('global', 'Notification', 'Notifications', 2) . ' - ' .
+              npgettext('global', 'Notification', 'Notifications', 2),
             'edit',
             $this->getRightForModel('\App\Models\Notification'),
             '/view/notifications',
@@ -636,7 +634,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'alerts',
-            $translator->translatePlural('Alert', 'Alerts', 2),
+            npgettext('global', 'Alert', 'Alerts', 2),
             'bell',
             $this->getRightForModel('\App\Models\Alert'),
             '/view/alerts',
@@ -644,7 +642,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'rssfeeds',
-            $translator->translatePlural('RSS feed', 'RSS feed', 2),
+            npgettext('global', 'RSS feed', 'RSS feed', 2),
             'rss',
             $this->getRightForModel('\App\Models\Rssfeed'),
             '/view/rssfeeds',
@@ -654,12 +652,12 @@ final class Menu
       ],
       [
         'name'  => 'system',
-        'title' => $translator->translate('System'),
+        'title' => pgettext('menu', 'System'),
         'icon'  => 'layer group',
         'sub'   => [
           new DataInterfaceMenu(
             'entities',
-            $translator->translatePlural('Entity', 'Entities', 2),
+            npgettext('global', 'Entity', 'Entities', 2),
             'layer group',
             $this->getRightForModel('\App\Models\Entity'),
             '/view/entities',
@@ -667,14 +665,14 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'crontasks',
-            $translator->translatePlural('Automatic action', 'Automatic actions', 2),
+            npgettext('global', 'Automatic action', 'Automatic actions', 2),
             'edit',
             $this->getRightForModel('\App\Models\Crontask'),
             '/view/crontasks',
             '',
           ),
           // [
-          //   'name' => $translator->translatePlural('Rule', 'Rules', 2),
+          //   'name' => 'Rules',
           //   'endpoint' => '/view/rules',
           //   'icon' => 'book',
           // ],
@@ -682,12 +680,12 @@ final class Menu
       ],
       [
         'name'  => 'knowledgehub',
-        'title' => $translator->translate('Knowledge hub'), // or
+        'title' => pgettext('menu', 'Knowledge hub'), // or
         'icon'  => 'book',
         'sub'   => [
           new DataInterfaceMenu(
             'knowledgebasearticles',
-            $translator->translatePlural('Knowledge base article', 'Knowledge base articles', 2),
+            npgettext('global', 'Knowledge base article', 'Knowledge base articles', 2),
             'edit',
             $this->getRightForModel('\App\Models\Knowledgebasearticle'),
             '/view/knowledgebasearticles',
@@ -695,7 +693,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'documents',
-            $translator->translatePlural('Document', 'Documents', 2),
+            npgettext('global', 'Document', 'Documents', 2),
             'file',
             $this->getRightForModel('\App\Models\Document'),
             '/view/documents',
@@ -703,7 +701,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'projects',
-            $translator->translatePlural('Project', 'Projects', 2),
+            npgettext('global', 'Project', 'Projects', 2),
             'columns',
             $this->getRightForModel('\App\Models\Project'),
             '/view/projects',
@@ -711,7 +709,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'reminders',
-            $translator->translatePlural('Note', 'Notes', 2),
+            npgettext('global', 'Note', 'Notes', 2),
             'sticky note',
             $this->getRightForModel('\App\Models\Reminder'),
             '/view/reminders',
@@ -719,7 +717,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'fieldunicities',
-            $translator->translate('Fields unicity'),
+            npgettext('global', 'Fields unicity', 'Fields unicity', 2),
             'edit',
             $this->getRightForModel('\App\Models\Fieldunicity'),
             '/view/fieldunicities',
@@ -727,7 +725,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'links',
-            $translator->translatePlural('External link', 'External links', 2),
+            npgettext('global', 'External link', 'External links', 2),
             'edit',
             $this->getRightForModel('\App\Models\Link'),
             '/view/links',
@@ -737,12 +735,12 @@ final class Menu
       ],
       [
         'name'  => 'dropdowns',
-        'title' => 'Dropdowns',
+        'title' => npgettext('global', 'Simple item', 'Simple items', 2),
         'icon'  => 'list',
         'sub'   => [
           new DataInterfaceMenu(
             'locations',
-            $translator->translatePlural('Location', 'Locations', 2),
+            npgettext('global', 'Location', 'Locations', 2),
             'edit',
             $this->getRightForModel('\App\Models\Location'),
             '/view/locations',
@@ -750,7 +748,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'states',
-            $translator->translatePlural('Status of items', 'Statuses of items', 2),
+            npgettext('global', 'Status of items', 'Statuses of items', 2),
             'edit',
             $this->getRightForModel('\App\Models\State'),
             '/view/states',
@@ -758,7 +756,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'manufacturers',
-            $translator->translatePlural('Manufacturer', 'Manufacturers', 2),
+            npgettext('global', 'Manufacturer', 'Manufacturers', 2),
             'edit',
             $this->getRightForModel('\App\Models\Manufacturer'),
             '/view/manufacturers',
@@ -766,7 +764,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'blacklists',
-            $translator->translatePlural('Blacklist', 'Blacklists', 2),
+            npgettext('global', 'Blacklist', 'Blacklists', 2),
             'edit',
             $this->getRightForModel('\App\Models\Blacklist'),
             '/view/blacklists',
@@ -774,7 +772,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'blacklistedmailcontents',
-            $translator->translate('Blacklisted mail content'),
+            npgettext('global', 'Blacklisted mail content', 'Blacklisted mail contents', 1),
             'edit',
             $this->getRightForModel('\App\Models\Blacklistedmailcontent'),
             '/view/blacklistedmailcontents',
@@ -782,7 +780,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'categories',
-            $translator->translatePlural('Category', 'Categories', 2),
+            npgettext('global', 'Category', 'Categories', 2),
             'edit',
             $this->getRightForModel('\App\Models\Category'),
             '/view/categories',
@@ -790,7 +788,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'tickettemplates',
-            $translator->translatePlural('Ticket template', 'Ticket templates', 2),
+            npgettext('global', 'Ticket template', 'Ticket templates', 2),
             'edit',
             $this->getRightForModel('\App\Models\Tickettemplate'),
             '/view/ticketemplates',
@@ -798,7 +796,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'solutiontypes',
-            $translator->translatePlural('Solution type', 'Solution types', 2),
+            npgettext('global', 'Solution type', 'Solution types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Solutiontype'),
             '/view/solutiontypes',
@@ -806,7 +804,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'solutiontemplates',
-            $translator->translatePlural('Solution template', 'Solution templates', 2),
+            npgettext('global', 'Solution template', 'Solution templates', 2),
             'edit',
             $this->getRightForModel('\App\Models\Solutiontemplate'),
             '/view/solutiontemplates',
@@ -814,7 +812,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'requesttypes',
-            $translator->translatePlural('Request source', 'Request sources', 2),
+            npgettext('global', 'Request source', 'Request sources', 2),
             'edit',
             $this->getRightForModel('\App\Models\Requesttype'),
             '/view/requesttypes',
@@ -822,7 +820,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'followuptemplates',
-            $translator->translatePlural('Followup template', 'Followup templates', 2),
+            npgettext('global', 'Followup template', 'Followup templates', 2),
             'edit',
             $this->getRightForModel('\App\Models\Followuptemplate'),
             '/view/followuptemplates',
@@ -830,7 +828,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'projectstates',
-            $translator->translatePlural('Project state', 'Project states', 2),
+            npgettext('global', 'Project state', 'Project states', 2),
             'edit',
             $this->getRightForModel('\App\Models\Projectstate'),
             '/view/projectstates',
@@ -838,7 +836,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'projecttypes',
-            $translator->translatePlural('Project type', 'Project types', 2),
+            npgettext('global', 'Project type', 'Project types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Projecttype'),
             '/view/projecttypes',
@@ -846,7 +844,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'projecttasks',
-            $translator->translatePlural('Project task', 'Project tasks', 2),
+            npgettext('project', 'Project task', 'Project tasks', 2),
             'edit',
             $this->getRightForModel('\App\Models\Projecttask'),
             '/view/projecttasks',
@@ -854,7 +852,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'projecttasktypes',
-            $translator->translatePlural('Project tasks type', 'Project tasks types', 2),
+            npgettext('global', 'Project task type', 'Project task types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Projecttasktype'),
             '/view/projecttasktypes',
@@ -862,7 +860,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'projecttasktemplates',
-            $translator->translatePlural('Project task template', 'Project task templates', 2),
+            npgettext('global', 'Project task template', 'Project task templates', 2),
             'edit',
             $this->getRightForModel('\App\Models\Projecttasktemplate'),
             '/view/projecttasktemplates',
@@ -870,7 +868,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'planningeventcategories',
-            $translator->translatePlural('Event category', 'Event categories', 2),
+            npgettext('global', 'Event category', 'Event categories', 2),
             'edit',
             $this->getRightForModel('\App\Models\Planningeventcategory'),
             '/view/planningeventcategories',
@@ -878,7 +876,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'planningexternaleventtemplates',
-            $translator->translatePlural('External events template', 'External events templates', 2),
+            npgettext('global', 'External events template', 'External events templates', 2),
             'edit',
             $this->getRightForModel('\App\Models\Planningexternaleventtemplate'),
             '/view/planningexternaleventtemplates',
@@ -886,7 +884,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'computertypes',
-            $translator->translatePlural('Computer type', 'Computer types', 2),
+            npgettext('global', 'Computer type', 'Computer types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Computertype'),
             '/view/computertypes',
@@ -894,7 +892,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'networkequipmenttypes',
-            $translator->translatePlural('Networking equipment type', 'Networking equipment types', 2),
+            npgettext('global', 'Networking equipment type', 'Networking equipment types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Networkequipmenttype'),
             '/view/networkequipmenttypes',
@@ -902,7 +900,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'printertypes',
-            $translator->translatePlural('Printer type', 'Printer types', 2),
+            npgettext('global', 'Printer type', 'Printer types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Printertype'),
             '/view/printertypes',
@@ -910,7 +908,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'monitortypes',
-            $translator->translatePlural('Monitor type', 'Monitor types', 2),
+            npgettext('global', 'Monitor type', 'Monitor types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Monitortype'),
             '/view/monitortypes',
@@ -918,7 +916,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'peripheraltypes',
-            $translator->translatePlural('Peripheral type', 'Peripheral types', 2),
+            npgettext('global', 'Peripheral type', 'Peripheral types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Peripheraltype'),
             '/view/peripheraltypes',
@@ -926,7 +924,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'phonetypes',
-            $translator->translatePlural('Phone type', 'Phone types', 2),
+            npgettext('global', 'Phone type', 'Phone types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Phonetype'),
             '/view/phonetypes',
@@ -934,7 +932,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'softwarelicensetypes',
-            $translator->translatePlural('License type', 'License types', 2),
+            npgettext('global', 'License type', 'License types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Softwarelicensetype'),
             '/view/softwarelicensetypes',
@@ -942,7 +940,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'cartridgeitemtypes',
-            $translator->translatePlural('Cartridge type', 'Cartridge types', 2),
+            npgettext('global', 'Cartridge type', 'Cartridge types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Cartridgeitemtype'),
             '/view/cartridgeitemtypes',
@@ -950,7 +948,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'consumableitemtypes',
-            $translator->translatePlural('Consumable type', 'Consumable types', 2),
+            npgettext('global', 'Consumable type', 'Consumable types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Consumableitemtype'),
             '/view/consumableitemtypes',
@@ -958,7 +956,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'contracttypes',
-            $translator->translatePlural('Contract type', 'Contract types', 2),
+            npgettext('contract', 'Contract type', 'Contract types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Contracttype'),
             '/view/contracttypes',
@@ -966,7 +964,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'contacttypes',
-            $translator->translatePlural('Contact type', 'Contact types', 2),
+            npgettext('global', 'Contact type', 'Contact types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Contacttype'),
             '/view/contacttypes',
@@ -974,7 +972,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicegenerictypes',
-            $translator->translatePlural('Generic type', 'Generic types', 2),
+            npgettext('global', 'Generic type', 'Generic types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicegenerictype'),
             '/view/devicegenerictypes',
@@ -982,7 +980,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesensortypes',
-            $translator->translatePlural('Sensor type', 'Sensor types', 2),
+            npgettext('global', 'Sensor type', 'Sensor types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicesensortype'),
             '/view/devicesensortypes',
@@ -990,7 +988,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'memorytypes',
-            $translator->translatePlural('Memory type', 'Memory types', 2),
+            npgettext('global', 'Memory type', 'Memory types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Memorytype'),
             '/view/memorytypes',
@@ -998,7 +996,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'suppliertypes',
-            $translator->translatePlural('Third party type', 'Third party types', 2),
+            npgettext('supplier', 'Third party type', 'Third party types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Suppliertype'),
             '/view/suppliertypes',
@@ -1006,11 +1004,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'interfacetypes',
-            $translator->translatePlural(
-              'Interface type (Hard drive...)',
-              'Interface types (Hard drive...)',
-              2
-            ),
+            npgettext('global', 'Interface type (Hard drive...)', 'Interface types (Hard drive...)', 2),
             'edit',
             $this->getRightForModel('\App\Models\Interfacetype'),
             '/view/interfacetypes',
@@ -1018,7 +1012,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicecasetypes',
-            $translator->translatePlural('Case type', 'Case types', 2),
+            npgettext('global', 'Case type', 'Case types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicecasetype'),
             '/view/devicecasetypes',
@@ -1026,7 +1020,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'phonepowersupplies',
-            $translator->translatePlural('Phone power supply type', 'Phone power supply types', 2),
+            npgettext('global', 'Phone power supply type', 'Phone power supply types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Phonepowersupply'),
             '/view/phonepowersupplies',
@@ -1034,7 +1028,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'filesystems',
-            $translator->translatePlural('File system', 'File systems', 2),
+            npgettext('global', 'File system', 'File systems', 2),
             'edit',
             $this->getRightForModel('\App\Models\Filesystem'),
             '/view/filesystems',
@@ -1042,7 +1036,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'certificatetypes',
-            $translator->translatePlural('Certificate type', 'Certificate types', 2),
+            npgettext('global', 'Certificate type', 'Certificate types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Certificatetype'),
             '/view/certificatetypes',
@@ -1050,7 +1044,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'budgettypes',
-            $translator->translatePlural('Budget type', 'Budget types', 2),
+            npgettext('global', 'Budget type', 'Budget types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Budgettype'),
             '/view/budgettypes',
@@ -1058,7 +1052,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesimcardtypes',
-            $translator->translatePlural('Simcard type', 'Simcard types', 2),
+            npgettext('global', 'SIM card type', 'SIM card types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicesimcardtype'),
             '/view/devicesimcardtypes',
@@ -1066,7 +1060,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'linetypes',
-            $translator->translatePlural('Line type', 'Line types', 2),
+            npgettext('global', 'Line type', 'Line types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Linetype'),
             '/view/linetypes',
@@ -1074,7 +1068,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'racktypes',
-            $translator->translatePlural('Rack type', 'Rack types', 2),
+            npgettext('global', 'Rack type', 'Rack types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Racktype'),
             '/view/racktypes',
@@ -1082,7 +1076,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'pdutypes',
-            $translator->translatePlural('PDU type', 'PDU types', 2),
+            npgettext('global', 'PDU type', 'PDU types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Pdutype'),
             '/view/pdutypes',
@@ -1090,7 +1084,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'passivedcequipmenttypes',
-            $translator->translatePlural('Passive device type', 'Passive device types', 2),
+            npgettext('global', 'Passive device type', 'Passive device types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Passivedcequipmenttype'),
             '/view/passivedcequipmenttypes',
@@ -1098,7 +1092,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'clustertypes',
-            $translator->translatePlural('Cluster type', 'Cluster types', 2),
+            npgettext('global', 'Cluster type', 'Cluster types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Clustertype'),
             '/view/clustertypes',
@@ -1106,7 +1100,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'computermodels',
-            $translator->translatePlural('Computer model', 'Computer models', 2),
+            npgettext('global', 'Computer model', 'Computer models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Computermodel'),
             '/view/computermodels',
@@ -1114,7 +1108,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'networkequipmentmodels',
-            $translator->translatePlural('Networking equipment model', 'Networking equipment models', 2),
+            npgettext('global', 'Networking equipment model', 'Networking equipment models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Networkequipmentmodel'),
             '/view/networkequipmentmodels',
@@ -1122,7 +1116,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'printermodels',
-            $translator->translatePlural('Printer model', 'Printer models', 2),
+            npgettext('global', 'Printer model', 'Printer models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Printermodel'),
             '/view/printermodels',
@@ -1130,7 +1124,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'monitormodels',
-            $translator->translatePlural('Monitor model', 'Monitor models', 2),
+            npgettext('global', 'Monitor model', 'Monitor models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Monitormodel'),
             '/view/monitormodels',
@@ -1138,7 +1132,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'peripheralmodels',
-            $translator->translatePlural('Peripheral model', 'Peripheral models', 2),
+            npgettext('global', 'Peripheral model', 'Peripheral models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Peripheralmodel'),
             '/view/peripheralmodels',
@@ -1146,7 +1140,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'phonemodels',
-            $translator->translatePlural('Phone model', 'Phone models', 2),
+            npgettext('global', 'Phone model', 'Phone models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Phonemodel'),
             '/view/phonemodels',
@@ -1154,7 +1148,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicecasemodels',
-            $translator->translatePlural('Device case model', 'Device case models', 2),
+            npgettext('global', 'Device case model', 'Device case models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicecasemodel'),
             '/view/devicecasemodels',
@@ -1162,7 +1156,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicecontrolmodels',
-            $translator->translatePlural('Device control model', 'Device control models', 2),
+            npgettext('global', 'Device control model', 'Device control models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicecontrolmodel'),
             '/view/devicecontrolmodels',
@@ -1170,7 +1164,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicedrivemodels',
-            $translator->translatePlural('Device drive model', 'Device drive models', 2),
+            npgettext('global', 'Device drive model', 'Device drive models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicedrivemodel'),
             '/view/devicedrivemodels',
@@ -1178,7 +1172,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicegenericmodels',
-            $translator->translatePlural('Device generic model', 'Device generic models', 2),
+            npgettext('global', 'Device generic model', 'Device generic models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicegenericmodel'),
             '/view/devicegenericmodels',
@@ -1186,7 +1180,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicegraphiccardmodels',
-            $translator->translatePlural('Device graphic card model', 'Device graphic card models', 2),
+            npgettext('global', 'Device graphic card model', 'Device graphic card models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicegraphiccardmodel'),
             '/view/devicegraphiccardmodels',
@@ -1194,7 +1188,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'memorymodels',
-            $translator->translatePlural('Memory model', 'Memory models', 2),
+            npgettext('global', 'Memory model', 'Memory models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Memorymodel'),
             '/view/memorymodels',
@@ -1202,7 +1196,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicemotherboardmodels',
-            $translator->translatePlural('System board model', 'System board models', 2),
+            npgettext('global', 'System board model', 'System board models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicemotherboardmodel'),
             '/view/devicemotherboardmodels',
@@ -1210,7 +1204,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicenetworkcardmodels',
-            $translator->translatePlural('Network card model', 'Network card models', 2),
+            npgettext('global', 'Network card model', 'Network card models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicenetworkcardmodel'),
             '/view/devicenetworkcardmodels',
@@ -1218,7 +1212,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicepcimodels',
-            $translator->translatePlural('Other component model', 'Other component models', 2),
+            npgettext('global', 'Other component model', 'Other component models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicepcimodel'),
             '/view/devicepcimodels',
@@ -1226,7 +1220,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicepowersupplymodels',
-            $translator->translatePlural('Device power supply model', 'Device power supply models', 2),
+            npgettext('global', 'Device power supply model', 'Device power supply models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicepowersupplymodel'),
             '/view/devicepowersupplymodels',
@@ -1234,7 +1228,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'deviceprocessormodels',
-            $translator->translatePlural('Device processor model', 'Device processor models', 2),
+            npgettext('global', 'Device processor model', 'Device processor models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Deviceprocessormodel'),
             '/view/deviceprocessormodels',
@@ -1242,7 +1236,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesoundcardmodels',
-            $translator->translatePlural('Device sound card model', 'Device sound card models', 2),
+            npgettext('global', 'Device sound card model', 'Device sound card models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicesoundcardmodel'),
             '/view/devicesoundcardmodels',
@@ -1250,7 +1244,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'devicesensormodels',
-            $translator->translatePlural('Device sensor model', 'Device sensor models', 2),
+            npgettext('global', 'Device sensor model', 'Device sensor models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Devicesensormodel'),
             '/view/devicesensormodels',
@@ -1258,7 +1252,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'rackmodels',
-            $translator->translatePlural('Rack model', 'Rack models', 2),
+            npgettext('global', 'Rack model', 'Rack models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Rackmodel'),
             '/view/rackmodels',
@@ -1266,7 +1260,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'enclosuremodels',
-            $translator->translatePlural('Enclosure model', 'Enclosure models', 2),
+            npgettext('global', 'Enclosure model', 'Enclosure models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Enclosuremodel'),
             '/view/enclosuremodels',
@@ -1274,7 +1268,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'pdumodels',
-            $translator->translatePlural('PDU model', 'PDU models', 2),
+            npgettext('global', 'PDU model', 'PDU models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Pdumodel'),
             '/view/pdumodels',
@@ -1282,7 +1276,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'passivedcequipmentmodels',
-            $translator->translatePlural('Passive device model', 'Passive device models', 2),
+            npgettext('global', 'Passive device model', 'Passive device models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Passivedcequipmentmodel'),
             '/view/passivedcequipmentmodels',
@@ -1290,7 +1284,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'virtualmachinetypes',
-            $translator->translatePlural('Virtualization system', 'Virtualization systems', 2),
+            npgettext('global', 'Virtualization system', 'Virtualization systems', 2),
             'edit',
             $this->getRightForModel('\App\Models\Virtualmachinetype'),
             '/view/virtualmachinetypes',
@@ -1298,7 +1292,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'virtualmachinesystems',
-            $translator->translatePlural('Virtualization model', 'Virtualization models', 2),
+            npgettext('global', 'Virtualization model', 'Virtualization models', 2),
             'edit',
             $this->getRightForModel('\App\Models\Virtualmachinesystem'),
             '/view/virtualmachinesystems',
@@ -1306,7 +1300,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'virtualmachinestates',
-            $translator->translatePlural('State of the virtual machine', 'States of the virtual machine', 2),
+            npgettext('global', 'State of the virtual machine', 'States of the virtual machine', 2),
             'edit',
             $this->getRightForModel('\App\Models\Virtualmachinestate'),
             '/view/virtualmachinestates',
@@ -1314,7 +1308,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'documentcategories',
-            $translator->translatePlural('Document heading', 'Document headings', 2),
+            npgettext('global', 'Document heading', 'Document headings', 2),
             'edit',
             $this->getRightForModel('\App\Models\Documentcategory'),
             '/view/documentcategories',
@@ -1322,7 +1316,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'documenttypes',
-            $translator->translatePlural('Document type', 'Document types', 2),
+            npgettext('global', 'Document type', 'Document types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Documenttype'),
             '/view/documenttypes',
@@ -1330,7 +1324,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'businesscriticities',
-            $translator->translatePlural('Business criticity', 'Business criticities', 2),
+            npgettext('global', 'Business criticity', 'Business criticities', 2),
             'edit',
             $this->getRightForModel('\App\Models\Businesscriticity'),
             '/view/businesscriticities',
@@ -1338,7 +1332,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'calendars',
-            $translator->translatePlural('Calendar', 'Calendars', 2),
+            npgettext('global', 'Calendar', 'Calendars', 2),
             'edit',
             $this->getRightForModel('\App\Models\Calendar'),
             '/view/calendars',
@@ -1346,7 +1340,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'holidays',
-            $translator->translatePlural('Close time', 'Close times', 2),
+            npgettext('global', 'Close time', 'Close times', 2),
             'edit',
             $this->getRightForModel('\App\Models\Holiday'),
             '/view/holidays',
@@ -1354,11 +1348,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'operatingsystemversions',
-            $translator->translatePlural(
-              'Version of the operating system',
-              'Versions of the operating systems',
-              2
-            ),
+            npgettext('global', 'Version of the operating system', 'Versions of the operating system', 2),
             'edit',
             $this->getRightForModel('\App\Models\Operatingsystemversion'),
             '/view/operatingsystemversions',
@@ -1366,7 +1356,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'operatingsystemservicepacks',
-            $translator->translatePlural('Service pack', 'Service packs', 2),
+            npgettext('global', 'Service pack', 'Service packs', 2),
             'edit',
             $this->getRightForModel('\App\Models\Operatingsystemservicepack'),
             '/view/operatingsystemservicepacks',
@@ -1374,11 +1364,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'operatingsystemarchitectures',
-            $translator->translatePlural(
-              'Operating system architecture',
-              'Operating system architectures',
-              2
-            ),
+            npgettext('global', 'Operating system architecture', 'Operating system architectures', 2),
             'edit',
             $this->getRightForModel('\App\Models\Operatingsystemarchitecture'),
             '/view/operatingsystemarchitectures',
@@ -1386,7 +1372,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'operatingsystemeditions',
-            $translator->translatePlural('Edition', 'Editions', 2),
+            npgettext('global', 'Edition', 'Editions', 2),
             'edit',
             $this->getRightForModel('\App\Models\Operatingsystemedition'),
             '/view/operatingsystemeditions',
@@ -1394,7 +1380,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'operatingsystemkernels',
-            $translator->translatePlural('Kernel', 'Kernels', 2),
+            npgettext('global', 'Kernel', 'Kernels', 2),
             'edit',
             $this->getRightForModel('\App\Models\Operatingsystemkernel'),
             '/view/operatingsystemkernels',
@@ -1402,7 +1388,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'operatingsystemkernelversions',
-            $translator->translatePlural('Kernel version', 'Kernel versions', 2),
+            npgettext('global', 'Kernel version', 'Kernel versions', 2),
             'edit',
             $this->getRightForModel('\App\Models\Operatingsystemkernelversion'),
             '/view/operatingsystemkernelversions',
@@ -1410,7 +1396,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'autoupdatesystems',
-            $translator->translatePlural('Update Source', 'Update Sources', 2),
+            npgettext('inventory device', 'Update Source', 'Update Sources', 2),
             'edit',
             $this->getRightForModel('\App\Models\Autoupdatesystem'),
             '/view/autoupdatesystems',
@@ -1418,7 +1404,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'networkinterfaces',
-            $translator->translatePlural('Network interface', 'Network interfaces', 2),
+            npgettext('global', 'Network interface', 'Network interfaces', 2),
             'edit',
             $this->getRightForModel('\App\Models\Networkinterface'),
             '/view/networkinterfaces',
@@ -1426,7 +1412,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'netpoints',
-            $translator->translatePlural('Network outlet', 'Network outlets', 2),
+            npgettext('inventory device', 'Network outlet', 'Network outlets', 2),
             'edit',
             $this->getRightForModel('\App\Models\Netpoint'),
             '/view/netpoints',
@@ -1434,7 +1420,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'networks',
-            $translator->translatePlural('Network', 'Networks', 2),
+            npgettext('inventory device', 'Network', 'Networks', 2),
             'edit',
             $this->getRightForModel('\App\Models\Network'),
             '/view/networks',
@@ -1442,7 +1428,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'vlans',
-            $translator->translatePlural('VLAN', 'VLANs', 2),
+            npgettext('global', 'VLAN', 'VLANs', 2),
             'edit',
             $this->getRightForModel('\App\Models\Vlan'),
             '/view/vlans',
@@ -1450,7 +1436,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'lineoperators',
-            $translator->translatePlural('Line operator', 'Line operators', 2),
+            npgettext('global', 'Line operator', 'Line operators', 2),
             'edit',
             $this->getRightForModel('\App\Models\Lineoperator'),
             '/view/lineoperators',
@@ -1458,7 +1444,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'domaintypes',
-            $translator->translatePlural('Domain type', 'Domain types', 2),
+            npgettext('global', 'Domain type', 'Domain types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Domaintype'),
             '/view/domaintypes',
@@ -1466,7 +1452,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'domainrelations',
-            $translator->translatePlural('Domain relation', 'Domains relations', 2),
+            npgettext('global', 'Domain relation', 'Domain relations', 2),
             'edit',
             $this->getRightForModel('\App\Models\Domainrelation'),
             '/view/domainrelations',
@@ -1474,7 +1460,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'domainrecordtypes',
-            $translator->translatePlural('Record type', 'Records types', 2),
+            npgettext('global', 'Record type', 'Record types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Domainrecordtype'),
             '/view/domainrecordtypes',
@@ -1482,7 +1468,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'ipnetworks',
-            $translator->translatePlural('IP network', 'IP networks', 2),
+            npgettext('global', 'IP network', 'IP networks', 2),
             'edit',
             $this->getRightForModel('\App\Models\Ipnetwork'),
             '/view/ipnetworks',
@@ -1490,7 +1476,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'fqdns',
-            $translator->translatePlural('Internet domain', 'Internet domains', 2),
+            npgettext('global', 'Internet domain', 'Internet domains', 2),
             'edit',
             $this->getRightForModel('\App\Models\Fqdn'),
             '/view/fqdns',
@@ -1498,7 +1484,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'wifinetworks',
-            $translator->translatePlural('Wifi network', 'Wifi networks', 2),
+            npgettext('global', 'Wifi network', 'Wifi networks', 2),
             'edit',
             $this->getRightForModel('\App\Models\Wifinetwork'),
             '/view/wifinetworks',
@@ -1506,7 +1492,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'networknames',
-            $translator->translatePlural('Network name', 'Network names', 2),
+            npgettext('global', 'Network name', 'Network names', 2),
             'edit',
             $this->getRightForModel('\App\Models\Networkname'),
             '/view/networknames',
@@ -1514,7 +1500,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'softwarecategories',
-            $translator->translatePlural('Software category', 'Software categories', 2),
+            npgettext('global', 'Software category', 'Software categories', 2),
             'edit',
             $this->getRightForModel('\App\Models\Softwarecategory'),
             '/view/softwarecategories',
@@ -1522,7 +1508,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'usertitles',
-            $translator->translatePlural('User title', 'Users titles', 2),
+            npgettext('global', 'User title', 'User titles', 2),
             'edit',
             $this->getRightForModel('\App\Models\Usertitle'),
             '/view/usertitles',
@@ -1530,7 +1516,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'usercategories',
-            $translator->translatePlural('User category', 'User categories', 2),
+            npgettext('global', 'User category', 'User categories', 2),
             'edit',
             $this->getRightForModel('\App\Models\Usercategory'),
             '/view/usercategories',
@@ -1538,7 +1524,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'rulerightparameters',
-            $translator->translatePlural('LDAP criterion', 'LDAP criteria', 2),
+            npgettext('global', 'LDAP criterion', 'LDAP criteria', 2),
             'edit',
             $this->getRightForModel('\App\Models\Rulerightparameter'),
             '/view/rulerightparameters',
@@ -1546,11 +1532,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'fieldblacklists',
-            $translator->translatePlural(
-              'Ignored value for the unicity',
-              'Ignored values for the unicity',
-              2
-            ),
+            npgettext('global', 'Ignored value for the unicity', 'Ignored values for the unicity', 2),
             'edit',
             $this->getRightForModel('\App\Models\Fieldblacklist'),
             '/view/fieldblacklists',
@@ -1558,7 +1540,8 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'ssovariables',
-            $translator->translatePlural(
+            npgettext(
+              'global',
               'Field storage of the login in the HTTP request',
               'Fields storage of the login in the HTTP request',
               2
@@ -1570,7 +1553,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'plugs',
-            $translator->translatePlural('Plug', 'Plugs', 2),
+            npgettext('global', 'Plug', 'Plugs', 2),
             'edit',
             $this->getRightForModel('\App\Models\Plug'),
             '/view/plugs',
@@ -1578,7 +1561,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'appliancetypes',
-            $translator->translatePlural('Appliance type', 'Appliance types', 2),
+            npgettext('global', 'Appliance type', 'Appliance types', 2),
             'edit',
             $this->getRightForModel('\App\Models\Appliancetype'),
             '/view/appliancetypes',
@@ -1586,7 +1569,7 @@ final class Menu
           ),
           new DataInterfaceMenu(
             'applianceenvironments',
-            $translator->translatePlural('Appliance environment', 'Appliance environments', 2),
+            npgettext('global', 'Appliance environment', 'Appliance environments', 2),
             'edit',
             $this->getRightForModel('\App\Models\Applianceenvironment'),
             '/view/applianceenvironments',

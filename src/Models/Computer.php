@@ -33,7 +33,6 @@ class Computer extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Computer::class;
-  protected $titles = ['Computer', 'Computers'];
   protected $icon = 'laptop';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -199,6 +198,13 @@ class Computer extends Common
     });
   }
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Computer', 'Computers', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Computertype, $this> */
   public function type(): BelongsTo

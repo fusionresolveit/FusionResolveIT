@@ -55,7 +55,7 @@ final class Link extends Common implements \App\Interfaces\Crud
 
     $link = \App\Models\Link::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The link has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($link, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -98,7 +98,7 @@ final class Link extends Common implements \App\Interfaces\Crud
 
     $link->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The link has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($link, 'update');
 
     $uri = $request->getUri();
@@ -128,7 +128,7 @@ final class Link extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $link->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The link has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/links')
@@ -139,7 +139,7 @@ final class Link extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $link->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The link has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -166,7 +166,7 @@ final class Link extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $link->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The link has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -179,8 +179,6 @@ final class Link extends Common implements \App\Interfaces\Crud
    */
   public function showSubAssociatedItemType(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Link();
     $view = Twig::fromRequest($request);
 
@@ -229,7 +227,7 @@ final class Link extends Common implements \App\Interfaces\Crud
     $viewData->addData('items', $myAssociatedItemType);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
 
     return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
   }

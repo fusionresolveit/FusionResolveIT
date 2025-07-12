@@ -11,26 +11,24 @@ class Devicebattery
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
+      'name' => pgettext('global', 'Name'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
       'capacity' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Capacity'),
-        $translator->translate('mWh')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('battery', 'Capacity'),
+        pgettext('battery', 'mWh')
       ),
       'voltage' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Voltage'),
-        $translator->translate('mV')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('battery', 'Voltage'),
+        pgettext('battery', 'mV')
       ),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -63,7 +61,7 @@ class Devicebattery
      return $defColl;
     // [
     // 'id'    => 80,
-    // 'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    // 'title' => npgettext('global', 'Entity', 'Entities', 1),
     // 'type'  => 'dropdown_remote',
     // 'name'  => 'completename',
     // 'itemtype' => '\App\Models\Entity',
@@ -75,25 +73,24 @@ class Devicebattery
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Battery', 'Batteries', 1),
+        'title' => npgettext('global', 'Battery', 'Batteries', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

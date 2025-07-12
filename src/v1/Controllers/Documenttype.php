@@ -52,7 +52,7 @@ final class Documenttype extends Common implements \App\Interfaces\Crud
 
     $documenttype = \App\Models\Documenttype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The document type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($documenttype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Documenttype extends Common implements \App\Interfaces\Crud
 
     $documenttype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The document type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($documenttype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Documenttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $documenttype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The document type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/documenttypes')
@@ -136,7 +136,7 @@ final class Documenttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $documenttype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The document type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Documenttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $documenttype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The document type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

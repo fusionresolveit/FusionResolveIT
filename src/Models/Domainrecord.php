@@ -16,7 +16,6 @@ class Domainrecord extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Domainrecord::class;
-  protected $titles = ['Record', 'Records'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Domainrecord extends Common
     'entity:id,name,completename',
     'type:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('inventory device', 'Record', 'Records', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Domainrecordtype, $this> */
   public function type(): BelongsTo

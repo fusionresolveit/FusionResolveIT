@@ -54,7 +54,7 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
 
     $ipnetwork = \App\Models\Ipnetwork::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($ipnetwork, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
 
     $ipnetwork->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($ipnetwork, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ipnetwork->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/ipnetworks')
@@ -138,7 +138,7 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ipnetwork->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ipnetwork->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ipnetwork has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
    */
   public function showSubVlans(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Ipnetwork();
     $view = Twig::fromRequest($request);
 
@@ -227,9 +225,9 @@ final class Ipnetwork extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('vlans', $myVlans);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('tagid', $translator->translate('ID TAG'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('tagid', pgettext('network', 'ID TAG'));
 
     return $view->render($response, 'subitem/vlans.html.twig', (array)$viewData);
   }

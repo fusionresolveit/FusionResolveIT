@@ -28,7 +28,6 @@ class Appliance extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Appliance::class;
-  protected $titles = ['Appliance', 'Appliances'];
   protected $icon = 'cubes';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -97,6 +96,14 @@ class Appliance extends Common
     'changes:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Appliance', 'Appliances', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Appliancetype, $this> */
   public function type(): BelongsTo

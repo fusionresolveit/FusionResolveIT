@@ -11,24 +11,22 @@ class Document
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'categorie' => $translator->translate('Heading'),
-      'filename' => $translator->translate('File'),
-      'link' => $translator->translate('Web link'),
-      'mime' => $translator->translate('MIME type'),
-      'tag' => $translator->translate('Tag'),
+      'name' => pgettext('global', 'Name'),
+      'categorie' => pgettext('document', 'Heading'),
+      'filename' => pgettext('document', 'File'),
+      'link' => pgettext('document', 'Web link'),
+      'mime' => pgettext('document', 'MIME type'),
+      'tag' => pgettext('document', 'Tag'),
       'sha1sum' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Checksum'),
-        $translator->translate('SHA1')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'Checksum'),
+        pgettext('global', 'SHA1')
       ),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -55,7 +53,7 @@ class Document
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -98,30 +96,29 @@ class Document
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 1),
+        'title' => npgettext('global', 'Document', 'Documents', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Associated item', 'Associated items', 2),
+        'title' => npgettext('global', 'Associated item', 'Associated items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/associateditems',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

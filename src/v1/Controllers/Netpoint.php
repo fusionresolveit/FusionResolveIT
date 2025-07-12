@@ -52,7 +52,7 @@ final class Netpoint extends Common implements \App\Interfaces\Crud
 
     $netpoint = \App\Models\Netpoint::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The netpoint has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($netpoint, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Netpoint extends Common implements \App\Interfaces\Crud
 
     $netpoint->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The netpoint has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($netpoint, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Netpoint extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $netpoint->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The netpoint has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/netpoints')
@@ -136,7 +136,7 @@ final class Netpoint extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $netpoint->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The netpoint has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Netpoint extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $netpoint->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The netpoint has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

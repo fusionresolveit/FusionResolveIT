@@ -16,7 +16,6 @@ class Problemcost extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Problemcost::class;
-  protected $titles = ['Problem cost', 'Problem costs'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -32,6 +31,13 @@ class Problemcost extends Common
     'budget:id,name',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Problem cost', 'Problem costs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Budget, $this> */
   public function budget(): BelongsTo

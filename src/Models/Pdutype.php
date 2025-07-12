@@ -15,7 +15,14 @@ class Pdutype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Pdutype::class;
-  protected $titles = ['PDU type', 'PDU types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'PDU type', 'PDU types', $nb);
+  }
 }

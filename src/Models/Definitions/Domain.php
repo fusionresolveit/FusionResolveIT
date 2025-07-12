@@ -14,19 +14,17 @@ class Domain
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'usertech' => $translator->translate('Technician in charge'),
-      'grouptech' => $translator->translate('Group in charge'),
-      'created_at' => $translator->translate('Creation date'),
-      'date_expiration' => $translator->translate('Expiration date'),
-      'comment' => $translator->translate('Comments'),
-      'others' => $translator->translate('Others'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
+      'name' => pgettext('global', 'Name'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'usertech' => pgettext('inventory device', 'Technician in charge'),
+      'grouptech' => pgettext('inventory device', 'Group in charge'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'date_expiration' => pgettext('global', 'Expiration date'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'others' => pgettext('inventory device', 'Others'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -68,7 +66,7 @@ class Domain
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -117,60 +115,59 @@ class Domain
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Domain', 'Domains', 1),
+        'title' => npgettext('global', 'Domain', 'Domains', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Impact analysis'),
+        'title' => pgettext('inventory device', 'Impact analysis'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Record', 'Records', 2),
+        'title' => npgettext('inventory device', 'Record', 'Records', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/records',
       ],
       [
-        'title' => $translator->translatePlural('Associated item', 'Associated items', 2),
+        'title' => npgettext('global', 'Associated item', 'Associated items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/attacheditems',
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translate('ITIL'),
+        'title' => pgettext('global', 'ITIL'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/itil',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
+        'title' => npgettext('global', 'Certificate', 'Certificates', 2),
         'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [
-        'title' => $translator->translatePlural('External link', 'External links', 2),
+        'title' => npgettext('global', 'External link', 'External links', 2),
         'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

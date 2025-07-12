@@ -11,16 +11,14 @@ class Link
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'link' => $translator->translate('Link or filename'),
-      'open_window' => $translator->translate('Open in a new window'),
-      'data' => $translator->translate('File content'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'link' => pgettext('global', 'Link or filename'),
+      'open_window' => pgettext('global', 'Open in a new window'),
+      'data' => pgettext('global', 'File content'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -35,7 +33,7 @@ class Link
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -44,8 +42,6 @@ class Link
 
   public static function getValidTags(): string
   {
-    global $translator;
-
     $tags = ['[LOGIN]', '[ID]', '[NAME]', '[LOCATION]', '[LOCATIONID]', '[IP]',
       '[MAC]', '[NETWORK]', '[DOMAIN]', '[SERIAL]', '[OTHERSERIAL]',
       '[USER]', '[GROUP]', '[REALNAME]', '[FIRSTNAME]'
@@ -67,8 +63,8 @@ class Link
       }
     }
 
-    $ret = $ret . "<br>" . $translator->translate('or') . "<br>[FIELD:<i>" .
-           $translator->translate('field name in DB') . "</i>] (" . $translator->translate('Example:') .
+    $ret = $ret . "<br>" . strtolower(pgettext('global', 'Or')) . "<br>[FIELD:<i>" .
+           pgettext('global', 'field name in DB') . "</i>] (" . pgettext('global', 'Example:') .
            " [FIELD:name], [FIELD:content], ...)";
 
     return $ret;
@@ -79,20 +75,19 @@ class Link
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('External link', 'External links', 1),
+        'title' => npgettext('global', 'External link', 'External links', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Associated item type', 'Associated item types', 2),
+        'title' => npgettext('global', 'Associated item type', 'Associated item types', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/associateditemtypes',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -6,7 +6,6 @@ namespace App\Models\Rules;
 
 class User extends \App\Models\Rules\Rule
 {
-  protected $titles = ['Rights for users', 'Rights for users'];
   public $definitionCriteria = \App\Models\Definitions\User::class;
   public $definitionActions = null;
 
@@ -23,5 +22,13 @@ class User extends \App\Models\Rules\Rule
     {
       $builder->where('sub_type', 'user');
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Right for users', 'Rights for users', $nb);
   }
 }

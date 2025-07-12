@@ -14,7 +14,14 @@ class Devicesensortype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicesensortype::class;
-  protected $titles = ['Sensor type', 'Sensor types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Sensor type', 'Sensor types', $nb);
+  }
 }

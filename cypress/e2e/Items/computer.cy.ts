@@ -43,7 +43,7 @@ describe('test computer items', () => {
     cy.get('[data-cy="search-button-new"] > .ui > span').click();
     cy.get('[data-cy="form-field-name"]').type('LPT002');
     cy.get('[data-cy="form-field-serial"]').type('YYYT53R');
-    cy.get('[data-cy="form-button-save-viewid"]').should('have.text', '\n            Voir\n          ');
+    cy.get('[data-cy="form-button-save-viewid"]').should('have.text', '\n            View\n          ');
     cy.get('[data-cy="form-button-save-viewid"] > span').click();
     cy.get('.pageheader').click();
     cy.get('[style="display: flex; justify-content: space-between;"] > :nth-child(1)').click();

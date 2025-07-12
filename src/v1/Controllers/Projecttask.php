@@ -61,7 +61,7 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
 
     $projecttask = \App\Models\Projecttask::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($projecttask, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -104,7 +104,7 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
 
     $projecttask->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($projecttask, 'update');
 
     $uri = $request->getUri();
@@ -134,7 +134,7 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttask->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/projecttasks')
@@ -145,7 +145,7 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttask->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -172,7 +172,7 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttask->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project task has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -185,8 +185,6 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
    */
   public function showSubProjecttasks(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Projecttask();
     $view = Twig::fromRequest($request);
 
@@ -268,15 +266,15 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
     $viewData->addData('projecttasks', $myProjecttasks);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('percent_done', $translator->translate('Percent done'));
-    $viewData->addTranslation('planned_start_date', $translator->translate('Planned start date'));
-    $viewData->addTranslation('planned_end_date', $translator->translate('Planned end date'));
-    $viewData->addTranslation('planned_duration', $translator->translate('Planned duration'));
-    $viewData->addTranslation('effective_duration', $translator->translate('Effective duration'));
-    $viewData->addTranslation('father', $translator->translate('Father'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('percent_done', pgettext('global', 'Percent done'));
+    $viewData->addTranslation('planned_start_date', pgettext('ITIL', 'Planned start date'));
+    $viewData->addTranslation('planned_end_date', pgettext('ITIL', 'Planned end date'));
+    $viewData->addTranslation('planned_duration', pgettext('ITIL', 'Planned duration'));
+    $viewData->addTranslation('effective_duration', pgettext('project', 'Effective duration'));
+    $viewData->addTranslation('father', pgettext('global', 'Father'));
 
     return $view->render($response, 'subitem/projecttasks.html.twig', (array)$viewData);
   }
@@ -286,8 +284,6 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
    */
   public function showSubProjecttaskteams(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Projecttask();
     $view = Twig::fromRequest($request);
 
@@ -340,8 +336,8 @@ final class Projecttask extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('projecttaskteams', $myProjecttaskteams);
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('member', $translator->translatePlural('Member', 'Members', 2));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('member', npgettext('ITIL', 'Member', 'Members', 2));
 
     return $view->render($response, 'subitem/projecttaskteams.html.twig', (array)$viewData);
   }

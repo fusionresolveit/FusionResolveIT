@@ -52,7 +52,7 @@ final class Devicegraphiccardmodel extends Common implements \App\Interfaces\Cru
 
     $devicegraphiccardmodel = \App\Models\Devicegraphiccardmodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The graphic card model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicegraphiccardmodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Devicegraphiccardmodel extends Common implements \App\Interfaces\Cru
 
     $devicegraphiccardmodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The graphic card model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicegraphiccardmodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Devicegraphiccardmodel extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $devicegraphiccardmodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The graphic card model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicegraphiccardmodels')
@@ -136,7 +136,7 @@ final class Devicegraphiccardmodel extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $devicegraphiccardmodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The graphic card model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Devicegraphiccardmodel extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $devicegraphiccardmodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The graphic card model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

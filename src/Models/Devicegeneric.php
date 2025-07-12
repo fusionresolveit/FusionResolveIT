@@ -20,7 +20,6 @@ class Devicegeneric extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicegeneric::class;
-  protected $titles = ['Generic device', 'Generic devices'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -48,6 +47,14 @@ class Devicegeneric extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Generic device', 'Generic devices', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

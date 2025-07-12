@@ -11,14 +11,12 @@ class Knowledgebasearticlerevision
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'article'    => $translator->translate('Article'),
-      'revision'   => $translator->translate('Revision number'),
-      'user'       => $translator->translatePlural('User', 'Users', 1),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'article'    => npgettext('knowbase article', 'Article', 'Articles', 1),
+      'revision'   => pgettext('knowbase article', 'Revision number'),
+      'user'       => npgettext('global', 'User', 'Users', 1),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -53,7 +51,6 @@ class Knowledgebasearticlerevision
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [];
   }
 }

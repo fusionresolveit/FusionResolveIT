@@ -52,9 +52,7 @@ final class Planningexternaleventtemplate extends Common implements \App\Interfa
 
     $planningexternaleventtemplate = \App\Models\Planningexternaleventtemplate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage(
-      'The planning external event template has been created successfully'
-    );
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($planningexternaleventtemplate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -100,9 +98,7 @@ final class Planningexternaleventtemplate extends Common implements \App\Interfa
 
     $planningexternaleventtemplate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage(
-      'The planning external event template has been updated successfully'
-    );
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($planningexternaleventtemplate, 'update');
 
     $uri = $request->getUri();
@@ -135,9 +131,7 @@ final class Planningexternaleventtemplate extends Common implements \App\Interfa
         throw new \Exception('Unauthorized access', 401);
       }
       $planningexternaleventtemplate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage(
-        'The planning external event template has been deleted successfully'
-      );
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/planningexternaleventtemplates')
@@ -148,9 +142,7 @@ final class Planningexternaleventtemplate extends Common implements \App\Interfa
         throw new \Exception('Unauthorized access', 401);
       }
       $planningexternaleventtemplate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage(
-        'The planning external event template has been soft deleted successfully'
-      );
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -180,9 +172,7 @@ final class Planningexternaleventtemplate extends Common implements \App\Interfa
         throw new \Exception('Unauthorized access', 401);
       }
       $planningexternaleventtemplate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage(
-        'The planning external event template has been restored successfully'
-      );
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

@@ -15,7 +15,6 @@ class Documentcategory extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Documentcategory::class;
-  protected $titles = ['Document heading', 'Document headings'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -29,6 +28,14 @@ class Documentcategory extends Common
   protected $with = [
     'category:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Document heading', 'Document headings', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Documentcategory, $this> */
   public function category(): BelongsTo

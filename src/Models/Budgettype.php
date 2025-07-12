@@ -14,7 +14,14 @@ class Budgettype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Budgettype::class;
-  protected $titles = ['Budget type', 'Budget types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Budget type', 'Budget types', $nb);
+  }
 }

@@ -57,7 +57,7 @@ final class Home extends Common
    */
   public function homepageTech(Request $request, Response $response, array $args): Response
   {
-    global $translator, $basePath;
+    global $basePath;
 
     $nbLast = 8;
 
@@ -231,7 +231,7 @@ final class Home extends Common
     $myData[] = [
       'header' => [
         'icon'      => 'book open',
-        'title'     => $translator->translate('New tickets'),
+        'title'     => pgettext('home', 'New tickets'),
         'subtitle'  => $cnt . ' tickets',
         'name'      => 'new-tickets',
       ],
@@ -391,35 +391,36 @@ final class Home extends Common
     $viewData->addData('fields', $nb_paging_total);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('id', $translator->translate('ID'));
-    $viewData->addTranslation('title', $translator->translate('Title'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('priority', $translator->translate('Priority'));
-    $viewData->addTranslation('date_open', $translator->translate('Opening date'));
-    $viewData->addTranslation('date_last_modif', $translator->translate('Last update'));
-    $viewData->addTranslation('mytickets', $translator->translatePlural('My ticket', 'My tickets', 2));
+    $viewData->addTranslation('id', pgettext('global', 'Id'));
+    $viewData->addTranslation('title', pgettext('global', 'Title'));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('priority', pgettext('ITIL', 'Priority'));
+    $viewData->addTranslation('date_open', pgettext('ITIL', 'Opening date'));
+    $viewData->addTranslation('date_last_modif', pgettext('global', 'Last update'));
+    $viewData->addTranslation('mytickets', pgettext('home', 'My tickets'));
     $viewData->addTranslation(
       'groupstickets',
-      $translator->translatePlural('Ticket of my group', 'Tickets of my groups', 2)
+      pgettext('home', 'Tickets of my groups')
     );
-    $viewData->addTranslation('nb_today_incidents', $translator->translate('Number of today incidents'));
-    $viewData->addTranslation('last_problems', $translator->translatePlural('Last Problem', 'Last Problems', 2));
-    $viewData->addTranslation('subject', $translator->translate('Subject'));
-    $viewData->addTranslation('writer', $translator->translate('Writer'));
-    $viewData->addTranslation('category', $translator->translate('Category'));
-    $viewData->addTranslation('visible_since', $translator->translate('Visible since'));
-    $viewData->addTranslation('visible_until', $translator->translate('Visible until'));
+    $viewData->addTranslation('nb_today_incidents', pgettext('home', 'Number of today incidents'));
+    $viewData->addTranslation('last_problems', pgettext('home', 'Last Problems'));
+    $viewData->addTranslation('subject', pgettext('notification', 'Subject'));
+    $viewData->addTranslation('writer', pgettext('ITIL', 'Writer'));
+    $viewData->addTranslation('category', npgettext('global', 'Category', 'Categories', 1));
+    $viewData->addTranslation('visible_since', pgettext('home', 'Visible since'));
+    $viewData->addTranslation('visible_until', pgettext('home', 'Visible until'));
     $viewData->addTranslation(
       'last_knowledgebasearticles',
-      $translator->translatePlural('Last knowledge base article', 'Last knowledge base articles', 2)
+      pgettext('home', 'Last knowledge base articles')
     );
-    $viewData->addTranslation('linkedtickets', $translator->translatePlural('Linked ticket', 'Linked tickets', 2));
+    $viewData->addTranslation('linkedtickets', pgettext('home', 'Linked tickets'));
     $viewData->addTranslation(
       'lastescaladedtickets',
-      $translator->translatePlural('Last escaladed ticket', 'Last escaladed tickets', 2)
+      pgettext('home', 'Last escaladed tickets')
     );
-    $viewData->addTranslation('knowledgebase', $translator->translate('Knowledge base'));
-    $viewData->addTranslation('forms', $translator->translatePlural('Form', 'Forms', 2));
+    $viewData->addTranslation('knowledgebase', pgettext('global', 'Knowledge base'));
+    $viewData->addTranslation('forms', npgettext('global', 'Form', 'Forms', 2));
+    $viewData->addTranslation('homepageuser', pgettext('global', 'Homepage user'));
 
     return $view->render($response, 'home.html.twig', (array)$viewData);
   }
@@ -669,6 +670,8 @@ final class Home extends Common
     $viewData->addData('breadcrumb', $breadcrumb);
     $viewData->addData('canswitchtotech', $canSwitchToTech);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
+
+    $viewData->addTranslation('homepagetech', pgettext('global', 'Homepage tech'));
 
     return $view->render($response, 'homeuser.html.twig', (array)$viewData);
   }

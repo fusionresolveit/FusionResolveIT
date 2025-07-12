@@ -117,7 +117,7 @@ final class Change extends Common implements \App\Interfaces\Crud
 
     $change = \App\Models\Change::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The change has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($change, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -160,7 +160,7 @@ final class Change extends Common implements \App\Interfaces\Crud
 
     $change->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The change has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($change, 'update');
 
     $uri = $request->getUri();
@@ -190,7 +190,7 @@ final class Change extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $change->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The change has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/changes')
@@ -201,7 +201,7 @@ final class Change extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $change->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The change has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -228,7 +228,7 @@ final class Change extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $change->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The change has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -241,7 +241,6 @@ final class Change extends Common implements \App\Interfaces\Crud
    */
   public function showProblem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
     $item = new \App\Models\Change();
     $view = Twig::fromRequest($request);
 
@@ -276,14 +275,14 @@ final class Change extends Common implements \App\Interfaces\Crud
     $viewData->addData('problems', $problems);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('attachItem', $translator->translate('Attach to an existant problem'));
-    $viewData->addTranslation('selectItem', $translator->translate('Select problem...'));
-    $viewData->addTranslation('buttonAttach', $translator->translate('Attach'));
-    $viewData->addTranslation('addItem', $translator->translate('Add new problem'));
-    $viewData->addTranslation('buttonCreate', $translator->translate('Create'));
-    $viewData->addTranslation('attachedItems', $translator->translate('Problems attached'));
-    $viewData->addTranslation('updated', $translator->translate('Last update'));
-    $viewData->addTranslation('or', $translator->translate('Ou'));
+    $viewData->addTranslation('attachItem', pgettext('problem', 'Attach to an existant problem'));
+    $viewData->addTranslation('selectItem', pgettext('problem', 'Select problem...'));
+    $viewData->addTranslation('buttonAttach', pgettext('button', 'Attach'));
+    $viewData->addTranslation('addItem', pgettext('problem', 'Add new problem'));
+    $viewData->addTranslation('buttonCreate', pgettext('button', 'Create'));
+    $viewData->addTranslation('attachedItems', pgettext('problem', 'Problems attached'));
+    $viewData->addTranslation('updated', pgettext('global', 'Last update'));
+    $viewData->addTranslation('or', pgettext('global', 'Or'));
 
     return $view->render($response, 'subitem/problem.html.twig', (array) $viewData);
   }
@@ -306,12 +305,17 @@ final class Change extends Common implements \App\Interfaces\Crud
       $change->problems()->attach((int)$data->problem);
 
       // add message to session
-      \App\v1\Controllers\Toolbox::addSessionMessage("The ticket has been attached to problem successfully");
+      \App\v1\Controllers\Toolbox::addSessionMessage(
+        pgettext('session message', 'The ticket has been attached to problem successfully')
+      );
     }
     else
     {
       // add message to session
-      \App\v1\Controllers\Toolbox::addSessionMessage('Error to attache ticket to problem', 'error');
+      \App\v1\Controllers\Toolbox::addSessionMessage(
+        pgettext('session message', 'Error to attach ticket to problem'),
+        'error'
+      );
     }
 
     $uri = $request->getUri();
@@ -324,8 +328,6 @@ final class Change extends Common implements \App\Interfaces\Crud
    */
   public function showAnalysis(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Change();
     $view = Twig::fromRequest($request);
 
@@ -362,8 +364,8 @@ final class Change extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItemDataObject, $getDefs));
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('impactcontent', $translator->translate('Impacts'));
-    $viewData->addTranslation('controlistcontent', $translator->translate('Control list'));
+    $viewData->addTranslation('impactcontent', pgettext('ITIL', 'Impacts'));
+    $viewData->addTranslation('controlistcontent', pgettext('ITIL', 'Control list'));
 
     return $view->render($response, 'subitem/analysis.html.twig', (array)$viewData);
   }
@@ -373,8 +375,6 @@ final class Change extends Common implements \App\Interfaces\Crud
    */
   public function showPlans(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Change();
     $view = Twig::fromRequest($request);
 
@@ -414,9 +414,9 @@ final class Change extends Common implements \App\Interfaces\Crud
     $viewData->addData('plans', $myPlans);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('rolloutplancontent', $translator->translate('Deployment plan'));
-    $viewData->addTranslation('backoutplancontent', $translator->translate('Backup plan'));
-    $viewData->addTranslation('checklistcontent', $translator->translate('Checklist'));
+    $viewData->addTranslation('rolloutplancontent', pgettext('change', 'Deployment plan'));
+    $viewData->addTranslation('backoutplancontent', pgettext('change', 'Backup plan'));
+    $viewData->addTranslation('checklistcontent', pgettext('change', 'Checklist'));
 
     return $view->render($response, 'subitem/plans.html.twig', (array)$viewData);
   }
@@ -426,8 +426,6 @@ final class Change extends Common implements \App\Interfaces\Crud
    */
   public function showStats(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -443,14 +441,14 @@ final class Change extends Common implements \App\Interfaces\Crud
 
     $feeds[] = [
       'date'  => $myItem->created_at,
-      'text'  => $translator->translate('Opening date'),
+      'text'  => pgettext('ITIL', 'Opening date'),
       'icon'  => 'pencil alternate',
       'color' => 'blue'
     ];
 
     $feeds[] = [
       'date'  => $myItem->time_to_resolve,
-      'text'  => $translator->translate('Time to resolve'),
+      'text'  => pgettext('ITIL', 'Time to resolve'),
       'icon'  => 'hourglass half',
       'color' => 'blue'
     ];
@@ -458,7 +456,7 @@ final class Change extends Common implements \App\Interfaces\Crud
     {
       $feeds[] = [
         'date'  => $myItem->solvedate,
-        'text'  => $translator->translate('Resolution date'),
+        'text'  => pgettext('ITIL', 'Resolution date'),
         'icon'  => 'check circle',
         'color' => 'blue'
       ];
@@ -467,7 +465,7 @@ final class Change extends Common implements \App\Interfaces\Crud
     {
       $feeds[] = [
         'date'  => $myItem->closedate,
-        'text'  => $translator->translate('Closing date'),
+        'text'  => pgettext('ITIL', 'Closing date'),
         'icon'  => 'flag checkered',
         'color' => 'blue'
       ];

@@ -7,7 +7,6 @@ namespace App\Models;
 class Profileright extends Common
 {
   protected $definition = \App\Models\Definitions\Profileright::class;
-  protected $titles = ['Right', 'Rights'];
   protected $icon = 'user check';
   protected $hasEntityField = false;
 
@@ -40,4 +39,12 @@ class Profileright extends Common
     'readprivateitems',
     'canassign',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Right', 'Rights', $nb);
+  }
 }

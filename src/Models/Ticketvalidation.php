@@ -13,7 +13,6 @@ class Ticketvalidation extends Common
   use \App\Traits\Relationships\Entity;
 
   protected $definition = \App\Models\Definitions\Ticketvalidation::class;
-  protected $titles = ['Ticket validation', 'Ticket validations'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,13 @@ class Ticketvalidation extends Common
     'uservalidate:id,name,firstname,lastname',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Ticket validation', 'Ticket validations', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function usersrequester(): BelongsTo

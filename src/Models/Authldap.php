@@ -14,7 +14,6 @@ class Authldap extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Authldap::class;
-  protected $titles = ['LDAP', 'LDAP'];
   protected $icon = 'address book outline';
   protected $hasEntityField = false;
 
@@ -26,4 +25,12 @@ class Authldap extends Common
 
   protected $with = [
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'LDAP', 'LDAPs', $nb);
+  }
 }

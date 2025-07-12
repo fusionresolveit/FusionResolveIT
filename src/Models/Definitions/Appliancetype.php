@@ -11,13 +11,11 @@ class Appliancetype
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name'      => $translator->translate('Name'),
-      'comment'   => $translator->translate('Comments'),
-      'entity' => $translator->translatePlural('Entity', 'Entities', 1),
-      'recursive' => $translator->translate('Child entities'),
+      'name'      => pgettext('global', 'Name'),
+      'comment'   => npgettext('global', 'Comment', 'Comments', 2),
+      'entity' => npgettext('global', 'Entity', 'Entities', 1),
+      'recursive' => pgettext('global', 'Child entities'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -56,15 +54,14 @@ class Appliancetype
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Appliance type', 'Appliance types', 1),
+        'title' => npgettext('global', 'Appliance type', 'Appliance types', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

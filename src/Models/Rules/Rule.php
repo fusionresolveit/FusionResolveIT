@@ -16,7 +16,6 @@ class Rule extends \App\Models\Common
   // need declare here for child class extends this class
   protected $table = 'rules';
   protected $definition = \App\Models\Definitions\Rule::class;
-  protected $titles = ['Rule', 'Rules'];
   protected $icon = 'magic';
   protected $hasEntityField = false;
   /** @var string[] */
@@ -37,6 +36,14 @@ class Rule extends \App\Models\Common
     'criteria',
     'actions',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Rule', 'Rules', $nb);
+  }
 
   /** @var string|null */
   public $definitionCriteria = null;

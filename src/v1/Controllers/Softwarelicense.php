@@ -68,7 +68,7 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
 
     $softwarelicense = \App\Models\Softwarelicense::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The software license has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($softwarelicense, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -111,7 +111,7 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
 
     $softwarelicense->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The software license has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($softwarelicense, 'update');
 
     $uri = $request->getUri();
@@ -141,7 +141,7 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $softwarelicense->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software license has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/vs')
@@ -152,7 +152,7 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $softwarelicense->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software license has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -179,7 +179,7 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $softwarelicense->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software license has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -192,8 +192,6 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
    */
   public function showSubSoftwarelicenses(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Softwarelicense();
     $view = Twig::fromRequest($request);
 
@@ -246,9 +244,9 @@ final class Softwarelicense extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('softwarelicenses', $mySoftwarelicenses);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/softwarelicenses.html.twig', (array)$viewData);
   }

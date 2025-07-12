@@ -25,7 +25,6 @@ class Passivedcequipment extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Passivedcequipment::class;
-  protected $titles = ['Passive device', 'Passive devices'];
   protected $icon = 'th list';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -74,6 +73,13 @@ class Passivedcequipment extends Common
     'infocom',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Passive device', 'Passive devices', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Passivedcequipmenttype, $this> */
   public function type(): BelongsTo

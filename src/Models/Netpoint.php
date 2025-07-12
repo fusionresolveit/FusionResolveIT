@@ -16,7 +16,6 @@ class Netpoint extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Netpoint::class;
-  protected $titles = ['Network outlet', 'Network outlets'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,4 +30,12 @@ class Netpoint extends Common
     'location:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('inventory device', 'Network outlet', 'Network outlets', $nb);
+  }
 }

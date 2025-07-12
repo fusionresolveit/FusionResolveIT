@@ -14,7 +14,14 @@ class Operatingsystem extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Operatingsystem::class;
-  protected $titles = ['Operating system', 'Operating systems'];
   protected $icon = 'operatingsystem';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('inventory device', 'Operating System', 'Operating Systems', $nb);
+  }
 }

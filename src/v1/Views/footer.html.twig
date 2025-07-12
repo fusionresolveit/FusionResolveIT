@@ -73,7 +73,7 @@
 
       {% for m in message %}
         $.toast({
-          title: 'Action',
+          title: '{{ translation.messagetitle }}',
           message: '{{ m.message }}',
           showProgress: 'top',
           classProgress: '{% if m.type == 'error' %}red{% else %}green{% endif %}',
@@ -153,6 +153,14 @@
         }
       });
 
+    $('#changeLanguage')
+      .dropdown({
+        onChange: function(text, value, element)
+        {
+          $('#langchoosen').val(text);
+          $('#langform').submit();
+        }
+      });
 </script>
 </body>
 </html>

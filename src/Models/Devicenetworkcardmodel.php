@@ -14,7 +14,14 @@ class Devicenetworkcardmodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicenetworkcardmodel::class;
-  protected $titles = ['Network card model', 'Network card models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Network card model', 'Network card models', $nb);
+  }
 }

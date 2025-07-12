@@ -50,20 +50,20 @@
               <a data-cy="form-button-restore" href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/restore">
                 <button class="ui labeled icon green button" type="button">
                   <i class="trash restore icon"></i>
-                  <span>Restore</span>
+                  <span>{{ translation.restorebutton }}</span>
                 </button>
               </a>
               <a data-cy="form-button-delete" href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
                 <button class="ui labeled icon red button" type="button">
                   <i class="eraser icon"></i>
-                  <span>Delete</span>
+                  <span>{{ translation.deletebutton }}</span>
                 </button>
               </a>
             {% else %}
               <a data-cy="form-button-softdelete" href="{{ basePath }}/view/{{ header.route }}/{{ header.id }}/delete">
                 <button class="ui labeled icon basic red  button" type="button">
                   <i class="trash icon"></i>
-                  <span>Soft delete</span>
+                  <span>{{ translation.softdeletebutton }}</span>
                 </button>
               </a>
             {% endif %}
@@ -90,7 +90,7 @@
             form="myform"
             data-cy="form-button-save-viewid"
           >
-            <i class="save icon"></i><span>Voir</span>
+            <i class="save icon"></i><span>{{ translation.viewbutton }}</span>
           </button>
         </span>
       {% endif %}

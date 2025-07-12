@@ -11,26 +11,24 @@ class Entity
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'completename' => $translator->translate('Complete name'),
-      'id' => $translator->translate('ID'),
-      'entity' => $translator->translatePlural('Entity', 'Entities', 1),
-      'comment' => $translator->translate('Comments'),
-      'address' => $translator->translate('Address'),
-      'website' => $translator->translate('Website'),
-      'phonenumber' => $translator->translatePlural('Phone', 'Phones', 1),
-      'email' => $translator->translatePlural('Email', 'Emails', 1),
-      'fax' => $translator->translate('Fax'),
-      'postcode' => $translator->translate('Postal code'),
-      'town' => $translator->translate('City'),
-      'state' => $translator->translate('State'),
-      'country' => $translator->translate('Country'),
-      'latitude' => $translator->translate('Latitude'),
-      'longitude' => $translator->translate('Longitude'),
-      'altitude' => $translator->translate('Altitude'),
+      'name' => pgettext('global', 'Name'),
+      'completename' => pgettext('global', 'Complete name'),
+      'id' => pgettext('global', 'Id'),
+      'entity' => npgettext('global', 'Entity', 'Entities', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'address' => pgettext('location', 'Address'),
+      'website' => pgettext('global', 'Website'),
+      'phonenumber' => npgettext('user parameter', 'Phone number', 'Phone numbers', 1),
+      'email' => npgettext('global', 'Email', 'Emails', 1),
+      'fax' => pgettext('global', 'Fax'),
+      'postcode' => pgettext('location', 'Postal code'),
+      'town' => pgettext('location', 'City'),
+      'state' => pgettext('location', 'State'),
+      'country' => pgettext('location', 'Country'),
+      'latitude' => pgettext('location', 'Latitude'),
+      'longitude' => pgettext('location', 'Longitude'),
+      'altitude' => pgettext('location', 'Altitude'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -615,77 +613,76 @@ class Entity
    */
   public static function getDefinitionAddress(): array
   {
-    global $translator;
     return [
       [
         'id'    => 1,
-        'title' => $translator->translatePlural('Phone', 'Phones', 1),
+        'title' => npgettext('user parameter', 'Phone number', 'Phone numbers', 1),
         'type'  => 'input',
         'name'  => 'phonenumber',
       ],
       [
         'id'    => 2,
-        'title' => $translator->translate('Fax'),
+        'title' => pgettext('global', 'Fax'),
         'type'  => 'input',
         'name'  => 'fax',
       ],
       [
         'id'    => 3,
-        'title' => $translator->translate('Website'),
+        'title' => pgettext('global', 'Website'),
         'type'  => 'input',
         'name'  => 'website',
       ],
       [
         'id'    => 4,
-        'title' => $translator->translatePlural('Email', 'Emails', 1),
+        'title' => npgettext('global', 'Email', 'Emails', 1),
         'type'  => 'input',
         'name'  => 'email',
       ],
       [
         'id'    => 5,
-        'title' => $translator->translate('Address'),
+        'title' => pgettext('location', 'Address'),
         'type'  => 'textarea',
         'name'  => 'address',
       ],
       [
         'id'    => 6,
-        'title' => $translator->translate('Postal code'),
+        'title' => pgettext('location', 'Postal code'),
         'type'  => 'input',
         'name'  => 'postcode',
       ],
       [
         'id'    => 7,
-        'title' => $translator->translate('City'),
+        'title' => pgettext('location', 'City'),
         'type'  => 'input',
         'name'  => 'town',
       ],
       [
         'id'    => 8,
-        'title' => $translator->translate('location' . "\004" . 'State'),
+        'title' => pgettext('location', 'State'),
         'type'  => 'input',
         'name'  => 'state',
       ],
       [
         'id'    => 9,
-        'title' => $translator->translate('Country'),
+        'title' => pgettext('location', 'Country'),
         'type'  => 'input',
         'name'  => 'country',
       ],
       [
         'id'    => 10,
-        'title' => $translator->translate('Longitude'),
+        'title' => pgettext('location', 'Longitude'),
         'type'  => 'input',
         'name'  => 'longitude',
       ],
       [
         'id'    => 11,
-        'title' => $translator->translate('Latitude'),
+        'title' => pgettext('location', 'Latitude'),
         'type'  => 'input',
         'name'  => 'latitude',
       ],
       [
         'id'    => 12,
-        'title' => $translator->translate('Altitude'),
+        'title' => pgettext('location', 'Altitude'),
         'type'  => 'input',
         'name'  => 'altitude',
       ],
@@ -697,80 +694,79 @@ class Entity
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Entity', 'Entities', 1),
+        'title' => npgettext('global', 'Entity', 'Entities', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Entity', 'Entities', 2),
+        'title' => npgettext('global', 'Entity', 'Entities', 2),
         'icon' => 'layer group',
         'link' => $rootUrl . '/entities',
       ],
       [
-        'title' => $translator->translate('Address'),
+        'title' => pgettext('location', 'Address'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/address',
       ],
       [
-        'title' => $translator->translate('Advanced information'),
+        'title' => pgettext('global', 'Advanced information'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Notification', 'Notifications', 2),
+        'title' => npgettext('global', 'Notification', 'Notifications', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Assistance'),
+        'title' => pgettext('profile', 'Assistance'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Assets'),
+        'title' => pgettext('profile', 'Assets'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('UI customization'),
+        'title' => pgettext('global', 'UI customization'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('User', 'Users', 2),
+        'title' => npgettext('global', 'User', 'Users', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/users',
       ],
       [
-        'title' => $translator->translatePlural('Rule', 'Rules', 2),
+        'title' => npgettext('global', 'Rule', 'Rules', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Knowledge base'),
+        'title' => pgettext('global', 'Knowledge base'),
         'icon' => 'book',
         'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
-        'title' => $translator->translate('FusionInventory'),
+        'title' => 'FusionInventory',
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

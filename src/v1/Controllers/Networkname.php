@@ -55,7 +55,7 @@ final class Networkname extends Common implements \App\Interfaces\Crud
 
     $networkname = \App\Models\Networkname::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network name has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($networkname, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -98,7 +98,7 @@ final class Networkname extends Common implements \App\Interfaces\Crud
 
     $networkname->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network name has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($networkname, 'update');
 
     $uri = $request->getUri();
@@ -128,7 +128,7 @@ final class Networkname extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $networkname->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network name has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/networknames')
@@ -139,7 +139,7 @@ final class Networkname extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $networkname->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network name has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -166,7 +166,7 @@ final class Networkname extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $networkname->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network name has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -179,8 +179,6 @@ final class Networkname extends Common implements \App\Interfaces\Crud
    */
   public function showSubNetworkalias(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Networkname();
     $view = Twig::fromRequest($request);
 
@@ -239,9 +237,9 @@ final class Networkname extends Common implements \App\Interfaces\Crud
     $viewData->addData('networkalias', $myNetworkAlias);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translatePlural('Name', 'Names', 1));
-    $viewData->addTranslation('domain', $translator->translatePlural('Internet domain', 'Internet domains', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('domain', npgettext('global', 'Internet domain', 'Internet domains', 1));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
 
     return $view->render($response, 'subitem/networkalias.html.twig', (array)$viewData);
   }

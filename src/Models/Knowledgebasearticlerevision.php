@@ -14,7 +14,6 @@ class Knowledgebasearticlerevision extends Common
   use SoftDeletes;
 
   protected $definition = \App\Models\Definitions\Knowledgebasearticlerevision::class;
-  protected $titles = ['Knowledge base article revision', 'Knowledge base article  revision'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -28,6 +27,14 @@ class Knowledgebasearticlerevision extends Common
   protected $with = [
     'user',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Knowledge base article revision', 'Knowledge base article revisions', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo

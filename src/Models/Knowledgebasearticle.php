@@ -16,7 +16,6 @@ class Knowledgebasearticle extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Knowledgebasearticle::class;
-  protected $titles = ['Knowledge base article', 'Knowledge base articles'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -40,6 +39,14 @@ class Knowledgebasearticle extends Common
     'profilesview:id,name',
     'usersview',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Knowledge base article', 'Knowledge base articles', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo

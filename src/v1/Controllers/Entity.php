@@ -58,7 +58,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
 
     $entity = \App\Models\Entity::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($entity, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
 
     $entity->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($entity, 'update');
 
     $uri = $request->getUri();
@@ -124,7 +124,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $entity->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/entities')
@@ -134,7 +134,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $entity->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -158,7 +158,7 @@ final class Entity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $entity->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The entity has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -231,8 +231,6 @@ final class Entity extends Common implements \App\Interfaces\Crud
    */
   public function showSubEntities(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Entity();
     $view = Twig::fromRequest($request);
 
@@ -277,9 +275,9 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('entities', $myEntities);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/entities.html.twig', (array)$viewData);
   }
@@ -289,8 +287,6 @@ final class Entity extends Common implements \App\Interfaces\Crud
    */
   public function showSubUsers(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Entity();
     $view = Twig::fromRequest($request);
 
@@ -315,8 +311,8 @@ final class Entity extends Common implements \App\Interfaces\Crud
         $auto = false;
         $recursive = false;
         $user_name = $this->genereUserName($user->name, $user->lastname, $user->firstname);
-        $auto_val = $translator->translate('No');
-        $recursive_val = $translator->translate('No');
+        $auto_val = pgettext('global', 'No');
+        $recursive_val = pgettext('global', 'No');
 
 
 
@@ -339,10 +335,10 @@ final class Entity extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('profilesusers', $myProfilesUsers);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('is_dynamic', $translator->translate('Dynamic'));
-    $viewData->addTranslation('is_recursive', $translator->translate('Recursive'));
-    $viewData->addTranslation('profil', $translator->translatePlural('Profile', 'Profiles', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('is_dynamic', pgettext('global', 'Dynamic'));
+    $viewData->addTranslation('is_recursive', pgettext('global', 'Recursive'));
+    $viewData->addTranslation('profil', npgettext('global', 'Profile', 'Profiles', 1));
 
 
     return $view->render($response, 'subitem/profilesusers.html.twig', (array)$viewData);

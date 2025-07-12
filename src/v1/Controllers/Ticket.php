@@ -147,7 +147,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
     $this->updateRelationshipsMany($dataCreate, 'technician', $ticket, 2);
     $this->updateRelationshipsMany($dataCreate, 'techniciangroup', $ticket, 2);
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($ticket, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -204,7 +204,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
     $this->updateRelationshipsMany($dataUpdate, 'techniciangroup', $ticket, 2);
 
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($ticket, 'update');
 
     $uri = $request->getUri();
@@ -234,7 +234,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ticket->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/tickets')
@@ -245,7 +245,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ticket->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -272,7 +272,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ticket->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -345,7 +345,6 @@ final class Ticket extends Common implements \App\Interfaces\Crud
    */
   public function showStats(Request $request, Response $response, array $args): Response
   {
-    global $translator;
     $item = new \App\Models\Ticket();
     $view = Twig::fromRequest($request);
 
@@ -362,14 +361,14 @@ final class Ticket extends Common implements \App\Interfaces\Crud
 
     $feeds[] = [
       'date'  => $myItem->created_at,
-      'text'  => $translator->translate('Opening date'),
+      'text'  => pgettext('ITIL', 'Opening date'),
       'icon'  => 'pencil alternate',
       'color' => 'blue'
     ];
 
     $feeds[] = [
       'date'  => $myItem->time_to_resolve,
-      'text'  => $translator->translate('Time to resolve'),
+      'text'  => pgettext('ITIL', 'Time to resolve'),
       'icon'  => 'hourglass half',
       'color' => 'blue'
     ];
@@ -377,7 +376,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
     {
       $feeds[] = [
         'date'  => $myItem->solved_at,
-        'text'  => $translator->translate('Resolution date'),
+        'text'  => pgettext('ITIL', 'Resolution date'),
         'icon'  => 'check circle',
         'color' => 'blue'
       ];
@@ -386,7 +385,7 @@ final class Ticket extends Common implements \App\Interfaces\Crud
     {
       $feeds[] = [
         'date'  => $myItem->closed_at,
-        'text'  => $translator->translate('Closing date'),
+        'text'  => pgettext('ITIL', 'Closing date'),
         'icon'  => 'flag checkered',
         'color' => 'blue'
       ];
@@ -406,7 +405,6 @@ final class Ticket extends Common implements \App\Interfaces\Crud
    */
   public function showProblem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
     $item = new \App\Models\Ticket();
     $view = Twig::fromRequest($request);
 
@@ -444,14 +442,14 @@ final class Ticket extends Common implements \App\Interfaces\Crud
     $viewData->addData('problems', $problems);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('attachItem', $translator->translate('Attach to an existant problem'));
-    $viewData->addTranslation('selectItem', $translator->translate('Select problem...'));
-    $viewData->addTranslation('buttonAttach', $translator->translate('Attach'));
-    $viewData->addTranslation('addItem', $translator->translate('Add new problem'));
-    $viewData->addTranslation('buttonCreate', $translator->translate('Create'));
-    $viewData->addTranslation('attachedItems', $translator->translate('Problems attached'));
-    $viewData->addTranslation('updated', $translator->translate('Last update'));
-    $viewData->addTranslation('or', $translator->translate('Ou'));
+    $viewData->addTranslation('attachItem', pgettext('problem', 'Attach to an existant problem'));
+    $viewData->addTranslation('selectItem', pgettext('problem', 'Select problem...'));
+    $viewData->addTranslation('buttonAttach', pgettext('button', 'Attach'));
+    $viewData->addTranslation('addItem', pgettext('problem', 'Add new problem'));
+    $viewData->addTranslation('buttonCreate', pgettext('button', 'Create'));
+    $viewData->addTranslation('attachedItems', pgettext('problem', 'Problems attached'));
+    $viewData->addTranslation('updated', pgettext('global', 'Last update'));
+    $viewData->addTranslation('or', pgettext('global', 'Or'));
 
     return $view->render($response, 'subitem/problem.html.twig', (array) $viewData);
   }
@@ -473,12 +471,17 @@ final class Ticket extends Common implements \App\Interfaces\Crud
       $myItem->problems()->attach((int)$data->problem);
 
       // add message to session
-      \App\v1\Controllers\Toolbox::addSessionMessage("The ticket has been attached to problem successfully");
+      \App\v1\Controllers\Toolbox::addSessionMessage(
+        pgettext('session message', 'The ticket has been attached to problem successfully')
+      );
     }
     else
     {
       // add message to session
-      \App\v1\Controllers\Toolbox::addSessionMessage('Error to attache ticket to problem', 'error');
+      \App\v1\Controllers\Toolbox::addSessionMessage(
+        pgettext('session message', 'Error to attach ticket to problem'),
+        'error'
+      );
     }
 
     $uri = $request->getUri();
@@ -554,8 +557,6 @@ final class Ticket extends Common implements \App\Interfaces\Crud
    */
   public function showSubProjecttasks(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $view = Twig::fromRequest($request);
 
     $ticket = \App\Models\Ticket::where('id', $args['id'])->with('projecttasks')->first();
@@ -642,17 +643,17 @@ final class Ticket extends Common implements \App\Interfaces\Crud
     $viewData->addData('projecttasks', $myProjecttasks);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('percent_done', $translator->translate('Percent done'));
-    $viewData->addTranslation('planned_start_date', $translator->translate('Planned start date'));
-    $viewData->addTranslation('planned_end_date', $translator->translate('Planned end date'));
-    $viewData->addTranslation('planned_duration', $translator->translate('Planned duration'));
-    $viewData->addTranslation('effective_duration', $translator->translate('Effective duration'));
-    $viewData->addTranslation('father', $translator->translate('Father'));
-    $viewData->addTranslation('projects', $translator->translatePlural('Type', 'Types', 2));
-    $viewData->addTranslation('projecttasks', $translator->translatePlural('Project task', 'Project tasks', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('percent_done', pgettext('global', 'Percent done'));
+    $viewData->addTranslation('planned_start_date', pgettext('ITIL', 'Planned start date'));
+    $viewData->addTranslation('planned_end_date', pgettext('ITIL', 'Planned end date'));
+    $viewData->addTranslation('planned_duration', pgettext('ITIL', 'Planned duration'));
+    $viewData->addTranslation('effective_duration', pgettext('project', 'Effective duration'));
+    $viewData->addTranslation('father', pgettext('global', 'Father'));
+    $viewData->addTranslation('projects', npgettext('global', 'Type', 'Types', 2));
+    $viewData->addTranslation('projecttasks', npgettext('project', 'Project task', 'Project tasks', 2));
 
     return $view->render($response, 'subitem/projecttasks.html.twig', (array)$viewData);
   }

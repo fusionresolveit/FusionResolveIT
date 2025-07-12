@@ -53,7 +53,7 @@ final class Enclosuremodel extends Common implements \App\Interfaces\Crud
 
     $enclosuremodel = \App\Models\Enclosuremodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($enclosuremodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -96,7 +96,7 @@ final class Enclosuremodel extends Common implements \App\Interfaces\Crud
 
     $enclosuremodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($enclosuremodel, 'update');
 
     $uri = $request->getUri();
@@ -126,7 +126,7 @@ final class Enclosuremodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $enclosuremodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/enclosuremodels')
@@ -137,7 +137,7 @@ final class Enclosuremodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $enclosuremodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -164,7 +164,7 @@ final class Enclosuremodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $enclosuremodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The enclosure model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

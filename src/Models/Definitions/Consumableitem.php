@@ -14,19 +14,17 @@ class Consumableitem
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'ref' => $translator->translate('Reference'),
-      'otherserial' => $translator->translate('Inventory number'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'usertech' => $translator->translate('Technician in charge of the hardware'),
-      'grouptech' => $translator->translate('Group in charge of the hardware'),
-      'alarm_threshold' => $translator->translate('Alert threshold'),
-      'comment' => $translator->translate('Comments'),
+      'name' => pgettext('global', 'Name'),
+      'ref' => pgettext('inventory device', 'Reference'),
+      'otherserial' => pgettext('inventory device', 'Inventory number'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'usertech' => pgettext('inventory device', 'Technician in charge of the hardware'),
+      'grouptech' => pgettext('inventory device', 'Group in charge of the hardware'),
+      'alarm_threshold' => pgettext('inventory device', 'Alert threshold'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
     ];
 
     $defColl = new DefinitionCollection();
@@ -84,7 +82,7 @@ class Consumableitem
       'dropdown',
       'alarm_threshold',
       dbname: 'alarm_threshold',
-      values: \App\v1\Controllers\Dropdown::generateNumbers(0, 100, 1, ['-1' => $translator->translate('Never')]),
+      values: \App\v1\Controllers\Dropdown::generateNumbers(0, 100, 1, ['-1' => pgettext('contract renewal', 'Never')]),
       fillable: true
     ));
     $defColl->add(new Def(16, $t['comment'], 'textarea', 'comment', fillable: true));
@@ -93,7 +91,7 @@ class Consumableitem
 
     // [
     //    'id'    => 80,
-    //    'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //    'title' => npgettext('global', 'Entity', 'Entities', 1),
     //    'type'  => 'dropdown_remote',
     //    'name'  => 'completename',
     //    'itemtype' => '\App\Models\Entity',
@@ -153,40 +151,39 @@ class Consumableitem
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Consumable model', 'Consumable models', 1),
+        'title' => npgettext('global', 'Consumable model', 'Consumable models', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Consumable', 'Consumables', 2),
+        'title' => npgettext('global', 'Consumable', 'Consumables', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/consumables',
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('External link', 'External links', 2),
+        'title' => npgettext('global', 'External link', 'External links', 2),
         'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -15,8 +15,6 @@ trait Cost
    */
   public function showSubCosts(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -237,20 +235,20 @@ trait Cost
     $viewData->addData('total_costs', $this->showCosts($total_costs));
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('begin_date', $translator->translate('Start date'));
-    $viewData->addTranslation('end_date', $translator->translate('End date'));
-    $viewData->addTranslation('budget', $translator->translatePlural('Budget', 'Budgets', 1));
-    $viewData->addTranslation('cost', $translator->translatePlural('Cost', 'Costs', 1));
-    $viewData->addTranslation('costs', $translator->translatePlural('Cost', 'Costs', 2));
-    $viewData->addTranslation('total_cost', $translator->translate('Total cost'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
-    $viewData->addTranslation('actiontime', $translator->translate('Duration'));
-    $viewData->addTranslation('cost_time', $translator->translate('Time cost'));
-    $viewData->addTranslation('cost_fixed', $translator->translate('Fixed cost'));
-    $viewData->addTranslation('cost_material', $translator->translate('Material cost'));
-    $viewData->addTranslation('ticket_costs', $translator->translatePlural('Ticket cost', 'Ticket costs', 2));
-    $viewData->addTranslation('ticket', $translator->translatePlural('Ticket', 'Tickets', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('begin_date', pgettext('global', 'Start date'));
+    $viewData->addTranslation('end_date', pgettext('global', 'End date'));
+    $viewData->addTranslation('budget', npgettext('global', 'Budget', 'Budgets', 1));
+    $viewData->addTranslation('cost', npgettext('global', 'Cost', 'Costs', 1));
+    $viewData->addTranslation('costs', npgettext('global', 'Cost', 'Costs', 2));
+    $viewData->addTranslation('total_cost', pgettext('cost', 'Total cost'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
+    $viewData->addTranslation('actiontime', pgettext('cost', 'Duration'));
+    $viewData->addTranslation('cost_time', pgettext('cost', 'Time cost'));
+    $viewData->addTranslation('cost_fixed', pgettext('cost', 'Fixed cost'));
+    $viewData->addTranslation('cost_material', pgettext('cost', 'Material cost'));
+    $viewData->addTranslation('ticket_costs', npgettext('cost', 'Ticket cost', 'Ticket costs', 2));
+    $viewData->addTranslation('ticket', npgettext('ticket', 'Ticket', 'Tickets', 1));
 
     return $view->render($response, 'subitem/costs.html.twig', (array)$viewData);
   }

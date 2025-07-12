@@ -12,24 +12,22 @@ class Contract
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'num' => $translator->translate('phone' . "\004" . 'Number'),
-      'state' => $translator->translate('Status'),
-      'type' => $translator->translatePlural('Contract type', 'Contract types', 1),
-      'begin_date' => $translator->translate('Start date'),
-      'accounting_number' => $translator->translate('Account number'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'renewal' => $translator->translate('Renewal'),
-      'duration' => $translator->translate('Initial contract period'),
-      'notice' => $translator->translate('Notice'),
-      'periodicity' => $translator->translate('Contract renewal period'),
-      'billing' => $translator->translate('Invoice period'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'num' => pgettext('user parameter', 'Phone number'),
+      'state' => pgettext('inventory device', 'Status'),
+      'type' => npgettext('contract', 'Contract type', 'Contract types', 1),
+      'begin_date' => pgettext('global', 'Start date'),
+      'accounting_number' => pgettext('contract', 'Account number'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'renewal' => pgettext('contract', 'Renewal'),
+      'duration' => pgettext('contract', 'Initial contract period'),
+      'notice' => pgettext('event', 'Notice'),
+      'periodicity' => pgettext('contract', 'Contract renewal period'),
+      'billing' => pgettext('contract', 'Invoice period'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -96,10 +94,10 @@ class Contract
         12,
         [
           0 => '-----',
-          1 => sprintf($translator->translatePlural('%d month', '%d months', 1), 1),
-          2 => sprintf($translator->translatePlural('%d month', '%d months', 2), 2),
-          3 => sprintf($translator->translatePlural('%d month', '%d months', 3), 3),
-          6 => sprintf($translator->translatePlural('%d month', '%d months', 6), 6)
+          1 => sprintf(npgettext('global', '%d month', '%d months', 1), 1),
+          2 => sprintf(npgettext('global', '%d month', '%d months', 2), 2),
+          3 => sprintf(npgettext('global', '%d month', '%d months', 3), 3),
+          6 => sprintf(npgettext('global', '%d month', '%d months', 6), 6)
         ],
         'month'
       ),
@@ -117,10 +115,10 @@ class Contract
         12,
         [
           0 => '-----',
-          1 => sprintf($translator->translatePlural('%d month', '%d months', 1), 1),
-          2 => sprintf($translator->translatePlural('%d month', '%d months', 2), 2),
-          3 => sprintf($translator->translatePlural('%d month', '%d months', 3), 3),
-          6 => sprintf($translator->translatePlural('%d month', '%d months', 6), 6)
+          1 => sprintf(npgettext('global', '%d month', '%d months', 1), 1),
+          2 => sprintf(npgettext('global', '%d month', '%d months', 2), 2),
+          3 => sprintf(npgettext('global', '%d month', '%d months', 3), 3),
+          6 => sprintf(npgettext('global', '%d month', '%d months', 6), 6)
         ],
         'month'
       ),
@@ -133,7 +131,7 @@ class Contract
 
     // [
     //    'id'    => 80,
-    //    'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //    'title' => npgettext('global', 'Entity', 'Entities', 1),
     //    'type'  => 'dropdown_remote',
     //    'name'  => 'completename',
     //    'itemtype' => '\App\Models\Entity',
@@ -355,16 +353,15 @@ class Contract
    */
   public static function getContractRenewalArray(): array
   {
-    global $translator;
     return [
       0 => [
-        'title' => $translator->translate('Never'),
+        'title' => pgettext('contract renewal', 'Never'),
       ],
       1 => [
-        'title' => $translator->translate('Tacit'),
+        'title' => pgettext('contract renewal', 'Tacit'),
       ],
       2 => [
-        'title' => $translator->translate('Express'),
+        'title' => pgettext('contract renewal', 'Express'),
       ],
     ];
   }
@@ -374,50 +371,49 @@ class Contract
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 1),
+        'title' => npgettext('global', 'Contract', 'Contracts', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Cost', 'Costs', 2),
+        'title' => npgettext('global', 'Cost', 'Costs', 2),
         'icon' => 'money bill alternate',
         'link' => $rootUrl . '/costs',
       ],
       [
-        'title' => $translator->translatePlural('Supplier', 'Suppliers', 2),
+        'title' => npgettext('global', 'Supplier', 'Suppliers', 2),
         'icon' => 'dolly',
         'link' => $rootUrl . '/suppliers',
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/attacheditems',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('External link', 'External links', 2),
+        'title' => npgettext('global', 'External link', 'External links', 2),
         'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Knowledge base'),
+        'title' => pgettext('global', 'Knowledge base'),
         'icon' => 'book',
         'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

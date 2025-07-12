@@ -15,7 +15,6 @@ class Vlan extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Vlan::class;
-  protected $titles = ['VLAN', 'VLANs'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Vlan extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'VLAN', 'VLANs', $nb);
+  }
 }

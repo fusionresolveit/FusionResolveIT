@@ -11,7 +11,14 @@ class Audit extends Common
   use SoftDeletes;
 
   protected $definition = \App\Models\Definitions\Audit::class;
-  protected $titles = ['Audit', 'Audits'];
   protected $icon = 'scroll';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Audit', 'Audits', $nb);
+  }
 }

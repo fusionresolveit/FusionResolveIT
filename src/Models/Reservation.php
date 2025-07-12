@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Reservation extends Common
 {
   protected $definition = \App\Models\Definitions\Reservation::class;
-  protected $titles = ['Reservation', 'Reservations'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -23,6 +22,14 @@ class Reservation extends Common
   protected $with = [
     'user',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Reservation', 'Reservations', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo

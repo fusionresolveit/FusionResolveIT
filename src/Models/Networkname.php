@@ -19,7 +19,6 @@ class Networkname extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Networkname::class;
-  protected $titles = ['Network name', 'Network names'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -40,6 +39,14 @@ class Networkname extends Common
     'entity:id,name,completename',
     'alias',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Network name', 'Network names', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Fqdn, $this> */
   public function fqdn(): BelongsTo

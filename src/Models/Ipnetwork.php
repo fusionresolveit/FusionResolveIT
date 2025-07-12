@@ -18,7 +18,6 @@ class Ipnetwork extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Ipnetwork::class;
-  protected $titles = ['IP network', 'IP networks'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -37,6 +36,14 @@ class Ipnetwork extends Common
     'entity:id,name,completename',
     'vlans',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'IP network', 'IP networks', $nb);
+  }
 
   /** @return BelongsToMany<\App\Models\Vlan, $this> */
   public function vlans(): BelongsToMany

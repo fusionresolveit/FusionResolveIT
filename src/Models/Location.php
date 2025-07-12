@@ -19,7 +19,6 @@ class Location extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Location::class;
-  protected $titles = ['Location', 'Locations'];
   protected $icon = 'edit';
   protected $tree = true;
   /** @var string[] */
@@ -43,6 +42,14 @@ class Location extends Common
     'entity:id,name,completename',
     'documents:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Location', 'Locations', $nb);
+  }
 
   protected static function booted(): void
   {

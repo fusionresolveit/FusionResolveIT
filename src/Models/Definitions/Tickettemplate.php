@@ -11,11 +11,9 @@ class Tickettemplate
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
+      'name' => pgettext('global', 'Name'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
     ];
 
     $defColl = new DefinitionCollection();
@@ -30,15 +28,14 @@ class Tickettemplate
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Ticket template', 'Ticket templates', 1),
+        'title' => npgettext('global', 'Ticket template', 'Ticket templates', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Mandatory field', 'Mandatory fields', 2),
+        'title' => npgettext('form', 'Mandatory field', 'Mandatory fields', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/mandatoryfields',
       ],
@@ -92,7 +89,7 @@ Array
 )
       */
       [
-        'title' => $translator->translatePlural('Predefined field', 'Predefined fields', 2),
+        'title' => npgettext('ticket', 'Predefined field', 'Predefined fields', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/predefinedfields',
       ],
@@ -134,7 +131,7 @@ Array
 )
       */
       [
-        'title' => $translator->translatePlural('Hidden field', 'Hidden fields', 2),
+        'title' => npgettext('form', 'Hidden field', 'Hidden fields', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/hiddenfields',
       ],
@@ -173,22 +170,22 @@ Array
 )
       */
       [
-        'title' => $translator->translate('Standard interface'),
+        'title' => pgettext('profile', 'Standard interface'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Simplified interface'),
+        'title' => pgettext('profile', 'Simplified interface'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Category', 'Categories', 2),
+        'title' => npgettext('global', 'Category', 'Categories', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

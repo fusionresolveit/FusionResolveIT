@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Load lang
-$lang = new \App\Translation();
-$translator = $lang->loadLanguage();
 $apiversion = 'v1';
 $basePath = "/";
 $phpunit = false;

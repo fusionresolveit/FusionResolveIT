@@ -14,7 +14,6 @@ class Infocom extends Common
   use \App\Traits\Relationships\Entity;
 
   protected $definition = \App\Models\Definitions\Infocom::class;
-  protected $titles = ['Infocom', 'Infocoms'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -33,6 +32,14 @@ class Infocom extends Common
     'budget:id,name',
     'businesscriticity:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Administrative management', 'Administrative management', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Supplier, $this> */
   public function supplier(): BelongsTo

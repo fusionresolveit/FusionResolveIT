@@ -72,7 +72,7 @@ final class Devicesensor extends Common implements \App\Interfaces\Crud
 
     $devicesensor = \App\Models\Devicesensor::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The sensor has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicesensor, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -115,7 +115,7 @@ final class Devicesensor extends Common implements \App\Interfaces\Crud
 
     $devicesensor->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The sensor has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicesensor, 'update');
 
     $uri = $request->getUri();
@@ -145,7 +145,7 @@ final class Devicesensor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicesensor->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The sensor has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicesensors')
@@ -156,7 +156,7 @@ final class Devicesensor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicesensor->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The sensor has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -183,7 +183,7 @@ final class Devicesensor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicesensor->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The sensor has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

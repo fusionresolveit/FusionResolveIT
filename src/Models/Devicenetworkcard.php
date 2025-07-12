@@ -20,7 +20,6 @@ class Devicenetworkcard extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicenetworkcard::class;
-  protected $titles = ['Network card', 'Network cards'];
   protected $icon = 'networkcard';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -48,6 +47,14 @@ class Devicenetworkcard extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Network card', 'Network cards', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

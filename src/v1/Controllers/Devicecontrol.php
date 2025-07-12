@@ -70,7 +70,7 @@ final class Devicecontrol extends Common implements \App\Interfaces\Crud
 
     $devicecontrol = \App\Models\Devicecontrol::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The control has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicecontrol, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -113,7 +113,7 @@ final class Devicecontrol extends Common implements \App\Interfaces\Crud
 
     $devicecontrol->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The control has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicecontrol, 'update');
 
     $uri = $request->getUri();
@@ -143,7 +143,7 @@ final class Devicecontrol extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicecontrol->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The control has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicecontrols')
@@ -154,7 +154,7 @@ final class Devicecontrol extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicecontrol->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The control has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -181,7 +181,7 @@ final class Devicecontrol extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicecontrol->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The control has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

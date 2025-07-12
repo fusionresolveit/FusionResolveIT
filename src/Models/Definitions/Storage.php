@@ -11,29 +11,27 @@ class Storage
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'size' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Size'),
-        $translator->translate('Mio')
+      'name'          => pgettext('global', 'Name'),
+      'manufacturer'  => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
+      'size'          => sprintf(
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'Size'),
+        pgettext('global', 'Mio')
       ),
-      'rpm' => $translator->translate('Rpm'),
-      'cache' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Cache'),
-        $translator->translate('Mio')
+      'rpm'           => pgettext('global', 'RPM'),
+      'cache'         => sprintf(
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'Cache'),
+        pgettext('global', 'Mio')
       ),
-      'interface' => $translator->translate('Interface'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'type' => $translator->translate('Storage type'),
-      'firmware' => $translator->translatePlural('Firmware', 'Firmware', 1),
+      'interface'     => pgettext('inventory device', 'Interface'),
+      'comment'       => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive'  => pgettext('global', 'Child entities'),
+      'updated_at'    => pgettext('global', 'Last update'),
+      'created_at'    => pgettext('global', 'Creation date'),
+      'type'          => pgettext('inventory device', 'Storage type'),
+      'firmware'      => npgettext('global', 'Firmware', 'Firmware', 1),
     ];
 
     $defColl = new DefinitionCollection();
@@ -85,7 +83,7 @@ class Storage
 
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -97,25 +95,24 @@ class Storage
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Hard drive', 'Hard drives', 1),
+        'title' => npgettext('global', 'Storage', 'Storages', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],
@@ -127,26 +124,24 @@ class Storage
    */
   public static function getTypesArray(): array
   {
-    global $translator;
-
     return [
       0 => [
-        'title' => $translator->translate('Unknown'),
+        'title' => pgettext('storage type', 'Unknown'),
       ],
       1 => [
-        'title' => $translator->translate('Hard Disk Drive'),
+        'title' => pgettext('storage type', 'Hard Disk Drive'),
       ],
       2 => [
-        'title' => $translator->translate('Floppy disk'),
+        'title' => pgettext('storage type', 'Floppy disk'),
       ],
       3 => [
-        'title' => $translator->translate('Optical disk'),
+        'title' => pgettext('storage type', 'Optical disk'),
       ],
       4 => [
-        'title' => $translator->translate('Flash drive'),
+        'title' => pgettext('storage type', 'Flash drive'),
       ],
       5 => [
-        'title' => $translator->translate('Tape'),
+        'title' => pgettext('storage type', 'Tape'),
       ],
     ];
   }

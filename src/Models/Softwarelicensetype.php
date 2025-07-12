@@ -16,7 +16,6 @@ class Softwarelicensetype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Softwarelicensetype::class;
-  protected $titles = ['License type', 'License types'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Softwarelicensetype extends Common
     'softwarelicensetype:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'License type', 'License types', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Softwarelicensetype, $this> */
   public function softwarelicensetype(): BelongsTo

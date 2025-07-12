@@ -16,7 +16,6 @@ class Computerantivirus extends Common
 
   protected $table = 'computerantiviruses';
   protected $definition = \App\Models\Definitions\Computerantivirus::class;
-  protected $titles = ['Antivirus', 'Antivirus'];
   protected $icon = 'virus slash';
   protected $hasEntityField = false;
 
@@ -40,6 +39,14 @@ class Computerantivirus extends Common
     'is_active'  => 'boolean',
     'is_dynamic' => 'boolean',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Antivirus', 'Antiviruses', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Computer, $this> */
   public function computer(): BelongsTo

@@ -10,7 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Tickettemplatepredefinedfields extends Common
 {
   protected $definition = \App\Models\Definitions\Tickettemplatepredefinedfields::class;
-  protected $titles = ['Ticket template', 'Ticket templates'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Ticket template', 'Ticket templates', $nb);
+  }
 }

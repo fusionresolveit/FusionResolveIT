@@ -52,7 +52,7 @@ final class Operatingsystemservicepack extends Common implements \App\Interfaces
 
     $operatingsystemservicepack = \App\Models\Operatingsystemservicepack::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem servicepack has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($operatingsystemservicepack, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Operatingsystemservicepack extends Common implements \App\Interfaces
 
     $operatingsystemservicepack->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem servicepack has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($operatingsystemservicepack, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Operatingsystemservicepack extends Common implements \App\Interfaces
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystemservicepack->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem servicepack has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/operatingsystemservicepacks')
@@ -136,9 +136,7 @@ final class Operatingsystemservicepack extends Common implements \App\Interfaces
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystemservicepack->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage(
-        'The operatingsystem servicepack has been soft deleted successfully'
-      );
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +163,7 @@ final class Operatingsystemservicepack extends Common implements \App\Interfaces
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystemservicepack->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem servicepack has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

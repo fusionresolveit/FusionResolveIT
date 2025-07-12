@@ -46,7 +46,7 @@ final class Usertitle extends Common implements \App\Interfaces\Crud
 
     $usertitle = \App\Models\Usertitle::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The user title has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($usertitle, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -89,7 +89,7 @@ final class Usertitle extends Common implements \App\Interfaces\Crud
 
     $usertitle->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The user title has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($usertitle, 'update');
 
     $uri = $request->getUri();
@@ -119,7 +119,7 @@ final class Usertitle extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $usertitle->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The user title has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/usertitles')
@@ -130,7 +130,7 @@ final class Usertitle extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $usertitle->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The user title has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -157,7 +157,7 @@ final class Usertitle extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $usertitle->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The user title has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

@@ -13,7 +13,6 @@ class Networkalias extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Networkalias::class;
-  protected $titles = ['Network alias', 'Network aliases'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -26,4 +25,12 @@ class Networkalias extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('network', 'Network alias', 'Network aliases', $nb);
+  }
 }

@@ -24,7 +24,6 @@ class Ticket extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Ticket::class;
-  protected $titles = ['Ticket', 'Tickets'];
   protected $icon = 'hands helping';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -172,6 +171,14 @@ class Ticket extends Common
     });
   }
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('ticket', 'Ticket', 'Tickets', $nb);
+  }
+
   /** @return BelongsToMany<\App\Models\User, $this> */
   public function requester(): BelongsToMany
   {
@@ -266,7 +273,6 @@ class Ticket extends Common
    */
   public function getFeeds(int $id): array
   {
-    global $translator;
     $feeds = [];
 
     /** @var \App\Models\Ticket|null */
@@ -314,7 +320,7 @@ class Ticket extends Common
         "usertype" => $usertype,
         "type"     => "followup",
         "date"     => $followup->created_at,
-        "summary"  => $translator->translate('added a followup'),
+        "summary"  => pgettext('ticket feed', 'added a followup'),
         "content"  => \App\v1\Controllers\Toolbox::convertMarkdownToHtml($followup['content']),
         "time"     => null,
       ];
@@ -359,7 +365,7 @@ class Ticket extends Common
         "usertype" => $usertype,
         "type"     => "solution",
         "date"     => $solution->created_at,
-        "summary"  => $translator->translate('added a solution'),
+        "summary"  => pgettext('ticket feed', 'added a solution'),
         "content"  => \App\v1\Controllers\Toolbox::convertMarkdownToHtml($solution['content']),
         "time"     => null,
         "status"   => $solution->status,
@@ -389,7 +395,8 @@ class Ticket extends Common
           "usertype" => "tech",
           "type"     => "event",
           "date"     => $log->updated_at,
-          "summary"  => $translator->translate('changed state to') . " <span class=\"ui " . $stateDef['color'] .
+          "summary"  => pgettext('ticket feed', 'changed state to') .
+                        " <span class=\"ui " . $stateDef['color'] .
                         " text\"><i class=\"" . $stateDef['icon'] . " icon\"></i>" . $stateDef['title'] . "</span>",
           "content"  => "",
           "time"     => null,
@@ -409,7 +416,7 @@ class Ticket extends Common
           "usertype" => "tech",
           "type"     => "event",
           "date"     => $log->updated_at,
-          "summary"  => $translator->translate('add attribution to the user') . ' ' . $userSpl[0],
+          "summary"  => pgettext('ticket feed', 'add attribution to the user') . ' ' . $userSpl[0],
           "content"  => "",
           "time"     => null,
         ];
@@ -425,7 +432,7 @@ class Ticket extends Common
             "usertype" => "tech",
             "type"     => "event",
             "date"     => $log->updated_at,
-            "summary"  => $translator->translate('add (+) attribution to the group') . ' ' . $groupSpl[0],
+            "summary"  => pgettext('ticket feed', 'add (+) attribution to the group') . ' ' . $groupSpl[0],
             "content"  => "",
             "time"     => null,
           ];
@@ -442,7 +449,8 @@ class Ticket extends Common
             "usertype" => "tech",
             "type"     => "event",
             "date"     => $log->updated_at,
-            "summary"  => $translator->translate('delete (-) attribution to the group') . ' ' . $groupSpl[0],
+            "summary"  => pgettext('ticket feed', 'delete (-) attribution to the group') . ' ' .
+                          $groupSpl[0],
             "content"  => "",
             "time"     => null,
           ];

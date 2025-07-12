@@ -14,7 +14,14 @@ class Devicegenerictype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicegenerictype::class;
-  protected $titles = ['Generic type', 'Generic types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Generic type', 'Generic types', $nb);
+  }
 }

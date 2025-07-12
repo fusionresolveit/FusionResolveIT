@@ -11,7 +11,7 @@ global $basePath;
 
 // Load lang
 $lang = new \App\Translation();
-$translator = $lang->loadLanguage('en_GB');
+$lang->loadLanguage('en-GB');
 $apiversion = 'v1';
 
 $basePath = "";

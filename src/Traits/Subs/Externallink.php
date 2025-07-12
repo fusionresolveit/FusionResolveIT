@@ -15,8 +15,6 @@ trait Externallink
    */
   public function showSubExternalLinks(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $computermodelclass = str_ireplace('\\v1\\Controllers\\', '\\Models\\', get_class($this));
 
     $item = $this->instanciateModel();

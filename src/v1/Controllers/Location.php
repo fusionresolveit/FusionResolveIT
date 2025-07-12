@@ -56,7 +56,7 @@ final class Location extends Common implements \App\Interfaces\Crud
 
     $location = \App\Models\Location::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The location has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($location, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -99,7 +99,7 @@ final class Location extends Common implements \App\Interfaces\Crud
 
     $location->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The location has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($location, 'update');
 
     $uri = $request->getUri();
@@ -129,7 +129,7 @@ final class Location extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $location->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The location has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/locations')
@@ -140,7 +140,7 @@ final class Location extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $location->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The location has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -167,7 +167,7 @@ final class Location extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $location->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The location has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -180,8 +180,6 @@ final class Location extends Common implements \App\Interfaces\Crud
    */
   public function showSubLocations(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Location();
     $view = Twig::fromRequest($request);
 
@@ -259,19 +257,19 @@ final class Location extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('locations', $myLocations);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('address', $translator->translate('Address'));
-    $viewData->addTranslation('postcode', $translator->translate('Postal code'));
-    $viewData->addTranslation('town', $translator->translate('City'));
-    $viewData->addTranslation('state', $translator->translate('location' . "\004" . 'State'));
-    $viewData->addTranslation('country', $translator->translate('Country'));
-    $viewData->addTranslation('building', $translator->translate('Building number'));
-    $viewData->addTranslation('room', $translator->translate('Room number'));
-    $viewData->addTranslation('latitude', $translator->translate('Latitude'));
-    $viewData->addTranslation('longitude', $translator->translate('Longitude'));
-    $viewData->addTranslation('altitude', $translator->translate('Altitude'));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('address', pgettext('location', 'Address'));
+    $viewData->addTranslation('postcode', pgettext('location', 'Postal code'));
+    $viewData->addTranslation('town', pgettext('location', 'City'));
+    $viewData->addTranslation('state', pgettext('location', 'State'));
+    $viewData->addTranslation('country', pgettext('location', 'Country'));
+    $viewData->addTranslation('building', pgettext('location', 'Building number'));
+    $viewData->addTranslation('room', pgettext('location', 'Room number'));
+    $viewData->addTranslation('latitude', pgettext('location', 'Latitude'));
+    $viewData->addTranslation('longitude', pgettext('location', 'Longitude'));
+    $viewData->addTranslation('altitude', pgettext('location', 'Altitude'));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/locations.html.twig', (array)$viewData);
   }

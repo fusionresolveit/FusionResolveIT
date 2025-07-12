@@ -9,7 +9,6 @@ class Consumable extends Common
   use \App\Traits\Relationships\Entity;
 
   protected $definition = \App\Models\Definitions\Consumable::class;
-  protected $titles = ['Consumable', 'Consumables'];
   protected $icon = 'box open';
 
   protected $appends = [
@@ -24,4 +23,12 @@ class Consumable extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Consumable', 'Consumables', $nb);
+  }
 }

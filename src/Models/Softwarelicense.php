@@ -29,7 +29,6 @@ class Softwarelicense extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Softwarelicense::class;
-  protected $titles = ['License', 'Licenses'];
   protected $icon = 'key';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -98,6 +97,14 @@ class Softwarelicense extends Common
     'childs:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'License', 'Licenses', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Softwarelicensetype, $this> */
   public function softwarelicensetype(): BelongsTo

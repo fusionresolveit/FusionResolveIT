@@ -68,7 +68,7 @@ final class Contract extends Common implements \App\Interfaces\Crud
 
     $contract = \App\Models\Contract::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The contract has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($contract, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -111,7 +111,7 @@ final class Contract extends Common implements \App\Interfaces\Crud
 
     $contract->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The contract has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($contract, 'update');
 
     $uri = $request->getUri();
@@ -141,7 +141,7 @@ final class Contract extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contract->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contract has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/contracts')
@@ -152,7 +152,7 @@ final class Contract extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contract->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contract has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -179,7 +179,7 @@ final class Contract extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contract->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contract has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -192,8 +192,6 @@ final class Contract extends Common implements \App\Interfaces\Crud
    */
   public function showSubAttachedItems(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $view = Twig::fromRequest($request);
 
     $myItem = \App\Models\Contract::where('id', $args['id'])->first();
@@ -323,19 +321,18 @@ final class Contract extends Common implements \App\Interfaces\Crud
     $viewData->addData('show', $this->choose);
     $viewData->addData('nb_total', $nb_total);
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('otherserial', $translator->translate('Inventory number'));
-    $viewData->addTranslation('status', $translator->translate('State'));
-    $viewData->addTranslation('domain_relation', $translator->translatePlural(
-      'Domain relation',
-      'Domains relations',
-      1
-    ));
-    $viewData->addTranslation('value', $translator->translate('Value'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('serial', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('otherserial', pgettext('inventory device', 'Inventory number'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
+    $viewData->addTranslation(
+      'domain_relation',
+      npgettext('global', 'Domain relation', 'Domains relations', 1)
+    );
+    $viewData->addTranslation('value', pgettext('contract', 'Value'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
 
     return $view->render($response, 'subitem/attacheditems.html.twig', (array)$viewData);
   }

@@ -22,9 +22,7 @@ on:
 
 jobs:
   check_code:
-
     runs-on: 'ubuntu-latest'
-
     strategy:
       matrix:
         php-versions: ['8.2', '8.3', '8.4']
@@ -56,9 +54,7 @@ jobs:
       run: phpstan analyse db src public bin/cli
 
   lint:
-
     runs-on: 'ubuntu-latest'
-
     strategy:
       matrix:
         php-versions: ['8.2', '8.3', '8.4']
@@ -91,6 +87,31 @@ jobs:
         fi
       if: github.event_name == 'pull_request'
 
+  check_gettext:
+    runs-on: 'ubuntu-latest'
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4
+
+    - name: install locales in the docker to have translation working
+      run: |
+        sudo apt update
+        sudo apt-get install -y locales locales-all
+
+    - name: Install gettext
+      run: sudo apt install -y gettext 
+
+    - name: Run gettet
+      run: |
+        cd .github
+        cd actions
+        php check_gettext.php
 
   check_composer:
     runs-on: 'ubuntu-latest'
@@ -280,11 +301,19 @@ jobs:
           sudo systemctl enable nginx 
           sudo systemctl restart nginx
 
+      - name: install locales in the docker to have translation working + gettext for compile langs
+        run: |
+          sudo apt update
+          sudo apt-get install -y locales locales-all gettext
+
       - name: Set phinx.php
         run: cp phinx.php.dist phinx.php
 
       - name: Install
         run: php bin/cli migrate
+
+      - name: Compile langs
+        run: php bin/cli translation
 
       - name: Set rights for nginx
         run: |

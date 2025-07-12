@@ -14,7 +14,14 @@ class Autoupdatesystem extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Autoupdatesystem::class;
-  protected $titles = ['Update Source', 'Update Sources'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('inventory device', 'Update Source', 'Update Sources', $nb);
+  }
 }

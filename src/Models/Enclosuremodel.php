@@ -14,7 +14,14 @@ class Enclosuremodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Enclosuremodel::class;
-  protected $titles = ['Enclosure model', 'Enclosure models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Enclosure model', 'Enclosure models', $nb);
+  }
 }

@@ -15,7 +15,6 @@ class Rssfeed extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Rssfeed::class;
-  protected $titles = ['RSS feed', 'RSS feed'];
   protected $icon = 'rss';
   protected $hasEntityField = false;
 
@@ -30,6 +29,13 @@ class Rssfeed extends Common
     'user:id,name,firstname,lastname',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'RSS feed', 'RSS feeds', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo

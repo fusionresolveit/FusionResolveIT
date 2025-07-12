@@ -29,7 +29,6 @@ class Monitor extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Monitor::class;
-  protected $titles = ['Monitor', 'Monitors'];
   protected $icon = 'desktop';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -107,6 +106,13 @@ class Monitor extends Common
     'reservations',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('inventory device', 'Monitor', 'Monitors', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Monitortype, $this> */
   public function type(): BelongsTo

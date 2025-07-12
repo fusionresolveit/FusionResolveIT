@@ -16,7 +16,6 @@ class Businesscriticity extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Businesscriticity::class;
-  protected $titles = ['Business criticity', 'Business criticities'];
   protected $icon = 'edit';
   protected $tree = true;
 
@@ -32,6 +31,14 @@ class Businesscriticity extends Common
     'businesscriticity:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Business criticity', 'Business criticities', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Businesscriticity, $this> */
   public function businesscriticity(): BelongsTo

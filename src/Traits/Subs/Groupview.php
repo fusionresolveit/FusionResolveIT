@@ -18,8 +18,6 @@ trait Groupview
    */
   public function showSubgroupview(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -56,9 +54,9 @@ trait Groupview
     $viewData->addData('groupActions', true);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('id', $translator->translate('id'));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('recursive', $translator->translate('Child groups'));
+    $viewData->addTranslation('id', pgettext('global', 'Id'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('recursive', pgettext('group', 'Child groups'));
 
     return $view->render($response, 'subitem/groupview.html.twig', (array)$viewData);
   }

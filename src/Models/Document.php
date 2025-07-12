@@ -21,7 +21,6 @@ class Document extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Document::class;
-  protected $titles = ['Document', 'Documents'];
   protected $icon = 'file';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -92,6 +91,14 @@ class Document extends Common
     'notes:id',
     'documents:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Document', 'Documents', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Documentcategory, $this> */
   public function categorie(): BelongsTo

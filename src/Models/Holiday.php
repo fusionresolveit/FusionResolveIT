@@ -15,7 +15,6 @@ class Holiday extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Holiday::class;
-  protected $titles = ['Close time', 'Close times'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Holiday extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Close time', 'Close times', $nb);
+  }
 }

@@ -11,11 +11,9 @@ class Menubookmark
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'user' => $translator->translatePlural('User', 'Users', 1),
-      'endpoint' => $translator->translate('Endpoint'),
+      'user' => npgettext('global', 'User', 'Users', 1),
+      'endpoint' => pgettext('global', 'Endpoint'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -38,7 +36,6 @@ class Menubookmark
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
     ];
   }

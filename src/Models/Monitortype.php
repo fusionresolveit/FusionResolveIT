@@ -14,7 +14,14 @@ class Monitortype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Monitortype::class;
-  protected $titles = ['Monitor type', 'Monitor types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Monitor type', 'Monitor types', $nb);
+  }
 }

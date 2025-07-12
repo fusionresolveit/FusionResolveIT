@@ -15,8 +15,6 @@ trait Certificate
    */
   public function showSubCertificates(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -52,7 +50,7 @@ trait Certificate
       $date_expiration = $certificate->date_expiration;
       if ($date_expiration == null)
       {
-        $date_expiration = $translator->translate("N'expire pas");
+        $date_expiration = pgettext('management', 'Does not expire');
       } else {
         if ($date_expiration < date('Y-m-d H:i:s'))
         {
@@ -90,14 +88,14 @@ trait Certificate
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('certificates', $myCertificates);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('dns_name', $translator->translate('DNS name'));
-    $viewData->addTranslation('dns_suffix', $translator->translate('DNS suffix'));
-    $viewData->addTranslation('created_at', $translator->translate('Creation date'));
-    $viewData->addTranslation('date_expiration', $translator->translate('Expiration date'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('dns_name', pgettext('certificate', 'DNS name'));
+    $viewData->addTranslation('dns_suffix', pgettext('certificate', 'DNS suffix'));
+    $viewData->addTranslation('created_at', pgettext('global', 'Creation date'));
+    $viewData->addTranslation('date_expiration', pgettext('global', 'Expiration date'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
 
     return $view->render($response, 'subitem/certificates.html.twig', (array)$viewData);
   }

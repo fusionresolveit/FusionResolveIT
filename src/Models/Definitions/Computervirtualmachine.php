@@ -11,10 +11,8 @@ class Computervirtualmachine
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'id' => $translator->translate('ID'),
+      'id' => pgettext('global', 'Id'),
     ];
 
     $defColl = new DefinitionCollection();

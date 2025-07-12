@@ -14,7 +14,14 @@ class Operatingsystemarchitecture extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Operatingsystemarchitecture::class;
-  protected $titles = ['Operating system architecture', 'Operating system architectures'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Operating system architecture', 'Operating system architectures', $nb);
+  }
 }

@@ -14,22 +14,20 @@ class Software
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'comment' => $translator->translate('Comments'),
-      'category' => $translator->translate('Category'),
-      'manufacturer' => $translator->translatePlural('Publisher', 'Publishers', 1),
-      'usertech' => $translator->translate('Technician in charge of the hardware'),
-      'grouptech' => $translator->translate('Group in charge of the hardware'),
-      'user' => $translator->translatePlural('User', 'Users', 1),
-      'group' => $translator->translatePlural('Group', 'Groups', 1),
-      'is_helpdesk_visible' => $translator->translate('Associable to a ticket'),
-      'is_valid' => $translator->translate('Valid licenses'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'category' => npgettext('global', 'Category', 'Categories', 1),
+      'manufacturer' => npgettext('software', 'Publisher', 'Publishers', 1),
+      'usertech' => pgettext('inventory device', 'Technician in charge of the hardware'),
+      'grouptech' => pgettext('inventory device', 'Group in charge of the hardware'),
+      'user' => npgettext('global', 'User', 'Users', 1),
+      'group' => npgettext('global', 'Group', 'Groups', 1),
+      'is_helpdesk_visible' => pgettext('software', 'Associable to a ticket'),
+      'is_valid' => pgettext('software', 'Valid licenses'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -106,13 +104,13 @@ class Software
     return $defColl;
     // [
     //   'id'    => 64,
-    //   'title' => $translator->translate('Template name'),
+    //   'title' => pgettext('global', 'Template name'),
     //   'type'  => 'input',
     //   'name'  => 'template_name',
     // ],
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -248,13 +246,13 @@ class Software
 
     [
       'id'    => 16,
-      'title' => $translator->translate('Comments'),
+      'title' => npgettext('global', 'Comment', 'Comments', 2),
       'type'  => 'textarea',
       'name'  => 'comment',
     ],
     [
       'id'    => 23,
-      'title' => $translator->translate('Publisher'),
+      'title' => 'Publisher',
       'type'  => 'dropdown_remote',
       'name'  => 'manufacturer',
       'dbname' => 'manufacturers_id',
@@ -262,7 +260,7 @@ class Software
     ],
     [
       'id'    => 24,
-      'title' => $translator->translate('Technician in charge of the hardware'),
+      'title' => pgettext('inventory device', 'Technician in charge of the hardware'),
       'type'  => 'dropdown_remote',
       'name'  => 'usertech',
       'dbname' => 'users_id_tech',
@@ -270,7 +268,7 @@ class Software
     ],
     [
       'id'    => 49,
-      'title' => $translator->translate('Group in charge of the hardware'),
+      'title' => pgettext('inventory device', 'Group in charge of the hardware'),
       'type'  => 'dropdown_remote',
       'name'  => 'grouptech',
       'dbname' => 'groups_id_tech',
@@ -278,7 +276,7 @@ class Software
     ],
     [
       'id'    => 70,
-      'title' => $translator->translatePlural('User', 'Users', 1),
+      'title' => npgettext('global', 'User', 'Users', 1),
       'type'  => 'dropdown_remote',
       'name'  => 'user',
       'dbname' => 'users_id',
@@ -286,7 +284,7 @@ class Software
     ],
     [
       'id'    => 71,
-      'title' => $translator->translatePlural('Group', 'Groups', 1),
+      'title' => npgettext('global', 'Group', 'Groups', 1),
       'type'  => 'dropdown_remote',
       'name'  => 'group',
       'dbname' => 'groups_id',
@@ -295,7 +293,7 @@ class Software
 
     // [
     //   'id'    => 72,
-    //   'title' => $translator->translate('Number of installations'),
+    //   'title' => 'Number of installations',
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'nbinstallation',
     //   'itemtype' => '\App\Models\Softwareversion',
@@ -303,7 +301,7 @@ class Software
     // ],
     // [
     //   'id'    => 5,
-    //   'title' => $translator->translate('Versions'),
+    //   'title' => 'Versions',
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'versions',
     //   'itemtype' => '\App\Models\Softwareversion',
@@ -318,85 +316,84 @@ class Software
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Software', 'Softwares', 1),
+        'title' => npgettext('global', 'Software', 'Software', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Analysis impact'),
+        'title' => pgettext('global', 'Analysis impact'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Version', 'Versions', 2),
+        'title' => npgettext('global', 'Version', 'Versions', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/versions',
       ],
       [
-        'title' => $translator->translatePlural('License', 'Licenses', 2),
+        'title' => npgettext('global', 'License', 'Licenses', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/licenses',
       ],
       [
-        'title' => $translator->translatePlural('Installation', 'Installations', 2),
+        'title' => npgettext('software', 'Installation', 'Installations', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/softwareinstall',
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Knowledge base'),
+        'title' => pgettext('global', 'Knowledge base'),
         'icon' => 'book',
         'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
-        'title' => $translator->translate('ITIL'),
+        'title' => pgettext('global', 'ITIL'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/itil',
       ],
       [
-        'title' => $translator->translatePlural('External link', 'External links', 2),
+        'title' => npgettext('global', 'External link', 'External links', 2),
         'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translatePlural('Reservation', 'Reservations', 2),
+        'title' => npgettext('global', 'Reservation', 'Reservations', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/reservations',
       ],
       [
-        'title' => $translator->translatePlural('Domain', 'Domains', 2),
+        'title' => npgettext('global', 'Domain', 'Domains', 2),
         'icon' => 'globe americas',
         'link' => $rootUrl . '/domains',
       ],
       [
-        'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
+        'title' => npgettext('global', 'Appliance', 'Appliances', 2),
         'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

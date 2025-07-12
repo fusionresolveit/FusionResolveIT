@@ -1,0 +1,265 @@
+#  translator-comments
+#. extracted-comments
+msgctxt "global"
+msgid "Homepage tech" 
+msgstr "Homepage tech"
+
+msgctxt "in ticket feed"
+msgid "added a followup" 
+msgstr "added a followup"
+
+msgctxt "in ticket feed"
+msgid "added a solution" 
+msgstr "added a solution"
+
+msgctxt "in ticket feed, display old state to new state"
+msgid "changed state to" 
+msgstr "changed state to"
+
+msgctxt "in ticket feed"
+msgid "add attribution to the user" 
+msgstr "add attribution to the user"
+
+msgctxt "in ticket feed"
+msgid "add (+) attribution to the group" 
+msgstr "add (+) attribution to the group"
+
+msgctxt "in ticket feed"
+msgid "delete (-) attribution to the group" 
+msgstr "delete (-) attribution to the group"
+
+msgctxt "in ticket solution"
+msgid "Not subject to approval" 
+msgstr "Not subject to approval"
+
+msgctxt "in ticket solution"
+msgid "Waiting for approval" 
+msgstr "Waiting for approval"
+
+msgctxt "in ticket solution"
+msgid "Granted" 
+msgstr "Granted"
+
+msgctxt "in ticket solution"
+msgid "Refused" 
+msgstr "Refused"
+
+msgctxt "global"
+msgid "Name" 
+msgstr "Name"
+
+msgctxt "global"
+msgid "Message" 
+msgid_plural "Messages" 
+msgstr[0] "Message"
+msgstr[1] "Messages"
+
+msgctxt "global"
+msgid "Type" 
+msgid_plural "Types" 
+msgstr[0] "Type"
+msgstr[1] "Types"
+
+msgctxt "display alerts"
+msgid "Visibility start date" 
+msgstr "Visibility start date"
+
+msgctxt "display alerts"
+msgid "Visibility end date" 
+msgstr "Visibility end date"
+
+msgctxt "global"
+msgid "Recursive" 
+msgstr "Recursive"
+
+msgctxt "display alerts"
+msgid "Show on login page" 
+msgstr "Show on login page"
+
+msgctxt "display alerts"
+msgid "Show on home page" 
+msgstr "Show on home page"
+
+msgctxt "global"
+msgid "Active" 
+msgstr "Active"
+
+msgctxt "global"
+msgid "Last update" 
+msgstr "Last update"
+
+msgctxt "global"
+msgid "Creation date" 
+msgstr "Creation date"
+
+msgctxt "Alert status"
+msgid "General" 
+msgstr "General"
+
+msgctxt "Alert status"
+msgid "Information"
+msgid_plural "Information" 
+msgstr[0] "Information"
+msgstr[1] "Information"
+
+msgctxt "Alert status"
+msgid "Warning" 
+msgstr "Warning"
+
+msgctxt "Alert status"
+msgid "Problem"
+msgid_plural "Problem" 
+msgstr[0] "Problems"
+msgstr[1] "Problems"
+
+msgctxt "global"
+msgid "Historical" 
+msgstr "Historical"
+
+msgctxt "Alert title"
+msgid "Alert"
+msgid_plural "Alerts" 
+msgstr[0] "Alert"
+msgstr[1] "Alerts"
+
+msgctxt "Target, like population will have access"
+msgid "Target"
+msgid_plural "Targets" 
+msgstr[0] "Target"
+msgstr[1] "Targets"
+
+msgctxt "LDAP parameter"
+msgid "Server"
+msgstr "Server"
+
+msgctxt "LDAP parameter"
+msgid "Port"
+msgid_plural "Ports" 
+msgstr[0] "Port"
+msgstr[1] "Ports"
+
+msgctxt "LDAP parameter"
+msgid "Default server"
+msgstr "Default server"
+
+msgctxt "LDAP parameter"
+msgid "BaseDN"
+msgstr "BaseDN"
+
+msgctxt "LDAP parameter"
+msgid "RootDN"
+msgstr "RootDN"
+
+msgctxt "LDAP parameter"
+msgid "RootDN password"
+msgstr "RootDN password"
+
+msgctxt "LDAP parameter"
+msgid "Connection filter"
+msgstr "Connection filter"
+
+msgctxt "LDAP parameter"
+msgid "Login field"
+msgstr "Login field"
+
+msgctxt "user parameter"
+msgid "Surname"
+msgstr "Surname"
+
+msgctxt "user parameter"
+msgid "First name"
+msgstr "First name"
+
+msgctxt "LDAP parameter"
+msgid "Use DN in the search"
+msgstr "Use DN in the search"
+
+msgctxt "LDAP parameter"
+msgid "User attribute containing its groups"
+msgstr "User attribute containing its groups"
+
+msgctxt "LDAP parameter"
+msgid "Filter to search in groups"
+msgstr "Filter to search in groups"
+
+msgctxt "LDAP parameter"
+msgid "Group attribute containing its users"
+msgstr "Group attribute containing its users"
+
+msgctxt "LDAP parameter"
+msgid "Synchronization field"
+msgstr "Synchronization field"
+
+msgctxt "LDAP parameter"
+msgid "Domain name used by inventory tool"
+msgstr "Domain name used by inventory tool"
+
+msgctxt "user parameter"
+msgid "Phone"
+msgstr "Phone"
+
+msgctxt "user parameter"
+msgid "Phone 2"
+msgstr "Phone 2"
+
+msgctxt "user parameter"
+msgid "Mobile phone"
+msgstr "Mobile phone"
+
+msgctxt "user parameter"
+msgid "Title"
+msgstr "Title"
+
+msgctxt "user parameter"
+msgid "Category"
+msgstr "Category"
+
+msgctxt "user parameter"
+msgid "Email"
+msgid_plural "Emails" 
+msgstr[0] "Email"
+msgstr[1] "Emails"
+
+msgctxt "user parameter"
+msgid "Language"
+msgstr "Language"
+
+msgctxt "user parameter"
+msgid "Responsible"
+msgstr "Responsible"
+
+msgctxt "global"
+msgid "Comments" 
+msgstr "Comments"
+
+msgctxt "SSO parameter"
+msgid "Provider"
+msgstr "Provider"
+
+msgctxt "SSO parameter"
+msgid "callback id"
+msgstr "callback id"
+
+msgctxt "SSO parameter"
+msgid "application id"
+msgstr "application id"
+
+msgctxt "SSO parameter"
+msgid "application secret"
+msgstr "application secret"
+
+msgctxt "SSO parameter"
+msgid "application public"
+msgstr "application public"
+
+msgctxt "SSO parameter"
+msgid "directory id"
+msgstr "directory id"
+
+msgctxt "SSO parameter"
+msgid "baseurl"
+msgstr "baseurl"
+
+msgctxt "SSO parameter"
+msgid "realm"
+msgstr "realm"

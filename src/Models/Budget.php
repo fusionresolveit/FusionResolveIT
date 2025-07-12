@@ -24,7 +24,6 @@ class Budget extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Budget::class;
-  protected $titles = ['Budget', 'Budgets'];
   protected $icon = 'calculator';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -77,6 +76,14 @@ class Budget extends Common
     'knowledgebasearticles:id,name',
     'documents:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Budget', 'Budgets', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Budgettype, $this> */
   public function type(): BelongsTo

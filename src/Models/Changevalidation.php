@@ -13,7 +13,6 @@ class Changevalidation extends Common
   use \App\Traits\Relationships\Entity;
 
   protected $definition = \App\Models\Definitions\Changevalidation::class;
-  protected $titles = ['Change validation', 'Change validations'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,13 @@ class Changevalidation extends Common
     'uservalidate:id,name,firstname,lastname',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('change', 'Change validation', 'Change validations', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function usersrequester(): BelongsTo

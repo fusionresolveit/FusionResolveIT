@@ -15,8 +15,6 @@ trait Reservation
    */
   public function showSubReservations(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -96,13 +94,13 @@ trait Reservation
     $viewData->addData('reservations_old', $myReservations_old);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('start_date', $translator->translate('Start date'));
-    $viewData->addTranslation('end_date', $translator->translate('End date'));
-    $viewData->addTranslation('by', $translator->translate('By'));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
-    $viewData->addTranslation('current_reservations', $translator->translate('Current and future reservations'));
-    $viewData->addTranslation('past_reservations', $translator->translate('Past reservations'));
-    $viewData->addTranslation('no_reservations', $translator->translate('No reservation'));
+    $viewData->addTranslation('start_date', pgettext('global', 'Start date'));
+    $viewData->addTranslation('end_date', pgettext('global', 'End date'));
+    $viewData->addTranslation('by', pgettext('reservation', 'By'));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
+    $viewData->addTranslation('current_reservations', pgettext('reservation', 'Current and future reservations'));
+    $viewData->addTranslation('past_reservations', pgettext('reservation', 'Past reservations'));
+    $viewData->addTranslation('no_reservations', pgettext('reservation', 'No reservation'));
 
     return $view->render($response, 'subitem/reservations.html.twig', (array)$viewData);
   }

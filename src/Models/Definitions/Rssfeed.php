@@ -11,8 +11,6 @@ class Rssfeed
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $MINUTE_TIMESTAMP = 60;
     $HOUR_TIMESTAMP = 3600;
     $DAY_TIMESTAMP = 86400;
@@ -20,16 +18,16 @@ class Rssfeed
     $MONTH_TIMESTAMP = 2592000;
 
     $t = [
-      'name' => $translator->translate('Name'),
-      'user' => $translator->translate('By'),
-      'url' => $translator->translate('URL'),
-      'is_active' => $translator->translate('Active'),
-      'have_error' => $translator->translate('Error retrieving RSS feed'),
-      'max_items' => $translator->translate('Number of items displayed'),
-      'comment' => $translator->translate('Comments'),
-      'refresh_rate' => $translator->translate('Refresh rate'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'user' => pgettext('RSS', 'By'),
+      'url' => pgettext('RSS', 'URL'),
+      'is_active' => pgettext('global', 'Active'),
+      'have_error' => pgettext('RSS', 'Error retrieving RSS feed'),
+      'max_items' => pgettext('RSS', 'Number of items displayed'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'refresh_rate' => pgettext('RSS', 'Refresh rate'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -103,8 +101,6 @@ class Rssfeed
    */
   public static function getTimestampArray(array $options = []): array
   {
-    global $translator;
-
     $MINUTE_TIMESTAMP = 60;
     $HOUR_TIMESTAMP = 3600;
     $DAY_TIMESTAMP = 86400;
@@ -190,7 +186,7 @@ class Rssfeed
           //TRANS: %1$d is the number of days, %2$d the number of hours,
           //       %3$s the number of minutes : display 1 day 3h15
           $values[$i] = sprintf(
-            $translator->translatePlural('%1$d day %2$dh%3$s', '%1$d days %2$dh%3$s', $day),
+            npgettext('global', '%1$d day %2$dh%3$s', '%1$d days %2$dh%3$s', (int) $day),
             $day,
             $hour,
             $minute
@@ -198,7 +194,7 @@ class Rssfeed
         }
         else
         {
-          $values[$i] = sprintf($translator->translatePlural('%d day', '%d days', $day), $day);
+          $values[$i] = sprintf(npgettext('global', '%d day', '%d days', (int) $day), $day);
         }
       }
       elseif ($hour > 0 || $minute > 0)
@@ -209,7 +205,7 @@ class Rssfeed
         }
 
         //TRANS: %1$d the number of hours, %2$s the number of minutes : display 3h15
-        $values[$i] = sprintf($translator->translate('%1$dh%2$s'), $hour, $minute);
+        $values[$i] = sprintf(pgettext('global', '%1$dh%2$s'), $hour, $minute);
       }
     }
 
@@ -226,25 +222,24 @@ class Rssfeed
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('RSS feed', 'RSS feed', 1),
+        'title' => npgettext('global', 'RSS feed', 'RSS feed', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Content'),
+        'title' => pgettext('global', 'Content'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Target', 'Targets', 2),
+        'title' => npgettext('target', 'Target', 'Targets', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

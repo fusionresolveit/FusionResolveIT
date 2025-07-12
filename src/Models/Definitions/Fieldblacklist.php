@@ -11,17 +11,15 @@ class Fieldblacklist
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'recursive'     => $translator->translate('Child entities'),
-      'value' => $translator->translate('Value'),
-      'field' => $translator->translatePlural('Field', 'Fields', 1),
-      'item_type' => $translator->translatePlural('Type', 'Types', 1),
+      'name' => pgettext('global', 'Name'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'recursive'     => pgettext('global', 'Child entities'),
+      'value' => pgettext('blacklist', 'Value'),
+      'field' => npgettext('global', 'Field', 'Fields', 1),
+      'item_type' =>  npgettext('global', 'Type', 'Types', 1),
     ];
 
     $defColl = new DefinitionCollection();
@@ -42,15 +40,14 @@ class Fieldblacklist
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Ignored value for the unicity', 'Ignored values for the unicity', 1),
+        'title' => npgettext('global', 'Ignored value for the unicity', 'Ignored values for the unicity', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

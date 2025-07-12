@@ -52,7 +52,7 @@ final class Devicemotherboardmodel extends Common implements \App\Interfaces\Cru
 
     $devicemotherboardmodel = \App\Models\Devicemotherboardmodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The motherboard model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicemotherboardmodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Devicemotherboardmodel extends Common implements \App\Interfaces\Cru
 
     $devicemotherboardmodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The motherboard model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicemotherboardmodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Devicemotherboardmodel extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $devicemotherboardmodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The motherboad model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicemotherboardmodels')
@@ -136,7 +136,7 @@ final class Devicemotherboardmodel extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $devicemotherboardmodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The motherboard model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Devicemotherboardmodel extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $devicemotherboardmodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The motherboard model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

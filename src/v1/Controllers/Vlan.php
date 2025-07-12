@@ -52,7 +52,7 @@ final class Vlan extends Common implements \App\Interfaces\Crud
 
     $vlan = \App\Models\Vlan::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The vlan has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($vlan, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Vlan extends Common implements \App\Interfaces\Crud
 
     $vlan->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The vlan has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($vlan, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Vlan extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $vlan->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The vlan has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/vlans')
@@ -136,7 +136,7 @@ final class Vlan extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $vlan->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The vlan has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Vlan extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $vlan->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The vlan has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

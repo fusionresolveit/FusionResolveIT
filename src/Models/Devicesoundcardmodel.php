@@ -14,7 +14,14 @@ class Devicesoundcardmodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicesoundcardmodel::class;
-  protected $titles = ['Device sound card model', 'Device sound card models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Device sound card model', 'Device sound card models', $nb);
+  }
 }

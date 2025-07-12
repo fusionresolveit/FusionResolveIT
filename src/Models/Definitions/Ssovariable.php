@@ -11,13 +11,11 @@ class Ssovariable
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -34,10 +32,10 @@ class Ssovariable
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural(
+        'title' => npgettext(
+          'SSO',
           'Field storage of the login in the HTTP request',
           'Fields storage of the login in the HTTP request',
           1
@@ -46,7 +44,7 @@ class Ssovariable
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

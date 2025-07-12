@@ -52,7 +52,7 @@ final class Deviceprocessormodel extends Common implements \App\Interfaces\Crud
 
     $deviceprocessormodel = \App\Models\Deviceprocessormodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The processor model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($deviceprocessormodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Deviceprocessormodel extends Common implements \App\Interfaces\Crud
 
     $deviceprocessormodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The processor model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($deviceprocessormodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Deviceprocessormodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $deviceprocessormodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The processor model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/deviceprocessormodels')
@@ -136,7 +136,7 @@ final class Deviceprocessormodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $deviceprocessormodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The processor model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Deviceprocessormodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $deviceprocessormodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The processor model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

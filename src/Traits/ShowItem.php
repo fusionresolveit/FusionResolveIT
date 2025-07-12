@@ -15,8 +15,6 @@ trait ShowItem
    */
   public function showItem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -49,7 +47,7 @@ trait ShowItem
     $viewData->addData('title', $title);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
+    $viewData->addTranslation('selectvalue', pgettext('global', 'Select a value...'));
 
     // Information TOP
     $informations = $this->getInformationTop($myItem, $request);

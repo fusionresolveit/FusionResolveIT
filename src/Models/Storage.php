@@ -20,7 +20,6 @@ class Storage extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Storage::class;
-  protected $titles = ['Storage', 'Storages'];
   protected $icon = 'ssd';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -49,6 +48,14 @@ class Storage extends Common
     'documents',
     'firmware:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Storage', 'Storages', $nb);
+  }
 
   protected $casts = [
     'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',

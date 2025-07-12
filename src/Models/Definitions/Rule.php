@@ -11,15 +11,13 @@ class Rule
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'ranking' => $translator->translate('Ranking'),
-      'description' => $translator->translate('Description'),
-      'match' => $translator->translate('Logical operator'),
-      'is_active' => $translator->translate('Active'),
-      'comment' => $translator->translate('Comments'),
+      'name' => pgettext('global', 'Name'),
+      'ranking' => pgettext('rule', 'Ranking'),
+      'description' => pgettext('global', 'Description'),
+      'match' => pgettext('rule', 'Logical operator'),
+      'is_active' => pgettext('global', 'Active'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
     ];
 
     $defColl = new DefinitionCollection();
@@ -41,7 +39,7 @@ class Rule
 
     // [
     //   'id'    => 1001,
-    //   'title' => $translator->translatePlural('Criterium', 'Criteria', 2),
+    //   'title' => 'Criteria',
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'criteria',
     //   'itemtype' => '\App\Models\Rules\Rulecriterium',
@@ -51,7 +49,7 @@ class Rule
     // ],
     // [
     //   'id'    => 1002,
-    //   'title' => $translator->translatePlural('Action', 'Actions', 2),
+    //   'title' => 'Actions',
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'actions',
     //   'itemtype' => '\App\Models\Ruleaction',
@@ -66,30 +64,29 @@ class Rule
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Rule', 'Rules', 1),
+        'title' => npgettext('rule', 'Rule', 'Rules', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Criterion', 'Criteria', 2),
+        'title' => npgettext('rule', 'Criterion', 'Criteria', 2),
         'icon' => 'brain',
         'link' => $rootUrl . '/criteria',
       ],
       [
-        'title' => $translator->translatePlural('Action', 'Actions', 2),
+        'title' => npgettext('rule', 'Action', 'Actions', 2),
         'icon' => 'running',
         'link' => $rootUrl . '/actions',
       ],
       [
-        'title' => $translator->translate('Testing'),
+        'title' => pgettext('rule', 'Testing'),
         'icon' => 'vial',
         'link' => '', // $rootUrl . '/testing',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => '', // $rootUrl . '/history',
       ],
@@ -101,14 +98,12 @@ class Rule
    */
   public static function getMatchArray(): array
   {
-    global $translator;
-
     return [
       'AND' => [
-        'title' => $translator->translate('and'),
+        'title' => strtolower(pgettext('global', 'And')),
       ],
       'OR' => [
-        'title' => $translator->translate('or'),
+        'title' => strtolower(pgettext('global', 'Or')),
       ],
     ];
   }

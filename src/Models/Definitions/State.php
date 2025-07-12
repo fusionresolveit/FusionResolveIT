@@ -11,95 +11,93 @@ class State
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'state' => $translator->translate('As child of'),
+      'name' => pgettext('global', 'Name'),
+      'state' => pgettext('global', 'As child of'),
       'is_visible_computer' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Computer', 'Computers', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Computer', 'Computers', 2)
       ),
       'is_visible_monitor' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Monitor', 'Monitors', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('inventory device', 'Monitor', 'Monitors', 2)
       ),
       'is_visible_networkequipment' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Network device', 'Network devices', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Network device', 'Network devices', 2)
       ),
       'is_visible_peripheral' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Device', 'Devices', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Peripheral', 'Peripherals', 2)
       ),
       'is_visible_phone' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Phone', 'Phones', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Phone', 'Phones', 2)
       ),
       'is_visible_printer' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Printer', 'Printers', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Printer', 'Printers', 2)
       ),
       'is_visible_softwarelicense' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('License', 'Licenses', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'License', 'Licenses', 2)
       ),
       'is_visible_certificate' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Certificate', 'Certificates', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Certificate', 'Certificates', 2)
       ),
       'is_visible_enclosure' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Enclosure', 'Enclosures', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Enclosure', 'Enclosures', 2)
       ),
       'is_visible_pdu' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('PDU', 'PDUs', 1)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'PDU', 'PDUs', 1)
       ),
       'is_visible_line' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Line', 'Lines', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Line', 'Lines', 2)
       ),
       'is_visible_rack' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Rack', 'Racks', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Rack', 'Racks', 2)
       ),
       'is_visible_softwareversion' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Version', 'Versions', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Version', 'Versions', 2)
       ),
       'is_visible_cluster' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Cluster', 'Clusters', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Cluster', 'Clusters', 2)
       ),
       'is_visible_contract' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Contract', 'Contract', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Contract', 'Contracts', 2)
       ),
       'is_visible_appliance' => sprintf(
-        $translator->translate('%1$s - %2$s'),
-        $translator->translate('Visibility'),
-        $translator->translatePlural('Appliance', 'Appliances', 2)
+        pgettext('global', '%1$s - %2$s'),
+        pgettext('global', 'Visibility'),
+        npgettext('global', 'Appliance', 'Appliances', 2)
       ),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -155,7 +153,7 @@ class State
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -215,20 +213,19 @@ class State
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Status of items', 'Statuses of items', 1),
+        'title' => npgettext('global', 'Status of items', 'Statuses of items', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Status of items', 'Statuses of items', 2),
+        'title' => npgettext('global', 'Status of items', 'Statuses of items', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/states',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

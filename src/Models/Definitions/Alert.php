@@ -11,20 +11,18 @@ class Alert
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'message' => $translator->translate('Message'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'begin_date' => $translator->translate('Visibility start date'),
-      'end_date' => $translator->translate('Visibility end date'),
-      'is_recursive' => $translator->translate('Recursive'),
-      'is_displayed_onlogin' => $translator->translate('Show on login page'),
-      'is_displayed_oncentral' => $translator->translate('Show on home page'),
-      'is_active' => $translator->translate('Active'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name'                   => pgettext('global', 'Name'),
+      'message'                => npgettext('global', 'Message', 'Messages', 1),
+      'type'                   => npgettext('global', 'Type', 'Types', 1),
+      'begin_date'             => pgettext('display alerts', 'Visibility start date'),
+      'end_date'               => pgettext('display alerts', 'Visibility end date'),
+      'is_recursive'           => pgettext('global', 'Recursive'),
+      'is_displayed_onlogin'   => pgettext('display alerts', 'Show on login page'),
+      'is_displayed_oncentral' => pgettext('display alerts', 'Show on home page'),
+      'is_active'              => pgettext('global', 'Active'),
+      'updated_at'             => pgettext('global', 'Last update'),
+      'created_at'             => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -50,7 +48,7 @@ class Alert
     return $defColl;
     // [
     //   'id'    => 4,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -75,25 +73,24 @@ class Alert
    */
   public static function getTypeArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('General'),
+        'title' => pgettext('alert status', 'General'),
         'color' => 'grey',
         'icon'  => 'comment',
       ],
       2 => [
-        'title' => $translator->translatePlural('Information', 'Information', 1),
+        'title' => npgettext('alert status', 'Information', 'Information', 1),
         'color' => 'blue',
         'icon'  => 'info circle',
       ],
       3 => [
-        'title' => $translator->translate('Warning'),
+        'title' => pgettext('alert status', 'Warning'),
         'color' => 'yellow',
         'icon'  => 'exclamation triangle',
       ],
       4 => [
-        'title' => $translator->translatePlural('Problem', 'Problems', 1),
+        'title' => npgettext('alert status', 'Problem', 'Problems', 1),
         'color' => 'red',
         'icon'  => 'times circle',
       ],
@@ -105,20 +102,19 @@ class Alert
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Alert', 'Alerts', 2),
+        'title' => npgettext('alert title', 'Alert', 'Alerts', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Target', 'Targets', 2),
+        'title' => npgettext('target', 'Target', 'Targets', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => '',
       ],

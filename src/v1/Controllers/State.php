@@ -54,7 +54,7 @@ final class State extends Common implements \App\Interfaces\Crud
 
     $state = \App\Models\State::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The state has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($state, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class State extends Common implements \App\Interfaces\Crud
 
     $state->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The state has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($state, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class State extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $state->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The state has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/states')
@@ -138,7 +138,7 @@ final class State extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $state->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The state has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class State extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $state->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The state has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class State extends Common implements \App\Interfaces\Crud
    */
   public function showSubStates(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\State();
     $view = Twig::fromRequest($request);
 
@@ -213,161 +211,161 @@ final class State extends Common implements \App\Interfaces\Crud
       $is_visible_computer = $current_category->is_visible_computer;
       if ($current_category->is_visible_computer == 1)
       {
-        $is_visible_computer_val = $translator->translate('Yes');
+        $is_visible_computer_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_computer_val = $translator->translate('No');
+        $is_visible_computer_val = pgettext('global', 'No');
       }
 
       $is_visible_monitor = $current_category->is_visible_monitor;
       if ($current_category->is_visible_monitor == 1)
       {
-        $is_visible_monitor_val = $translator->translate('Yes');
+        $is_visible_monitor_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_monitor_val = $translator->translate('No');
+        $is_visible_monitor_val = pgettext('global', 'No');
       }
 
       $is_visible_networkequipment = $current_category->is_visible_networkequipment;
       if ($current_category->is_visible_networkequipment == 1)
       {
-        $is_visible_networkequipment_val = $translator->translate('Yes');
+        $is_visible_networkequipment_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_networkequipment_val = $translator->translate('No');
+        $is_visible_networkequipment_val = pgettext('global', 'No');
       }
 
       $is_visible_peripheral = $current_category->is_visible_peripheral;
       if ($current_category->is_visible_peripheral == 1)
       {
-        $is_visible_peripheral_val = $translator->translate('Yes');
+        $is_visible_peripheral_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_peripheral_val = $translator->translate('No');
+        $is_visible_peripheral_val = pgettext('global', 'No');
       }
 
       $is_visible_phone = $current_category->is_visible_phone;
       if ($current_category->is_visible_phone == 1)
       {
-        $is_visible_phone_val = $translator->translate('Yes');
+        $is_visible_phone_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_phone_val = $translator->translate('No');
+        $is_visible_phone_val = pgettext('global', 'No');
       }
 
       $is_visible_printer = $current_category->is_visible_printer;
       if ($current_category->is_visible_printer == 1)
       {
-        $is_visible_printer_val = $translator->translate('Yes');
+        $is_visible_printer_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_printer_val = $translator->translate('No');
+        $is_visible_printer_val = pgettext('global', 'No');
       }
 
       $is_visible_certificate = $current_category->is_visible_certificate;
       if ($current_category->is_visible_certificate == 1)
       {
-        $is_visible_certificate_val = $translator->translate('Yes');
+        $is_visible_certificate_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_certificate_val = $translator->translate('No');
+        $is_visible_certificate_val = pgettext('global', 'No');
       }
 
       $is_visible_cluster = $current_category->is_visible_cluster;
       if ($current_category->is_visible_cluster == 1)
       {
-        $is_visible_cluster_val = $translator->translate('Yes');
+        $is_visible_cluster_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_cluster_val = $translator->translate('No');
+        $is_visible_cluster_val = pgettext('global', 'No');
       }
 
       $is_visible_contract = $current_category->is_visible_contract;
       if ($current_category->is_visible_contract == 1)
       {
-        $is_visible_contract_val = $translator->translate('Yes');
+        $is_visible_contract_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_contract_val = $translator->translate('No');
+        $is_visible_contract_val = pgettext('global', 'No');
       }
 
       $is_visible_appliance = $current_category->is_visible_appliance;
       if ($current_category->is_visible_appliance == 1)
       {
-        $is_visible_appliance_val = $translator->translate('Yes');
+        $is_visible_appliance_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_appliance_val = $translator->translate('No');
+        $is_visible_appliance_val = pgettext('global', 'No');
       }
 
       $is_visible_pdu = $current_category->is_visible_pdu;
       if ($current_category->is_visible_pdu == 1)
       {
-        $is_visible_pdu_val = $translator->translate('Yes');
+        $is_visible_pdu_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_pdu_val = $translator->translate('No');
+        $is_visible_pdu_val = pgettext('global', 'No');
       }
 
       $is_visible_softwarelicense = $current_category->is_visible_softwarelicense;    // Licences
       if ($current_category->is_visible_softwarelicense == 1)
       {
-        $is_visible_softwarelicense_val = $translator->translate('Yes');
+        $is_visible_softwarelicense_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_softwarelicense_val = $translator->translate('No');
+        $is_visible_softwarelicense_val = pgettext('global', 'No');
       }
 
       $is_visible_softwareversion = $current_category->is_visible_softwareversion;    // Versions
       if ($current_category->is_visible_softwareversion == 1)
       {
-        $is_visible_softwareversion_val = $translator->translate('Yes');
+        $is_visible_softwareversion_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_softwareversion_val = $translator->translate('No');
+        $is_visible_softwareversion_val = pgettext('global', 'No');
       }
 
       $is_visible_line = $current_category->is_visible_line;    // Lignes
       if ($current_category->is_visible_line == 1)
       {
-        $is_visible_line_val = $translator->translate('Yes');
+        $is_visible_line_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_line_val = $translator->translate('No');
+        $is_visible_line_val = pgettext('global', 'No');
       }
 
       $is_visible_enclosure = $current_category->is_visible_enclosure;    // Châssis
       if ($current_category->is_visible_enclosure == 1)
       {
-        $is_visible_enclosure_val = $translator->translate('Yes');
+        $is_visible_enclosure_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_enclosure_val = $translator->translate('No');
+        $is_visible_enclosure_val = pgettext('global', 'No');
       }
 
       $is_visible_rack = $current_category->is_visible_rack;    // Baies
       if ($current_category->is_visible_rack == 1)
       {
-        $is_visible_rack_val = $translator->translate('Yes');
+        $is_visible_rack_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_visible_rack_val = $translator->translate('No');
+        $is_visible_rack_val = pgettext('global', 'No');
       }
 
       $comment = $current_category->comment;
@@ -419,28 +417,28 @@ final class State extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('states', $myStates);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('is_visible_computer', $translator->translatePlural('Computers', 'Computers', 2));
-    $viewData->addTranslation('is_visible_monitor', $translator->translatePlural('Monitor', 'Monitors', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('is_visible_computer', npgettext('global', 'Computer', 'Computers', 2));
+    $viewData->addTranslation('is_visible_monitor', npgettext('inventory device', 'Monitor', 'Monitors', 2));
     $viewData->addTranslation(
       'is_visible_networkequipment',
-      $translator->translatePlural('Network device', 'Network devices', 2)
+      npgettext('global', 'Network device', 'Network devices', 2)
     );
-    $viewData->addTranslation('is_visible_peripheral', $translator->translatePlural('Device', 'Devices', 2));
-    $viewData->addTranslation('is_visible_phone', $translator->translatePlural('Phone', 'Phones', 2));
-    $viewData->addTranslation('is_visible_printer', $translator->translatePlural('Printer', 'Printers', 2));
-    $viewData->addTranslation('is_visible_softwarelicense', $translator->translatePlural('License', 'Licenses', 2));
-    $viewData->addTranslation('is_visible_certificate', $translator->translatePlural('Certificate', 'Certificates', 2));
-    $viewData->addTranslation('is_visible_enclosure', $translator->translatePlural('Enclosure', 'Enclosures', 2));
-    $viewData->addTranslation('is_visible_pdu', $translator->translatePlural('PDU', 'PDUs', 1));
-    $viewData->addTranslation('is_visible_line', $translator->translatePlural('Line', 'Lines', 2));
-    $viewData->addTranslation('is_visible_rack', $translator->translatePlural('Rack', 'Racks', 2));
-    $viewData->addTranslation('is_visible_softwareversion', $translator->translatePlural('Version', 'Versions', 2));
-    $viewData->addTranslation('is_visible_cluster', $translator->translatePlural('Cluster', 'Clusters', 2));
-    $viewData->addTranslation('is_visible_contract', $translator->translatePlural('Contract', 'Contract', 2));
-    $viewData->addTranslation('is_visible_appliance', $translator->translatePlural('Appliance', 'Appliances', 2));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('is_visible_peripheral', npgettext('global', 'Peripheral', 'Peripherals', 2));
+    $viewData->addTranslation('is_visible_phone', npgettext('global', 'Phone', 'Phones', 2));
+    $viewData->addTranslation('is_visible_printer', npgettext('global', 'Printer', 'Printers', 2));
+    $viewData->addTranslation('is_visible_softwarelicense', npgettext('global', 'License', 'Licenses', 2));
+    $viewData->addTranslation('is_visible_certificate', npgettext('global', 'Certificate', 'Certificates', 2));
+    $viewData->addTranslation('is_visible_enclosure', npgettext('global', 'Enclosure', 'Enclosures', 2));
+    $viewData->addTranslation('is_visible_pdu', npgettext('global', 'PDU', 'PDUs', 1));
+    $viewData->addTranslation('is_visible_line', npgettext('global', 'Line', 'Lines', 2));
+    $viewData->addTranslation('is_visible_rack', npgettext('global', 'Rack', 'Racks', 2));
+    $viewData->addTranslation('is_visible_softwareversion', npgettext('global', 'Version', 'Versions', 2));
+    $viewData->addTranslation('is_visible_cluster', npgettext('global', 'Cluster', 'Clusters', 2));
+    $viewData->addTranslation('is_visible_contract', npgettext('global', 'Contract', 'Contracts', 2));
+    $viewData->addTranslation('is_visible_appliance', npgettext('global', 'Appliance', 'Appliances', 2));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/states.html.twig', (array)$viewData);
   }

@@ -11,18 +11,16 @@ class Fieldunicity
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'is_active' => $translator->translate('Active'),
-      'item_type' => $translator->translatePlural('Type', 'Types', 1),
-      'action_refuse' => $translator->translate('Record into the database denied'),
-      'action_notify' => $translator->translate('Send a notification'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'is_active' => pgettext('global', 'Active'),
+      'item_type' =>  npgettext('global', 'Type', 'Types', 1),
+      'action_refuse' => pgettext('global', 'Record into the database denied'),
+      'action_notify' => pgettext('global', 'Send a notification'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -47,7 +45,7 @@ class Fieldunicity
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -72,29 +70,27 @@ class Fieldunicity
    */
   public static function getTypeArray(): array
   {
-    global $translator;
-
     $types = [];
-    $types['Budget'] = $translator->translatePlural('Budget', 'Budgets', 1);
-    $types['Computer'] = $translator->translatePlural('Computer', 'Computers', 1);
-    $types['Contact'] = $translator->translatePlural('Contact', 'Contacts', 1);
-    $types['Contract'] = $translator->translatePlural('Contract', 'Contracts', 1);
-    $types['Monitor'] = $translator->translatePlural('Monitor', 'Monitors', 1);
-    $types['Networkequipment'] = $translator->translatePlural('Network device', 'Network devices', 1);
-    $types['Peripheral'] = $translator->translatePlural('Device', 'Devices', 1);
-    $types['Infocom'] = $translator->translate('Financial and administrative information');
-    $types['Phone'] = $translator->translatePlural('Phone', 'Phones', 1);
-    $types['Printer'] = $translator->translatePlural('Printer', 'Printers', 1);
-    $types['Software'] = $translator->translatePlural('Software', 'Software', 1);
-    $types['Supplier'] = $translator->translatePlural('Supplier', 'Suppliers', 1);
-    $types['Rack'] = $translator->translatePlural('Rack', 'Racks', 1);
-    $types['Enclosure'] = $translator->translatePlural('Enclosure', 'Enclosures', 1);
-    $types['PDU'] = $translator->translatePlural('PDU', 'PDUs', 1);
-    $types['SoftwareLicense'] = $translator->translatePlural('License', 'Licenses', 1);
-    $types['Cluster'] = $translator->translatePlural('Cluster', 'Clusters', 1);
-    $types['User'] = $translator->translatePlural('User', 'Users', 1);
-    $types['ItemDeviceSimcard'] = $translator->translatePlural('Simcard', 'Simcards', 1);
-    $types['Certificate'] = $translator->translatePlural('Certificate', 'Certificates', 1);
+    $types['Budget'] = npgettext('global', 'Budget', 'Budgets', 1);
+    $types['Computer'] = npgettext('global', 'Computer', 'Computers', 1);
+    $types['Contact'] = npgettext('global', 'Contact', 'Contacts', 1);
+    $types['Contract'] = npgettext('global', 'Contract', 'Contracts', 1);
+    $types['Monitor'] = npgettext('inventory device', 'Monitor', 'Monitors', 1);
+    $types['Networkequipment'] = npgettext('global', 'Network device', 'Network devices', 1);
+    $types['Peripheral'] = npgettext('global', 'Peripheral', 'Peripherals', 1);
+    $types['Infocom'] = pgettext('global', 'Financial and administrative information');
+    $types['Phone'] = npgettext('global', 'Phone', 'Phones', 1);
+    $types['Printer'] = npgettext('global', 'Printer', 'Printers', 1);
+    $types['Software'] = npgettext('global', 'Software', 'Software', 1);
+    $types['Supplier'] = npgettext('global', 'Supplier', 'Suppliers', 1);
+    $types['Rack'] = npgettext('global', 'Rack', 'Racks', 1);
+    $types['Enclosure'] = npgettext('global', 'Enclosure', 'Enclosures', 1);
+    $types['PDU'] = npgettext('global', 'PDU', 'PDUs', 1);
+    $types['SoftwareLicense'] = npgettext('global', 'License', 'Licenses', 1);
+    $types['Cluster'] = npgettext('global', 'Cluster', 'Clusters', 1);
+    $types['User'] = npgettext('global', 'User', 'Users', 1);
+    $types['ItemDeviceSimcard'] = npgettext('global', 'SIM card', 'SIM cards', 1);
+    $types['Certificate'] = npgettext('global', 'Certificate', 'Certificates', 1);
 
     asort($types);
 
@@ -112,20 +108,19 @@ class Fieldunicity
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translate('Fields unicity'),
+        'title' => npgettext('global', 'Fields unicity', 'Fields unicity', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Duplicates'),
+        'title' => pgettext('global', 'Duplicates'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

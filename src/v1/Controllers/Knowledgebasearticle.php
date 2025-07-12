@@ -65,7 +65,7 @@ final class Knowledgebasearticle extends Common implements \App\Interfaces\Crud
 
     $knowledgebasearticle = \App\Models\Knowledgebasearticle::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The knowledge base article has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($knowledgebasearticle, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -108,7 +108,7 @@ final class Knowledgebasearticle extends Common implements \App\Interfaces\Crud
 
     $knowledgebasearticle->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The knowledge base article has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($knowledgebasearticle, 'update');
 
     $uri = $request->getUri();
@@ -138,7 +138,7 @@ final class Knowledgebasearticle extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $knowledgebasearticle->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The knowledge base article has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/knowledgebasearticles')
@@ -149,7 +149,7 @@ final class Knowledgebasearticle extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $knowledgebasearticle->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The knowledge base article has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -176,7 +176,7 @@ final class Knowledgebasearticle extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $knowledgebasearticle->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The knowledge base article has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

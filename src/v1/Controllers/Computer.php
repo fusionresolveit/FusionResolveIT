@@ -85,7 +85,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
 
     $computer = \App\Models\Computer::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($computer, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -128,7 +128,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
 
     $computer->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($computer, 'update');
 
     $uri = $request->getUri();
@@ -158,7 +158,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $computer->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/computers')
@@ -169,7 +169,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $computer->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -196,7 +196,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $computer->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The computer has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -209,8 +209,6 @@ final class Computer extends Common implements \App\Interfaces\Crud
    */
   public function showSubSoftwares(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Computer();
     $view = Twig::fromRequest($request);
 
@@ -243,31 +241,31 @@ final class Computer extends Common implements \App\Interfaces\Crud
       $is_dynamic = $antivirus->is_dynamic;
       if ($is_dynamic == 1)
       {
-        $is_dynamic_val = $translator->translate('Yes');
+        $is_dynamic_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_dynamic_val = $translator->translate('No');
+        $is_dynamic_val = pgettext('global', 'No');
       }
 
       $is_active = $antivirus->is_active;
       if ($is_active == 1)
       {
-        $is_active_val = $translator->translate('Yes');
+        $is_active_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_active_val = $translator->translate('No');
+        $is_active_val = pgettext('global', 'No');
       }
 
       $is_uptodate = $antivirus->is_uptodate;
       if ($is_uptodate == 1)
       {
-        $is_uptodate_val = $translator->translate('Yes');
+        $is_uptodate_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_uptodate_val = $translator->translate('No');
+        $is_uptodate_val = pgettext('global', 'No');
       }
 
       $myAntiviruses[] = [
@@ -320,15 +318,15 @@ final class Computer extends Common implements \App\Interfaces\Crud
     $viewData->addData('softwares', $softwares);
     $viewData->addData('antiviruses', $myAntiviruses);
 
-    $viewData->addTranslation('software', $translator->translatePlural('Software', 'Software', 1));
-    $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
-    $viewData->addTranslation('antivirus', $translator->translatePlural('Antivirus', 'Antiviruses', 1));
-    $viewData->addTranslation('antivirus_version', $translator->translate('Antivirus version'));
-    $viewData->addTranslation('manufacturer', $translator->translatePlural('Manufacturer', 'Manufacturers', 1));
-    $viewData->addTranslation('is_dynamic', $translator->translate('Automatic inventory'));
-    $viewData->addTranslation('is_active', $translator->translate('Active'));
-    $viewData->addTranslation('is_uptodate', $translator->translate('Up to date'));
-    $viewData->addTranslation('signature', $translator->translate('Signature database version'));
+    $viewData->addTranslation('software', npgettext('global', 'Software', 'Software', 1));
+    $viewData->addTranslation('version', npgettext('global', 'Version', 'Versions', 1));
+    $viewData->addTranslation('antivirus', npgettext('global', 'Antivirus', 'Antiviruses', 1));
+    $viewData->addTranslation('antivirus_version', pgettext('inventory device', 'Antivirus version'));
+    $viewData->addTranslation('manufacturer', npgettext('global', 'Manufacturer', 'Manufacturers', 1));
+    $viewData->addTranslation('is_dynamic', pgettext('inventory device', 'Automatic inventory'));
+    $viewData->addTranslation('is_active', pgettext('global', 'Active'));
+    $viewData->addTranslation('is_uptodate', pgettext('antivirus', 'Up to date'));
+    $viewData->addTranslation('signature', pgettext('antivirus', 'Signature database version'));
 
     return $view->render($response, 'subitem/softwares.html.twig', (array)$viewData);
   }
@@ -340,7 +338,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator, $basePath;
+    global $basePath;
 
     $myItem = \App\Models\Computer::
         with('operatingsystems', 'memoryslots', 'processors', 'storages')
@@ -359,13 +357,13 @@ final class Computer extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'labelfusioninventoried',
-        'value' => $translator->translate('Automatically inventoried'),
+        'value' => pgettext('inventory device', 'Automatically inventoried'),
         'link'  => null,
       ];
 
       $tabInfos[] = [
         'key'   => 'fusioninventoried',
-        'value' => $translator->translate('Last automatic inventory') . ' : ' .
+        'value' => pgettext('inventory device', 'Last automatic inventory') . ' : ' .
                    $fusioninventoried_at->toDateTimeString(),
         'link'  => null,
       ];
@@ -406,7 +404,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
     }
     $tabInfos[] = [
       'key'   => 'operatingsystem',
-      'value' => $translator->translatePlural('Operating system', 'Operating systems', 1) . ' : ' . $operatingsystem,
+      'value' => npgettext('inventory device', 'Operating System', 'Operating Systems', 1) . ' : ' . $operatingsystem,
       'link'  => $basePath . '/view/computers/' . $item->id . '/operatingsystem',
     ];
 
@@ -428,7 +426,7 @@ final class Computer extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'memorytotalsize',
-        'value' => $translator->translate('Total memory') . ' : ' . ceil($memoryTotalSize / 1048576) . ' Tio',
+        'value' => pgettext('inventory device', 'Total memory') . ' : ' . ceil($memoryTotalSize / 1048576) . ' Tio',
         'link'  => $basePath . '/view/computers/' . $item->id . '/components',
       ];
     }
@@ -436,13 +434,13 @@ final class Computer extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'memorytotalsize',
-        'value' => $translator->translate('Total memory') . ' : ' . ceil($memoryTotalSize / 1024) . ' Gio',
+        'value' => pgettext('inventory device', 'Total memory') . ' : ' . ceil($memoryTotalSize / 1024) . ' Gio',
         'link'  => $basePath . '/view/computers/' . $item->id . '/components',
       ];
     } else {
       $tabInfos[] = [
         'key'   => 'memorytotalsize',
-        'value' => $translator->translate('Total memory') . ' : ' . $memoryTotalSize . ' Mio',
+        'value' => pgettext('inventory device', 'Total memory') . ' : ' . $memoryTotalSize . ' Mio',
         'link'  => $basePath . '/view/computers/' . $item->id . '/components',
       ];
     }
@@ -451,19 +449,19 @@ final class Computer extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'processor_' . $processor->id,
-        'value' => $translator->translatePlural('Processor', 'Processors', 1) . ' : ' . $processor->name,
+        'value' => npgettext('global', 'Processor', 'Processors', 1) . ' : ' . $processor->name,
         'link'  => $basePath . '/view/computers/' . $item->id . '/components',
       ];
       $tabInfos[] = [
         'key'   => 'processor_' . $processor->id . '_frequency',
-        'value' => ' - ' . $translator->translate('Fréquence (MHz)') . ' : ' .
+        'value' => ' - ' . pgettext('global', 'Frequency (MHz)') . ' : ' .
                    $processor->getRelationValue('pivot')->frequency,
         'link'  => null,
       ];
       $tabInfos[] = [
         'key'   => 'processor_' . $processor->id . '_nbcores_nbthreads',
-        'value' => ' - ' . $translator->translate('Nombre de cœurs') . ' / ' .
-                   $translator->translate('Nombre de threads') . ' : ' .
+        'value' => ' - ' . pgettext('inventory device', 'Number of cores') . ' / ' .
+                   pgettext('inventory device', 'Number of threads') . ' : ' .
                    $processor->getRelationValue('pivot')->nbcores . ' / ' .
                    $processor->getRelationValue('pivot')->nbthreads,
         'link'  => null,
@@ -474,12 +472,12 @@ final class Computer extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'storage_' . $storage->id,
-        'value' => $translator->translatePlural('Hard drive', 'Hard drives', 1) . ' : ' . $storage->name,
+        'value' => npgettext('global', 'Storage', 'Storages', 1) . ' : ' . $storage->name,
         'link'  => $basePath . '/view/computers/' . $item->id . '/components',
       ];
       $tabInfos[] = [
         'key'   => 'storage_' . $storage->id . '_capacity',
-        'value' => ' - ' . $translator->translate('Capacité (Mio)') . ' : ' .
+        'value' => ' - ' . pgettext('global', 'Size (Mio)') . ' : ' .
                    $storage->size,
         'link'  => null,
       ];
@@ -493,8 +491,6 @@ final class Computer extends Common implements \App\Interfaces\Crud
    */
   public function showSubVirtualization(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Computer();
     $view = Twig::fromRequest($request);
 
@@ -548,11 +544,11 @@ final class Computer extends Common implements \App\Interfaces\Crud
 
       if ($virtualization->is_dynamic == 1)
       {
-        $auto_val = $translator->translate('Yes');
+        $auto_val = pgettext('global', 'Yes');
       }
       else
       {
-        $auto_val = $translator->translate('No');
+        $auto_val = pgettext('global', 'No');
       }
 
       $machine_host = '';
@@ -591,26 +587,26 @@ final class Computer extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('virtualmachines', $myVirtualmachines);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
-    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
+    $viewData->addTranslation('auto', pgettext('inventory device', 'Automatic inventory'));
     $viewData->addTranslation(
       'virtualmachinesystem',
-      $translator->translatePlural('Virtualization system', 'Virtualization systems', 1)
+      npgettext('global', 'Virtualization system', 'Virtualization systems', 1)
     );
     $viewData->addTranslation(
       'virtualmachinemodel',
-      $translator->translatePlural('Virtualization model', 'Virtualization models', 1)
+      npgettext('global', 'Virtualization model', 'Virtualization models', 1)
     );
     $viewData->addTranslation(
       'virtualmachinestate',
-      $translator->translate('Status')
+      pgettext('inventory device', 'Status')
     );
-    $viewData->addTranslation('uuid', $translator->translate('UUID'));
-    $viewData->addTranslation('nb_proc', $translator->translate('processor number'));
+    $viewData->addTranslation('uuid', pgettext('global', 'UUID'));
+    $viewData->addTranslation('nb_proc', pgettext('global', 'processor number'));
     $viewData->addTranslation(
       'memory',
-      sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio'))
+      sprintf('%1$s (%2$s)', pgettext('inventory device', 'Memory size'), pgettext('global', 'Mio'))
     );
     $viewData->addTranslation('machine_host', 'Machine hote');
 
@@ -622,8 +618,6 @@ final class Computer extends Common implements \App\Interfaces\Crud
    */
   public function showSubConnections(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $view = Twig::fromRequest($request);
 
     $computer = \App\Models\Computer::
@@ -680,11 +674,11 @@ final class Computer extends Common implements \App\Interfaces\Crud
 
       if ($connection->is_dynamic == 1)
       {
-        $auto_val = $translator->translate('Yes');
+        $auto_val = pgettext('global', 'Yes');
       }
       else
       {
-        $auto_val = $translator->translate('No');
+        $auto_val = pgettext('global', 'No');
       }
 
 
@@ -716,13 +710,13 @@ final class Computer extends Common implements \App\Interfaces\Crud
     $viewData->addData('connections', $myConnections);
     $viewData->addData('show', 'computer');
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
-    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
-    $viewData->addTranslation('no_connection_found', $translator->translate('Not connected.'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('auto', pgettext('inventory device', 'Automatic inventory'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('serial_number', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('inventaire_number', pgettext('inventory device', 'Inventory number'));
+    $viewData->addTranslation('no_connection_found', pgettext('inventory device', 'Not connected.'));
 
     return $view->render($response, 'subitem/connections.html.twig', (array)$viewData);
   }

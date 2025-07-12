@@ -16,7 +16,6 @@ class Changecost extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Changecost::class;
-  protected $titles = ['Change cost', 'Change costs'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -32,6 +31,13 @@ class Changecost extends Common
     'budget:id,name',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('change', 'Change cost', 'Change costs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Budget, $this> */
   public function budget(): BelongsTo

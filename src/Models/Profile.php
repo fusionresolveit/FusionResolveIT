@@ -17,7 +17,6 @@ class Profile extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Profile::class;
-  protected $titles = ['Profile', 'Profiles'];
   protected $icon = 'user check';
   protected $hasEntityField = false;
   /** @var string[] */
@@ -46,6 +45,14 @@ class Profile extends Common
         $profileright->delete();
       }
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Profile', 'Profiles', $nb);
   }
 
   /** @return BelongsToMany<\App\Models\User, $this> */

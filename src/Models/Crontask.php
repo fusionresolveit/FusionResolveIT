@@ -17,13 +17,20 @@ class Crontask extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Crontask::class;
-  protected $titles = ['Automatic action', 'Automatic actions'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
   /** @var string[] */
   protected $cascadeDeletes = [
     'crontaskexecutions',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Automatic action', 'Automatic actions', $nb);
+  }
 
   /** @return HasMany<\App\Models\Crontaskexecution, $this> */
   public function crontaskexecutions(): HasMany

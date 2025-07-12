@@ -6,30 +6,27 @@ namespace App\Traits\Definitions;
 
 use App\DataInterface\Definition;
 use App\DataInterface\DefinitionCollection;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait ItemOperatingsystem
 {
   public static function getDefinitionOperatingSystem(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'architecture' => $translator->translatePlural('Architecture', 'Architectures', 1),
-      'kernelversion' => $translator->translatePlural('Kernel', 'Kernels', 1),
-      'version' => $translator->translatePlural('Version', 'Versions', 1),
-      'servicepack' => $translator->translatePlural('Service pack', 'Service packs', 1),
-      'edition' => $translator->translatePlural('Edition', 'Editions', 1),
-      'lts' => $translator->translate('Long-Term Support (LTS)'),
-      'licenseid' => $translator->translate('Product ID'),
-      'license_number' => $translator->translate('Serial number'),
-      'hostid' => $translator->translate('Host ID'),
-      'oscomment' => $translator->translate('Operating System comment'),
-      'winowner' => $translator->translate('Owner'),
-      'wincompany' => $translator->translate('Company'),
-      'installationdate' => $translator->translate('Installation date'),
-      'os' => $translator->translate('Operating System'),
+      'name' => pgettext('global', 'Name'),
+      'architecture' => npgettext('global', 'Operating system architecture', 'Operating system architectures', 1),
+      'kernelversion' => npgettext('global', 'Kernel', 'Kernels', 1),
+      'version' => npgettext('global', 'Version', 'Versions', 1),
+      'servicepack' => npgettext('global', 'Service pack', 'Service packs', 1),
+      'edition' => npgettext('global', 'Edition', 'Editions', 1),
+      'lts' => pgettext('operating system', 'Long-Term Support (LTS)'),
+      'licenseid' => pgettext('operating system', 'Product ID'),
+      'license_number' => pgettext('inventory device', 'Serial number'),
+      'hostid' => pgettext('operating system', 'Host ID'),
+      'oscomment' => pgettext('operating system', 'Operating System comment'),
+      'winowner' => pgettext('operating system', 'Owner'),
+      'wincompany' => pgettext('operating system', 'Company'),
+      'installationdate' => pgettext('global', 'Installation date'),
+      'os' => npgettext('inventory device', 'Operating System', 'Operating System', 1),
     ];
 
     $defColl = new DefinitionCollection();

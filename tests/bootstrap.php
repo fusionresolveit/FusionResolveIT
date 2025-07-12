@@ -18,7 +18,7 @@ $GLOBALS['entity_treepath'] = '00001';
 $GLOBALS['entity_recursive'] = true;
 
 $lang = new \App\Translation();
-$translator = $lang->loadLanguage('en_GB');
+$lang->loadLanguage('en-GB');
 
 $app = (new \App\App())->get();
 

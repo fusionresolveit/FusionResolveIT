@@ -15,8 +15,6 @@ trait Itil
    */
   public function showSubItil(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -134,7 +132,7 @@ trait Itil
       {
         $associated_items[] = [
           'type'     => '',
-          'name'     => $translator->translate('General'),
+          'name'     => pgettext('ITIL', 'General'),
           'url'      => '',
         ];
       }
@@ -374,32 +372,32 @@ trait Itil
     $viewData->addData('problems_link_elements', $problems_link_elements);
     $viewData->addData('changes_link_elements', $changes_link_elements);
 
-    $viewData->addTranslation('tickets', $translator->translatePlural('Ticket', 'Tickets', 2));
-    $viewData->addTranslation('problems', $translator->translatePlural('Problem', 'Problems', 2));
-    $viewData->addTranslation('changes', $translator->translatePlural('Change', 'Changes', 2));
+    $viewData->addTranslation('tickets', npgettext('ticket', 'Ticket', 'Tickets', 2));
+    $viewData->addTranslation('problems', npgettext('problem', 'Problem', 'Problems', 2));
+    $viewData->addTranslation('changes', npgettext('change', 'Change', 'Changes', 2));
     $viewData->addTranslation(
       'tickets_link_elements',
-      $translator->translatePlural('Ticket on linked items', 'Tickets on linked items', 1)
+      npgettext('ITIL', 'Ticket on linked items', 'Tickets on linked items', 1)
     );
-    $viewData->addTranslation('problems_link_elements', $translator->translate('Problems on linked items'));
-    $viewData->addTranslation('changes_link_elements', $translator->translate('Changes on linked items'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
-    $viewData->addTranslation('last_update', $translator->translate('Last update'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('priority', $translator->translate('Priority'));
-    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
-    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation('problems_link_elements', pgettext('ITIL', 'Problems on linked items'));
+    $viewData->addTranslation('changes_link_elements', pgettext('ITIL', 'Changes on linked items'));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('date', npgettext('global', 'Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', pgettext('global', 'Last update'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', pgettext('ITIL', 'Priority'));
+    $viewData->addTranslation('requesters', npgettext('ITIL', 'Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', pgettext('ITIL', 'Assigned'));
     $viewData->addTranslation(
       'associated_items',
-      $translator->translatePlural('Associated element', 'Associated elements', 2)
+      npgettext('global', 'Associated item', 'Associated items', 2)
     );
-    $viewData->addTranslation('category', $translator->translate('Category'));
-    $viewData->addTranslation('title', $translator->translate('Title'));
-    $viewData->addTranslation('planification', $translator->translate('Planification'));
-    $viewData->addTranslation('no_ticket_found', $translator->translate('No ticket found.'));
-    $viewData->addTranslation('no_problem_found', $translator->translate('No problem found.'));
-    $viewData->addTranslation('no_change_found', $translator->translate('No change found.'));
+    $viewData->addTranslation('category', npgettext('global', 'Category', 'Categories', 1));
+    $viewData->addTranslation('title', pgettext('global', 'Title'));
+    $viewData->addTranslation('planification', pgettext('ITIL', 'Planification'));
+    $viewData->addTranslation('no_ticket_found', pgettext('ticket', 'No ticket found.'));
+    $viewData->addTranslation('no_problem_found', pgettext('problem', 'No problem found.'));
+    $viewData->addTranslation('no_change_found', pgettext('change', 'No change found.'));
 
     return $view->render($response, 'subitem/itil.html.twig', (array)$viewData);
   }
@@ -409,76 +407,75 @@ trait Itil
    */
   public static function getStatusArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('New'),
+        'title' => pgettext('ITIL status', 'New'),
         'displaystyle' => 'marked',
         'color' => 'olive',
         'icon'  => 'book open',
       ],
       2 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (assigned)'),
+        'title' => pgettext('general status', 'Processing (assigned)'),
         'displaystyle' => 'marked',
         'color' => 'blue',
         'icon'  => 'book reader',
       ],
       3 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (planned)'),
+        'title' => pgettext('general status', 'Processing (planned)'),
         'displaystyle' => 'marked',
         'color' => 'blue',
         'icon'  => 'business time',
       ],
       4 => [
-        'title' => $translator->translate('Pending'),
+        'title' => pgettext('ITIL status', 'Pending'),
         'displaystyle' => 'marked',
         'color' => 'grey',
         'icon'  => 'pause',
       ],
       5 => [
-        'title' => $translator->translate('Solved'),
+        'title' => pgettext('ITIL status', 'Solved'),
         'displaystyle' => 'marked',
         'color' => 'purple',
         'icon'  => 'vote yea',
       ],
       6 => [
-        'title' => $translator->translate('Closed'),
+        'title' => pgettext('ITIL status', 'Closed'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       7 => [
-        'title' => $translator->translate('status' . "\004" . 'Accepted'),
+        'title' => pgettext('general status', 'Accepted'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       8 => [
-        'title' => $translator->translate('Review'),
+        'title' => pgettext('ITIL status', 'Review'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       9 => [
-        'title' => $translator->translate('Evaluation'),
+        'title' => pgettext('ITIL status', 'Evaluation'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       10 => [
-        'title' => $translator->translatePlural('Approval', 'Approvals', 1),
+        'title' => npgettext('ITIL', 'Approval', 'Approvals', 1),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       11 => [
-        'title' => $translator->translate('change' . "\004" . 'Testing'),
+        'title' => pgettext('ITIL status', 'Testing'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       12 => [
-        'title' => $translator->translate('Qualification'),
+        'title' => pgettext('ITIL status', 'Qualification'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
@@ -491,35 +488,34 @@ trait Itil
    */
   public static function getPriorityArray(): array
   {
-    global $translator;
     return [
       6 => [
-        'title' => $translator->translate('priority' . "\004" . 'Major'),
+        'title' => pgettext('ITIL priority', 'Major'),
         'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       5 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very high'),
+        'title' => pgettext('ITIL priority', 'Very high'),
         'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       4 => [
-        'title' => $translator->translate('priority' . "\004" . 'High'),
+        'title' => pgettext('ITIL priority', 'High'),
         'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
       3 => [
-        'title' => $translator->translate('priority' . "\004" . 'Medium'),
+        'title' => pgettext('ITIL priority', 'Medium'),
         'color' => 'fusionmedium',
         'icon'  => 'volume up',
       ],
       2 => [
-        'title' => $translator->translate('priority' . "\004" . 'Low'),
+        'title' => pgettext('ITIL priority', 'Low'),
         'color' => 'fusionlow',
         'icon'  => 'volume down',
       ],
       1 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very low'),
+        'title' => pgettext('ITIL priority', 'Very low'),
         'color' => 'fusionverylow',
         'icon'  => 'volume off',
       ],

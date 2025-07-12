@@ -52,7 +52,7 @@ final class Fieldunicity extends Common implements \App\Interfaces\Crud
 
     $fieldunicity = \App\Models\Fieldunicity::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The field unicity has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($fieldunicity, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Fieldunicity extends Common implements \App\Interfaces\Crud
 
     $fieldunicity->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The field unicity has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($fieldunicity, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Fieldunicity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $fieldunicity->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The field unicity has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/fieldunicities')
@@ -136,7 +136,7 @@ final class Fieldunicity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $fieldunicity->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The field unicity has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Fieldunicity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $fieldunicity->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The field unicity has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

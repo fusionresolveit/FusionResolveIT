@@ -52,7 +52,7 @@ final class Operatingsystem extends Common implements \App\Interfaces\Crud
 
     $operatingsystem = \App\Models\Operatingsystem::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($operatingsystem, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Operatingsystem extends Common implements \App\Interfaces\Crud
 
     $operatingsystem->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($operatingsystem, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Operatingsystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystem->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/operatingsystems')
@@ -136,7 +136,7 @@ final class Operatingsystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystem->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Operatingsystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystem->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

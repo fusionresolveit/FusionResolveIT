@@ -54,7 +54,7 @@ final class Calendar extends Common implements \App\Interfaces\Crud
 
     $calendar = \App\Models\Calendar::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($calendar, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Calendar extends Common implements \App\Interfaces\Crud
 
     $calendar->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($calendar, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Calendar extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $calendar->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/calendars')
@@ -138,7 +138,7 @@ final class Calendar extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $calendar->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Calendar extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $calendar->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The calendar has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Calendar extends Common implements \App\Interfaces\Crud
    */
   public function showSubTimeranges(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Calendar();
     $view = Twig::fromRequest($request);
 
@@ -217,9 +215,9 @@ final class Calendar extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('timeranges', $myTimeranges);
 
-    $viewData->addTranslation('name', $translator->translatePlural('Day', 'Days', 1));
-    $viewData->addTranslation('begin', $translator->translate('Start'));
-    $viewData->addTranslation('end', $translator->translate('End'));
+    $viewData->addTranslation('name', npgettext('calendar', 'Day', 'Days', 1));
+    $viewData->addTranslation('begin', pgettext('calendar', 'Start'));
+    $viewData->addTranslation('end', pgettext('calendar', 'End'));
 
     return $view->render($response, 'subitem/timeranges.html.twig', (array)$viewData);
   }
@@ -229,8 +227,6 @@ final class Calendar extends Common implements \App\Interfaces\Crud
    */
   public function showSubHolidays(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Calendar();
     $view = Twig::fromRequest($request);
 
@@ -257,9 +253,9 @@ final class Calendar extends Common implements \App\Interfaces\Crud
       $recurrent = $holiday->is_perpetual;
       if ($recurrent)
       {
-        $recurrent_val = $translator->translate('Yes');
+        $recurrent_val = pgettext('global', 'Yes');
       } else {
-        $recurrent_val = $translator->translate('No');
+        $recurrent_val = pgettext('global', 'No');
       }
 
       $myHolidays[] = [
@@ -281,10 +277,10 @@ final class Calendar extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($calendar));
     $viewData->addData('holidays', $myHolidays);
 
-    $viewData->addTranslation('name', $translator->translatePlural('Day', 'Days', 1));
-    $viewData->addTranslation('begin', $translator->translate('Start'));
-    $viewData->addTranslation('end', $translator->translate('End'));
-    $viewData->addTranslation('recurrent', $translator->translate('Recurrent'));
+    $viewData->addTranslation('name', npgettext('calendar', 'Day', 'Days', 1));
+    $viewData->addTranslation('begin', pgettext('calendar', 'Start'));
+    $viewData->addTranslation('end', pgettext('calendar', 'End'));
+    $viewData->addTranslation('recurrent', pgettext('calendar', 'Recurrent'));
 
     return $view->render($response, 'subitem/holidays.html.twig', (array)$viewData);
   }

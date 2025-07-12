@@ -44,9 +44,9 @@
 								</button>
 							</div>
 							<div class="thirteen wide column">
-								<a class="ui large label" id="headerChangeEntity">
+								<a class="ui large label" id="headerChangeEntity" style="width: 100%">
 									<i class="exchange alternate icon"></i>
-									Entity |
+									<span>{{ translation.menuentity }}</span> |
 									{{ header.entityname }}
 								</a>
 								<div style="display: none" id="headerEntityForm">
@@ -55,7 +55,7 @@
 											{{ include('fields.html.twig') }}
 										{% endfor %}
 										<input type="hidden" name="redirectURL" value="{{ current_url() }}">
-										<button class="ui primary button" type="submit" id="headerChangeButton">Save</button>
+										<button class="ui primary button" type="submit" id="headerChangeButton">{{ translation.savebutton }}</button>
 										{% for key, val in data.csrf %}
 											<input type="hidden" name="{{ key }}" value="{{ val }}">
 										{% endfor %}
@@ -67,7 +67,26 @@
 				</div>
 
 				<div class="item">
-					Bookmarks
+					<form id="langform" action="{{ basePath }}/view/userchangelang" method="post">
+						<span>{{ translation.language }}</span>
+						<div class="ui floating dropdown labeled search icon button" style="width: 100%" id="changeLanguage">
+							<i class="right world icon"></i>
+							<span class="text"><i class="{{ data.currentLang }} flag"></i> {{ data.currentLang }}</span>
+							<div class="menu">
+								{% for key, country in data.lang %}
+								<div class="item" data-value="{{ key }}"><i class="{{ country }} flag"></i>{{ country }} [{{ key }}]</div>
+								{% endfor %}
+							</div>
+						</div>
+						<input type="hidden" id="langchoosen" name="langchoosen" value="">
+						{% for key, val in data.csrf %}
+						<input type="hidden" name="{{ key }}" value="{{ val }}">
+						{% endfor %}
+					</form>
+				</div>
+
+				<div class="item">
+					<span>{{ translation.menubookmarks }}</span>
 					<div class="menu">
 						{% for item in header.menubookmark %}
 							<div class="item">
@@ -86,7 +105,7 @@
 				</div>
 
 				<div class="item">
-					<span data-cy="menu-title">Menu</span>
+					<span data-cy="menu-title">{{ translation.menutitle }}</span>
 					<div data-cy="menu-items" class="menu">
             <div class="ui basic styled accordion">
               {% for item in header.menu %}

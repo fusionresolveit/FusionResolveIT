@@ -50,7 +50,7 @@ final class Authldap extends Common implements \App\Interfaces\Crud
 
     $authldap = \App\Models\Authldap::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The authentication LDAP has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($authldap, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -93,7 +93,7 @@ final class Authldap extends Common implements \App\Interfaces\Crud
 
     $authldap->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The athentication LDAP has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($authldap, 'update');
 
     $uri = $request->getUri();
@@ -123,7 +123,7 @@ final class Authldap extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $authldap->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The authentication LDAP has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/authldaps')
@@ -134,7 +134,7 @@ final class Authldap extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $authldap->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The authentication LDAP has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -161,7 +161,7 @@ final class Authldap extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $authldap->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The authentication LDAP has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

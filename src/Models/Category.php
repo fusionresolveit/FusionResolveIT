@@ -16,7 +16,6 @@ class Category extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Category::class;
-  protected $titles = ['Category', 'Categories'];
   protected $icon = 'layer group';
   protected $tree = true;
 
@@ -46,6 +45,14 @@ class Category extends Common
     'problemtemplate:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Category', 'Categories', $nb);
+  }
 
   public function getCompletenameAttribute(): string
   {

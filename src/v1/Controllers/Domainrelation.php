@@ -57,7 +57,7 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
 
     $domainrelation = \App\Models\Domainrelation::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($domainrelation, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -100,7 +100,7 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
 
     $domainrelation->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($domainrelation, 'update');
 
     $uri = $request->getUri();
@@ -130,7 +130,7 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $domainrelation->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/domainrelations')
@@ -141,7 +141,7 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $domainrelation->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -168,7 +168,7 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $domainrelation->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The domain relation has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -181,8 +181,6 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
    */
   public function showSubDomains(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Domainrelation();
     $view = Twig::fromRequest($request);
 
@@ -244,7 +242,7 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
       $date_expiration = $domain->date_expiration;
       if ($date_expiration == null)
       {
-        $date_expiration = $translator->translate("N'expire pas");
+        $date_expiration = pgettext('management', 'Does not expire');
       }
       else
       {
@@ -281,13 +279,13 @@ final class Domainrelation extends Common implements \App\Interfaces\Crud
     $viewData->addData('domains', $myDomains);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('group', $translator->translate('Group in charge'));
-    $viewData->addTranslation('user', $translator->translate('Technician in charge'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('date_create', $translator->translate('Creation date'));
-    $viewData->addTranslation('date_exp', $translator->translate('Expiration date'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('group', pgettext('inventory device', 'Group in charge'));
+    $viewData->addTranslation('user', pgettext('inventory device', 'Technician in charge'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('date_create', pgettext('global', 'Creation date'));
+    $viewData->addTranslation('date_exp', pgettext('global', 'Expiration date'));
 
     return $view->render($response, 'subitem/domains.html.twig', (array)$viewData);
   }

@@ -15,7 +15,6 @@ class Alert extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Alert::class;
-  protected $titles = ['Alert', 'Alerts'];
   protected $icon = 'bell';
 
   protected $appends = [
@@ -30,6 +29,14 @@ class Alert extends Common
     'entity:id,name,completename',
     // 'user:id,name,firstname,lastname',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('alert title', 'Alert', 'Alerts', $nb);
+  }
 
   // public function user(): BelongsTo
   // {

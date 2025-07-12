@@ -11,15 +11,13 @@ class Notificationtemplate
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'itemtype' => $translator->translatePlural('Type', 'Types', 1),
-      'comment' => $translator->translate('Comments'),
-      'css' => $translator->translate('CSS'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'itemtype' =>  npgettext('global', 'Type', 'Types', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'css' => pgettext('global', 'CSS'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -46,30 +44,28 @@ class Notificationtemplate
    */
   public static function getTypeArray(): array
   {
-    global $translator;
-
     $types = [];
-    $types['CartridgeItem'] = $translator->translatePlural('Cartridge model', 'Cartridge models', 1);
-    $types['Change'] = $translator->translatePlural('Change', 'Changes', 1);
-    $types['ConsumableItem'] = $translator->translatePlural('Consumable model', 'Consumable models', 1);
-    $types['Contract'] = $translator->translatePlural('Contract', 'Contracts', 1);
-    $types['CronTask'] = $translator->translatePlural('Automatic action', 'Automatic actions', 1);
-    $types['DBConnection'] = $translator->translatePlural('SQL replica', 'SQL replicas', 1);
-    $types['FieldUnicity'] = $translator->translate('Fields unicity');
-    $types['Infocom'] = $translator->translate('Financial and administrative information');
-    $types['MailCollector'] = $translator->translatePlural('Receiver', 'Receivers', 1);
-    $types['ObjectLock'] = $translator->translatePlural('Object Lock', 'Object Locks', 1);
-    $types['PlanningRecall'] = $translator->translatePlural('Planning reminder', 'Planning reminders', 1);
-    $types['Problem'] = $translator->translatePlural('Problem', 'Problems', 1);
-    $types['Project'] = $translator->translatePlural('Project', 'Projects', 1);
-    $types['ProjectTask'] = $translator->translatePlural('Project task', 'Project tasks', 1);
-    $types['Reservation'] = $translator->translatePlural('Reservation', 'Reservations', 1);
-    $types['SoftwareLicense'] = $translator->translatePlural('License', 'Licenses', 1);
-    $types['Ticket'] = $translator->translatePlural('Ticket', 'Tickets', 1);
-    $types['User'] = $translator->translatePlural('User', 'Users', 1);
-    $types['SavedSearch_Alert'] = $translator->translatePlural('Saved search alert', 'Saved searches alerts', 1);
-    $types['Certificate'] = $translator->translatePlural('Certificate', 'Certificates', 1);
-    $types['Domain'] = $translator->translatePlural('Domain', 'Domains', 1);
+    $types['CartridgeItem'] = npgettext('global', 'Cartridge model', 'Cartridge models', 1);
+    $types['Change'] = npgettext('change', 'Change', 'Changes', 1);
+    $types['ConsumableItem'] = npgettext('global', 'Consumable model', 'Consumable models', 1);
+    $types['Contract'] = npgettext('global', 'Contract', 'Contracts', 1);
+    $types['CronTask'] = npgettext('global', 'Automatic action', 'Automatic actions', 1);
+    $types['DBConnection'] = npgettext('global', 'SQL replica', 'SQL replicas', 1);
+    $types['FieldUnicity'] = npgettext('global', 'Fields unicity', 'Fields unicity', 1);
+    $types['Infocom'] = pgettext('global', 'Financial and administrative information');
+    $types['MailCollector'] = npgettext('global', 'Receiver', 'Receivers', 1);
+    $types['ObjectLock'] = npgettext('global', 'Object Lock', 'Object Locks', 1);
+    $types['PlanningRecall'] = npgettext('global', 'Planning reminder', 'Planning reminders', 1);
+    $types['Problem'] = npgettext('problem', 'Problem', 'Problems', 1);
+    $types['Project'] = npgettext('global', 'Project', 'Projects', 1);
+    $types['ProjectTask'] = npgettext('project', 'Project task', 'Project tasks', 1);
+    $types['Reservation'] = npgettext('global', 'Reservation', 'Reservations', 1);
+    $types['SoftwareLicense'] = npgettext('global', 'License', 'Licenses', 1);
+    $types['Ticket'] = npgettext('ticket', 'Ticket', 'Tickets', 1);
+    $types['User'] = npgettext('global', 'User', 'Users', 1);
+    $types['SavedSearch_Alert'] = npgettext('notification', 'Saved search alert', 'Saved searches alert', 1);
+    $types['Certificate'] = npgettext('global', 'Certificate', 'Certificates', 1);
+    $types['Domain'] = npgettext('global', 'Domain', 'Domains', 1);
 
     asort($types);
 
@@ -87,25 +83,24 @@ class Notificationtemplate
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Notification template', 'Notification templates', 1),
+        'title' => npgettext('notification', 'Notification template', 'Notification templates', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Template translation', 'Template translations', 2),
+        'title' => npgettext('notification', 'Template translation', 'Template translations', 2),
         'icon' => 'language',
         'link' => $rootUrl . '/templatetranslation',
       ],
       [
-        'title' => $translator->translatePlural('Notification', 'Notifications', 2),
+        'title' => npgettext('global', 'Notification', 'Notifications', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

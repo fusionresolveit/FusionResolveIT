@@ -16,7 +16,6 @@ class Followuptemplate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Followuptemplate::class;
-  protected $titles = ['Followup template', 'Followup templates'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Followuptemplate extends Common
     'source:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Followup template', 'Followup templates', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Requesttype, $this> */
   public function source(): BelongsTo

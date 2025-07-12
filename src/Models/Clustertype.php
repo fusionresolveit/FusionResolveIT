@@ -15,7 +15,6 @@ class Clustertype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Clustertype::class;
-  protected $titles = ['Cluster type', 'Cluster types'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Clustertype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Cluster type', 'Cluster types', $nb);
+  }
 }

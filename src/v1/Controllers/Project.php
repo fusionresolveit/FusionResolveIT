@@ -91,7 +91,7 @@ final class Project extends Common implements \App\Interfaces\Crud
 
     $project = \App\Models\Project::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($project, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -134,7 +134,7 @@ final class Project extends Common implements \App\Interfaces\Crud
 
     $project->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($project, 'update');
 
     $uri = $request->getUri();
@@ -164,7 +164,7 @@ final class Project extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $project->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/projects')
@@ -175,7 +175,7 @@ final class Project extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $project->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -202,7 +202,7 @@ final class Project extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $project->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -215,8 +215,6 @@ final class Project extends Common implements \App\Interfaces\Crud
    */
   public function showSubProjecttasks(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Project();
     $view = Twig::fromRequest($request);
 
@@ -295,15 +293,15 @@ final class Project extends Common implements \App\Interfaces\Crud
     $viewData->addData('projecttasks', $myProjecttasks);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('percent_done', $translator->translate('Percent done'));
-    $viewData->addTranslation('planned_start_date', $translator->translate('Planned start date'));
-    $viewData->addTranslation('planned_end_date', $translator->translate('Planned end date'));
-    $viewData->addTranslation('planned_duration', $translator->translate('Planned duration'));
-    $viewData->addTranslation('effective_duration', $translator->translate('Effective duration'));
-    $viewData->addTranslation('father', $translator->translate('Father'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('percent_done', pgettext('global', 'Percent done'));
+    $viewData->addTranslation('planned_start_date', pgettext('ITIL', 'Planned start date'));
+    $viewData->addTranslation('planned_end_date', pgettext('ITIL', 'Planned end date'));
+    $viewData->addTranslation('planned_duration', pgettext('ITIL', 'Planned duration'));
+    $viewData->addTranslation('effective_duration', pgettext('project', 'Effective duration'));
+    $viewData->addTranslation('father', pgettext('global', 'Father'));
 
     return $view->render($response, 'subitem/projecttasks.html.twig', (array)$viewData);
   }
@@ -313,8 +311,6 @@ final class Project extends Common implements \App\Interfaces\Crud
    */
   public function showSubProjects(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Project();
     $view = Twig::fromRequest($request);
 
@@ -394,14 +390,14 @@ final class Project extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('projects', $myProjects);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('open_date', $translator->translatePlural('Date', 'Dates', 1));
-    $viewData->addTranslation('last_update', $translator->translate('Last update'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('priority', $translator->translate('Priority'));
-    $viewData->addTranslation('manager', $translator->translate('Manager'));
-    $viewData->addTranslation('manager_group', $translator->translate('Manager group'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('open_date', npgettext('global', 'Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', pgettext('global', 'Last update'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', pgettext('ITIL', 'Priority'));
+    $viewData->addTranslation('manager', pgettext('global', 'Manager'));
+    $viewData->addTranslation('manager_group', pgettext('project', 'Manager group'));
 
     return $view->render($response, 'subitem/projects.html.twig', (array)$viewData);
   }
@@ -411,8 +407,6 @@ final class Project extends Common implements \App\Interfaces\Crud
    */
   public function showSubProjectteams(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Project();
     $view = Twig::fromRequest($request);
 
@@ -465,8 +459,8 @@ final class Project extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('projectteams', $myProjectteams);
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('member', $translator->translatePlural('Member', 'Members', 2));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('member', npgettext('ITIL', 'Member', 'Members', 2));
 
     return $view->render($response, 'subitem/projectteams.html.twig', (array)$viewData);
   }
@@ -476,8 +470,6 @@ final class Project extends Common implements \App\Interfaces\Crud
    */
   public function showSubItilitems(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Project();
     $view = Twig::fromRequest($request);
 
@@ -605,7 +597,7 @@ final class Project extends Common implements \App\Interfaces\Crud
       {
         $associated_items[] = [
           'type'     => '',
-          'name'     => $translator->translate('General'),
+          'name'     => pgettext('ITIL', 'General'),
           'url'      => '',
         ];
       }
@@ -856,26 +848,26 @@ final class Project extends Common implements \App\Interfaces\Crud
     $viewData->addData('changes', $changes);
     $viewData->addData('show', 'project');
 
-    $viewData->addTranslation('tickets', $translator->translatePlural('Ticket', 'Tickets', 2));
-    $viewData->addTranslation('problems', $translator->translatePlural('Problem', 'Problems', 2));
-    $viewData->addTranslation('changes', $translator->translatePlural('Change', 'Changes', 2));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('date', $translator->translatePlural('Date', 'Dates', 1));
-    $viewData->addTranslation('last_update', $translator->translate('Last update'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('priority', $translator->translate('Priority'));
-    $viewData->addTranslation('requesters', $translator->translatePlural('Requester', 'Requesters', 1));
-    $viewData->addTranslation('technicians', $translator->translate('Assigned'));
+    $viewData->addTranslation('tickets', npgettext('ticket', 'Ticket', 'Tickets', 2));
+    $viewData->addTranslation('problems', npgettext('problem', 'Problem', 'Problems', 2));
+    $viewData->addTranslation('changes', npgettext('change', 'Change', 'Changes', 2));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('date', npgettext('global', 'Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', pgettext('global', 'Last update'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', pgettext('ITIL', 'Priority'));
+    $viewData->addTranslation('requesters', npgettext('ITIL', 'Requester', 'Requesters', 1));
+    $viewData->addTranslation('technicians', pgettext('ITIL', 'Assigned'));
     $viewData->addTranslation(
       'associated_items',
-      $translator->translatePlural('Associated element', 'Associated elements', 2)
+      npgettext('global', 'Associated item', 'Associated items', 2)
     );
-    $viewData->addTranslation('category', $translator->translate('Category'));
-    $viewData->addTranslation('title', $translator->translate('Title'));
-    $viewData->addTranslation('planification', $translator->translate('Planification'));
-    $viewData->addTranslation('no_ticket_found', $translator->translate('No ticket found.'));
-    $viewData->addTranslation('no_problem_found', $translator->translate('No problem found.'));
-    $viewData->addTranslation('no_change_found', $translator->translate('No change found.'));
+    $viewData->addTranslation('category', npgettext('global', 'Category', 'Categories', 1));
+    $viewData->addTranslation('title', pgettext('global', 'Title'));
+    $viewData->addTranslation('planification', pgettext('ITIL', 'Planification'));
+    $viewData->addTranslation('no_ticket_found', pgettext('ticket', 'No ticket found.'));
+    $viewData->addTranslation('no_problem_found', pgettext('problem', 'No problem found.'));
+    $viewData->addTranslation('no_change_found', pgettext('change', 'No change found.'));
 
     return $view->render($response, 'subitem/itil.html.twig', (array)$viewData);
   }

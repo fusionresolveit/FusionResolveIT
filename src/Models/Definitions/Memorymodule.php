@@ -11,32 +11,30 @@ class Memorymodule
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'name' => pgettext('global', 'Name'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
       'size' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Size'),
-        $translator->translate('Mio')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'Size'),
+        pgettext('global', 'Mio')
       ),
       'frequence' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Frequency'),
-        $translator->translate('MHz')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'Frequency'),
+        pgettext('global', 'MHz')
       ),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'model' => $translator->translatePlural('Model', 'Models', 1),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'serial' => $translator->translate('Serial number'),
-      'otherserial' => $translator->translate('Inventory number'),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'state' => $translator->translate('Status'),
-      'memoryslot' => $translator->translate('Memory slot'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'model' => npgettext('global', 'Model', 'Models', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'serial' => pgettext('inventory device', 'Serial number'),
+      'otherserial' => pgettext('inventory device', 'Inventory number'),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'state' => pgettext('inventory device', 'Status'),
+      'memoryslot' => npgettext('memory device', 'Memory slot', 'Memory slots', 1),
     ];
 
     $defColl = new DefinitionCollection();
@@ -111,20 +109,19 @@ class Memorymodule
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Memory', 'Memory', 1),
+        'title' => npgettext('global', 'Memory', 'Memory', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

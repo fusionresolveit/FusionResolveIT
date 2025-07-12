@@ -52,7 +52,7 @@ final class Phonemodel extends Common implements \App\Interfaces\Crud
 
     $phonemodel = \App\Models\Phonemodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The phone model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($phonemodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Phonemodel extends Common implements \App\Interfaces\Crud
 
     $phonemodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The phone model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($phonemodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Phonemodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $phonemodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The phone model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/phonemodels')
@@ -136,7 +136,7 @@ final class Phonemodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $phonemodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The phone model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Phonemodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $phonemodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The phone model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

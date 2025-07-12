@@ -52,7 +52,7 @@ final class Operatingsystemedition extends Common implements \App\Interfaces\Cru
 
     $operatingsystemedition = \App\Models\Operatingsystemedition::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem edition has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($operatingsystemedition, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Operatingsystemedition extends Common implements \App\Interfaces\Cru
 
     $operatingsystemedition->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem edition has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($operatingsystemedition, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Operatingsystemedition extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystemedition->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem edition has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/operatingsystemeditions')
@@ -136,7 +136,7 @@ final class Operatingsystemedition extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystemedition->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystemedition has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Operatingsystemedition extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $operatingsystemedition->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The operatingsystem edition has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

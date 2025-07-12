@@ -52,7 +52,7 @@ final class Memorymodel extends Common
 
     $memorymodel = \App\Models\Memorymodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($memorymodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Memorymodel extends Common
 
     $memorymodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($memorymodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Memorymodel extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $memorymodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/memorymodels')
@@ -136,7 +136,7 @@ final class Memorymodel extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $memorymodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Memorymodel extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $memorymodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

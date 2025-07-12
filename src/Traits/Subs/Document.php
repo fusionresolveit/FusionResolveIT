@@ -15,8 +15,6 @@ trait Document
    */
   public function showSubDocuments(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -78,14 +76,14 @@ trait Document
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('documents', $myDocuments);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('file', $translator->translate('File'));
-    $viewData->addTranslation('weblink', $translator->translate('Web link'));
-    $viewData->addTranslation('rubrique', $translator->translate('Heading'));
-    $viewData->addTranslation('mimetype', $translator->translate('MIME type'));
-    $viewData->addTranslation('balise', $translator->translate('Tag'));
-    $viewData->addTranslation('date', $translator->translatePlural('Dates', 'Dates', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('file', pgettext('document', 'File'));
+    $viewData->addTranslation('weblink', pgettext('document', 'Web link'));
+    $viewData->addTranslation('rubrique', pgettext('document', 'Heading'));
+    $viewData->addTranslation('mimetype', pgettext('document', 'MIME type'));
+    $viewData->addTranslation('balise', pgettext('document', 'Tag'));
+    $viewData->addTranslation('date', npgettext('global', 'Date', 'Dates', 1));
 
     return $view->render($response, 'subitem/documents.html.twig', (array)$viewData);
   }

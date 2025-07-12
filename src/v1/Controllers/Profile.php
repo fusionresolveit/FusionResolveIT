@@ -55,7 +55,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
 
     $profile = \App\Models\Profile::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The profile has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($profile, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -98,7 +98,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
 
     $profile->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The profile has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($profile, 'update');
 
     $uri = $request->getUri();
@@ -128,7 +128,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $profile->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The profile has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/profiles')
@@ -139,7 +139,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $profile->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The profile has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -166,7 +166,7 @@ final class Profile extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $profile->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The profile has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -591,9 +591,11 @@ final class Profile extends Common implements \App\Interfaces\Crud
           ],
           $dataRights,
         );
-        // add message to session
-        \App\v1\Controllers\Toolbox::addSessionMessage('The rights have been updated successfully');
       }
+      // add message to session
+      \App\v1\Controllers\Toolbox::addSessionMessage(
+        pgettext('session message', 'The rights have been updated successfully')
+      );
     }
     $uri = $request->getUri();
 
@@ -792,8 +794,6 @@ final class Profile extends Common implements \App\Interfaces\Crud
    */
   public function showSubUsers(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Profile();
     $view = Twig::fromRequest($request);
 
@@ -822,21 +822,21 @@ final class Profile extends Common implements \App\Interfaces\Crud
       $is_recursive = '';
       if ($current_item->getRelationValue('pivot')->is_recursive == 1)
       {
-        $is_recursive_val = $translator->translate('Yes');
+        $is_recursive_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_recursive_val = $translator->translate('No');
+        $is_recursive_val = pgettext('global', 'No');
       }
 
       $is_dynamic = '';
       if ($current_item->getRelationValue('pivot')->is_dynamic == 1)
       {
-        $is_dynamic_val = $translator->translate('Yes');
+        $is_dynamic_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_dynamic_val = $translator->translate('No');
+        $is_dynamic_val = pgettext('global', 'No');
       }
 
       if (($entity != '') && ($user != ''))
@@ -872,9 +872,9 @@ final class Profile extends Common implements \App\Interfaces\Crud
     $viewData->addData('users', $myUsers);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('is_dynamic', $translator->translate('Dynamic'));
-    $viewData->addTranslation('is_recursive', $translator->translate('Recursive'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('is_dynamic', pgettext('global', 'Dynamic'));
+    $viewData->addTranslation('is_recursive', pgettext('global', 'Recursive'));
 
     return $view->render($response, 'subitem/users.html.twig', (array)$viewData);
   }

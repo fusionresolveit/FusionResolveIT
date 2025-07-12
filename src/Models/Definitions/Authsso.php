@@ -11,20 +11,18 @@ class Authsso
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
-      'is_active' => $translator->translate('Active'),
-      'provider' => $translator->translate('Provider'),
-      'callbackid' => $translator->translate('callback id'),
-      'applicationid' => $translator->translate('application id'),
-      'applicationsecret' => $translator->translate('application secret'),
-      'applicationpublic' => $translator->translate('application public'),
-      'directoryid' => $translator->translate('directory id'),
-      'baseurl' => $translator->translate('baseurl'),
-      'realm' => $translator->translate('realm'),
+      'name'              => pgettext('global', 'Name'),
+      'comment'           => npgettext('global', 'Comment', 'Comments', 2),
+      'is_active'         => pgettext('global', 'Active'),
+      'provider'          => pgettext('SSO parameter', 'Provider'),
+      'callbackid'        => pgettext('SSO parameter', 'callback id'),
+      'applicationid'     => pgettext('SSO parameter', 'application id'),
+      'applicationsecret' => pgettext('SSO parameter', 'application secret'),
+      'applicationpublic' => pgettext('SSO parameter', 'application public'),
+      'directoryid'       => pgettext('SSO parameter', 'directory id'),
+      'baseurl'           => pgettext('SSO parameter', 'baseurl'),
+      'realm'             => pgettext('SSO parameter', 'realm'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -56,8 +54,6 @@ class Authsso
    */
   public static function getProviderArray(): array
   {
-    global $translator;
-
     return [
       'facebook' => [
         'title' => 'Facebook',
@@ -437,25 +433,24 @@ class Authsso
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Auth SSO', 'Auth SSO', 1),
+        'title' => npgettext('sso', 'SSO', 'SSOs', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Scopes'),
+        'title' => pgettext('sso', 'Scopes'),
         'icon' => 'list',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Options'),
+        'title' => pgettext('sso', 'Options'),
         'icon' => 'filter',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

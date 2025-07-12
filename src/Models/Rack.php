@@ -25,7 +25,6 @@ class Rack extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Rack::class;
-  protected $titles = ['Rack', 'Racks'];
   protected $icon = 'print';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -74,6 +73,13 @@ class Rack extends Common
     'infocom',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Rack', 'Racks', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Racktype, $this> */
   public function type(): BelongsTo

@@ -84,7 +84,7 @@ final class Peripheral extends Common implements \App\Interfaces\Crud
 
     $peripheral = \App\Models\Peripheral::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The peripheral has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($peripheral, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -127,7 +127,7 @@ final class Peripheral extends Common implements \App\Interfaces\Crud
 
     $peripheral->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The peripheral has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($peripheral, 'update');
 
     $uri = $request->getUri();
@@ -157,7 +157,7 @@ final class Peripheral extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $peripheral->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The peripheral has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/peripherals')
@@ -168,7 +168,7 @@ final class Peripheral extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $peripheral->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The peripheral has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -195,7 +195,7 @@ final class Peripheral extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $peripheral->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The peripheral has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

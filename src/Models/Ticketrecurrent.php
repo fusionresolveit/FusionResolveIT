@@ -15,7 +15,6 @@ class Ticketrecurrent extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Ticketrecurrent::class;
-  protected $titles = ['Recurrent ticket', 'Recurrent tickets'];
   protected $icon = 'stopwatch';
 
   protected $appends = [
@@ -46,6 +45,14 @@ class Ticketrecurrent extends Common
     // 'itilcategorie:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Recurrent ticket', 'Recurrent tickets', $nb);
+  }
 
   // public function requester()
   // {

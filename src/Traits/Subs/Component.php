@@ -15,8 +15,6 @@ trait Component
    */
   public function showSubComponents(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -126,7 +124,7 @@ trait Component
           }
         }
         $myMemories[] = [
-          'name'                => $translator->translate('Slot') . ' ' . $slot->slotnumber,
+          'name'                => pgettext('memory device', 'Slot') . ' ' . $slot->slotnumber,
           'is_empty'            => false,
           'manufacturer'        => $manufacturer,
           'manufacturer_url'    => $manufacturer_url,
@@ -146,7 +144,7 @@ trait Component
         ];
       } else {
         $myMemories[] = [
-          'name'                => $translator->translate('Slot') . ' ' . $slot->slotnumber,
+          'name'                => pgettext('memory device', 'Slot') . ' ' . $slot->slotnumber,
           'is_empty'            => true,
           'manufacturer'        => '',
           'manufacturer_url'    => '',
@@ -1283,9 +1281,9 @@ trait Component
       $write = $devicedrive->is_writer;
       if ($write == 1)
       {
-        $write_val = $translator->translate('Yes');
+        $write_val = pgettext('global', 'Yes');
       } else {
-        $write_val = $translator->translate('No');
+        $write_val = pgettext('global', 'No');
       }
 
       $speed = $devicedrive->speed;
@@ -1374,73 +1372,73 @@ trait Component
     $viewData->addData('devicegraphiccards', $myDevicegraphiccards);
     $viewData->addData('devicedrives', $myDevicedrives);
 
-    $viewData->addTranslation('memory', $translator->translatePlural('Memory', 'Memories', 1));
-    $viewData->addTranslation('manufacturer', $translator->translatePlural('Manufacturer', 'Manufacturers', 1));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('frequence', $translator->translate('Frequency'));
+    $viewData->addTranslation('memory', pgettext('inventory device', 'Memory size'));
+    $viewData->addTranslation('manufacturer', npgettext('global', 'Manufacturer', 'Manufacturers', 1));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('frequence', pgettext('global', 'MHz'));
     $viewData->addTranslation(
       'size',
-      sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Mio'))
+      sprintf('%1$s (%2$s)', pgettext('global', 'Size'), pgettext('global', 'Mio'))
     );
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('location', $translator->translatePlural('Location', 'Locations', 1));
-    $viewData->addTranslation('busID', $translator->translate('Position of the device on its bus'));
-    $viewData->addTranslation('firmware', $translator->translatePlural('Firmware', 'Firmware', 1));
-    $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
-    $viewData->addTranslation('install_date', $translator->translate('Installation date'));
-    $viewData->addTranslation('processor', $translator->translatePlural('Processor', 'Processors', 1));
+    $viewData->addTranslation('serial', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('location', npgettext('global', 'Location', 'Locations', 1));
+    $viewData->addTranslation('busID', pgettext('inventory device', 'Position of the device on its bus'));
+    $viewData->addTranslation('firmware', npgettext('global', 'Firmware', 'Firmware', 1));
+    $viewData->addTranslation('version', npgettext('global', 'Version', 'Versions', 1));
+    $viewData->addTranslation('install_date', pgettext('global', 'Installation date'));
+    $viewData->addTranslation('processor', npgettext('global', 'Processor', 'Processors', 1));
     $viewData->addTranslation(
       'frequence_mhz',
-      sprintf('%1$s (%2$s)', $translator->translate('Frequency'), $translator->translate('MHz'))
+      sprintf('%1$s (%2$s)', pgettext('global', 'MHz'), pgettext('global', 'MHz'))
     );
-    $viewData->addTranslation('nbcores', $translator->translate('Number of cores'));
-    $viewData->addTranslation('nbthreads', $translator->translate('Number of threads'));
-    $viewData->addTranslation('storage', $translator->translatePlural('Storage', 'Storages', 1));
-    $viewData->addTranslation('rpm', $translator->translate('Rpm'));
-    $viewData->addTranslation('cache', $translator->translate('Cache'));
-    $viewData->addTranslation('interface', $translator->translate('Interface'));
+    $viewData->addTranslation('nbcores', pgettext('inventory device', 'Number of cores'));
+    $viewData->addTranslation('nbthreads', pgettext('inventory device', 'Number of threads'));
+    $viewData->addTranslation('storage', npgettext('global', 'Storage', 'Storages', 1));
+    $viewData->addTranslation('rpm', pgettext('global', 'RPM'));
+    $viewData->addTranslation('cache', pgettext('global', 'Cache'));
+    $viewData->addTranslation('interface', pgettext('inventory device', 'Interface'));
     $viewData->addTranslation(
       'capacity',
-      sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('Mio'))
+      sprintf('%1$s (%2$s)', pgettext('battery', 'Capacity'), pgettext('global', 'Mio'))
     );
-    $viewData->addTranslation('battery', $translator->translatePlural('Battery', 'Batteries', 1));
+    $viewData->addTranslation('battery', npgettext('global', 'Battery', 'Batteries', 1));
     $viewData->addTranslation(
       'voltage_mv',
-      sprintf('%1$s (%2$s)', $translator->translate('Voltage'), $translator->translate('mV'))
+      sprintf('%1$s (%2$s)', pgettext('battery', 'Voltage'), pgettext('battery', 'mV'))
     );
     $viewData->addTranslation(
       'capacity_mwh',
-      sprintf('%1$s (%2$s)', $translator->translate('Capacity'), $translator->translate('mWh'))
+      sprintf('%1$s (%2$s)', pgettext('battery', 'Capacity'), pgettext('battery', 'mWh'))
     );
-    $viewData->addTranslation('manufacturing_date', $translator->translate('Manufacturing date'));
-    $viewData->addTranslation('soundcard', $translator->translatePlural('Soundcard', 'Soundcards', 1));
-    $viewData->addTranslation('controller', $translator->translatePlural('Controller', 'Controllers', 1));
-    $viewData->addTranslation('documents', $translator->translatePlural('Document', 'Documents', 2));
-    $viewData->addTranslation('mac_address', $translator->translate('MAC address'));
-    $viewData->addTranslation('powersupply', $translator->translatePlural('Power supply', 'Power supplies', 1));
-    $viewData->addTranslation('sensor', $translator->translatePlural('Sensor', 'Sensors', 1));
-    $viewData->addTranslation('devicepci', $translator->translatePlural('PCI device', 'PCI devices', 1));
-    $viewData->addTranslation('devicegeneric', $translator->translatePlural('Generic device', 'Generic devices', 1));
-    $viewData->addTranslation('devicenetworkcard', $translator->translatePlural('Network card', 'Network cards', 1));
-    $viewData->addTranslation('devicesimcard', $translator->translatePlural('Simcard', 'Simcards', 1));
-    $viewData->addTranslation('devicemotherboard', $translator->translatePlural('System board', 'System boards', 1));
-    $viewData->addTranslation('devicecase', $translator->translatePlural('Case', 'Cases', 1));
-    $viewData->addTranslation('devicegraphiccard', $translator->translatePlural('Graphics card', 'Graphics cards', 1));
-    $viewData->addTranslation('devicedrive', $translator->translatePlural('Drive', 'Drives', 1));
+    $viewData->addTranslation('manufacturing_date', pgettext('inventory device', 'Manufacturing date'));
+    $viewData->addTranslation('soundcard', npgettext('global', 'Sound card', 'Sound cards', 1));
+    $viewData->addTranslation('controller', npgettext('global', 'Controller', 'Controllers', 1));
+    $viewData->addTranslation('documents', npgettext('global', 'Document', 'Documents', 2));
+    $viewData->addTranslation('mac_address', pgettext('network', 'MAC address'));
+    $viewData->addTranslation('powersupply', npgettext('global', 'Power supply', 'Power supplies', 1));
+    $viewData->addTranslation('sensor', npgettext('global', 'Sensor', 'Sensors', 1));
+    $viewData->addTranslation('devicepci', npgettext('global', 'PCI device', 'PCI devices', 1));
+    $viewData->addTranslation('devicegeneric', npgettext('global', 'Generic device', 'Generic devices', 1));
+    $viewData->addTranslation('devicenetworkcard', npgettext('global', 'Network card', 'Network cards', 1));
+    $viewData->addTranslation('devicesimcard', npgettext('global', 'SIM card', 'SIM cards', 1));
+    $viewData->addTranslation('devicemotherboard', npgettext('global', 'System board', 'System boards', 1));
+    $viewData->addTranslation('devicecase', npgettext('global', 'Case', 'Cases', 1));
+    $viewData->addTranslation('devicegraphiccard', npgettext('global', 'Graphics card', 'Graphics cards', 1));
+    $viewData->addTranslation('devicedrive', npgettext('global', 'Drive', 'Drives', 1));
     $viewData->addTranslation(
       'memory_mio',
-      sprintf('%1$s (%2$s)', $translator->translatePlural('Memory', 'Memories', 1), $translator->translate('Mio'))
+      sprintf('%1$s (%2$s)', pgettext('inventory device', 'Memory size'), pgettext('global', 'Mio'))
     );
-    $viewData->addTranslation('chipset', $translator->translate('Chipset'));
-    $viewData->addTranslation('write', $translator->translate('Write'));
-    $viewData->addTranslation('speed', $translator->translate('Speed'));
-    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('msin', $translator->translate('Mobile Subscriber Identification Number'));
-    $viewData->addTranslation('user', $translator->translatePlural('User', 'Users', 1));
-    $viewData->addTranslation('group', $translator->translatePlural('Group', 'Groups', 1));
-    $viewData->addTranslation('flow', $translator->translate('Flow'));
-    $viewData->addTranslation('line', $translator->translatePlural('Line', 'Lines', 1));
+    $viewData->addTranslation('chipset', pgettext('inventory device', 'Chipset'));
+    $viewData->addTranslation('write', pgettext('inventory device', 'Write'));
+    $viewData->addTranslation('speed', pgettext('inventory device', 'Speed'));
+    $viewData->addTranslation('inventaire_number', pgettext('inventory device', 'Inventory number'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
+    $viewData->addTranslation('msin', pgettext('sim', 'Mobile Subscriber Identification Number'));
+    $viewData->addTranslation('user', npgettext('global', 'User', 'Users', 1));
+    $viewData->addTranslation('group', npgettext('global', 'Group', 'Groups', 1));
+    $viewData->addTranslation('flow', pgettext('inventory device', 'Flow'));
+    $viewData->addTranslation('line', npgettext('global', 'Line', 'Lines', 1));
 
     return $view->render($response, 'subitem/components.html.twig', (array)$viewData);
   }

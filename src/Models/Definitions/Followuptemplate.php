@@ -11,17 +11,15 @@ class Followuptemplate
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'id' => $translator->translate('ID'),
-      'content' => $translator->translate('Content'),
-      'source' => $translator->translate('Source of followup'),
-      'is_private' => $translator->translate('Private'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'id' => pgettext('global', 'Id'),
+      'content' => pgettext('global', 'Content'),
+      'source' => pgettext('ITIL', 'Source of followup'),
+      'is_private' => pgettext('global', 'Private'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -45,7 +43,7 @@ class Followuptemplate
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -87,15 +85,14 @@ class Followuptemplate
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Followup template', 'Followup templates', 1),
+        'title' => npgettext('global', 'Followup template', 'Followup templates', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -54,7 +54,7 @@ final class Slm extends Common implements \App\Interfaces\Crud
 
     $slm = \App\Models\Slm::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($slm, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Slm extends Common implements \App\Interfaces\Crud
 
     $slm->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($slm, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Slm extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $slm->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/slms')
@@ -138,7 +138,7 @@ final class Slm extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $slm->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Slm extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $slm->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The slm has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Slm extends Common implements \App\Interfaces\Crud
    */
   public function showSubSlas(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Slm();
     $view = Twig::fromRequest($request);
 
@@ -232,10 +230,10 @@ final class Slm extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('slaola', $mySlas);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('max_duration', $translator->translate('Maximum time'));
-    $viewData->addTranslation('calendar', $translator->translatePlural('Calendar', 'Calendars', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('max_duration', pgettext('time', 'Maximum time'));
+    $viewData->addTranslation('calendar', npgettext('global', 'Calendar', 'Calendars', 1));
 
     return $view->render($response, 'subitem/slaola.html.twig', (array)$viewData);
   }
@@ -245,8 +243,6 @@ final class Slm extends Common implements \App\Interfaces\Crud
    */
   public function showSubOlas(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Slm();
     $view = Twig::fromRequest($request);
 
@@ -298,10 +294,10 @@ final class Slm extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('slaola', $myOlas);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('max_duration', $translator->translate('Maximum time'));
-    $viewData->addTranslation('calendar', $translator->translatePlural('Calendar', 'Calendars', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('max_duration', pgettext('time', 'Maximum time'));
+    $viewData->addTranslation('calendar', npgettext('global', 'Calendar', 'Calendars', 1));
 
     return $view->render($response, 'subitem/slaola.html.twig', (array)$viewData);
   }
@@ -311,14 +307,12 @@ final class Slm extends Common implements \App\Interfaces\Crud
    */
   public function getTtrTto(): array
   {
-    global $translator;
-
     return [
       $this->TTR => [
-        'title' => $translator->translate('Time to resolve'),
+        'title' => pgettext('ITIL', 'Time to resolve'),
       ],
       $this->TTO => [
-        'title' => $translator->translate('Time to own'),
+        'title' => pgettext('ticket', 'Time to own'),
       ],
     ];
   }

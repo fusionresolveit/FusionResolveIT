@@ -88,6 +88,10 @@ final class Displaypreference extends Common
     $viewData->addData('m', $data->m);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
+    $viewData->addTranslation('buttonadd', pgettext('button', 'Add'));
+    $viewData->addTranslation('buttonaddusercols', pgettext('button', 'Create user columns management'));
+    $viewData->addTranslation('buttondeleteusercols', pgettext('button', 'Delete user columns management'));
+
     return $view->render($response, 'columns.html.twig', (array)$viewData);
   }
 

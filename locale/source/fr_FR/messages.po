@@ -1,0 +1,5285 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FusionResolveIT 1.0.0\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Generated-By: Pontoon\n"
+
+#. Used in homepage of the application
+msgctxt "global"
+msgid "Homepage tech"
+msgstr "Page d'accueil tech"
+
+#. will have like: David added a followup
+msgctxt "ticket feed"
+msgid "added a followup"
+msgstr "a ajouté un suivi"
+
+#. will have like: David added a solution
+msgctxt "ticket feed"
+msgid "added a solution"
+msgstr "a ajouté une solution"
+
+msgctxt "ticket feed"
+msgid "changed state to"
+msgstr "a changé le statut en"
+
+msgctxt "ticket feed"
+msgid "add attribution to the user"
+msgstr ""
+
+msgctxt "ticket feed"
+msgid "add (+) attribution to the group"
+msgstr ""
+
+msgctxt "ticket feed"
+msgid "delete (-) attribution to the group"
+msgstr ""
+
+msgctxt "ticket solution"
+msgid "Not subject to approval"
+msgstr ""
+
+msgctxt "ticket solution"
+msgid "Waiting for approval"
+msgstr "En attente d'approbation"
+
+msgctxt "ticket solution"
+msgid "Granted"
+msgstr "Autorisé"
+
+msgctxt "ticket solution"
+msgid "Refused"
+msgstr "Refusé"
+
+msgctxt "global"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "global"
+msgid "Message"
+msgid_plural "Messages"
+msgstr[0] "Message"
+msgstr[1] "Messages"
+
+msgctxt "global"
+msgid "Type"
+msgid_plural "Types"
+msgstr[0] "Type"
+msgstr[1] "Types"
+
+msgctxt "display alerts"
+msgid "Visibility start date"
+msgstr ""
+
+msgctxt "display alerts"
+msgid "Visibility end date"
+msgstr ""
+
+msgctxt "global"
+msgid "Recursive"
+msgstr "Récursif"
+
+msgctxt "display alerts"
+msgid "Show on login page"
+msgstr ""
+
+msgctxt "display alerts"
+msgid "Show on home page"
+msgstr ""
+
+msgctxt "global"
+msgid "Active"
+msgstr "Actif"
+
+msgctxt "global"
+msgid "Last update"
+msgstr "Dernière mise à jour"
+
+msgctxt "global"
+msgid "Creation date"
+msgstr "Date de création"
+
+msgctxt "alert status"
+msgid "General"
+msgstr ""
+
+msgctxt "alert status"
+msgid "Information"
+msgid_plural "Information"
+msgstr[0] "Information"
+msgstr[1] "Informations"
+
+msgctxt "alert status"
+msgid "Warning"
+msgstr ""
+
+msgctxt "alert status"
+msgid "Problem"
+msgid_plural "Problem"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Historical"
+msgid_plural "Historicals"
+msgstr[0] ""
+msgstr[1] "Historique"
+
+msgctxt "alert title"
+msgid "Alert"
+msgid_plural "Alerts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. It's to define the target, like population will have access to a resource
+msgctxt "target"
+msgid "Target"
+msgid_plural "Targets"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "LDAP parameter"
+msgid "Server"
+msgstr "Serveur"
+
+msgctxt "LDAP parameter"
+msgid "Port"
+msgid_plural "Ports"
+msgstr[0] "Port"
+msgstr[1] "Ports"
+
+msgctxt "LDAP parameter"
+msgid "Default server"
+msgstr "Serveur par défaut"
+
+msgctxt "LDAP parameter"
+msgid "BaseDN"
+msgstr "BaseDN"
+
+msgctxt "LDAP parameter"
+msgid "RootDN"
+msgstr "RootDN"
+
+msgctxt "LDAP parameter"
+msgid "RootDN password"
+msgstr "Mot de passe RootDN"
+
+msgctxt "LDAP parameter"
+msgid "Connection filter"
+msgstr "Filtre de connexion"
+
+msgctxt "LDAP parameter"
+msgid "Login field"
+msgstr ""
+
+msgctxt "user parameter"
+msgid "Surname"
+msgstr ""
+
+msgctxt "user parameter"
+msgid "First name"
+msgstr "Prénom"
+
+msgctxt "LDAP parameter"
+msgid "Use DN in the search"
+msgstr "Utiliser le DN dans la recherche"
+
+msgctxt "LDAP parameter"
+msgid "User attribute containing its groups"
+msgstr "Attribut utilisateur contenant ses groupes"
+
+msgctxt "LDAP parameter"
+msgid "Filter to search in groups"
+msgstr "Filtrer pour rechercher dans les groupes"
+
+msgctxt "LDAP parameter"
+msgid "Group attribute containing its users"
+msgstr "Attribut de groupe contenant ses utilisateurs"
+
+msgctxt "LDAP parameter"
+msgid "Synchronization field"
+msgstr "Champ de synchronisation"
+
+msgctxt "LDAP parameter"
+msgid "Domain name used by inventory tool"
+msgstr "Nom de domaine utilisé par l'outil d'inventaire"
+
+msgctxt "user parameter"
+msgid "Phone"
+msgstr "Téléphone"
+
+msgctxt "user parameter"
+msgid "Phone 2"
+msgstr "Téléphone 2"
+
+msgctxt "user parameter"
+msgid "Mobile phone"
+msgstr "Téléphone mobile"
+
+msgctxt "user parameter"
+msgid "Title"
+msgstr "Titre"
+
+msgctxt "user parameter"
+msgid "Category"
+msgstr "Catégorie"
+
+msgctxt "user parameter"
+msgid "Email"
+msgid_plural "Emails"
+msgstr[0] "Email"
+msgstr[1] "Emails"
+
+msgctxt "user parameter"
+msgid "Language"
+msgstr "Langue"
+
+msgctxt "user parameter"
+msgid "Responsible"
+msgstr "Responsable"
+
+msgctxt "SSO parameter"
+msgid "Provider"
+msgstr "Provider"
+
+msgctxt "SSO parameter"
+msgid "callback id"
+msgstr "id de callback"
+
+msgctxt "SSO parameter"
+msgid "application id"
+msgstr "id d'application"
+
+msgctxt "SSO parameter"
+msgid "application secret"
+msgstr "secret d'application"
+
+msgctxt "SSO parameter"
+msgid "application public"
+msgstr "application publique"
+
+msgctxt "SSO parameter"
+msgid "directory id"
+msgstr "id de directory"
+
+msgctxt "SSO parameter"
+msgid "baseurl"
+msgstr "base d'URL"
+
+msgctxt "SSO parameter"
+msgid "realm"
+msgstr "realm"
+
+#. button name in item  form, used to return in list of items
+msgctxt "global"
+msgid "Back to list"
+msgstr "Retour vers la liste"
+
+msgctxt "global"
+msgid "Manufacturer"
+msgid_plural "Manufacturers"
+msgstr[0] "Fabricant"
+msgstr[1] "Fabricants"
+
+msgctxt "global"
+msgid "Model"
+msgid_plural "Models"
+msgstr[0] "Modèle"
+msgstr[1] "Modèles"
+
+msgctxt "global"
+msgid "Child entities"
+msgstr "Entitiés enfants"
+
+msgctxt "global"
+msgid "Installation date"
+msgstr "Date d'installation"
+
+msgctxt "global"
+msgid "Firmware"
+msgid_plural "Firmware"
+msgstr[0] "Micrologiciel (Firmware)"
+msgstr[1] "Micrologiciels (Firmware)"
+
+msgctxt "global"
+msgid "Document"
+msgid_plural "Documents"
+msgstr[0] "Document"
+msgstr[1] "Documents"
+
+msgctxt "global"
+msgid "Item"
+msgid_plural "Items"
+msgstr[0] "Article"
+msgstr[1] "Articles"
+
+msgctxt "global"
+msgid "Id"
+msgstr "Id"
+
+msgctxt "global"
+msgid "Content"
+msgstr "Contenu"
+
+msgctxt "global"
+msgid "Description"
+msgstr "Description"
+
+msgctxt "global"
+msgid "Yes"
+msgstr "Oui"
+
+msgctxt "global"
+msgid "No"
+msgstr "Non"
+
+msgctxt "global"
+msgid "User"
+msgid_plural "Users"
+msgstr[0] "Utilisateur"
+msgstr[1] "Utilisateurs"
+
+msgctxt "global"
+msgid "Entity"
+msgid_plural "Entities"
+msgstr[0] "Entité"
+msgstr[1] "Entitiés"
+
+msgctxt "global"
+msgid "Date"
+msgid_plural "Dates"
+msgstr[0] "Date"
+msgstr[1] "Dates"
+
+#. It's a place, places
+msgctxt "global"
+msgid "Location"
+msgid_plural "Locations"
+msgstr[0] "Lieu"
+msgstr[1] "Lieux"
+
+msgctxt "menu"
+msgid "ITAM - Hardware inventory"
+msgstr "ITAM - Inventaire matériel"
+
+msgctxt "menu"
+msgid "ITAM - Software inventory"
+msgstr "ITAM - Inventaire logiciel"
+
+msgctxt "menu"
+msgid "ITAM - Contracts & cost"
+msgstr "ITAM - Contrats & coûts"
+
+msgctxt "menu"
+msgid "ITAM - Components"
+msgstr "ITAM - Composants"
+
+msgctxt "menu"
+msgid "ITSM"
+msgstr "ITSM"
+
+msgctxt "menu"
+msgid "User data"
+msgstr "Données utilisateur"
+
+msgctxt "menu"
+msgid "Alerting"
+msgstr "Alertes"
+
+msgctxt "menu"
+msgid "System"
+msgstr "Système"
+
+msgctxt "menu"
+msgid "Knowledge hub"
+msgstr "Centre de connaissances"
+
+msgctxt "inventory device"
+msgid "Serial number"
+msgstr "Numéro de série"
+
+msgctxt "inventory device"
+msgid "Inventory number"
+msgstr "Numéro d'inventaire"
+
+msgctxt "inventory device"
+msgid "Status"
+msgstr "Statut"
+
+msgctxt "inventory device"
+msgid "Technician in charge of the hardware"
+msgstr "Technicien en charge du matériel"
+
+msgctxt "inventory device"
+msgid "Group in charge of the hardware"
+msgstr "Groupe en charge du matériel"
+
+msgctxt "inventory device"
+msgid "Alternate username"
+msgstr "Utilisateur secondaire"
+
+msgctxt "inventory device"
+msgid "Alternate username number"
+msgstr "Numéro de l'utilisateur secondaire"
+
+msgctxt "global"
+msgid "UUID"
+msgstr "UUID"
+
+msgctxt "inventory device"
+msgid "Impact analysis"
+msgstr "Analyse de l'impact"
+
+msgctxt "global"
+msgid "Computer"
+msgid_plural "Computers"
+msgstr[0] "Ordinateur"
+msgstr[1] "Ordinateurs"
+
+msgctxt "global"
+msgid "Group"
+msgid_plural "Groups"
+msgstr[0] "Groupe"
+msgstr[1] "Groupes"
+
+msgctxt "inventory device"
+msgid "Network"
+msgid_plural "Networks"
+msgstr[0] "Réseau"
+msgstr[1] "Réseaux"
+
+msgctxt "inventory device"
+msgid "Update Source"
+msgid_plural "Update Sources"
+msgstr[0] "Source de mise à jour"
+msgstr[1] "Sources de mise à jour"
+
+msgctxt "inventory device"
+msgid "Operating System"
+msgid_plural "Operating System"
+msgstr[0] "Système d'exploitation"
+msgstr[1] "Systèmes d'exploitation"
+
+msgctxt "global"
+msgid "Complete name"
+msgstr "Nom complet"
+
+msgctxt "global"
+msgid "Software"
+msgid_plural "Software"
+msgstr[0] "Logiciel"
+msgstr[1] "Logiciels"
+
+msgctxt "global"
+msgid "Printer"
+msgid_plural "Printers"
+msgstr[0] "Imprimante"
+msgstr[1] "Imprimantes"
+
+msgctxt "global"
+msgid "Component"
+msgid_plural "Components"
+msgstr[0] "Composant"
+msgstr[1] "Composants"
+
+msgctxt "inventory device"
+msgid "Volume"
+msgid_plural "Volumes"
+msgstr[0] "Volume"
+msgstr[1] "Volumes"
+
+msgctxt "inventory device"
+msgid "Connection"
+msgid_plural "Connections"
+msgstr[0] "Connexion"
+msgstr[1] "Connexions"
+
+msgctxt "inventory device"
+msgid "Network port"
+msgid_plural "Network ports"
+msgstr[0] "Port réseau"
+msgstr[1] "Ports réseau"
+
+msgctxt "global"
+msgid "Management"
+msgstr "Gestion"
+
+msgctxt "global"
+msgid "Contract"
+msgid_plural "Contracts"
+msgstr[0] "Contrat"
+msgstr[1] "Contrats"
+
+msgctxt "inventory device"
+msgid "Virtualization"
+msgstr "Virtualisation"
+
+msgctxt "global"
+msgid "Knowledge base"
+msgstr "Base de connaissances"
+
+msgctxt "global"
+msgid "ITIL"
+msgstr "ITIL"
+
+msgctxt "global"
+msgid "External link"
+msgid_plural "External links"
+msgstr[0] "Lien externe"
+msgstr[1] "Liens externes"
+
+msgctxt "global"
+msgid "Certificate"
+msgid_plural "Certificates"
+msgstr[0] "Certificat"
+msgstr[1] "Certificats"
+
+msgctxt "global"
+msgid "Note"
+msgid_plural "Notes"
+msgstr[0] "Note"
+msgstr[1] "Notes"
+
+msgctxt "global"
+msgid "Reservation"
+msgid_plural "Reservations"
+msgstr[0] "Réservation"
+msgstr[1] "Réservations"
+
+msgctxt "global"
+msgid "Domain"
+msgid_plural "Domains"
+msgstr[0] "Domaine"
+msgstr[1] "Domaines"
+
+#. lock fields to automatically not update by inventory FusionInventory
+msgctxt "inventory device"
+msgid "Lock"
+msgid_plural "Locks"
+msgstr[0] "Verrou"
+msgstr[1] "Verrous"
+
+msgctxt "global"
+msgid "Appliance"
+msgid_plural "Appliances"
+msgstr[0] "Appliance"
+msgstr[1] "Appliances"
+
+msgctxt "inventory device"
+msgid "Import information"
+msgstr "Information d'import"
+
+msgctxt "memory device"
+msgid "Slot"
+msgstr "Slot"
+
+msgctxt "sso"
+msgid "SSO"
+msgid_plural "SSOs"
+msgstr[0] "SSO"
+msgstr[1] "SSO"
+
+msgctxt "sso"
+msgid "Scopes"
+msgstr "Scopes"
+
+#. Title of options page
+msgctxt "sso"
+msgid "Options"
+msgstr "Options"
+
+msgctxt "global"
+msgid "As child of"
+msgstr "Comme enfant de"
+
+msgctxt "global"
+msgid "Title"
+msgstr "Titre"
+
+msgctxt "user parameter"
+msgid "Login"
+msgstr "Login"
+
+msgctxt "user parameter"
+msgid "Last name"
+msgstr "Nom de famille"
+
+msgctxt "user parameter"
+msgid "Valid since"
+msgstr "Valable depuis"
+
+msgctxt "user parameter"
+msgid "Valid until"
+msgstr ""
+
+msgctxt "user parameter"
+msgid "Phone number"
+msgid_plural "Phone numbers"
+msgstr[0] "Numéro de téléphone"
+msgstr[1] "Numéros de téléphone"
+
+msgctxt "user parameter"
+msgid "Second phone number"
+msgstr "Second numéro de téléphone"
+
+msgctxt "user parameter"
+msgid "Mobile phone number"
+msgstr "Numéro de téléphone mobile"
+
+msgctxt "user parameter"
+msgid "Administrative number"
+msgstr ""
+
+msgctxt "profile"
+msgid "Default profile"
+msgstr "Profile par défaut"
+
+msgctxt "user parameter"
+msgid "Default group"
+msgstr "Groupe par défaut"
+
+msgctxt "user parameter"
+msgid "Default entity"
+msgstr "Entité par défaut"
+
+msgctxt "LDAP parameter"
+msgid "User DN"
+msgstr "utilisateur (user) DN"
+
+msgctxt "LDAP parameter"
+msgid "Deleted user in LDAP directory"
+msgstr "Utilisateur supprimé de l'annuaire LDAP"
+
+msgctxt "user parameter"
+msgid "Personal token"
+msgstr "Token personnel"
+
+msgctxt "user parameter"
+msgid "API token"
+msgstr "Token d'API"
+
+msgctxt "user parameter"
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+msgctxt "user parameter"
+msgid "New password (verification)"
+msgstr "Nouveau mot de passe (vérification)"
+
+#. synchronization with LDAP
+msgctxt "user parameter"
+msgid "Synchronization field"
+msgstr "Champ de synchronisation"
+
+#. synchronization with LDAP
+msgctxt "user parameter"
+msgid "Last synchronization"
+msgstr "Dernière synchronisation"
+
+msgctxt "user parameter"
+msgid "Last login"
+msgstr "Dernière connexion"
+
+msgctxt "user parameter"
+msgid "Authorization"
+msgid_plural "Authorizations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Settings"
+msgstr ""
+
+msgctxt "user"
+msgid "Used items"
+msgstr ""
+
+msgctxt "user"
+msgid "Managed items"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Created tickets"
+msgstr ""
+
+#. ITIL problem title
+msgctxt "problem"
+msgid "Problem"
+msgid_plural "Problems"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ITIL change title
+msgctxt "change"
+msgid "Change"
+msgid_plural "Changes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "user"
+msgid "Synchronization"
+msgstr ""
+
+msgctxt "change status"
+msgid "New"
+msgstr "Nouveau"
+
+msgctxt "change status"
+msgid "Processing (assigned)"
+msgstr "En cours (assigné)"
+
+msgctxt "change status"
+msgid "Processing (planned)"
+msgstr "En cours (planifié)"
+
+msgctxt "change status"
+msgid "Pending"
+msgstr "En attente"
+
+msgctxt "change status"
+msgid "Solved"
+msgstr "Résolu"
+
+msgctxt "change status"
+msgid "Closed"
+msgstr "Clos"
+
+msgctxt "ITIL urgency"
+msgid "Very high"
+msgstr "Très élevé"
+
+msgctxt "ITIL urgency"
+msgid "High"
+msgstr "Elevé"
+
+msgctxt "ITIL urgency"
+msgid "Medium"
+msgstr "Moyen"
+
+msgctxt "ITIL urgency"
+msgid "Low"
+msgstr "Faible"
+
+msgctxt "ITIL urgency"
+msgid "Very low"
+msgstr "Très faible"
+
+msgctxt "ITIL impact"
+msgid "Very high"
+msgstr "Très élevé"
+
+msgctxt "ITIL impact"
+msgid "High"
+msgstr "Elevé"
+
+msgctxt "ITIL impact"
+msgid "Medium"
+msgstr "Moyen"
+
+msgctxt "ITIL impact"
+msgid "Low"
+msgstr "Faible"
+
+msgctxt "ITIL impact"
+msgid "Very low"
+msgstr "Très faible"
+
+msgctxt "ITIL priority"
+msgid "Major"
+msgstr "Majeur"
+
+msgctxt "ITIL priority"
+msgid "Very high"
+msgstr "Très élevé"
+
+msgctxt "ITIL priority"
+msgid "High"
+msgstr "Elevé"
+
+msgctxt "ITIL priority"
+msgid "Medium"
+msgstr "Moyen"
+
+msgctxt "ITIL priority"
+msgid "Low"
+msgstr "Faible"
+
+msgctxt "ITIL priority"
+msgid "Very low"
+msgstr "Très faible"
+
+#. time & datetime, example: 4 days 8h05
+msgctxt "global"
+msgid "%1$d day %2$dh%3$s"
+msgid_plural "%1$d days %2$dh%3$s"
+msgstr[0] "%1$d jour %2$dh%3$s"
+msgstr[1] "%1$d jours %2$dh%3$s"
+
+#. time & datetime, example: 44 days
+msgctxt "global"
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d jour"
+msgstr[1] "%d jours"
+
+#. time & datetime, example: 22h06
+msgctxt "global"
+msgid "%1$dh%2$s"
+msgstr "%1$dh%2$s"
+
+msgctxt "ITIL"
+msgid "Impacts"
+msgstr "Impacts"
+
+msgctxt "ITIL"
+msgid "Control list"
+msgstr "Liste de contrôle"
+
+msgctxt "change"
+msgid "Deployment plan"
+msgstr "Plan de déploiement"
+
+msgctxt "change"
+msgid "Backup plan"
+msgstr "Plan de secours"
+
+msgctxt "change"
+msgid "Checklist"
+msgstr "Liste de vérifications"
+
+msgctxt "change"
+msgid "Processing change"
+msgstr "Changement en cours"
+
+msgctxt "ITIL"
+msgid "Analysis"
+msgstr "Analyse"
+
+msgctxt "change"
+msgid "Plans"
+msgstr "Plans"
+
+msgctxt "ITIL"
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgctxt "ITIL"
+msgid "Approval"
+msgid_plural "Approvals"
+msgstr[0] "Approbation"
+msgstr[1] "Approbations"
+
+msgctxt "ticket"
+msgid "Ticket"
+msgid_plural "Tickets"
+msgstr[0] "Ticket"
+msgstr[1] "Tickets"
+
+msgctxt "global"
+msgid "Cost"
+msgid_plural "Costs"
+msgstr[0] "Coût"
+msgstr[1] "Coûts"
+
+msgctxt "global"
+msgid "Project"
+msgid_plural "Projects"
+msgstr[0] "Projet"
+msgstr[1] "Projets"
+
+msgctxt "global"
+msgid "Status"
+msgstr "Statut"
+
+msgctxt "ITIL"
+msgid "Urgency"
+msgstr "Urgence"
+
+msgctxt "ITIL"
+msgid "Impact"
+msgstr "Impact"
+
+msgctxt "ITIL"
+msgid "Priority"
+msgstr "Priorité"
+
+msgctxt "ITIL"
+msgid "Opening date"
+msgstr "Date d'ouverture"
+
+msgctxt "ITIL"
+msgid "Closing date"
+msgstr "Date de fermeture"
+
+msgctxt "ITIL"
+msgid "Time to resolve"
+msgstr "Temps pour résoudre"
+
+msgctxt "ITIL"
+msgid "Resolution date"
+msgstr "Date de résolution"
+
+msgctxt "ITIL"
+msgid "Total duration"
+msgstr "Durée totale"
+
+msgctxt "ITIL"
+msgid "Last edit by"
+msgstr "Dernière modification par"
+
+msgctxt "ITIL"
+msgid "Writer"
+msgstr "Auteur"
+
+msgctxt "global"
+msgid "Analysis impact"
+msgstr "Analyse d'impact"
+
+msgctxt "ticket"
+msgid "Type"
+msgid_plural "Types"
+msgstr[0] "Type"
+msgstr[1] "Types"
+
+msgctxt "ticket"
+msgid "Time to resolve exceeded"
+msgstr "Temps de résolution dépassé"
+
+msgctxt "ITIL"
+msgid "Requester"
+msgid_plural "Requesters"
+msgstr[0] "Demandeur"
+msgstr[1] "Demandeurs"
+
+msgctxt "ITIL"
+msgid "Requester group"
+msgid_plural "Requester groups"
+msgstr[0] "Groupe demandeur"
+msgstr[1] "Groupes demandeur"
+
+msgctxt "ITIL"
+msgid "Watcher"
+msgid_plural "Watchers"
+msgstr[0] "Observateur"
+msgstr[1] "Observateurs"
+
+msgctxt "ITIL"
+msgid "Watcher group"
+msgid_plural "Watcher groups"
+msgstr[0] "Groupe observateur"
+msgstr[1] "Groupes observateur"
+
+msgctxt "ITIL"
+msgid "Technician"
+msgstr "Technicien"
+
+msgctxt "ITIL"
+msgid "Technician group"
+msgstr "Groupe de technicien"
+
+msgctxt "ITIL"
+msgid "Followup"
+msgid_plural "Followups"
+msgstr[0] "Suivi"
+msgstr[1] "Suivis"
+
+msgctxt "ticket type"
+msgid "Incident"
+msgstr "Incident"
+
+msgctxt "ticket type"
+msgid "Request"
+msgstr "Demande"
+
+msgctxt "ticket status"
+msgid "New"
+msgstr "Nouveau"
+
+msgctxt "ticket status"
+msgid "Processing (assigned)"
+msgstr "En cours (assigné)"
+
+msgctxt "ticket status"
+msgid "Processing (planned)"
+msgstr "En cours (planifié)"
+
+msgctxt "ticket status"
+msgid "Pending"
+msgstr "En attente"
+
+msgctxt "ticket status"
+msgid "Solved"
+msgstr "Résolu"
+
+msgctxt "ticket status"
+msgid "Closed"
+msgstr "Clos"
+
+msgctxt "project"
+msgid "Project task"
+msgid_plural "Project tasks"
+msgstr[0] "Tâche de projet"
+msgstr[1] "Tâches de projet"
+
+msgctxt "category"
+msgid "Code representing the ticket category"
+msgstr "Code représentant la catégorie de ticket"
+
+msgctxt "category"
+msgid "Visible in the simplified interface"
+msgstr "Visible dans l'interface simplifiée"
+
+msgctxt "category"
+msgid "Visible for an incident"
+msgstr "Visible pour un incident"
+
+msgctxt "category"
+msgid "Visible for a request"
+msgstr "Visible pour une demande"
+
+msgctxt "category"
+msgid "Visible for a problem"
+msgstr "Visible pour un problème"
+
+msgctxt "category"
+msgid "Visible for a change"
+msgstr "Visible pour un changement"
+
+msgctxt "category"
+msgid "Template for a request"
+msgstr "Gabarit pour une demande"
+
+msgctxt "category"
+msgid "Template for an incident"
+msgstr "Gabarit pour un incident"
+
+msgctxt "category"
+msgid "Template for a change"
+msgstr "Gabarit pour un changement"
+
+msgctxt "category"
+msgid "Template for a problem"
+msgstr "Gabarit pour un problème"
+
+msgctxt "category"
+msgid "Visible for a knowledge"
+msgstr ""
+
+msgctxt "category"
+msgid "Visible for a form"
+msgstr "Visible pour un formulaire"
+
+msgctxt "category"
+msgid "Category"
+msgid_plural "Categories"
+msgstr[0] "Catégorie"
+msgstr[1] "Catégories"
+
+#. size unit
+msgctxt "global"
+msgid "o"
+msgstr "o"
+
+#. size unit
+msgctxt "global"
+msgid "Kio"
+msgstr "Kio"
+
+#. size unit
+msgctxt "global"
+msgid "Mio"
+msgstr "Mio"
+
+#. size unit
+msgctxt "global"
+msgid "Gio"
+msgstr "Gio"
+
+#. size unit
+msgctxt "global"
+msgid "Tio"
+msgstr "Tio"
+
+#. for display like: 10 (Mio)
+msgctxt "global"
+msgid "%1$s (%2$s)"
+msgstr "%1$s (%2$s)"
+
+msgctxt "global"
+msgid "Size"
+msgstr "Taille"
+
+#. Rotations per Minute
+msgctxt "global"
+msgid "RPM"
+msgstr "RPM"
+
+msgctxt "global"
+msgid "Cache"
+msgstr "Cache"
+
+msgctxt "inventory device"
+msgid "Interface"
+msgstr "Interface"
+
+msgctxt "inventory device"
+msgid "Storage type"
+msgstr "Type de stockage"
+
+msgctxt "global"
+msgid "Storage"
+msgid_plural "Storages"
+msgstr[0] "Stockage"
+msgstr[1] "Stockages"
+
+msgctxt "storage type"
+msgid "Unknown"
+msgstr "Inconnu"
+
+msgctxt "storage type"
+msgid "Hard Disk Drive"
+msgstr "Disque dur"
+
+msgctxt "storage type"
+msgid "Floppy disk"
+msgstr "Disquette"
+
+msgctxt "storage type"
+msgid "Optical disk"
+msgstr "Disque optique"
+
+msgctxt "storage type"
+msgid "Flash drive"
+msgstr "Disque flash"
+
+msgctxt "storage type"
+msgid "Tape"
+msgstr "Bande"
+
+msgctxt "inventory device"
+msgid "Automatically inventoried"
+msgstr "Inventorié automatiquement"
+
+msgctxt "inventory device"
+msgid "Last automatic inventory"
+msgstr "Dernier inventaire automatique"
+
+#. week day
+msgctxt "global"
+msgid "Sunday"
+msgstr "Dimanche"
+
+#. week day
+msgctxt "global"
+msgid "Monday"
+msgstr "Lundi"
+
+#. week day
+msgctxt "global"
+msgid "Tuesday"
+msgstr "Mardi"
+
+#. week day
+msgctxt "global"
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#. week day
+msgctxt "global"
+msgid "Thursday"
+msgstr "Jeudi"
+
+#. week day
+msgctxt "global"
+msgid "Friday"
+msgstr "Vendredi"
+
+#. week day
+msgctxt "global"
+msgid "Saturday"
+msgstr "Samedi"
+
+#. Month name
+msgctxt "global"
+msgid "January"
+msgstr "Janvier"
+
+#. Month name
+msgctxt "global"
+msgid "February"
+msgstr "Février"
+
+#. Month name
+msgctxt "global"
+msgid "March"
+msgstr "Mars"
+
+#. Month name
+msgctxt "global"
+msgid "April"
+msgstr "Avril"
+
+#. Month name
+msgctxt "global"
+msgid "May"
+msgstr "Mai"
+
+#. Month name
+msgctxt "global"
+msgid "June"
+msgstr "Juin"
+
+#. Month name
+msgctxt "global"
+msgid "July"
+msgstr "Juillet"
+
+#. Month name
+msgctxt "global"
+msgid "August"
+msgstr "Août"
+
+#. Month name
+msgctxt "global"
+msgid "September"
+msgstr "Septembre"
+
+#. Month name
+msgctxt "global"
+msgid "October"
+msgstr "Octobre"
+
+#. Month name
+msgctxt "global"
+msgid "November"
+msgstr "Novembre"
+
+#. Month name
+msgctxt "global"
+msgid "December"
+msgstr "Décembre"
+
+#. Time units
+msgctxt "global"
+msgid "%s year"
+msgid_plural "%s years"
+msgstr[0] "%s année"
+msgstr[1] "%s années"
+
+#. Time units
+msgctxt "global"
+msgid "%s month"
+msgid_plural "%s months"
+msgstr[0] "%s mois"
+msgstr[1] "%s mois"
+
+#. Time units
+msgctxt "global"
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] "%s jour"
+msgstr[1] "%s jours"
+
+#. Time units
+msgctxt "global"
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] "%s heure"
+msgstr[1] "%s heures"
+
+#. Time units
+msgctxt "global"
+msgid "%s minute"
+msgid_plural "%s minutes"
+msgstr[0] "%s minute"
+msgstr[1] "%s minutes"
+
+#. Time units
+msgctxt "global"
+msgid "%s second"
+msgid_plural "%s seconds"
+msgstr[0] "%s seconde"
+msgstr[1] "%s secondes"
+
+#. Time units
+msgctxt "global"
+msgid "%s millisecond"
+msgid_plural "%s milliseconds"
+msgstr[0] "%s milliseconde"
+msgstr[1] "%s millisecondes"
+
+#. Percentage, like: 10%
+msgctxt "global"
+msgid "%s%%"
+msgstr "%s%%"
+
+#. number + units
+msgctxt "global"
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+msgctxt "location"
+msgid "Address"
+msgstr "Adresse"
+
+msgctxt "location"
+msgid "Postal code"
+msgstr "Code postal"
+
+msgctxt "location"
+msgid "Town"
+msgstr "Ville"
+
+msgctxt "location"
+msgid "State"
+msgstr "Etat"
+
+msgctxt "location"
+msgid "Country"
+msgstr "Pays"
+
+msgctxt "location"
+msgid "Building number"
+msgstr "Numéro de bâtiment"
+
+msgctxt "location"
+msgid "Room number"
+msgstr "Numéro de pièce"
+
+msgctxt "location"
+msgid "Latitude"
+msgstr "Latitude"
+
+msgctxt "location"
+msgid "Longitude"
+msgstr "Longitude"
+
+msgctxt "location"
+msgid "Altitude"
+msgstr "Altitude"
+
+msgctxt "inventory device"
+msgid "Network outlet"
+msgid_plural "Network outlets"
+msgstr[0] "Prise réseau"
+msgstr[1] "Prises réseau"
+
+msgctxt "inventory device"
+msgid "Microphone"
+msgstr "Microphone"
+
+msgctxt "inventory device"
+msgid "Speakers"
+msgstr "Haut parleur"
+
+msgctxt "inventory device"
+msgid "Sub-D"
+msgstr "Sub-D"
+
+msgctxt "inventory device"
+msgid "BNC"
+msgstr "BNC"
+
+msgctxt "inventory device"
+msgid "DVI"
+msgstr "DVI"
+
+msgctxt "inventory device"
+msgid "Pivot"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "HDMI"
+msgstr "HDMI"
+
+msgctxt "inventory device"
+msgid "DisplayPort"
+msgstr "DisplayPort"
+
+msgctxt "inventory device"
+msgid "Global management"
+msgstr "Gestion globale"
+
+msgctxt "inventory device"
+msgid "Monitor"
+msgid_plural "Monitors"
+msgstr[0] "Moniteur"
+msgstr[1] "Moniteurs"
+
+msgctxt "printer"
+msgid "Serial port"
+msgstr "Port série"
+
+msgctxt "printer"
+msgid "Parallel port"
+msgstr "Port parallèle"
+
+msgctxt "printer"
+msgid "USB port"
+msgstr "Port USB"
+
+msgctxt "printer"
+msgid "Ethernet port"
+msgstr "Port réseau"
+
+msgctxt "printer"
+msgid "Wifi connection"
+msgstr "Connexion wifi"
+
+msgctxt "inventory device"
+msgid "Memory size"
+msgstr "Taille de la mémoire"
+
+msgctxt "printer"
+msgid "Initial page counter"
+msgstr "Compteur de page initial"
+
+msgctxt "printer"
+msgid "Current counter of pages"
+msgstr "Nombre de pages actuel"
+
+msgctxt "global"
+msgid "Cartridge"
+msgid_plural "Cartridges"
+msgstr[0] "Cartouche"
+msgstr[1] "Cartouches"
+
+msgctxt "location"
+msgid "City"
+msgstr "Ville"
+
+msgctxt "global"
+msgid "Website"
+msgstr "Site internet"
+
+msgctxt "global"
+msgid "Fax"
+msgstr "Fax"
+
+msgctxt "global"
+msgid "Email"
+msgid_plural "Emails"
+msgstr[0] "Email"
+msgstr[1] "Emails"
+
+msgctxt "supplier"
+msgid "Third party type"
+msgid_plural "Third party types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Supplier"
+msgid_plural "Suppliers"
+msgstr[0] "Fournisseur"
+msgstr[1] "Fournisseurs"
+
+msgctxt "global"
+msgid "Contact"
+msgid_plural "Contacts"
+msgstr[0] "Contact"
+msgstr[1] "Contacts"
+
+msgctxt "document"
+msgid "File"
+msgstr "Fichier"
+
+msgctxt "document"
+msgid "Web link"
+msgstr "Lien web"
+
+msgctxt "document"
+msgid "Heading"
+msgstr ""
+
+msgctxt "document"
+msgid "MIME type"
+msgstr "Type MIME"
+
+msgctxt "document"
+msgid "Tag"
+msgstr "Tag"
+
+msgctxt "rule condition"
+msgid "is"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "is not"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "contains"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "does not contains"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "starting with"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "finished by"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "regular expression matches"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "regular expression does not match"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "exists"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "does not exist"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "is under"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "is not under"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "is empty"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "assign"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "append"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "assign regex result"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "append regex result"
+msgstr ""
+
+msgctxt "profile"
+msgid "Profile's interface"
+msgstr ""
+
+msgctxt "profile"
+msgid "Ticket creation form on login"
+msgstr ""
+
+msgctxt "profile"
+msgid "Standard interface"
+msgstr ""
+
+msgctxt "profile"
+msgid "Simplified interface"
+msgstr ""
+
+msgctxt "global"
+msgid "Profile"
+msgid_plural "Profiles"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Form"
+msgid_plural "Forms"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "profile"
+msgid "Assets"
+msgstr ""
+
+msgctxt "profile"
+msgid "Assistance"
+msgstr ""
+
+msgctxt "profile"
+msgid "Tools"
+msgstr ""
+
+msgctxt "profile"
+msgid "Administration"
+msgstr ""
+
+msgctxt "profile"
+msgid "Setup"
+msgstr ""
+
+msgctxt "notification"
+msgid "Subject"
+msgstr ""
+
+msgctxt "notification"
+msgid "Expected send date"
+msgstr ""
+
+msgctxt "notification"
+msgid "Send date"
+msgstr ""
+
+msgctxt "notification"
+msgid "Number of tries of sent"
+msgstr ""
+
+msgctxt "notification"
+msgid "Sender email"
+msgstr ""
+
+msgctxt "notification"
+msgid "Sender name"
+msgstr ""
+
+msgctxt "notification"
+msgid "Recipient email"
+msgstr ""
+
+msgctxt "notification"
+msgid "Recipient name"
+msgstr ""
+
+msgctxt "notification"
+msgid "Reply-to email"
+msgstr ""
+
+msgctxt "notification"
+msgid "Reply-to name"
+msgstr ""
+
+msgctxt "notification"
+msgid "Additional headers"
+msgstr ""
+
+msgctxt "notification"
+msgid "Message ID"
+msgstr ""
+
+msgctxt "notification"
+msgid "Email HTML body"
+msgstr ""
+
+msgctxt "notification"
+msgid "Email text body"
+msgstr ""
+
+msgctxt "notification"
+msgid "Notification template"
+msgid_plural "Notification templates"
+msgstr[0] "Gabarit de notification"
+msgstr[1] "Gabarits de notification"
+
+msgctxt "button"
+msgid "Attach"
+msgstr "Attacher"
+
+msgctxt "button"
+msgid "Create"
+msgstr "Créer"
+
+msgctxt "button"
+msgid "Save"
+msgstr "Sauvegarder"
+
+msgctxt "button"
+msgid "New"
+msgstr "Nouveau"
+
+msgctxt "global"
+msgid "Or"
+msgstr "Ou"
+
+msgctxt "global"
+msgid "And"
+msgstr ""
+
+msgctxt "problem"
+msgid "Attach to an existant problem"
+msgstr "Attacher à un problème existant"
+
+msgctxt "problem"
+msgid "Select problem..."
+msgstr "Sélectionner le problème..."
+
+msgctxt "problem"
+msgid "Add new problem"
+msgstr "Ajouter un nouveau problème"
+
+msgctxt "problem"
+msgid "Problems attached"
+msgstr "Problèmes attachés"
+
+msgctxt "calendar"
+msgid "Start"
+msgstr "Démarrer"
+
+msgctxt "calendar"
+msgid "End"
+msgstr "Finir"
+
+msgctxt "calendar"
+msgid "Recurrent"
+msgstr "Récurrent"
+
+msgctxt "calendar"
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] "Jour"
+msgstr[1] "Jours"
+
+msgctxt "calendar"
+msgid "Planning"
+msgstr "Planning"
+
+msgctxt "reminder status"
+msgid "Information"
+msgid_plural "Information"
+msgstr[0] "Information"
+msgstr[1] "Informations"
+
+msgctxt "reminder status"
+msgid "To do"
+msgstr "A faire"
+
+msgctxt "reminder status"
+msgid "Done"
+msgstr "Terminé"
+
+msgctxt "reminder"
+msgid "Visibility start date"
+msgstr "Date de début de visibilité"
+
+msgctxt "reminder"
+msgid "Visibility end date"
+msgstr "Date de fin de visibilité"
+
+msgctxt "reminder"
+msgid "Planning start date"
+msgstr "Date de début de planning"
+
+msgctxt "reminder"
+msgid "Planning end date"
+msgstr "Date de fin de planning"
+
+msgctxt "global"
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] "%d mois"
+msgstr[1] "%d mois"
+
+msgctxt "contract"
+msgid "Contract type"
+msgid_plural "Contract types"
+msgstr[0] "Type de contrat"
+msgstr[1] "Types de contrat"
+
+msgctxt "global"
+msgid "Start date"
+msgstr "Date de début"
+
+msgctxt "contract"
+msgid "Initial contract period"
+msgstr "Période initiale de contrat"
+
+#. capacity in mWh
+msgctxt "battery"
+msgid "Capacity"
+msgstr "Capacité"
+
+msgctxt "battery"
+msgid "mWh"
+msgstr "mWh"
+
+msgctxt "battery"
+msgid "Voltage"
+msgstr "Voltage"
+
+#. unit, millivolt
+msgctxt "battery"
+msgid "mV"
+msgstr "mV"
+
+msgctxt "global"
+msgid "Battery"
+msgid_plural "Batteries"
+msgstr[0] "Batterie"
+msgstr[1] "Batteries"
+
+msgctxt "global"
+msgid "Data center"
+msgid_plural "Data centers"
+msgstr[0] "Data center"
+msgstr[1] "Data centers"
+
+msgctxt "global"
+msgid "Network device"
+msgid_plural "Network devices"
+msgstr[0] "Equipement réseau"
+msgstr[1] "Equipements réseau"
+
+msgctxt "global"
+msgid "Peripheral"
+msgid_plural "Peripherals"
+msgstr[0] "Périphérique"
+msgstr[1] "Périphériques"
+
+msgctxt "global"
+msgid "Phone"
+msgid_plural "Phones"
+msgstr[0] "Téléphone"
+msgstr[1] "Téléphones"
+
+msgctxt "global"
+msgid "Consumable"
+msgid_plural "Consumables"
+msgstr[0] "Consommable"
+msgstr[1] "Consommables"
+
+msgctxt "global"
+msgid "Rack"
+msgid_plural "Racks"
+msgstr[0] "Baie"
+msgstr[1] "Baies"
+
+msgctxt "global"
+msgid "Enclosure"
+msgid_plural "Enclosures"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "PDU"
+msgid_plural "PDUs"
+msgstr[0] "PDU"
+msgstr[1] "PDUs"
+
+msgctxt "global"
+msgid "Passive device"
+msgid_plural "Passive devices"
+msgstr[0] "Matériel passif"
+msgstr[1] "Matériels passif"
+
+msgctxt "global"
+msgid "SIM card"
+msgid_plural "SIM cards"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Cluster"
+msgid_plural "Clusters"
+msgstr[0] "Cluster"
+msgstr[1] "Clusters"
+
+msgctxt "global"
+msgid "License"
+msgid_plural "Licenses"
+msgstr[0] "Licence"
+msgstr[1] "Licences"
+
+msgctxt "global"
+msgid "Budget"
+msgid_plural "Budgets"
+msgstr[0] "Budget"
+msgstr[1] "Budgets"
+
+msgctxt "global"
+msgid "Line"
+msgid_plural "Lines"
+msgstr[0] "Ligne"
+msgstr[1] "Lignes"
+
+msgctxt "global"
+msgid "Power supply"
+msgid_plural "Power supplies"
+msgstr[0] "Alimentation de l'ordinateur"
+msgstr[1] "Alimentations de l'ordinateur"
+
+msgctxt "global"
+msgid "Case"
+msgid_plural "Cases"
+msgstr[0] "Boitier"
+msgstr[1] "Boitiers"
+
+msgctxt "global"
+msgid "Sensor"
+msgid_plural "Sensors"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Graphics card"
+msgid_plural "Graphics cards"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "System board"
+msgid_plural "System boards"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Network card"
+msgid_plural "Network cards"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Sound card"
+msgid_plural "Sound cards"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Generic device"
+msgid_plural "Generic devices"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Controller"
+msgid_plural "Controllers"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Drive"
+msgid_plural "Drives"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Memory"
+msgid_plural "Memory"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Processor"
+msgid_plural "Processors"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "PCI device"
+msgid_plural "PCI devices"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Receiver"
+msgid_plural "Receivers"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Service level"
+msgid_plural "Service levels"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Section"
+msgid_plural "Sections"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Question"
+msgid_plural "Questions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Saved search"
+msgid_plural "Saved searches"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Audit"
+msgid_plural "Audits"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Notification"
+msgid_plural "Notifications"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Alert"
+msgid_plural "Alerts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "RSS feed"
+msgid_plural "RSS feed"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Automatic action"
+msgid_plural "Automatic actions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Knowledge base article"
+msgid_plural "Knowledge base articles"
+msgstr[0] "Article de base de connaissance"
+msgstr[1] "Articles de base de connaissance"
+
+msgctxt "global"
+msgid "Status of items"
+msgid_plural "Statuses of items"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Blacklist"
+msgid_plural "Blacklists"
+msgstr[0] "Liste noire"
+msgstr[1] "Listes noire"
+
+msgctxt "global"
+msgid "Category"
+msgid_plural "Categories"
+msgstr[0] "Catégorie"
+msgstr[1] "Catégories"
+
+msgctxt "global"
+msgid "Ticket template"
+msgid_plural "Ticket templates"
+msgstr[0] "Gabarit de ticket"
+msgstr[1] "Gabarits de ticket"
+
+msgctxt "global"
+msgid "Solution type"
+msgid_plural "Solution types"
+msgstr[0] "Type de solution"
+msgstr[1] "Types de solution"
+
+msgctxt "global"
+msgid "Solution template"
+msgid_plural "Solution templates"
+msgstr[0] "Gabarit de solution"
+msgstr[1] "Gabarits de solution"
+
+msgctxt "global"
+msgid "Request source"
+msgid_plural "Request sources"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Followup template"
+msgid_plural "Followup templates"
+msgstr[0] "Gabarit de suivi"
+msgstr[1] "Gabarits de suivi"
+
+msgctxt "global"
+msgid "Project state"
+msgid_plural "Project states"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Project type"
+msgid_plural "Project types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Project task type"
+msgid_plural "Project task types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Project task template"
+msgid_plural "Project task templates"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Event category"
+msgid_plural "Event categories"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "External events template"
+msgid_plural "External events templates"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Computer type"
+msgid_plural "Computer types"
+msgstr[0] "Type d'ordinateur"
+msgstr[1] "Types d'ordinateur"
+
+msgctxt "global"
+msgid "Networking equipment type"
+msgid_plural "Networking equipment types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Printer type"
+msgid_plural "Printer types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Monitor type"
+msgid_plural "Monitor types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Peripheral type"
+msgid_plural "Peripheral types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Phone type"
+msgid_plural "Phone types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "License type"
+msgid_plural "License types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Cartridge type"
+msgid_plural "Cartridge types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Consumable type"
+msgid_plural "Consumable types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Contact type"
+msgid_plural "Contact types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Generic type"
+msgid_plural "Generic types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Sensor type"
+msgid_plural "Sensor types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Memory type"
+msgid_plural "Memory types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Case type"
+msgid_plural "Case types"
+msgstr[0] "Type de boitier"
+msgstr[1] "Types de boitier"
+
+msgctxt "global"
+msgid "Phone power supply type"
+msgid_plural "Phone power supply types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "File system"
+msgid_plural "File systems"
+msgstr[0] "Système de fichiers"
+msgstr[1] "Systèmes de fichiers"
+
+msgctxt "global"
+msgid "Certificate type"
+msgid_plural "Certificate types"
+msgstr[0] "Type de certificat"
+msgstr[1] "Types de certificat"
+
+msgctxt "global"
+msgid "Budget type"
+msgid_plural "Budget types"
+msgstr[0] "Type de budget"
+msgstr[1] "Types de budget"
+
+msgctxt "global"
+msgid "SIM card type"
+msgid_plural "SIM card types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Line type"
+msgid_plural "Line types"
+msgstr[0] "Type de ligne"
+msgstr[1] "Types de ligne"
+
+msgctxt "global"
+msgid "Rack type"
+msgid_plural "Rack types"
+msgstr[0] "Type de baie"
+msgstr[1] "Types de baie"
+
+msgctxt "global"
+msgid "PDU type"
+msgid_plural "PDU types"
+msgstr[0] "Type de PDU"
+msgstr[1] "Types de PDU"
+
+msgctxt "global"
+msgid "PDU plug"
+msgid_plural "PDU plugs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Passive device type"
+msgid_plural "Passive device types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Cluster type"
+msgid_plural "Cluster types"
+msgstr[0] "Type de cluster"
+msgstr[1] "Types de cluster"
+
+msgctxt "global"
+msgid "Computer model"
+msgid_plural "Computer models"
+msgstr[0] "Modèle d'ordinateur"
+msgstr[1] "Modèles d'ordinateur"
+
+msgctxt "global"
+msgid "Networking equipment model"
+msgid_plural "Networking equipment models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Printer model"
+msgid_plural "Printer models"
+msgstr[0] "Modèle d'imprimante"
+msgstr[1] "Modèles d'imprimante"
+
+msgctxt "global"
+msgid "Monitor model"
+msgid_plural "Monitor models"
+msgstr[0] "Modèle de moniteur"
+msgstr[1] "Modèles de moniteur"
+
+msgctxt "global"
+msgid "Peripheral model"
+msgid_plural "Peripheral models"
+msgstr[0] "Modèle de périphérique"
+msgstr[1] "Modèles de périphérique"
+
+msgctxt "global"
+msgid "Phone model"
+msgid_plural "Phone models"
+msgstr[0] "Modèle de téléphone"
+msgstr[1] "Modèles de téléphone"
+
+msgctxt "global"
+msgid "Device case model"
+msgid_plural "Device case models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device control model"
+msgid_plural "Device control models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device drive model"
+msgid_plural "Device drive models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device generic model"
+msgid_plural "Device generic models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device graphic card model"
+msgid_plural "Device graphic card models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Memory model"
+msgid_plural "Memory models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "System board model"
+msgid_plural "System board models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Network card model"
+msgid_plural "Network card models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Other component model"
+msgid_plural "Other component models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device power supply model"
+msgid_plural "Device power supply models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device processor model"
+msgid_plural "Device processor models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device sound card model"
+msgid_plural "Device sound card models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device sensor model"
+msgid_plural "Device sensor models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Rack model"
+msgid_plural "Rack models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Enclosure model"
+msgid_plural "Enclosure models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "PDU model"
+msgid_plural "PDU models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Passive device model"
+msgid_plural "Passive device models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Virtualization system"
+msgid_plural "Virtualization systems"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Virtualization model"
+msgid_plural "Virtualization models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "State of the virtual machine"
+msgid_plural "States of the virtual machine"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Document heading"
+msgid_plural "Document headings"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Document type"
+msgid_plural "Document types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Business criticity"
+msgid_plural "Business criticities"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Calendar"
+msgid_plural "Calendars"
+msgstr[0] "Calendrier"
+msgstr[1] "Calendriers"
+
+msgctxt "global"
+msgid "Close time"
+msgid_plural "Close times"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Service pack"
+msgid_plural "Service packs"
+msgstr[0] "Service pack"
+msgstr[1] "Service packs"
+
+msgctxt "global"
+msgid "Edition"
+msgid_plural "Editions"
+msgstr[0] "Edition"
+msgstr[1] "Editions"
+
+msgctxt "global"
+msgid "Kernel"
+msgid_plural "Kernels"
+msgstr[0] "Kernel"
+msgstr[1] "Kernels"
+
+msgctxt "global"
+msgid "Kernel version"
+msgid_plural "Kernel versions"
+msgstr[0] "Version de kernel"
+msgstr[1] "Versions de kernel"
+
+msgctxt "global"
+msgid "Network interface"
+msgid_plural "Network interfaces"
+msgstr[0] "Interface réseau"
+msgstr[1] "Interfaces réseau"
+
+msgctxt "global"
+msgid "VLAN"
+msgid_plural "VLANs"
+msgstr[0] "VLAN"
+msgstr[1] "VLANs"
+
+msgctxt "global"
+msgid "Line operator"
+msgid_plural "Line operators"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Domain type"
+msgid_plural "Domain types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Domain relation"
+msgid_plural "Domain relations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Record type"
+msgid_plural "Record types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "IP network"
+msgid_plural "IP networks"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Internet domain"
+msgid_plural "Internet domains"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Wifi network"
+msgid_plural "Wifi networks"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Network name"
+msgid_plural "Network names"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Software category"
+msgid_plural "Software categories"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "User title"
+msgid_plural "User titles"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "User category"
+msgid_plural "User categories"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "LDAP criterion"
+msgid_plural "LDAP criteria"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Plug"
+msgid_plural "Plugs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Appliance type"
+msgid_plural "Appliance types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Appliance environment"
+msgid_plural "Appliance environments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Recurrent ticket"
+msgid_plural "Recurrent tickets"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Business rule for tickets"
+msgid_plural "Business rules for tickets"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Authentication SSO"
+msgstr ""
+
+msgctxt "global"
+msgid "Provisionning LDAP"
+msgstr ""
+
+msgctxt "global"
+msgid "Rules for users"
+msgstr ""
+
+msgctxt "global"
+msgid "Notifications queue"
+msgid_plural "Notifications queues"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Fields unicity"
+msgid_plural "Fields unicity"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Blacklisted mail content"
+msgid_plural "Blacklisted mail contents"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Interface type (Hard drive...)"
+msgid_plural "Interface types (Hard drive...)"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Version of the operating system"
+msgid_plural "Versions of the operating system"
+msgstr[0] "Version du système d'exploitation"
+msgstr[1] "Versions du système d'exploitation"
+
+msgctxt "global"
+msgid "Operating system architecture"
+msgid_plural "Operating system architectures"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Ignored value for the unicity"
+msgid_plural "Ignored values for the unicity"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Field storage of the login in the HTTP request"
+msgid_plural "Fields storage of the login in the HTTP request"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "menu"
+msgid "Dedicated space within a building"
+msgstr ""
+
+msgctxt "menu"
+msgid "Computers, servers, laptop..."
+msgstr "Ordinateurs, serveurs, ordinateurs portables..."
+
+msgctxt "menu"
+msgid "Display device for computers"
+msgstr "Matériel d'affichage pour ordinateurs"
+
+msgctxt "menu"
+msgid "Device for communication between devices on network"
+msgstr "Matériel pour la communication entre matériels sur le réseau"
+
+msgctxt "menu"
+msgid "Peripherals like webcam, keyboard, mouse..."
+msgstr "Périphériques comme des webcam, des claviers, souris..."
+
+msgctxt "menu"
+msgid "Local printer, photocopier, QRcode printer..."
+msgstr "Imprimante locale, photocopieur, imprimante QRcode..."
+
+msgctxt "menu"
+msgid "Phones, smartphones"
+msgstr "Téléphones, smartphones"
+
+msgctxt "menu"
+msgid "Cartriges for printers"
+msgstr "Cartouches pour imprimantes"
+
+msgctxt "menu"
+msgid "Consumable like USB keys, headphones..."
+msgstr "Consommable comme des clés USB, des écouteurs..."
+
+msgctxt "menu"
+msgid "cables, patch panels..."
+msgstr ""
+
+msgctxt "menu"
+msgid "List of software, version, where installed..."
+msgstr "Liste des logiciels, version, sur quoi c'est installé..."
+
+msgctxt "certificate"
+msgid "DNS suffix"
+msgstr "Suffixe DNS"
+
+msgctxt "certificate"
+msgid "DNS name"
+msgstr "Nom DNS"
+
+msgctxt "certificate"
+msgid "Self-signed"
+msgstr "Auto-signé"
+
+msgctxt "global"
+msgid "Expiration date"
+msgstr "Date d'expiration"
+
+msgctxt "certificate"
+msgid "Command used"
+msgstr "Commande utilisée"
+
+msgctxt "certificate"
+msgid "Root CA"
+msgstr "CA racine (root)"
+
+msgctxt "certificate"
+msgid "Certificate request (CSR)"
+msgstr ""
+
+msgctxt "global"
+msgid "Associated item"
+msgid_plural "Associated items"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "%1$s - %2$s"
+msgstr "%1$s - %2$s"
+
+msgctxt "global"
+msgid "Visibility"
+msgstr "Visibilité"
+
+msgctxt "global"
+msgid "Version"
+msgid_plural "Versions"
+msgstr[0] "Version"
+msgstr[1] "Versions"
+
+msgctxt "event"
+msgid "New user in requesters"
+msgstr "Nouvel utilisateur dans les demandeurs"
+
+msgctxt "event"
+msgid "New group in requesters"
+msgstr "Nouveau groupe dans les demandeurs"
+
+msgctxt "event"
+msgid "New user in observers"
+msgstr "Nouvel utilisateur dans les observateurs"
+
+msgctxt "event"
+msgid "New group in observers"
+msgstr "Nouveau groupe dans les observateurs"
+
+msgctxt "event"
+msgid "New user in assignees"
+msgstr ""
+
+msgctxt "event"
+msgid "New group in assignees"
+msgstr ""
+
+msgctxt "event"
+msgid "New supplier in assignees"
+msgstr ""
+
+msgctxt "event"
+msgid "New task"
+msgstr "Nouvelle tâche"
+
+msgctxt "event"
+msgid "Update of a task"
+msgstr "Modification d'une tâche"
+
+msgctxt "event"
+msgid "Deletion of a task"
+msgstr "Suppression d'une tâche"
+
+msgctxt "event"
+msgid "New followup"
+msgstr "Nouveau suivi"
+
+msgctxt "event"
+msgid "Update of a followup"
+msgstr "Modification d'un suivi"
+
+msgctxt "event"
+msgid "Deletion of a followup"
+msgstr "Suppression d'un suivi"
+
+msgctxt "event"
+msgid "Cartridges alarm"
+msgstr ""
+
+msgctxt "event"
+msgid "Alarms on expired certificates"
+msgstr ""
+
+msgctxt "event"
+msgid "New change"
+msgstr ""
+
+msgctxt "event"
+msgid "Update of a change"
+msgstr ""
+
+msgctxt "event"
+msgid "Change solved"
+msgstr ""
+
+msgctxt "event"
+msgid "Validation request"
+msgstr ""
+
+msgctxt "event"
+msgid "Validation request answer"
+msgstr ""
+
+msgctxt "event"
+msgid "Closure of a change"
+msgstr ""
+
+msgctxt "event"
+msgid "Deleting a change"
+msgstr ""
+
+msgctxt "event"
+msgid "Consumables alarm"
+msgstr ""
+
+msgctxt "event"
+msgid "End of contract"
+msgstr ""
+
+msgctxt "event"
+msgid "Notice"
+msgstr ""
+
+msgctxt "event"
+msgid "Periodicity"
+msgstr ""
+
+msgctxt "event"
+msgid "Periodicity notice"
+msgstr ""
+
+msgctxt "event"
+msgid "Monitoring of automatic actions"
+msgstr ""
+
+msgctxt "event"
+msgid "Desynchronization SQL replica"
+msgstr ""
+
+msgctxt "event"
+msgid "Alert on duplicate record"
+msgstr ""
+
+msgctxt "event"
+msgid "Alarms on financial and administrative information"
+msgstr ""
+
+msgctxt "event"
+msgid "Receiver errors"
+msgstr ""
+
+msgctxt "event"
+msgid "Unlock Item Request"
+msgstr ""
+
+msgctxt "event"
+msgid "Planning recall"
+msgstr ""
+
+msgctxt "event"
+msgid "New problem"
+msgstr ""
+
+msgctxt "event"
+msgid "Update of a problem"
+msgstr ""
+
+msgctxt "event"
+msgid "Closure of a problem"
+msgstr ""
+
+msgctxt "event"
+msgid "Problem solved"
+msgstr ""
+
+msgctxt "event"
+msgid "Deleting a problem"
+msgstr ""
+
+msgctxt "event"
+msgid "New project"
+msgstr ""
+
+msgctxt "event"
+msgid "Update of a project"
+msgstr ""
+
+msgctxt "event"
+msgid "Deletion of a project"
+msgstr ""
+
+msgctxt "event"
+msgid "New project task"
+msgstr ""
+
+msgctxt "event"
+msgid "Update of a project task"
+msgstr ""
+
+msgctxt "event"
+msgid "Deletion of a project task"
+msgstr ""
+
+msgctxt "event"
+msgid "New reservation"
+msgstr ""
+
+msgctxt "event"
+msgid "Update of a reservation"
+msgstr ""
+
+msgctxt "event"
+msgid "Deletion of a reservation"
+msgstr ""
+
+msgctxt "event"
+msgid "Reservation expired"
+msgstr ""
+
+msgctxt "event"
+msgid "New ticket"
+msgstr "Nouveau ticket"
+
+msgctxt "event"
+msgid "Update of a ticket"
+msgstr ""
+
+msgctxt "event"
+msgid "Ticket solved"
+msgstr ""
+
+msgctxt "event"
+msgid "Solution rejected"
+msgstr ""
+
+msgctxt "event"
+msgid "Closing of the ticket"
+msgstr ""
+
+msgctxt "event"
+msgid "Deletion of a ticket"
+msgstr ""
+
+msgctxt "event"
+msgid "Not solved tickets"
+msgstr ""
+
+msgctxt "event"
+msgid "Automatic reminders of SLAs"
+msgstr ""
+
+msgctxt "event"
+msgid "Automatic reminders of OLAs"
+msgstr ""
+
+msgctxt "event"
+msgid "Satisfaction survey"
+msgstr ""
+
+msgctxt "event"
+msgid "Satisfaction survey answer"
+msgstr ""
+
+msgctxt "event"
+msgid "Alarms on expired licenses"
+msgstr ""
+
+msgctxt "event"
+msgid "Password expires"
+msgstr ""
+
+msgctxt "event"
+msgid "Forgotten password?"
+msgstr ""
+
+msgctxt "event"
+msgid "Private search alert"
+msgstr ""
+
+msgctxt "event"
+msgid "Expired domains"
+msgstr ""
+
+msgctxt "event"
+msgid "Expiring domains"
+msgstr ""
+
+msgctxt "notification"
+msgid "Allow response"
+msgstr ""
+
+msgctxt "global"
+msgid "Cartridge model"
+msgid_plural "Cartridge models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Consumable model"
+msgid_plural "Consumable models"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "SQL replica"
+msgid_plural "SQL replicas"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Object Lock"
+msgid_plural "Object Locks"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Planning reminder"
+msgid_plural "Planning reminders"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "notification"
+msgid "Saved search alert"
+msgid_plural "Saved searches alert"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "notification"
+msgid "Template translation"
+msgid_plural "Template translations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Financial and administrative information"
+msgstr ""
+
+msgctxt "budget"
+msgid "Price"
+msgstr ""
+
+msgctxt "global"
+msgid "End date"
+msgstr ""
+
+msgctxt "global"
+msgid "Main"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Product Number"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Is half rack"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Weight"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Required units"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Depth"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Power connections"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Power consumption"
+msgstr ""
+
+msgctxt "contract"
+msgid "Account number"
+msgstr ""
+
+msgctxt "contract"
+msgid "Renewal"
+msgstr ""
+
+msgctxt "contract"
+msgid "Contract renewal period"
+msgstr ""
+
+msgctxt "contract"
+msgid "Invoice period"
+msgstr ""
+
+msgctxt "contract renewal"
+msgid "Never"
+msgstr ""
+
+msgctxt "contract renewal"
+msgid "Tacit"
+msgstr ""
+
+msgctxt "contract renewal"
+msgid "Express"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Order date"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Date of purchase"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Delivery date"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Startup date"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Date of last physical inventory"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Decommission date"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Order number"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Immobilization number"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Invoice number"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Delivery form"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Value"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Warranty extension value"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Amortization type"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Amortization duration"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Amortization coefficient"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Start date of warranty"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Warranty duration"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Warranty information"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Lifelong"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Decreasing"
+msgstr ""
+
+msgctxt "administrative management"
+msgid "Linear"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "Article"
+msgid_plural "Articles"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "knowbase article"
+msgid "Entity view"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "Group view"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "Profile view"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "User view"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "Revisions"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "Number of views"
+msgstr ""
+
+msgctxt "cron"
+msgid "Run frequency"
+msgstr ""
+
+msgctxt "cron"
+msgid "Run mode"
+msgstr ""
+
+msgctxt "cron"
+msgid "Begin hour of run period"
+msgstr ""
+
+msgctxt "cron"
+msgid "End hour of run period"
+msgstr ""
+
+msgctxt "cron"
+msgid "Number of days this action logs are stored"
+msgstr ""
+
+msgctxt "cron"
+msgid "Last run"
+msgstr ""
+
+msgctxt "cron"
+msgid "Infinite"
+msgstr ""
+
+msgctxt "cron"
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "cron"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "cron"
+msgid "Each day"
+msgstr ""
+
+msgctxt "cron"
+msgid "Each week"
+msgstr ""
+
+msgctxt "cron"
+msgid "Each month"
+msgstr ""
+
+msgctxt "cron state"
+msgid "Disabled"
+msgstr ""
+
+msgctxt "cron state"
+msgid "Scheduled"
+msgstr ""
+
+msgctxt "cron state"
+msgid "Running"
+msgstr ""
+
+msgctxt "cron"
+msgid "Web browsing"
+msgstr ""
+
+msgctxt "cron"
+msgid "CLI"
+msgstr ""
+
+msgctxt "cron"
+msgid "Execution"
+msgid_plural "Executions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "Mandatory field"
+msgid_plural "Mandatory fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "Value"
+msgid_plural "Values"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "Show empty"
+msgstr ""
+
+msgctxt "form"
+msgid "Default values"
+msgstr ""
+
+msgctxt "form"
+msgid "One per line"
+msgstr ""
+
+msgctxt "form"
+msgid "Additional validation"
+msgstr ""
+
+msgctxt "form"
+msgid "Regular expression"
+msgstr ""
+
+msgctxt "global"
+msgid "Min"
+msgstr ""
+
+msgctxt "global"
+msgid "Max"
+msgstr ""
+
+msgctxt "form"
+msgid "Checkboxes"
+msgstr ""
+
+msgctxt "form"
+msgid "Radios"
+msgstr ""
+
+msgctxt "form"
+msgid "Integer"
+msgstr ""
+
+msgctxt "form"
+msgid "Float"
+msgstr ""
+
+msgctxt "form"
+msgid "Select"
+msgstr ""
+
+msgctxt "form"
+msgid "Multiselect"
+msgstr ""
+
+msgctxt "form"
+msgid "Text"
+msgstr ""
+
+msgctxt "form"
+msgid "Textarea"
+msgstr ""
+
+msgctxt "form"
+msgid "Hidden field"
+msgid_plural "Hidden fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "Dropdown"
+msgid_plural "Dropdowns"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "App object"
+msgid_plural "App objects"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "time"
+msgstr ""
+
+msgctxt "dc room"
+msgid "Number of columns"
+msgstr ""
+
+msgctxt "dc room"
+msgid "Number of rows"
+msgstr ""
+
+msgctxt "global"
+msgid "Server room"
+msgid_plural "Server rooms"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Battery type"
+msgid_plural "Battery types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "inventory device"
+msgid "RAID"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Memory by default"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "MAC address by default"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Flow"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "ATX"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Power"
+msgstr ""
+
+#. frequence unit
+msgctxt "global"
+msgid "MHz"
+msgstr ""
+
+msgctxt "global"
+msgid "Frequency"
+msgstr ""
+
+msgctxt "global"
+msgid "Frequency by default"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Number of cores"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Number of threads"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "CPU ID"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Stepping"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Allow VOIP"
+msgstr ""
+
+msgctxt "global"
+msgid "Checksum"
+msgstr ""
+
+msgctxt "global"
+msgid "SHA1"
+msgstr ""
+
+msgctxt "document"
+msgid "Extension"
+msgstr ""
+
+msgctxt "document"
+msgid "Authorized upload"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Technician in charge"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Group in charge"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Others"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Record"
+msgid_plural "Records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Advanced information"
+msgstr ""
+
+msgctxt "global"
+msgid "Rule"
+msgid_plural "Rules"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "UI customization"
+msgstr ""
+
+msgctxt "global"
+msgid "Field"
+msgid_plural "Fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "blacklist"
+msgid "Value"
+msgstr ""
+
+msgctxt "global"
+msgid "Template name"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Front picture"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Rear picture"
+msgstr ""
+
+msgctxt "global"
+msgid "Total"
+msgstr ""
+
+msgctxt "global"
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "inventory device"
+msgid "Automatic inventory"
+msgstr ""
+
+msgctxt "ticket"
+msgid "No ticket found."
+msgstr ""
+
+msgctxt "problem"
+msgid "No problem found."
+msgstr ""
+
+msgctxt "change"
+msgid "No change found."
+msgstr ""
+
+msgctxt "global"
+msgid "Select a value..."
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Assigned"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Planned duration"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Planned start date"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Planned end date"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Real start date"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Real end date"
+msgstr ""
+
+msgctxt "global"
+msgid "Private"
+msgstr ""
+
+msgctxt "global"
+msgid "Percent done"
+msgstr ""
+
+msgctxt "global"
+msgid "Add date"
+msgstr ""
+
+msgctxt "global"
+msgid "Send a notification"
+msgstr ""
+
+msgctxt "global"
+msgid "Record into the database denied"
+msgstr ""
+
+msgctxt "global"
+msgid "Duplicates"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Source of followup"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Technician has written"
+msgstr ""
+
+msgctxt "global"
+msgid "Fqdn"
+msgstr ""
+
+msgctxt "network"
+msgid "Network alias"
+msgid_plural "Network aliases"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ITIL"
+msgid "Task"
+msgid_plural "Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "group"
+msgid "Assigned to"
+msgstr ""
+
+msgctxt "group"
+msgid "Can be notified"
+msgstr ""
+
+msgctxt "group"
+msgid "Can be manager"
+msgstr ""
+
+msgctxt "group"
+msgid "Can contain"
+msgstr ""
+
+msgctxt "group"
+msgid "Child groups"
+msgstr ""
+
+msgctxt "group"
+msgid "Used items"
+msgstr ""
+
+msgctxt "group"
+msgid "Managed items"
+msgstr ""
+
+msgctxt "network"
+msgid "IP address"
+msgid_plural "IP addresses"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "network"
+msgid "Subnet mask"
+msgid_plural "Subnet masks"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "network"
+msgid "Gateway"
+msgstr ""
+
+msgctxt "network"
+msgid "Addressable network"
+msgstr ""
+
+msgctxt "sim"
+msgid "PIN code"
+msgstr ""
+
+msgctxt "sim"
+msgid "PIN2 code"
+msgstr ""
+
+msgctxt "sim"
+msgid "PUK code"
+msgstr ""
+
+msgctxt "sim"
+msgid "PUK2 code"
+msgstr ""
+
+msgctxt "sim"
+msgid "Mobile Subscriber Identification Number"
+msgstr ""
+
+msgctxt "knowbase article"
+msgid "Revision number"
+msgstr ""
+
+msgctxt "line"
+msgid "Caller number"
+msgstr ""
+
+msgctxt "line"
+msgid "Caller name"
+msgstr ""
+
+msgctxt "line"
+msgid "Mobile Country Code"
+msgstr ""
+
+msgctxt "line"
+msgid "Mobile Network Code"
+msgstr ""
+
+msgctxt "global"
+msgid "Link or filename"
+msgstr ""
+
+msgctxt "global"
+msgid "Open in a new window"
+msgstr ""
+
+msgctxt "global"
+msgid "File content"
+msgstr ""
+
+msgctxt "global"
+msgid "field name in DB"
+msgstr ""
+
+msgctxt "global"
+msgid "Example:"
+msgstr ""
+
+msgctxt "global"
+msgid "Associated item type"
+msgid_plural "Associated item types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "email"
+msgid "Email address"
+msgstr ""
+
+msgctxt "email"
+msgid "Connection errors"
+msgstr ""
+
+msgctxt "email"
+msgid "Accepted mail archive folder (optional)"
+msgstr ""
+
+msgctxt "email"
+msgid "Refused mail archive folder (optional)"
+msgstr ""
+
+msgctxt "email"
+msgid "Use mail date, instead of collect one"
+msgstr ""
+
+msgctxt "email"
+msgid "Use Reply-To as requester (when available)"
+msgstr ""
+
+msgctxt "email"
+msgid "Add CC users as observer"
+msgstr ""
+
+msgctxt "email"
+msgid "Collect only unread mail"
+msgstr ""
+
+msgctxt "email"
+msgid "Use Oauth"
+msgstr ""
+
+msgctxt "email"
+msgid "Provider"
+msgstr ""
+
+msgctxt "email"
+msgid "ApplicationID"
+msgstr ""
+
+msgctxt "email"
+msgid "DirectoryID (Only for Microsoft Azure)"
+msgstr ""
+
+msgctxt "email"
+msgid "ApplicationSecret"
+msgstr ""
+
+msgctxt "email"
+msgid "No import"
+msgstr ""
+
+msgctxt "global"
+msgid "None"
+msgstr ""
+
+#. size unit
+msgctxt "global"
+msgid "%s Mio"
+msgstr ""
+
+msgctxt "global"
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "memory device"
+msgid "Memory slot"
+msgid_plural "Memory slots"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "memory device"
+msgid "Slot number"
+msgstr ""
+
+msgctxt "global"
+msgid "Endpoint"
+msgstr ""
+
+msgctxt "global"
+msgid "CSS"
+msgstr ""
+
+msgctxt "notification"
+msgid "Language"
+msgstr ""
+
+msgctxt "notification"
+msgid "Text format"
+msgstr ""
+
+msgctxt "notification"
+msgid "HTML format"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Long-Term Support (LTS)"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Max. power (in watts)"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Brand"
+msgstr ""
+
+msgctxt "line"
+msgid "Number of lines"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Headset"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Speaker"
+msgstr ""
+
+msgctxt "global"
+msgid "Color"
+msgstr ""
+
+msgctxt "planning"
+msgid "Background event"
+msgstr ""
+
+msgctxt "planning"
+msgid "Period"
+msgstr ""
+
+msgctxt "planning"
+msgid "Repeat"
+msgstr ""
+
+msgctxt "planning status"
+msgid "To do"
+msgstr ""
+
+msgctxt "planning status"
+msgid "Done"
+msgstr ""
+
+msgctxt "planning"
+msgid "Information"
+msgid_plural "Information"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "problem"
+msgid "Causes"
+msgstr ""
+
+msgctxt "problem"
+msgid "Symptoms"
+msgstr ""
+
+msgctxt "problem status"
+msgid "New"
+msgstr ""
+
+msgctxt "problem status"
+msgid "Pending"
+msgstr ""
+
+msgctxt "problem status"
+msgid "Solved"
+msgstr ""
+
+msgctxt "problem status"
+msgid "Closed"
+msgstr ""
+
+msgctxt "problem"
+msgid "Processing problem"
+msgstr ""
+
+msgctxt "project"
+msgid "Code"
+msgstr ""
+
+msgctxt "project"
+msgid "Manager"
+msgstr ""
+
+msgctxt "project"
+msgid "Manager group"
+msgstr ""
+
+msgctxt "project"
+msgid "Show on global GANTT"
+msgstr ""
+
+msgctxt "project"
+msgid "GANTT"
+msgstr ""
+
+msgctxt "project"
+msgid "Kanban"
+msgstr ""
+
+msgctxt "project"
+msgid "Project team"
+msgid_plural "Project teams"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "project"
+msgid "ITIL item"
+msgid_plural "ITIL items"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Finished state"
+msgstr ""
+
+msgctxt "project"
+msgid "Effective duration"
+msgstr ""
+
+msgctxt "project"
+msgid "Project task team"
+msgid_plural "Project task teams"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "project"
+msgid "Milestone"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Number of units"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Default for tickets"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Default for followups"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Default for mail recipients"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Default for followup mail recipients"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Request source visible for tickets"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Request source visible for followups"
+msgstr ""
+
+msgctxt "RSS"
+msgid "By"
+msgstr ""
+
+msgctxt "RSS"
+msgid "URL"
+msgstr ""
+
+msgctxt "RSS"
+msgid "Error retrieving RSS feed"
+msgstr ""
+
+msgctxt "RSS"
+msgid "Number of items displayed"
+msgstr ""
+
+msgctxt "RSS"
+msgid "Refresh rate"
+msgstr ""
+
+msgctxt "rule"
+msgid "Ranking"
+msgstr ""
+
+msgctxt "rule"
+msgid "Logical operator"
+msgstr ""
+
+msgctxt "rule"
+msgid "Rule"
+msgid_plural "Rules"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "rule"
+msgid "Criterion"
+msgid_plural "Criteria"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "rule"
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "rule"
+msgid "Testing"
+msgstr ""
+
+msgctxt "rule"
+msgid "Action type"
+msgstr ""
+
+msgctxt "rule"
+msgid "Value"
+msgstr ""
+
+msgctxt "rule"
+msgid "Field"
+msgid_plural "Fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "rule action type"
+msgid "assign dropdown"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "append dropdown"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "regex result"
+msgstr ""
+
+msgctxt "rule"
+msgid "Condition"
+msgstr ""
+
+msgctxt "rule"
+msgid "Patern"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "does not contain"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "find"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "under"
+msgstr ""
+
+msgctxt "rule condition"
+msgid "not under"
+msgstr ""
+
+msgctxt "global"
+msgid "Do count"
+msgstr ""
+
+msgctxt "global"
+msgid "Last duration (ms)"
+msgstr ""
+
+msgctxt "global"
+msgid "Last execution date"
+msgstr ""
+
+msgctxt "global"
+msgid "Public"
+msgstr ""
+
+msgctxt "global"
+msgid "Auto"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "SLA"
+msgid_plural "SLAs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ITIL"
+msgid "OLA"
+msgid_plural "OLAs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "software"
+msgid "Publisher"
+msgid_plural "Publishers"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "software"
+msgid "Associable to a ticket"
+msgstr ""
+
+msgctxt "software"
+msgid "Installation"
+msgid_plural "Installations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "software"
+msgid "Number"
+msgstr ""
+
+msgctxt "software"
+msgid "Expiration"
+msgstr ""
+
+msgctxt "software"
+msgid "Valid"
+msgstr ""
+
+msgctxt "software"
+msgid "Allow Over-Quota"
+msgstr ""
+
+msgctxt "software"
+msgid "Purchase version"
+msgstr ""
+
+msgctxt "software"
+msgid "Version in use"
+msgstr ""
+
+msgctxt "software"
+msgid "Unlimited"
+msgstr ""
+
+msgctxt "software"
+msgid "Summary"
+msgstr ""
+
+msgctxt "SSO"
+msgid "Field storage of the login in the HTTP request"
+msgid_plural "Fields storage of the login in the HTTP request"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ticket"
+msgid "Information"
+msgid_plural "Information"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ticket"
+msgid "Predefined field"
+msgid_plural "Predefined fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "network"
+msgid "ID TAG"
+msgstr ""
+
+msgctxt "network"
+msgid "ESSID"
+msgstr ""
+
+msgctxt "network"
+msgid "Infrastructure (with access point)"
+msgstr ""
+
+msgctxt "network"
+msgid "Ad-hoc (without access point)"
+msgstr ""
+
+msgctxt "cartridge"
+msgid "Worn cartridges"
+msgstr ""
+
+msgctxt "cartridge"
+msgid "Used cartridges"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Long-Term Support (LTS)"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Product ID"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Host ID"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Operating System comment"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Owner"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Company"
+msgstr ""
+
+msgctxt "operating system"
+msgid "Predefined field"
+msgid_plural "Predefined fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "audit"
+msgid "Source"
+msgstr ""
+
+msgctxt "audit"
+msgid "Service"
+msgstr ""
+
+msgctxt "audit"
+msgid "Level"
+msgstr ""
+
+msgctxt "audit"
+msgid "Message"
+msgstr ""
+
+msgctxt "audit"
+msgid "System"
+msgstr ""
+
+msgctxt "audit"
+msgid "Security"
+msgstr ""
+
+msgctxt "network"
+msgid "IP"
+msgstr ""
+
+msgctxt "network"
+msgid "MAC"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "New"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Pending"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Solved"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Closed"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Review"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Evaluation"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Qualification"
+msgstr ""
+
+msgctxt "ITIL status"
+msgid "Testing"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "General"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Problems on linked items"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Changes on linked items"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Planification"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Ticket on linked items"
+msgid_plural "Tickets on linked items"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ITIL"
+msgid "Request date"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Approval requester"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Request comments"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Approval status"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Approver"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Approval comments"
+msgstr ""
+
+msgctxt "cost"
+msgid "Total cost"
+msgstr ""
+
+msgctxt "cost"
+msgid "Duration"
+msgstr ""
+
+msgctxt "cost"
+msgid "Time cost"
+msgstr ""
+
+msgctxt "cost"
+msgid "Fixed cost"
+msgstr ""
+
+msgctxt "cost"
+msgid "Material cost"
+msgstr ""
+
+msgctxt "cost"
+msgid "Ticket cost"
+msgid_plural "Ticket costs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "volume"
+msgid "Not encrypted"
+msgstr ""
+
+msgctxt "volume"
+msgid "Encrypted"
+msgstr ""
+
+msgctxt "volume"
+msgid "Partially encrypted"
+msgstr ""
+
+msgctxt "volume"
+msgid "Partition"
+msgstr ""
+
+msgctxt "volume"
+msgid "Mount point"
+msgstr ""
+
+msgctxt "volume"
+msgid "Global size"
+msgstr ""
+
+msgctxt "volume"
+msgid "Free size"
+msgstr ""
+
+msgctxt "volume"
+msgid "Encryption"
+msgstr ""
+
+msgctxt "volume"
+msgid "Encryption algorithm"
+msgstr ""
+
+msgctxt "volume"
+msgid "Encryption tool"
+msgstr ""
+
+msgctxt "volume"
+msgid "Encryption type"
+msgstr ""
+
+msgctxt "global"
+msgid "Feeds"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Solution"
+msgid_plural "Solutions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ITIL"
+msgid "Template"
+msgid_plural "Templates"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ITIL"
+msgid "Duration"
+msgstr ""
+
+msgctxt "global"
+msgid "Second"
+msgid_plural "Seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Minute"
+msgid_plural "Minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Hour"
+msgid_plural "Hours"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "ITIL"
+msgid "Add followup"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Time spent"
+msgstr ""
+
+msgctxt "global"
+msgid "Antivirus"
+msgid_plural "Antiviruses"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "inventory device"
+msgid "Antivirus version"
+msgstr ""
+
+msgctxt "antivirus"
+msgid "Up to date"
+msgstr ""
+
+msgctxt "antivirus"
+msgid "Signature database version"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Total memory"
+msgstr ""
+
+msgctxt "global"
+msgid "Frequency (MHz)"
+msgstr ""
+
+msgctxt "global"
+msgid "Size (Mio)"
+msgstr ""
+
+msgctxt "global"
+msgid "processor number"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Not connected."
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Position of the device on its bus"
+msgstr ""
+
+msgctxt "network"
+msgid "MAC address"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Manufacturing date"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Chipset"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Write"
+msgstr ""
+
+msgctxt "calendar"
+msgid "Time range"
+msgid_plural "Time ranges"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "inventory device"
+msgid "Reference"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Alert threshold"
+msgstr ""
+
+msgctxt "global"
+msgid "Manager"
+msgstr ""
+
+msgctxt "global"
+msgid "Delegatee"
+msgstr ""
+
+msgctxt "reservation"
+msgid "No reservation"
+msgstr ""
+
+msgctxt "reservation"
+msgid "Past reservations"
+msgstr ""
+
+msgctxt "reservation"
+msgid "Current and future reservations"
+msgstr ""
+
+msgctxt "reservation"
+msgid "By"
+msgstr ""
+
+msgctxt "user"
+msgid "Revoke all access"
+msgstr ""
+
+msgctxt "user"
+msgid "Never connected or revoked access"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Ticket category from code"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Assigned to a supplier"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Time to own"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Send an approval request"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Responsible of the requester"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Minimum validation required"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Approval request to requester group manager"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Approval request to technician group manager"
+msgstr ""
+
+msgctxt "ticket"
+msgid "Take into account delay"
+msgstr ""
+
+msgctxt "cartridge"
+msgid "Worn"
+msgid_plural "Worn"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "cartridge"
+msgid "Used"
+msgid_plural "Used"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "cartridge"
+msgid "New"
+msgid_plural "New"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "cartridge"
+msgid "%d printed page"
+msgid_plural "%d printed pages"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "printer"
+msgid "Printer counter"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Use date"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "State"
+msgstr ""
+
+msgctxt "cartridge"
+msgid "Used on"
+msgstr ""
+
+msgctxt "management"
+msgid "Does not expire"
+msgstr ""
+
+msgctxt "form"
+msgid "Answer"
+msgid_plural "Answers"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "inventory device"
+msgid "Writing ability"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Speed"
+msgstr ""
+
+msgctxt "form"
+msgid "Answerquestion"
+msgid_plural "Answerquestions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "form"
+msgid "Display on home page"
+msgstr ""
+
+msgctxt "form"
+msgid "Icon"
+msgstr ""
+
+msgctxt "form"
+msgid "Icon color"
+msgstr ""
+
+msgctxt "time"
+msgid "%1$s%2$d days %3$d hours %4$d minutes %5$d seconds"
+msgstr ""
+
+msgctxt "time"
+msgid "%1$s%2$d days %3$d hours %4$d minutes"
+msgstr ""
+
+msgctxt "time"
+msgid "%1$s%2$d hours %3$d minutes %4$d seconds"
+msgstr ""
+
+msgctxt "time"
+msgid "%1$s%2$d hours %3$d minutes"
+msgstr ""
+
+msgctxt "time"
+msgid "%1$s%2$d minutes %3$d seconds"
+msgstr ""
+
+msgctxt "time"
+msgid "%1$s%2$d minute"
+msgid_plural "%1$s%2$d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "time"
+msgid "%1$s%2$s second"
+msgid_plural "%1$s%2$s seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "budget"
+msgid "Total spent on the budget"
+msgstr ""
+
+msgctxt "budget"
+msgid "Total remaining on the budget"
+msgstr ""
+
+msgctxt "global"
+msgid "Create by %1$s on %2$s"
+msgstr ""
+
+msgctxt "global"
+msgid "Last update by %1$s on %2$s"
+msgstr ""
+
+msgctxt "global"
+msgid "Redirect URL"
+msgstr ""
+
+msgctxt "global"
+msgid "No items found."
+msgstr ""
+
+msgctxt "software"
+msgid "Affected items"
+msgstr ""
+
+msgctxt "global"
+msgid "Item type"
+msgstr ""
+
+msgctxt "time"
+msgid "Maximum time"
+msgstr ""
+
+msgctxt "global"
+msgid "Father"
+msgstr ""
+
+msgctxt "ITIL"
+msgid "Member"
+msgid_plural "Members"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Dynamic"
+msgstr ""
+
+msgctxt "printer"
+msgid "Printed pages"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Number"
+msgstr ""
+
+msgctxt "notification"
+msgid "Default translation"
+msgstr ""
+
+msgctxt "auth"
+msgid "Authenticate with oauth"
+msgstr ""
+
+msgctxt "auth"
+msgid "Provider documentation"
+msgstr ""
+
+msgctxt "home"
+msgid "My tickets"
+msgstr ""
+
+msgctxt "home"
+msgid "Tickets of my groups"
+msgstr ""
+
+msgctxt "home"
+msgid "Number of today incidents"
+msgstr ""
+
+msgctxt "home"
+msgid "Last Problems"
+msgstr ""
+
+msgctxt "home"
+msgid "Visible since"
+msgstr ""
+
+msgctxt "home"
+msgid "Visible until"
+msgstr ""
+
+msgctxt "home"
+msgid "Linked tickets"
+msgstr ""
+
+msgctxt "home"
+msgid "Last escaladed tickets"
+msgstr ""
+
+msgctxt "home"
+msgid "New tickets"
+msgstr ""
+
+msgctxt "home"
+msgid "Last knowledge base articles"
+msgstr ""
+
+msgctxt "inventory device"
+msgid "Computer's name"
+msgstr ""
+
+msgctxt "network"
+msgid "TTL"
+msgstr ""
+
+msgctxt "domain"
+msgid "Value"
+msgstr ""
+
+msgctxt "contract"
+msgid "Value"
+msgstr ""
+
+msgctxt "consumable"
+msgid "Given to"
+msgstr ""
+
+msgctxt "consumable"
+msgid "No consumable"
+msgstr ""
+
+msgctxt "consumable"
+msgid "Used consumables"
+msgstr ""
+
+msgctxt "form"
+msgid "Form impacted"
+msgstr ""
+
+msgctxt "form"
+msgid "Section impacted"
+msgstr ""
+
+msgctxt "form"
+msgid "Number of questions"
+msgstr ""
+
+msgctxt "form"
+msgid "By user"
+msgstr ""
+
+msgctxt "global"
+msgid "Sub-entities"
+msgstr ""
+
+msgctxt "phone"
+msgid "Number"
+msgstr ""
+
+msgctxt "login page"
+msgid "Login page"
+msgstr "Page de connexion"
+
+msgctxt "login page"
+msgid "Or"
+msgstr ""
+
+msgctxt "login page"
+msgid "Sign in"
+msgstr ""
+
+msgctxt "login page"
+msgid "Login"
+msgstr ""
+
+msgctxt "login page"
+msgid "Password"
+msgstr "Mot de passe"
+
+msgctxt "login page"
+msgid "Auto-login / SSO"
+msgstr "Auto-connexion / SSO"
+
+msgctxt "login page"
+msgid "Disabled"
+msgstr "Désactivé"
+
+msgctxt "button"
+msgid "Send"
+msgstr ""
+
+msgctxt "global"
+msgid "Homepage user"
+msgstr ""
+
+msgctxt "menu"
+msgid "Menu"
+msgstr ""
+
+msgctxt "menu"
+msgid "Bookmarks"
+msgstr ""
+
+msgctxt "global"
+msgid "Simple item"
+msgid_plural "Simple items"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "button"
+msgid "Columns"
+msgstr ""
+
+msgctxt "button"
+msgid "Search"
+msgstr ""
+
+msgctxt "button"
+msgid "View"
+msgstr ""
+
+msgctxt "button"
+msgid "Restore"
+msgstr ""
+
+msgctxt "button"
+msgid "Delete"
+msgstr ""
+
+msgctxt "button"
+msgid "Soft delete"
+msgstr ""
+
+msgctxt "history"
+msgid "Changed %s%s%s from %s%s%s to %s%s%s"
+msgstr ""
+
+msgctxt "history"
+msgid "History"
+msgstr ""
+
+msgctxt "history"
+msgid "empty value"
+msgstr ""
+
+msgctxt "button"
+msgid "Add"
+msgstr ""
+
+msgctxt "button"
+msgid "Delete user columns management"
+msgstr ""
+
+msgctxt "button"
+msgid "Create user columns management"
+msgstr ""
+
+msgctxt "global"
+msgid "LDAP"
+msgid_plural "LDAPs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "sso"
+msgid "SSO option"
+msgid_plural "SSO options"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "sso"
+msgid "SSO scope"
+msgid_plural "SSO scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Calendar segment"
+msgid_plural "Calendar segments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "change"
+msgid "Change cost"
+msgid_plural "Change costs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "change"
+msgid "Change validation"
+msgid_plural "Change validations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Virtual machine"
+msgid_plural "Virtual machines"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "contract"
+msgid "Contract cost"
+msgid_plural "Contract costs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "cron"
+msgid "Execution log"
+msgid_plural "Execution logs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Manage column"
+msgid_plural "Manage columns"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Home"
+msgid_plural "Home"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Administrative management"
+msgid_plural "Administrative management"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Knowledge base article revision"
+msgid_plural "Knowledge base article revisions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Link Itemtype"
+msgid_plural "Link Itemtype"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Memory module"
+msgid_plural "Memory modules"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Menu bookmark"
+msgid_plural "Menu bookmarks"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Notepad"
+msgid_plural "Notepads"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Notification template translation"
+msgid_plural "Notification template translations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Problem cost"
+msgid_plural "Problem costs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Right"
+msgid_plural "Rights"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Project cost"
+msgid_plural "Project costs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Project tasks type"
+msgid_plural "Project tasks types"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Reminder"
+msgid_plural "Reminders"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Reservation item"
+msgid_plural "Reservation items"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Software version"
+msgid_plural "Software versions"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Ticket validation"
+msgid_plural "Ticket validations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Right for users"
+msgid_plural "Rights for users"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "global"
+msgid "Device"
+msgid_plural "Devices"
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "software"
+msgid "Valid licenses"
+msgstr ""
+
+msgctxt "rule action type"
+msgid "Yes"
+msgstr ""
+
+msgctxt "general status"
+msgid "Processing (assigned)"
+msgstr ""
+
+msgctxt "general status"
+msgid "Processing (planned)"
+msgstr ""
+
+msgctxt "general status"
+msgid "Accepted"
+msgstr ""
+
+msgctxt "form"
+msgid "Time"
+msgstr ""
+
+msgctxt "session message"
+msgid "The item has been created successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "The item has been updated successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "The item has been deleted successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "The item has been soft deleted successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "The item has been restored successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "The ticket has been attached to problem successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "Error to attach ticket to problem"
+msgstr ""
+
+msgctxt "session message"
+msgid "The followup has been added successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "Authentication done with success"
+msgstr ""
+
+msgctxt "session message"
+msgid "All accesses revoked successfully"
+msgstr ""
+
+msgctxt "session message"
+msgid "The rights have been updated successfully"
+msgstr ""
+
+#. title of the message notification in the browser
+msgctxt "session message"
+msgid "Action"
+msgstr ""
+
+msgctxt "global"
+msgid "Auto-detected"
+msgstr ""

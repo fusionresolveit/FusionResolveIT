@@ -18,7 +18,6 @@ class Fqdn extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Fqdn::class;
-  protected $titles = ['Internet domain', 'Internet domains'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -37,6 +36,14 @@ class Fqdn extends Common
     'entity:id,name,completename',
     'alias',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Internet domain', 'Internet domains', $nb);
+  }
 
   /** @return HasMany<\App\Models\Networkalias, $this> */
   public function alias(): HasMany

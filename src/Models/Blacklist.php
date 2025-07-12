@@ -14,7 +14,14 @@ class Blacklist extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Blacklist::class;
-  protected $titles = ['Blacklist', 'Blacklists'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Blacklist', 'Blacklists', $nb);
+  }
 }

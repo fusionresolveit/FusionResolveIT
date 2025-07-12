@@ -77,7 +77,7 @@ final class Devicebattery extends Common
 
     $devicebattery = \App\Models\Devicebattery::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The battery has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicebattery, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -120,7 +120,7 @@ final class Devicebattery extends Common
 
     $devicebattery->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The battery has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicebattery, 'update');
 
     $uri = $request->getUri();
@@ -150,7 +150,7 @@ final class Devicebattery extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $devicebattery->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The battery has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicebatteries')
@@ -161,7 +161,7 @@ final class Devicebattery extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $devicebattery->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The battery has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -188,7 +188,7 @@ final class Devicebattery extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $devicebattery->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The battery has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

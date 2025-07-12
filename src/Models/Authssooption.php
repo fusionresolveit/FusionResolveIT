@@ -6,7 +6,6 @@ namespace App\Models;
 
 class Authssooption extends Common
 {
-  protected $titles = ['SSO option', 'SSO options'];
   protected $icon = 'id card alternate';
   protected $hasEntityField = false;
 
@@ -18,4 +17,12 @@ class Authssooption extends Common
 
   protected $with = [
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('sso', 'SSO option', 'SSO options', $nb);
+  }
 }

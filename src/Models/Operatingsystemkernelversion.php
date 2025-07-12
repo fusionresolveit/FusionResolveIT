@@ -15,7 +15,6 @@ class Operatingsystemkernelversion extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Operatingsystemkernelversion::class;
-  protected $titles = ['Kernel version', 'Kernel versions'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -30,6 +29,13 @@ class Operatingsystemkernelversion extends Common
     'kernel:id,name',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Kernel version', 'Kernel versions', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Operatingsystemkernel, $this> */
   public function kernel(): BelongsTo

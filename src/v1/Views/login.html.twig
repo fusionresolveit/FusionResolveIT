@@ -18,41 +18,60 @@
   <div class="ui container" style="height: 100%">
     <div class="ui middle aligned center aligned grid" style="height: 100%">
       <div class="column">
+        <div class="ui blue inverted segment">
+          <form id="langform" action="{{ basePath }}/view/changelang" method="post">
+            <span>{{ translation.language }}</span>
+            <div class="ui floating dropdown blue right labeled search icon button">
+              <i class="right world icon"></i>
+              <span class="text"><i class="{{ data.currentLang }} flag"></i> {{ data.currentLang }}</span>
+              <div class="menu">
+                {% for key, country in data.lang %}
+                  <div class="item" data-value="{{ key }}"><i class="{{ country }} flag"></i>{{ country }} [{{ key }}]</div>
+                {% endfor %}
+              </div>
+            </div>
+            <input type="hidden" id="langchoosen" name="langchoosen" value="">
+            {% for key, val in data.csrf %}
+              <input type="hidden" name="{{ key }}" value="{{ val }}">
+            {% endfor %}
+          </form>
+        </div>
+
         <div class="ui placeholder segment">
           <div class="ui two column stackable center aligned grid">
-            <div class="ui vertical divider">Or</div>
+            <div class="ui vertical divider">{{ translation.or }}</div>
             <div class="middle aligned row">
               <div class="column">
                 <div class="ui icon header">
                   <i class="sign in alternate icon"></i>
-                  <span data-cy="login-title">Sign in</span>
+                  <span data-cy="login-title">{{ translation.signin }}</span>
                 </div>
                 <form method="post" class="ui form">
                   <div class="field">
-                    <label data-cy="login-login-label">Login</label>
+                    <label data-cy="login-login-label">{{ translation.login }}</label>
                     <input data-cy="login-login" type="text" name="login">
                   </div>
                   <div class="field">
-                    <label data-cy="login-password-label">Password</label>
+                    <label data-cy="login-password-label">{{ translation.password }}</label>
                     <input data-cy="login-password" type="password" name="password">
                   </div>
                   <div>
                     {% for key, val in csrf %}
                       <input type="hidden" name="{{ key }}" value="{{ val }}">
                     {% endfor %}
-                    <button data-cy="login-submit" class="ui primary button" type="submit">Send</button>
+                    <button data-cy="login-submit" class="ui primary button" type="submit">{{ translation.buttonsend }}</button>
                   </div>
                 </form>
               </div>
               <div class="column">
                 <div class="ui icon header">
                 <i class="address card outline icon"></i>
-                  <span data-cy="login-sso-label">Auto-login / SSO</span>
+                  <span data-cy="login-sso-label">{{ translation.ssotitle }}</span>
                 </div>
                 {% if sso|length == 0 %}
                   <div class="ui labeled icon button">
                     <i class="right pause icon"></i>
-                    Disabled
+                    <span>{{ translation.ssodisabled }}</span>
                   </div>
                 {% endif %}
                 {% for item in sso %}
@@ -70,5 +89,15 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $('.ui.dropdown')
+      .dropdown({
+        onChange: function(text, value, element)
+        {
+          $('#langchoosen').val(text);
+          $('#langform').submit();
+        }
+      });
+  </script>
 </body>
 </html>

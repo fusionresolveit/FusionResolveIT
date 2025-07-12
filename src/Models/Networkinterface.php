@@ -14,7 +14,14 @@ class Networkinterface extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Networkinterface::class;
-  protected $titles = ['Network interface', 'Network interfaces'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Network interface', 'Network interfaces', $nb);
+  }
 }

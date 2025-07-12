@@ -13,7 +13,6 @@ class Computervirtualmachine extends Common
 
   protected $table = 'computervirtualmachines';
   protected $definition = \App\Models\Definitions\Computervirtualmachine::class;
-  protected $titles = ['Virtual machine', 'Virtual machines'];
   protected $icon = 'virus slash';
 
   protected $appends = [
@@ -27,6 +26,14 @@ class Computervirtualmachine extends Common
     'system:id,name',
     'type:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Virtual machine', 'Virtual machines', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Computer, $this> */
   public function computer(): BelongsTo

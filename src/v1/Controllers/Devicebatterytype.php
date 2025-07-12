@@ -48,7 +48,7 @@ final class Devicebatterytype extends Common implements \App\Interfaces\Crud
 
     $devicebatterytype = \App\Models\Devicebatterytype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The battery type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicebatterytype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -91,7 +91,7 @@ final class Devicebatterytype extends Common implements \App\Interfaces\Crud
 
     $devicebatterytype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The battery type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicebatterytype, 'update');
 
     $uri = $request->getUri();
@@ -121,7 +121,7 @@ final class Devicebatterytype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicebatterytype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The battery type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicebatterytypes')
@@ -132,7 +132,7 @@ final class Devicebatterytype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicebatterytype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The battery type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -159,7 +159,7 @@ final class Devicebatterytype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicebatterytype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The battery type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

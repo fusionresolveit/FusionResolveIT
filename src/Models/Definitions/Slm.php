@@ -11,15 +11,13 @@ class Slm
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'calendar' => $translator->translatePlural('Calendar', 'Calendars', 1),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'calendar' => npgettext('global', 'Calendar', 'Calendars', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -41,7 +39,7 @@ class Slm
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -53,25 +51,24 @@ class Slm
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Service level', 'Service levels', 1),
+        'title' => npgettext('global', 'Service level', 'Service levels', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('SLA'),
+        'title' => npgettext('ITIL', 'SLA', 'SLAs', 1),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/slas',
       ],
       [
-        'title' => $translator->translate('OLA',),
+        'title' => npgettext('ITIL', 'OLA', 'OLAs', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/olas',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

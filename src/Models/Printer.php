@@ -32,7 +32,6 @@ class Printer extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Printer::class;
-  protected $titles = ['Printer', 'Printers'];
   protected $icon = 'print';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -168,6 +167,14 @@ class Printer extends Common
     'infocom',
     'reservations',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Printer', 'Printers', $nb);
+  }
 
   protected $casts = [
     'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',

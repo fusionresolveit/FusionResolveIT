@@ -72,7 +72,9 @@ final class Followup extends Common
       $relatedItem->touch();
     }
     // add message to session
-    \App\v1\Controllers\Toolbox::addSessionMessage('The followup has been added successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessage(
+      pgettext('session message', 'The followup has been added successfully')
+    );
 
     return $response
       ->withHeader('Location', $_SERVER['HTTP_REFERER'])

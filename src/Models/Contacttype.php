@@ -14,7 +14,14 @@ class Contacttype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Contacttype::class;
-  protected $titles = ['Contact type', 'Contact types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Contact type', 'Contact types', $nb);
+  }
 }

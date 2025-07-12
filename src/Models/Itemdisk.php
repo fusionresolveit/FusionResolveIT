@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Itemdisk extends Common
 {
   protected $definition = \App\Models\Definitions\Itemdisk::class;
-  protected $titles = ['Volume', 'Volumes'];
   protected $icon = 'virus slash';
 
   protected $appends = [
@@ -21,6 +20,14 @@ class Itemdisk extends Common
   protected $with = [
     'filesystem:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('inventory device', 'Volume', 'Volumes', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Filesystem, $this> */
   public function filesystem(): BelongsTo

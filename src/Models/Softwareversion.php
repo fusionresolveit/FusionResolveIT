@@ -19,7 +19,6 @@ class Softwareversion extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Softwareversion::class;
-  protected $titles = ['Software version', 'Software versions'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -48,6 +47,13 @@ class Softwareversion extends Common
     'operatingsystem:id,name',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Software version', 'Software versions', $nb);
+  }
 
   // We get all devices
   /** @return BelongsToMany<\App\Models\Computer, $this> */

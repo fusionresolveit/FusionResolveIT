@@ -97,6 +97,46 @@ final class Toolbox
   }
 
   /**
+   * Add generic message for item action
+   *
+   * @param 'created'|'updated'|'deleted'|'softdeleted'|'restored' $target
+   */
+  public static function addSessionMessageItemAction(string $target): void
+  {
+    switch ($target) {
+      case 'created':
+        \App\v1\Controllers\Toolbox::addSessionMessage(
+          pgettext('session message', 'The item has been created successfully')
+        );
+          return;
+
+      case 'updated':
+        \App\v1\Controllers\Toolbox::addSessionMessage(
+          pgettext('session message', 'The item has been updated successfully')
+        );
+          return;
+
+      case 'deleted':
+        \App\v1\Controllers\Toolbox::addSessionMessage(
+          pgettext('session message', 'The item has been deleted successfully')
+        );
+          return;
+
+      case 'softdeleted':
+        \App\v1\Controllers\Toolbox::addSessionMessage(
+          pgettext('session message', 'The item has been soft deleted successfully')
+        );
+          return;
+
+      case 'restored':
+        \App\v1\Controllers\Toolbox::addSessionMessage(
+          pgettext('session message', 'The item has been restored successfully')
+        );
+          return;
+    }
+  }
+
+  /**
    * Add message to the session
    * @param $message string
    * @param $type string=success|error

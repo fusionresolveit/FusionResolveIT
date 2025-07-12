@@ -26,7 +26,6 @@ class Pdu extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Pdu::class;
-  protected $titles = ['PDU', 'PDUs'];
   protected $icon = 'plug';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -78,6 +77,13 @@ class Pdu extends Common
     'infocom',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'PDU', 'PDUs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Pdutype, $this> */
   public function type(): BelongsTo

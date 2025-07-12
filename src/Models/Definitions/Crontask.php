@@ -11,20 +11,18 @@ class Crontask
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'frequency' => $translator->translate('Run frequency'),
-      'state' => $translator->translate('Status'),
-      'mode' => $translator->translate('Run mode'),
-      'hourmin' => $translator->translate('Begin hour of run period'),
-      'hourmax' => $translator->translate('End hour of run period'),
-      'logs_lifetime' => $translator->translate('Number of days this action logs are stored'),
-      'lastrun' => $translator->translate('Last run'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'frequency' => pgettext('cron', 'Run frequency'),
+      'state' => pgettext('global', 'Status'),
+      'mode' => pgettext('cron', 'Run mode'),
+      'hourmin' => pgettext('cron', 'Begin hour of run period'),
+      'hourmax' => pgettext('cron', 'End hour of run period'),
+      'logs_lifetime' => pgettext('cron', 'Number of days this action logs are stored'),
+      'lastrun' => pgettext('cron', 'Last run'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -80,7 +78,7 @@ class Crontask
       'dropdown',
       'logs_lifetime',
       dbname: 'logs_lifetime',
-      values: \App\v1\Controllers\Dropdown::generateNumbers(10, 360, 10, [0 => $translator->translate('Infinite')]),
+      values: \App\v1\Controllers\Dropdown::generateNumbers(10, 360, 10, [0 => pgettext('cron', 'Infinite')]),
       fillable: true
     ));
     $defColl->add(new Def(7, $t['lastrun'], 'datetime', 'lastrun', readonly: true));
@@ -120,8 +118,6 @@ class Crontask
    */
   public static function getFrequencyArray(): array
   {
-    global $translator;
-
     $MINUTE_TIMESTAMP = 60;
     $HOUR_TIMESTAMP = 3600;
     $DAY_TIMESTAMP = 86400;
@@ -130,29 +126,29 @@ class Crontask
 
     $tab = [];
 
-    $tab[$MINUTE_TIMESTAMP] = sprintf($translator->translate('%d minute', '%d minutes', 1), 1);
+    $tab[$MINUTE_TIMESTAMP] = sprintf(npgettext('cron', '%d minute', '%d minutes', 1), 1);
 
     // Minutes
     for ($i = 5; $i < 60; $i += 5)
     {
-      $tab[$i * $MINUTE_TIMESTAMP] = sprintf($translator->translatePlural('%d minute', '%d minutes', $i), $i);
+      $tab[$i * $MINUTE_TIMESTAMP] = sprintf(npgettext('cron', '%d minute', '%d minutes', $i), $i);
     }
 
     // Heures
     for ($i = 1; $i < 24; $i++)
     {
-      $tab[$i * $HOUR_TIMESTAMP] = sprintf($translator->translatePlural('%d hour', '%d hours', $i), $i);
+      $tab[$i * $HOUR_TIMESTAMP] = sprintf(npgettext('cron', '%d hour', '%d hours', $i), $i);
     }
 
     // Jours
-    $tab[$DAY_TIMESTAMP] = $translator->translate('Each day');
+    $tab[$DAY_TIMESTAMP] = pgettext('cron', 'Each day');
     for ($i = 2; $i < 7; $i++)
     {
-      $tab[$i * $DAY_TIMESTAMP] = sprintf($translator->translatePlural('%d day', '%d days', $i), $i);
+      $tab[$i * $DAY_TIMESTAMP] = sprintf(npgettext('global', '%d day', '%d days', $i), $i);
     }
 
-    $tab[$WEEK_TIMESTAMP]  = $translator->translate('Each week');
-    $tab[$MONTH_TIMESTAMP] = $translator->translate('Each month');
+    $tab[$WEEK_TIMESTAMP]  = pgettext('cron', 'Each week');
+    $tab[$MONTH_TIMESTAMP] = pgettext('cron', 'Each month');
 
     $newTab = [];
     foreach (array_keys($tab) as $key)
@@ -168,16 +164,15 @@ class Crontask
    */
   public static function getStateArray(): array
   {
-    global $translator;
     return [
       0 => [
-        'title' => $translator->translate('Disabled'),
+        'title' => pgettext('cron state', 'Disabled'),
       ],
       1 => [
-        'title' => $translator->translate('Scheduled'),
+        'title' => pgettext('cron state', 'Scheduled'),
       ],
       2 => [
-        'title' => $translator->translate('Running'),
+        'title' => pgettext('cron state', 'Running'),
       ],
     ];
   }
@@ -187,13 +182,12 @@ class Crontask
    */
   public static function getModeArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('GLPI'),
+        'title' => pgettext('cron', 'Web browsing'),
       ],
       2 => [
-        'title' => $translator->translate('CLI'),
+        'title' => pgettext('cron', 'CLI'),
       ],
     ];
   }
@@ -303,20 +297,19 @@ class Crontask
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Automatic action', 'Automatic actions', 1),
+        'title' => npgettext('global', 'Automatic action', 'Automatic actions', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Execution', 'Executions', 2),
+        'title' => npgettext('cron', 'Execution', 'Executions', 2),
         'icon' => 'cogs',
         'link' => $rootUrl . '/executions',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

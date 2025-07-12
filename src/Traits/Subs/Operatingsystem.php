@@ -16,8 +16,6 @@ trait Operatingsystem
    */
   public function showSubOperatingSystem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -57,10 +55,10 @@ trait Operatingsystem
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
     $viewData->addTranslation('entreprise', 'Entreprise');
-    $viewData->addTranslation('oscomment', $translator->translate('Comments'));
+    $viewData->addTranslation('oscomment', npgettext('global', 'Comment', 'Comments', 2));
     $viewData->addTranslation('hostid', 'HostID');
     $viewData->addTranslation('owner', 'Propriétaire');
-    $viewData->addTranslation('install_date', $translator->translate('Installation date'));
+    $viewData->addTranslation('install_date', pgettext('global', 'Installation date'));
 
     return $view->render($response, 'subitem/operatingsystems.html.twig', (array)$viewData);
   }

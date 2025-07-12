@@ -52,7 +52,7 @@ final class Contacttype extends Common implements \App\Interfaces\Crud
 
     $contacttype = \App\Models\Contacttype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The contact type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($contacttype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Contacttype extends Common implements \App\Interfaces\Crud
 
     $contacttype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The contact type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($contacttype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Contacttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contacttype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contact type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/contacttypes')
@@ -136,7 +136,7 @@ final class Contacttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contacttype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contact type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Contacttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contacttype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contact type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

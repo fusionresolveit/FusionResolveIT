@@ -15,8 +15,6 @@ trait Project
    */
   public function showSubProjects(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -108,14 +106,14 @@ trait Project
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('projects', $myProjects);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('open_date', $translator->translatePlural('Date', 'Dates', 1));
-    $viewData->addTranslation('last_update', $translator->translate('Last update'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('priority', $translator->translate('Priority'));
-    $viewData->addTranslation('manager', $translator->translate('Manager'));
-    $viewData->addTranslation('manager_group', $translator->translate('Manager group'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('open_date', npgettext('global', 'Date', 'Dates', 1));
+    $viewData->addTranslation('last_update', pgettext('global', 'Last update'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('priority', pgettext('ITIL', 'Priority'));
+    $viewData->addTranslation('manager', pgettext('global', 'Manager'));
+    $viewData->addTranslation('manager_group', pgettext('project', 'Manager group'));
 
     return $view->render($response, 'subitem/projects.html.twig', (array)$viewData);
   }

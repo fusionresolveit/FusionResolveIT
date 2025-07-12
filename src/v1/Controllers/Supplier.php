@@ -68,7 +68,7 @@ final class Supplier extends Common implements \App\Interfaces\Crud
 
     $supplier = \App\Models\Supplier::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The supplier has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($supplier, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -111,7 +111,7 @@ final class Supplier extends Common implements \App\Interfaces\Crud
 
     $supplier->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The supplier has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($supplier, 'update');
 
     $uri = $request->getUri();
@@ -141,7 +141,7 @@ final class Supplier extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $supplier->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The supplier has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/suppliers')
@@ -152,7 +152,7 @@ final class Supplier extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $supplier->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The supplier has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -179,7 +179,7 @@ final class Supplier extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $supplier->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The supplier has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -192,8 +192,6 @@ final class Supplier extends Common implements \App\Interfaces\Crud
    */
   public function showSubContracts(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Supplier();
     $view = Twig::fromRequest($request);
 
@@ -248,16 +246,12 @@ final class Supplier extends Common implements \App\Interfaces\Crud
         $initial_contract_period = '';
         if ($duration == 0)
         {
-          $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
+          $initial_contract_period = sprintf(npgettext('global', '%d month', '%d months', 1), $duration);
         }
         if ($duration != 0)
         {
           $initial_contract_period = sprintf(
-            $translator->translatePlural(
-              '%d month',
-              '%d months',
-              $duration
-            ),
+            npgettext('global', '%d month', '%d months', $duration),
             $duration
           );
         }
@@ -304,13 +298,13 @@ final class Supplier extends Common implements \App\Interfaces\Crud
     $viewData->addData('contracts', $myContracts);
     $viewData->addData('show_suppliers', false);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('number', $translator->translate('phone' . "\004" . 'Number'));
-    $viewData->addTranslation('type', $translator->translatePlural('Contract type', 'Contract types', 1));
-    $viewData->addTranslation('supplier', $translator->translatePlural('Supplier', 'Suppliers', 1));
-    $viewData->addTranslation('start_date', $translator->translate('Start date'));
-    $viewData->addTranslation('initial_contract_period', $translator->translate('Initial contract period'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('number', pgettext('phone', 'Number'));
+    $viewData->addTranslation('type', npgettext('contract', 'Contract type', 'Contract types', 1));
+    $viewData->addTranslation('supplier', npgettext('global', 'Supplier', 'Suppliers', 1));
+    $viewData->addTranslation('start_date', pgettext('global', 'Start date'));
+    $viewData->addTranslation('initial_contract_period', pgettext('contract', 'Initial contract period'));
 
     return $view->render($response, 'subitem/suppliercontracts.html.twig', (array)$viewData);
   }
@@ -320,8 +314,6 @@ final class Supplier extends Common implements \App\Interfaces\Crud
    */
   public function showSubContacts(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Supplier();
     $view = Twig::fromRequest($request);
 
@@ -399,14 +391,14 @@ final class Supplier extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('contacts', $myContacts);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('phone', $translator->translatePlural('Phone', 'Phones', 1));
-    $viewData->addTranslation('phone2', $translator->translate('Phone 2'));
-    $viewData->addTranslation('mobile', $translator->translate('Mobile phone'));
-    $viewData->addTranslation('fax', $translator->translate('Fax'));
-    $viewData->addTranslation('email', $translator->translatePlural('Email', 'Emails', 1));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('phone', npgettext('user parameter', 'Phone number', 'Phone numbers', 1));
+    $viewData->addTranslation('phone2', pgettext('user parameter', 'Second phone number'));
+    $viewData->addTranslation('mobile', pgettext('user parameter', 'Mobile phone number'));
+    $viewData->addTranslation('fax', pgettext('global', 'Fax'));
+    $viewData->addTranslation('email', npgettext('global', 'Email', 'Emails', 1));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
 
     return $view->render($response, 'subitem/suppliercontacts.html.twig', (array)$viewData);
   }
