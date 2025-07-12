@@ -15,7 +15,6 @@ class Fieldblacklist extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Fieldblacklist::class;
-  protected $titles = ['Ignored value for the unicity', 'Ignored values for the unicity'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Fieldblacklist extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Ignored value for the unicity', 'Ignored values for the unicity', $nb);
+  }
 }

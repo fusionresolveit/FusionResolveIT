@@ -72,7 +72,7 @@ Example:
 ```php
 $data = [
   5 => [
-    'title' => $translator->translate('Very high'),
+    'title' => pgettext('ITIL priority', 'Very high'),
   ]
 ];
 ```

@@ -15,7 +15,6 @@ class Lineoperator extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Lineoperator::class;
-  protected $titles = ['Line operator', 'Line operators'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Lineoperator extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Line operator', 'Line operators', $nb);
+  }
 }

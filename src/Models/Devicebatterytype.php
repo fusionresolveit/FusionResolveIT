@@ -14,7 +14,14 @@ class Devicebatterytype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicebatterytype::class;
-  protected $titles = ['Battery type', 'Battery types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Battery type', 'Battery types', $nb);
+  }
 }

@@ -15,8 +15,6 @@ trait Supplier
    */
   public function showSubSuppliers(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -71,12 +69,12 @@ trait Supplier
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('suppliers', $mySuppliers);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('type', $translator->translatePlural('Third party type', 'Third party types', 1));
-    $viewData->addTranslation('phone', $translator->translatePlural('Phone', 'Phones', 1));
-    $viewData->addTranslation('fax', $translator->translate('Fax'));
-    $viewData->addTranslation('website', $translator->translate('Website'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('type', npgettext('supplier', 'Third party type', 'Third party types', 1));
+    $viewData->addTranslation('phone', npgettext('global', 'Phone', 'Phones', 1));
+    $viewData->addTranslation('fax', pgettext('global', 'Fax'));
+    $viewData->addTranslation('website', pgettext('global', 'Website'));
 
     return $view->render($response, 'subitem/suppliers.html.twig', (array)$viewData);
   }

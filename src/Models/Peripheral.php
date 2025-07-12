@@ -31,7 +31,6 @@ class Peripheral extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Peripheral::class;
-  protected $titles = ['Device', 'Devices'];
   protected $icon = 'usb';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -170,6 +169,14 @@ class Peripheral extends Common
     {
       new \App\Events\PivotAttaching($relationName, $pivotIds);
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Device', 'Devices', $nb);
   }
 
   /** @return BelongsTo<\App\Models\Peripheraltype, $this> */

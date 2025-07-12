@@ -121,7 +121,6 @@ final class Dropdown extends Common
    */
   public function getRuleCriteriaCondition(Request $request, Response $response, array $args): Response
   {
-    global $translator;
     $data = (object) $request->getQueryParams();
 
     $conditions = \App\v1\Controllers\Rules\Criterium::getConditionsForDefinition(
@@ -136,91 +135,91 @@ final class Dropdown extends Common
       {
         case 0: // Pattern is
           $dropData[] = [
-            'name'  => $translator->translate('is'),
+            'name'  => pgettext('rule condition', 'is'),
             'value' => $condition,
           ];
             break;
 
         case 1: // Pattern is not
           $dropData[] = [
-            'name'  => $translator->translate('is not'),
+            'name'  => pgettext('rule condition', 'is not'),
             'value' => $condition,
           ];
             break;
 
         case 2: // Pattern contain
           $dropData[] = [
-            'name'  => $translator->translate('contains'),
+            'name'  => pgettext('rule condition', 'contains'),
             'value' => $condition,
           ];
             break;
 
         case 3: // Pattern not contain
           $dropData[] = [
-            'name'  => $translator->translate('does not contains'),
+            'name'  => pgettext('rule condition', 'does not contains'),
             'value' => $condition,
           ];
             break;
 
         case 4: // Pattern begin
           $dropData[] = [
-            'name'  => $translator->translate('starting with'),
+            'name'  => pgettext('rule condition', 'starting with'),
             'value' => $condition,
           ];
             break;
 
         case 5: // Pattern end
           $dropData[] = [
-            'name'  => $translator->translate('finished by'),
+            'name'  => pgettext('rule condition', 'finished by'),
             'value' => $condition,
           ];
             break;
 
         case 6: // Regex match
           $dropData[] = [
-            'name'  => $translator->translate('regular expression matches'),
+            'name'  => pgettext('rule condition', 'regular expression matches'),
             'value' => $condition,
           ];
             break;
 
         case 7: // Regex not match
           $dropData[] = [
-            'name'  => $translator->translate('regular expression does not match'),
+            'name'  => pgettext('rule condition', 'regular expression does not match'),
             'value' => $condition,
           ];
             break;
 
         case 8: // Pattern exists
           $dropData[] = [
-            'name'  => $translator->translate('exists'),
+            'name'  => pgettext('rule condition', 'exists'),
             'value' => $condition,
           ];
             break;
 
         case 9: // Pattern not exists
           $dropData[] = [
-            'name'  => $translator->translate('does not exist'),
+            'name'  => pgettext('rule condition', 'does not exist'),
             'value' => $condition,
           ];
             break;
 
         case 11: // Pattern under
           $dropData[] = [
-            'name'  => $translator->translate('is under'),
+            'name'  => pgettext('rule condition', 'is under'),
             'value' => $condition,
           ];
             break;
 
         case 12: // Pattern not under
           $dropData[] = [
-            'name'  => $translator->translate('is not under'),
+            'name'  => pgettext('rule condition', 'is not under'),
             'value' => $condition,
           ];
             break;
 
         case 30: // Pattern is empty
           $dropData[] = [
-            'name'  => $translator->translate('is empty'),
+            'name'  => pgettext('rule condition', 'is empty'),
             'value' => $condition,
           ];
             break;
@@ -249,8 +248,6 @@ final class Dropdown extends Common
    */
   public function getRuleCriteriaPattern(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $data = (object) $request->getQueryParams();
     // itemtype
     // definitionname
@@ -333,7 +330,7 @@ final class Dropdown extends Common
       case 9: // Pattern not exists
       case 30: // Pattern is empty
         $returnData[] = [
-          'name'  => $translator->translate('yes'),
+          'name'  => pgettext('global', 'Yes'),
           'value' => true,
         ];
           break;
@@ -367,8 +364,6 @@ final class Dropdown extends Common
    */
   public function getRuleActionsType(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $data = (object) $request->getQueryParams();
     $completeModelName = '\App\Models\\' . $data->itemtype;
     if (!class_exists($completeModelName))
@@ -394,14 +389,14 @@ final class Dropdown extends Common
           case 'boolean':
             $types = [
               [
-                'name'  => $translator->translate('assign'),
+                'name'  => pgettext('rule action type', 'assign'),
                 'value' => 1
               ]
             ];
             if (!is_null($definition->multiple) && $definition->multiple)
             {
               $types[] = [
-                'name'  => $translator->translate('append'),
+                'name'  => pgettext('rule action type', 'append'),
                 'value' => 3
               ];
             }
@@ -413,19 +408,19 @@ final class Dropdown extends Common
           case 'datetime':
             $types = [
               [
-                'name'  => $translator->translate('assign'),
+                'name'  => pgettext('rule action type', 'assign'),
                 'value' => 0
               ],
               [
-                'name'  => $translator->translate('append'),
+                'name'  => pgettext('rule action type', 'append'),
                 'value' => 2
               ],
               [
-                'name'  => $translator->translate('assign regex result'),
+                'name'  => pgettext('rule action type', 'assign regex result'),
                 'value' => 4
               ],
               [
-                'name'  => $translator->translate('append regex result'),
+                'name'  => pgettext('rule action type', 'append regex result'),
                 'value' => 5
               ]
             ];

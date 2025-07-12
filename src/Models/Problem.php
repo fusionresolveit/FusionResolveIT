@@ -23,7 +23,6 @@ class Problem extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Problem::class;
-  protected $titles = ['Problem', 'Problems'];
   protected $icon = 'drafting compass';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -94,6 +93,14 @@ class Problem extends Common
     'changes',
     'costs',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('problem', 'Problem', 'Problems', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo

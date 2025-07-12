@@ -25,8 +25,6 @@ final class Answer extends \App\v1\Controllers\Common
    */
   public function showAnswer(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Answer();
     $view = Twig::fromRequest($request);
 

@@ -15,7 +15,6 @@ class Authsso extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Authsso::class;
-  protected $titles = ['SSO', 'SSO'];
   protected $icon = 'id card alternate';
   protected $hasEntityField = false;
 
@@ -44,6 +43,14 @@ class Authsso extends Common
       \App\v1\Controllers\Authsso::initScopesForProvider($model);
       \App\v1\Controllers\Authsso::initOptionsForProvider($model);
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('sso', 'SSO', 'SSOs', $nb);
   }
 
   /** @return HasMany<\App\Models\Authssoscope, $this> */

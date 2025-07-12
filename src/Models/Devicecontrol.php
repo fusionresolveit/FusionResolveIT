@@ -20,7 +20,6 @@ class Devicecontrol extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicecontrol::class;
-  protected $titles = ['Controller', 'Controllers'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -46,6 +45,14 @@ class Devicecontrol extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Controller', 'Controllers', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

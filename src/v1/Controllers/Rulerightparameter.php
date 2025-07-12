@@ -52,7 +52,7 @@ final class Rulerightparameter extends Common implements \App\Interfaces\Crud
 
     $rulerightparameter = \App\Models\Rulerightparameter::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The rule right parameter has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($rulerightparameter, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Rulerightparameter extends Common implements \App\Interfaces\Crud
 
     $rulerightparameter->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The rule right parameter has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($rulerightparameter, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Rulerightparameter extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $rulerightparameter->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The rule right parameter has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/rulerightparameters')
@@ -136,7 +136,7 @@ final class Rulerightparameter extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $rulerightparameter->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The rule right parameter has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Rulerightparameter extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $rulerightparameter->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The rule right parameter has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

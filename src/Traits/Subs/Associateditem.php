@@ -15,8 +15,6 @@ trait Associateditem
    */
   public function showSubAssociatedItems(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -105,11 +103,11 @@ trait Associateditem
     $viewData->addData('associateditems', $myAssociatedItems);
     $viewData->addData('show', 'computer');
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('serial_number', $translator->translate('Serial number'));
-    $viewData->addTranslation('inventaire_number', $translator->translate('Inventory number'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('serial_number', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('inventaire_number', pgettext('inventory device', 'Inventory number'));
 
     return $view->render($response, 'subitem/associateditems.html.twig', (array)$viewData);
   }

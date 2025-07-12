@@ -8,7 +8,6 @@ use App\Traits\GetDropdownValues;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
@@ -32,14 +31,13 @@ class Phone extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Phone::class;
-  protected $titles = ['Phone', 'Phones'];
   protected $icon = 'phone';
   /** @var string[] */
   protected $cascadeDeletes = [
     'documents',
     'tickets',
     'problems',
-    'chnages',
+    'changes',
     'infocom',
     'contracts',
     'notes',
@@ -168,6 +166,14 @@ class Phone extends Common
     'reservations',
     'certificates:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Phone', 'Phones', $nb);
+  }
 
   public static function boot(): void
   {

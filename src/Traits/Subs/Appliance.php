@@ -15,8 +15,6 @@ trait Appliance
    */
   public function showSubAppliances(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -46,7 +44,7 @@ trait Appliance
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('appliances', $myAppliances);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/appliances.html.twig', (array)$viewData);
   }

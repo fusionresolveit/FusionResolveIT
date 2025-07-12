@@ -11,20 +11,18 @@ class Reminder
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Title'),
-      'text' => $translator->translate('Description'),
-      'begin_view_date' => $translator->translate('Visibility start date'),
-      'end_view_date' => $translator->translate('Visibility end date'),
-      'state' => $translator->translate('Status'),
-      'is_planned' => $translator->translate('Planning'),
-      'begin' => $translator->translate('Planning start date'),
-      'end' => $translator->translate('Planning end date'),
-      'user' => $translator->translate('Writer'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name'            => pgettext('global', 'Title'),
+      'text'            => pgettext('global', 'Description'),
+      'begin_view_date' => pgettext('reminder', 'Visibility start date'),
+      'end_view_date'   => pgettext('reminder', 'Visibility end date'),
+      'state'           => pgettext('global', 'Status'),
+      'is_planned'      => pgettext('calendar', 'Planning'),
+      'begin'           => pgettext('reminder', 'Planning start date'),
+      'end'             => pgettext('reminder', 'Planning end date'),
+      'user'            => pgettext('ITIL', 'Writer'),
+      'updated_at'      => pgettext('global', 'Last update'),
+      'created_at'      => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -75,20 +73,19 @@ class Reminder
    */
   public static function getStateArray(): array
   {
-    global $translator;
     return [
       0 => [
-        'title' => $translator->translatePlural('Information', 'Information', 1),
+        'title' => npgettext('reminder status', 'Information', 'Information', 1),
         'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       1 => [
-        'title' => $translator->translate('To do'),
+        'title' => pgettext('reminder status', 'To do'),
         'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       2 => [
-        'title' => $translator->translate('Done'),
+        'title' => pgettext('reminder status', 'Done'),
         'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
@@ -100,25 +97,24 @@ class Reminder
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 1),
+        'title' => npgettext('global', 'Note', 'Notes', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Target', 'Targets', 2),
+        'title' => npgettext('target', 'Target', 'Targets', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

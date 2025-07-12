@@ -87,7 +87,7 @@ final class Printer extends Common implements \App\Interfaces\Crud
 
     $printer = \App\Models\Printer::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($printer, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -130,7 +130,7 @@ final class Printer extends Common implements \App\Interfaces\Crud
 
     $printer->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($printer, 'update');
 
     $uri = $request->getUri();
@@ -160,7 +160,7 @@ final class Printer extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $printer->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/printers')
@@ -171,7 +171,7 @@ final class Printer extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $printer->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -198,7 +198,7 @@ final class Printer extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $printer->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The printer has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -211,8 +211,6 @@ final class Printer extends Common implements \App\Interfaces\Crud
    */
   public function showSubCartridges(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Printer();
     $view = Twig::fromRequest($request);
 
@@ -300,15 +298,15 @@ final class Printer extends Common implements \App\Interfaces\Crud
     $viewData->addData('cartridges_use', $myCartridges_use);
     $viewData->addData('cartridges_out', $myCartridges_out);
 
-    $viewData->addTranslation('model', $translator->translatePlural('Cartridge model', 'Cartridge models', 1));
-    $viewData->addTranslation('type', $translator->translatePlural('Cartridge type', 'Cartridge types', 1));
-    $viewData->addTranslation('date_add', $translator->translate('Add date'));
-    $viewData->addTranslation('date_use', $translator->translate('Use date'));
-    $viewData->addTranslation('date_end', $translator->translate('End date'));
-    $viewData->addTranslation('printer_counter', $translator->translate('Printer counter'));
-    $viewData->addTranslation('printed_pages', $translator->translate('Printed pages'));
-    $viewData->addTranslation('cartridges_use', $translator->translate('Used cartridges'));
-    $viewData->addTranslation('cartridges_out', $translator->translate('Worn cartridges'));
+    $viewData->addTranslation('model', npgettext('global', 'Cartridge model', 'Cartridge models', 1));
+    $viewData->addTranslation('type', npgettext('global', 'Cartridge type', 'Cartridge types', 1));
+    $viewData->addTranslation('date_add', pgettext('global', 'Add date'));
+    $viewData->addTranslation('date_use', pgettext('inventory device', 'Use date'));
+    $viewData->addTranslation('date_end', pgettext('global', 'End date'));
+    $viewData->addTranslation('printer_counter', pgettext('printer', 'Printer counter'));
+    $viewData->addTranslation('printed_pages', pgettext('printer', 'Printed pages'));
+    $viewData->addTranslation('cartridges_use', pgettext('cartridge', 'Used cartridges'));
+    $viewData->addTranslation('cartridges_out', pgettext('cartridge', 'Worn cartridges'));
 
     return $view->render($response, 'subitem/cartridgesprinters.html.twig', (array)$viewData);
   }
@@ -320,8 +318,6 @@ final class Printer extends Common implements \App\Interfaces\Crud
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator, $basePath;
-
     $tabInfos = [];
 
     $fusioninventoried_at = $item->getAttribute('fusioninventoried_at');
@@ -329,13 +325,13 @@ final class Printer extends Common implements \App\Interfaces\Crud
     {
       $tabInfos[] = [
         'key'   => 'labelfusioninventoried',
-        'value' => $translator->translate('Automatically inventoried'),
+        'value' => pgettext('inventory device', 'Automatically inventoried'),
         'link'  => null,
       ];
 
       $tabInfos[] = [
         'key'   => 'fusioninventoried',
-        'value' => $translator->translate('Last automatic inventory') . ' : ' .
+        'value' => pgettext('inventory device', 'Last automatic inventory') . ' : ' .
                    $fusioninventoried_at->toDateTimeString(),
         'link'  => null,
       ];

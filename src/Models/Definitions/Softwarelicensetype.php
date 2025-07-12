@@ -11,15 +11,13 @@ class Softwarelicensetype
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'softwarelicensetype' => $translator->translate('As child of'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'softwarelicensetype' => pgettext('global', 'As child of'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -41,7 +39,7 @@ class Softwarelicensetype
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -53,20 +51,19 @@ class Softwarelicensetype
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('License type', 'License types', 1),
+        'title' => npgettext('global', 'License type', 'License types', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('License type', 'License types', 2),
+        'title' => npgettext('global', 'License type', 'License types', 2),
         'icon' => 'edit',
         'link' => $rootUrl . '/licencetypes',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -20,7 +20,6 @@ class Devicesensor extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicesensor::class;
-  protected $titles = ['Sensor', 'Sensors'];
   protected $icon = 'sensor';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -45,6 +44,14 @@ class Devicesensor extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Sensor', 'Sensors', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

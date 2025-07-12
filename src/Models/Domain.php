@@ -26,7 +26,6 @@ class Domain extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Domain::class;
-  protected $titles = ['Domain', 'Domains'];
   protected $icon = 'globe americas';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -81,6 +80,14 @@ class Domain extends Common
     'changes:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Domain', 'Domains', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Domaintype, $this> */
   public function type(): BelongsTo

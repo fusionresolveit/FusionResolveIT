@@ -14,7 +14,14 @@ class Phonemodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Phonemodel::class;
-  protected $titles = ['Phone model', 'Phone models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Phone model', 'Phone models', $nb);
+  }
 }

@@ -11,17 +11,15 @@ class Followup
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'id' => $translator->translate('ID'),
-      'content' => $translator->translate('Content'),
-      'source' => $translator->translate('Source of followup'),
-      'is_private' => $translator->translate('Private'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'user' => $translator->translatePlural('User', 'Users', 1),
-      'is_tech' => $translator->translate('Technician has written'),
+      'id' => pgettext('global', 'Id'),
+      'content' => pgettext('global', 'Content'),
+      'source' => pgettext('ITIL', 'Source of followup'),
+      'is_private' => pgettext('global', 'Private'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'user' => npgettext('global', 'User', 'Users', 1),
+      'is_tech' => pgettext('ITIL', 'Technician has written'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -56,7 +54,7 @@ class Followup
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',

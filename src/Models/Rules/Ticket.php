@@ -6,8 +6,6 @@ namespace App\Models\Rules;
 
 class Ticket extends \App\Models\Rules\Rule
 {
-  protected $titles = ['Business rules for tickets', 'Business rules for tickets'];
-
   // For default values
   protected $attributes = [
     'sub_type' => 'ticket',
@@ -21,5 +19,13 @@ class Ticket extends \App\Models\Rules\Rule
     {
       $builder->where('sub_type', 'ticket');
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Business rule for tickets', 'Business rules for tickets', $nb);
   }
 }

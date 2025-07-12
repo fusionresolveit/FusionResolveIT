@@ -11,18 +11,16 @@ class Ipnetwork
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'address' => $translator->translatePlural('IP address', 'IP addresses', 1),
-      'netmask' => $translator->translatePlural('Subnet mask', 'Subnet masks', 1),
-      'gateway' => $translator->translate('Gateway'),
-      'addressable' => $translator->translate('Addressable network'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'address' => npgettext('network', 'IP address', 'IP addresses', 1),
+      'netmask' => npgettext('network', 'Subnet mask', 'Subnet masks', 1),
+      'gateway' => pgettext('network', 'Gateway'),
+      'addressable' => pgettext('network', 'Addressable network'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -39,7 +37,7 @@ class Ipnetwork
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -51,25 +49,24 @@ class Ipnetwork
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('IP network', 'IP networks', 1),
+        'title' => npgettext('global', 'IP network', 'IP networks', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('VLAN', 'VLANs', 1),
+        'title' => npgettext('global', 'VLAN', 'VLANs', 1),
         'icon' => 'edit',
         'link' => $rootUrl . '/vlans',
       ],
       [
-        'title' => $translator->translatePlural('IP address', 'IP addresses', 2),
+        'title' => npgettext('network', 'IP address', 'IP addresses', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

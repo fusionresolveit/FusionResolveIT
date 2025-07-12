@@ -225,7 +225,7 @@ final class Ticket extends \App\v1\Controllers\Common
     \App\Models\Rules\Rulecriterium::create($data->exportToArray());
 
     // add message to session
-    \App\v1\Controllers\Toolbox::addSessionMessage('The criterion has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
 
     $uri = $request->getUri();
     $newUrl = rtrim((string) $uri, '/new');
@@ -276,7 +276,7 @@ final class Ticket extends \App\v1\Controllers\Common
     \App\Models\Rules\Ruleaction::create($data->exportToArray());
 
     // add message to session
-    \App\v1\Controllers\Toolbox::addSessionMessage('The action has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
 
     $uri = $request->getUri();
     $newUrl = rtrim((string) $uri, '/new');

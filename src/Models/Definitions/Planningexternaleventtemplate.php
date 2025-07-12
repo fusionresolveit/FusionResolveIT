@@ -11,20 +11,18 @@ class Planningexternaleventtemplate
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'state' => $translator->translate('Status'),
-      'category' => $translator->translatePlural('Type', 'Types', 1),
-      'background' => $translator->translate('Background event'),
-      'duration' => $translator->translate('Period'),
-      'before_time' => $translator->translate('Planning' . "\004" . 'Reminder'),
-      'rrule' => $translator->translate('Repeat'),
-      'text' => $translator->translate('Description'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'state' => pgettext('global', 'Status'),
+      'category' =>  npgettext('global', 'Type', 'Types', 1),
+      'background' => pgettext('planning', 'Background event'),
+      'duration' => pgettext('planning', 'Period'),
+      'before_time' => npgettext('global', 'Reminder', 'Reminders', 1),
+      'rrule' => pgettext('planning', 'Repeat'),
+      'text' => pgettext('global', 'Description'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -64,16 +62,15 @@ class Planningexternaleventtemplate
    */
   public static function getStateArray(): array
   {
-    global $translator;
     return [
       0 => [
-        'title' => $translator->translatePlural('Information', 'Information', 1),
+        'title' => npgettext('planning', 'Information', 'Information', 1),
       ],
       1 => [
-        'title' => $translator->translate('To do'),
+        'title' => pgettext('planning status', 'To do'),
       ],
       2 => [
-        'title' => $translator->translate('Done'),
+        'title' => pgettext('planning status', 'Done'),
       ],
     ];
   }
@@ -83,15 +80,14 @@ class Planningexternaleventtemplate
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('External events template', 'External events templates', 1),
+        'title' => npgettext('global', 'External events template', 'External events templates', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

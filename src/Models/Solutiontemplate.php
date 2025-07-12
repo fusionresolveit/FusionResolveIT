@@ -16,7 +16,6 @@ class Solutiontemplate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Solutiontemplate::class;
-  protected $titles = ['Solution template', 'Solution templates'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Solutiontemplate extends Common
     'types:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Solution template', 'Solution templates', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Solutiontype, $this> */
   public function type(): BelongsTo

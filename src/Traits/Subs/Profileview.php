@@ -18,8 +18,6 @@ trait Profileview
    */
   public function showSubprofileview(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -55,8 +53,8 @@ trait Profileview
     $viewData->addData('profileActions', true);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('id', $translator->translate('id'));
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('id', pgettext('global', 'Id'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/profileview.html.twig', (array)$viewData);
   }

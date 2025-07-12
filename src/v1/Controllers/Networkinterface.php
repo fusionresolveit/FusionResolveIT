@@ -52,7 +52,7 @@ final class Networkinterface extends Common implements \App\Interfaces\Crud
 
     $networkinterface = \App\Models\Networkinterface::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network interface has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($networkinterface, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Networkinterface extends Common implements \App\Interfaces\Crud
 
     $networkinterface->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network interface has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($networkinterface, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Networkinterface extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $networkinterface->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network interface has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/networkinterfaces')
@@ -136,7 +136,7 @@ final class Networkinterface extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $networkinterface->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network interface has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Networkinterface extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $networkinterface->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network interface has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

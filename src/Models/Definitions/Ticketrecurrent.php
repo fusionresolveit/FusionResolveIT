@@ -11,17 +11,15 @@ class Ticketrecurrent
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Title'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'is_active' => $translator->translate('Active'),
-      'begin_date' => $translator->translate('Start date'),
-      'end_date' => $translator->translate('End date'),
+      'name' => pgettext('global', 'Title'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'is_active' => pgettext('global', 'Active'),
+      'begin_date' => pgettext('global', 'Start date'),
+      'end_date' => pgettext('global', 'End date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -38,7 +36,7 @@ class Ticketrecurrent
 
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -110,20 +108,19 @@ class Ticketrecurrent
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translate('Recurrent tickets'),
+        'title' => npgettext('global', 'Recurrent ticket', 'Recurrent tickets', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Information', 'Information', 2),
+        'title' => npgettext('ticket', 'Information', 'Information', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

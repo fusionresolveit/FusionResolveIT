@@ -52,7 +52,7 @@ final class Pdumodel extends Common implements \App\Interfaces\Crud
 
     $pdumodel = \App\Models\Pdumodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The pdu model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($pdumodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Pdumodel extends Common implements \App\Interfaces\Crud
 
     $pdumodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The pdu model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($pdumodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Pdumodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $pdumodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/pdumodels')
@@ -136,7 +136,7 @@ final class Pdumodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $pdumodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Pdumodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $pdumodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pdu model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

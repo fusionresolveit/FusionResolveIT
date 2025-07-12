@@ -15,7 +15,6 @@ class Fieldunicity extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Fieldunicity::class;
-  protected $titles = ['Fields unicity', 'Fields unicity'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Fieldunicity extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Fields unicity', 'Fields unicity', $nb);
+  }
 }

@@ -11,16 +11,14 @@ class Computerantivirus
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'antivirus_version' => $translator->translate('Antivirus version'),
-      'date_expiration' => $translator->translate('Expiration date'),
-      'signature_version' => $translator->translate('Signature database version'),
-      'is_active' => $translator->translate('Active'),
-      'is_uptodate' => $translator->translate('Up to date'),
+      'name' => pgettext('global', 'Name'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
+      'antivirus_version' => pgettext('inventory device', 'Antivirus version'),
+      'date_expiration' => pgettext('global', 'Expiration date'),
+      'signature_version' => pgettext('antivirus', 'Signature database version'),
+      'is_active' => pgettext('global', 'Active'),
+      'is_uptodate' => pgettext('antivirus', 'Up to date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -48,7 +46,6 @@ class Computerantivirus
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [];
   }
 }

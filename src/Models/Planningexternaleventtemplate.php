@@ -16,7 +16,6 @@ class Planningexternaleventtemplate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Planningexternaleventtemplate::class;
-  protected $titles = ['External events template', 'External events templates'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Planningexternaleventtemplate extends Common
     'category:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'External events template', 'External events templates', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Planningeventcategory, $this> */
   public function category(): BelongsTo

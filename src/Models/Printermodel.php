@@ -14,7 +14,14 @@ class Printermodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Printermodel::class;
-  protected $titles = ['Printer model', 'Printer models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Printer model', 'Printer models', $nb);
+  }
 }

@@ -50,7 +50,7 @@ final class Contracttype extends Common implements \App\Interfaces\Crud
 
     $contracttype = \App\Models\Contracttype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The contract type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($contracttype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -93,7 +93,7 @@ final class Contracttype extends Common implements \App\Interfaces\Crud
 
     $contracttype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The contract type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($contracttype, 'update');
 
     $uri = $request->getUri();
@@ -123,7 +123,7 @@ final class Contracttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contracttype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contract type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/contracttypes')
@@ -134,7 +134,7 @@ final class Contracttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contracttype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contract type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -161,7 +161,7 @@ final class Contracttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $contracttype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The contract type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

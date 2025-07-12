@@ -52,7 +52,7 @@ final class Certificatetype extends Common implements \App\Interfaces\Crud
 
     $certificatetype = \App\Models\Certificatetype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The certificate type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($certificatetype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Certificatetype extends Common implements \App\Interfaces\Crud
 
     $certificatetype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The certificate type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($certificatetype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Certificatetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $certificatetype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The certificate type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/certificatetypes')
@@ -136,7 +136,7 @@ final class Certificatetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $certificatetype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The certificate type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Certificatetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $certificatetype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The certificate type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

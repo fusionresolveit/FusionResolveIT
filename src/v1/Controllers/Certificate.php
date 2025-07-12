@@ -101,7 +101,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
 
     $certificate = \App\Models\Certificate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The certificate has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($certificate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -144,7 +144,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
 
     $certificate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The certificate has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($certificate, 'update');
 
     $uri = $request->getUri();
@@ -174,7 +174,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $certificate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The certificate has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/certificates')
@@ -185,7 +185,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $certificate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The certificate has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -212,7 +212,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $certificate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The certificate has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -225,8 +225,6 @@ final class Certificate extends Common implements \App\Interfaces\Crud
    */
   public function showSubDomains(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Certificate();
     $view = Twig::fromRequest($request);
 
@@ -297,7 +295,7 @@ final class Certificate extends Common implements \App\Interfaces\Crud
       $date_expiration = $domain->date_expiration;
       if ($date_expiration == null)
       {
-        $date_expiration = $translator->translate("N'expire pas");
+        $date_expiration = pgettext('management', 'Does not expire');
       }
       else
       {
@@ -332,13 +330,13 @@ final class Certificate extends Common implements \App\Interfaces\Crud
     $viewData->addData('domains', $myDomains);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('group', $translator->translate('Group in charge'));
-    $viewData->addTranslation('user', $translator->translate('Technician in charge'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('relation', $translator->translatePlural('Domain relation', 'Domains relations', 1));
-    $viewData->addTranslation('date_create', $translator->translate('Creation date'));
-    $viewData->addTranslation('date_exp', $translator->translate('Expiration date'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('group', pgettext('inventory device', 'Group in charge'));
+    $viewData->addTranslation('user', pgettext('inventory device', 'Technician in charge'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('relation', npgettext('global', 'Domain relation', 'Domain relations', 1));
+    $viewData->addTranslation('date_create', pgettext('global', 'Creation date'));
+    $viewData->addTranslation('date_exp', pgettext('global', 'Expiration date'));
 
     return $view->render($response, 'subitem/domains.html.twig', (array)$viewData);
   }

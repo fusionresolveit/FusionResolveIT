@@ -71,7 +71,7 @@ final class Deviceprocessor extends Common implements \App\Interfaces\Crud
 
     $deviceprocessor = \App\Models\Deviceprocessor::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The processor has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($deviceprocessor, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -114,7 +114,7 @@ final class Deviceprocessor extends Common implements \App\Interfaces\Crud
 
     $deviceprocessor->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The processor has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($deviceprocessor, 'update');
 
     $uri = $request->getUri();
@@ -144,7 +144,7 @@ final class Deviceprocessor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $deviceprocessor->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The processor has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/deviceprocessors')
@@ -155,7 +155,7 @@ final class Deviceprocessor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $deviceprocessor->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The processor has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -182,7 +182,7 @@ final class Deviceprocessor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $deviceprocessor->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The processor has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

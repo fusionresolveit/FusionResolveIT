@@ -24,7 +24,6 @@ class Cluster extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Cluster::class;
-  protected $titles = ['Cluster', 'Clusters'];
   protected $icon = 'project diagram';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -68,6 +67,14 @@ class Cluster extends Common
     'problems:id,name',
     'changes:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Cluster', 'Clusters', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Clustertype, $this> */
   public function type(): BelongsTo

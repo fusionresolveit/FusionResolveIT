@@ -16,7 +16,6 @@ class Memoryslot extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Memoryslot::class;
-  protected $titles = ['Memory slot', 'Memory slot'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
   /** @var string[] */
@@ -38,21 +37,28 @@ class Memoryslot extends Common
   protected $with = [
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('memory device', 'Memory slot', 'Memory slots', $nb);
+  }
+
   public function getNameAttribute(): string
   {
-    global $translator;
     $item = $this->item;
     if (is_null($item))
     {
-      return $translator->translate('slot') . ' ' . $this->attributes['slotnumber'];
+      return pgettext('memory device', 'Slot') . ' ' . $this->attributes['slotnumber'];
     }
     if ($item instanceof \App\Models\Common)
     {
       return '(' . $item->getTitle() . ') ' . $item->getAttribute('name') . ' > ' .
-          $translator->translate('slot') . ' ' . $this->attributes['slotnumber'];
+          pgettext('memory device', 'Slot') . ' ' . $this->attributes['slotnumber'];
     }
 
-    return $item->getAttribute('name') . ' > ' . $translator->translate('slot') . ' ' .
+    return $item->getAttribute('name') . ' > ' . pgettext('memory device', 'Slot') . ' ' .
            $this->attributes['slotnumber'];
   }
 

@@ -79,7 +79,7 @@ final class Devicegeneric extends Common implements \App\Interfaces\Crud
 
     $devicegeneric = \App\Models\Devicegeneric::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The generic device has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicegeneric, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -122,7 +122,7 @@ final class Devicegeneric extends Common implements \App\Interfaces\Crud
 
     $devicegeneric->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The generic device has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicegeneric, 'update');
 
     $uri = $request->getUri();
@@ -152,7 +152,7 @@ final class Devicegeneric extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicegeneric->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The generic device has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicegenerics')
@@ -163,7 +163,7 @@ final class Devicegeneric extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicegeneric->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The generic device has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -190,7 +190,7 @@ final class Devicegeneric extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicegeneric->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The generic device has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

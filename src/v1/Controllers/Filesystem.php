@@ -52,7 +52,7 @@ final class Filesystem extends Common implements \App\Interfaces\Crud
 
     $filesystem = \App\Models\Filesystem::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The filesystem has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($filesystem, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Filesystem extends Common implements \App\Interfaces\Crud
 
     $filesystem->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The filesystem has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($filesystem, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Filesystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $filesystem->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The filesystem has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/filesystems')
@@ -136,7 +136,7 @@ final class Filesystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $filesystem->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The filesystem has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Filesystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $filesystem->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The filesystem has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

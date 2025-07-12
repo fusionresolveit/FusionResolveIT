@@ -6,37 +6,34 @@ namespace App\Traits\Definitions;
 
 use App\DataInterface\Definition;
 use App\DataInterface\DefinitionCollection;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait Infocoms
 {
   public static function getDefinitionInfocom(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'order_date' => $translator->translate('Order date'),
-      'buy_date' => $translator->translate('Date of purchase'),
-      'delivery_date' => $translator->translate('Delivery date'),
-      'use_date' => $translator->translate('Startup date'),
-      'inventory_date' => $translator->translate('Date of last physical inventory'),
-      'decommission_date' => $translator->translate('Decommission date'),
-      'supplier' => $translator->translatePlural('Supplier', 'Suppliers', 1),
-      'budget' => $translator->translatePlural('Budget', 'Budgets', 1),
-      'order_number' => $translator->translate('Order number'),
-      'immo_number' => $translator->translate('Immobilization number'),
-      'bill' => $translator->translate('Invoice number'),
-      'delivery_number' => $translator->translate('Delivery form'),
-      'value' => $translator->translate('Value'),
-      'warranty_value' => $translator->translate('Warranty extension value'),
-      'sink_type' => $translator->translate('Amortization type'),
-      'sink_time' => $translator->translate('Amortization duration'),
-      'sink_coeff' => $translator->translate('Amortization coefficient'),
-      'businesscriticity' => $translator->translatePlural('Business criticity', 'Business criticities', 1),
-      'comment' => $translator->translate('Comments'),
-      'warranty_date' => $translator->translate('Start date of warranty'),
-      'warranty_duration' => $translator->translate('Warranty duration'),
-      'warranty_info' => $translator->translate('Warranty information'),
+      'order_date' => pgettext('administrative management', 'Order date'),
+      'buy_date' => pgettext('administrative management', 'Date of purchase'),
+      'delivery_date' => pgettext('administrative management', 'Delivery date'),
+      'use_date' => pgettext('administrative management', 'Startup date'),
+      'inventory_date' => pgettext('administrative management', 'Date of last physical inventory'),
+      'decommission_date' => pgettext('administrative management', 'Decommission date'),
+      'supplier' => npgettext('global', 'Supplier', 'Suppliers', 1),
+      'budget' => npgettext('global', 'Budget', 'Budgets', 1),
+      'order_number' => pgettext('administrative management', 'Order number'),
+      'immo_number' => pgettext('administrative management', 'Immobilization number'),
+      'bill' => pgettext('administrative management', 'Invoice number'),
+      'delivery_number' => pgettext('administrative management', 'Delivery form'),
+      'value' => pgettext('administrative management', 'Value'),
+      'warranty_value' => pgettext('administrative management', 'Warranty extension value'),
+      'sink_type' => pgettext('administrative management', 'Amortization type'),
+      'sink_time' => pgettext('administrative management', 'Amortization duration'),
+      'sink_coeff' => pgettext('administrative management', 'Amortization coefficient'),
+      'businesscriticity' => npgettext('global', 'Business criticity', 'Business criticities', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'warranty_date' => pgettext('administrative management', 'Start date of warranty'),
+      'warranty_duration' => pgettext('administrative management', 'Warranty duration'),
+      'warranty_info' => pgettext('administrative management', 'Warranty information'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -112,7 +109,7 @@ trait Infocoms
         0,
         120,
         1,
-        ['-1' => $translator->translate('Lifelong')],
+        ['-1' => pgettext('administrative management', 'Lifelong')],
         'month'
       ),
       fillable: true
@@ -127,16 +124,15 @@ trait Infocoms
    */
   public static function getAmortType(): array
   {
-    global $translator;
     return [
       0 => [
         'title' => '',
       ],
       1 => [
-        'title' => $translator->translate('Decreasing'),
+        'title' => pgettext('administrative management', 'Decreasing'),
       ],
       2 => [
-        'title' => $translator->translate('Linear'),
+        'title' => pgettext('administrative management', 'Linear'),
       ],
     ];
   }

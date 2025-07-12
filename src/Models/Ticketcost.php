@@ -16,7 +16,6 @@ class Ticketcost extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Ticketcost::class;
-  protected $titles = ['Ticket cost', 'Ticket costs'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -32,6 +31,13 @@ class Ticketcost extends Common
     'budget:id,name',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('cost', 'Ticket cost', 'Ticket costs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Budget, $this> */
   public function budget(): BelongsTo

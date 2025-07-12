@@ -11,13 +11,11 @@ class Ruleaction
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'rule' => $translator->translatePlural('Rule', 'Rules', 1),
-      'action_type' => $translator->translate('Action type'),
-      'field' => $translator->translatePlural('Field', 'Fields', 1),
-      'value' => $translator->translate('Value'),
+      'rule' => npgettext('rule', 'Rule', 'Rules', 1),
+      'action_type' => pgettext('rule', 'Action type'),
+      'field' => npgettext('rule', 'Field', 'Fields', 1),
+      'value' => pgettext('rule', 'Value'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -49,25 +47,24 @@ class Ruleaction
    */
   public static function getActiontypeArray(): array
   {
-    global $translator;
     return [
       0 => [
-        'title' => $translator->translate('assign'),
+        'title' => pgettext('rule action type', 'assign'),
       ],
       1 => [
-        'title' => $translator->translate('assign dropdown'),
+        'title' => pgettext('rule action type', 'assign dropdown'),
       ],
       2 => [
-        'title' => $translator->translate('append'),
+        'title' => pgettext('rule action type', 'append'),
       ],
       3 => [
-        'title' => $translator->translate('append dropdown'),
+        'title' => pgettext('rule action type', 'append dropdown'),
       ],
       4 => [
-        'title' => $translator->translate('regex result'),
+        'title' => pgettext('rule action type', 'regex result'),
       ],
       5 => [
-        'title' => $translator->translate('append regex result'),
+        'title' => pgettext('rule action type', 'append regex result'),
       ],
     ];
   }

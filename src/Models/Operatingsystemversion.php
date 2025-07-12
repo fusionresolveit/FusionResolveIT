@@ -14,11 +14,18 @@ class Operatingsystemversion extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Operatingsystemversion::class;
-  protected $titles = ['Version of the operating system', 'Versions of the operating systems'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
   protected $casts = [
     'is_lts' => 'boolean',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Version of the operating system', 'Version of the operating systems', $nb);
+  }
 }

@@ -20,7 +20,6 @@ class Devicesimcard extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicesimcard::class;
-  protected $titles = ['Simcard', 'Simcards'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -48,6 +47,14 @@ class Devicesimcard extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'SIM card', 'SIM cards', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

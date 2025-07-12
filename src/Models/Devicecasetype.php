@@ -14,7 +14,14 @@ class Devicecasetype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicecasetype::class;
-  protected $titles = ['Case type', 'Case types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Case type', 'Case types', $nb);
+  }
 }

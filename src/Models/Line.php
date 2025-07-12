@@ -23,7 +23,6 @@ class Line extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Line::class;
-  protected $titles = ['Line', 'Lines'];
   protected $icon = 'phone';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -63,6 +62,14 @@ class Line extends Common
     'contracts:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Line', 'Lines', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Linetype, $this> */
   public function type(): BelongsTo

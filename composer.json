@@ -27,6 +27,7 @@
         "adhocore/cli": "^v1.0.0",
         "bryanjhv/slim-session": "~4.0",
         "crunzphp/crunz": "^3.7",
+        "datalinx/gettext-context": "^2.0",
         "directorytree/ldaprecord": "^3.7",
         "fico7489/laravel-pivot": "^3.0",
         "fullpipe/twig-webpack-extension": "^4.0",
@@ -37,7 +38,6 @@
         "illuminate/http": "^12",
         "jfcherng/php-diff": "^6.16",
         "jimtools/jwt-auth": "^2.2",
-        "laminas/laminas-i18n": "^2.29",
         "league/commonmark": "^2.5",
         "league/flysystem": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -66,7 +66,6 @@
         "ext-xml": "*",
         "icanhazstring/composer-unused": "^0.9.3",
         "illuminate/testing": "^12",
-        "laminas/laminas-cli": "^1.10",
         "larastan/larastan": "^3.0",
         "maglnet/composer-require-checker": "^4.7",
         "mikey179/vfsstream": "^1.6",
@@ -107,7 +106,10 @@
             "App\\": "src",
             "Tasks\\": "tasks",
             "Migration\\": "db"
-        }
+        },
+        "files": [
+            "vendor/datalinx/gettext-context/src/gettext-context.php"
+        ]
     },
     "repositories": [
         {

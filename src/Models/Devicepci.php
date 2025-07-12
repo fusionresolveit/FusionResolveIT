@@ -20,7 +20,6 @@ class Devicepci extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicepci::class;
-  protected $titles = ['PCI device', 'PCI devices'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -44,6 +43,14 @@ class Devicepci extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'PCI device', 'PCI devices', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

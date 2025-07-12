@@ -26,7 +26,7 @@
         {% endfor %}
       </div>
     </div>
-    <button class="ui primary button" type="submit">add</button>
+    <button class="ui primary button" type="submit">{{ translation.buttonadd }}</button>
     {% for key, val in data.csrf %}
       <input type="hidden" name="{{ key }}" value="{{ val }}">
     {% endfor %}
@@ -39,11 +39,11 @@
       Columns for: {{ data.type }}
       {% if data.type == 'user' %}
         <a href="{{ header.rootpath }}/view/columns/deleteuser?m={{ data.m }}" class="ui right floated red button">
-          Delete user columns management
+          <span>{{ translation.buttondeleteusercols }}</span>
         </a>
       {% else %}
         <a href="{{ header.rootpath }}/view/columns/createuser?m={{ data.m }}" class="ui right floated primary button">
-          Create user columns management
+          <span>{{ translation.buttonaddusercols }}</span>
         </a>
       </div>
       {% endif %}

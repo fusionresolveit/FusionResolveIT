@@ -20,7 +20,6 @@ class Deviceprocessor extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Deviceprocessor::class;
-  protected $titles = ['Processor', 'Processors'];
   protected $icon = 'processor';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -44,6 +43,14 @@ class Deviceprocessor extends Common
     'documents',
     'firmware:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Processor', 'Processors', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

@@ -78,7 +78,7 @@ final class Firmware extends Common implements \App\Interfaces\Crud
 
     $firmware = \App\Models\Firmware::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($firmware, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -121,7 +121,7 @@ final class Firmware extends Common implements \App\Interfaces\Crud
 
     $firmware->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($firmware, 'update');
 
     $uri = $request->getUri();
@@ -151,7 +151,7 @@ final class Firmware extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $firmware->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/firmware')
@@ -162,7 +162,7 @@ final class Firmware extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $firmware->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -189,7 +189,7 @@ final class Firmware extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $firmware->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The firmware has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

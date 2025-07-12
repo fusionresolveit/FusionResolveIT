@@ -14,17 +14,15 @@ class Dcroom
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'datacenter' => $translator->translatePlural('Data center', 'Data centers', 1),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'vis_cols' => $translator->translate('Number of columns'),
-      'vis_rows' => $translator->translate('Number of rows'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'datacenter' => npgettext('global', 'Data center', 'Data centers', 1),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'vis_cols' => pgettext('dc room', 'Number of columns'),
+      'vis_rows' => pgettext('dc room', 'Number of rows'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -57,7 +55,7 @@ class Dcroom
 
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -69,50 +67,49 @@ class Dcroom
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Server room', 'Server rooms', 1),
+        'title' => npgettext('global', 'Server room', 'Server rooms', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Impact analysis'),
+        'title' => pgettext('inventory device', 'Impact analysis'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Rack', 'Racks', 2),
+        'title' => npgettext('global', 'Rack', 'Racks', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('External link', 'External links', 2),
+        'title' => npgettext('global', 'External link', 'External links', 2),
         'icon' => 'linkify',
         'link' => $rootUrl . '/externallinks',
       ],
       [
-        'title' => $translator->translate('ITIL'),
+        'title' => pgettext('global', 'ITIL'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/itil',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

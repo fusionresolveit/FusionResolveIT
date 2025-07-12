@@ -54,7 +54,7 @@ final class Category extends Common implements \App\Interfaces\Crud
 
     $category = \App\Models\Category::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The category has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($category, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Category extends Common implements \App\Interfaces\Crud
 
     $category->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The category has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($category, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Category extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $category->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The category has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/categories')
@@ -138,7 +138,7 @@ final class Category extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $category->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The category has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Category extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $category->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The category has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Category extends Common implements \App\Interfaces\Crud
    */
   public function showSubCategories(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Category();
     $view = Twig::fromRequest($request);
 
@@ -236,51 +234,51 @@ final class Category extends Common implements \App\Interfaces\Crud
       $visible_simplified_interface = $category->is_helpdeskvisible;
       if ($category->is_helpdeskvisible == 1)
       {
-        $visible_simplified_interface_val = $translator->translate('Yes');
+        $visible_simplified_interface_val = pgettext('global', 'Yes');
       }
       else
       {
-        $visible_simplified_interface_val = $translator->translate('No');
+        $visible_simplified_interface_val = pgettext('global', 'No');
       }
 
       $visible_incident = $category->is_incident;
       if ($category->is_incident == 1)
       {
-        $visible_incident_val = $translator->translate('Yes');
+        $visible_incident_val = pgettext('global', 'Yes');
       }
       else
       {
-        $visible_incident_val = $translator->translate('No');
+        $visible_incident_val = pgettext('global', 'No');
       }
 
       $visible_request = $category->is_request;
       if ($category->is_request == 1)
       {
-        $visible_request_val = $translator->translate('Yes');
+        $visible_request_val = pgettext('global', 'Yes');
       }
       else
       {
-        $visible_request_val = $translator->translate('No');
+        $visible_request_val = pgettext('global', 'No');
       }
 
       $visible_problem = $category->is_problem;
       if ($category->is_request == 1)
       {
-        $visible_problem_val = $translator->translate('Yes');
+        $visible_problem_val = pgettext('global', 'Yes');
       }
       else
       {
-        $visible_problem_val = $translator->translate('No');
+        $visible_problem_val = pgettext('global', 'No');
       }
 
       $visible_change = $category->is_change;
       if ($category->is_request == 1)
       {
-        $visible_change_val = $translator->translate('Yes');
+        $visible_change_val = pgettext('global', 'Yes');
       }
       else
       {
-        $visible_change_val = $translator->translate('No');
+        $visible_change_val = pgettext('global', 'No');
       }
 
       $template_request = '';
@@ -370,23 +368,23 @@ final class Category extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('categories', $myCategories);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('user', $translator->translate('Technician in charge of the hardware'));
-    $viewData->addTranslation('group', $translator->translate('Group in charge of the hardware'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('user', pgettext('inventory device', 'Technician in charge of the hardware'));
+    $viewData->addTranslation('group', pgettext('inventory device', 'Group in charge of the hardware'));
     $viewData->addTranslation(
       'visible_simplified_interface',
-      $translator->translate('Visible in the simplified interface')
+      pgettext('category', 'Visible in the simplified interface')
     );
-    $viewData->addTranslation('visible_incident', $translator->translate('Visible for an incident'));
-    $viewData->addTranslation('visible_request', $translator->translate('Visible for a request'));
-    $viewData->addTranslation('visible_problem', $translator->translate('Visible for a problem'));
-    $viewData->addTranslation('visible_change', $translator->translate('Visible for a change'));
-    $viewData->addTranslation('template_request', $translator->translate('Template for a request'));
-    $viewData->addTranslation('template_incident', $translator->translate('Template for an incident'));
-    $viewData->addTranslation('template_change', $translator->translate('Template for a change'));
-    $viewData->addTranslation('template_problem', $translator->translate('Template for a problem'));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('visible_incident', pgettext('category', 'Visible for an incident'));
+    $viewData->addTranslation('visible_request', pgettext('category', 'Visible for a request'));
+    $viewData->addTranslation('visible_problem', pgettext('category', 'Visible for a problem'));
+    $viewData->addTranslation('visible_change', pgettext('category', 'Visible for a change'));
+    $viewData->addTranslation('template_request', pgettext('category', 'Template for a request'));
+    $viewData->addTranslation('template_incident', pgettext('category', 'Template for an incident'));
+    $viewData->addTranslation('template_change', pgettext('category', 'Template for a change'));
+    $viewData->addTranslation('template_problem', pgettext('category', 'Template for a problem'));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/categories.html.twig', (array)$viewData);
   }

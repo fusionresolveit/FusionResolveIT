@@ -13,13 +13,20 @@ class Answer extends \App\Models\Common
   use CascadesDeletes;
 
   protected $definition = \App\Models\Definitions\Forms\Answer::class;
-  protected $titles = ['Answer', 'Answers'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;
   /** @var string[] */
   protected $cascadeDeletes = [
     'answerquestions',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('form', 'Answer', 'Answers', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Forms\Form, $this> */
   public function form(): BelongsTo

@@ -79,7 +79,7 @@ final class Devicenetworkcard extends Common implements \App\Interfaces\Crud
 
     $devicenetworkcard = \App\Models\Devicenetworkcard::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network card has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicenetworkcard, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -122,7 +122,7 @@ final class Devicenetworkcard extends Common implements \App\Interfaces\Crud
 
     $devicenetworkcard->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network card has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicenetworkcard, 'update');
 
     $uri = $request->getUri();
@@ -152,7 +152,7 @@ final class Devicenetworkcard extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicenetworkcard->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network card has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicenetworkcards')
@@ -163,7 +163,7 @@ final class Devicenetworkcard extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicenetworkcard->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network card has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -190,7 +190,7 @@ final class Devicenetworkcard extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicenetworkcard->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network card has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

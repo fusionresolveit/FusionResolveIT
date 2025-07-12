@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Cartridge extends Common
 {
   protected $definition = \App\Models\Definitions\Cartridge::class;
-  protected $titles = ['Cartridge', 'Cartridges'];
   protected $icon = 'fill drip';
   protected $hasEntityField = false;
 
@@ -30,6 +29,13 @@ class Cartridge extends Common
     'printer',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Cartridge', 'Cartridges', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Cartridgeitem, $this> */
   public function cartridgeitems(): BelongsTo

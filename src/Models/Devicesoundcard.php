@@ -20,7 +20,6 @@ class Devicesoundcard extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicesoundcard::class;
-  protected $titles = ['Soundcard', 'Soundcards'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -44,6 +43,14 @@ class Devicesoundcard extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Sound card', 'Sound cards', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

@@ -52,7 +52,7 @@ final class Clustertype extends Common implements \App\Interfaces\Crud
 
     $clustertype = \App\Models\Clustertype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The cluster type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($clustertype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Clustertype extends Common implements \App\Interfaces\Crud
 
     $clustertype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The cluster type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($clustertype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Clustertype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $clustertype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cluster type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/clustertypes')
@@ -136,7 +136,7 @@ final class Clustertype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $clustertype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cluster type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Clustertype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $clustertype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cluster type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

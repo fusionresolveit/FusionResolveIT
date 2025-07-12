@@ -12,7 +12,6 @@ class Solution extends Common
   use SoftDeletes;
 
   protected $definition = \App\Models\Definitions\Solution::class;
-  protected $titles = ['Solution', 'Solutions'];
   protected $icon = 'hands helping';
   protected $hasEntityField = false;
 
@@ -49,22 +48,29 @@ class Solution extends Common
     });
   }
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('ITIL', 'Solution', 'Solutions', $nb);
+  }
+
   public function getStatusnameAttribute(): string
   {
-    global $translator;
     switch ($this->attributes['status'])
     {
       case 1:
-          return $translator->translate('Not subject to approval');
+          return pgettext('ticket solution', 'Not subject to approval');
 
       case 2:
-          return $translator->translate('Waiting for approval');
+          return pgettext('ticket solution', 'Waiting for approval');
 
       case 3:
-          return $translator->translate('Granted');
+          return pgettext('ticket solution', 'Granted');
 
       case 4:
-          return $translator->translate('Refused');
+          return pgettext('ticket solution', 'Refused');
     }
     return '';
   }

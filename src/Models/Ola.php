@@ -16,7 +16,6 @@ class Ola extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Ola::class;
-  protected $titles = ['OLA', 'OLA'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Ola extends Common
     'entity:id,name,completename',
     'calendar:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('ITIL', 'OLA', 'OLAs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Calendar, $this> */
   public function calendar(): BelongsTo

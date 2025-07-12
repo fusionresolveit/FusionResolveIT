@@ -10,7 +10,6 @@ class Menubookmark extends Common
 {
   public $timestamps = false;
   protected $definition = \App\Models\Definitions\Menubookmark::class;
-  protected $titles = ['Menu bookmark', 'Menu bookmarks'];
   protected $icon = 'bookmark';
   protected $hasEntityField = false;
 
@@ -24,6 +23,14 @@ class Menubookmark extends Common
   protected $with = [
     'user:id,name,firstname,lastname',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Menu bookmark', 'Menu bookmarks', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\User, $this> */
   public function user(): BelongsTo

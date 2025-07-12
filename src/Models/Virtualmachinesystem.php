@@ -14,7 +14,14 @@ class Virtualmachinesystem extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Virtualmachinesystem::class;
-  protected $titles = ['Virtualization model', 'Virtualization models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Virtualization model', 'Virtualization models', $nb);
+  }
 }

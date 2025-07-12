@@ -11,24 +11,22 @@ class Mailcollector
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Email address'),
-      'errors' => $translator->translate('Connection errors'),
-      'is_active' => $translator->translate('Active'),
-      'accepted' => $translator->translate('Accepted mail archive folder (optional)'),
-      'refused' => $translator->translate('Refused mail archive folder (optional)'),
-      'use_mail_date' => $translator->translate('Use mail date, instead of collect one'),
-      'requester_field' => $translator->translate('Use Reply-To as requester (when available)'),
-      'add_cc_to_observer' => $translator->translate('Add CC users as observer'),
-      'collect_only_unread' => $translator->translate('Collect only unread mail'),
-      'comment' => $translator->translate('Comments'),
-      'is_oauth' => $translator->translate('Use Oauth'),
-      'oauth_provider' => $translator->translate('Provider'),
-      'oauth_applicationid' => $translator->translate('ApplicationID'),
-      'oauth_directoryid' => $translator->translate('DirectoryID (Only for Microsoft Azure)'),
-      'oauth_applicationsecret' => $translator->translate('ApplicationSecret'),
+      'name' => pgettext('email', 'Email address'),
+      'errors' => pgettext('email', 'Connection errors'),
+      'is_active' => pgettext('global', 'Active'),
+      'accepted' => pgettext('email', 'Accepted mail archive folder (optional)'),
+      'refused' => pgettext('email', 'Refused mail archive folder (optional)'),
+      'use_mail_date' => pgettext('email', 'Use mail date, instead of collect one'),
+      'requester_field' => pgettext('email', 'Use Reply-To as requester (when available)'),
+      'add_cc_to_observer' => pgettext('email', 'Add CC users as observer'),
+      'collect_only_unread' => pgettext('email', 'Collect only unread mail'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_oauth' => pgettext('email', 'Use Oauth'),
+      'oauth_provider' => pgettext('email', 'Provider'),
+      'oauth_applicationid' => pgettext('email', 'ApplicationID'),
+      'oauth_directoryid' => pgettext('email', 'DirectoryID (Only for Microsoft Azure)'),
+      'oauth_applicationsecret' => pgettext('email', 'ApplicationSecret'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -65,7 +63,7 @@ class Mailcollector
     return $defColl;
     // [
     //   'id'    => 5,
-    //   'title' => $translator->translate('Maximum size of each file imported by the mails receiver'),
+    //   'title' => 'Maximum size of each file imported by the mails receiver',
     //   'type'  => 'dropdown',
     //   'name'  => 'filesize_max',
     //   'dbname'  => 'filesize_max',
@@ -101,13 +99,11 @@ class Mailcollector
    */
   public static function showMaxFilesize(): array
   {
-    global $translator;
 
-
-    $tab[0]['title'] = $translator->translate('No import');
+    $tab[0]['title'] = pgettext('email', 'No import');
     for ($index = 1; $index < 100; $index++)
     {
-      $tab[$index * 1048576]['title'] = sprintf($translator->translate('%s Mio'), $index);
+      $tab[$index * 1048576]['title'] = sprintf(pgettext('global', '%s Mio'), $index);
     }
     return $tab;
   }
@@ -117,20 +113,19 @@ class Mailcollector
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Receiver', 'Receivers', 1),
+        'title' => npgettext('global', 'Receiver', 'Receivers', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Action', 'Actions', 2),
+        'title' => npgettext('global', 'Action', 'Actions', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],
@@ -142,11 +137,9 @@ class Mailcollector
    */
   public static function getProvidersArray(): array
   {
-    global $translator;
-
     return [
       null => [
-        'title' => $translator->translate('None'),
+        'title' => pgettext('global', 'None'),
       ],
       'azure' => [
         'title' => 'Microsoft Azure',

@@ -16,7 +16,7 @@
           <form action="{{ basePath }}/view/home/switch" method="post" class="ui form">
             <button class="ui labeled icon button" type="submit">
               <i class="random icon"></i>
-              <span>Homepage tech</span>
+              <span>{{ translation.homepagetech }}</span>
             </button>
             {% for key, val in data.csrf %}
               <input type="hidden" name="{{ key }}" value="{{ val }}">

@@ -16,7 +16,6 @@ class Sla extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Sla::class;
-  protected $titles = ['SLA', 'SLA'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Sla extends Common
     'entity:id,name,completename',
     'calendar:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('ITIL', 'SLA', 'SLAs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Calendar, $this> */
   public function calendar(): BelongsTo

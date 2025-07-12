@@ -11,20 +11,18 @@ class Form
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'content' => $translator->translate('Description'),
-      'comment' => $translator->translatePlural('Comment', 'Comments', 1),
-      'category' => $translator->translate('Category'),
-      'is_active' => $translator->translate('Active'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'is_homepage' => $translator->translate('Display on home page'),
-      'icon' => $translator->translate('Icon'),
-      'icon_color' => $translator->translate('Icon color'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'content' => pgettext('global', 'Description'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 1),
+      'category' => npgettext('global', 'Category', 'Categories', 1),
+      'is_active' => pgettext('global', 'Active'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'is_homepage' => pgettext('form', 'Display on home page'),
+      'icon' => pgettext('form', 'Icon'),
+      'icon_color' => pgettext('form', 'Icon color'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -51,7 +49,7 @@ class Form
     return $defColl;
     // [
     //   'id'    => 6,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -63,55 +61,54 @@ class Form
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Form', 'Forms', 1),
+        'title' => npgettext('global', 'Form', 'Forms', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Section', 'Sections', 2),
+        'title' => npgettext('global', 'Section', 'Sections', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/sections',
       ],
       [
-        'title' => $translator->translatePlural('Question', 'Questions', 2),
+        'title' => npgettext('global', 'Question', 'Questions', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/questions',
       ],
       [
-        'title' => $translator->translatePlural('Answer', 'Answers', 2),
+        'title' => npgettext('form', 'Answer', 'Answers', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/answers',
       ],
       // [
-      //   'title' => $translator->translatePlural('Access type', 'Access types', 2),
+      //   'title' => 'Access types',
       //   'icon' => 'caret square down outline',
       //   'link' => '',
       // ],
       // [
-      //   'title' => $translator->translatePlural('Target', 'Targets', 2),
+      //   'title' => npgettext('target', 'Target', 'Targets', 2),
       //   'icon' => 'caret square down outline',
       //   'link' => '',
       // ],
       // [
-      //   'title' => $translator->translate('Preview'),
+      //   'title' => 'Preview',
       //   'icon' => 'caret square down outline',
       //   'link' => '',
       // ],
       // [
-      //   'title' => $translator->translatePlural('Form answer', 'Form answers', 1),
+      //   'title' => 'Form answer',
       //   'icon' => 'caret square down outline',
       //   'link' => '',
       // ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],
       // [
-      //   'title' => $translator->translate('Boutique'),
+      //   'title' => 'Boutique',
       //   'icon' => 'caret square down outline',
       //   'link' => '',
       // ],

@@ -11,39 +11,40 @@ class Authldap
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name'      => $translator->translate('Name'),
-      'active'      => $translator->translate('Active'),
-      'host'      => $translator->translate('Server'),
-      'port' => $translator->translatePlural('Port', 'Ports', 1),
-      'default' => $translator->translate('Default server'),
-      'basedn' => $translator->translate('BaseDN'),
-      'rootdn' => $translator->translate('RootDN'),
-      'rootdn_passwd' => $translator->translate('RootDN password'),
-      'condition' => $translator->translate('Connection filter'),
-      'login_field' => $translator->translate('Login field'),
-      'realname_field' => $translator->translate('Surname'),
-      'firstname_field' => $translator->translate('First name'),
-      'phone_field' => 'Phone',
-      'phone2_field' => $translator->translate('Phone 2'),
-      'mobile_field' => $translator->translate('Mobile phone'),
-      'title_field' => $translator->translate('Title'),
-      'category_field' => $translator->translate('Category'),
-      'comment' => $translator->translate('Comments'),
-      'email1_field' => $translator->translatePlural('Email', 'Emails', 1),
-      'email2_field' => $translator->translatePlural('Email', 'Emails', 1) . ' 2',
-      'email3_field' => $translator->translatePlural('Email', 'Emails', 1) . ' 3',
-      'email4_field' => $translator->translatePlural('Email', 'Emails', 1) . ' 4',
-      'use_dn' => $translator->translate('Use DN in the search'),
-      'language_field' => $translator->translate('Language'),
-      'group_field' => $translator->translate('User attribute containing its groups'),
-      'group_condition' => $translator->translate('Filter to search in groups'),
-      'group_member_field' => $translator->translate('Group attribute containing its users'),
-      'sync_field' => $translator->translate('Synchronization field'),
-      'responsible_field' => $translator->translate('Responsible'),
-      'inventory_domain' => $translator->translate('Domain name used by inventory tool'),
+      'name'               => pgettext('global', 'Name'),
+      'active'             => pgettext('global', 'Active'),
+      'host'               => pgettext('LDAP parameter', 'Server'),
+      'port'               => npgettext('LDAP parameter', 'Port', 'Ports', 1),
+      'default'            => pgettext('LDAP parameter', 'Default server'),
+      'basedn'             => pgettext('LDAP parameter', 'BaseDN'),
+      'rootdn'             => pgettext('LDAP parameter', 'RootDN'),
+      'rootdn_passwd'      => pgettext('LDAP parameter', 'RootDN password'),
+      'condition'          => pgettext('LDAP parameter', 'Connection filter'),
+      'login_field'        => pgettext('LDAP parameter', 'Login field'),
+      'realname_field'     => pgettext('user parameter', 'Surname'),
+      'firstname_field'    => pgettext('user parameter', 'First name'),
+      'phone_field'        => pgettext('user parameter', 'Phone'),
+      'phone2_field'       => pgettext('user parameter', 'Phone 2'),
+      'mobile_field'       => pgettext('user parameter', 'Mobile phone'),
+      'title_field'        => pgettext('user parameter', 'Title'),
+      'category_field'     => pgettext('user parameter', 'Category'),
+      'comment'            => npgettext('global', 'Comment', 'Comments', 2),
+      'email1_field'       => npgettext('user parameter', 'Email', 'Emails', 1),
+      'email2_field'       => npgettext('user parameter', 'Email', 'Emails', 1) .
+                              ' 2',
+      'email3_field'       => npgettext('user parameter', 'Email', 'Emails', 1) .
+                              ' 3',
+      'email4_field'       => npgettext('user parameter', 'Email', 'Emails', 1) .
+                              ' 4',
+      'use_dn'             => pgettext('LDAP parameter', 'Use DN in the search'),
+      'language_field'     => pgettext('user parameter', 'Language'),
+      'group_field'        => pgettext('LDAP parameter', 'User attribute containing its groups'),
+      'group_condition'    => pgettext('LDAP parameter', 'Filter to search in groups'),
+      'group_member_field' => pgettext('LDAP parameter', 'Group attribute containing its users'),
+      'sync_field'         => pgettext('LDAP parameter', 'Synchronization field'),
+      'responsible_field'  => pgettext('user parameter', 'Responsible'),
+      'inventory_domain'   => pgettext('LDAP parameter', 'Domain name used by inventory tool'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -82,7 +83,7 @@ class Authldap
 
     // [
     //   'id'            => 24,
-    //   'title'         => $translator->translate('Search type'),
+    //   'title'         => 'Search type',
     //   'type'          => 'specific', ??? TODO
     //   'name'          => 'group_search_type',
     //   'fillable' => true,

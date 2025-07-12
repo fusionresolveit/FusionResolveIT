@@ -15,8 +15,6 @@ trait Item
    */
   public function showSubItems(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -111,9 +109,9 @@ trait Item
     $viewData->addData('items', $myItems);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('location', $translator->translatePlural('Location', 'Locations', 2));
-    $viewData->addTranslation('documents', $translator->translatePlural('Document', 'Documents', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('location', npgettext('global', 'Location', 'Locations', 2));
+    $viewData->addTranslation('documents', npgettext('global', 'Document', 'Documents', 2));
 
     return $view->render($response, 'subitem/items.html.twig', (array)$viewData);
   }

@@ -17,7 +17,6 @@ class Projecttasktemplate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Projecttasktemplate::class;
-  protected $titles = ['Project task template', 'Project task templates'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -38,6 +37,14 @@ class Projecttasktemplate extends Common
     'entity:id,name,completename',
     'documents:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Project task template', 'Project task templates', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Projectstate, $this> */
   public function state(): BelongsTo

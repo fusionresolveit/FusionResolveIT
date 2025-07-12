@@ -25,7 +25,7 @@
             class="ui button labeled icon floated"
           >
             <i class="columns icon"></i>
-            <span>Columns</span>
+            <span>{{ translation.columnsbutton }}</span>
           </button>
         </a>
       </span>
@@ -74,7 +74,7 @@
           </div>
         </div>
         <div class="field">
-          <button class="ui primary button" type="submit">Search</button>
+          <button class="ui primary button" type="submit">{{ translation.searchbutton }}</button>
         </div>
       </div>
       {% for key, val in data.csrf %}

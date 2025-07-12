@@ -80,7 +80,7 @@ final class Monitor extends Common implements \App\Interfaces\Crud
 
     $monitor = \App\Models\Monitor::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The monitor has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($monitor, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -123,7 +123,7 @@ final class Monitor extends Common implements \App\Interfaces\Crud
 
     $monitor->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The monitor has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($monitor, 'update');
 
     $uri = $request->getUri();
@@ -153,7 +153,7 @@ final class Monitor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $monitor->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The monitor has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/monitors')
@@ -164,7 +164,7 @@ final class Monitor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $monitor->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The monitor has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -191,7 +191,7 @@ final class Monitor extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $monitor->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The monitor has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

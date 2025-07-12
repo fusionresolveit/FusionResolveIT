@@ -12,7 +12,6 @@ class Displaypreference extends Common
 
   public $timestamps = false;
   protected $hasEntityField = false;
-  protected $titles = ['Manage columns', 'Manage columns'];
   protected $icon = 'columns';
 
   protected $fillable = [
@@ -21,6 +20,14 @@ class Displaypreference extends Common
     'rank',
     'user_id',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Manage column', 'Manage columns', $nb);
+  }
 
   /**
    * Get display preference for a user for an itemtype

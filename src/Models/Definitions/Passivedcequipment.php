@@ -14,21 +14,19 @@ class Passivedcequipment
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'state' => $translator->translate('Status'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'model' => $translator->translatePlural('Model', 'Models', 1),
-      'serial' => $translator->translate('Serial number'),
-      'otherserial' => $translator->translate('Inventory number'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
-      'usertech' => $translator->translate('Technician in charge of the hardware'),
-      'grouptech' => $translator->translate('Group in charge of the hardware'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'state' => pgettext('inventory device', 'Status'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'model' => npgettext('global', 'Model', 'Models', 1),
+      'serial' => pgettext('inventory device', 'Serial number'),
+      'otherserial' => pgettext('inventory device', 'Inventory number'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
+      'usertech' => pgettext('inventory device', 'Technician in charge of the hardware'),
+      'grouptech' => pgettext('inventory device', 'Group in charge of the hardware'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -104,13 +102,13 @@ class Passivedcequipment
     return $defColl;
     // [
     //   'id'    => 61,
-    //   'title' => $translator->translate('Template name'),
+    //   'title' => pgettext('global', 'Template name'),
     //   'type'  => 'input',
     //   'name'  => 'template_name',
     // ],
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -141,35 +139,34 @@ class Passivedcequipment
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Passive device', 'Passive devices', 1),
+        'title' => npgettext('global', 'Passive device', 'Passive devices', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('ITIL'),
+        'title' => pgettext('global', 'ITIL'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/itil',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -21,7 +21,6 @@ class Contact extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Contact::class;
-  protected $titles = ['Contact', 'Contacts'];
   protected $icon = 'user tie';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -50,6 +49,14 @@ class Contact extends Common
     'documents:id,name',
     'suppliers:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Contact', 'Contacts', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Contacttype, $this> */
   public function type(): BelongsTo

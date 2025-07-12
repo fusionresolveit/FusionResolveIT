@@ -14,7 +14,14 @@ class Linetype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Linetype::class;
-  protected $titles = ['Line type', 'Line types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Line type', 'Line types', $nb);
+  }
 }

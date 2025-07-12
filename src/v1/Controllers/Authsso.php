@@ -53,7 +53,7 @@ final class Authsso extends Common implements \App\Interfaces\Crud
 
     $authsso = \App\Models\Authsso::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The authentication SSO has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($authsso, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -96,7 +96,7 @@ final class Authsso extends Common implements \App\Interfaces\Crud
 
     $authsso->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The authentication SSO has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($authsso, 'update');
 
     $uri = $request->getUri();
@@ -126,7 +126,7 @@ final class Authsso extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $authsso->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The authentication SSO has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/authssos')
@@ -137,7 +137,7 @@ final class Authsso extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $authsso->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The authentication SSO has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -164,7 +164,7 @@ final class Authsso extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $authsso->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The authentication SSO has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -218,13 +218,13 @@ final class Authsso extends Common implements \App\Interfaces\Crud
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator, $basePath;
+    global $basePath;
 
     $uri = $request->getUri();
     return [
       [
         'key'   => 'callbackurl',
-        'value' => $translator->translate('Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
+        'value' => pgettext('global', 'Redirect URL') . ' ' . $uri->getScheme() . '://' . $uri->getHost() .
                    $basePath . '/view/login/sso/' . $item->callbackid . '/cb',
         'link'  => null,
       ],

@@ -96,8 +96,6 @@ trait Header
 
   private function setProfile(): void
   {
-    global $translator;
-
     $profiles = [];
     $entities = [];
 
@@ -136,7 +134,7 @@ trait Header
     $this->header->profile = [
       [
         'id'    => 1,
-        'title' => $translator->translatePlural('Profile', 'Profiles', 1),
+        'title' => npgettext('global', 'Profile', 'Profiles', 1),
         'type'  => 'dropdown',
         'name'  => 'changeProfile',
         'values' => $profiles,
@@ -145,7 +143,7 @@ trait Header
       ],
       [
         'id'    => 2,
-        'title' => $translator->translatePlural('Entity', 'Entities', 1),
+        'title' => npgettext('global', 'Entity', 'Entities', 1),
         'type'  => 'dropdown',
         'name'  => 'changeEntity',
         'values' => $entities,
@@ -154,7 +152,7 @@ trait Header
       ],
       [
         'id'    => 3,
-        'title' => $translator->translate('Sub-entities'),
+        'title' => pgettext('global', 'Sub-entities'),
         'type'  => 'boolean',
         'name'  => 'changeEntityRecursive',
         'value' => $GLOBALS['entity_recursive'],

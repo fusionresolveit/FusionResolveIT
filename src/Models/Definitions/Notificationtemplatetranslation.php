@@ -11,13 +11,11 @@ class Notificationtemplatetranslation
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'language' => $translator->translate('Language'),
-      'subject' => $translator->translate('Subject'),
-      'content_text' => $translator->translate('Text format'),
-      'content_html' => $translator->translate('HTML format'),
+      'language' => pgettext('notification', 'Language'),
+      'subject' => pgettext('notification', 'Subject'),
+      'content_text' => pgettext('notification', 'Text format'),
+      'content_html' => pgettext('notification', 'HTML format'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -34,7 +32,6 @@ class Notificationtemplatetranslation
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
     ];
   }

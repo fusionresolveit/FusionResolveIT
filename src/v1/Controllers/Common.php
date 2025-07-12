@@ -64,7 +64,6 @@ abstract class Common
    */
   protected function commonShowITILItem(Request $request, Response $response, array $args, $item): Response
   {
-    global $translator;
     $view = Twig::fromRequest($request);
 
     // Load the item
@@ -123,26 +122,26 @@ abstract class Common
     $viewData->addData('canAddSolution', $canAddSolution);
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('description', $translator->translate('Description'));
-    $viewData->addTranslation('feeds', $translator->translate('Feeds'));
-    $viewData->addTranslation('followup', $translator->translatePlural('Followup', 'Followups', 1));
-    $viewData->addTranslation('solution', $translator->translatePlural('Solution', 'Solutions', 1));
-    $viewData->addTranslation('template', $translator->translatePlural('Template', 'Templates', 1));
-    $viewData->addTranslation('private', $translator->translate('Private'));
-    $viewData->addTranslation('sourcefollow', $translator->translate('Source of followup'));
-    $viewData->addTranslation('category', $translator->translatePlural('Category', 'Categories', 1));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('duration', $translator->translate('Duration'));
-    $viewData->addTranslation('seconds', $translator->translatePlural('Second', 'Seconds', 2));
-    $viewData->addTranslation('minutes', $translator->translatePlural('Minute', 'Minutes', 2));
-    $viewData->addTranslation('hours', $translator->translatePlural('Hour', 'Hours', 2));
-    $viewData->addTranslation('user', $translator->translatePlural('User', 'Users', 1));
-    $viewData->addTranslation('group', $translator->translatePlural('Group', 'Groups', 1));
-    $viewData->addTranslation('addfollowup', $translator->translate('Add followup'));
-    $viewData->addTranslation('timespent', $translator->translate('Time spent'));
-    $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
-    $viewData->addTranslation('yes', $translator->translate('Yes'));
-    $viewData->addTranslation('no', $translator->translate('No'));
+    $viewData->addTranslation('description', pgettext('global', 'Description'));
+    $viewData->addTranslation('feeds', pgettext('global', 'Feeds'));
+    $viewData->addTranslation('followup', npgettext('ITIL', 'Followup', 'Followups', 1));
+    $viewData->addTranslation('solution', npgettext('ITIL', 'Solution', 'Solutions', 1));
+    $viewData->addTranslation('template', npgettext('ITIL', 'Template', 'Templates', 1));
+    $viewData->addTranslation('private', pgettext('global', 'Private'));
+    $viewData->addTranslation('sourcefollow', pgettext('ITIL', 'Source of followup'));
+    $viewData->addTranslation('category', npgettext('global', 'Category', 'Categories', 1));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('duration', pgettext('ITIL', 'Duration'));
+    $viewData->addTranslation('seconds', npgettext('global', 'Second', 'Seconds', 2));
+    $viewData->addTranslation('minutes', npgettext('global', 'Minute', 'Minutes', 2));
+    $viewData->addTranslation('hours', npgettext('global', 'Hour', 'Hours', 2));
+    $viewData->addTranslation('user', npgettext('global', 'User', 'Users', 1));
+    $viewData->addTranslation('group', npgettext('global', 'Group', 'Groups', 1));
+    $viewData->addTranslation('addfollowup', pgettext('ITIL', 'Add followup'));
+    $viewData->addTranslation('timespent', pgettext('ITIL', 'Time spent'));
+    $viewData->addTranslation('selectvalue', pgettext('global', 'Select a value...'));
+    $viewData->addTranslation('yes', pgettext('global', 'Yes'));
+    $viewData->addTranslation('no', pgettext('global', 'No'));
 
     return $view->render($response, 'ITILForm.html.twig', (array)$viewData);
   }
@@ -154,7 +153,6 @@ abstract class Common
    */
   public function commonShowITILNewItem(Request $request, Response $response, array $args, $item): Response
   {
-    global $translator;
     $view = Twig::fromRequest($request);
 
     // form data
@@ -165,26 +163,26 @@ abstract class Common
     $viewData->addData('content', '');
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('description', $translator->translate('Description'));
-    $viewData->addTranslation('feeds', $translator->translate('Feeds'));
-    $viewData->addTranslation('followup', $translator->translatePlural('Followup', 'Followups', 1));
-    $viewData->addTranslation('solution', $translator->translatePlural('Solution', 'Solutions', 1));
-    $viewData->addTranslation('template', $translator->translatePlural('Template', 'Templates', 1));
-    $viewData->addTranslation('private', $translator->translate('Private'));
-    $viewData->addTranslation('sourcefollow', $translator->translate('Source of followup'));
-    $viewData->addTranslation('category', $translator->translatePlural('Category', 'Categories', 1));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('duration', $translator->translate('Duration'));
-    $viewData->addTranslation('seconds', $translator->translatePlural('Second', 'Seconds', 2));
-    $viewData->addTranslation('minutes', $translator->translatePlural('Minute', 'Minutes', 2));
-    $viewData->addTranslation('hours', $translator->translatePlural('Hour', 'Hours', 2));
-    $viewData->addTranslation('user', $translator->translatePlural('User', 'Users', 1));
-    $viewData->addTranslation('group', $translator->translatePlural('Group', 'Groups', 1));
-    $viewData->addTranslation('addfollowup', $translator->translate('Add followup'));
-    $viewData->addTranslation('timespent', $translator->translate('Time spent'));
-    $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
-    $viewData->addTranslation('yes', $translator->translate('Yes'));
-    $viewData->addTranslation('no', $translator->translate('No'));
+    $viewData->addTranslation('description', pgettext('global', 'Description'));
+    $viewData->addTranslation('feeds', pgettext('global', 'Feeds'));
+    $viewData->addTranslation('followup', npgettext('ITIL', 'Followup', 'Followups', 1));
+    $viewData->addTranslation('solution', npgettext('ITIL', 'Solution', 'Solutions', 1));
+    $viewData->addTranslation('template', npgettext('ITIL', 'Template', 'Templates', 1));
+    $viewData->addTranslation('private', pgettext('global', 'Private'));
+    $viewData->addTranslation('sourcefollow', pgettext('ITIL', 'Source of followup'));
+    $viewData->addTranslation('category', npgettext('global', 'Category', 'Categories', 1));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('duration', pgettext('ITIL', 'Duration'));
+    $viewData->addTranslation('seconds', npgettext('global', 'Second', 'Seconds', 2));
+    $viewData->addTranslation('minutes', npgettext('global', 'Minute', 'Minutes', 2));
+    $viewData->addTranslation('hours', npgettext('global', 'Hour', 'Hours', 2));
+    $viewData->addTranslation('user', npgettext('global', 'User', 'Users', 1));
+    $viewData->addTranslation('group', npgettext('global', 'Group', 'Groups', 1));
+    $viewData->addTranslation('addfollowup', pgettext('ITIL', 'Add followup'));
+    $viewData->addTranslation('timespent', pgettext('ITIL', 'Time spent'));
+    $viewData->addTranslation('selectvalue', pgettext('global', 'Select a value...'));
+    $viewData->addTranslation('yes', pgettext('global', 'Yes'));
+    $viewData->addTranslation('no', pgettext('global', 'No'));
 
     return $view->render($response, 'ITILForm.html.twig', (array)$viewData);
   }
@@ -214,76 +212,75 @@ abstract class Common
    */
   public static function getStatusArray(): array
   {
-    global $translator;
     return [
       1 => [
-        'title' => $translator->translate('New'),
+        'title' => pgettext('ITIL status', 'New'),
         'displaystyle' => 'marked',
         'color' => 'olive',
         'icon'  => 'book open',
       ],
       2 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (assigned)'),
+        'title' => pgettext('general status', 'Processing (assigned)'),
         'displaystyle' => 'marked',
         'color' => 'blue',
         'icon'  => 'book reader',
       ],
       3 => [
-        'title' => $translator->translate('status' . "\004" . 'Processing (planned)'),
+        'title' => pgettext('general status', 'Processing (planned)'),
         'displaystyle' => 'marked',
         'color' => 'blue',
         'icon'  => 'business time',
       ],
       4 => [
-        'title' => $translator->translate('Pending'),
+        'title' => pgettext('ITIL status', 'Pending'),
         'displaystyle' => 'marked',
         'color' => 'grey',
         'icon'  => 'pause',
       ],
       5 => [
-        'title' => $translator->translate('Solved'),
+        'title' => pgettext('ITIL status', 'Solved'),
         'displaystyle' => 'marked',
         'color' => 'purple',
         'icon'  => 'vote yea',
       ],
       6 => [
-        'title' => $translator->translate('Closed'),
+        'title' => pgettext('ITIL status', 'Closed'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       7 => [
-        'title' => $translator->translate('status' . "\004" . 'Accepted'),
+        'title' => pgettext('general status', 'Accepted'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       8 => [
-        'title' => $translator->translate('Review'),
+        'title' => pgettext('ITIL status', 'Review'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       9 => [
-        'title' => $translator->translate('Evaluation'),
+        'title' => pgettext('ITIL status', 'Evaluation'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       10 => [
-        'title' => $translator->translatePlural('Approval', 'Approvals', 1),
+        'title' => npgettext('ITIL', 'Approval', 'Approvals', 1),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       11 => [
-        'title' => $translator->translate('change' . "\004" . 'Testing'),
+        'title' => pgettext('ITIL status', 'Testing'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
       ],
       12 => [
-        'title' => $translator->translate('Qualification'),
+        'title' => pgettext('ITIL status', 'Qualification'),
         'displaystyle' => 'marked',
         'color' => 'brown',
         'icon'  => 'archive',
@@ -296,35 +293,34 @@ abstract class Common
    */
   public static function getPriorityArray(): array
   {
-    global $translator;
     return [
       6 => [
-        'title' => $translator->translate('priority' . "\004" . 'Major'),
+        'title' => pgettext('ITIL priority', 'Major'),
         'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       5 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very high'),
+        'title' => pgettext('ITIL priority', 'Very high'),
         'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       4 => [
-        'title' => $translator->translate('priority' . "\004" . 'High'),
+        'title' => pgettext('ITIL priority', 'High'),
         'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
       3 => [
-        'title' => $translator->translate('priority' . "\004" . 'Medium'),
+        'title' => pgettext('ITIL priority', 'Medium'),
         'color' => 'fusionmedium',
         'icon'  => 'volume up',
       ],
       2 => [
-        'title' => $translator->translate('priority' . "\004" . 'Low'),
+        'title' => pgettext('ITIL priority', 'Low'),
         'color' => 'fusionlow',
         'icon'  => 'volume down',
       ],
       1 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very low'),
+        'title' => pgettext('ITIL priority', 'Very low'),
         'color' => 'fusionverylow',
         'icon'  => 'volume off',
       ],
@@ -451,8 +447,6 @@ abstract class Common
 
   public function timestampToString(int|float $time, bool $display_sec = true, bool $use_days = true): string
   {
-    global $translator;
-
     $time = (float)$time;
 
     $sign = '';
@@ -477,7 +471,7 @@ abstract class Common
         if ($display_sec)
         {
           return sprintf(
-            $translator->translate('%1$s%2$d days %3$d hours %4$d minutes %5$d seconds'),
+            pgettext('time', '%1$s%2$d days %3$d hours %4$d minutes %5$d seconds'),
             $sign,
             $units['day'],
             $units['hour'],
@@ -486,7 +480,7 @@ abstract class Common
           );
         }
         return sprintf(
-          $translator->translate('%1$s%2$d days %3$d hours %4$d minutes'),
+          pgettext('time', '%1$s%2$d days %3$d hours %4$d minutes'),
           $sign,
           $units['day'],
           $units['hour'],
@@ -505,14 +499,14 @@ abstract class Common
       if ($display_sec)
       {
         return sprintf(
-          $translator->translate('%1$s%2$d hours %3$d minutes %4$d seconds'),
+          pgettext('time', '%1$s%2$d hours %3$d minutes %4$d seconds'),
           $sign,
           $units['hour'],
           $units['minute'],
           $units['second']
         );
       }
-      return sprintf($translator->translate('%1$s%2$d hours %3$d minutes'), $sign, $units['hour'], $units['minute']);
+      return sprintf(pgettext('time', '%1$s%2$d hours %3$d minutes'), $sign, $units['hour'], $units['minute']);
     }
 
     if ($units['minute'] > 0)
@@ -520,14 +514,14 @@ abstract class Common
       if ($display_sec)
       {
         return sprintf(
-          $translator->translate('%1$s%2$d minutes %3$d seconds'),
+          pgettext('time', '%1$s%2$d minutes %3$d seconds'),
           $sign,
           $units['minute'],
           $units['second']
         );
       }
       return sprintf(
-        $translator->translatePlural('%1$s%2$d minute', '%1$s%2$d minutes', $units['minute']),
+        npgettext('time', '%1$s%2$d minute', '%1$s%2$d minutes', $units['minute']),
         $sign,
         $units['minute']
       );
@@ -536,7 +530,7 @@ abstract class Common
     if ($display_sec)
     {
       return sprintf(
-        $translator->translatePlural('%1$s%2$s second', '%1$s%2$s seconds', $units['second']),
+        npgettext('time', '%1$s%2$s second', '%1$s%2$s seconds', $units['second']),
         $sign,
         $units['second']
       );
@@ -601,16 +595,14 @@ abstract class Common
    */
   public function getDaysOfWeekArray(): array
   {
-    global $translator;
-
     $tab = [];
-    $tab[0] = $translator->translate("Sunday");
-    $tab[1] = $translator->translate("Monday");
-    $tab[2] = $translator->translate("Tuesday");
-    $tab[3] = $translator->translate("Wednesday");
-    $tab[4] = $translator->translate("Thursday");
-    $tab[5] = $translator->translate("Friday");
-    $tab[6] = $translator->translate("Saturday");
+    $tab[0] = pgettext('global', 'Sunday');
+    $tab[1] = pgettext('global', 'Monday');
+    $tab[2] = pgettext('global', 'Tuesday');
+    $tab[3] = pgettext('global', 'Wednesday');
+    $tab[4] = pgettext('global', 'Thursday');
+    $tab[5] = pgettext('global', 'Friday');
+    $tab[6] = pgettext('global', 'Saturday');
 
     return $tab;
   }
@@ -620,29 +612,25 @@ abstract class Common
    */
   public function getMonthsOfYearArray(): array
   {
-    global $translator;
-
     $tab = [];
-    $tab[1]  = $translator->translate("January");
-    $tab[2]  = $translator->translate("February");
-    $tab[3]  = $translator->translate("March");
-    $tab[4]  = $translator->translate("April");
-    $tab[5]  = $translator->translate("May");
-    $tab[6]  = $translator->translate("June");
-    $tab[7]  = $translator->translate("July");
-    $tab[8]  = $translator->translate("August");
-    $tab[9]  = $translator->translate("September");
-    $tab[10] = $translator->translate("October");
-    $tab[11] = $translator->translate("November");
-    $tab[12] = $translator->translate("December");
+    $tab[1]  = pgettext('global', 'January');
+    $tab[2]  = pgettext('global', 'February');
+    $tab[3]  = pgettext('global', 'March');
+    $tab[4]  = pgettext('global', 'April');
+    $tab[5]  = pgettext('global', 'May');
+    $tab[6]  = pgettext('global', 'June');
+    $tab[7]  = pgettext('global', 'July');
+    $tab[8]  = pgettext('global', 'August');
+    $tab[9]  = pgettext('global', 'September');
+    $tab[10] = pgettext('global', 'October');
+    $tab[11] = pgettext('global', 'November');
+    $tab[12] = pgettext('global', 'December');
 
     return $tab;
   }
 
   public function getValueWithUnit(string|int $value, string $unit, int $decimals = 0): string
   {
-    global $translator;
-
     $formatted_number = is_numeric($value)
       ? $this->formatNumber($value, false, $decimals)
       : $value;
@@ -656,40 +644,40 @@ abstract class Common
     {
       case 'year':
         //TRANS: %s is a number of years
-          return sprintf($translator->translatePlural('%s year', '%s years', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s year', '%s years', intval($value)), $formatted_number);
 
       case 'month':
         //TRANS: %s is a number of months
-          return sprintf($translator->translatePlural('%s month', '%s months', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s month', '%s months', intval($value)), $formatted_number);
 
       case 'day':
         //TRANS: %s is a number of days
-          return sprintf($translator->translatePlural('%s day', '%s days', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s day', '%s days', intval($value)), $formatted_number);
 
       case 'hour':
         //TRANS: %s is a number of hours
-          return sprintf($translator->translatePlural('%s hour', '%s hours', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s hour', '%s hours', intval($value)), $formatted_number);
 
       case 'minute':
         //TRANS: %s is a number of minutes
-          return sprintf($translator->translatePlural('%s minute', '%s minutes', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s minute', '%s minutes', intval($value)), $formatted_number);
 
       case 'second':
         //TRANS: %s is a number of seconds
-          return sprintf($translator->translatePlural('%s second', '%s seconds', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s second', '%s seconds', intval($value)), $formatted_number);
 
       case 'millisecond':
         //TRANS: %s is a number of milliseconds
-          return sprintf($translator->translatePlural('%s millisecond', '%s milliseconds', $value), $formatted_number);
+          return sprintf(npgettext('global', '%s millisecond', '%s milliseconds', intval($value)), $formatted_number);
 
       case 'auto':
           return $this->getSize(intval($value) * 1024 * 1024);
 
       case '%':
-          return sprintf($translator->translate('%s%%'), $formatted_number);
+          return sprintf(pgettext('global', '%s%%'), $formatted_number);
 
       default:
-          return sprintf($translator->translate('%1$s %2$s'), $formatted_number, $unit);
+          return sprintf(pgettext('global', '%1$s %2$s'), $formatted_number, $unit);
     }
   }
 
@@ -745,15 +733,13 @@ abstract class Common
 
   public function getSize(int $size): string
   {
-    global $translator;
-
     //TRANS: list of unit (o for octet)
     $bytes = [
-      $translator->translate('o'),
-      $translator->translate('Kio'),
-      $translator->translate('Mio'),
-      $translator->translate('Gio'),
-      $translator->translate('Tio')
+      pgettext('global', 'o'),
+      pgettext('global', 'Kio'),
+      pgettext('global', 'Mio'),
+      pgettext('global', 'Gio'),
+      pgettext('global', 'Tio')
     ];
     foreach ($bytes as $val)
     {
@@ -765,7 +751,7 @@ abstract class Common
       }
     }
     //TRANS: %1$s is a number maybe float or string and %2$s the unit
-    return sprintf($translator->translate('%1$s %2$s'), round($size, 2), $val);
+    return sprintf(pgettext('global', '%1$s %2$s'), round($size, 2), $val);
   }
 
   /**
@@ -773,19 +759,17 @@ abstract class Common
    */
   public function getApprovalStatus(): array
   {
-    global $translator;
-
     return [
       $this->APPROVAL_WAITING => [
-        'title' => $translator->translate('Waiting for approval'),
+        'title' => pgettext('ticket solution', 'Waiting for approval'),
         'color' => '#FFC65D',
       ],
       $this->APPROVAL_REFUSED => [
-        'title' => $translator->translate('Refused'),
+        'title' => pgettext('ticket solution', 'Refused'),
         'color' => '#cf9b9b',
       ],
       $this->APPROVAL_ACCEPTED => [
-        'title' => $translator->translate('Granted'),
+        'title' => pgettext('ticket solution', 'Granted'),
         'color' => '#9BA563',
       ],
     ];

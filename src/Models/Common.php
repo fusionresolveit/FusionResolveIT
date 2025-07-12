@@ -15,9 +15,6 @@ abstract class Common extends Model
   /** @var string|null */
   protected $definition = null;
 
-  /** @var string[] */
-  protected $titles = ['not defined', 'not defined'];
-
   /** @var string */
   protected $icon = '';
 
@@ -92,9 +89,7 @@ abstract class Common extends Model
    */
   public function getTitle(int $nb = 1): string
   {
-    global $translator;
-
-    return $translator->translatePlural($this->titles[0], $this->titles[1], $nb);
+    return '';
   }
 
   public function getIcon(): string
@@ -202,8 +197,6 @@ abstract class Common extends Model
    */
   public function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
-
     if (is_null($this->definition) || !method_exists($this->definition, 'getRelatedPages'))
     {
       return [];
@@ -223,7 +216,7 @@ abstract class Common extends Model
     }
 
     array_unshift($pages, [
-      'title' => $translator->translate('Back to list'),
+      'title' => pgettext('global', 'Back to list'),
       'icon' => 'stream',
       'link' => $listUrl,
     ]);

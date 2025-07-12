@@ -14,7 +14,14 @@ class Virtualmachinestate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Virtualmachinestate::class;
-  protected $titles = ['State of the virtual machine', 'States of the virtual machine'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'State of the virtual machine', 'States of the virtual machine', $nb);
+  }
 }

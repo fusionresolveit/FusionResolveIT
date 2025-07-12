@@ -14,7 +14,14 @@ class Planningeventcategory extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Planningeventcategory::class;
-  protected $titles = ['Event category', 'Event categories'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Event category', 'Event categories', $nb);
+  }
 }

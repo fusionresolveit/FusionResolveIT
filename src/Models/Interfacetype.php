@@ -14,7 +14,14 @@ class Interfacetype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Interfacetype::class;
-  protected $titles = ['Interface type (Hard drive...)', 'Interface types (Hard drive...)'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Interface type (Hard drive...)', 'Interface types (Hard drive...)', $nb);
+  }
 }

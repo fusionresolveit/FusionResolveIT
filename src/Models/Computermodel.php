@@ -14,7 +14,14 @@ class Computermodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Computermodel::class;
-  protected $titles = ['Computer model', 'Computer models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Computer model', 'Computer models', $nb);
+  }
 }

@@ -50,7 +50,7 @@ final class Appliancetype extends Common implements \App\Interfaces\Crud
 
     $appliancetype = \App\Models\Appliancetype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The appliance environment has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($appliancetype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -93,7 +93,7 @@ final class Appliancetype extends Common implements \App\Interfaces\Crud
 
     $appliancetype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The appliance type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($appliancetype, 'update');
 
     $uri = $request->getUri();
@@ -123,7 +123,7 @@ final class Appliancetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $appliancetype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/appliancetypes')
@@ -134,7 +134,7 @@ final class Appliancetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $appliancetype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -161,7 +161,7 @@ final class Appliancetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $appliancetype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The appliance environment has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

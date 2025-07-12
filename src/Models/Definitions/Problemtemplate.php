@@ -11,10 +11,8 @@ class Problemtemplate
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
+      'name' => pgettext('global', 'Name'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -28,10 +26,9 @@ class Problemtemplate
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       // [
-      //   'title' => $translator->translate('Historical'),
+      //   'title' => npgettext('global', 'Historical', 'Historicals', 1),
       //   'icon' => 'history',
       //   'link' => '',
       // ],

@@ -17,7 +17,6 @@ class ItemDevicesimcard extends Common
   use \App\Traits\Relationships\Contract;
 
   protected $definition = \App\Models\Definitions\ItemDevicesimcard::class;
-  protected $titles = ['Simcard', 'Simcards'];
   protected $icon = 'sim card';
 
   protected $table = 'item_devicesimcard';
@@ -46,6 +45,14 @@ class ItemDevicesimcard extends Common
     'contracts:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'SIM card', 'SIM cards', $nb);
+  }
 
 
   /** @return BelongsTo<\App\Models\State, $this> */

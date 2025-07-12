@@ -16,7 +16,6 @@ class Queuednotification extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Queuednotification::class;
-  protected $titles = ['Notification queue', 'Notification queue'];
   protected $icon = 'list alt';
 
   protected $appends = [
@@ -31,6 +30,14 @@ class Queuednotification extends Common
     'notificationtemplate:id,name',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Notifications queue', 'Notifications queues', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Notificationtemplate, $this> */
   public function notificationtemplate(): BelongsTo

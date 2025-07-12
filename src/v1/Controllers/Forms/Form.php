@@ -54,7 +54,7 @@ final class Form extends \App\v1\Controllers\Common
 
     $form = \App\Models\Forms\Form::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The form has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($form, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Form extends \App\v1\Controllers\Common
 
     $form->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The form has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($form, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Form extends \App\v1\Controllers\Common
         throw new \Exception('Unauthorized access', 401);
       }
       $form->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The form has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/forms')
@@ -138,7 +138,7 @@ final class Form extends \App\v1\Controllers\Common
         throw new \Exception('Unauthorized access', 401);
       }
       $form->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The form has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Form extends \App\v1\Controllers\Common
         throw new \Exception('Unauthorized access', 401);
       }
       $form->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The form has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Form extends \App\v1\Controllers\Common
    */
   public function showSubSections(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Form();
     $view = Twig::fromRequest($request);
 
@@ -215,8 +213,8 @@ final class Form extends \App\v1\Controllers\Common
     $viewData->addData('src', 'form');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('section', $translator->translatePlural('Section', 'Sections', 1));
-    $viewData->addTranslation('nb_questions', $translator->translate('Nombre de questions'));
+    $viewData->addTranslation('section', npgettext('global', 'Section', 'Sections', 1));
+    $viewData->addTranslation('nb_questions', pgettext('form', 'Number of questions'));
 
     return $view->render($response, 'subitem/sections.html.twig', (array)$viewData);
   }
@@ -226,8 +224,6 @@ final class Form extends \App\v1\Controllers\Common
    */
   public function showSubQuestions(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Form();
     $view = Twig::fromRequest($request);
 
@@ -270,8 +266,8 @@ final class Form extends \App\v1\Controllers\Common
     $viewData->addData('src', 'form');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('section', $translator->translatePlural('Section', 'Sections', 1));
-    $viewData->addTranslation('question', $translator->translatePlural('Question', 'Questions', 1));
+    $viewData->addTranslation('section', npgettext('global', 'Section', 'Sections', 1));
+    $viewData->addTranslation('question', npgettext('global', 'Question', 'Questions', 1));
 
     return $view->render($response, 'subitem/questions.html.twig', (array)$viewData);
   }
@@ -281,8 +277,6 @@ final class Form extends \App\v1\Controllers\Common
    */
   public function showSubAnswers(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Form();
     $view = Twig::fromRequest($request);
 
@@ -321,8 +315,8 @@ final class Form extends \App\v1\Controllers\Common
     $viewData->addData('src', 'form');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('date_creation', $translator->translate('Creation date'));
-    $viewData->addTranslation('create_by', $translator->translate('By user'));
+    $viewData->addTranslation('date_creation', pgettext('global', 'Creation date'));
+    $viewData->addTranslation('create_by', pgettext('form', 'By user'));
 
     return $view->render($response, 'subitem/answers.html.twig', (array)$viewData);
   }

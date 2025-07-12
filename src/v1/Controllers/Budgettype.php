@@ -52,7 +52,7 @@ final class Budgettype extends Common implements \App\Interfaces\Crud
 
     $budgettype = \App\Models\Budgettype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The budget type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($budgettype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Budgettype extends Common implements \App\Interfaces\Crud
 
     $budgettype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The budget type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($budgettype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Budgettype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $budgettype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The budget type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/budgettypes')
@@ -136,7 +136,7 @@ final class Budgettype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $budgettype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The budget type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Budgettype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $budgettype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The budget type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

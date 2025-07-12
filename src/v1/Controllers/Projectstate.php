@@ -52,7 +52,7 @@ final class Projectstate extends Common implements \App\Interfaces\Crud
 
     $projectstate = \App\Models\Projectstate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project state has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($projectstate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Projectstate extends Common implements \App\Interfaces\Crud
 
     $projectstate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project state has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($projectstate, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Projectstate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projectstate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project state has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/projectstates')
@@ -136,7 +136,7 @@ final class Projectstate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projectstate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project state has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Projectstate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projectstate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project state has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

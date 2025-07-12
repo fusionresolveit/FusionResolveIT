@@ -54,7 +54,7 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
 
     $datacenter = \App\Models\Datacenter::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The datacenter has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($datacenter, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
 
     $datacenter->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The datacenter has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($datacenter, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $datacenter->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The datacenter has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/datacenters')
@@ -138,7 +138,7 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $datacenter->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The datacenter has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $datacenter->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The datacenter has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
    */
   public function showSubDcrooms(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Datacenter();
     $view = Twig::fromRequest($request);
 
@@ -214,7 +212,7 @@ final class Datacenter extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('dcrooms', $myDcrooms);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/dcrooms.html.twig', (array)$viewData);
   }

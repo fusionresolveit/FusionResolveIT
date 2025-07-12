@@ -11,15 +11,13 @@ class Knowledgebasearticle
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name'       => $translator->translate('Name'),
-      'category'   => $translator->translate('Category'),
-      'article'    => $translator->translate('Article'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'views'      => $translator->translate('Number of views'),
+      'name'       => pgettext('global', 'Name'),
+      'category'   => npgettext('global', 'Category', 'Categories', 1),
+      'article'    => npgettext('knowbase article', 'Article', 'Articles', 1),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'views'      => pgettext('knowbase article', 'Number of views'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -46,35 +44,34 @@ class Knowledgebasearticle
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Article', 'Articles', 1),
+        'title' => npgettext('knowbase article', 'Article', 'Articles', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Entity view'),
+        'title' => pgettext('knowbase article', 'Entity view'),
         'icon' => 'layer group',
         'link' => $rootUrl . '/entityview',
       ],
       [
-        'title' => $translator->translate('Group view'),
+        'title' => pgettext('knowbase article', 'Group view'),
         'icon' => 'group',
         'link' => $rootUrl . '/groupview',
       ],
       [
-        'title' => $translator->translate('profile view'),
+        'title' => pgettext('knowbase article', 'Profile view'),
         'icon' => 'user check',
         'link' => $rootUrl . '/profileview',
       ],
       [
-        'title' => $translator->translate('User view'),
+        'title' => pgettext('knowbase article', 'User view'),
         'icon' => 'user',
         'link' => $rootUrl . '/userview',
       ],
       [
-        'title' => $translator->translate('Revisions'),
+        'title' => pgettext('knowbase article', 'Revisions'),
         'icon' => 'code branch',
         'link' => $rootUrl . '/revisions',
       ],

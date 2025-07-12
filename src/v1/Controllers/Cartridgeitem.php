@@ -62,7 +62,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
 
     $cartridgeitem = \App\Models\Cartridgeitem::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The cartridge item has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($cartridgeitem, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -105,7 +105,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
 
     $cartridgeitem->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The cartridge item has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($cartridgeitem, 'update');
 
     $uri = $request->getUri();
@@ -135,7 +135,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $cartridgeitem->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cartridge item has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/cartridgeitems')
@@ -146,7 +146,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $cartridgeitem->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cartridge item has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -173,7 +173,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $cartridgeitem->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The cartridge item has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -186,8 +186,6 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
    */
   public function showSubCartridges(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Cartridgeitem();
     $view = Twig::fromRequest($request);
 
@@ -218,17 +216,17 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
 
       if ($date_end !== null)
       {
-        $status = $translator->translatePlural('cartridge' . "\004" . 'Worn', 'cartridge' . "\004" . 'Worn', 1);
+        $status = npgettext('cartridge', 'Worn', 'Worn', 1);
         $total_out = $total_out + 1;
       }
       elseif ($date_use !== null)
       {
-        $status = $translator->translatePlural('cartridge' . "\004" . 'Used', 'cartridge' . "\004" . 'Used', 1);
+        $status = npgettext('cartridge', 'Used', 'Used', 1);
         $total_use = $total_use + 1;
       }
       else
       {
-        $status = $translator->translatePlural('cartridge' . "\004" . 'New', 'cartridge' . "\004" . 'New', 1);
+        $status = npgettext('cartridge', 'New', 'New', 1);
         $total_new = $total_new + 1;
       }
       $total = $total + 1;
@@ -249,7 +247,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
         if ($pages[$cartridge->printer->id] < $cartridge->pages)
         {
           $pp = $cartridge->pages - $pages[$cartridge->printer->id];
-          $printer_counter = sprintf($translator->translatePlural('%d printed page', '%d printed pages', $pp), $pp);
+          $printer_counter = sprintf(npgettext('cartridge', '%d printed page', '%d printed pages', $pp), $pp);
           $pages[$cartridge->printer->id] = $cartridge->pages;
         }
       }
@@ -289,26 +287,26 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
     $viewData->addData('total_use', $total_use);
     $viewData->addData('total_out', $total_out);
 
-    $viewData->addTranslation('status', $translator->translate('item' . "\004" . 'State'));
-    $viewData->addTranslation('date_add', $translator->translate('Add date'));
-    $viewData->addTranslation('date_use', $translator->translate('Use date'));
-    $viewData->addTranslation('date_end', $translator->translate('End date'));
-    $viewData->addTranslation('use_on', $translator->translate('Used on'));
-    $viewData->addTranslation('printer_counter', $translator->translate('Printer counter'));
-    $viewData->addTranslation('cartridges_use', $translator->translate('Used cartridges'));
-    $viewData->addTranslation('cartridges_out', $translator->translate('Worn cartridges'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'State'));
+    $viewData->addTranslation('date_add', pgettext('global', 'Add date'));
+    $viewData->addTranslation('date_use', pgettext('inventory device', 'Use date'));
+    $viewData->addTranslation('date_end', pgettext('global', 'End date'));
+    $viewData->addTranslation('use_on', pgettext('cartridge', 'Used on'));
+    $viewData->addTranslation('printer_counter', pgettext('printer', 'Printer counter'));
+    $viewData->addTranslation('cartridges_use', pgettext('cartridge', 'Used cartridges'));
+    $viewData->addTranslation('cartridges_out', pgettext('cartridge', 'Worn cartridges'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
     $viewData->addTranslation(
       'total_new',
-      $translator->translatePlural('cartridge' . "\004" . 'New', 'cartridge' . "\004" . 'New', $total_new)
+      npgettext('cartridge', 'New', 'New', $total_new)
     );
     $viewData->addTranslation(
       'total_use',
-      $translator->translatePlural('cartridge' . "\004" . 'Used', 'cartridge' . "\004" . 'Used', $total_use)
+      npgettext('cartridge', 'Used', 'Used', $total_use)
     );
     $viewData->addTranslation(
       'total_out',
-      $translator->translatePlural('cartridge' . "\004" . 'Worn', 'cartridge' . "\004" . 'Worn', $total_out)
+      npgettext('cartridge', 'Worn', 'Worn', $total_out)
     );
 
     return $view->render($response, 'subitem/cartridges.html.twig', (array)$viewData);
@@ -319,8 +317,6 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
    */
   public function showSubPrintermodels(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Cartridgeitem();
     $view = Twig::fromRequest($request);
 
@@ -352,7 +348,7 @@ final class Cartridgeitem extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('printermodels', $myPrintermodels);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/printermodels.html.twig', (array)$viewData);
   }

@@ -52,7 +52,7 @@ final class Notification extends Common implements \App\Interfaces\Crud
 
     $notification = \App\Models\Notification::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($notification, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Notification extends Common implements \App\Interfaces\Crud
 
     $notification->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($notification, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Notification extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $notification->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/notifications')
@@ -136,7 +136,7 @@ final class Notification extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $notification->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Notification extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $notification->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The notification has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

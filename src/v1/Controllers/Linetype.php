@@ -52,7 +52,7 @@ final class Linetype extends Common implements \App\Interfaces\Crud
 
     $linetype = \App\Models\Linetype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The line type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($linetype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Linetype extends Common implements \App\Interfaces\Crud
 
     $linetype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The line type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($linetype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Linetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $linetype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The line type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/linetypes')
@@ -136,7 +136,7 @@ final class Linetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $linetype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The line type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Linetype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $linetype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The line type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

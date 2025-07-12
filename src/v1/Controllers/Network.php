@@ -52,7 +52,7 @@ final class Network extends Common implements \App\Interfaces\Crud
 
     $network = \App\Models\Network::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($network, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Network extends Common implements \App\Interfaces\Crud
 
     $network->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The network has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($network, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Network extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $network->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/networks')
@@ -136,7 +136,7 @@ final class Network extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $network->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Network extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $network->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The network has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

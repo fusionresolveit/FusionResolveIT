@@ -11,13 +11,11 @@ class Rulecriterium
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'rule' => $translator->translatePlural('Rule', 'Rules', 1),
-      'criteria' => $translator->translate('Criterium'),
-      'condition' => $translator->translate('Condition'),
-      'pattern' => $translator->translate('Patern'),
+      'rule' => npgettext('rule', 'Rule', 'Rules', 1),
+      'criteria' => npgettext('rule', 'Criterion', 'Criteria', 1),
+      'condition' => pgettext('rule', 'Condition'),
+      'pattern' => pgettext('rule', 'Patern'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -49,49 +47,48 @@ class Rulecriterium
    */
   public static function getConditionArray(): array
   {
-    global $translator;
     return [
       0 => [
-        'title' => $translator->translate('is'),
+        'title' => pgettext('rule condition', 'is'),
       ],
       1 => [
-        'title' => $translator->translate('is not'),
+        'title' => pgettext('rule condition', 'is not'),
       ],
       2 => [
-        'title' => $translator->translate('contains'),
+        'title' => pgettext('rule condition', 'contains'),
       ],
       3 => [
-        'title' => $translator->translate('does not contain'),
+        'title' => pgettext('rule condition', 'does not contain'),
       ],
       4 => [
-        'title' => $translator->translate('starting with'),
+        'title' => pgettext('rule condition', 'starting with'),
       ],
       5 => [
-        'title' => $translator->translate('finished by'),
+        'title' => pgettext('rule condition', 'finished by'),
       ],
       6 => [
-        'title' => $translator->translate('regular expression matches'),
+        'title' => pgettext('rule condition', 'regular expression matches'),
       ],
       7 => [
-        'title' => $translator->translate('regular expression does not match'),
+        'title' => pgettext('rule condition', 'regular expression does not match'),
       ],
       8 => [
-        'title' => $translator->translate('exists'),
+        'title' => pgettext('rule condition', 'exists'),
       ],
       9 => [
-        'title' => $translator->translate('does not exist'),
+        'title' => pgettext('rule condition', 'does not exist'),
       ],
       10 => [
-        'title' => $translator->translate('find'),
+        'title' => pgettext('rule condition', 'find'),
       ],
       11 => [
-        'title' => $translator->translate('under'),
+        'title' => pgettext('rule condition', 'under'),
       ],
       12 => [
-        'title' => $translator->translate('not under'),
+        'title' => pgettext('rule condition', 'not under'),
       ],
       13 => [
-        'title' => $translator->translate('is empty'),
+        'title' => pgettext('rule condition', 'is empty'),
       ],
     ];
   }

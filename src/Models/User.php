@@ -23,7 +23,6 @@ class User extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\User::class;
-  protected $titles = ['User', 'Users'];
   protected $icon = 'user';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -78,6 +77,14 @@ class User extends Common
     'is_active' => 'boolean',
     'dark_mode' => 'boolean',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'User', 'Users', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Usercategory, $this> */
   public function category(): BelongsTo

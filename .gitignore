@@ -28,3 +28,5 @@ phpunit.xml
 phinx.php
 cypress/videos
 cypress/screenshots
+/locale/gen_*
+/locale/foldername

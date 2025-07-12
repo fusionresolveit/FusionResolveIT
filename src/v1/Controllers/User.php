@@ -17,6 +17,8 @@ use App\Traits\Subs\Problem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use Respect\Validation\Validator;
+use Respect\Validation\Rules;
 
 final class User extends Common implements \App\Interfaces\Crud
 {
@@ -80,7 +82,7 @@ final class User extends Common implements \App\Interfaces\Crud
 
     $user = \App\Models\User::create($dataToAdd);
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The user has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($user, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -139,7 +141,7 @@ final class User extends Common implements \App\Interfaces\Crud
 
     $user->update($dataToUpdate);
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The user has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($user, 'update');
 
     $uri = $request->getUri();
@@ -169,7 +171,7 @@ final class User extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $user->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The user has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/users')
@@ -181,7 +183,7 @@ final class User extends Common implements \App\Interfaces\Crud
       }
       $this->revokeAccesses($user);
       $user->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The user has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -208,7 +210,7 @@ final class User extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $user->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The user has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -221,8 +223,6 @@ final class User extends Common implements \App\Interfaces\Crud
    */
   public function showSubAuthorization(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\User();
     $view = Twig::fromRequest($request);
 
@@ -255,7 +255,7 @@ final class User extends Common implements \App\Interfaces\Crud
     $form = [
       [
         'id'        => 1,
-        'title'     => $translator->translatePlural('Entity', 'Entities', 1),
+        'title'     => npgettext('global', 'Entity', 'Entities', 1),
         'type'      => 'dropdown_remote',
         'name'      => 'entity',
         'dbname'    => 'entity_id',
@@ -265,7 +265,7 @@ final class User extends Common implements \App\Interfaces\Crud
       ],
       [
         'id'        => 3,
-        'title'     => $translator->translate('Child entities'),
+        'title'     => pgettext('global', 'Child entities'),
         'type'      => 'boolean',
         'name'      => 'is_recursive',
         'fillable'  => true,
@@ -273,7 +273,7 @@ final class User extends Common implements \App\Interfaces\Crud
       ],
       [
         'id'        => 2,
-        'title'     => $translator->translatePlural('Profile', 'Profiles', 1),
+        'title'     => npgettext('global', 'Profile', 'Profiles', 1),
         'type'      => 'dropdown_remote',
         'name'      => 'profile',
         'dbname'    => 'profile_id',
@@ -337,8 +337,6 @@ final class User extends Common implements \App\Interfaces\Crud
    */
   public function showSubGroups(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\User();
     $view = Twig::fromRequest($request);
 
@@ -358,29 +356,29 @@ final class User extends Common implements \App\Interfaces\Crud
 
       if ($group->getRelationValue('pivot')->is_dynamic == 1)
       {
-        $auto_val = $translator->translate('Yes');
+        $auto_val = pgettext('global', 'Yes');
       }
       else
       {
-        $auto_val = $translator->translate('No');
+        $auto_val = pgettext('global', 'No');
       }
 
       if ($group->getRelationValue('pivot')->is_manager == 1)
       {
-        $is_manager_val = $translator->translate('Yes');
+        $is_manager_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_manager_val = $translator->translate('No');
+        $is_manager_val = pgettext('global', 'No');
       }
 
       if ($group->getRelationValue('pivot')->is_userdelegate == 1)
       {
-        $is_userdelegate_val = $translator->translate('Yes');
+        $is_userdelegate_val = pgettext('global', 'Yes');
       }
       else
       {
-        $is_userdelegate_val = $translator->translate('No');
+        $is_userdelegate_val = pgettext('global', 'No');
       }
 
       $myGroups[] = [
@@ -402,10 +400,10 @@ final class User extends Common implements \App\Interfaces\Crud
     $viewData->addData('groups', $myGroups);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
-    $viewData->addTranslation('manager', $translator->translate('Manager'));
-    $viewData->addTranslation('userdelegate', $translator->translate('Delegatee'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('auto', pgettext('inventory device', 'Automatic inventory'));
+    $viewData->addTranslation('manager', pgettext('global', 'Manager'));
+    $viewData->addTranslation('userdelegate', pgettext('global', 'Delegatee'));
 
     return $view->render($response, 'subitem/groups.html.twig', (array)$viewData);
   }
@@ -415,8 +413,6 @@ final class User extends Common implements \App\Interfaces\Crud
    */
   public function showSubReservations(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\User();
     $view = Twig::fromRequest($request);
 
@@ -549,15 +545,15 @@ final class User extends Common implements \App\Interfaces\Crud
     $viewData->addData('reservations_old', $myReservations_old);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('start_date', $translator->translate('Start date'));
-    $viewData->addTranslation('end_date', $translator->translate('End date'));
-    $viewData->addTranslation('by', $translator->translate('By'));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
-    $viewData->addTranslation('current_reservations', $translator->translate('Current and future reservations'));
-    $viewData->addTranslation('past_reservations', $translator->translate('Past reservations'));
-    $viewData->addTranslation('no_reservations', $translator->translate('No reservation'));
-    $viewData->addTranslation('item', $translator->translatePlural('Item', 'Items', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
+    $viewData->addTranslation('start_date', pgettext('global', 'Start date'));
+    $viewData->addTranslation('end_date', pgettext('global', 'End date'));
+    $viewData->addTranslation('by', pgettext('reservation', 'By'));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
+    $viewData->addTranslation('current_reservations', pgettext('reservation', 'Current and future reservations'));
+    $viewData->addTranslation('past_reservations', pgettext('reservation', 'Past reservations'));
+    $viewData->addTranslation('no_reservations', pgettext('reservation', 'No reservation'));
+    $viewData->addTranslation('item', npgettext('global', 'Item', 'Items', 1));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
 
     return $view->render($response, 'subitem/reservations.html.twig', (array)$viewData);
   }
@@ -588,7 +584,7 @@ final class User extends Common implements \App\Interfaces\Crud
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator, $basePath;
+    global $basePath;
 
     $uri = $request->getUri();
     $info = [];
@@ -596,7 +592,7 @@ final class User extends Common implements \App\Interfaces\Crud
     {
       $info[] = [
         'key'    => 'revoke',
-        'value'  => $translator->translate('Revoke all access'),
+        'value'  => pgettext('user', 'Revoke all access'),
         'link'   => $basePath . '/view/users/' . $item->id . '/revokeaccesses',
         'button' => [
           'color' => 'red',
@@ -606,7 +602,7 @@ final class User extends Common implements \App\Interfaces\Crud
     } else {
       $info[] = [
         'key'   => 'revoke',
-        'value' => $translator->translate('Never connected or revoked access'),
+        'value' => pgettext('user', 'Never connected or revoked access'),
         'link'  => null,
       ];
     }
@@ -631,7 +627,7 @@ final class User extends Common implements \App\Interfaces\Crud
     }
     $this->revokeAccesses($user);
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('All accesses revoked successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessage(pgettext('session message', 'All accesses revoked successfully'));
 
     return $response
       ->withHeader('Location', $basePath . '/view/users/' . $user->id)
@@ -657,5 +653,60 @@ final class User extends Common implements \App\Interfaces\Crud
     }
     return $response
       ->withStatus(200);
+  }
+
+  /**
+   * Set the lang (cookie and/or in user db)
+   *
+   * @param array<string, string> $args
+   */
+  public function postChangelang(Request $request, Response $response, array $args): Response
+  {
+    global $basePath;
+
+    $data = (array) $request->getParsedBody();
+    if (!isset($data['langchoosen']))
+    {
+      throw new \Exception('Data not valid', 401);
+    }
+    if (
+        !(Validator::create(
+          new Rules\Regex('/^([a-z]{2})\-([A-Z]{2})$/'),
+        )->isValid($data['langchoosen'])) &&
+        $data['langchoosen'] !== 'auto'
+    )
+    {
+      throw new \Exception('Wrong data request', 400);
+    }
+
+    if ($data['langchoosen'] == 'auto')
+    {
+      setcookie('lang', '', -1, $basePath . '/view');
+    } else {
+      setcookie('lang', $data['langchoosen'], 0, $basePath . '/view');
+    }
+
+    // we are connected
+    if (isset($GLOBALS['user_id']))
+    {
+      // Update lang into DB
+      $user = \App\Models\User::where('id', $GLOBALS['user_id'])->first();
+      if (is_null($user))
+      {
+        {
+          throw new \Exception('Id not found', 404);
+        }
+      }
+      if ($data['langchoosen'] == 'auto')
+      {
+        $user->language = null;
+      } else {
+        $user->language = $data['langchoosen'];
+      }
+      $user->save();
+    }
+    return $response
+      ->withHeader('Location', $_SERVER['HTTP_REFERER'])
+      ->withStatus(302);
   }
 }

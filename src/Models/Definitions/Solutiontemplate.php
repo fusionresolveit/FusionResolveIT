@@ -11,16 +11,14 @@ class Solutiontemplate
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'type' => $translator->translatePlural('Solution type', 'Solution type', 1),
-      'content' => $translator->translate('Content'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'type' => npgettext('global', 'Solution type', 'Solution types', 1),
+      'content' => pgettext('global', 'Content'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -43,7 +41,7 @@ class Solutiontemplate
     return $defColl;
     //  [
     //    'id'    => 80,
-    //    'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //    'title' => npgettext('global', 'Entity', 'Entities', 1),
     //    'type'  => 'dropdown_remote',
     //    'name'  => 'completename',
     //    'itemtype' => '\App\Models\Entity',
@@ -55,15 +53,14 @@ class Solutiontemplate
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Solution template', 'Solution templates', 1),
+        'title' => npgettext('global', 'Solution template', 'Solution templates', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

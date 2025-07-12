@@ -15,8 +15,6 @@ trait Approval
    */
   public function showSubApprovals(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -88,13 +86,13 @@ trait Approval
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('approvals', $myApprovals);
 
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('request_date', $translator->translate('Request date'));
-    $viewData->addTranslation('request_user', $translator->translate('Approval requester'));
-    $viewData->addTranslation('request_comment', $translator->translate('Request comments'));
-    $viewData->addTranslation('approval_date', $translator->translate('Approval status'));
-    $viewData->addTranslation('approval_user', $translator->translate('Approver'));
-    $viewData->addTranslation('approval_comment', $translator->translate('Approval comments'));
+    $viewData->addTranslation('status', pgettext('global', 'Status'));
+    $viewData->addTranslation('request_date', pgettext('ITIL', 'Request date'));
+    $viewData->addTranslation('request_user', pgettext('ITIL', 'Approval requester'));
+    $viewData->addTranslation('request_comment', pgettext('ITIL', 'Request comments'));
+    $viewData->addTranslation('approval_date', pgettext('ITIL', 'Approval status'));
+    $viewData->addTranslation('approval_user', pgettext('ITIL', 'Approver'));
+    $viewData->addTranslation('approval_comment', pgettext('ITIL', 'Approval comments'));
 
     return $view->render($response, 'subitem/approvals.html.twig', (array)$viewData);
   }

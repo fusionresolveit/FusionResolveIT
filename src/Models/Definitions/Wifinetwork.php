@@ -11,16 +11,14 @@ class Wifinetwork
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'essid' => $translator->translate('ESSID'),
-      'mode' => $translator->translate('Status'),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'essid' => pgettext('network', 'ESSID'),
+      'mode' => pgettext('inventory device', 'Status'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -43,7 +41,7 @@ class Wifinetwork
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -55,16 +53,15 @@ class Wifinetwork
    */
   public static function getWifiNetworkTypeArray(): array
   {
-    global $translator;
     return [
       '' => [
         'title' => '-----',
       ],
       'infrastructure' => [
-        'title' => $translator->translate('Infrastructure (with access point)'),
+        'title' => pgettext('network', 'Infrastructure (with access point)'),
       ],
       'ad-hoc' => [
-        'title' => $translator->translate('Ad-hoc (without access point)'),
+        'title' => pgettext('network', 'Ad-hoc (without access point)'),
       ],
     ];
   }
@@ -74,15 +71,14 @@ class Wifinetwork
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Wifi network', 'Wifi networks', 1),
+        'title' => npgettext('global', 'Wifi network', 'Wifi networks', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

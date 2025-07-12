@@ -55,7 +55,7 @@ final class Fqdn extends Common
 
     $fqdn = \App\Models\Fqdn::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The fqdn has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($fqdn, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -98,7 +98,7 @@ final class Fqdn extends Common
 
     $fqdn->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The fqdn has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($fqdn, 'update');
 
     $uri = $request->getUri();
@@ -128,7 +128,7 @@ final class Fqdn extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $fqdn->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The fqdn has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/fqdns')
@@ -139,7 +139,7 @@ final class Fqdn extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $fqdn->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The fqdn has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -166,7 +166,7 @@ final class Fqdn extends Common
         throw new \Exception('Unauthorized access', 401);
       }
       $fqdn->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The fqdn has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -179,8 +179,6 @@ final class Fqdn extends Common
    */
   public function showSubNetworkalias(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Fqdn();
     $view = Twig::fromRequest($request);
 
@@ -235,9 +233,9 @@ final class Fqdn extends Common
     $viewData->addData('networkalias', $myNetworkAlias);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('networkalias', $translator->translatePlural('Network alias', 'Network aliases', 1));
-    $viewData->addTranslation('computername', $translator->translate("Computer's name"));
-    $viewData->addTranslation('comment', $translator->translate('Comments'));
+    $viewData->addTranslation('networkalias', npgettext('network', 'Network alias', 'Network aliases', 1));
+    $viewData->addTranslation('computername', pgettext('inventory device', "Computer's name"));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/networkalias.html.twig', (array)$viewData);
   }

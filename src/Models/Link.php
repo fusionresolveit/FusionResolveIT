@@ -15,7 +15,6 @@ class Link extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Link::class;
-  protected $titles = ['External link', 'External links'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Link extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'External link', 'External links', $nb);
+  }
 }

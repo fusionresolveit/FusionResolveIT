@@ -12,7 +12,6 @@ class Followup extends Common
   use SoftDeletes;
 
   protected $definition = \App\Models\Definitions\Followup::class;
-  protected $titles = ['Followup', 'Followups'];
   protected $icon = 'hands helping';
   protected $hasEntityField = false;
 
@@ -54,6 +53,14 @@ class Followup extends Common
         }
       }
     });
+  }
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('ITIL', 'Followup', 'Followups', $nb);
   }
 
   /** @return BelongsTo<\App\Models\User, $this> */

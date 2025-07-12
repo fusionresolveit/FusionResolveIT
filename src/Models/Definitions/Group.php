@@ -11,33 +11,31 @@ class Group
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'completename' => $translator->translate('Complete name'),
-      'id' => $translator->translate('ID'),
-      'child' => $translator->translate('As child of'),
-      'comment' => $translator->translate('Comments'),
-      'is_requester' => $translator->translatePlural('Requester', 'Requesters', 1),
-      'is_watcher' => $translator->translatePlural('Watcher', 'Watchers', 1),
-      'is_assign' => $translator->translate('Assigned to'),
-      'is_task' => $translator->translatePlural('Task', 'Tasks', 1),
-      'is_notify' => $translator->translate('Can be notified'),
-      'is_manager' => $translator->translate('Can be manager'),
+      'name' => pgettext('global', 'Name'),
+      'completename' => pgettext('global', 'Complete name'),
+      'id' => pgettext('global', 'Id'),
+      'child' => pgettext('global', 'As child of'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_requester' => npgettext('ITIL', 'Requester', 'Requesters', 1),
+      'is_watcher' => npgettext('ITIL', 'Watcher', 'Watchers', 1),
+      'is_assign' => pgettext('group', 'Assigned to'),
+      'is_task' => npgettext('ITIL', 'Task', 'Tasks', 1),
+      'is_notify' => pgettext('group', 'Can be notified'),
+      'is_manager' => pgettext('group', 'Can be manager'),
       'is_itemgroup' => sprintf(
-        $translator->translate('%1$s %2$s'),
-        $translator->translate('Can contain'),
-        $translator->translatePlural('Item', 'Items', 2)
+        pgettext('global', '%1$s %2$s'),
+        pgettext('group', 'Can contain'),
+        npgettext('global', 'Item', 'Items', 2)
       ),
       'is_usergroup' => sprintf(
-        $translator->translate('%1$s %2$s'),
-        $translator->translate('Can contain'),
-        $translator->translatePlural('User', 'Users', 2)
+        pgettext('global', '%1$s %2$s'),
+        pgettext('group', 'Can contain'),
+        npgettext('global', 'User', 'Users', 2)
       ),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -69,7 +67,7 @@ class Group
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'entity',
     //   'dbname' => 'entities_id',
@@ -180,62 +178,61 @@ class Group
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Group', 'Groups', 1),
+        'title' => npgettext('global', 'Group', 'Groups', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Child groups'),
+        'title' => pgettext('group', 'Child groups'),
         'icon' => 'users',
         'link' => $rootUrl . '/groups',
       ],
       [
-        'title' => $translator->translate('Used items'),
+        'title' => pgettext('group', 'Used items'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Managed items'),
+        'title' => pgettext('group', 'Managed items'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('User', 'Users', 2),
+        'title' => npgettext('global', 'User', 'Users', 2),
         'icon' => 'user',
         'link' => $rootUrl . '/users',
       ],
       [
-        'title' => $translator->translatePlural('Notification', 'Notifications', 2),
+        'title' => npgettext('global', 'Notification', 'Notifications', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Created tickets'),
+        'title' => gettext('ticket' . "\004" . 'Created tickets'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/tickets',
       ],
       [
-        'title' => $translator->translatePlural('Problem', 'Problems', 2),
+        'title' => npgettext('problem', 'Problem', 'Problems', 2),
         'icon' => 'drafting compass',
         'link' => $rootUrl . '/problems',
         'rightModel' => '\App\Models\Problem',
       ],
       [
-        'title' => $translator->translatePlural('Change', 'Changes', 2),
+        'title' => npgettext('change', 'Change', 'Changes', 2),
         'icon' => 'paint roller',
         'link' => $rootUrl . '/changes',
         'rightModel' => '\App\Models\Change',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

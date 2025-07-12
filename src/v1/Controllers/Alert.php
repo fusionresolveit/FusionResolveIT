@@ -48,7 +48,7 @@ final class Alert extends Common implements \App\Interfaces\Crud
 
     $alerts = \App\Models\Alert::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The alert has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($alerts, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -91,7 +91,7 @@ final class Alert extends Common implements \App\Interfaces\Crud
 
     $alerts->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The alert has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($alerts, 'update');
 
     $uri = $request->getUri();
@@ -121,7 +121,7 @@ final class Alert extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $alerts->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The alert has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/alerts')
@@ -132,7 +132,7 @@ final class Alert extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $alerts->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The alert has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -159,7 +159,7 @@ final class Alert extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $alerts->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The alert has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

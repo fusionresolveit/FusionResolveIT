@@ -10,15 +10,13 @@ class Answer
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $defColl = new DefinitionCollection();
 
     return $defColl;
     /*
     [
       'id'    => 15,
-      'title' => $translator->translate('Creation date'),
+      'title' => pgettext('global', 'Creation date'),
       'type'  => 'datetime',
       'name'  => 'date_creation',
       'readonly'  => 'readonly',
@@ -31,15 +29,14 @@ class Answer
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Answer', 'Answers', 1),
+        'title' => npgettext('form', 'Answer', 'Answers', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

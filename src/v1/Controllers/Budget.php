@@ -63,7 +63,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
 
     $budget = \App\Models\Budget::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The budget has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($budget, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -106,7 +106,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
 
     $budget->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The budget has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($budget, 'update');
 
     $uri = $request->getUri();
@@ -136,7 +136,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $budget->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The budget has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/budgets')
@@ -147,7 +147,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $budget->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The budget has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -174,7 +174,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $budget->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The budget has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -187,8 +187,6 @@ final class Budget extends Common implements \App\Interfaces\Crud
    */
   public function showSubBudgetMain(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Budget();
     $view = Twig::fromRequest($request);
 
@@ -304,7 +302,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
           ];
         }
 
-        $type_fr = $translator->translatePlural('Contract', 'Contract', 1);
+        $type_fr = npgettext('global', 'Contract', 'Contracts', 1);
         $type = 'contracts';
 
         if (array_key_exists($type, $myBudgetMainType) !== true)
@@ -349,7 +347,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
           ];
         }
 
-        $type_fr = $translator->translatePlural('Ticket', 'Tickets', 1);
+        $type_fr = npgettext('ticket', 'Ticket', 'Tickets', 1);
         $type = 'tickets';
 
         if (array_key_exists($type, $myBudgetMainType) !== true)
@@ -400,7 +398,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
           ];
         }
 
-        $type_fr = $translator->translatePlural('Problem', 'Problems', 1);
+        $type_fr = npgettext('problem', 'Problem', 'Problems', 1);
         $type = 'problems';
 
         if (array_key_exists($type, $myBudgetMainType) !== true)
@@ -451,7 +449,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
           ];
         }
 
-        $type_fr = $translator->translatePlural('Change', 'Changes', 1);
+        $type_fr = npgettext('change', 'Change', 'Changes', 1);
         $type = 'changes';
 
         if (array_key_exists($type, $myBudgetMainType) !== true)
@@ -503,7 +501,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
           ];
         }
 
-        $type_fr = $translator->translatePlural('Project', 'Projects', 1);
+        $type_fr = npgettext('global', 'Project', 'Projects', 1);
         $type = 'projects';
 
         if (array_key_exists($type, $myBudgetMainType) !== true)
@@ -594,10 +592,10 @@ final class Budget extends Common implements \App\Interfaces\Crud
     $viewData->addData('alert_budget', $alert_budget);
     $viewData->addData('colspan', $colspan);
 
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('total', $translator->translate('Total'));
-    $viewData->addTranslation('total_spent', $translator->translate('Total spent on the budget'));
-    $viewData->addTranslation('total_remaining', $translator->translate('Total remaining on the budget'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
+    $viewData->addTranslation('total_spent', pgettext('budget', 'Total spent on the budget'));
+    $viewData->addTranslation('total_remaining', pgettext('budget', 'Total remaining on the budget'));
 
     return $view->render($response, 'subitem/budgetmain.html.twig', (array)$viewData);
   }
@@ -607,8 +605,6 @@ final class Budget extends Common implements \App\Interfaces\Crud
    */
   public function showSubAttachedItems(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $view = Twig::fromRequest($request);
 
     $myItem = \App\Models\Budget::where('id', $args['id'])->first();
@@ -715,7 +711,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
 
     foreach ($budget->itemContracts as $contract)
     {
-      $type_fr = $translator->translatePlural('Contract', 'Contract', 1);
+      $type_fr = npgettext('global', 'Contract', 'Contracts', 1);
       $type = 'contracts';
 
       $entity = '';
@@ -783,7 +779,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
     }
     foreach ($budget->itemTickets as $ticket)
     {
-      $type_fr = $translator->translatePlural('Ticket', 'Tickets', 1);
+      $type_fr = npgettext('ticket', 'Ticket', 'Tickets', 1);
       $type = 'tickets';
 
       $entity = '';
@@ -856,7 +852,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
     }
     foreach ($budget->itemProblems as $problem)
     {
-      $type_fr = $translator->translatePlural('Problem', 'Problems', 1);
+      $type_fr = npgettext('problem', 'Problem', 'Problems', 1);
       $type = 'problems';
 
       $entity = '';
@@ -929,7 +925,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
     }
     foreach ($budget->itemChanges as $change)
     {
-      $type_fr = $translator->translatePlural('Change', 'Changes', 1);
+      $type_fr = npgettext('change', 'Change', 'Changes', 1);
       $type = 'changes';
 
       $entity = '';
@@ -1002,7 +998,7 @@ final class Budget extends Common implements \App\Interfaces\Crud
     }
     foreach ($budget->itemProjects as $project)
     {
-      $type_fr = $translator->translatePlural('Project', 'Projects', 1);
+      $type_fr = npgettext('global', 'Project', 'Projects', 1);
       $type = 'projects';
 
       $entity = '';
@@ -1088,19 +1084,18 @@ final class Budget extends Common implements \App\Interfaces\Crud
     $viewData->addData('show', $this->choose);
     $viewData->addData('nb_total', $nb_total);
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('otherserial', $translator->translate('Inventory number'));
-    $viewData->addTranslation('status', $translator->translate('State'));
-    $viewData->addTranslation('domain_relation', $translator->translatePlural(
-      'Domain relation',
-      'Domains relations',
-      1
-    ));
-    $viewData->addTranslation('value', $translator->translate('Value'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('serial', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('otherserial', pgettext('inventory device', 'Inventory number'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'State'));
+    $viewData->addTranslation(
+      'domain_relation',
+      npgettext('global', 'Domain relation', 'Domains relations', 1)
+    );
+    $viewData->addTranslation('value', pgettext('administrative management', 'Value'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
 
     return $view->render($response, 'subitem/attacheditems.html.twig', (array)$viewData);
   }

@@ -15,8 +15,6 @@ trait Contract
    */
   public function showSubContracts(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -67,9 +65,9 @@ trait Contract
       $duration = $contract->duration;
       if ($duration == 0)
       {
-        $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', 1), $duration);
+        $initial_contract_period = sprintf(npgettext('global', '%d month', '%d months', 1), $duration);
       } else {
-        $initial_contract_period = sprintf($translator->translatePlural('%d month', '%d months', $duration), $duration);
+        $initial_contract_period = sprintf(npgettext('global', '%d month', '%d months', $duration), $duration);
       }
 
       $ladate = $contract->begin_date;
@@ -114,13 +112,13 @@ trait Contract
     $viewData->addData('contracts', $myContracts);
     $viewData->addData('show_suppliers', true);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('number', $translator->translate('phone' . "\004" . 'Number'));
-    $viewData->addTranslation('type', $translator->translatePlural('Contract type', 'Contract types', 1));
-    $viewData->addTranslation('supplier', $translator->translatePlural('Supplier', 'Suppliers', 1));
-    $viewData->addTranslation('start_date', $translator->translate('Start date'));
-    $viewData->addTranslation('initial_contract_period', $translator->translate('Initial contract period'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('number', npgettext('user parameter', 'Phone number', 'Phone numbers', 1));
+    $viewData->addTranslation('type', npgettext('contract', 'Contract type', 'Contract types', 1));
+    $viewData->addTranslation('supplier', npgettext('global', 'Supplier', 'Suppliers', 1));
+    $viewData->addTranslation('start_date', pgettext('global', 'Start date'));
+    $viewData->addTranslation('initial_contract_period', pgettext('contract', 'Initial contract period'));
 
     return $view->render($response, 'subitem/contracts.html.twig', (array)$viewData);
   }

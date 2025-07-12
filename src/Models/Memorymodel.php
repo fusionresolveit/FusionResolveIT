@@ -14,7 +14,14 @@ class Memorymodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Memorymodel::class;
-  protected $titles = ['Memory model', 'Memory models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Memory model', 'Memory models', $nb);
+  }
 }

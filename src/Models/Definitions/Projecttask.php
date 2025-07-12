@@ -11,24 +11,22 @@ class Projecttask
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'parent' => $translator->translate('As child of'),
-      'state' => $translator->translate('Status'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'date' => $translator->translate('Creation date'),
-      'plan_start_date' => $translator->translate('Planned start date'),
-      'plan_end_date' => $translator->translate('Planned end date'),
-      'planned_duration' => $translator->translate('Planned duration'),
-      'real_start_date' => $translator->translate('Real start date'),
-      'real_end_date' => $translator->translate('Real end date'),
-      'effective_duration' => $translator->translate('Effective duration'),
-      'percent_done' => $translator->translate('Percent done'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'parent' => pgettext('global', 'As child of'),
+      'state' => pgettext('global', 'Status'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'date' => pgettext('global', 'Creation date'),
+      'plan_start_date' => pgettext('ITIL', 'Planned start date'),
+      'plan_end_date' => pgettext('ITIL', 'Planned end date'),
+      'planned_duration' => pgettext('ITIL', 'Planned duration'),
+      'real_start_date' => pgettext('ITIL', 'Real start date'),
+      'real_end_date' => pgettext('ITIL', 'Real end date'),
+      'effective_duration' => pgettext('project', 'Effective duration'),
+      'percent_done' => pgettext('global', 'Percent done'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -88,41 +86,40 @@ class Projecttask
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Project task', 'Project tasks', 1),
+        'title' => npgettext('project', 'Project task', 'Project tasks', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Project task', 'Project tasks', 2),
+        'title' => npgettext('project', 'Project task', 'Project tasks', 2),
         'icon' => 'home',
         'link' => $rootUrl . '/projecttasks',
       ],
       [
-        'title' => $translator->translatePlural('Project task team', 'Project task teams', 1),
+        'title' => npgettext('project', 'Project task team', 'Project task teams', 1),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/projecttaskteams',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
+        'title' => npgettext('ticket', 'Ticket', 'Tickets', 2),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/tickets',
         'rightModel' => '\App\Models\Ticket',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -22,7 +22,6 @@ class Group extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Group::class;
-  protected $titles = ['Group', 'Groups'];
   protected $icon = 'users';
   protected $tree = true;
   /** @var string[] */
@@ -48,6 +47,14 @@ class Group extends Common
     'notes:id',
     'parents:id,name,group_id,entity_id',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Group', 'Groups', $nb);
+  }
 
   public function getCompletenameAttribute(): string
   {

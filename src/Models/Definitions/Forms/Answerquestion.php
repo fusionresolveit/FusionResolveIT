@@ -11,10 +11,8 @@ class Answerquestion
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'date_creation' => $translator->translate('Creation date'),
+      'date_creation' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -28,15 +26,14 @@ class Answerquestion
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Answerquestion', 'Answerquestions', 2),
+        'title' => npgettext('form', 'Answerquestion', 'Answerquestions', 2),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

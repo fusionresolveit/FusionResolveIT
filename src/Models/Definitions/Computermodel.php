@@ -11,20 +11,18 @@ class Computermodel
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'product_number' => $translator->translate('Product Number'),
-      'weight' => $translator->translate('Weight'),
-      'required_units' => $translator->translate('Required units'),
-      'depth' => $translator->translate('Depth'),
-      'power_connections' => $translator->translate('Power connections'),
-      'power_consumption' => $translator->translate('Power consumption'),
-      'is_half_rack' => $translator->translate('Is half rack'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name'              => pgettext('global', 'Name'),
+      'product_number'    => pgettext('inventory device', 'Product Number'),
+      'weight'            => pgettext('inventory device', 'Weight'),
+      'required_units'    => pgettext('inventory device', 'Required units'),
+      'depth'             => pgettext('inventory device', 'Depth'),
+      'power_connections' => pgettext('inventory device', 'Power connections'),
+      'power_consumption' => pgettext('inventory device', 'Power consumption'),
+      'is_half_rack'      => pgettext('inventory device', 'Is half rack'),
+      'comment'           => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at'        => pgettext('global', 'Last update'),
+      'created_at'        => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -44,13 +42,13 @@ class Computermodel
 
     // [
     //   'id'    => 137,
-    //   'title' => $translator->translate('Front picture'),
+    //   'title' => 'Front picture',
     //   'type'  => 'file',
     //   'name'  => 'picture_front',
     // ],
     // [
     //   'id'    => 138,
-    //   'title' => $translator->translate('Rear picture'),
+    //   'title' => 'Rear picture',
     //   'type'  => 'file',
     //   'name'  => 'picture_rear',
     // ],
@@ -61,15 +59,14 @@ class Computermodel
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Computer model', 'Computer models', 1),
+        'title' => npgettext('global', 'Computer model', 'Computer models', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -28,7 +28,10 @@ class Viewdata
 
   public function __construct(\App\Models\Common $item, Request $request)
   {
-    global $basePath, $translator;
+    global $basePath;
+
+    $lang = new \App\Translation();
+    $lang->loadLanguage();
 
     $this->header = new stdClass();
     $this->data = (object)[];
@@ -42,15 +45,29 @@ class Viewdata
     $this->initHeaderData($item, $request);
     $this->initInformationData();
 
-    $this->addTranslation('savebutton', $translator->translate('Save'));
-    $this->addTranslation('newbutton', $translator->translate('New'));
+    $this->addTranslation('savebutton', pgettext('button', 'Save'));
+    $this->addTranslation('newbutton', pgettext('button', 'New'));
+    $this->addTranslation('columnsbutton', pgettext('button', 'Columns'));
+    $this->addTranslation('searchbutton', pgettext('button', 'Search'));
+    $this->addTranslation('viewbutton', pgettext('button', 'View'));
+    $this->addTranslation('restorebutton', pgettext('button', 'Restore'));
+    $this->addTranslation('deletebutton', pgettext('button', 'Delete'));
+    $this->addTranslation('softdeletebutton', pgettext('button', 'Soft delete'));
 
+    $this->addTranslation('menutitle', pgettext('menu', 'Menu'));
+    $this->addTranslation('menubookmarks', pgettext('menu', 'Bookmarks'));
+    $this->addTranslation('menuentity', npgettext('global', 'Entity', 'Entities', 1));
+
+    $this->addTranslation('messagetitle', pgettext('session message', 'Action'));
     $session = new \SlimSession\Helper();
     if ($session->exists('message'))
     {
       $this->message = $session->get('message');
       $session->delete('message');
     }
+
+    $this->addData('lang', $lang->getDropdownValues());
+    $this->addData('currentLang', $lang->getCurrentLoadedLangForDisplay());
   }
 
   public function addData(string $key, mixed $value): void

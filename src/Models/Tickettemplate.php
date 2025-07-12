@@ -18,7 +18,6 @@ class Tickettemplate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Tickettemplate::class;
-  protected $titles = ['Ticket template', 'Ticket templates'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -47,6 +46,14 @@ class Tickettemplate extends Common
   protected $fillable = [
     'name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Ticket template', 'Ticket templates', $nb);
+  }
 
   /** @return HasMany<\App\Models\Tickettemplatemandatoryfields, $this> */
   public function mandatoryfields(): HasMany

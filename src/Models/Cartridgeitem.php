@@ -24,7 +24,6 @@ class Cartridgeitem extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Cartridgeitem::class;
-  protected $titles = ['Cartridge', 'Cartridges'];
   protected $icon = 'fill drip';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -66,6 +65,13 @@ class Cartridgeitem extends Common
     'infocom',
   ];
 
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Cartridge', 'Cartridges', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Cartridgeitemtype, $this> */
   public function type(): BelongsTo

@@ -10,7 +10,6 @@ class Authssoscope extends Common
 {
   use GetDropdownValues;
 
-  protected $titles = ['SSO scope', 'SSO scopes'];
   protected $icon = 'id card alternate';
   protected $hasEntityField = false;
 
@@ -22,4 +21,12 @@ class Authssoscope extends Common
 
   protected $with = [
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('sso', 'SSO scope', 'SSO scopes', $nb);
+  }
 }

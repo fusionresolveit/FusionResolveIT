@@ -19,7 +19,6 @@ class Form extends \App\Models\Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Forms\Form::class;
-  protected $titles = ['Form', 'Forms'];
   protected $icon = 'cubes';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -38,6 +37,14 @@ class Form extends \App\Models\Common
     'category:id,name,treepath',
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Form', 'Forms', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Category, $this> */
   public function category(): BelongsTo

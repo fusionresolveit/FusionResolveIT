@@ -52,7 +52,7 @@ final class Printermodel extends Common implements \App\Interfaces\Crud
 
     $printermodel = \App\Models\Printermodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The printer model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($printermodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Printermodel extends Common implements \App\Interfaces\Crud
 
     $printermodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The printer model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($printermodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Printermodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $printermodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The printer model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/printermodels')
@@ -136,7 +136,7 @@ final class Printermodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $printermodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The printer model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Printermodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $printermodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The printer model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

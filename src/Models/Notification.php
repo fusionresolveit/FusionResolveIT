@@ -18,7 +18,6 @@ class Notification extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Notification::class;
-  protected $titles = ['Notification', 'Notifications'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -36,6 +35,14 @@ class Notification extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Notification', 'Notifications', $nb);
+  }
 
   /** @return BelongsToMany<\App\Models\Notificationtemplate, $this> */
   public function templates(): BelongsToMany

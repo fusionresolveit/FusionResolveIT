@@ -14,7 +14,14 @@ class Projectstate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Projectstate::class;
-  protected $titles = ['Project state', 'Project states'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Project state', 'Project states', $nb);
+  }
 }

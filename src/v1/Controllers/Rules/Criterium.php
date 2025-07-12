@@ -188,8 +188,6 @@ final class Criterium
    */
   public static function getConditionForCriterium(Definition $criteria, int $condition): array
   {
-    global $translator;
-
     $values = \App\Models\Definitions\Rulecriterium::getConditionArray();
     if ($criteria->type != 'dropdown' && $criteria->type != 'dropdown_remote')
     {
@@ -198,7 +196,7 @@ final class Criterium
     }
 
     return [
-      'title'   => $translator->translate('Condition'),
+      'title'   => pgettext('rule', 'Condition'),
       'type'    => 'dropdown',
       'name'    => 'ondition',
       'values'  => $values,

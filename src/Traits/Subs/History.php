@@ -50,6 +50,8 @@ trait History
     $viewData->addData('history', $logs);
     $viewData->addData('titles', $fieldsTitle);
 
+    $viewData->addTranslation('history', pgettext('history', 'History'));
+
     return $view->render($response, 'subitem/history.html.twig', (array)$viewData);
   }
 }

@@ -14,7 +14,14 @@ class Peripheraltype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Peripheraltype::class;
-  protected $titles = ['Peripheral type', 'Peripheral types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Peripheral type', 'Peripheral types', $nb);
+  }
 }

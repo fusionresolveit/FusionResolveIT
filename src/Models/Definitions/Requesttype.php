@@ -11,20 +11,18 @@ class Requesttype
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
-      'is_active' => $translator->translate('Active'),
-      'is_helpdesk_default' => $translator->translate('Default for tickets'),
-      'is_followup_default' => $translator->translate('Default for followups'),
-      'is_mail_default' => $translator->translate('Default for mail recipients'),
-      'is_mailfollowup_default' => $translator->translate('Default for followup mail recipients'),
-      'is_ticketheader' => $translator->translate('Request source visible for tickets'),
-      'is_itilfollowup' => $translator->translate('Request source visible for followups'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_active' => pgettext('global', 'Active'),
+      'is_helpdesk_default' => pgettext('ticket', 'Default for tickets'),
+      'is_followup_default' => pgettext('ticket', 'Default for followups'),
+      'is_mail_default' => pgettext('ticket', 'Default for mail recipients'),
+      'is_mailfollowup_default' => pgettext('ticket', 'Default for followup mail recipients'),
+      'is_ticketheader' => pgettext('ticket', 'Request source visible for tickets'),
+      'is_itilfollowup' => pgettext('ticket', 'Request source visible for followups'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -43,7 +41,7 @@ class Requesttype
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -89,15 +87,14 @@ class Requesttype
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Request source', 'Request sources', 1),
+        'title' => npgettext('global', 'Request source', 'Request sources', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

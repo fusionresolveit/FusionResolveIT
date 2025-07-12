@@ -68,7 +68,7 @@ final class Domain extends Common implements \App\Interfaces\Crud
 
     $domain = \App\Models\Domain::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The domain has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($domain, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -111,7 +111,7 @@ final class Domain extends Common implements \App\Interfaces\Crud
 
     $domain->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The domain has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($domain, 'update');
 
     $uri = $request->getUri();
@@ -141,7 +141,7 @@ final class Domain extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $domain->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The domain has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/domains')
@@ -152,7 +152,7 @@ final class Domain extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $domain->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The domain has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -179,7 +179,7 @@ final class Domain extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $domain->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The domain has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -192,8 +192,6 @@ final class Domain extends Common implements \App\Interfaces\Crud
    */
   public function showSubRecords(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Domain();
     $view = Twig::fromRequest($request);
 
@@ -232,10 +230,10 @@ final class Domain extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('records', $myRecords);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('ttl', $translator->translate('TTL'));
-    $viewData->addTranslation('target', $translator->translatePlural('Target', 'Targets', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('ttl', pgettext('network', 'TTL'));
+    $viewData->addTranslation('target', npgettext('target', 'Target', 'Targets', 1));
 
     return $view->render($response, 'subitem/records.html.twig', (array)$viewData);
   }
@@ -245,8 +243,6 @@ final class Domain extends Common implements \App\Interfaces\Crud
    */
   public function showSubAttachedItems(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $view = Twig::fromRequest($request);
 
     $myItem = \App\Models\Domain::where('id', $args['id'])->first();
@@ -364,19 +360,15 @@ final class Domain extends Common implements \App\Interfaces\Crud
     $viewData->addData('show', $this->choose);
     $viewData->addData('nb_total', $nb_total);
 
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('otherserial', $translator->translate('Inventory number'));
-    $viewData->addTranslation('status', $translator->translate('State'));
-    $viewData->addTranslation('domain_relation', $translator->translatePlural(
-      'Domain relation',
-      'Domains relations',
-      1
-    ));
-    $viewData->addTranslation('value', $translator->translate('Value'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('serial', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('otherserial', pgettext('inventory device', 'Inventory number'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
+    $viewData->addTranslation('domain_relation', npgettext('global', 'Domain relation', 'Domains relations', 1));
+    $viewData->addTranslation('value', pgettext('domain', 'Value'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
 
     return $view->render($response, 'subitem/attacheditems.html.twig', (array)$viewData);
   }

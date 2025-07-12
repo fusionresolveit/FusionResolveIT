@@ -15,8 +15,6 @@ trait Domain
    */
   public function showSubDomains(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -83,7 +81,7 @@ trait Domain
       $date_expiration = $domain->date_expiration;
       if ($date_expiration == null)
       {
-        $date_expiration = $translator->translate("N'expire pas");
+        $date_expiration = pgettext('management', 'Does not expire');
       } else {
         if ($date_expiration < date('Y-m-d H:i:s'))
         {
@@ -119,13 +117,13 @@ trait Domain
     $viewData->addData('domains', $myDomains);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('group', $translator->translate('Group in charge'));
-    $viewData->addTranslation('user', $translator->translate('Technician in charge'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('relation', $translator->translatePlural('Domain relation', 'Domains relations', 1));
-    $viewData->addTranslation('date_create', $translator->translate('Creation date'));
-    $viewData->addTranslation('date_exp', $translator->translate('Expiration date'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('group', pgettext('inventory device', 'Group in charge'));
+    $viewData->addTranslation('user', pgettext('inventory device', 'Technician in charge'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('relation', npgettext('global', 'Domain relation', 'Domain relations', 1));
+    $viewData->addTranslation('date_create', pgettext('global', 'Creation date'));
+    $viewData->addTranslation('date_exp', pgettext('global', 'Expiration date'));
 
     return $view->render($response, 'subitem/domains.html.twig', (array)$viewData);
   }

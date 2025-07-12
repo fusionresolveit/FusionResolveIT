@@ -52,7 +52,7 @@ final class Passivedcequipmenttype extends Common implements \App\Interfaces\Cru
 
     $passivedcequipmenttype = \App\Models\Passivedcequipmenttype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The passivedcequipment type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($passivedcequipmenttype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Passivedcequipmenttype extends Common implements \App\Interfaces\Cru
 
     $passivedcequipmenttype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The passivedcequipment type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($passivedcequipmenttype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Passivedcequipmenttype extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $passivedcequipmenttype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The passivedcequipment type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/passivedcequipmenttypes')
@@ -136,7 +136,7 @@ final class Passivedcequipmenttype extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $passivedcequipmenttype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The passivedcequipment type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Passivedcequipmenttype extends Common implements \App\Interfaces\Cru
         throw new \Exception('Unauthorized access', 401);
       }
       $passivedcequipmenttype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The passivedcequipment type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

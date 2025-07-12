@@ -31,7 +31,6 @@ class Software extends Common
 
   protected $table = 'softwares';
   protected $definition = \App\Models\Definitions\Software::class;
-  protected $titles = ['Software', 'Software'];
   protected $icon = 'software';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -99,6 +98,14 @@ class Software extends Common
     'infocom',
     'reservations',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Software', 'Software', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Softwarecategory, $this> */
   public function category(): BelongsTo

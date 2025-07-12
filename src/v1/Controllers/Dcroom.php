@@ -63,7 +63,7 @@ final class Dcroom extends Common implements \App\Interfaces\Crud
 
     $dcroom = \App\Models\Dcroom::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The dcroom has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($dcroom, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -106,7 +106,7 @@ final class Dcroom extends Common implements \App\Interfaces\Crud
 
     $dcroom->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The dcroom has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($dcroom, 'update');
 
     $uri = $request->getUri();
@@ -136,7 +136,7 @@ final class Dcroom extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $dcroom->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The dcroom has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/dcrooms')
@@ -147,7 +147,7 @@ final class Dcroom extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $dcroom->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The dcroom has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -174,7 +174,7 @@ final class Dcroom extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $dcroom->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The dcroom has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

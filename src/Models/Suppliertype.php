@@ -14,7 +14,14 @@ class Suppliertype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Suppliertype::class;
-  protected $titles = ['Third party type', 'Third party types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('supplier', 'Third party type', 'Third party types', $nb);
+  }
 }

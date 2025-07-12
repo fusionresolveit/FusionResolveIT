@@ -28,7 +28,6 @@ class Certificate extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Certificate::class;
-  protected $titles = ['Certificate', 'Certificates'];
   protected $icon = 'certificate';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -93,6 +92,14 @@ class Certificate extends Common
     'changes:id,name',
     'infocom',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Certificate', 'Certificates', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Certificatetype, $this> */
   public function type(): BelongsTo

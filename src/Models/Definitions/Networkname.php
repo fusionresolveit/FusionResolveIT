@@ -11,14 +11,12 @@ class Networkname
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'fqdn' => $translator->translatePlural('Internet domain', 'Internet domains', 1),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'fqdn' => npgettext('global', 'Internet domain', 'Internet domains', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -76,20 +74,19 @@ class Networkname
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Network name', 'Network names', 1),
+        'title' => npgettext('global', 'Network name', 'Network names', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Network alias', 'Network aliases', 1),
+        'title' => npgettext('network', 'Network alias', 'Network aliases', 1),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/networkalias',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

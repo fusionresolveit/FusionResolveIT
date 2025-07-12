@@ -52,7 +52,7 @@ final class Monitortype extends Common implements \App\Interfaces\Crud
 
     $monitortype = \App\Models\Monitortype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The monitor type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($monitortype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Monitortype extends Common implements \App\Interfaces\Crud
 
     $monitortype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The monitor type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($monitortype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Monitortype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $monitortype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The monitor type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/monitortypes')
@@ -136,7 +136,7 @@ final class Monitortype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $monitortype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The monitor type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Monitortype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $monitortype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The monitor type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

@@ -35,7 +35,7 @@ final class Problemtemplate extends Common implements \App\Interfaces\Crud
 
     $problemtemplate = \App\Models\Problemtemplate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The problem template has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($problemtemplate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -78,7 +78,7 @@ final class Problemtemplate extends Common implements \App\Interfaces\Crud
 
     $problemtemplate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The problem template has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($problemtemplate, 'update');
 
     $uri = $request->getUri();
@@ -108,7 +108,7 @@ final class Problemtemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $problemtemplate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The problem template has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/problemtemplates')
@@ -119,7 +119,7 @@ final class Problemtemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $problemtemplate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The problem template has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -146,7 +146,7 @@ final class Problemtemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $problemtemplate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The problem template has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

@@ -14,7 +14,14 @@ class Networkequipmentmodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Networkequipmentmodel::class;
-  protected $titles = ['Networking equipment model', 'Networking equipment models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Networking equipment model', 'Networking equipment models', $nb);
+  }
 }

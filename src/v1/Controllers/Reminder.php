@@ -55,7 +55,7 @@ final class Reminder extends Common implements \App\Interfaces\Crud
 
     $reminder = \App\Models\Reminder::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The reminder has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($reminder, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -98,7 +98,7 @@ final class Reminder extends Common implements \App\Interfaces\Crud
 
     $reminder->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The reminder has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($reminder, 'update');
 
     $uri = $request->getUri();
@@ -128,7 +128,7 @@ final class Reminder extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $reminder->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The reminder has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/reminders')
@@ -139,7 +139,7 @@ final class Reminder extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $reminder->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The reminder has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -166,7 +166,7 @@ final class Reminder extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $reminder->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The reminder has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

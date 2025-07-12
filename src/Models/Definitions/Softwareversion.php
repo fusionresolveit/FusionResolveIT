@@ -11,16 +11,14 @@ class Softwareversion
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'software' => $translator->translatePlural('Software', 'Softwares', 1),
-      'name' => $translator->translate('Name'),
-      'operatingsystem' => $translator->translatePlural('Operating system', 'Operating systems', 1),
-      'state' => $translator->translate('Status'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'software' => npgettext('global', 'Software', 'Software', 1),
+      'name' => pgettext('global', 'Name'),
+      'operatingsystem' => npgettext('inventory device', 'Operating System', 'Operating Systems', 1),
+      'state' => pgettext('inventory device', 'Status'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -64,25 +62,24 @@ class Softwareversion
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('License', 'Licenses', 1),
+        'title' => npgettext('global', 'License', 'Licenses', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Summary'),
+        'title' => pgettext('software', 'Summary'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Installation', 'Installations', 2),
+        'title' => npgettext('software', 'Installation', 'Installations', 2),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

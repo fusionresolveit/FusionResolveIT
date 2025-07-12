@@ -34,7 +34,6 @@ final class Question extends \App\v1\Controllers\Common
    */
   public function showNewItem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
     $view = Twig::fromRequest($request);
 
     $item = $this->instanciateModel();
@@ -68,7 +67,7 @@ final class Question extends \App\v1\Controllers\Common
       $viewData->addData('fields', $fields);
       $viewData->addData('content', '');
 
-      $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
+      $viewData->addTranslation('selectvalue', pgettext('global', 'Select a value...'));
 
       return $view->render($response, 'genericForm.html.twig', (array)$viewData);
     }
@@ -102,7 +101,7 @@ final class Question extends \App\v1\Controllers\Common
 
     $question = \App\Models\Forms\Question::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The question has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($question, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -125,8 +124,6 @@ final class Question extends \App\v1\Controllers\Common
    */
   public function showSubSections(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Question();
     $view = Twig::fromRequest($request);
 
@@ -156,7 +153,7 @@ final class Question extends \App\v1\Controllers\Common
     $viewData->addData('src', 'question');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/sections.html.twig', (array)$viewData);
   }
@@ -166,8 +163,6 @@ final class Question extends \App\v1\Controllers\Common
    */
   public function showSubForms(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Forms\Question();
     $view = Twig::fromRequest($request);
 
@@ -206,7 +201,7 @@ final class Question extends \App\v1\Controllers\Common
     $viewData->addData('src', 'question');
     $viewData->addData('rootUrl2', $rootUrl2);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/forms.html.twig', (array)$viewData);
   }
@@ -218,8 +213,6 @@ final class Question extends \App\v1\Controllers\Common
    */
   protected function getInformationTop($item, Request $request): array
   {
-    global $translator;
-
     $myItem = $item::with('sections')->where('id', $item->id)->first();
     if (is_null($myItem))
     {
@@ -233,7 +226,7 @@ final class Question extends \App\v1\Controllers\Common
       $tabInfos[] =
         [
           'key'   => 'section_' . $section->id,
-          'value' => $translator->translate('Section impactée') . ' : ' . $section->name,
+          'value' => pgettext('form', 'Section impacted') . ' : ' . $section->name,
           'link'  => null,
         ];
     }
@@ -251,7 +244,7 @@ final class Question extends \App\v1\Controllers\Common
         $tabInfos[] =
           [
             'key'   => 'form_' . $form->id,
-            'value' => $translator->translate('Formulaire impacté') . ' : ' . $form->name,
+            'value' => pgettext('form', 'Form impacted') . ' : ' . $form->name,
             'link'  => null,
           ];
       }

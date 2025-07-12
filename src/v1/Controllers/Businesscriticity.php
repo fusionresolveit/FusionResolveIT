@@ -54,7 +54,7 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
 
     $businesscriticity = \App\Models\Businesscriticity::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($businesscriticity, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
 
     $businesscriticity->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($businesscriticity, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $businesscriticity->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/businesscriticities')
@@ -138,7 +138,7 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $businesscriticity->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $businesscriticity->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The business criticity has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
    */
   public function showSubBusinesscriticities(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Businesscriticity();
     $view = Twig::fromRequest($request);
 
@@ -239,9 +237,9 @@ final class Businesscriticity extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('businesscriticities', $myBusinesscriticities);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/businesscriticities.html.twig', (array)$viewData);
   }

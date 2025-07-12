@@ -52,7 +52,7 @@ final class Memorytype extends Common implements \App\Interfaces\Crud
 
     $memorytype = \App\Models\Memorytype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($memorytype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Memorytype extends Common implements \App\Interfaces\Crud
 
     $memorytype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($memorytype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Memorytype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $memorytype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/memorytypes')
@@ -136,7 +136,7 @@ final class Memorytype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $memorytype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Memorytype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $memorytype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The memory type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

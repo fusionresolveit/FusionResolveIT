@@ -37,9 +37,17 @@ jobs:
     - name: set version number (use git hash)
       run: echo -n 'dev-'`git rev-parse --short HEAD` > src/v1/Views/version.html.twig
 
+    - name: install locales in the docker to have translation working + gettext for compile langs
+      run: |
+        sudo apt update
+        sudo apt-get install -y locales locales-all gettext
+
+    - name: generate gettext files
+      run: php bin/cli translation
+
     - name: Create the packages
       run: |
-        tar cvf fusionresolveit-dev.tar --transform 's+^+fusionresolveit/+' db locales public src tasks vendor crunz.yml LICENSE phinx.php.dist README.md database.lock bin
+        tar cvf fusionresolveit-dev.tar --transform 's+^+fusionresolveit/+' db locale public src tasks vendor crunz.yml LICENSE phinx.php.dist README.md database.lock bin
         gzip -9 fusionresolveit-dev.tar
 
     - name: prepare the deployment

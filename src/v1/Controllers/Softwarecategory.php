@@ -54,7 +54,7 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
 
     $softwarecategory = \App\Models\Softwarecategory::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($softwarecategory, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -97,7 +97,7 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
 
     $softwarecategory->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($softwarecategory, 'update');
 
     $uri = $request->getUri();
@@ -127,7 +127,7 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $softwarecategory->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/softwarecategorys')
@@ -138,7 +138,7 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $softwarecategory->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -165,7 +165,7 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $softwarecategory->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software category has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -178,8 +178,6 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
    */
   public function showSubSoftwarecategories(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Softwarecategory();
     $view = Twig::fromRequest($request);
 
@@ -229,8 +227,8 @@ final class Softwarecategory extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('softwarecategories', $mySoftwarecategories);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/softwarecategories.html.twig', (array)$viewData);
   }

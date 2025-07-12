@@ -61,7 +61,7 @@ final class Rack extends Common implements \App\Interfaces\Crud
 
     $rack = \App\Models\Rack::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The rack has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($rack, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -104,7 +104,7 @@ final class Rack extends Common implements \App\Interfaces\Crud
 
     $rack->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The rack has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($rack, 'update');
 
     $uri = $request->getUri();
@@ -134,7 +134,7 @@ final class Rack extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $rack->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The rack has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/racks')
@@ -145,7 +145,7 @@ final class Rack extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $rack->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The rack has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -172,7 +172,7 @@ final class Rack extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $rack->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The rack has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

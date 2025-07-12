@@ -20,7 +20,6 @@ class Devicecase extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicecase::class;
-  protected $titles = ['Case', 'Cases'];
   protected $icon = 'case';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -46,6 +45,14 @@ class Devicecase extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Case', 'Cases', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

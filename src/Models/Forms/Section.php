@@ -17,7 +17,6 @@ class Section extends \App\Models\Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Forms\Section::class;
-  protected $titles = ['Section', 'Sections'];
   protected $icon = 'cubes';
   protected $hasEntityField = false;
   /** @var string[] */
@@ -25,6 +24,14 @@ class Section extends \App\Models\Common
     'questions',
     'forms',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Section', 'Sections', $nb);
+  }
 
   /** @return BelongsToMany<\App\Models\Forms\Question, $this> */
   public function questions(): BelongsToMany

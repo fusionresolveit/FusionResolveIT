@@ -14,10 +14,19 @@ class Ssovariable extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Ssovariable::class;
-  protected $titles = [
-    'Field storage of the login in the HTTP request',
-    'Fields storage of the login in the HTTP request'
-  ];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext(
+      'global',
+      'Field storage of the login in the HTTP request',
+      'Fields storage of the login in the HTTP request',
+      $nb
+    );
+  }
 }

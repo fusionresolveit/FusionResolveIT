@@ -20,7 +20,6 @@ class Devicebattery extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicebattery::class;
-  protected $titles = ['Battery', 'Batteries'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -47,6 +46,14 @@ class Devicebattery extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Battery', 'Batteries', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

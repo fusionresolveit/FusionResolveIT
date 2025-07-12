@@ -63,7 +63,7 @@ final class Group extends Common implements \App\Interfaces\Crud
 
     $group = \App\Models\Group::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The group has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($group, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -106,7 +106,7 @@ final class Group extends Common implements \App\Interfaces\Crud
 
     $group->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The group has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($group, 'update');
 
     $uri = $request->getUri();
@@ -136,7 +136,7 @@ final class Group extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $group->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The group has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/groups')
@@ -147,7 +147,7 @@ final class Group extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $group->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The group has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -174,7 +174,7 @@ final class Group extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $group->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The group has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -187,8 +187,6 @@ final class Group extends Common implements \App\Interfaces\Crud
    */
   public function showSubUsers(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Group();
     $view = Twig::fromRequest($request);
 
@@ -219,38 +217,38 @@ final class Group extends Common implements \App\Interfaces\Crud
 
             if ($group->getRelationValue('pivot')->is_dynamic == 1)
             {
-              $auto_val = $translator->translate('Yes');
+              $auto_val = pgettext('global', 'Yes');
             }
             else
             {
-              $auto_val = $translator->translate('No');
+              $auto_val = pgettext('global', 'No');
             }
 
             if ($group->getRelationValue('pivot')->is_manager == 1)
             {
-              $is_manager_val = $translator->translate('Yes');
+              $is_manager_val = pgettext('global', 'Yes');
             }
             else
             {
-              $is_manager_val = $translator->translate('No');
+              $is_manager_val = pgettext('global', 'No');
             }
 
             if ($group->getRelationValue('pivot')->is_userdelegate == 1)
             {
-              $is_userdelegate_val = $translator->translate('Yes');
+              $is_userdelegate_val = pgettext('global', 'Yes');
             }
             else
             {
-              $is_userdelegate_val = $translator->translate('No');
+              $is_userdelegate_val = pgettext('global', 'No');
             }
 
             if ($user->is_active == 1)
             {
-              $is_active_val = $translator->translate('Yes');
+              $is_active_val = pgettext('global', 'Yes');
             }
             else
             {
-              $is_active_val = $translator->translate('No');
+              $is_active_val = pgettext('global', 'No');
             }
 
             $myUsers[$group->getRelationValue('pivot')->user_id] = [
@@ -296,11 +294,11 @@ final class Group extends Common implements \App\Interfaces\Crud
       $viewData->addData('userActions', false);
     }
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('auto', $translator->translate('Automatic inventory'));
-    $viewData->addTranslation('manager', $translator->translate('Manager'));
-    $viewData->addTranslation('userdelegate', $translator->translate('Delegatee'));
-    $viewData->addTranslation('active', $translator->translate('Active'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('auto', pgettext('inventory device', 'Automatic inventory'));
+    $viewData->addTranslation('manager', pgettext('global', 'Manager'));
+    $viewData->addTranslation('userdelegate', pgettext('global', 'Delegatee'));
+    $viewData->addTranslation('active', pgettext('global', 'Active'));
 
     return $view->render($response, 'subitem/users.html.twig', (array)$viewData);
   }
@@ -336,8 +334,6 @@ final class Group extends Common implements \App\Interfaces\Crud
    */
   public function showSubGroups(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Group();
     $view = Twig::fromRequest($request);
 
@@ -383,9 +379,9 @@ final class Group extends Common implements \App\Interfaces\Crud
     $viewData->addData('groups', $myGroups);
     $viewData->addData('show', $this->choose);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('entity', $translator->translatePlural('Entity', 'Entities', 1));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('entity', npgettext('global', 'Entity', 'Entities', 1));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
 
     return $view->render($response, 'subitem/groups.html.twig', (array)$viewData);
   }

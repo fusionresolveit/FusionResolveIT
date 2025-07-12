@@ -20,7 +20,6 @@ class Devicepowersupply extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicepowersupply::class;
-  protected $titles = ['Power supply', 'Power supplies'];
   protected $icon = 'power-supply-unit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -46,6 +45,14 @@ class Devicepowersupply extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Power supply', 'Power supplies', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

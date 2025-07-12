@@ -15,7 +15,6 @@ class Appliancetype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Appliancetype::class;
-  protected $titles = ['Appliance type', 'Appliance types'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Appliancetype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Appliance type', 'Appliance types', $nb);
+  }
 }

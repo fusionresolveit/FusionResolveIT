@@ -55,7 +55,7 @@ final class Projecttasktemplate extends Common implements \App\Interfaces\Crud
 
     $projecttasktemplate = \App\Models\Projecttasktemplate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project task template has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($projecttasktemplate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -98,7 +98,7 @@ final class Projecttasktemplate extends Common implements \App\Interfaces\Crud
 
     $projecttasktemplate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project task template has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($projecttasktemplate, 'update');
 
     $uri = $request->getUri();
@@ -128,7 +128,7 @@ final class Projecttasktemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttasktemplate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project task template has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/projecttasktemplates')
@@ -139,7 +139,7 @@ final class Projecttasktemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttasktemplate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project task template has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -166,7 +166,7 @@ final class Projecttasktemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttasktemplate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project task template has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

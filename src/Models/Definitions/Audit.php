@@ -11,14 +11,12 @@ class Audit
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'type' => $translator->translate('Source'),
-      'date' => $translator->translatePlural('Date', 'Dates', 1),
-      'service' => $translator->translate('Service'),
-      'level' => $translator->translate('Level'),
-      'message' => $translator->translate('Message'),
+      'type' => pgettext('audit', 'Source'),
+      'date' => npgettext('global', 'Date', 'Dates', 1),
+      'service' => pgettext('audit', 'Service'),
+      'level' => pgettext('audit', 'Level'),
+      'message' => pgettext('audit', 'Message'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -50,25 +48,24 @@ class Audit
    */
   public static function getTypeArray(): array
   {
-    global $translator;
     return [
       'system' => [
-        'title' => $translator->translate('System'),
+        'title' => pgettext('audit', 'System'),
       ],
       'devices' => [
-        'title' => $translator->translatePlural('Component', 'Components', 2),
+        'title' => npgettext('global', 'Component', 'Components', 2),
       ],
       'planning' => [
-        'title' => $translator->translate('Planning'),
+        'title' => pgettext('calendar', 'Planning'),
       ],
       'reservation' => [
-        'title' => $translator->translatePlural('Reservation', 'Reservations', 2),
+        'title' => npgettext('global', 'Reservation', 'Reservations', 2),
       ],
       'dropdown' => [
-        'title' => $translator->translatePlural('Dropdown', 'Dropdowns', 2),
+        'title' => npgettext('form', 'Dropdown', 'Dropdowns', 2),
       ],
       'rules' => [
-        'title' => $translator->translatePlural('Rule', 'Rules', 2),
+        'title' => npgettext('rule', 'Rule', 'Rules', 2),
       ],
     ];
   }
@@ -78,49 +75,45 @@ class Audit
    */
   public static function getServiceArray(): array
   {
-    global $translator;
     return [
       'inventory' => [
-        'title' => $translator->translate('Assets'),
+        'title' => pgettext('profile', 'Assets'),
       ],
       'tracking' => [
-        'title' => $translator->translatePlural('Ticket', 'Tickets', 2),
+        'title' => npgettext('ticket', 'Ticket', 'Tickets', 2),
       ],
       'maintain' => [
-        'title' => $translator->translate('Assistance'),
+        'title' => pgettext('profile', 'Assistance'),
       ],
       'planning' => [
-        'title' => $translator->translate('Planning'),
+        'title' => pgettext('calendar', 'Planning'),
       ],
       'tools' => [
-        'title' => $translator->translate('Tools'),
+        'title' => pgettext('profile', 'Tools'),
       ],
       'financial' => [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
       ],
       'login' => [
-        'title' => $translator->translatePlural('Connection', 'Connections', 1),
+        'title' => npgettext('inventory device', 'Connection', 'Connections', 1),
       ],
       'setup' => [
-        'title' => $translator->translate('Setup'),
+        'title' => pgettext('profile', 'Setup'),
       ],
       'security' => [
-        'title' => $translator->translate('Security'),
+        'title' => pgettext('audit', 'Security'),
       ],
       'reservation' => [
-        'title' => $translator->translatePlural('Reservation', 'Reservations', 2),
+        'title' => npgettext('global', 'Reservation', 'Reservations', 2),
       ],
       'cron' => [
-        'title' => $translator->translatePlural('Automatic action', 'Automatic actions', 2),
+        'title' => npgettext('global', 'Automatic action', 'Automatic actions', 2),
       ],
       'document' => [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
       ],
       'notification' => [
-        'title' => $translator->translatePlural('Notification', 'Notifications', 2),
-      ],
-      'plugin' => [
-        'title' => $translator->translate('Plugin', 'Plugins', 2),
+        'title' => npgettext('global', 'Notification', 'Notifications', 2),
       ],
     ];
   }
@@ -130,10 +123,9 @@ class Audit
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       // [
-      //   'title' => $translator->translate('Historical'),
+      //   'title' => npgettext('global', 'Historical', 'Historicals', 1),
       //   'icon' => 'history',
       //   'link' => '',
       // ],

@@ -15,7 +15,6 @@ class Solutiontype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Solutiontype::class;
-  protected $titles = ['Solution type', 'Solution types'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Solutiontype extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Solution type', 'Solution types', $nb);
+  }
 }

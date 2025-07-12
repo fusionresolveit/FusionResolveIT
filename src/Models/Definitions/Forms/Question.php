@@ -11,34 +11,32 @@ class Question
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'comment' => $translator->translate('Description'),
-      'fieldtype' => $translator->translatePlural('Type', 'Types', 1),
-      'is_required' => $translator->translatePlural('Mandatory field', 'Mandatory fields', 1),
-      'show_empty' => $translator->translate('Show empty'),
+      'name' => pgettext('global', 'Name'),
+      'comment' => pgettext('global', 'Description'),
+      'fieldtype' =>  npgettext('global', 'Type', 'Types', 1),
+      'is_required' => npgettext('form', 'Mandatory field', 'Mandatory fields', 1),
+      'show_empty' => pgettext('form', 'Show empty'),
       'default_values' => sprintf(
         '%1$s <small>(%2$s)</small>',
-        $translator->translate('Default values'),
-        $translator->translate('One per line')
+        pgettext('form', 'Default values'),
+        pgettext('form', 'One per line')
       ),
       'values' => sprintf(
         '%1$s <small>(%2$s)</small>',
-        $translator->translatePlural('Value', 'Values', 2),
-        $translator->translate('One per line')
+        npgettext('form', 'Value', 'Values', 2),
+        pgettext('form', 'One per line')
       ),
-      'range_min' => sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Min')),
-      'range_max' => sprintf('%1$s (%2$s)', $translator->translate('Size'), $translator->translate('Max')),
+      'range_min' => sprintf('%1$s (%2$s)', pgettext('global', 'Size'), pgettext('global', 'Min')),
+      'range_max' => sprintf('%1$s (%2$s)', pgettext('global', 'Size'), pgettext('global', 'Max')),
       'regex' => sprintf(
         '%1$s <small><a href="http://php.net/manual/reference.pcre.pattern.syntax.php" ' .
           'target="_blank">(%2$s)</a></small>',
-        $translator->translate('Additional validation'),
-        $translator->translate('Regular expression')
+        pgettext('form', 'Additional validation'),
+        pgettext('form', 'Regular expression')
       ),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -71,58 +69,57 @@ class Question
    */
   public static function getFieldtype(): array
   {
-    global $translator;
     return [
       'checkbox' => [
-        'title' => $translator->translate('Checkboxes'),
+        'title' => pgettext('form', 'Checkboxes'),
       ],
       'radio' => [
-        'title' => $translator->translate('Radios'),
+        'title' => pgettext('form', 'Radios'),
       ],
       'hidden' => [
-        'title' => $translator->translatePlural('Hidden field', 'Hidden fields', 1),
+        'title' => npgettext('form', 'Hidden field', 'Hidden fields', 1),
       ],
       'email' => [
-        'title' => $translator->translatePlural('Email', 'Emails', 1),
+        'title' => npgettext('global', 'Email', 'Emails', 1),
       ],
       'date' => [
-        'title' => $translator->translatePlural('Date', 'Dates', 1),
+        'title' => npgettext('global', 'Date', 'Dates', 1),
       ],
       'description' => [
-        'title' => $translator->translate('Description'),
+        'title' => pgettext('global', 'Description'),
       ],
       'integer' => [
-        'title' => $translator->translate('Integer'),
+        'title' => pgettext('form', 'Integer'),
       ],
       'file' => [
-        'title' => $translator->translate('File'),
+        'title' => pgettext('document', 'File'),
       ],
       'float' => [
-        'title' => $translator->translate('Float'),       // regexp
+        'title' => pgettext('form', 'Float'),
       ],
       'time' => [
-        'title' => $translator->translate('hour' . "\004" . 'Time'),
+        'title' => pgettext('form', 'Time'),
       ],
       'dropdown' => [
-        'title' => $translator->translatePlural('Dropdown', 'Dropdowns', 1),   // intitules (dropdown)
+        'title' => npgettext('form', 'Dropdown', 'Dropdowns', 1),   // intitules (dropdown)
       ],
       'glpiselect' => [
-        'title' => $translator->translatePlural('GLPI object', 'GLPI objects', 1),
+        'title' => npgettext('form', 'App object', 'App objects', 1),
       ],
       'select' => [
-        'title' => $translator->translate('Select'),
+        'title' => pgettext('form', 'Select'),
       ],
       'multiselect' => [
-        'title' => $translator->translate('Multiselect'),
+        'title' => pgettext('form', 'Multiselect'),
       ],
       'text' => [
-        'title' => $translator->translate('Text'),
+        'title' => pgettext('form', 'Text'),
       ],
       'urgency' => [
-        'title' => $translator->translate('Urgency'),
+        'title' => pgettext('ITIL', 'Urgency'),
       ],
       'textarea' => [
-        'title' => $translator->translate('Textarea'),
+        'title' => pgettext('form', 'Textarea'),
       ],
     ];
   }
@@ -132,25 +129,24 @@ class Question
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Question', 'Questions', 1),
+        'title' => npgettext('global', 'Question', 'Questions', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Section', 'Sections', 2),
+        'title' => npgettext('global', 'Section', 'Sections', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/sections',
       ],
       [
-        'title' => $translator->translatePlural('Form', 'Forms', 2),
+        'title' => npgettext('global', 'Form', 'Forms', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/forms',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

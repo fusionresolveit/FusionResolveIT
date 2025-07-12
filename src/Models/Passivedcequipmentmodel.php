@@ -14,7 +14,14 @@ class Passivedcequipmentmodel extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Passivedcequipmentmodel::class;
-  protected $titles = ['Passive device model', 'Passive device models'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Passive device model', 'Passive device models', $nb);
+  }
 }

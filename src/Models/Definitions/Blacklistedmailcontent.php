@@ -11,14 +11,12 @@ class Blacklistedmailcontent
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'content' => $translator->translate('Content'),
-      'comment' => $translator->translate('Comments'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'content' => pgettext('global', 'Content'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -36,10 +34,9 @@ class Blacklistedmailcontent
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translate('Blacklisted mail content'),
+        'title' => npgettext('global', 'Blacklisted mail content', 'Blacklisted mail contents', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],

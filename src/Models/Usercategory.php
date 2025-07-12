@@ -14,7 +14,14 @@ class Usercategory extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Usercategory::class;
-  protected $titles = ['User category', 'User categories'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'User category', 'User categories', $nb);
+  }
 }

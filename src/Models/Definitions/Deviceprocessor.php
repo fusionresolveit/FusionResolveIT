@@ -11,30 +11,28 @@ class Deviceprocessor
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'name' => pgettext('global', 'Name'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
       'frequency_default' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Frequency by default'),
-        $translator->translate('MHz')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'Frequency by default'),
+        pgettext('global', 'MHz')
       ),
       'frequence' => sprintf(
-        $translator->translate('%1$s (%2$s)'),
-        $translator->translate('Frequency'),
-        $translator->translate('MHz')
+        pgettext('global', '%1$s (%2$s)'),
+        pgettext('global', 'MHz'),
+        pgettext('global', 'MHz')
       ),
-      'nbcores_default' => $translator->translate('Number of cores'),
-      'nbthreads_default' => $translator->translate('Number of threads'),
-      'model' => $translator->translatePlural('Model', 'Models', 1),
-      'comment' => $translator->translate('Comments'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'cpuid' => $translator->translate('CPU ID'),
-      'stepping' => $translator->translate('Stepping'),
+      'nbcores_default' => pgettext('inventory device', 'Number of cores'),
+      'nbthreads_default' => pgettext('inventory device', 'Number of threads'),
+      'model' => npgettext('global', 'Model', 'Models', 1),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
+      'cpuid' => pgettext('inventory device', 'CPU ID'),
+      'stepping' => pgettext('inventory device', 'Stepping'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -71,7 +69,7 @@ class Deviceprocessor
     return $defColl;
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -83,25 +81,24 @@ class Deviceprocessor
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Processor', 'Processors', 1),
+        'title' => npgettext('global', 'Processor', 'Processors', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -24,7 +24,6 @@ class Supplier extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Supplier::class;
-  protected $titles = ['Supplier', 'Suppliers'];
   protected $icon = 'dolly';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -60,6 +59,14 @@ class Supplier extends Common
     'problems:id,name',
     'changes:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Supplier', 'Suppliers', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Suppliertype, $this> */
   public function type(): BelongsTo

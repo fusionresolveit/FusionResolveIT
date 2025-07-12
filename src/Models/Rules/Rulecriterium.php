@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Rulecriterium extends \App\Models\Common
 {
   protected $definition = \App\Models\Definitions\Rulecriterium::class;
-  protected $titles = ['Criterium', 'Criteria'];
   protected $icon = 'magic';
   protected $hasEntityField = false;
   public $timestamps = false;
@@ -23,6 +22,14 @@ class Rulecriterium extends \App\Models\Common
     'rule',
     'patternviewfield',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('rule', 'Criterion', 'Criteria', $nb);
+  }
 
   public function getCriteriaAttribute(): Definition
   {

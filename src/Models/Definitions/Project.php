@@ -11,28 +11,26 @@ class Project
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'code' => $translator->translate('Code'),
-      'content' => $translator->translate('Description'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'state' => $translator->translate('Status'),
-      'date' => $translator->translate('Creation date'),
-      'show_on_global_gantt' => $translator->translate('Show on global GANTT'),
-      'user' => $translator->translate('Manager'),
-      'group' => $translator->translate('Manager group'),
-      'plan_start_date' => $translator->translate('Planned start date'),
-      'plan_end_date' => $translator->translate('Planned end date'),
-      'real_start_date' => $translator->translate('Real start date'),
-      'real_end_date' => $translator->translate('Real end date'),
-      'comment' => $translator->translate('Comments'),
-      'percent_done' => $translator->translate('Percent done'),
-      'priority' => $translator->translate('Priority'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'code' => pgettext('project', 'Code'),
+      'content' => pgettext('global', 'Description'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'state' => pgettext('global', 'Status'),
+      'date' => pgettext('global', 'Creation date'),
+      'show_on_global_gantt' => pgettext('project', 'Show on global GANTT'),
+      'user' => pgettext('project', 'Manager'),
+      'group' => pgettext('project', 'Manager group'),
+      'plan_start_date' => pgettext('ITIL', 'Planned start date'),
+      'plan_end_date' => pgettext('ITIL', 'Planned end date'),
+      'real_start_date' => pgettext('ITIL', 'Real start date'),
+      'real_end_date' => pgettext('ITIL', 'Real end date'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'percent_done' => pgettext('global', 'Percent done'),
+      'priority' => pgettext('ITIL', 'Priority'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -107,13 +105,13 @@ class Project
     return $defColl;
     // [
     //    'id'    => 50,
-    //    'title' => $translator->translate('Template name'),
+    //    'title' => pgettext('global', 'Template name'),
     //    'type'  => 'input',
     //    'name'  => 'template_name',
     // ],
     // [
     //    'id'    => 80,
-    //    'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //    'title' => npgettext('global', 'Entity', 'Entities', 1),
     //    'type'  => 'dropdown_remote',
     //    'name'  => 'completename',
     //    'itemtype' => '\App\Models\Entity',
@@ -535,35 +533,34 @@ class Project
    */
   public static function getPriorityArray(): array
   {
-    global $translator;
     return [
       6 => [
-        'title' => $translator->translate('priority' . "\004" . 'Major'),
+        'title' => pgettext('ITIL priority', 'Major'),
         'color' => 'fusionmajor',
         'icon'  => 'fire extinguisher',
       ],
       5 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very high'),
+        'title' => pgettext('ITIL priority', 'Very high'),
         'color' => 'fusionveryhigh',
         'icon'  => 'fire alternate',
       ],
       4 => [
-        'title' => $translator->translate('priority' . "\004" . 'High'),
+        'title' => pgettext('ITIL priority', 'High'),
         'color' => 'fusionhigh',
         'icon'  => 'fire',
       ],
       3 => [
-        'title' => $translator->translate('priority' . "\004" . 'Medium'),
+        'title' => pgettext('ITIL priority', 'Medium'),
         'color' => 'fusionmedium',
         'icon'  => 'volume up',
       ],
       2 => [
-        'title' => $translator->translate('priority' . "\004" . 'Low'),
+        'title' => pgettext('ITIL priority', 'Low'),
         'color' => 'fusionlow',
         'icon'  => 'volume down',
       ],
       1 => [
-        'title' => $translator->translate('priority' . "\004" . 'Very low'),
+        'title' => pgettext('ITIL priority', 'Very low'),
         'color' => 'fusionverylow',
         'icon'  => 'volume off',
       ],
@@ -575,75 +572,74 @@ class Project
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Project', 'Projects', 1),
+        'title' => npgettext('global', 'Project', 'Projects', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Project task', 'Project tasks', 2),
+        'title' => npgettext('project', 'Project task', 'Project tasks', 2),
         'icon' => 'columns',
         'link' => $rootUrl . '/projecttasks',
       ],
       [
-        'title' => $translator->translatePlural('Project team', 'Project teams', 2),
+        'title' => npgettext('project', 'Project team', 'Project teams', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/projectteams',
       ],
       [
-        'title' => $translator->translatePlural('Project', 'Projects', 2),
+        'title' => npgettext('global', 'Project', 'Projects', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/projects',
       ],
       [
-        'title' => $translator->translate('GANTT'),
+        'title' => pgettext('project', 'GANTT'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Kanban'),
+        'title' => pgettext('project', 'Kanban'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Cost', 'Costs', 2),
+        'title' => npgettext('global', 'Cost', 'Costs', 2),
         'icon' => 'money bill alternate',
         'link' => $rootUrl . '/costs',
       ],
       [
-        'title' => $translator->translatePlural('Itil item', 'Itil items', 2),
+        'title' => npgettext('project', 'ITIL item', 'ITIL items', 2),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/itilitems',
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translate('Knowledge base'),
+        'title' => pgettext('global', 'Knowledge base'),
         'icon' => 'book',
         'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

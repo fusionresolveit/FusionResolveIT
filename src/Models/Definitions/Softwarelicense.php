@@ -14,29 +14,27 @@ class Softwarelicense
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'software' => $translator->translatePlural('Software', 'Softwares', 1),
-      'name' => $translator->translate('Name'),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'serial' => $translator->translate('Serial number'),
-      'number' => $translator->translate('Number'),
-      'softwarelicensetype' => $translator->translatePlural('Type', 'Types', 1),
-      'expire' => $translator->translate('Expiration'),
-      'is_valid' => $translator->translate('Valid'),
-      'allow_overquota' => $translator->translate('Allow Over-Quota'),
-      'comment' => $translator->translate('Comments'),
-      'usertech' => $translator->translate('Technician in charge of the hardware'),
-      'grouptech' => $translator->translate('Group in charge of the hardware'),
-      'user' => $translator->translatePlural('User', 'Users', 1),
-      'group' => $translator->translatePlural('Group', 'Groups', 1),
-      'state' => $translator->translate('Status'),
-      'otherserial' => $translator->translate('Inventory number'),
-      'is_recursive' => $translator->translate('Child entities'),
-      'softwareversionsBuy' => $translator->translate('Purchase version'),
-      'softwareversionsUse' => $translator->translate('Version in use'),
-      'manufacturer' => $translator->translatePlural('Manufacturer', 'Manufacturers', 1),
+      'software' => npgettext('global', 'Software', 'Software', 1),
+      'name' => pgettext('global', 'Name'),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'serial' => pgettext('inventory device', 'Serial number'),
+      'number' => pgettext('software', 'Number'),
+      'softwarelicensetype' =>  npgettext('global', 'Type', 'Types', 1),
+      'expire' => pgettext('software', 'Expiration'),
+      'is_valid' => pgettext('software', 'Valid'),
+      'allow_overquota' => pgettext('software', 'Allow Over-Quota'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'usertech' => pgettext('inventory device', 'Technician in charge of the hardware'),
+      'grouptech' => pgettext('inventory device', 'Group in charge of the hardware'),
+      'user' => npgettext('global', 'User', 'Users', 1),
+      'group' => npgettext('global', 'Group', 'Groups', 1),
+      'state' => pgettext('inventory device', 'Status'),
+      'otherserial' => pgettext('inventory device', 'Inventory number'),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'softwareversionsBuy' => pgettext('software', 'Purchase version'),
+      'softwareversionsUse' => pgettext('software', 'Version in use'),
+      'manufacturer' => npgettext('global', 'Manufacturer', 'Manufacturers', 1),
     ];
 
     $defColl = new DefinitionCollection();
@@ -70,7 +68,7 @@ class Softwarelicense
         0,
         10000,
         1,
-        ['-1' => $translator->translate('Unlimited')],
+        ['-1' => pgettext('software', 'Unlimited')],
         ''
       ),
       fillable: true
@@ -167,13 +165,13 @@ class Softwarelicense
 
     // [
     //   'id'    => 61,
-    //   'title' => $translator->translate('Template name'),
+    //   'title' => pgettext('global', 'Template name'),
     //   'type'  => 'input',
     //   'name'  => 'template_name',
     // ],
     // [
     //   'id'    => 80,
-    //   'title' => $translator->translatePlural('Entity', 'Entities', 1),
+    //   'title' => npgettext('global', 'Entity', 'Entities', 1),
     //   'type'  => 'dropdown_remote',
     //   'name'  => 'completename',
     //   'itemtype' => '\App\Models\Entity',
@@ -203,65 +201,64 @@ class Softwarelicense
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('License', 'Licenses', 1),
+        'title' => npgettext('global', 'License', 'Licenses', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('License', 'Licenses', 2),
+        'title' => npgettext('global', 'License', 'Licenses', 2),
         'icon' => 'key',
         'link' => $rootUrl . '/licenses',
       ],
       [
-        'title' => $translator->translate('Summary'),
+        'title' => pgettext('software', 'Summary'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => '',
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('Knowledge base'),
+        'title' => pgettext('global', 'Knowledge base'),
         'icon' => 'book',
         'link' => $rootUrl . '/knowledgebasearticles',
       ],
       [
-        'title' => $translator->translate('ITIL'),
+        'title' => pgettext('global', 'ITIL'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/itil',
       ],
       [
-        'title' => $translator->translatePlural('Note', 'Notes', 2),
+        'title' => npgettext('global', 'Note', 'Notes', 2),
         'icon' => 'sticky note',
         'link' => $rootUrl . '/notes',
       ],
       [
-        'title' => $translator->translatePlural('Certificate', 'Certificates', 2),
+        'title' => npgettext('global', 'Certificate', 'Certificates', 2),
         'icon' => 'certificate',
         'link' => $rootUrl . '/certificates',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

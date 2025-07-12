@@ -20,7 +20,6 @@ class Devicedrive extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Devicedrive::class;
-  protected $titles = ['Drive', 'Drives'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -46,6 +45,14 @@ class Devicedrive extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Drive', 'Drives', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Manufacturer, $this> */
   public function manufacturer(): BelongsTo

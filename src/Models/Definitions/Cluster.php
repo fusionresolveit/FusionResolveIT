@@ -11,20 +11,18 @@ class Cluster
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'state' => $translator->translate('Status'),
-      'type' => $translator->translatePlural('Type', 'Types', 1),
-      'uuid' => $translator->translate('UUID'),
-      'comment' => $translator->translate('Comments'),
-      'usertech' => $translator->translate('Technician in charge of the hardware'),
-      'grouptech' => $translator->translate('Group in charge of the hardware'),
-      'version' => $translator->translatePlural('Version', 'Versions', 1),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
+      'name' => pgettext('global', 'Name'),
+      'state' => pgettext('inventory device', 'Status'),
+      'type' =>  npgettext('global', 'Type', 'Types', 1),
+      'uuid' => pgettext('global', 'UUID'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
+      'usertech' => pgettext('inventory device', 'Technician in charge of the hardware'),
+      'grouptech' => pgettext('inventory device', 'Group in charge of the hardware'),
+      'version' => npgettext('global', 'Version', 'Versions', 1),
+      'is_recursive' => pgettext('global', 'Child entities'),
+      'updated_at' => pgettext('global', 'Last update'),
+      'created_at' => pgettext('global', 'Creation date'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -91,50 +89,49 @@ class Cluster
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Cluster', 'Clusters', 1),
+        'title' => npgettext('global', 'Cluster', 'Clusters', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Impact analysis'),
+        'title' => pgettext('inventory device', 'Impact analysis'),
         'icon' => 'caret square down outline',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Item', 'Items', 2),
+        'title' => npgettext('global', 'Item', 'Items', 2),
         'icon' => 'desktop',
         'link' => $rootUrl . '/items',
       ],
       [
-        'title' => $translator->translatePlural('Network port', 'Network ports', 2),
+        'title' => npgettext('inventory device', 'Network port', 'Network ports', 2),
         'icon' => 'ethernet',
         'link' => '',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translate('ITIL'),
+        'title' => pgettext('global', 'ITIL'),
         'icon' => 'hands helping',
         'link' => $rootUrl . '/itil',
       ],
       [
-        'title' => $translator->translatePlural('Appliance', 'Appliances', 2),
+        'title' => npgettext('global', 'Appliance', 'Appliances', 2),
         'icon' => 'cubes',
         'link' => $rootUrl . '/appliances',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

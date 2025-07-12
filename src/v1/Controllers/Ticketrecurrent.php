@@ -52,7 +52,7 @@ final class Ticketrecurrent extends Common implements \App\Interfaces\Crud
 
     $ticketrecurrent = \App\Models\Ticketrecurrent::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket recurrent has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($ticketrecurrent, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Ticketrecurrent extends Common implements \App\Interfaces\Crud
 
     $ticketrecurrent->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The ticket recurrent has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($ticketrecurrent, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Ticketrecurrent extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ticketrecurrent->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket recurrent has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/ticketrecurrents')
@@ -136,7 +136,7 @@ final class Ticketrecurrent extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ticketrecurrent->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket recurrent has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Ticketrecurrent extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $ticketrecurrent->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The ticket recurrent has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

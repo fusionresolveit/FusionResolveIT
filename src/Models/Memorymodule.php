@@ -20,7 +20,6 @@ class Memorymodule extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Memorymodule::class;
-  protected $titles = ['Memory module', 'Memory module'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -46,6 +45,14 @@ class Memorymodule extends Common
     'entity:id,name,completename',
     'documents',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Memory module', 'Memory modules', $nb);
+  }
 
   protected $casts = [
     'fusioninventoried_at' => 'datetime:Y-m-d H:i:s',

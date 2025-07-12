@@ -15,7 +15,6 @@ class Contractcost extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Contractcost::class;
-  protected $titles = ['Contract cost', 'Contract costs'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
 
@@ -29,6 +28,14 @@ class Contractcost extends Common
   protected $with = [
     'budget:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('contract', 'Contract cost', 'Contract costs', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Budget, $this> */
   public function budget(): BelongsTo

@@ -52,7 +52,7 @@ final class Computermodel extends Common implements \App\Interfaces\Crud
 
     $computermodel = \App\Models\Computermodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($computermodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Computermodel extends Common implements \App\Interfaces\Crud
 
     $computermodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($computermodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Computermodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $computermodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/computermodels')
@@ -136,7 +136,7 @@ final class Computermodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $computermodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Computermodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $computermodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The computer model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

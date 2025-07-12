@@ -11,7 +11,6 @@ class Home extends Common
   use SoftDeletes;
 
   protected $definition = \App\Models\Definitions\Home::class;
-  protected $titles = ['Home', 'Home'];
   protected $icon = 'home';
 
   protected $appends = [
@@ -22,4 +21,12 @@ class Home extends Common
 
   protected $with = [
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Home', 'Home', $nb);
+  }
 }

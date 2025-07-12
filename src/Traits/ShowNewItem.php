@@ -15,7 +15,6 @@ trait ShowNewItem
    */
   public function showNewItem(Request $request, Response $response, array $args): Response
   {
-    global $translator;
     $view = Twig::fromRequest($request);
 
     $item = $this->instanciateModel();
@@ -27,7 +26,7 @@ trait ShowNewItem
     $viewData->addData('content', '');
     $viewData->addData('csrf', \App\v1\Controllers\Toolbox::generateCSRF($request));
 
-    $viewData->addTranslation('selectvalue', $translator->translate('Select a value...'));
+    $viewData->addTranslation('selectvalue', pgettext('global', 'Select a value...'));
 
     return $view->render($response, 'genericForm.html.twig', (array)$viewData);
   }

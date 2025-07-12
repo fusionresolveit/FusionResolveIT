@@ -14,7 +14,14 @@ class Projecttype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Projecttype::class;
-  protected $titles = ['Project type', 'Project types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Project type', 'Project types', $nb);
+  }
 }

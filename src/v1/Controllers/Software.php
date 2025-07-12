@@ -75,7 +75,7 @@ final class Software extends Common implements \App\Interfaces\Crud
 
     $software = \App\Models\Software::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The software has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($software, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -118,7 +118,7 @@ final class Software extends Common implements \App\Interfaces\Crud
 
     $software->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The software has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($software, 'update');
 
     $uri = $request->getUri();
@@ -148,7 +148,7 @@ final class Software extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $software->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/softwares')
@@ -159,7 +159,7 @@ final class Software extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $software->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -186,7 +186,7 @@ final class Software extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $software->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The software has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -199,8 +199,6 @@ final class Software extends Common implements \App\Interfaces\Crud
    */
   public function showSubVersions(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Software();
     $view = Twig::fromRequest($request);
 
@@ -266,13 +264,13 @@ final class Software extends Common implements \App\Interfaces\Crud
     $viewData->addData('versions', $myVersions);
     $viewData->addData('total_install', $total_install);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('os', $translator->translate('Operating System'));
-    $viewData->addTranslation('nb_install', $translator->translatePlural('Installation', 'Installations', 2));
-    $viewData->addTranslation('comment', $translator->translatePlural('Comment', 'Comments', 2));
-    $viewData->addTranslation('no_item_found', $translator->translate('No items found.'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
+    $viewData->addTranslation('os', npgettext('inventory device', 'Operating System', 'Operating Systems', 1));
+    $viewData->addTranslation('nb_install', npgettext('software', 'Installation', 'Installations', 2));
+    $viewData->addTranslation('comment', npgettext('global', 'Comment', 'Comments', 2));
+    $viewData->addTranslation('no_item_found', pgettext('global', 'No items found.'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
 
     return $view->render($response, 'subitem/versions.html.twig', (array)$viewData);
   }
@@ -282,8 +280,6 @@ final class Software extends Common implements \App\Interfaces\Crud
    */
   public function showSubLicenses(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Software();
     $view = Twig::fromRequest($request);
 
@@ -351,7 +347,7 @@ final class Software extends Common implements \App\Interfaces\Crud
       $date_expiration = $license->expire;
       if ($date_expiration == null)
       {
-        $date_expiration = $translator->translate("N'expire pas");
+        $date_expiration = pgettext('management', 'Does not expire');
       }
       else
       {
@@ -394,16 +390,16 @@ final class Software extends Common implements \App\Interfaces\Crud
     $viewData->addData('total_number', $total_number);
     $viewData->addData('total_affected_items', $total_affected_items);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('number', $translator->translate('Number'));
-    $viewData->addTranslation('affected_items', $translator->translate('Affected items'));
-    $viewData->addTranslation('type', $translator->translatePlural('Type', 'Types', 1));
-    $viewData->addTranslation('version_buy', $translator->translate('Purchase version'));
-    $viewData->addTranslation('version_use', $translator->translate('Version in use'));
-    $viewData->addTranslation('expiration', $translator->translate('Expiration'));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('total', $translator->translate('Total'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
+    $viewData->addTranslation('serial', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('number', pgettext('software', 'Number'));
+    $viewData->addTranslation('affected_items', pgettext('software', 'Affected items'));
+    $viewData->addTranslation('type', npgettext('global', 'Type', 'Types', 1));
+    $viewData->addTranslation('version_buy', pgettext('software', 'Purchase version'));
+    $viewData->addTranslation('version_use', pgettext('software', 'Version in use'));
+    $viewData->addTranslation('expiration', pgettext('software', 'Expiration'));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
+    $viewData->addTranslation('total', pgettext('global', 'Total'));
 
     return $view->render($response, 'subitem/licenses.html.twig', (array)$viewData);
   }
@@ -413,8 +409,6 @@ final class Software extends Common implements \App\Interfaces\Crud
    */
   public function showSubSoftwareInstall(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = new \App\Models\Software();
     $view = Twig::fromRequest($request);
 
@@ -555,17 +549,17 @@ final class Software extends Common implements \App\Interfaces\Crud
     $viewData->addData('fields', $item->getFormData($software));
     $viewData->addData('softwareinstall', $mySoftwareInstall);
 
-    $viewData->addTranslation('version', $translator->translatePlural('Version', 'Versions', 1));
-    $viewData->addTranslation('type', $translator->translate('Item type'));
-    $viewData->addTranslation('nom', $translator->translate('Name'));
-    $viewData->addTranslation('serial', $translator->translate('Serial number'));
-    $viewData->addTranslation('otherserial', $translator->translate('Inventory number'));
-    $viewData->addTranslation('location', $translator->translatePlural('Location', 'Locations', 1));
-    $viewData->addTranslation('status', $translator->translate('Status'));
-    $viewData->addTranslation('group', $translator->translatePlural('Group', 'Groups', 1));
-    $viewData->addTranslation('user', $translator->translatePlural('User', 'Users', 1));
-    $viewData->addTranslation('licences', $translator->translatePlural('License', 'Licenses', 1));
-    $viewData->addTranslation('date_install', $translator->translate('Installation date'));
+    $viewData->addTranslation('version', npgettext('global', 'Version', 'Versions', 1));
+    $viewData->addTranslation('type', pgettext('global', 'Item type'));
+    $viewData->addTranslation('nom', pgettext('global', 'Name'));
+    $viewData->addTranslation('serial', pgettext('inventory device', 'Serial number'));
+    $viewData->addTranslation('otherserial', pgettext('inventory device', 'Inventory number'));
+    $viewData->addTranslation('location', npgettext('global', 'Location', 'Locations', 1));
+    $viewData->addTranslation('status', pgettext('inventory device', 'Status'));
+    $viewData->addTranslation('group', npgettext('global', 'Group', 'Groups', 1));
+    $viewData->addTranslation('user', npgettext('global', 'User', 'Users', 1));
+    $viewData->addTranslation('licences', npgettext('global', 'License', 'Licenses', 1));
+    $viewData->addTranslation('date_install', pgettext('global', 'Installation date'));
 
     return $view->render($response, 'subitem/softwareinstall.html.twig', (array)$viewData);
   }

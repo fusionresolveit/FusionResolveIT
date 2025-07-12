@@ -19,7 +19,6 @@ class Slm extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Slm::class;
-  protected $titles = ['Service level', 'Service levels'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -43,6 +42,14 @@ class Slm extends Common
     'slas',
     'olas',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Service level', 'Service levels', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Calendar, $this> */
   public function calendar(): BelongsTo

@@ -11,32 +11,30 @@ class Category
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'completename' => $translator->translate('Complete name'),
-      'id' => $translator->translate('ID'),
-      'category' => $translator->translate('As child of'),
-      'user' => $translator->translate('Technician in charge of the hardware'),
-      'group' => $translator->translate('Group in charge of the hardware'),
-      'code' => $translator->translate('Code representing the ticket category'),
-      'is_helpdeskvisible' => $translator->translate('Visible in the simplified interface'),
-      'is_incident' => $translator->translate('Visible for an incident'),
-      'is_request' => $translator->translate('Visible for a request'),
-      'is_problem' => $translator->translate('Visible for a problem'),
-      'is_change' => $translator->translate('Visible for a change'),
-      'tickettemplateDemand' => $translator->translate('Template for a request'),
-      'tickettemplateIncident' => $translator->translate('Template for an incident'),
-      'changetemplate' => $translator->translate('Template for a change'),
-      'problemtemplate' => $translator->translate('Template for a problem'),
-      'comment' => $translator->translate('Comments'),
-      'entity' => $translator->translatePlural('Entity', 'Entities', 1),
-      'is_recursive' => $translator->translate('Child entities'),
-      'updated_at' => $translator->translate('Last update'),
-      'created_at' => $translator->translate('Creation date'),
-      'is_knowledge' => $translator->translate('Visible for a knownledge'),
-      'is_form' => $translator->translate('Visible for a form'),
+      'name'                    => pgettext('global', 'Name'),
+      'completename'            => pgettext('global', 'Complete name'),
+      'id'                      => pgettext('global', 'Id'),
+      'category'                => pgettext('global', 'As child of'),
+      'user'                    => pgettext('inventory device', 'Technician in charge of the hardware'),
+      'group'                   => pgettext('inventory device', 'Group in charge of the hardware'),
+      'code'                    => pgettext('category', 'Code representing the ticket category'),
+      'is_helpdeskvisible'      => pgettext('category', 'Visible in the simplified interface'),
+      'is_incident'             => pgettext('category', 'Visible for an incident'),
+      'is_request'              => pgettext('category', 'Visible for a request'),
+      'is_problem'              => pgettext('category', 'Visible for a problem'),
+      'is_change'               => pgettext('category', 'Visible for a change'),
+      'tickettemplateDemand'    => pgettext('category', 'Template for a request'),
+      'tickettemplateIncident'  => pgettext('category', 'Template for an incident'),
+      'changetemplate'          => pgettext('category', 'Template for a change'),
+      'problemtemplate'         => pgettext('category', 'Template for a problem'),
+      'comment'                 => npgettext('global', 'Comment', 'Comments', 2),
+      'entity'                  => npgettext('global', 'Entity', 'Entities', 1),
+      'is_recursive'            => pgettext('global', 'Child entities'),
+      'updated_at'              => pgettext('global', 'Last update'),
+      'created_at'              => pgettext('global', 'Creation date'),
+      'is_knowledge'            => pgettext('category', 'Visible for a knowledge'),
+      'is_form'                 => pgettext('category', 'Visible for a form'),
     ];
 
     $defColl = new DefinitionCollection();
@@ -203,20 +201,19 @@ class Category
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Category', 'Categories', 1),
+        'title' => npgettext('category', 'Category', 'Categories', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Category', 'Categories', 2),
+        'title' => npgettext('category', 'Category', 'Categories', 2),
         'icon' => 'edit',
         'link' => $rootUrl . '/categories',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

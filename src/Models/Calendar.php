@@ -19,7 +19,6 @@ class Calendar extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Calendar::class;
-  protected $titles = ['Calendar', 'Calendars'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -41,6 +40,14 @@ class Calendar extends Common
     'timeranges',
     'holidays',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Calendar', 'Calendars', $nb);
+  }
 
   /** @return HasMany<\App\Models\Calendarsegment, $this> */
   public function timeranges(): HasMany

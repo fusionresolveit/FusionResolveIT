@@ -18,7 +18,6 @@ class Domainrelation extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Domainrelation::class;
-  protected $titles = ['Domain relation', 'Domains relations'];
   protected $icon = 'edit';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -37,6 +36,14 @@ class Domainrelation extends Common
     'entity:id,name,completename',
     'domains',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Domain relation', 'Domain relations', $nb);
+  }
 
   /** @return BelongsToMany<\App\Models\Domain, $this> */
   public function domains(): BelongsToMany

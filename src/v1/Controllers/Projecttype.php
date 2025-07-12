@@ -52,7 +52,7 @@ final class Projecttype extends Common implements \App\Interfaces\Crud
 
     $projecttype = \App\Models\Projecttype::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project type has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($projecttype, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Projecttype extends Common implements \App\Interfaces\Crud
 
     $projecttype->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The project type has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($projecttype, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Projecttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttype->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project type has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/projecttypes')
@@ -136,7 +136,7 @@ final class Projecttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttype->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project type has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Projecttype extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $projecttype->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The project type has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

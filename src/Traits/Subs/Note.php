@@ -15,8 +15,6 @@ trait Note
    */
   public function showSubNotes(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $item = $this->instanciateModel();
     $view = Twig::fromRequest($request);
 
@@ -53,9 +51,9 @@ trait Note
         );
       }
 
-      $create = sprintf($translator->translate('Create by %1$s on %2$s'), $user, $note->created_at);
+      $create = sprintf(pgettext('global', 'Create by %1$s on %2$s'), $user, $note->created_at);
 
-      $update = sprintf($translator->translate('Last update by %1$s on %2$s'), $user_lastupdater, $note->updated_at);
+      $update = sprintf(pgettext('global', 'Last update by %1$s on %2$s'), $user_lastupdater, $note->updated_at);
 
       $myNotes[] = [
         'content'     => $content,
@@ -74,7 +72,7 @@ trait Note
     $viewData->addData('fields', $item->getFormData($myItem));
     $viewData->addData('notes', $myNotes);
 
-    $viewData->addTranslation('name', $translator->translate('Name'));
+    $viewData->addTranslation('name', pgettext('global', 'Name'));
 
     return $view->render($response, 'subitem/notes.html.twig', (array)$viewData);
   }

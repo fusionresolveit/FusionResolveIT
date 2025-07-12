@@ -11,12 +11,10 @@ class Softwarecategory
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name' => $translator->translate('Name'),
-      'category' => $translator->translate('As child of'),
-      'comment' => $translator->translate('Comments'),
+      'name' => pgettext('global', 'Name'),
+      'category' => pgettext('global', 'As child of'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
     ];
 
     $defColl = new DefinitionCollection();
@@ -40,20 +38,19 @@ class Softwarecategory
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Software category', 'Software categories', 1),
+        'title' => npgettext('global', 'Software category', 'Software categories', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translatePlural('Software category', 'Software categories', 2),
+        'title' => npgettext('global', 'Software category', 'Software categories', 2),
         'icon' => 'edit',
         'link' => $rootUrl . '/softwarecategories',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

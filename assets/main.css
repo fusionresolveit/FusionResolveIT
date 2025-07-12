@@ -371,3 +371,7 @@ blockquote {
 .subcomponent > .card > .title > .meta {
   margin-bottom: 10px;
 }
+
+.bold {
+  font-weight: bold;
+}

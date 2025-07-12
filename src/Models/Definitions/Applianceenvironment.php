@@ -11,11 +11,9 @@ class Applianceenvironment
 {
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'name'    => $translator->translate('Name'),
-      'comment' => $translator->translate('Comments'),
+      'name'    => pgettext('global', 'Name'),
+      'comment' => npgettext('global', 'Comment', 'Comments', 2),
     ];
 
     $defColl = new DefinitionCollection();
@@ -30,15 +28,14 @@ class Applianceenvironment
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Appliance environment', 'Appliance environments', 1),
+        'title' => npgettext('global', 'Appliance environment', 'Appliance environments', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

@@ -14,20 +14,18 @@ class ItemDevicesimcard
 
   public static function getDefinition(): DefinitionCollection
   {
-    global $translator;
-
     $t = [
-      'serial' => $translator->translate('Serial number'),
-      'otherserial' => $translator->translate('Inventory number'),
-      'location' => $translator->translatePlural('Location', 'Locations', 1),
-      'state' => $translator->translate('Status'),
-      'pin' => $translator->translate('PIN code'),
-      'pin2' => $translator->translate('PIN2 code'),
-      'puk' => $translator->translate('PUK code'),
-      'puk2' => $translator->translate('PUK2 code'),
-      'msin' => $translator->translate('Mobile Subscriber Identification Number'),
-      'user' => $translator->translatePlural('User', 'Users', 1),
-      'group' => $translator->translatePlural('Group', 'Groups', 1),
+      'serial' => pgettext('inventory device', 'Serial number'),
+      'otherserial' => pgettext('inventory device', 'Inventory number'),
+      'location' => npgettext('global', 'Location', 'Locations', 1),
+      'state' => pgettext('inventory device', 'Status'),
+      'pin' => pgettext('sim', 'PIN code'),
+      'pin2' => pgettext('sim', 'PIN2 code'),
+      'puk' => pgettext('sim', 'PUK code'),
+      'puk2' => pgettext('sim', 'PUK2 code'),
+      'msin' => pgettext('sim', 'Mobile Subscriber Identification Number'),
+      'user' => npgettext('global', 'User', 'Users', 1),
+      'group' => npgettext('global', 'Group', 'Groups', 1),
     ];
 
     $defColl = new DefinitionCollection();
@@ -90,30 +88,29 @@ class ItemDevicesimcard
    */
   public static function getRelatedPages(string $rootUrl): array
   {
-    global $translator;
     return [
       [
-        'title' => $translator->translatePlural('Simcard', 'Simcards', 1),
+        'title' => npgettext('global', 'SIM card', 'SIM cards', 1),
         'icon' => 'home',
         'link' => $rootUrl,
       ],
       [
-        'title' => $translator->translate('Management'),
+        'title' => pgettext('global', 'Management'),
         'icon' => 'caret square down outline',
         'link' => $rootUrl . '/infocom',
       ],
       [
-        'title' => $translator->translatePlural('Document', 'Documents', 2),
+        'title' => npgettext('global', 'Document', 'Documents', 2),
         'icon' => 'file',
         'link' => $rootUrl . '/documents',
       ],
       [
-        'title' => $translator->translatePlural('Contract', 'Contract', 2),
+        'title' => npgettext('global', 'Contract', 'Contracts', 2),
         'icon' => 'file signature',
         'link' => $rootUrl . '/contracts',
       ],
       [
-        'title' => $translator->translate('Historical'),
+        'title' => npgettext('global', 'Historical', 'Historicals', 1),
         'icon' => 'history',
         'link' => $rootUrl . '/history',
       ],

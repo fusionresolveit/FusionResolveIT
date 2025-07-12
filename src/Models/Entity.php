@@ -20,7 +20,6 @@ class Entity extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Entity::class;
-  protected $titles = ['Entity', 'Entities'];
   protected $icon = 'layer group';
   protected $hasEntityField = false;
   protected $tree = true;
@@ -48,6 +47,14 @@ class Entity extends Common
     'knowledgebasearticles:id,name',
     'documents:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Entity', 'Entities', $nb);
+  }
 
   public function getCompletenameAttribute(): string
   {

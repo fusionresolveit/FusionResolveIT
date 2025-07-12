@@ -19,7 +19,6 @@ class Datacenter extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Datacenter::class;
-  protected $titles = ['Data center', 'Data centers'];
   protected $icon = 'warehouse';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -40,6 +39,14 @@ class Datacenter extends Common
     'entity:id,name,completename',
     'dcrooms',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Data center', 'Data centers', $nb);
+  }
 
   /** @return HasMany<\App\Models\Dcroom, $this> */
   public function dcrooms(): HasMany

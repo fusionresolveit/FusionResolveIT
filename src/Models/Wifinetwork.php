@@ -15,7 +15,6 @@ class Wifinetwork extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Wifinetwork::class;
-  protected $titles = ['Wifi network', 'Wifi networks'];
   protected $icon = 'edit';
 
   protected $appends = [
@@ -28,4 +27,12 @@ class Wifinetwork extends Common
   protected $with = [
     'entity:id,name,completename',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Wifi network', 'Wifi networks', $nb);
+  }
 }

@@ -21,7 +21,6 @@ class Projecttask extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Projecttask::class;
-  protected $titles = ['Project task', 'Project tasks'];
   protected $icon = 'columns';
   /** @var string[] */
   protected $cascadeDeletes = [
@@ -54,6 +53,14 @@ class Projecttask extends Common
     'documents:id,name',
     'project:id,name',
   ];
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('project', 'Project task', 'Project tasks', $nb);
+  }
 
   /** @return BelongsTo<\App\Models\Projecttask, $this> */
   public function parent(): BelongsTo

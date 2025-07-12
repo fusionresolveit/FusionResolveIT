@@ -79,6 +79,9 @@ final class Route
         });
       });
 
+      $view->map(['POST'], '/changelang', \App\v1\Controllers\User::class . ':postChangelang');
+      $view->map(['POST'], '/userchangelang', \App\v1\Controllers\User::class . ':postChangelang');
+
       $view->group('/columns', function (RouteCollectorProxy $columns)
       {
         $columns->map(['GET'], '', \App\v1\Controllers\Displaypreference::class . ':manageColumnsOfModel');

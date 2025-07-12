@@ -53,7 +53,7 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
 
     $notificationtemplate = \App\Models\Notificationtemplate::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The notification template has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($notificationtemplate, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -96,7 +96,7 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
 
     $notificationtemplate->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The notification template has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($notificationtemplate, 'update');
 
     $uri = $request->getUri();
@@ -126,7 +126,7 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $notificationtemplate->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The notification template has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/notificationtemplates')
@@ -137,7 +137,7 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $notificationtemplate->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The notification template has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -164,7 +164,7 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $notificationtemplate->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The notification template has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
@@ -177,8 +177,6 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
    */
   public function showSubTemplatetranslations(Request $request, Response $response, array $args): Response
   {
-    global $translator;
-
     $view = Twig::fromRequest($request);
 
     $template = \App\Models\Notificationtemplate::where('id', $args['id'])->first();
@@ -203,7 +201,7 @@ final class Notificationtemplate extends Common implements \App\Interfaces\Crud
       ];
       if (empty($datat['lang']))
       {
-        $datat['lang'] = $translator->translate('Default translation');
+        $datat['lang'] = pgettext('notification', 'Default translation');
       }
 
       // verification of templates

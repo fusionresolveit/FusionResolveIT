@@ -14,7 +14,14 @@ class Computertype extends Common
   use GetDropdownValues;
 
   protected $definition = \App\Models\Definitions\Computertype::class;
-  protected $titles = ['Computer type', 'Computer types'];
   protected $icon = 'edit';
   protected $hasEntityField = false;
+
+  /**
+   * @param $nb int number of elements
+   */
+  public function getTitle(int $nb = 1): string
+  {
+    return npgettext('global', 'Computer type', 'Computer types', $nb);
+  }
 }

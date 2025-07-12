@@ -52,7 +52,7 @@ final class Virtualmachinesystem extends Common implements \App\Interfaces\Crud
 
     $virtualmachinesystem = \App\Models\Virtualmachinesystem::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The virtual machine system has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($virtualmachinesystem, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Virtualmachinesystem extends Common implements \App\Interfaces\Crud
 
     $virtualmachinesystem->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The virtual machine system has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($virtualmachinesystem, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Virtualmachinesystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $virtualmachinesystem->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The virtual machine system has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/virtualmachinesystems')
@@ -136,7 +136,7 @@ final class Virtualmachinesystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $virtualmachinesystem->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The virtual machine system has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Virtualmachinesystem extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $virtualmachinesystem->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The virtual machine system has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response

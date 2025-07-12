@@ -52,7 +52,7 @@ final class Devicepcimodel extends Common implements \App\Interfaces\Crud
 
     $devicepcimodel = \App\Models\Devicepcimodel::create($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The pci model has been created successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('created');
     \App\v1\Controllers\Notification::prepareNotification($devicepcimodel, 'new');
 
     $data = (object) $request->getParsedBody();
@@ -95,7 +95,7 @@ final class Devicepcimodel extends Common implements \App\Interfaces\Crud
 
     $devicepcimodel->update($data->exportToArray());
 
-    \App\v1\Controllers\Toolbox::addSessionMessage('The pci model has been updated successfully');
+    \App\v1\Controllers\Toolbox::addSessionMessageItemAction('updated');
     \App\v1\Controllers\Notification::prepareNotification($devicepcimodel, 'update');
 
     $uri = $request->getUri();
@@ -125,7 +125,7 @@ final class Devicepcimodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicepcimodel->forceDelete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pci model has been deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('deleted');
 
       return $response
         ->withHeader('Location', $basePath . '/view/devicepcimodels')
@@ -136,7 +136,7 @@ final class Devicepcimodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicepcimodel->delete();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pci model has been soft deleted successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('softdeleted');
     }
 
     return $response
@@ -163,7 +163,7 @@ final class Devicepcimodel extends Common implements \App\Interfaces\Crud
         throw new \Exception('Unauthorized access', 401);
       }
       $devicepcimodel->restore();
-      \App\v1\Controllers\Toolbox::addSessionMessage('The pci model has been restored successfully');
+      \App\v1\Controllers\Toolbox::addSessionMessageItemAction('restored');
     }
 
     return $response
